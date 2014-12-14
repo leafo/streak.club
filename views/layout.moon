@@ -47,7 +47,7 @@ class Layout extends Widget
       @content_for "js_init"
 
   include_fonts: =>
-    raw [[<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700,300' rel='stylesheet' type='text/css'>]]
+    raw [[<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>]]
 
   body_attributes: (class_name) =>
     {
