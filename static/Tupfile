@@ -1,0 +1,12 @@
+.gitignore
+
+: foreach *.coffee |> coffee -c %f |> %B.js
+: foreach scss/*.scss |> sassc -I scss/ < %f > %o |> %B.css
+: foreach *.md |> markdown < %f > %o |> %B.html
+
+: coffee/main/_pre.coffee coffee/main/*.coffee |> coffee -j %o -c %f |> main.js
+
+# lib
+: lib/jquery-2.1.1.min.js |> cat %f > %o |> lib.js
+: foreach main.js |> uglifyjs %f > %o |> %B.min.js
+

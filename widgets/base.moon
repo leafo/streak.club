@@ -19,14 +19,13 @@ class Base extends Widget
 
     local inner
     @_opts = { class: css .. " base_widget", -> raw inner }
-    @widget_id! if @js_init -- make it available for later
+
+    if @js_init
+      @widget_id!
+      @content_for "js_init", -> raw @js_init!
 
     inner = capture -> fn @
     element @elm_type or "div", @_opts
-
-    if @js_init
-      script type: "text/javascript", ->
-        raw @js_init!
 
   widget_classes: =>
     @css_class or @@widget_name!

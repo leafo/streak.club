@@ -40,6 +40,11 @@ class Layout extends Widget
     @content_for "inner"
 
   all_js: =>
+    @include_js "lib.js"
+    @include_js "main.js"
+
+    script type: "text/javascript", ->
+      @content_for "js_init"
 
   include_fonts: =>
     raw [[<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700,300' rel='stylesheet' type='text/css'>]]
@@ -54,6 +59,7 @@ class Layout extends Widget
     html_5 ->
       head ->
         @head!
+        @include_css "main.css"
         @google_analytics!
 
       body @body_attributes(@body_class), ->
@@ -61,10 +67,6 @@ class Layout extends Widget
         @main!
         @footer!
         @all_js!
-
-        if @js_init
-          script type: "text/javascript", ->
-            raw @js_init!
 
         -- if @flash
         --   script type: "text/javascript", ->
@@ -83,3 +85,12 @@ class Layout extends Widget
         ga('send', 'pageview');
       ]]
       raw "}"
+
+  asset_url: (src, opts) =>
+    "/static/" .. src
+
+  include_js: (...) =>
+    script type: "text/javascript", src: @asset_url ...
+
+  include_css: (...) =>
+    link rel: "stylesheet", href: @asset_url ...
