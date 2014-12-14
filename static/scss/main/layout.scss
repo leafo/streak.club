@@ -1,0 +1,24 @@
+
+body {
+    @include default_font;
+    color: #333;
+}
+
+h1, h2 {
+    font-weight: normal;
+    margin: 0;
+    color: #222;
+}
+
+p {
+    line-height: 1.5;
+    margin: 0;
+}
+
+a {
+    color: $link_color;
+
+    &:hover {
+        color: lighten($link_color, 5%);
+    }
+}

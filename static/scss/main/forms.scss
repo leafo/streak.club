@@ -1,0 +1,55 @@
+
+.form {
+    .input_row {
+        margin: 0;
+        margin-bottom: 10px;
+    }
+
+    input[type='text'], input[type='password'], input[type='email'] {
+        @include default_font;
+        @include border_box;
+
+        background: white;
+        border: 2px solid lighten($border_color, 5%);
+        outline: none;
+        padding: 5px 10px 4px 10px;
+
+        &:focus {
+            border: 2px solid $border_color;
+        }
+    }
+
+    .label {
+        font-size: 12px;
+        font-weight: bold;
+        color: mix(#666, $link_color, 90%);
+    }
+
+    .button {
+        @include default_font;
+        @include transition(background 0.1s ease);
+
+        font-weight: bold;
+        height: 35px;
+        line-height: 35px;
+        color: white;
+        padding: 0 20px;
+        background: $link_color;
+        border: 0;
+        cursor: pointer;
+
+        outline: none;
+
+        &:hover {
+            background: lighten($link_color, 5%);
+        }
+
+        &:active {
+            background: darken($link_color, 5%);
+        }
+
+        &:focus {
+            box-shadow: 0 0 0 2px lighten($link_color, 20%);
+        }
+    }
+}

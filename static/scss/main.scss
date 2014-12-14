@@ -1,16 +1,7 @@
 
+@import "main/common";
+@import "main/layout";
+@import "main/forms";
 
-body {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 16px;
-}
+@import "main/user_login";
 
-h1, h2 {
-    font-weight: normal;
-    margin: 0;
-}
-
-p {
-    line-height: 1.5;
-    margin: 0;
-}

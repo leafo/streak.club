@@ -1,7 +1,8 @@
 
 class Index extends require "widgets.base"
   inner_content: =>
-    text "Hello world"
+    p ->
+      a href: @url_for("user_register"), "Register"
 
-  js_init: =>
-
+    p ->
+      a href: @url_for("user_register"), "Log in"

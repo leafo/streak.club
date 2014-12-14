@@ -1,0 +1,48 @@
+
+$link_color: #7ED6D7;
+$border_color: #dadada;
+
+@mixin default_font {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+}
+
+@mixin unselectable {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+@mixin border_box {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+@mixin transition($args...) {
+    -webkit-transition: $args;
+    -moz-transition: $args;
+    -ms-transition: $args;
+    transition: $args;
+}
+
+@mixin prefixed($prop, $args...) {
+    -webkit-#{$prop}: $args;
+    -moz-#{$prop}: $args;
+    -ms-#{$prop}: $args;
+    #{$prop}: $args;
+}
+
+@mixin keyframes($name) {
+    @-webkit-keyframes #{$name} {
+        @content;
+    }
+    @-moz-keyframes #{$name} {
+        @content;
+    }
+    @-ms-keyframes #{$name} {
+        @content;
+    }
+    @keyframes #{$name} {
+        @content;
+    }
+}
