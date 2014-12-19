@@ -29,3 +29,12 @@ class Users extends Model
     opts.slug = slugify opts.username
 
     Model.create @, opts
+
+  write_session: (r) =>
+    r.session.user = {
+      id: @id
+      key: @salt!
+    }
+
+  salt: =>
+    @encrypted_password\sub 1, 29
