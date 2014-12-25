@@ -21,6 +21,15 @@ class Users extends Model
         "Username already taken"
   }
 
+  @login: (username, password) =>
+    username = username\lower!
+
+    user = Users\find { [db.raw("lower(username)")]: username }
+    if user and user\check_password password
+      user
+    else
+      nil, "Incorrect username or password"
+
   @create: (opts={}) =>
     assert opts.password, "missing password for user"
 
@@ -35,6 +44,9 @@ class Users extends Model
       id: @id
       key: @salt!
     }
+
+  check_password: (pass) =>
+    bcrypt.verify pass, @encrypted_password
 
   salt: =>
     @encrypted_password\sub 1, 29

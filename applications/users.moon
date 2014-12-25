@@ -36,5 +36,17 @@ class UsersApplication extends lapis.Application
 
   [user_login: "/login"]: respond_to {
     GET: => render: true
-    POST: =>
+    POST: capture_errors =>
+      -- assert_csrf @
+      assert_valid @params, {
+        { "username", exists: true }
+        { "password", exists: true }
+      }
+
+      user = assert_error Users\login @params.username, @params.password
+      user\write_session @
+
+      @session.flash = "Welcome back!"
+      redirect_to: @params.return_to or @url_for("index")
+
   }

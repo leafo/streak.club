@@ -3,6 +3,8 @@ class UserLogin extends require "widgets.base"
   inner_content: =>
     h1 "Log in"
 
+    @render_errors!
+
     form method: "POST", class: "form", ->
       @csrf_input!
 

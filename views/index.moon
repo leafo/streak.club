@@ -5,4 +5,4 @@ class Index extends require "widgets.base"
       a href: @url_for("user_register"), "Register"
 
     p ->
-      a href: @url_for("user_register"), "Log in"
+      a href: @url_for("user_login"), "Log in"
