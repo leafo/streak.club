@@ -4,6 +4,8 @@ import Model from require "lapis.db.model"
 bcrypt = require "bcrypt"
 import slugify from require "lapis.util"
 
+date = require "date"
+
 class Users extends Model
   @timestamp: true
 
@@ -60,4 +62,12 @@ class Users extends Model
 
   name_for_display: =>
     @display_name or @username
+
+  update_last_active: =>
+    span = if @last_active
+      date.diff(date(true), date(@last_active))\spandays!
+
+    if not span or span > 1
+      @update { last_active: db.format_date! }, timestamp: false
+
 
