@@ -2,6 +2,8 @@
 body {
     @include default_font;
     color: #333;
+    margin: 0;
+    padding: 0;
 }
 
 h1, h2 {
@@ -20,5 +22,44 @@ a {
 
     &:hover {
         color: lighten($link_color, 5%);
+    }
+}
+
+.header {
+    background: $link_color;
+    height: 50px;
+    color: white;
+    position: relative;
+
+    .right_buttons {
+        position: absolute;
+        top: 0;
+        right: 40px;
+        margin-top: 10px;
+    }
+
+    .header_button {
+        @include border_box;
+        @include transition(all 0.2s ease);
+
+        display: inline-block;
+        height: 30px;
+        line-height: 30px - 4px;
+        color: white;
+        padding: 0 15px;
+        border: 2px solid rgba(white, 0.5);
+        text-decoration: none;
+
+        border-radius: 3px;
+        margin-left: 10px;
+
+        &:hover {
+            background: rgba(white, 0.8);
+            color: $link_color;
+        }
+
+        &:active {
+            background: rgba(white, 0.4);
+        }
     }
 }

@@ -35,6 +35,11 @@ class Layout extends Widget
     @include_fonts!
 
   header: =>
+    div class: "header", ->
+      div class: "right_buttons", ->
+        a class: "header_button", href: @url_for("user_login"), "Log in"
+        a class: "header_button", href: @url_for("user_register"), "Register"
+
   footer: =>
   main: =>
     @content_for "inner"
