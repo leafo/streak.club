@@ -37,8 +37,11 @@ class Layout extends Widget
   header: =>
     div class: "header", ->
       div class: "right_buttons", ->
-        a class: "header_button", href: @url_for("user_login"), "Log in"
-        a class: "header_button", href: @url_for("user_register"), "Register"
+        if @current_user
+          div class: "user_name", @current_user\name_for_display!
+        else
+          a class: "header_button", href: @url_for("user_login"), "Log in"
+          a class: "header_button", href: @url_for("user_register"), "Register"
 
   footer: =>
   main: =>

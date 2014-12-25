@@ -38,6 +38,11 @@ a {
         margin-top: 10px;
     }
 
+    .user_name {
+        height: 30px;
+        line-height: 30px;
+    }
+
     .header_button {
         @include border_box;
         @include transition(all 0.2s ease);

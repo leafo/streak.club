@@ -39,6 +39,13 @@ class Users extends Model
 
     Model.create @, opts
 
+  @read_session: (r) =>
+    if user_session = r.session.user
+      if user_session.id
+        user = @find user_session.id
+        if user and user\salt! == user_session.key
+          user
+
   write_session: (r) =>
     r.session.user = {
       id: @id
@@ -50,3 +57,7 @@ class Users extends Model
 
   salt: =>
     @encrypted_password\sub 1, 29
+
+  name_for_display: =>
+    @display_name or @username
+
