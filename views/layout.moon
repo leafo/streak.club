@@ -36,6 +36,8 @@ class Layout extends Widget
 
   header: =>
     div class: "header", ->
+      a class: "logo", "Streak Club"
+
       div class: "right_buttons", ->
         if @current_user
           div class: "user_name", @current_user\name_for_display!
@@ -44,6 +46,7 @@ class Layout extends Widget
           a class: "header_button", href: @url_for("user_register"), "Register"
 
   footer: =>
+
   main: =>
     @content_for "inner"
 

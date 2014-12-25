@@ -26,16 +26,33 @@ a {
 }
 
 .header {
+    $inset_margin: 40px;
+    $header_height: 50px;
+
     background: $link_color;
-    height: 50px;
+    height: $header_height;
     color: white;
     position: relative;
 
     .right_buttons {
         position: absolute;
         top: 0;
-        right: 40px;
+        right: $inset_margin;
         margin-top: 10px;
+    }
+
+    .logo {
+        margin-top: 8px;
+        margin-left: $inset_margin;
+        display: inline-block;
+        color: white;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 2px 0;
+
+        border-bottom: 4px dotted rgba(white, 0.8);
+        border-top: 4px dotted rgba(white, 0.8);
     }
 
     .user_name {
@@ -67,4 +84,9 @@ a {
             background: rgba(white, 0.4);
         }
     }
+}
+
+.base_widget {
+    width: $site_width;
+    margin: 40px auto;
 }
