@@ -3,11 +3,20 @@ lapis = require "lapis"
 
 import respond_to, capture_errors, assert_error from require "lapis.application"
 import assert_valid from require "lapis.validate"
-import trim_filter from require "lapis.util"
+import trim_filter, slugify from require "lapis.util"
 
 import Users from require "models"
 
+import not_found from require "helpers.app"
+
 class UsersApplication extends lapis.Application
+  [user_profile: "/u/:slug"]: capture_errors {
+    on_error: => not_found
+    =>
+      @user = assert_error Users\find(slug: slugify @params.slug), "invalid user"
+      render: true
+  }
+
   [user_register: "/register"]: respond_to {
     GET: => render: true
 
