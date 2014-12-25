@@ -9,7 +9,9 @@ class extends lapis.Application
 
   @before_filter =>
     @current_user = Users\read_session @
-    @current_user\update_last_active!
+
+    if @current_user
+      @current_user\update_last_active!
 
     if @session.flash
       @flash = @session.flash

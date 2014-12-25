@@ -21,3 +21,13 @@ describe "users", ->
 
   it "should create a user", ->
     factory.Users!
+
+  it "should load login", ->
+    status, res = request "/login"
+    assert.same 200, status
+
+  it "should view user profile", ->
+    user = factory.Users!
+    status, res = request "/u/#{user.slug}"
+    assert.same 200, status
+
