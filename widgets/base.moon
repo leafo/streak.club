@@ -46,3 +46,12 @@ class Base extends Widget
     res = ngx.location.capture "/static/#{fname}"
     error "Failed to include SSI '#{fname}' (#{res.status})" unless res.status == 200
     raw res.body
+
+  render_errors: =>
+    if @errors
+      div class: "form_errors", ->
+        div "Errors:"
+        ul ->
+          for e in *@errors
+            li e
+

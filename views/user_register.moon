@@ -3,6 +3,8 @@ class UserRegister extends require "widgets.base"
   inner_content: =>
     h1 "Register"
 
+    @render_errors!
+
     form method: "POST", class: "form", ->
       @csrf_input!
 

@@ -8,13 +8,10 @@ import trim_filter from require "lapis.util"
 import Users from require "models"
 
 class UsersApplication extends lapis.Application
-  [user_register: "/register"]: capture_errors respond_to {
-    on_error: =>
-      error "register errors #{require("moon").dump @errors}"
-
+  [user_register: "/register"]: respond_to {
     GET: => render: true
 
-    POST: =>
+    POST: capture_errors =>
       -- assert_csrf @ TODO
       trim_filter @params
 
