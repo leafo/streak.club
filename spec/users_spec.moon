@@ -1,10 +1,11 @@
 import
   load_test_server
   close_test_server
-  request
   from require "lapis.spec.server"
 
 import truncate_tables from require "lapis.spec.db"
+
+import request, request_as from require "spec.helpers"
 
 factory = require "spec.factory"
 import Users from require "models"
@@ -21,6 +22,10 @@ describe "users", ->
 
   it "should create a user", ->
     factory.Users!
+
+  it "should load index logged in", ->
+    current_user = factory.Users!
+    request_as current_user, "/"
 
   it "should load login", ->
     status, res = request "/login"

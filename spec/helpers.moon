@@ -1,5 +1,6 @@
 
 import request from require "lapis.spec.server"
+import escape from require "lapis.util"
 
 _request = (...) -> request ...
 
@@ -30,8 +31,8 @@ request_as = (user, url, opts={}) ->
   else
     _request
 
-  if opts.post and opts.post.csrf_token == nil
-    add_csrf opts
+  -- if opts.post and opts.post.csrf_token == nil
+  --   add_csrf opts
 
   request_fn url, opts
 
