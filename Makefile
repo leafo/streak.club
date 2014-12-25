@@ -17,6 +17,7 @@ test_db::
 
 migrate::
 	lapis migrate
+	make schema.sql
 
 lint::
 	# moonc -l $$(git ls-files | grep '\.moon$$' | grep -v config.moon)
