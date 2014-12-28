@@ -7,7 +7,7 @@ class Streaks extends require "widgets.base"
       for streak in *@streaks
         div class: "streak_row", ->
           h3 ->
-            a href: "", streak.title
+            a href: @url_for(streak), streak.title
           h4 streak.short_description
 
           p ->

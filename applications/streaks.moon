@@ -1,8 +1,8 @@
 
 lapis = require "lapis"
 
-import respond_to, capture_errors_json from require "lapis.application"
-import require_login from require "helpers.app"
+import respond_to, capture_errors_json, capture_errors, assert_error from require "lapis.application"
+import require_login, not_found from require "helpers.app"
 import trim_filter from require "lapis.util"
 import assert_valid from require "lapis.validate"
 
@@ -40,6 +40,21 @@ class UsersApplication extends lapis.Application
         :streak
         -- url: @url_for(streak)
       }
+  }
+
+  [view_streak: "/streak/:id"]: capture_errors {
+    on_error: =>
+      not_found
+
+    =>
+      assert_valid @params, {
+        {"id", is_integer: true}
+      }
+
+      @streak = assert_error Streaks\find(@params.id), "invalid streak"
+      assert_error @streak\allowed_to_view @current_user
+
+      render: true
   }
 
   [streaks: "/streaks"]: =>

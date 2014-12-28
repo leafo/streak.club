@@ -15,3 +15,8 @@ class Streaks extends Model
     Model.create @, opts
 
 
+  allowed_to_view: (user) =>
+    true
+
+  url_params: =>
+    "view_streak", id: @id
