@@ -6,6 +6,8 @@ import require_login from require "helpers.app"
 import trim_filter from require "lapis.util"
 import assert_valid from require "lapis.validate"
 
+import Streaks, Users from require "models"
+
 class UsersApplication extends lapis.Application
   [new_streak: "/streaks/new"]: require_login respond_to {
     GET: =>
@@ -29,8 +31,8 @@ class UsersApplication extends lapis.Application
         {"end_date", exists: true, max_length: 1024}
       }
 
-      import Streaks from require "models"
       streak_params.rate = "daily"
+
       streak_params.user_id = @current_user.id
 
       streak = Streaks\create streak_params
@@ -40,4 +42,11 @@ class UsersApplication extends lapis.Application
       }
   }
 
+  [streaks: "/streaks"]: =>
+    @pager = Streaks\paginated "order by id desc", prepare_results: (streaks) ->
+      Users\include_in streaks, "user_id"
+      streaks
+
+    @streaks = @pager\get_page 1
+    render: true
 

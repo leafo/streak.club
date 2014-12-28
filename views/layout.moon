@@ -36,7 +36,7 @@ class Layout extends Widget
 
   header: =>
     div class: "header", ->
-      a class: "logo", "Streak Club"
+      a href: @url_for("index"), class: "logo", "Streak Club"
 
       div class: "right_buttons", ->
         if @current_user
