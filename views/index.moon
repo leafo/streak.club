@@ -1,8 +1,12 @@
 
 class Index extends require "widgets.base"
   inner_content: =>
-    p ->
-      a href: @url_for("user_register"), "Register"
+    if @current_user
+      p ->
+        a href: @url_for("new_streak"), "New streak"
+    else
+      p ->
+        a href: @url_for("user_register"), "Register"
 
-    p ->
-      a href: @url_for("user_login"), "Log in"
+      p ->
+        a href: @url_for("user_login"), "Log in"
