@@ -54,8 +54,17 @@ class Layout extends Widget
     @include_js "lib.js"
     @include_js "main.js"
 
+    @include_js "lib/jquery-2.1.1.min.js"
+    @include_jquery_ui!
+
     script type: "text/javascript", ->
       @content_for "js_init"
+
+  include_jquery_ui: =>
+    @include_js "lib/jquery-ui/js/jquery-ui.js"
+    @include_css "lib/jquery-ui/css/jquery-ui.css"
+    @include_css "lib/jquery-ui/css/jquery-ui.structure.css"
+    @include_css "lib/jquery-ui/css/jquery-ui.theme.css"
 
   include_fonts: =>
     raw [[<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic' rel='stylesheet' type='text/css'>]]
