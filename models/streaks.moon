@@ -1,5 +1,10 @@
 db = require "lapis.db"
-import Model from require "lapis.db.model"
+import Model, enum from require "lapis.db.model"
 
 class Streaks extends Model
   @timestamp: true
+
+  @rates: enum {
+    daily: 1
+    weekly: 1
+  }

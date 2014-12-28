@@ -41,6 +41,19 @@ CREATE TABLE lapis_migrations (
 ALTER TABLE public.lapis_migrations OWNER TO postgres;
 
 --
+-- Name: streak_submissions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE streak_submissions (
+    streak_id integer NOT NULL,
+    submission_id integer NOT NULL,
+    submit_time timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.streak_submissions OWNER TO postgres;
+
+--
 -- Name: streak_users; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -100,6 +113,45 @@ ALTER SEQUENCE streaks_id_seq OWNED BY streaks.id;
 
 
 --
+-- Name: submissions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE submissions (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    title character varying(255),
+    description text NOT NULL,
+    published boolean DEFAULT true NOT NULL,
+    deleted boolean DEFAULT false NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.submissions OWNER TO postgres;
+
+--
+-- Name: submissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE submissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.submissions_id_seq OWNER TO postgres;
+
+--
+-- Name: submissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE submissions_id_seq OWNED BY submissions.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -151,6 +203,13 @@ ALTER TABLE ONLY streaks ALTER COLUMN id SET DEFAULT nextval('streaks_id_seq'::r
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
+ALTER TABLE ONLY submissions ALTER COLUMN id SET DEFAULT nextval('submissions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
@@ -160,6 +219,14 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 
 ALTER TABLE ONLY lapis_migrations
     ADD CONSTRAINT lapis_migrations_pkey PRIMARY KEY (name);
+
+
+--
+-- Name: streak_submissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY streak_submissions
+    ADD CONSTRAINT streak_submissions_pkey PRIMARY KEY (streak_id, submission_id);
 
 
 --
@@ -179,6 +246,14 @@ ALTER TABLE ONLY streaks
 
 
 --
+-- Name: submissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY submissions
+    ADD CONSTRAINT submissions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -187,10 +262,24 @@ ALTER TABLE ONLY users
 
 
 --
+-- Name: streak_submissions_submission_id_streak_id_submit_time_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX streak_submissions_submission_id_streak_id_submit_time_idx ON streak_submissions USING btree (submission_id, streak_id, submit_time);
+
+
+--
 -- Name: streak_users_user_id_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
 CREATE INDEX streak_users_user_id_idx ON streak_users USING btree (user_id);
+
+
+--
+-- Name: submissions_user_id_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX submissions_user_id_idx ON submissions USING btree (user_id);
 
 
 --
@@ -248,6 +337,7 @@ SET search_path = public, pg_catalog;
 COPY lapis_migrations (name) FROM stdin;
 1418544084
 1419494897
+1419752545
 \.
 
 
