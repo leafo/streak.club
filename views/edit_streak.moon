@@ -13,24 +13,36 @@ class EditStreak extends require "widgets.base"
       div class: "input_row", ->
         label ->
           div class: "label", "Title"
-          input type: "text"
+          input type: "text", name: "streak[title]"
 
-    div class: "input_row duration_row", ->
-      div class: "label", ->
-        text "Duration"
-        span class: "sub", ->
-          raw " &mdash; When does the streak start and stop"
-
-      div ->
+      div class: "input_row", ->
         label ->
-          span class: "duration_label", "Start date:"
-          input type: "text", class: "date_picker start_date", name: "streak[start_date]", readonly: "readonly"
+          div class: "label", "Short description"
+          input type: "text", name: "streak[short_description]"
 
+      div class: "input_row", ->
         label ->
-          span class: "duration_label", "End date:"
-          input type: "text", class: "date_picker end_date", name: "streak[end_date]", readonly: "readonly"
+          div class: "label", "Description"
+          textarea name: "streak[description]"
 
-        span class: "duration_summary"
+
+
+      div class: "input_row duration_row", ->
+        div class: "label", ->
+          text "Duration"
+          span class: "sub", ->
+            raw " &mdash; When does the streak start and stop"
+
+        div ->
+          label ->
+            span class: "duration_label", "Start date:"
+            input type: "text", class: "date_picker start_date", name: "streak[start_date]", readonly: "readonly"
+
+          label ->
+            span class: "duration_label", "End date:"
+            input type: "text", class: "date_picker end_date", name: "streak[end_date]", readonly: "readonly"
+
+          span class: "duration_summary"
 
       div class: "buttons", ->
         button class: "button", "Save"

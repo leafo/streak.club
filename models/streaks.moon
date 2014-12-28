@@ -8,3 +8,10 @@ class Streaks extends Model
     daily: 1
     weekly: 1
   }
+
+  @create: (opts={}) =>
+    assert opts.user_id, "missing user_id"
+    opts.rate = @rates\for_db opts.rate
+    Model.create @, opts
+
+
