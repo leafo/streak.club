@@ -59,3 +59,9 @@ class UsersApplication extends lapis.Application
       redirect_to: @params.return_to or @url_for("index")
 
   }
+
+  [user_logout: "/logout"]: =>
+    @session.user = false
+    @session.flash = "You are logged out"
+    redirect_to: "/"
+
