@@ -46,15 +46,31 @@ class UsersApplication extends lapis.Application
     on_error: =>
       not_found
 
-    =>
-      assert_valid @params, {
-        {"id", is_integer: true}
-      }
+    respond_to {
+      before: =>
+        assert_valid @params, {
+          {"id", is_integer: true}
+        }
 
-      @streak = assert_error Streaks\find(@params.id), "invalid streak"
-      assert_error @streak\allowed_to_view @current_user
+        @streak = assert_error Streaks\find(@params.id), "invalid streak"
+        assert_error @streak\allowed_to_view @current_user
 
-      render: true
+      GET: =>
+        render: true
+
+      POST: =>
+        assert_valid @params, {
+          {"action", one_of: {"join_streak"}}
+        }
+
+        switch @params.action
+          when "join_streak"
+            json: @streak\join @current_user
+          when "leave_streak"
+            json: @streak\leave @current_user
+
+        json: @params
+    }
   }
 
   [streaks: "/streaks"]: =>
