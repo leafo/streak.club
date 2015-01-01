@@ -22,7 +22,7 @@
     .label {
         font-size: 12px;
         font-weight: bold;
-        color: mix(#666, $link_color, 90%);
+        color: mix(#666, $button_color, 90%);
     }
 
     .button {
@@ -34,22 +34,22 @@
         line-height: 35px;
         color: white;
         padding: 0 20px;
-        background: $link_color;
+        background: $button_color;
         border: 0;
         cursor: pointer;
 
         outline: none;
 
         &:hover {
-            background: lighten($link_color, 5%);
+            background: lighten($button_color, 5%);
         }
 
         &:active {
-            background: darken($link_color, 5%);
+            background: darken($button_color, 5%);
         }
 
         &:focus {
-            box-shadow: 0 0 0 2px lighten($link_color, 20%);
+            box-shadow: 0 0 0 2px lighten($button_color, 20%);
         }
     }
 }

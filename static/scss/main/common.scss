@@ -1,5 +1,6 @@
 
-$link_color: #7ED6D7;
+$button_color: #7ED6D7;
+$link_color: desaturate(darken(#7ED6D7, 8%), 8%);
 $border_color: #dadada;
 $site_width: 960px;
 
