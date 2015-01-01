@@ -70,4 +70,6 @@ class Users extends Model
     if not span or span > 1
       @update { last_active: db.format_date! }, timestamp: false
 
+  url_params: =>
+    "user_profile", slug: @slug
 

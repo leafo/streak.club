@@ -40,7 +40,7 @@ class Layout extends Widget
 
       div class: "right_buttons", ->
         if @current_user
-          div class: "user_name", @current_user\name_for_display!
+          a class: "user_name", href: @url_for(@current_user), @current_user\name_for_display!
           a class: "header_button", href: @url_for("user_settings"), "Settings"
           a class: "header_button", href: @url_for("user_logout"), "Log out"
         else
