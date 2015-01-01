@@ -1,5 +1,7 @@
 
 class UserLogin extends require "widgets.base"
+  @include "widgets.form_helpers"
+
   inner_content: =>
     h1 "Log in"
 
@@ -7,16 +9,18 @@ class UserLogin extends require "widgets.base"
 
     form method: "POST", class: "form", ->
       @csrf_input!
+      @text_input_row {
+        label: "Username"
+        name: "username"
+        required: true
+      }
 
-      div class: "input_row", ->
-        label ->
-          div class: "label", "Username"
-          input type: "text", name: "username"
-
-      div class: "input_row", ->
-        label ->
-          div class: "label", "Password"
-          input type: "password", name: "password"
+      @text_input_row {
+        label: "Password"
+        name: "password"
+        required: true
+        type: "password"
+      }
 
       div class: "button_row", ->
         input class: "button", type: "submit", value: "Submit"
