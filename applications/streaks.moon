@@ -54,22 +54,25 @@ class UsersApplication extends lapis.Application
 
         @streak = assert_error Streaks\find(@params.id), "invalid streak"
         assert_error @streak\allowed_to_view @current_user
+        @streak_user = @streak\has_user @current_user
 
       GET: =>
         render: true
 
-      POST: =>
+      POST: capture_errors_json =>
         assert_valid @params, {
-          {"action", one_of: {"join_streak"}}
+          {"action", one_of: {"join_streak", "leave_streak"}}
         }
 
-        switch @params.action
+        res = switch @params.action
           when "join_streak"
-            json: @streak\join @current_user
+            if @streak\join @current_user
+              @session.flash = "Streak joined"
           when "leave_streak"
-            json: @streak\leave @current_user
+            if @streak\leave @current_user
+              @session.flash = "Streak left"
 
-        json: @params
+        redirect_to: @url_for @streak
     }
   }
 

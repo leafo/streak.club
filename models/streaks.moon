@@ -15,6 +15,11 @@ class Streaks extends Model
     opts.rate = @rates\for_db opts.rate
     Model.create @, opts
 
+  has_user: (user) =>
+    import StreakUsers from require "models"
+    return nil unless user
+    StreakUsers\find user_id: user.id, streak_id: @id
+
   join: (user) =>
     import StreakUsers from require "models"
     res = safe_insert StreakUsers, streak_id: @id, user_id: user.id
@@ -26,7 +31,7 @@ class Streaks extends Model
     StreakUsers\load (unpack res)
 
   leave: (user) =>
-    if su = StreakUsers\find user_id: user.id, streak_id: streak.id
+    if su = @has_user user
       su\delete!
 
   allowed_to_view: (user) =>
