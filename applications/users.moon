@@ -1,13 +1,17 @@
 
 lapis = require "lapis"
+db = require "lapis.db"
 
-import respond_to, capture_errors, assert_error from require "lapis.application"
+import
+  respond_to, capture_errors, assert_error, capture_errors_json
+  from require "lapis.application"
+
 import assert_valid from require "lapis.validate"
 import trim_filter, slugify from require "lapis.util"
 
 import Users from require "models"
 
-import not_found from require "helpers.app"
+import not_found, require_login from require "helpers.app"
 
 class UsersApplication extends lapis.Application
   [user_profile: "/u/:slug"]: capture_errors {
@@ -64,4 +68,30 @@ class UsersApplication extends lapis.Application
     @session.user = false
     @session.flash = "You are logged out"
     redirect_to: "/"
+
+  [user_settings: "/user/settings"]: require_login respond_to {
+    before: =>
+      @user = @current_user
+
+    GET: =>
+      render: true
+
+    POST: capture_errors_json =>
+      -- assert_csrf @
+      assert_valid @params, {
+        {"user", type: "table"}
+      }
+
+      user_update = @params.user
+      trim_filter user_update, {"display_name"}
+
+      assert_valid @params, {
+        {"display_name", optional: true, max_length: "120"}
+      }
+
+      user_update.display_name or= db.NULL
+      @user\update user_update
+      @session.flash = "Profile updated"
+      redirect_to: @url_for "user_settings"
+  }
 
