@@ -6,8 +6,15 @@ class NewStreakSubmission extends require "widgets.base"
   js_init: =>
 
   inner_content: =>
-    h2 "Submit to streak"
-    p "Submitting to #{@streak.title}"
+    if @submission
+      h2 "Edit submission"
+    else
+      h2 "Submit to streak"
+
+    if @streak
+      p "Submitting to #{@streak.title}"
+
+    submission = @params.submission or @submission or {}
 
     @render_errors!
 
@@ -17,12 +24,14 @@ class NewStreakSubmission extends require "widgets.base"
       @text_input_row {
         label: "Title"
         name: "submission[title]"
+        value: submission.title
       }
 
       @text_input_row {
         label: "Description"
         name: "submission[description]"
         type: "textarea"
+        value: submission.description
       }
 
       div class: "button_row",
