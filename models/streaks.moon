@@ -47,6 +47,21 @@ class Streaks extends Model
     return true if user\is_admin!
     user.id == @user_id
 
+  allowed_to_submit: (user) =>
+    return false unless user
+    su = @has_user user
+    return false unless su
+
+    now = date true
+    -- TODO: timezones
+    start_date = date @start_date
+    end_date = date @end_date
+
+    return false if now < start_date
+    return false if end_date < now
+
+    true
+
   url_params: =>
     "view_streak", id: @id
 

@@ -17,7 +17,7 @@ class ViewStreak extends require "widgets.base"
     h2 @streak.title
     h3 @streak.short_description
     p ->
-      text "Starts #{time_ago_in_words @start_date} (#{@streak.start_date}).
+      text "Starts #{time_ago_in_words @streak.start_date} (#{@streak.start_date}).
         Ends #{time_ago_in_words @streak.end_date} (#{@streak.end_date})"
 
     @render_streak_units!
@@ -28,6 +28,9 @@ class ViewStreak extends require "widgets.base"
         button name: "action", value: "leave_streak", "Leave streak"
       else
         button name: "action", value: "join_streak", "Join streak"
+
+    if @streak\allowed_to_submit @current_user
+      a href: @url_for("new_streak_submission", id: @streak.id), "New submission"
 
   render_streak_units: =>
     today = date true

@@ -90,3 +90,19 @@ class UsersApplication extends lapis.Application
     @streaks = @pager\get_page 1
     render: true
 
+  [new_streak_submission: "/streak/:id/submit"]: require_login capture_errors {
+    on_error: => not_found
+    respond_to {
+      before: =>
+        @streak = assert_error Streaks\find(@params.id), "invalid streak"
+        assert_error @streak\allowed_to_submit @current_user
+
+      GET: =>
+        render: true
+
+      POST: capture_errors =>
+        assert_csrf @
+        json: @params
+    }
+  }
+
