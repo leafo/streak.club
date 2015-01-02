@@ -1,9 +1,13 @@
 
 date = require "date"
-import time_ago_in_words from require "lapis.util"
+import time_ago_in_words, to_json from require "lapis.util"
 
 class ViewStreak extends require "widgets.base"
   @needs: {"streak"}
+
+  js_init: =>
+    opts = {}
+    "new S.ViewStreak(#{@widget_selector!}, #{to_json opts})"
 
   inner_content: =>
     if @streak\allowed_to_edit @current_user

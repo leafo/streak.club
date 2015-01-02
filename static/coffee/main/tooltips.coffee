@@ -1,3 +1,4 @@
+
 $.fn.has_tooltips = ->
   tooltip_drop = ->
     drop = $ '<div class="tooltip_drop"></div>'
