@@ -15,7 +15,9 @@ class EditStreak extends require "widgets.base"
     else
       h2 "New streak"
 
-    streak = @streak or {}
+    @render_errors!
+
+    streak = @params.streak or @streak or {}
 
     form method: "post", class: "form", ->
       @csrf_input!

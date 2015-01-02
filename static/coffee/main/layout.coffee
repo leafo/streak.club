@@ -18,7 +18,6 @@ class S.Flasher
       setTimeout (=> elm.remove()), @animation_duration * 2
 
   show: (type, msg) ->
-    console.log "showing flash", type, msg
     @dismiss()
     elm = $("<div class='global_flash #{type}'>")
       .text(msg).appendTo("body")

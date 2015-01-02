@@ -1,6 +1,7 @@
 
 date = require "date"
 
+import assert_error from require "lapis.application"
 import assert_valid from require "lapis.validate"
 import trim_filter from require "lapis.util"
 import filter_update from require "helpers.model"
@@ -25,6 +26,11 @@ class EditStreakFlow extends Flow
       {"start_date", exists: true, max_length: 1024}
       {"end_date", exists: true, max_length: 1024}
     }
+
+    start_date = date streak_params.start_date
+    end_date = date streak_params.end_date
+
+    assert_error start_date < end_date, "start date must be before end date"
 
     streak_params.rate = "daily"
     streak_params

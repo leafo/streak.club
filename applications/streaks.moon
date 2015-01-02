@@ -38,7 +38,7 @@ class UsersApplication extends lapis.Application
       GET: =>
         render: "edit_streak"
 
-      POST: =>
+      POST: capture_errors =>
         assert_csrf @
         flow = EditStreakFlow @
         flow\edit_streak!
