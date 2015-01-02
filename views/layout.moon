@@ -35,7 +35,7 @@ class Layout extends Widget
     @include_fonts!
 
   header: =>
-    div class: "header", ->
+    div class: "header", id: "global_header", ->
       a href: @url_for("index"), class: "logo", "Streak Club"
 
       div class: "right_buttons", ->
@@ -60,6 +60,8 @@ class Layout extends Widget
     @include_jquery_ui!
 
     script type: "text/javascript", ->
+      opts = { flash: @flash }
+      raw "new S.Header('#global_header', #{to_json opts});"
       @content_for "js_init"
 
   include_jquery_ui: =>

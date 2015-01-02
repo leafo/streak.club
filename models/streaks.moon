@@ -35,6 +35,7 @@ class Streaks extends Model
       res = su\delete!
       if res.affected_rows > 0
         @update { users_count: db.raw "users_count - 1" }, timestamp: false
+        return true
 
     false
 

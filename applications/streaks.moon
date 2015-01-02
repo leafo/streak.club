@@ -41,7 +41,9 @@ class UsersApplication extends lapis.Application
       POST: =>
         assert_csrf @
         flow = EditStreakFlow @
-        streak = flow\edit_streak!
+        flow\edit_streak!
+        @session.flash = "Streak saved"
+        redirect_to: @url_for @streak
     }
   }
 
