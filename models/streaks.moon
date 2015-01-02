@@ -47,6 +47,7 @@ class Streaks extends Model
       submission_id: submission.id
       streak_id: @id
       submit_time: db.format_date!
+      user_id: submission.user_id
     }, {
       submission_id: submission.id
       streak_id: @id
@@ -82,6 +83,13 @@ class Streaks extends Model
 
   url_params: =>
     "view_streak", id: @id
+
+  unit_noun: =>
+    switch @rate
+      when @@rates.daily
+        "today"
+      when @@rates.weekly
+        "this week"
 
   increment_date_by_unit: (date) =>
     switch @rate

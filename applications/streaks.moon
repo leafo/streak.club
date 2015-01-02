@@ -11,7 +11,7 @@ import Streaks, Users from require "models"
 EditStreakFlow = require "flows.edit_streak"
 EditSubmissionFlow = require "flows.edit_submission"
 
-class UsersApplication extends lapis.Application
+class StreaksApplication extends lapis.Application
   [new_streak: "/streaks/new"]: require_login respond_to {
     GET: =>
       render: "edit_streak"
@@ -61,6 +61,10 @@ class UsersApplication extends lapis.Application
         @streak = assert_error Streaks\find(@params.id), "invalid streak"
         assert_error @streak\allowed_to_view @current_user
         @streak_user = @streak\has_user @current_user
+
+        if @streak_user
+          @current_submit = @streak_user\current_unit_submission!
+          @current_submit\get_submission!
 
       GET: =>
         import StreakUsers from require "models"

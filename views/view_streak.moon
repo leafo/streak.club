@@ -27,7 +27,12 @@ class ViewStreak extends require "widgets.base"
       else
         button name: "action", value: "join_streak", "Join streak"
 
-    if @streak\allowed_to_submit @current_user
+    if @current_submit
+      p ->
+        text "You already submitted for #{@streak\unit_noun!}. "
+        a href: @url_for(@current_submit\get_submission!), "View submission"
+
+    elseif @streak\allowed_to_submit @current_user
       a href: @url_for("new_streak_submission", id: @streak.id), "New submission"
 
     @render_participants!

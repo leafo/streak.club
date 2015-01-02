@@ -24,3 +24,5 @@ class Submissions extends Model
 
     submissions, [s.streak for s in *streak_submits]
 
+  url_params: =>
+    "view_submission", id: @id
