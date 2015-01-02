@@ -2,6 +2,8 @@ db = require "lapis.db"
 import Model, enum from require "lapis.db.model"
 import safe_insert from require "helpers.model"
 
+date = require "date"
+
 class Streaks extends Model
   @timestamp: true
 
@@ -94,3 +96,14 @@ class Streaks extends Model
         date\fmt "%m/%d/%Y"
       else
         error "not yet"
+
+  before_start: =>
+    date(true) < date(@start_date)
+
+  after_end: =>
+    date(@end_date) < date(true)
+
+  during: =>
+    not @before_start! and not @after_end!
+
+

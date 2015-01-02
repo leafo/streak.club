@@ -16,9 +16,8 @@ class ViewStreak extends require "widgets.base"
 
     h2 @streak.title
     h3 @streak.short_description
-    p ->
-      text "Starts #{time_ago_in_words @streak.start_date} (#{@streak.start_date}).
-        Ends #{time_ago_in_words @streak.end_date} (#{@streak.end_date})"
+
+    @streak_summary!
 
     @render_streak_units!
 
@@ -51,4 +50,20 @@ class ViewStreak extends require "widgets.base"
         }
 
         @streak\increment_date_by_unit current_date
+
+  streak_summary: =>
+    p ->
+      if @streak\during! or @streak\after_end!
+        text "Started "
+      else
+        text "Starts "
+
+      text "#{@format_timestamp @streak.start_date} (#{@streak.start_date}). "
+
+      if @streak\after_end!
+        text "Ended"
+      else
+        text "Ends"
+
+      text " #{@format_timestamp @streak.end_date} (#{@streak.end_date})."
 

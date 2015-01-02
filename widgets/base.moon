@@ -1,6 +1,6 @@
 
 import Widget from require "lapis.html"
-import underscore from require "lapis.util"
+import underscore, time_ago_in_words from require "lapis.util"
 
 import random from math
 import concat from table
@@ -8,6 +8,8 @@ import concat from table
 import rawget from _G
 
 config = require"lapis.config".get!
+
+date = require "date"
 
 class Base extends Widget
   @widget_name: => underscore @__name or "some_widget"
@@ -55,3 +57,12 @@ class Base extends Widget
           for e in *@errors
             li e
 
+  format_timestamp: (d) =>
+    now = date true
+
+    suffix = if date(true) < date(d)
+      "from now"
+    else
+      "ago"
+
+    time_ago_in_words d, nil, suffix
