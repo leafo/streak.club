@@ -112,5 +112,17 @@ import
     db.query "alter table streaks alter end_date type date"
     add_column "streaks", "hour_offset", integer
 
+  [1420176500]: =>
+    add_column "streak_submissions", "user_id", foreign_key null: true
+    db.query "
+      update streak_submissions
+      set user_id = (select user_id from submissions where submissions.id = streak_submissions.submission_id)
+    "
+
+    db.query "alter table streak_submissions alter user_id drop default"
+
+  [1420176501]: =>
+    create_index "streak_submissions", "streak_id", "user_id", "submit_time"
+
 }
 

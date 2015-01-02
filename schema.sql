@@ -47,7 +47,8 @@ ALTER TABLE public.lapis_migrations OWNER TO postgres;
 CREATE TABLE streak_submissions (
     streak_id integer NOT NULL,
     submission_id integer NOT NULL,
-    submit_time timestamp without time zone NOT NULL
+    submit_time timestamp without time zone NOT NULL,
+    user_id integer
 );
 
 
@@ -264,6 +265,13 @@ ALTER TABLE ONLY users
 
 
 --
+-- Name: streak_submissions_streak_id_user_id_submit_time_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX streak_submissions_streak_id_user_id_submit_time_idx ON streak_submissions USING btree (streak_id, user_id, submit_time);
+
+
+--
 -- Name: streak_submissions_submission_id_streak_id_submit_time_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -343,6 +351,8 @@ COPY lapis_migrations (name) FROM stdin;
 1420172340
 1420172477
 1420172985
+1420176500
+1420176501
 \.
 
 
