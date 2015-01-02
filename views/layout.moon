@@ -56,7 +56,6 @@ class Layout extends Widget
     @include_js "lib.js"
     @include_js "main.js"
 
-    @include_js "lib/jquery-2.1.1.min.js"
     @include_jquery_ui!
 
     script type: "text/javascript", ->
