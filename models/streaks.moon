@@ -27,12 +27,16 @@ class Streaks extends Model
     if res.affected_rows != 1
       return false
 
-    @update users_count: db.raw "users_count + 1"
+    @update { users_count: db.raw "users_count + 1" }, timestamp: false
     StreakUsers\load (unpack res)
 
   leave: (user) =>
     if su = @has_user user
-      su\delete!
+      res = su\delete!
+      if res.affected_rows > 0
+        @update { users_count: db.raw "users_count - 1" }, timestamp: false
+
+    false
 
   allowed_to_view: (user) =>
     true
