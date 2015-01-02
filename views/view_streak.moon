@@ -58,12 +58,12 @@ class ViewStreak extends require "widgets.base"
       else
         text "Starts "
 
-      text "#{@format_timestamp @streak.start_date} (#{@streak.start_date}). "
+      text "#{@format_timestamp @streak.start_date} (#{@streak\start_datetime!}). "
 
       if @streak\after_end!
         text "Ended"
       else
         text "Ends"
 
-      text " #{@format_timestamp @streak.end_date} (#{@streak.end_date})."
+      text " #{@format_timestamp @streak.end_date} (#{@streak\end_datetime!})."
 

@@ -97,13 +97,18 @@ class Streaks extends Model
       else
         error "not yet"
 
+  start_datetime: =>
+    date(@start_date)\addhours @hour_offset
+
+  end_datetime: =>
+    date(@end_date)\addhours @hour_offset
+
   before_start: =>
-    date(true) < date(@start_date)
+    date(true) < @start_datetime!
 
   after_end: =>
-    date(@end_date) < date(true)
+    @end_datetime! < date(true)
 
   during: =>
     not @before_start! and not @after_end!
-
 
