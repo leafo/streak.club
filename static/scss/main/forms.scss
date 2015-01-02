@@ -5,7 +5,7 @@
         margin-bottom: 10px;
     }
 
-    input[type='text'], input[type='password'], input[type='email'] {
+    input[type='text'], input[type='password'], input[type='email'], textarea {
         @include default_font;
         @include border_box;
 

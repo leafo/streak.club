@@ -8,8 +8,12 @@ class Streaks extends require "widgets.base"
         div class: "streak_row", ->
           h3 ->
             a href: @url_for(streak), streak.title
+            text " by "
+            a href: @url_for(streak.user), streak.user\name_for_display!
+
           h4 streak.short_description
 
-          p ->
-            a href: "", "Edit"
+          if streak\allowed_to_edit @current_user
+            p ->
+              a href: @url_for("edit_streak", id: streak.id), "Edit"
 
