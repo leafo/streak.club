@@ -63,6 +63,14 @@ class UsersApplication extends lapis.Application
         @streak_user = @streak\has_user @current_user
 
       GET: =>
+        import StreakUsers from require "models"
+        pager = StreakUsers\paginated "where streak_id = ?", @streak.id, {
+          prepare_results: (sus) ->
+            Users\include_in sus, "user_id"
+        }
+
+        @streak_users = pager\get_page!
+
         render: true
 
       POST: capture_errors_json =>

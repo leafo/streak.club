@@ -3,7 +3,7 @@ date = require "date"
 import time_ago_in_words, to_json from require "lapis.util"
 
 class ViewStreak extends require "widgets.base"
-  @needs: {"streak"}
+  @needs: {"streak", "streak_users"}
 
   js_init: =>
     opts = {}
@@ -18,7 +18,6 @@ class ViewStreak extends require "widgets.base"
     h3 @streak.short_description
 
     @streak_summary!
-
     @render_streak_units!
 
     form action: "", method: "post", ->
@@ -30,6 +29,8 @@ class ViewStreak extends require "widgets.base"
 
     if @streak\allowed_to_submit @current_user
       a href: @url_for("new_streak_submission", id: @streak.id), "New submission"
+
+    @render_participants!
 
   render_streak_units: =>
     today = date true
@@ -66,4 +67,23 @@ class ViewStreak extends require "widgets.base"
         text "Ends"
 
       text " #{@format_timestamp @streak.end_date} (#{@streak\end_datetime!})."
+
+  render_participants: =>
+    h3 ->
+      text "Participants"
+      if @streak.users_count > 0
+        text " "
+        span class: "header_count", "(#{@streak.users_count})"
+
+    unless next @streak_users
+      if @streak\after_end!
+        p "No one is participated in this streak"
+      else
+        p "No one is participating in this streak yet"
+      return
+
+    ul class: "streak_participants", ->
+      for su in *@streak_users
+        li class: "streak_user", ->
+          a href: @url_for(su.user), su.user\name_for_display!
 
