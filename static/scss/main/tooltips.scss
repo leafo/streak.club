@@ -1,0 +1,29 @@
+.tooltip_drop {
+    .tooltip {
+        position: absolute;
+        color: white;
+        background: $button_color;
+        padding: 5px 8px;
+        border-radius: 4px;
+        box-shadow: 0 0 0 2px white;
+        font-size: 14px;
+        white-space: nowrap;
+        @include opacity(0);
+        @include transition(opacity 0.2s ease);
+
+        &:after {
+            content: "";
+            position: absolute;
+            background-image: url("images/tooltip-tick.png");
+            width: 11px;
+            height: 5px;
+            bottom: -5px;
+            left: 50%;
+            margin-left: -5px;
+        }
+
+        &.visible {
+            @include opacity(1);
+        }
+    }
+}

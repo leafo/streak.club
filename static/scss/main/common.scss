@@ -48,3 +48,13 @@ $site_width: 960px;
         @content;
     }
 }
+
+@mixin opacity($opacity) {
+    opacity: $opacity;
+    .ie & {
+        $percent: round($opacity * 100);;
+        filter: unquote("alpha(opacity=#{$percent})");
+        -ms-filter: unquote('"progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$percent})"');
+    }
+}
+
