@@ -19,9 +19,8 @@ class Submissions extends Model
       s_by_s_id[submit.submission_id] or= {}
       table.insert s_by_s_id[submit.submission_id], submit.streak
 
-
     for submission in *submissions
       submission.streaks = s_by_s_id[submission.id] or {}
 
-    submissions
+    submissions, [s.streak for s in *streak_submits]
 

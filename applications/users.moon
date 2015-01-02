@@ -26,11 +26,12 @@ class UsersApplication extends lapis.Application
       ]], @user.id, {
         per_page: 40
         prepare_results: (submissions) ->
+          _, streaks = Submissions\preload_streaks submissions
+          Users\include_in streaks, "user_id"
           submissions
       }
 
       @submissions = pager\get_page!
-
       render: true
   }
 

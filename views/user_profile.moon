@@ -12,6 +12,16 @@ class UserProfile extends require "widgets.base"
       div class: "submission_list", ->
         for submission in *@submissions
           div class: "submission_row", ->
-            text submission.title
+            h3 submission.title
+            h4 ->
+              text "A submission for"
+              num_streaks = #submission.streaks
+              for i, streak in ipairs submission.streaks
+                text " "
+                a href: @url_for(streak), streak.title
+                text ", " unless i == num_streaks
+
+            p class: "sub", "Submitted #{@format_timestamp submission.created_at}"
+            p submission.description
 
 
