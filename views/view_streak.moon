@@ -3,7 +3,7 @@ date = require "date"
 import time_ago_in_words, to_json from require "lapis.util"
 
 class ViewStreak extends require "widgets.base"
-  @needs: {"streak", "streak_users"}
+  @needs: {"streak", "streak_users", "unit_counts", "completed_units"}
 
   js_init: =>
     opts = {}
@@ -54,16 +54,19 @@ class ViewStreak extends require "widgets.base"
       while current_date < end_date
         formatted_date = current_date\fmt day_str
         submission_id = @completed_units and @completed_units[formatted_date]
+        count = @unit_counts[formatted_date] or 0
 
         classes = "streak_unit"
         classes ..= " before_today" if current_date < today
         classes ..= " today" if formatted_date == formatted_today
         classes ..= " submitted" if submission_id
 
+        pretty_date = @streak\format_date_unit current_date
+
         div {
           class: classes
           "data-date": tostring current_date
-          "data-tooltip": @streak\format_date_unit current_date
+          "data-tooltip": "#{pretty_date}: #{@plural count, "submission", "submissions"}"
         }
 
         @streak\increment_date_by_unit current_date

@@ -128,3 +128,20 @@ class Streaks extends Model
   during: =>
     not @before_start! and not @after_end!
 
+  unit_submission_counts: =>
+    import StreakSubmissions from require "models"
+
+    interval = "#{@hour_offset} hours"
+
+    fields = db.interpolate_query [[
+      count(*),
+      (submit_time + ?::interval)::date submit_day
+    ]], interval
+
+    res = StreakSubmissions\select [[
+      where streak_id = ?
+      group by submit_day
+    ]], @id, :fields
+
+    {s.submit_day, s.count for s in *res}
+

@@ -62,7 +62,6 @@ class StreaksApplication extends lapis.Application
         assert_error @streak\allowed_to_view @current_user
         @streak_user = @streak\has_user @current_user
 
-
       GET: =>
         import StreakUsers from require "models"
         pager = StreakUsers\paginated "where streak_id = ?", @streak.id, {
@@ -77,6 +76,7 @@ class StreaksApplication extends lapis.Application
           @current_submit\get_submission!
           @completed_units = @streak_user\completed_units!
 
+        @unit_counts = @streak\unit_submission_counts!
         render: true
 
       POST: capture_errors_json =>
