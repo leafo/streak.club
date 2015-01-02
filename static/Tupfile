@@ -4,7 +4,7 @@
 : foreach scss/*.scss |> sassc -I scss/ < %f > %o |> %B.css
 : foreach *.md |> markdown < %f > %o |> %B.html
 
-: coffee/main/_pre.coffee coffee/main/*.coffee |> coffee -j %o -c %f |> main.js
+: coffee/bundle/_pre.coffee coffee/bundle/*.coffee coffee/main/*.coffee |> coffee -j %o -c %f |> main.js
 
 # lib
 : lib/jquery-2.1.1.min.js lib/underscore-min.js |> cat %f > %o |> lib.js
