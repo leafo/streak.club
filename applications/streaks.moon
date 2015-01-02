@@ -5,6 +5,7 @@ import respond_to, capture_errors_json, capture_errors, assert_error from requir
 import require_login, not_found from require "helpers.app"
 import trim_filter from require "lapis.util"
 import assert_valid from require "lapis.validate"
+import assert_csrf from require "helpers.csrf"
 
 import Streaks, Users from require "models"
 
@@ -14,6 +15,7 @@ class UsersApplication extends lapis.Application
       render: "edit_streak"
 
     POST: capture_errors_json =>
+      assert_csrf @
       assert_valid @params, {
         {"streak", type: "table"}
       }
@@ -60,6 +62,7 @@ class UsersApplication extends lapis.Application
         render: true
 
       POST: capture_errors_json =>
+        assert_csrf @
         assert_valid @params, {
           {"action", one_of: {"join_streak", "leave_streak"}}
         }

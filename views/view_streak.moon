@@ -7,6 +7,7 @@ class ViewStreak extends require "widgets.base"
     h3 @streak.short_description
 
     form action: "", method: "post", ->
+      @csrf_input!
       if @streak_user
         button name: "action", value: "leave_streak", "Leave streak"
       else

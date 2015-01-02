@@ -12,6 +12,7 @@ import trim_filter, slugify from require "lapis.util"
 import Users from require "models"
 
 import not_found, require_login from require "helpers.app"
+import assert_csrf from require "helpers.csrf"
 
 class UsersApplication extends lapis.Application
   [user_profile: "/u/:slug"]: capture_errors {
@@ -25,7 +26,7 @@ class UsersApplication extends lapis.Application
     GET: => render: true
 
     POST: capture_errors =>
-      -- assert_csrf @ TODO
+      assert_csrf @
       trim_filter @params
 
       assert_valid @params, {
@@ -50,7 +51,7 @@ class UsersApplication extends lapis.Application
   [user_login: "/login"]: respond_to {
     GET: => render: true
     POST: capture_errors =>
-      -- assert_csrf @
+      assert_csrf @
       assert_valid @params, {
         { "username", exists: true }
         { "password", exists: true }
@@ -77,7 +78,7 @@ class UsersApplication extends lapis.Application
       render: true
 
     POST: capture_errors_json =>
-      -- assert_csrf @
+      assert_csrf @
       assert_valid @params, {
         {"user", type: "table"}
       }
