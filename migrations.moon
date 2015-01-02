@@ -99,5 +99,8 @@ import
     }
 
     create_index "streak_submissions", "submission_id", "streak_id", "submit_time"
+
+  [1420172340]: =>
+    add_column "streaks", "submission_count", integer
 }
 
