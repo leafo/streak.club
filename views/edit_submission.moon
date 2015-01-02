@@ -16,12 +16,12 @@ class NewStreakSubmission extends require "widgets.base"
 
       @text_input_row {
         label: "Title"
-        name: "streak[title]"
+        name: "submission[title]"
       }
 
       @text_input_row {
         label: "Description"
-        name: "streak[description]"
+        name: "submission[description]"
         type: "textarea"
       }
 
