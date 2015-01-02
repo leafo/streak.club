@@ -80,13 +80,14 @@ CREATE TABLE streaks (
     description text NOT NULL,
     published boolean DEFAULT false NOT NULL,
     deleted boolean DEFAULT false NOT NULL,
-    start_date timestamp with time zone NOT NULL,
-    end_date timestamp with time zone NOT NULL,
+    start_date date NOT NULL,
+    end_date date NOT NULL,
     rate integer DEFAULT 0 NOT NULL,
     users_count integer DEFAULT 0 NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    submissions_count integer DEFAULT 0 NOT NULL
+    submissions_count integer DEFAULT 0 NOT NULL,
+    hour_offset integer DEFAULT 0 NOT NULL
 );
 
 
@@ -341,6 +342,7 @@ COPY lapis_migrations (name) FROM stdin;
 1419752545
 1420172340
 1420172477
+1420172985
 \.
 
 
