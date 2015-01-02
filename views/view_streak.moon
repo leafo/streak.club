@@ -38,10 +38,13 @@ class ViewStreak extends require "widgets.base"
     @render_participants!
 
   render_streak_units: =>
+    day_str = "%Y-%m-%d"
     today = date true
 
-    start_date = date @streak.start_date
-    end_date = date @streak.end_date
+    formatted_today = today\fmt day_str
+
+    start_date = @streak\start_datetime!
+    end_date = @streak\end_datetime!
 
     assert start_date < end_date
 
@@ -49,8 +52,16 @@ class ViewStreak extends require "widgets.base"
 
     div class: "streak_units", ->
       while current_date < end_date
+        formatted_date = current_date\fmt day_str
+        submission_id = @completed_units and @completed_units[formatted_date]
+
+        classes = "streak_unit"
+        classes ..= " before_today" if current_date < today
+        classes ..= " today" if formatted_date == formatted_today
+        classes ..= " submitted" if submission_id
+
         div {
-          class: "streak_unit #{current_date < today and "before_today" or ""}"
+          class: classes
           "data-date": tostring current_date
           "data-tooltip": @streak\format_date_unit current_date
         }

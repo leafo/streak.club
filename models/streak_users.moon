@@ -34,3 +34,18 @@ class StreakUsers extends Model
 
     streak_submission
 
+  completed_units: =>
+    import StreakSubmissions from require "models"
+    streak = @get_streak!
+
+    fields = db.interpolate_query [[
+      submission_id,
+      (submit_time + ?::interval)::date submit_day
+    ]], "#{streak.hour_offset} hours"
+
+    res = StreakSubmissions\select [[
+      where user_id = ? and streak_id = ?
+    ]], @user_id, @streak_id, :fields
+
+    {submit.submit_day, submit.submission_id for submit in *res}
+

@@ -62,9 +62,6 @@ class StreaksApplication extends lapis.Application
         assert_error @streak\allowed_to_view @current_user
         @streak_user = @streak\has_user @current_user
 
-        if @streak_user
-          @current_submit = @streak_user\current_unit_submission!
-          @current_submit\get_submission!
 
       GET: =>
         import StreakUsers from require "models"
@@ -74,6 +71,11 @@ class StreaksApplication extends lapis.Application
         }
 
         @streak_users = pager\get_page!
+
+        if @streak_user
+          @current_submit = @streak_user\current_unit_submission!
+          @current_submit\get_submission!
+          @completed_units = @streak_user\completed_units!
 
         render: true
 
