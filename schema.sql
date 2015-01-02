@@ -155,6 +155,51 @@ ALTER SEQUENCE submissions_id_seq OWNED BY submissions.id;
 
 
 --
+-- Name: uploads; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE uploads (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    type integer DEFAULT 0 NOT NULL,
+    "position" integer DEFAULT 0 NOT NULL,
+    object_type integer DEFAULT 0,
+    object_id integer,
+    extension character varying(255) NOT NULL,
+    filename character varying(255) NOT NULL,
+    size integer DEFAULT 0 NOT NULL,
+    ready boolean DEFAULT false NOT NULL,
+    deleted boolean DEFAULT false NOT NULL,
+    data text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.uploads OWNER TO postgres;
+
+--
+-- Name: uploads_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE uploads_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.uploads_id_seq OWNER TO postgres;
+
+--
+-- Name: uploads_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE uploads_id_seq OWNED BY uploads.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -213,6 +258,13 @@ ALTER TABLE ONLY submissions ALTER COLUMN id SET DEFAULT nextval('submissions_id
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
+ALTER TABLE ONLY uploads ALTER COLUMN id SET DEFAULT nextval('uploads_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
@@ -257,6 +309,14 @@ ALTER TABLE ONLY submissions
 
 
 --
+-- Name: uploads_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY uploads
+    ADD CONSTRAINT uploads_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -290,6 +350,20 @@ CREATE INDEX streak_users_user_id_idx ON streak_users USING btree (user_id);
 --
 
 CREATE INDEX submissions_user_id_idx ON submissions USING btree (user_id);
+
+
+--
+-- Name: uploads_object_type_object_id_position_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX uploads_object_type_object_id_position_idx ON uploads USING btree (object_type, object_id, "position");
+
+
+--
+-- Name: uploads_user_id_type_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX uploads_user_id_type_idx ON uploads USING btree (user_id, type);
 
 
 --
@@ -353,6 +427,7 @@ COPY lapis_migrations (name) FROM stdin;
 1420172985
 1420176500
 1420176501
+1420181212
 \.
 
 

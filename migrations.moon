@@ -124,5 +124,33 @@ import
   [1420176501]: =>
     create_index "streak_submissions", "streak_id", "user_id", "submit_time"
 
+  [1420181212]: =>
+    create_table "uploads", {
+      {"id", serial}
+      {"user_id", foreign_key}
+      {"type", integer}
+      {"position", integer}
+
+      {"object_type", integer null: true}
+      {"object_id", foreign_key null: true}
+
+      {"extension", varchar}
+
+      {"filename", varchar}
+      {"size", integer}
+
+      {"ready", boolean}
+      {"deleted", boolean}
+
+      {"data", text null: true}
+
+      {"created_at", time}
+      {"updated_at", time}
+
+      "PRIMARY KEY (id)"
+    }
+
+    create_index "uploads", "user_id", "type"
+    create_index "uploads", "object_type", "object_id", "position", when: "ready"
 }
 
