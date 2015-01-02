@@ -73,3 +73,5 @@ class Users extends Model
   url_params: =>
     "user_profile", slug: @slug
 
+  is_admin: =>
+    false

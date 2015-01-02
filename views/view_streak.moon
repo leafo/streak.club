@@ -6,6 +6,10 @@ class ViewStreak extends require "widgets.base"
   @needs: {"streak"}
 
   inner_content: =>
+    if @streak\allowed_to_edit @current_user
+      div class: "admin_tools", ->
+        a href: @url_for("edit_streak", id: @streak.id), "Edit streak"
+
     h2 @streak.title
     h3 @streak.short_description
     p ->

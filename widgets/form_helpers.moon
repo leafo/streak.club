@@ -10,13 +10,21 @@ class FormHelpers
               raw " &mdash; "
               text opts.sub
 
-        input {
-          type: opts.type or "text"
-          required: opts.required and "required"
-          placeholder: opts.placeholder
-          pattern: opts.pattern
-          name: opts.name
-          value: opts.value
-        }
+
+        if opts.type == "textarea"
+          textarea {
+            required: opts.required and "required"
+            placeholder: opts.placeholder
+            name: opts.name
+          }, opts.value
+        else
+          input {
+            type: opts.type or "text"
+            required: opts.required and "required"
+            placeholder: opts.placeholder
+            pattern: opts.pattern
+            name: opts.name
+            value: opts.value
+          }
 
 

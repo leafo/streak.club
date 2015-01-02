@@ -41,5 +41,10 @@ class Streaks extends Model
   allowed_to_view: (user) =>
     true
 
+  allowed_to_edit: (user) =>
+    return false unless user
+    return true if user\is_admin!
+    user.id == @user_id
+
   url_params: =>
     "view_streak", id: @id

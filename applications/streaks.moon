@@ -32,11 +32,17 @@ class UsersApplication extends lapis.Application
 
     respond_to {
       before: =>
+        @streak = assert_error Streaks\find(@params.id), "invalid streak"
+        assert_error @streak\allowed_to_edit @current_user
 
       GET: =>
-        "yes"
+        render: "edit_streak"
 
       POST: =>
+        assert_csrf @
+        flow = EditStreakFlow @
+        streak = flow\create_streak!
+
     }
   }
 

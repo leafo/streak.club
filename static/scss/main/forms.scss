@@ -23,6 +23,10 @@
         font-size: 12px;
         font-weight: bold;
         color: mix(#666, $button_color, 90%);
+
+        .sub {
+            color: lighten(mix(#666, $button_color, 90%), 15%);
+        }
     }
 
     .button {

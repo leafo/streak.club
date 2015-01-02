@@ -34,3 +34,6 @@ class EditStreakFlow extends Flow
 
     params = @validate_params!
     Streaks\create params
+
+  edit_streak: =>
+    assert @streak
