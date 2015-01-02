@@ -3,11 +3,12 @@ lapis = require "lapis"
 
 import respond_to, capture_errors_json, capture_errors, assert_error from require "lapis.application"
 import require_login, not_found from require "helpers.app"
-import trim_filter from require "lapis.util"
 import assert_valid from require "lapis.validate"
 import assert_csrf from require "helpers.csrf"
 
 import Streaks, Users from require "models"
+
+EditStreakFlow = require "flows.edit_streak"
 
 class UsersApplication extends lapis.Application
   [new_streak: "/streaks/new"]: require_login respond_to {
@@ -16,32 +17,27 @@ class UsersApplication extends lapis.Application
 
     POST: capture_errors_json =>
       assert_csrf @
-      assert_valid @params, {
-        {"streak", type: "table"}
-      }
+      flow = EditStreakFlow @
+      streak = flow\create_streak!
 
-      streak_params = @params.streak
-      trim_filter streak_params, {
-        "title", "description", "short_description", "start_date", "end_date"
-      }
-
-      assert_valid streak_params, {
-        {"title", exists: true, max_length: 1024}
-        {"short_description", exists: true, max_length: 1024 * 10}
-        {"description", exists: true, max_length: 1024 * 10}
-        {"start_date", exists: true, max_length: 1024}
-        {"end_date", exists: true, max_length: 1024}
-      }
-
-      streak_params.rate = "daily"
-
-      streak_params.user_id = @current_user.id
-
-      streak = Streaks\create streak_params
       json: {
         :streak
-        -- url: @url_for(streak)
+        url: @url_for streak
       }
+  }
+
+  [edit_streak: "/streak/:id/edit"]: require_login capture_errors {
+    on_error: =>
+      not_found
+
+    respond_to {
+      before: =>
+
+      GET: =>
+        "yes"
+
+      POST: =>
+    }
   }
 
   [view_streak: "/streak/:id"]: capture_errors {
