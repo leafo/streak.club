@@ -10,6 +10,7 @@ class EditStreak extends require "widgets.base"
     h2 "Edit streak"
 
     form method: "post", ->
+      @csrf_input!
       div class: "input_row", ->
         label ->
           div class: "label", "Title"
