@@ -1,0 +1,20 @@
+
+
+.view_streak {
+    .streak_units {
+        border: 1px solid $border_color;
+        padding: 4px 0 0 4px;
+
+        .streak_unit {
+            width: 16px;
+            height: 16px;
+            background: $border_color;
+            display: inline-block;
+            margin: 0 4px 4px 0;
+
+            &.before_today {
+                background: $link_color;
+            }
+        }
+    }
+}

@@ -13,8 +13,10 @@ class ViewStreak extends require "widgets.base"
     h2 @streak.title
     h3 @streak.short_description
     p ->
-      text "Starts #{time_ago_in_words @start_date}.
-        Ends #{time_ago_in_words @streak.end_date}"
+      text "Starts #{time_ago_in_words @start_date} (#{@streak.start_date}).
+        Ends #{time_ago_in_words @streak.end_date} (#{@streak.end_date})"
+
+    @render_streak_units!
 
     form action: "", method: "post", ->
       @csrf_input!
@@ -24,3 +26,22 @@ class ViewStreak extends require "widgets.base"
         button name: "action", value: "join_streak", "Join streak"
 
   render_streak_units: =>
+    today = date true
+
+    start_date = date @streak.start_date
+    end_date = date @streak.end_date
+
+    assert start_date < end_date
+
+    current_date = date start_date
+
+    div class: "streak_units", ->
+      while current_date < end_date
+        div {
+          class: "streak_unit #{current_date < today and "before_today" or ""}"
+          "data-date": tostring current_date
+          "data-tooltip": @streak\format_date_unit current_date
+        }
+
+        @streak\increment_date_by_unit current_date
+

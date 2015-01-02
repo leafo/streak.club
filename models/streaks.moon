@@ -49,3 +49,17 @@ class Streaks extends Model
 
   url_params: =>
     "view_streak", id: @id
+
+  increment_date_by_unit: (date) =>
+    switch @rate
+      when @@rates.daily
+        date\adddays 1
+      else
+        error "not yet"
+
+  format_date_unit: (date) =>
+    switch @rate
+      when @@rates.daily
+        date\fmt "%m/%d/%Y"
+      else
+        error "not yet"
