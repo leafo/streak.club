@@ -39,6 +39,22 @@ class Streaks extends Model
 
     false
 
+  submit: (submission) =>
+    import StreakSubmissions from require "models"
+    res = safe_insert StreakSubmissions, {
+      submission_id: submission.id
+      streak_id: @id
+      submit_time: db.format_date!
+    }, {
+      submission_id: submission.id
+      streak_id: @id
+    }
+
+    if res.affected_rows != 1
+      return false
+
+    StreakSubmissions\load (unpack res)
+
   allowed_to_view: (user) =>
     true
 

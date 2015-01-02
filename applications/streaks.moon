@@ -9,6 +9,7 @@ import assert_csrf from require "helpers.csrf"
 import Streaks, Users from require "models"
 
 EditStreakFlow = require "flows.edit_streak"
+EditSubmissionFlow = require "flows.edit_submission"
 
 class UsersApplication extends lapis.Application
   [new_streak: "/streaks/new"]: require_login respond_to {
@@ -98,11 +99,15 @@ class UsersApplication extends lapis.Application
         assert_error @streak\allowed_to_submit @current_user
 
       GET: =>
-        render: true
+        render: "edit_submission"
 
-      POST: capture_errors =>
+      POST: capture_errors_json =>
         assert_csrf @
-        json: @params
+        flow = EditSubmissionFlow @
+
+        json: {
+          flow\create_submission!
+        }
     }
   }
 
