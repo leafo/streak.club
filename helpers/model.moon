@@ -34,4 +34,15 @@ safe_insert = (data, check_cond=data) =>
 
   db.query q
 
-{ :safe_insert }
+-- remove fields that haven't changed
+filter_update = (model, update) ->
+  for key,val in pairs update
+    if model[key] == val
+      update[key] = nil
+
+    if val == db.NULL and model[key] == nil
+      update[key] = nil
+
+  update
+
+{ :safe_insert, :filter_update }
