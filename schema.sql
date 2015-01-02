@@ -60,7 +60,7 @@ ALTER TABLE public.streak_submissions OWNER TO postgres;
 CREATE TABLE streak_users (
     streak_id integer NOT NULL,
     user_id integer NOT NULL,
-    submission_count integer DEFAULT 0 NOT NULL,
+    submissions_count integer DEFAULT 0 NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -86,7 +86,7 @@ CREATE TABLE streaks (
     users_count integer DEFAULT 0 NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    submission_count integer DEFAULT 0 NOT NULL
+    submissions_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -340,6 +340,7 @@ COPY lapis_migrations (name) FROM stdin;
 1419494897
 1419752545
 1420172340
+1420172477
 \.
 
 

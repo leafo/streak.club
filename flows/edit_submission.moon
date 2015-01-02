@@ -1,4 +1,5 @@
 
+db = require "lapis.db"
 
 import assert_error from require "lapis.application"
 import assert_valid from require "lapis.validate"
@@ -30,8 +31,16 @@ class EditSubmissionFlow extends Flow
     params = @validate_params!
     params.user_id = @current_user.id
 
+    streak_user = assert_error @streak\has_user(@current_user),
+      "user not in streak"
+
     submission = Submissions\create params
     submit = @streak\submit submission
+
+    if submit
+      streak_user\update submissions_count: db.raw "submissions_count + 1"
+      @streak\update submissions_count: db.raw "submissions_count + 1"
+
     submission, submit
 
 

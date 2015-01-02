@@ -102,5 +102,9 @@ import
 
   [1420172340]: =>
     add_column "streaks", "submission_count", integer
+
+  [1420172477]: =>
+    db.query "alter table streak_users rename column submission_count to submissions_count"
+    db.query "alter table streaks rename column submission_count to submissions_count"
 }
 

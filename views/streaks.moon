@@ -11,6 +11,8 @@ class Streaks extends require "widgets.base"
             text " by "
             a href: @url_for(streak.user), streak.user\name_for_display!
 
+
+          div "Submissions: #{streak.submissions_count}"
           h4 streak.short_description
 
           if streak\allowed_to_edit @current_user

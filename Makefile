@@ -32,3 +32,5 @@ restore_dev_db::
 	createdb -U postgres streakclub
 	pg_restore -U postgres -d streakclub $$(find dev_backup | grep \.dump | sort -V | tail -n 1)
 
+devdb:
+	psql -U postgres streakclub
