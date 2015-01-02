@@ -4,6 +4,10 @@ import Model from require "lapis.db.model"
 class Submissions extends Model
   @timestamp: true
 
+  @relations: {
+    {"user", belongs_to: "Users"}
+  }
+
   @preload_streaks: (submissions) =>
     import StreakSubmissions, Streaks from require "models"
 
@@ -24,5 +28,23 @@ class Submissions extends Model
 
     submissions, [s.streak for s in *streak_submits]
 
+  allowed_to_view: (user) =>
+    true
+
+  allowed_to_edit: (user) =>
+    return false unless user
+    return true if user\is_admin!
+    user.id == @user_id
+
+  get_streaks: =>
+    unless @streaks
+      import StreakSubmissions, Streaks from require "models"
+      submits = StreakSubmissions\select "where submission_id = ?", @id
+      Streaks\include_in submits, "streak_id"
+      @streaks = [s.streak for s in *submits]
+
+    @streaks
+
   url_params: =>
     "view_submission", id: @id
+
