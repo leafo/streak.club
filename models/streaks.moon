@@ -97,6 +97,14 @@ class Streaks extends Model
       else
         error "not yet"
 
+  -- move date to closest unit start date
+  truncate_date: (d) =>
+    switch @rate
+      when @@rates.daily
+        date(d\getdate!)\addhours @hour_offset
+      else
+        error "not yet"
+
   start_datetime: =>
     date(@start_date)\addhours @hour_offset
 
