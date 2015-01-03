@@ -91,10 +91,6 @@ class Layout extends Widget
         @footer!
         @all_js!
 
-        -- if @flash
-        --   script type: "text/javascript", ->
-        --     raw "S.flash(#{to_json @flash});"
-
   google_analytics: =>
     script type: "text/javascript", ->
       raw "if (!window.location.hostname.match(/localhost/)) {"

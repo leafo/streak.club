@@ -10,6 +10,7 @@ class extends lapis.Application
   @include "applications.users"
   @include "applications.streaks"
   @include "applications.submissions"
+  @include "applications.uploads"
 
   @before_filter =>
     @current_user = Users\read_session @

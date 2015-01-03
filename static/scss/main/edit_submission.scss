@@ -1,0 +1,47 @@
+
+.edit_submission {
+    .file_uploader {
+        margin-bottom: 10px;
+    }
+
+    .file_upload_list {
+        border: 1px solid $border_color;
+        padding: 10px;
+        border-radius: 3px;
+        margin-bottom: 20px;
+    }
+
+    .file_upload {
+        border-bottom: 1px solid $border_color;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+
+        &.uploading {
+            .upload_progress {
+                display: inline-block;
+            }
+        }
+
+        &:last-child {
+            border-bottom: 0;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+
+        .upload_progress {
+            display: none;
+            vertical-align: middle;
+            margin-left: 10px;
+
+            height: 20px;
+            width: 200px;
+            background: lighten($border_color, 5%);
+
+            .upload_progress_inner {
+                height: 100%;
+                width: 0%;
+                background: $link_color;
+            }
+        }
+    }
+}

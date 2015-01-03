@@ -73,3 +73,9 @@ class Base extends Widget
     else
       "#{num} #{plural}"
 
+  js_template: (name, fn) =>
+    script type: "text/template", id: "#{name}_tpl", ->
+      old_t = @_buffer.in_template
+      @_buffer.in_template = true
+      raw capture fn
+      @_buffer.in_template = old_t
