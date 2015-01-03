@@ -121,3 +121,17 @@ a {
     }
 }
 
+
+.admin_tools {
+    border: 1px solid lighten(mix($button_color, red, 60%), 20%);
+    background: lighten(mix($button_color, red, 60%), 38%);
+    margin-bottom: 20px;
+    padding: 10px;
+
+    &:before {
+        content: "Owner tools:";
+        font-weight: bold;
+        margin-right: 10px;
+        color: rgba(#666, 0.8);
+    }
+}

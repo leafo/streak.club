@@ -12,7 +12,9 @@ class UserProfile extends require "widgets.base"
       div class: "submission_list", ->
         for submission in *@submissions
           div class: "submission_row", ->
-            h3 submission.title
+            h3 ->
+              a href: @url_for(submission), submission.title
+
             h4 ->
               text "A submission for"
               num_streaks = #submission.streaks
