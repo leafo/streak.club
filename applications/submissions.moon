@@ -13,6 +13,8 @@ import not_found, require_login from require "helpers.app"
 import assert_csrf from require "helpers.csrf"
 import Submissions from require "models"
 
+EditSubmissionFlow = require "flows.edit_submission"
+
 class UsersApplication extends lapis.Application
   [view_submission: "/submission/:id"]: capture_errors {
     on_error: =>
@@ -49,7 +51,10 @@ class UsersApplication extends lapis.Application
 
       POST: capture_errors_json =>
         assert_csrf @
-        json: @params
+        flow = EditSubmissionFlow @
+        flow\edit_submission!
+        @session.flash = "Submission updated"
+        redirect_to: @url_for @submission
     }
 
   }

@@ -43,4 +43,13 @@ class EditSubmissionFlow extends Flow
 
     submission, submit
 
+  edit_submission: =>
+    import Submissions from require "models"
+    assert @submission, "missing submission"
+    params = @validate_params!
+    filter_update @submission, params
+
+    if next params
+      @submission\update params
+
 
