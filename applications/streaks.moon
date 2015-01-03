@@ -72,8 +72,8 @@ class StreaksApplication extends lapis.Application
         @streak_users = pager\get_page!
 
         if @streak_user
-          @current_submit = @streak_user\current_unit_submission!
-          @current_submit\get_submission!
+          if @current_submit = @streak_user\current_unit_submission!
+            @current_submit\get_submission!
           @completed_units = @streak_user\completed_units!
 
         @unit_counts = @streak\unit_submission_counts!

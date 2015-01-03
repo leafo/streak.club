@@ -39,7 +39,7 @@ class ViewStreak extends require "widgets.base"
 
   render_streak_units: =>
     day_str = "%Y-%m-%d"
-    today = date true
+    today = date date(true)\getdate!
 
     formatted_today = today\fmt day_str
 
