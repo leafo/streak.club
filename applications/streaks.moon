@@ -39,7 +39,7 @@ class StreaksApplication extends lapis.Application
       GET: =>
         render: "edit_streak"
 
-      POST: capture_errors =>
+      POST: capture_errors_json =>
         assert_csrf @
         flow = EditStreakFlow @
         flow\edit_streak!

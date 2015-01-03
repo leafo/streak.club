@@ -6,7 +6,11 @@ class EditStreak extends require "widgets.base"
   @include "widgets.form_helpers"
 
   js_init: =>
-    opts = {}
+    opts = {
+      streak: {
+        hour_offset: @streak.hour_offset
+      }
+    }
     "new S.EditStreak(#{@widget_selector!}, #{to_json opts});"
 
   inner_content: =>
@@ -21,6 +25,8 @@ class EditStreak extends require "widgets.base"
 
     form method: "post", class: "form", ->
       @csrf_input!
+      input type: "hidden", name: "timezone", value: "", class: "timezone_input"
+
       @text_input_row {
         label: "Title"
         name: "streak[title]"
@@ -69,6 +75,14 @@ class EditStreak extends require "widgets.base"
             }
 
           span class: "duration_summary"
+
+      @text_input_row {
+        label: "Roll over hour"
+        sub: "Hour in day when streak rolls over to next day, local timezone, 24 hour time"
+        name: "streak[hour_offset]"
+        class: "hour_offset_input"
+        value: ""
+      }
 
       div class: "buttons", ->
         button class: "button", "Save"

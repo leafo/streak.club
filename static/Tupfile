@@ -7,6 +7,6 @@
 : coffee/bundle/_pre.coffee coffee/bundle/*.coffee coffee/main/*.coffee |> coffee -j %o -c %f |> main.js
 
 # lib
-: lib/jquery-2.1.1.min.js lib/underscore-min.js |> cat %f > %o |> lib.js
+: lib/jquery-2.1.1.min.js lib/underscore-min.js lib/*.js |> cat %f > %o |> lib.js
 : foreach main.js |> uglifyjs %f > %o |> %B.min.js
 

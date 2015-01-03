@@ -25,6 +25,7 @@ class FormHelpers
             pattern: opts.pattern
             name: opts.name
             value: opts.value
+            class: opts.class
           }
 
 
