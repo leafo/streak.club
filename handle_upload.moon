@@ -6,17 +6,10 @@ import to_json from require "lapis.util"
 import Uploads from require "models"
 import validate_signed_url from require "helpers.url"
 import parse_content_disposition from require "lapis.util"
+import shell_escape, exec from require "lapis.util"
 
 logging = require "lapis.logging"
-
 resty_upload = require "resty.upload"
-
-shell_escape = (str) ->
-  str\gsub "'", [['"'"']]
-
-exec = (cmd) ->
-  print "SHELL: #{cmd}\n"
-  os.execute cmd
 
 handle_upload = ->
   is_valid = validate_signed_url {
