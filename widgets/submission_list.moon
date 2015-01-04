@@ -8,6 +8,7 @@ class SubmissionList extends require "widgets.base"
     div class: "submission_list", ->
       for submission in *@submissions
         div class: "submission_row", ->
+          img src: submission.user\gravatar!
           h3 ->
             a href: @url_for(submission), submission.title
 
@@ -32,6 +33,7 @@ class SubmissionList extends require "widgets.base"
       for upload in *submission.uploads
         continue unless upload\is_image!
         div class: "submission_upload", ->
-          img src: @url_for(upload, "200x200")
+          a href: @url_for(upload), target: "_blank", ->
+            img src: @url_for(upload, "400x400")
 
 

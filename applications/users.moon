@@ -21,6 +21,7 @@ class UsersApplication extends lapis.Application
       @user = assert_error Users\find(slug: slugify @params.slug), "invalid user"
       pager = @user\find_submissions!
       @submissions = pager\get_page!
+      Users\include_in @submissions, "user_id"
 
       @streaks = @user\get_active_streaks!
       Users\include_in @streaks, "user_id"
