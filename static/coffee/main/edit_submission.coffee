@@ -80,32 +80,35 @@ class UploaderManager
             continue
 
           console.log "start file", file
-          @prepare_upload {
-            "upload[type]": "image"
-            "upload[filename]": file.name
-            "upload[size]": file.size
-          }, (res) =>
-            upload = new Upload {
-              filename: file.name
-              size: file.size
-              type: file.type
-              file: file
-              id: res.id
-              position: @next_upload_position()
-            }
-            @upload_list.append upload.el
-            upload.start_upload res.url
+          @prepare_and_start_upload file
 
       input.insertAfter @button_el
       input.click()
 
-  prepare_upload: (data, callback) ->
+  prepare_and_start_upload: (file, callback) ->
     prepare_url = @button_el.data "url"
-    $.post prepare_url, S.with_csrf(data), (res) =>
+    data = S.with_csrf {
+      "upload[type]": "image"
+      "upload[filename]": file.name
+      "upload[size]": file.size
+    }
+
+    $.post prepare_url, data, (res) =>
       if res.errors
         return alert res.errors.join ", "
 
-      callback? res
+      upload = new Upload {
+        filename: file.name
+        size: file.size
+        type: file.type
+        file: file
+        id: res.id
+        position: @next_upload_position()
+      }
+
+      @upload_list.append upload.el
+      upload.start_upload res.url
+      callback? upload, file
 
   next_upload_position: ->
     @upload_list.find(".file_upload").length
