@@ -34,3 +34,6 @@ restore_dev_db::
 
 devdb:
 	psql -U postgres streakclub
+
+count::
+	wc -l $$(git ls-files | grep 'scss$$\|moon$$\|coffee$$\|md$$\|conf$$') | sort -n | tail
