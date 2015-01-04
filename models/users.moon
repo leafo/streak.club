@@ -15,12 +15,12 @@ class Users extends Model
         return "Username already taken"
 
     username: (value) =>
-      if @check_unique_constraint "username", value
+      if @check_unique_constraint { [db.raw"lower(username)"]: value }
         "Username already taken"
 
     email: (value) =>
-      if @check_unique_constraint { [db.raw"lower(username)"]: value }
-        "Username already taken"
+      if @check_unique_constraint "email", value
+        "Email already taken"
   }
 
   @login: (username, password) =>
