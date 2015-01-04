@@ -50,7 +50,7 @@ lapis.serve class extends lapis.Application
       image_log "not found (dl: #{load_time})"
       return status: 404, "not found (#{load_err})"
 
-    cache_name = ngx.md5(splat) .. "." .. ext
+    cache_name = ngx.md5(@params.splat) .. "." .. ext
 
     if size != "original" and ext != "gif"
       start = time!
