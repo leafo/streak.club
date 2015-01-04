@@ -5,6 +5,7 @@ import safe_insert from require "helpers.model"
 date = require "date"
 
 class Streaks extends Model
+  @day_format_str: "%Y-%m-%d"
   @timestamp: true
 
   @rates: enum {
@@ -128,6 +129,11 @@ class Streaks extends Model
   during: =>
     not @before_start! and not @after_end!
 
+  date_in_streak: (d) =>
+    return false if d < @start_datetime!
+    return false if @end_datetime! < d
+    true
+
   unit_submission_counts: =>
     import StreakSubmissions from require "models"
 
@@ -144,4 +150,30 @@ class Streaks extends Model
     ]], @id, :fields
 
     {s.submit_day, s.count for s in *res}
+
+  find_submissions_for_unit: (unit_start) =>
+    import StreakSubmissions, Submissions, Users, Uploads from require "models"
+    unit_end = @increment_date_by_unit date unit_start
+
+    unit_start_formatted = unit_start\fmt @@day_format_str
+    unit_end_formatted = unit_end\fmt @@day_format_str
+
+    interval = "#{@hour_offset} hours"
+
+    StreakSubmissions\paginated [[
+      where
+        streak_id = ? and
+        submit_time >= ?::timestamp + ?::interval and
+        submit_time < ?::timestamp + ?::interval
+      order by submit_time desc
+    ]], @id, unit_start_formatted, interval, unit_end_formatted, interval, {
+      per_page: 20
+      prepare_results: (submits) ->
+        Submissions\include_in submits, "submission_id"
+        submissions = [s.submission for s in *submits]
+        Users\include_in submissions, "user_id"
+        Uploads\preload_objects submissions
+
+        submits
+    }
 

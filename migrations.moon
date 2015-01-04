@@ -140,7 +140,7 @@ import
       {"size", integer}
 
       {"ready", boolean}
-      {"deleted", boolean}
+      {"deleted", boolean} -- TODO: not using this yet
 
       {"data", text null: true}
 
@@ -152,5 +152,8 @@ import
 
     create_index "uploads", "user_id", "type"
     create_index "uploads", "object_type", "object_id", "position", when: "ready"
+
+  [1420363626]: =>
+    create_index "streak_submissions", "streak_id", "submit_time"
 }
 

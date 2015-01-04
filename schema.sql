@@ -325,6 +325,13 @@ ALTER TABLE ONLY users
 
 
 --
+-- Name: streak_submissions_streak_id_submit_time_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX streak_submissions_streak_id_submit_time_idx ON streak_submissions USING btree (streak_id, submit_time);
+
+
+--
 -- Name: streak_submissions_streak_id_user_id_submit_time_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -428,6 +435,7 @@ COPY lapis_migrations (name) FROM stdin;
 1420176500
 1420176501
 1420181212
+1420363626
 \.
 
 
