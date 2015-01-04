@@ -38,7 +38,7 @@ lapis.serve class extends lapis.Application
 
     start = time!
     local image_blob
-    file, load_err = io.open "#{Uploads.root_path}/#{key}", "r"
+    file, load_err = io.open "#{config.user_content_path}/#{key}", "r"
 
     if file
       image_blob = file\read "*a"

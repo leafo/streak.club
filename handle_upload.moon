@@ -6,7 +6,9 @@ import to_json from require "lapis.util"
 import Uploads from require "models"
 import validate_signed_url from require "helpers.url"
 import parse_content_disposition from require "lapis.util"
-import shell_escape, exec from require "helpers.shell"
+import shell_quote, exec from require "helpers.shell"
+
+config = require("lapis.config").get!
 
 logging = require "lapis.logging"
 resty_upload = require "resty.upload"
@@ -25,10 +27,10 @@ handle_upload = ->
   upload = Uploads\find ngx.var.upload_id
   return nil, "already uploaded" if upload.ready
 
-  full_path = Uploads.root_path .. "/" ..  upload\path!
+  full_path = config.user_content_path .. "/" ..  upload\path!
 
   dir = full_path\match "^(.+)/[^/]+$"
-  exec "mkdir -p '#{shell_escape dir}'" if dir
+  exec "mkdir -p #{shell_quote dir}" if dir
 
   input, err = resty_upload\new 8192
   return nil, err unless input

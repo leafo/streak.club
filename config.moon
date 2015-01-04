@@ -4,6 +4,7 @@ config {"development", "test"}, ->
   session_name "streakclub"
   app_name "streak.club"
   host "localhost"
+  user_content_path "user_content"
 
   postgres {
     backend: "pgmoon"

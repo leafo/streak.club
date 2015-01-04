@@ -2,8 +2,6 @@ db = require "lapis.db"
 import Model, enum from require "lapis.db.model"
 
 class Uploads extends Model
-  @root_path: "user_content"
-
   @timestamp: true
 
   @types: enum {
