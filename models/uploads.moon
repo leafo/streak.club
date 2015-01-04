@@ -1,6 +1,8 @@
 db = require "lapis.db"
 import Model, enum from require "lapis.db.model"
 
+config = require("lapis.config").get!
+
 class Uploads extends Model
   @timestamp: true
 
@@ -36,4 +38,9 @@ class Uploads extends Model
 
   path: =>
     "uploads/#{@@types[@type]}/#{@id}.#{@extension}"
+
+  delete: =>
+    with super!
+      import shell_quote, exec from require "helpers.shell"
+      os.execute "rm #{shell_quote "#{config.user_content_path}/#{@path!}"}"
 
