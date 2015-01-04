@@ -1,7 +1,7 @@
 
 lapis = require "lapis"
 
-import respond_to, capture_errors_json, capture_errors, assert_error from require "lapis.application"
+import respond_to, capture_errors_json, capture_errors, assert_error, yield_error from require "lapis.application"
 import require_login, not_found from require "helpers.app"
 import assert_valid from require "lapis.validate"
 import assert_csrf from require "helpers.csrf"
@@ -177,6 +177,10 @@ class StreaksApplication extends lapis.Application
           if existing
             @session.flash = "You've already submitted for #{@params.date}"
             return @write redirect_to: @url_for @streak
+
+          if @params.expires and tonumber(@params.expires) < os.time!
+            yield_error "url expired"
+
         else
           assert_error @streak\allowed_to_submit @current_user
 
