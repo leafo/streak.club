@@ -3,6 +3,8 @@ import Model from require "lapis.db.model"
 
 date = require "date"
 
+import signed_url from require "helpers.url"
+
 class StreakUsers extends Model
   @timestamp: true
   @primary_key: {"streak_id", "user_id"}
@@ -51,4 +53,14 @@ class StreakUsers extends Model
     ]], @user_id, @streak_id, :fields
 
     {submit.submit_day, submit.submission_id for submit in *res}
+
+  submit_url: (r, date) =>
+    import encode_query_string from require "lapis.util"
+    base = r\url_for "new_streak_submission", id: @streak_id
+    signed_url base .. "?" .. encode_query_string {
+      expires: os.time! + 60*60*24*7
+      user_id: @user_id
+      :date
+    }
+
 

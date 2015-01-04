@@ -10,7 +10,8 @@ class ViewStreakUnit extends require "widgets.base"
       div class: "admin_tools", ->
         a href: @url_for("edit_streak", id: @streak.id), "Edit streak"
         text " "
-        a href: "", "Generate submit url"
+        a href: @url_for("streak_unit_submit_url", id: @streak.id, date: @params.date),
+          "Generate submit url"
 
     p ->
       a href: @url_for(@streak), "Return to streak"

@@ -180,3 +180,14 @@ class Streaks extends Model
         submits
     }
 
+  find_users: =>
+    import StreakUsers, Users from require "models"
+    StreakUsers\paginated [[
+      where streak_id = ?
+      order by user_id asc
+    ]], @id, {
+      per_page: 200
+      prepare_results: (streak_users) ->
+        Users\include_in streak_users, "user_id"
+        [su.user for su in *streak_users]
+    }

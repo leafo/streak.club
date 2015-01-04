@@ -21,6 +21,11 @@ find_streak = =>
   @streak_user = @streak\has_user @current_user
   true
 
+assert_unit_date = =>
+  y, m, d = assert_error @params.date\match("%d+-%d+-%d+"), "invalid date"
+  @unit_date = date @params.date
+  assert_error @streak\date_in_streak(@unit_date), "invalid date"
+
 class StreaksApplication extends lapis.Application
   [new_streak: "/streaks/new"]: require_login respond_to {
     GET: =>
@@ -106,16 +111,48 @@ class StreaksApplication extends lapis.Application
 
     =>
       find_streak @
-      y, m, d = assert_error @params.date\match("%d+-%d+-%d+"), "invalid date"
-      @unit_date = date @params.date
+      assert_unit_date @
 
-      assert_error @streak\date_in_streak(@unit_date), "invalid date"
       pager = @streak\find_submissions_for_unit @unit_date
       @streak_submissions = pager\get_page!
       @submissions = [s.submission for s in *@streak_submissions]
 
       render: true
   }
+
+  [streak_unit_submit_url: "/streak/:id/unit/:date/submit-url"]: capture_errors {
+    on_error: =>
+      not_found
+
+    respond_to {
+      before: =>
+        find_streak @
+        assert_unit_date @
+        assert_error @streak\allowed_to_edit(@current_user), "invalid streak"
+
+      GET: =>
+        @users = @streak\find_users!\get_page!
+        render: true
+
+      POST: =>
+        assert_csrf @
+        assert_valid @params, {
+          {"user_id", is_integer: true}
+        }
+
+        import StreakUsers from require "models"
+        @streak_user = StreakUsers\find {
+          streak_id: @streak.id
+          user_id: @params.user_id
+        }
+
+        assert_error @streak_user, "invalid user"
+        @submit_url = @build_url @streak_user\submit_url @, @params.date
+        render: true
+    }
+
+  }
+
 
   [streaks: "/streaks"]: =>
     @pager = Streaks\paginated "order by id desc", prepare_results: (streaks) ->
