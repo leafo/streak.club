@@ -14,12 +14,12 @@ do
     unless path
       path, query = url\match "([^?]*)%??(.*)"
 
-    unless path
-      path = url
-      query = {}
+    path or= url
 
     if type(query) == "string"
       query = parse_query_string query
+
+    query or= {}
 
     path, query
 
