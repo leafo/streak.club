@@ -50,6 +50,23 @@ class Layout extends Widget
           a class: "header_button", href: @url_for("user_register"), "Register"
 
   footer: =>
+    div class: "footer", ->
+      div class: "inner_column", ->
+        div class: "footer_right", ->
+          a href: "https://twitter.com/thestreakclub", "@thestreakclub"
+
+        raw "&copy; #{os.date "%Y", ngx.time!} &middot; moon coop &middot; "
+
+
+        a href: @url_for"terms", "terms"
+        -- raw " &middot; "
+        -- a href: @url_for"privacy_policy", "privacy policy"
+        -- raw " &middot; "
+        -- a href: @url_for"support", "support/contact"
+
+        if @current_user
+          raw " &middot; "
+          a href: @url_for"index", "home"
 
   main: =>
     @content_for "inner"

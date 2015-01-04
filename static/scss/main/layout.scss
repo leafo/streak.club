@@ -160,3 +160,22 @@ a {
         color: rgba(#666, 0.8);
     }
 }
+
+.footer {
+    .footer_right {
+        float: right;
+    }
+
+    .inner_column {
+        border-top: 1px solid $border_color;
+        width: $site_width;
+        margin: 0 auto;
+        padding-top: 10px;
+        color: #999;
+        font-size: 14px;
+    }
+
+    a {
+        color: #666;
+    }
+}
