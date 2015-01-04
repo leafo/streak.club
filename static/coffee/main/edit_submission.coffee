@@ -110,8 +110,22 @@ class UploaderManager
   next_upload_position: ->
     @upload_list.find(".file_upload").length
 
+  add_existing: (upload) ->
+    console.log "adding existing", upload
+    upload = new Upload upload
+    @upload_list.append upload.el
+
 class S.EditSubmission
-  constructor: (el) ->
+  constructor: (el, @opts) ->
     @el = $ el
-    new UploaderManager @el.find(".new_upload_btn"), @
+    @el.find("form").remote_submit (res) =>
+      console.log "submitted:", res
+
+    @setup_uploads()
+
+  setup_uploads:  =>
+    @upload_manager = new UploaderManager @el.find(".new_upload_btn"), @
+    if @opts.uploads
+      for upload in @opts.uploads
+        @upload_manager.add_existing upload
 

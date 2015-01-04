@@ -9,8 +9,10 @@ class EditSubmission extends require "widgets.base"
   js_init: =>
     data = {
       uploads: @uploads and [{
+        id: u.id
         filename: u.filename
         size: u.size
+        position: u.position
       } for u in *@uploads]
       submission: @submission and {
         id: @submission.id
