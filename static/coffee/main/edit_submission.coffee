@@ -53,7 +53,8 @@ class Upload
     @progress_bar_inner.css "width", "#{p}%"
 
   save_upload: (res) =>
-    @el.trigger "s:upload_complete", [@]
+    @el.addClass("has_success")
+      .trigger "s:upload_complete", [@]
 
   set_error: (msg) =>
     @el.addClass("has_error").find(".upload_error").text msg

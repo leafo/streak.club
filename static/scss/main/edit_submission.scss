@@ -28,6 +28,12 @@
             }
         }
 
+        &.has_success {
+            .upload_success {
+                display: inline-block;
+            }
+        }
+
         &:last-child {
             border-bottom: 0;
             padding-bottom: 0;
@@ -38,6 +44,12 @@
             display: none;
             margin-left: 10px;
             color: $error_color;
+        }
+
+        .upload_success {
+            display: none;
+            margin-left: 10px;
+            color: #999;
         }
 
         .upload_progress {

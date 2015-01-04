@@ -59,3 +59,6 @@ class EditSubmission extends require "widgets.base"
 
           div class: "upload_error"
 
+          div class: "upload_success", "Success"
+
+
