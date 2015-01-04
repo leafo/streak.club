@@ -54,7 +54,10 @@ class UsersApplication extends lapis.Application
         assert_csrf @
         flow = EditSubmissionFlow @
         flow\edit_submission!
-        @session.flash = "Submission updated"
-        redirect_to: @url_for @submission
+        if @params.json
+          { json: { success: true } }
+        else
+          @session.flash = "Submission updated"
+          redirect_to: @url_for @submission
     }
   }

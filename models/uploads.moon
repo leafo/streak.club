@@ -36,6 +36,19 @@ class Uploads extends Model
     return true if user\is_admin!
     user.id == @user_id
 
+  belongs_to_object: (object) =>
+    return false unless object.id == @object_id
+
+    object_type = switch object.__class.__name
+      when "Submissions"
+        @@object_types.submission
+      else
+        error "unknown object (#{object.__class.__name})"
+
+    object_type == @object_type
+
+
+
   path: =>
     "uploads/#{@@types[@type]}/#{@id}.#{@extension}"
 

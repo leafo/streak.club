@@ -49,7 +49,59 @@ class EditSubmissionFlow extends Flow
     params = @validate_params!
     filter_update @submission, params
 
+    @set_uploads!
+
     if next params
       @submission\update params
 
+  set_uploads: =>
+    assert @submission, "submission needs to exist"
+    import Uploads from require "models"
 
+    assert_valid @params, {
+      {"upload", optional: true, type: "table"}
+    }
+
+    uploads = @params.upload or {}
+
+    uploads = for id, upload in pairs uploads
+      trim_filter upload
+      assert_valid upload, {
+        {"position", is_integer: true}
+      }
+
+      {
+        upload_id: tonumber id
+        position: tonumber upload.position
+      }
+
+    table.sort uploads, (a,b) ->
+      a.position < b.position
+
+    Uploads\include_in uploads, "upload_id"
+    -- filter ones that can be attached, edited
+    uploads = for u in *uploads
+      continue unless u.upload\allowed_to_edit
+      continue if u.upload.object_id and not u.upload\belongs_to_object @submission
+      u
+
+    existing_uploads = @submission\get_uploads!
+    existing_by_id = {u.id, u for u in *existing_uploads}
+
+    for u in *uploads
+      to_update = {
+        object_type: Uploads.object_types.submission
+        object_id: @submission.id
+        position: u.position
+      }
+
+      filter_update u.upload, to_update
+      if next to_update
+        u.upload\update to_update
+
+      existing_by_id[u.upload_id] = nil
+
+    for _, old_upload in pairs existing_by_id
+      old_upload\delete!
+
+    true

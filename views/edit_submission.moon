@@ -8,10 +8,13 @@ class EditSubmission extends require "widgets.base"
 
   js_init: =>
     data = {
-      uploads: [{
+      uploads: @uploads and [{
         filename: u.filename
         size: u.size
       } for u in *@uploads]
+      submission: @submission and {
+        id: @submission.id
+      }
     }
 
     "new S.EditSubmission(#{@widget_selector!}, #{to_json data});"
@@ -30,6 +33,7 @@ class EditSubmission extends require "widgets.base"
     @render_errors!
 
     form class: "form", method: "POST", ->
+      input type: "hidden", name: "json", value: "yes"
       @csrf_input!
 
       @text_input_row {
@@ -59,6 +63,8 @@ class EditSubmission extends require "widgets.base"
 
     @js_template "file_upload", =>
       div class: "file_upload", ->
+        input type: "hidden", name: "upload[{{ id }}][position]", value: "{{ position }}"
+
         div ->
           span class: "filename", "{{ filename }}"
           text " "

@@ -4,13 +4,14 @@ class Upload
   constructor: (@data, @manager) ->
     @el = $ @upload_template data
     @el.data "upload", @
+    @el.data "upload_id", @data.id
 
     @progress_bar = @el.find ".upload_progress"
     @progress_bar_inner = @progress_bar.find ".upload_progress_inner"
 
   upload_params: => {}
 
-  start_upload: (action) =>
+  start_upload: (action) ->
     throw "missing file" unless @data.file
 
     @el.addClass "uploading"
@@ -22,7 +23,6 @@ class Upload
     form_data.append "file", @data.file
 
     xhr = new XMLHttpRequest
-
     xhr.upload.addEventListener "progress", (e) =>
       if e.lengthComputable
         @progress? e.loaded, e.total
@@ -90,6 +90,8 @@ class UploaderManager
               size: file.size
               type: file.type
               file: file
+              id: res.id
+              position: @next_upload_position()
             }
             @upload_list.append upload.el
             upload.start_upload res.url
@@ -97,13 +99,16 @@ class UploaderManager
       input.insertAfter @button_el
       input.click()
 
-  prepare_upload: (data, callback) =>
+  prepare_upload: (data, callback) ->
     prepare_url = @button_el.data "url"
     $.post prepare_url, S.with_csrf(data), (res) =>
       if res.errors
         return alert res.errors.join ", "
 
       callback? res
+
+  next_upload_position: ->
+    @upload_list.find(".file_upload").length
 
 class S.EditSubmission
   constructor: (el) ->
