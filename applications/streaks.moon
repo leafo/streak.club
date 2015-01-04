@@ -107,13 +107,14 @@ class StreaksApplication extends lapis.Application
     =>
       find_streak @
       y, m, d = assert_error @params.date\match("%d+-%d+-%d+"), "invalid date"
-      @unit_date = @streak\truncate_date date(@params.date)
+      @unit_date = date @params.date
+
       assert_error @streak\date_in_streak(@unit_date), "invalid date"
       pager = @streak\find_submissions_for_unit @unit_date
-      @submissions = pager\get_page!
+      @streak_submissions = pager\get_page!
+      @submissions = [s.submission for s in *@streak_submissions]
 
       render: true
-      json: {@submissions}
   }
 
   [streaks: "/streaks"]: =>

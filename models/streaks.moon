@@ -152,8 +152,10 @@ class Streaks extends Model
 
     {s.submit_day, s.count for s in *res}
 
-  find_submissions_for_unit: (unit_start) =>
+  find_submissions_for_unit: (unit_date) =>
     import StreakSubmissions, Submissions, Users, Uploads from require "models"
+
+    unit_start = @truncate_date unit_date
     unit_end = @increment_date_by_unit date unit_start
 
     unit_start_formatted = unit_start\fmt @@timestamp_format_str

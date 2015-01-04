@@ -43,8 +43,8 @@ class ViewStreak extends require "widgets.base"
 
     formatted_today = today\fmt day_str
 
-    start_date = @streak\start_datetime!
-    end_date = @streak\end_datetime!
+    start_date = date @streak.start_date
+    end_date = date @streak.end_date
 
     assert start_date < end_date
 
@@ -56,14 +56,16 @@ class ViewStreak extends require "widgets.base"
         submission_id = @completed_units and @completed_units[formatted_date]
         count = @unit_counts[formatted_date] or 0
 
+        current_time = date(current_date)\addhours @streak.hour_offset
+
         classes = "streak_unit"
-        classes ..= " before_today" if current_date < today
+        classes ..= " before_today" if current_time < today
         classes ..= " today" if formatted_date == formatted_today
         classes ..= " submitted" if submission_id
 
         pretty_date = @streak\format_date_unit current_date
 
-        tooltip = if today < current_date
+        tooltip = if today < current_time
           pretty_date
         else
           "#{pretty_date}: #{@plural count, "submission", "submissions"}"

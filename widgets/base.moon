@@ -13,14 +13,17 @@ date = require "date"
 
 class Base extends Widget
   @widget_name: => underscore @__name or "some_widget"
+  base_widget: true
 
   inner_content: =>
 
   content: (fn=@inner_content) =>
-    css = @widget_classes!
+    classes = @widget_classes!
 
     local inner
-    @_opts = { class: css .. " base_widget", -> raw inner }
+    classes ..= " base_widget" if @base_widget
+
+    @_opts = { class: classes, -> raw inner }
 
     if @js_init
       @widget_id!

@@ -2,7 +2,10 @@
 class SubmissionList extends require "widgets.base"
   @needs: {"submissions"}
 
+  base_widget: false
+
   show_streaks: true
+  show_user: false
 
   inner_content: =>
     div class: "submission_list", ->
@@ -12,9 +15,15 @@ class SubmissionList extends require "widgets.base"
           h3 ->
             a href: @url_for(submission), submission.title
 
-          if @show_streaks
-            h4 ->
-              text "A submission for"
+          h4 ->
+            if @show_user
+              text "A submission by "
+              a href: @url_for(@user), @user\name_for_display!
+            else
+              text "A submission"
+
+            if @show_streaks and submission.streaks
+              text " for "
               num_streaks = #submission.streaks
               for i, streak in ipairs submission.streaks
                 text " "
