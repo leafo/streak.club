@@ -5,6 +5,9 @@ class Upload
     @el = $ @upload_template data
     @el.data "upload", @
 
+    @progress_bar = @el.find ".upload_progress"
+    @progress_bar_inner = @progress_bar.find ".upload_progress_inner"
+
   upload_params: => {}
 
   start_upload: (action) =>
@@ -38,7 +41,8 @@ class Upload
     xhr.send form_data
 
   progress: (loaded, total) =>
-    console.log "progresss..", loaded, total
+    p = loaded/total * 100
+    @progress_bar_inner.css "width", "#{p}%"
 
   save_upload: =>
 

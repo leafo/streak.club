@@ -38,6 +38,7 @@
             background: lighten($border_color, 5%);
 
             .upload_progress_inner {
+                @include transition(all 0.1s ease);
                 height: 100%;
                 width: 0%;
                 background: $link_color;
