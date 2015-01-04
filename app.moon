@@ -25,3 +25,5 @@ class extends lapis.Application
 
   [index: "/"]: =>
     render: true
+
+  [terms: "/terms"]: =>

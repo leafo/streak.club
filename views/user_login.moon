@@ -3,11 +3,12 @@ class UserLogin extends require "widgets.base"
   @include "widgets.form_helpers"
 
   inner_content: =>
-    h1 "Log in"
+    div classs: "page_header", ->
+      h2 "Log in"
 
-    @render_errors!
+    form method: "POST", class: "form primary_form", ->
+      @render_errors!
 
-    form method: "POST", class: "form", ->
       @csrf_input!
       @text_input_row {
         label: "Username"
@@ -23,5 +24,7 @@ class UserLogin extends require "widgets.base"
       }
 
       div class: "button_row", ->
-        input class: "button", type: "submit", value: "Submit"
+        input class: "button", type: "submit", value: "Log in"
+        text " or "
+        a href: @url_for("user_register"), "Create new account"
 
