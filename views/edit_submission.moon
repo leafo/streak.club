@@ -25,6 +25,14 @@ class EditSubmission extends require "widgets.base"
   inner_content: =>
     if @submission
       h2 "Edit submission"
+      h3 ->
+        text "A submission for"
+        num_streaks = #@streaks
+        for i, streak in ipairs @streaks
+          text " "
+          a href: @url_for(streak), streak.title
+          text ", " unless i == num_streaks
+
     else
       h2 "Submit to streak"
       if @unit_date
@@ -60,11 +68,19 @@ class EditSubmission extends require "widgets.base"
         button {
           class: "new_upload_btn button"
           "data-url": @url_for("prepare_upload") .. "?type=image"
-          "Upload file"
+          "Add file(s)"
         }
 
-      div class: "button_row",
-        button class: "button", "Submit"
+      div class: "button_row", ->
+        button class: "button", ->
+          if @submission
+            text "Save"
+          else
+            text "Submit"
+
+        if @submission
+          text " or "
+          a href: @url_for(@submission), "Return to submission"
 
     @js_template "file_upload", =>
       div class: "file_upload", ->

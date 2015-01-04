@@ -193,9 +193,11 @@ class StreaksApplication extends lapis.Application
       POST: capture_errors_json =>
         assert_csrf @
         flow = EditSubmissionFlow @
+        submission = flow\create_submission!
 
         json: {
-          flow\create_submission!
+          success: true
+          url: @url_for submission
         }
     }
   }

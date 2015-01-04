@@ -79,7 +79,6 @@ class UploaderManager
             alert "#{file.name} is greater than max size of #{_.str.formatBytes max_size}"
             continue
 
-          console.log "start file", file
           @prepare_and_start_upload file
 
       input.insertAfter @button_el
@@ -114,15 +113,20 @@ class UploaderManager
     @upload_list.find(".file_upload").length
 
   add_existing: (upload) ->
-    console.log "adding existing", upload
     upload = new Upload upload
     @upload_list.append upload.el
 
 class S.EditSubmission
   constructor: (el, @opts) ->
     @el = $ el
-    @el.find("form").remote_submit (res) =>
-      console.log "submitted:", res
+    form = @el.find("form")
+    form.remote_submit (res) =>
+      if res.errors
+        form.set_form_errors res.errors
+        return
+
+      if res.url
+        window.location = res.url
 
     @setup_uploads()
     S.redactor @el.find "textarea"

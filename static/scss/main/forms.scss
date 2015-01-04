@@ -19,6 +19,15 @@
         }
     }
 
+    .form_errors {
+        color: $error_color;
+        margin-bottom: 20px;
+
+        ul {
+            margin: 10px 0;
+        }
+    }
+
     .redactor-box {
         border: 2px solid lighten($border_color, 5%);
         overflow: hidden;
@@ -49,6 +58,7 @@
         font-size: 12px;
         font-weight: bold;
         color: mix(#666, $button_color, 90%);
+        margin-bottom: 4px;
 
         .sub {
             color: lighten(mix(#666, $button_color, 90%), 15%);
@@ -87,6 +97,14 @@
             background: gray;
             color: lighten(gray, 20%);
             cursor: normal
+        }
+    }
+
+    .button_row {
+        color: #999;
+
+        a {
+            color: #666;
         }
     }
 }

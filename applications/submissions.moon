@@ -49,6 +49,7 @@ class UsersApplication extends lapis.Application
 
       GET: =>
         @uploads = @submission\get_uploads!
+        @streaks = @submission\get_streaks!
         render: true
 
       POST: capture_errors_json =>
@@ -56,7 +57,12 @@ class UsersApplication extends lapis.Application
         flow = EditSubmissionFlow @
         flow\edit_submission!
         if @params.json
-          { json: { success: true } }
+          {
+            json: {
+              success: true
+              url: @url_for @submission
+            }
+          }
         else
           @session.flash = "Submission updated"
           redirect_to: @url_for @submission
