@@ -56,5 +56,4 @@ class UsersApplication extends lapis.Application
         @session.flash = "Submission updated"
         redirect_to: @url_for @submission
     }
-
   }

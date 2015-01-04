@@ -5,6 +5,15 @@ _.templateSettings = {
 }
 
 window.S = {
+  event: (category, action, label, value, interactive=true) ->
+    params = ['_trackEvent', category, action, label, value]
+    params.push true unless interactive
+    try
+      if _gaq
+        _gaq.push params
+      else
+        console.log "event:", params
+
   get_template: (name) ->
     _.template $("##{name}_tpl").html()
 

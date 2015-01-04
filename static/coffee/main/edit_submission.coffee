@@ -5,6 +5,43 @@ class Upload
     @el = $ @upload_template data
     @el.data "upload", @
 
+  upload_params: => {}
+
+  start_upload: (action) =>
+    throw "missing file" unless @data.file
+
+    @el.addClass "uploading"
+
+    form_data = new FormData()
+    for key, val of @upload_params()
+      form_data.append key, val
+
+    form_data.append "file", @data.file
+
+    xhr = new XMLHttpRequest
+
+    xhr.upload.addEventListener "progress", (e) =>
+      if e.lengthComputable
+        @progress? e.loaded, e.total
+
+    xhr.upload.addEventListener "load", (e) =>
+      @save_upload?()
+      @el.removeClass "uploading"
+
+    xhr.upload.addEventListener "error", (e) =>
+      S.event "upload", "xhr error", @kind
+
+    xhr.upload.addEventListener "abort", (e) =>
+      S.event "upload", "xhr abort", @kind
+
+    xhr.open "POST", action
+    xhr.send form_data
+
+  progress: (loaded, total) =>
+    console.log "progresss..", loaded, total
+
+  save_upload: =>
+
 class UploaderManager
   constructor: (@button_el, @view, @opts) ->
     input = null
@@ -26,20 +63,26 @@ class UploaderManager
             continue
 
           console.log "start file", file
-          upload = new Upload {
-            filename: file.name
-            size: file.size
-            type: file.type
-          }
-
-          @upload_list.append upload.el
+          @prepare_upload {
+            "upload[type]": "image"
+            "upload[filename]": file.name
+            "upload[size]": file.size
+          }, (res) =>
+            upload = new Upload {
+              filename: file.name
+              size: file.size
+              type: file.type
+              file: file
+            }
+            @upload_list.append upload.el
+            upload.start_upload res.url
 
       input.insertAfter @button_el
       input.click()
 
   prepare_upload: (data, callback) =>
     prepare_url = @button_el.data "url"
-    $.post prepare_url, S.with_csrf(), (res) =>
+    $.post prepare_url, S.with_csrf(data), (res) =>
       if res.errors
         return alert res.errors.join ", "
 
