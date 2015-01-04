@@ -9,7 +9,7 @@ import
 import assert_valid from require "lapis.validate"
 import trim_filter, slugify from require "lapis.util"
 
-import Users from require "models"
+import Users, Uploads from require "models"
 
 import not_found, require_login from require "helpers.app"
 import assert_csrf from require "helpers.csrf"
@@ -18,7 +18,6 @@ class UsersApplication extends lapis.Application
   [user_profile: "/u/:slug"]: capture_errors {
     on_error: => not_found
     =>
-
       @user = assert_error Users\find(slug: slugify @params.slug), "invalid user"
       pager = @user\find_submissions!
       @submissions = pager\get_page!
@@ -26,6 +25,7 @@ class UsersApplication extends lapis.Application
       @streaks = @user\get_active_streaks!
       Users\include_in @streaks, "user_id"
 
+      Uploads\preload_objects @submissions
       render: true
   }
 

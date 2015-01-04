@@ -20,6 +20,41 @@ class Uploads extends Model
     gif: "image/gif"
   }
 
+  @preload_objects: (objects) =>
+    ids_by_type = {}
+    for object in *objects
+      object_type = @object_type_for_object object
+      ids_by_type[object_type] or= {}
+      table.insert ids_by_type[object_type], object.id
+
+    for object_type, ids in pairs ids_by_type
+      uploads = @find_all ids, key: "object_id", where: {
+        ready: true
+        :object_type
+      }
+
+      uploads_by_object_id = {}
+      for upload in *uploads
+        uploads_by_object_id[upload.object_id] or= {}
+        table.insert uploads_by_object_id[upload.object_id], upload
+
+      for _, upload_list in pairs uploads_by_object_id
+        table.sort upload_list, (a,b) ->
+          a.position < b.position
+
+      for object in *objects
+        continue unless @object_type_for_object(object) == object_type
+        object.uploads = uploads_by_object_id[object.id]
+
+    true
+
+  @object_type_for_object: (object) =>
+    switch object.__class.__name
+      when "Submissions"
+        @object_types.submission
+      else
+        error "unknown object (#{object.__class.__name})"
+
   @create: (opts={}) =>
     assert opts.user_id, "missing user id"
     assert opts.filename, "missing file name"
@@ -38,16 +73,7 @@ class Uploads extends Model
 
   belongs_to_object: (object) =>
     return false unless object.id == @object_id
-
-    object_type = switch object.__class.__name
-      when "Submissions"
-        @@object_types.submission
-      else
-        error "unknown object (#{object.__class.__name})"
-
-    object_type == @object_type
-
-
+    @@object_type_for_object(object) == @object_type
 
   path: =>
     "uploads/#{@@types[@type]}/#{@id}.#{@extension}"
