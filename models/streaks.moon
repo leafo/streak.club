@@ -43,12 +43,12 @@ class Streaks extends Model
 
     false
 
-  submit: (submission) =>
+  submit: (submission, submit_time=db.format_date!) =>
     import StreakSubmissions from require "models"
     res = safe_insert StreakSubmissions, {
       submission_id: submission.id
       streak_id: @id
-      submit_time: db.format_date!
+      :submit_time
       user_id: submission.user_id
     }, {
       submission_id: submission.id
@@ -68,18 +68,19 @@ class Streaks extends Model
     return true if user\is_admin!
     user.id == @user_id
 
-  allowed_to_submit: (user) =>
+  allowed_to_submit: (user, check_time=true) =>
     return false unless user
     su = @has_user user
     return false unless su
 
-    now = date true
-    -- TODO: timezones
-    start_date = date @start_date
-    end_date = date @end_date
+    if check_time
+      now = date true
+      -- TODO: timezones
+      start_date = date @start_date
+      end_date = date @end_date
 
-    return false if now < start_date
-    return false if end_date < now
+      return false if now < start_date
+      return false if end_date < now
 
     true
 

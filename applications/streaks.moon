@@ -5,6 +5,7 @@ import respond_to, capture_errors_json, capture_errors, assert_error from requir
 import require_login, not_found from require "helpers.app"
 import assert_valid from require "lapis.validate"
 import assert_csrf from require "helpers.csrf"
+import assert_signed_url from require "helpers.url"
 
 import Streaks, Users from require "models"
 
@@ -166,8 +167,18 @@ class StreaksApplication extends lapis.Application
     on_error: => not_found
     respond_to {
       before: =>
-        @streak = assert_error Streaks\find(@params.id), "invalid streak"
-        assert_error @streak\allowed_to_submit @current_user
+        find_streak @
+
+        if @params.date
+          assert_error @streak\allowed_to_submit @current_user, false
+          assert_signed_url @
+          assert_unit_date @
+          existing = @streak_user\submission_for_date @unit_date
+          if existing
+            @session.flash = "You've already submitted for #{@params.date}"
+            return @write redirect_to: @url_for @streak
+        else
+          assert_error @streak\allowed_to_submit @current_user
 
       GET: =>
         render: "edit_submission"

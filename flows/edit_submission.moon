@@ -27,15 +27,20 @@ class EditSubmissionFlow extends Flow
     submission_params
 
   create_submission: =>
-    import Submissions from require "models"
+    import Streaks, Submissions from require "models"
     params = @validate_params!
     params.user_id = @current_user.id
 
     streak_user = assert_error @streak\has_user(@current_user),
       "user not in streak"
 
+    submit_timestamp = if @unit_date
+      submit_date = @streak\increment_date_by_unit @streak\truncate_date date @unit_date
+      submit_date\addseconds -10
+      submit_date\fmt Streaks.timestamp_format_str
+
     submission = Submissions\create params
-    submit = @streak\submit submission
+    submit = @streak\submit submission, submit_timestamp
 
     if submit
       streak_user\update submissions_count: db.raw "submissions_count + 1"

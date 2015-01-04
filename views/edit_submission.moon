@@ -1,5 +1,6 @@
 
 import to_json from require "lapis.util"
+import Streaks from require "models"
 
 class EditSubmission extends require "widgets.base"
   @needs: {"submission", "uploads"}
@@ -26,6 +27,8 @@ class EditSubmission extends require "widgets.base"
       h2 "Edit submission"
     else
       h2 "Submit to streak"
+      if @unit_date
+        h3 "Submiting for #{@unit_date\fmt Streaks.day_format_str}"
 
     if @streak
       p "Submitting to #{@streak.title}"
