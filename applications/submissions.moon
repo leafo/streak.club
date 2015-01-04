@@ -47,6 +47,7 @@ class UsersApplication extends lapis.Application
         assert_error @submission\allowed_to_edit(@current_user), "invalid submission"
 
       GET: =>
+        @uploads = @submission\get_uploads!
         render: true
 
       POST: capture_errors_json =>

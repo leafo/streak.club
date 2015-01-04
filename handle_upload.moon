@@ -6,7 +6,7 @@ import to_json from require "lapis.util"
 import Uploads from require "models"
 import validate_signed_url from require "helpers.url"
 import parse_content_disposition from require "lapis.util"
-import shell_escape, exec from require "lapis.util"
+import shell_escape, exec from require "helpers.shell"
 
 logging = require "lapis.logging"
 resty_upload = require "resty.upload"

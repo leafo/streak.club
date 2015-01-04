@@ -1,10 +1,20 @@
 
+import to_json from require "lapis.util"
 
 class EditSubmission extends require "widgets.base"
+  @needs: {"submission", "uploads"}
+
   @include "widgets.form_helpers"
 
   js_init: =>
-    "new S.EditSubmission(#{@widget_selector!});"
+    data = {
+      uploads: [{
+        filename: u.filename
+        size: u.size
+      } for u in *@uploads]
+    }
+
+    "new S.EditSubmission(#{@widget_selector!}, #{to_json data});"
 
   inner_content: =>
     if @submission

@@ -45,6 +45,16 @@ class Submissions extends Model
 
     @streaks
 
+  get_uploads: =>
+    unless @uploads
+      import Uploads from require "models"
+      @uploads = Uploads\select "
+        where object_type = ? and object_id = ? and ready
+        order by position
+      ", Uploads.object_types.submission, @id
+
+    @uploads
+
   url_params: =>
     "view_submission", id: @id
 
