@@ -153,7 +153,7 @@ class Streaks extends Model
 
     {s.submit_day, s.count for s in *res}
 
-  find_submissions_for_unit: (unit_date) =>
+  find_submissions_for_unit: (unit_date, opts) =>
     import StreakSubmissions, Submissions, Users, Uploads from require "models"
 
     unit_start = @truncate_date unit_date
@@ -174,11 +174,17 @@ class Streaks extends Model
       per_page: 20
       prepare_results: (submits) ->
         Submissions\include_in submits, "submission_id"
-        submissions = [s.submission for s in *submits]
-        Users\include_in submissions, "user_id"
-        Uploads\preload_objects submissions
 
-        submits
+        submits_by_submission_id = {s.submission_id, s for s in *submits}
+        submissions = [s.submission for s in *submits]
+
+        for s in *submissions
+          s.streak_submission = submits_by_submission_id[s.id]
+
+        if opts and opts.prepare_submissions
+          opts.prepare_submissions submissions
+        else
+          submissions
     }
 
   find_users: =>

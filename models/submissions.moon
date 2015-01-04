@@ -28,6 +28,26 @@ class Submissions extends Model
 
     submissions, [s.streak for s in *streak_submits]
 
+
+  @preload_for_list: (submissions, opts={}) =>
+    import Users, Uploads from require "models"
+
+    Uploads\preload_objects submissions
+
+    things_with_users = [s for s in *submissions]
+
+    unless opts.streaks == false
+      _, streaks = @preload_streaks submissions
+
+      for streak in *streaks
+        table.insert things_with_users, streak
+
+    Users\include_in things_with_users, "user_id", {
+      fields: "id, username, slug, display_name, email"
+    }
+
+    submissions
+
   allowed_to_view: (user) =>
     true
 

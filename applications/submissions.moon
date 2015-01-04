@@ -26,8 +26,9 @@ class UsersApplication extends lapis.Application
       }
 
       @submission = Submissions\find @params.id
-      @user = @submission\get_user!
+      Submissions\preload_for_list { @submission }
 
+      @user = @submission\get_user!
       @streaks = @submission\get_streaks!
       render: true
   }

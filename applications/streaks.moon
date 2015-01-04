@@ -111,12 +111,15 @@ class StreaksApplication extends lapis.Application
       not_found
 
     =>
+      import Submissions from require "models"
       find_streak @
       assert_unit_date @
 
-      pager = @streak\find_submissions_for_unit @unit_date
-      @streak_submissions = pager\get_page!
-      @submissions = [s.submission for s in *@streak_submissions]
+      pager = @streak\find_submissions_for_unit @unit_date, {
+        prepare_submissions: Submissions\preload_for_list
+      }
+
+      @submissions = pager\get_page!
 
       render: true
   }
