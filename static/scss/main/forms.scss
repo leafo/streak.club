@@ -1,5 +1,14 @@
 
 .form {
+    // takes up majority of page
+    &.primary_form {
+        margin: 40px 0;
+        input[type='text'], input[type='password'], input[type='email'], textarea {
+            width: 50%;
+            display: block;
+        }
+    }
+
     .input_row {
         margin: 0;
         margin-bottom: 10px;
@@ -13,6 +22,7 @@
         border: 2px solid lighten($border_color, 5%);
         outline: none;
         padding: 5px 10px 4px 10px;
+        width: 300px;
 
         &:focus {
             border: 2px solid $border_color;
@@ -101,6 +111,7 @@
     }
 
     .button_row {
+        margin-top: 40px;
         color: #999;
 
         a {

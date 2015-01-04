@@ -6,16 +6,35 @@ body {
     padding: 0;
 }
 
-h1, h2 {
-    font-weight: normal;
-    margin: 0;
-    color: #222;
-}
 
-h3 {
-    margin: 0;
-    margin-top: 3px;
-    color: #666;
+.page_header {
+    h1, h2 {
+        font-weight: normal;
+        margin: 0;
+        color: #222;
+    }
+
+    h3 {
+        margin: 0;
+        margin-top: 3px;
+        color: #666;
+
+        a {
+            @include transition(all 0.1s ease);
+            text-decoration: none;
+            border-bottom: 2px solid $link_color;
+            color: mix(#666, $link_color, 70%);
+            color: #666;
+
+            &:hover {
+                color: $link_color
+            }
+
+            &:active {
+                color: darken($link_color, 10%);
+            }
+        }
+    }
 }
 
 p {

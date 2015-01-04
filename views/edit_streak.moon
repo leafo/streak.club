@@ -8,22 +8,23 @@ class EditStreak extends require "widgets.base"
   js_init: =>
     opts = {
       streak: {
-        hour_offset: @streak.hour_offset
+        hour_offset: @streak and @streak.hour_offset
       }
     }
     "new S.EditStreak(#{@widget_selector!}, #{to_json opts});"
 
   inner_content: =>
-    if @streak
-      h2 "Edit streak"
-    else
-      h2 "New streak"
+    div class: "page_header", ->
+      if @streak
+        h2 "Edit streak"
+      else
+        h2 "New streak"
 
     @render_errors!
 
     streak = @params.streak or @streak or {}
 
-    form method: "post", class: "form", ->
+    form method: "post", class: "form primary_form", ->
       @csrf_input!
       input type: "hidden", name: "timezone", value: "", class: "timezone_input"
 
@@ -84,7 +85,7 @@ class EditStreak extends require "widgets.base"
         value: ""
       }
 
-      div class: "buttons", ->
+      div class: "button_row", ->
         button class: "button", "Save"
 
   format_date_for_input: (timestamp) =>

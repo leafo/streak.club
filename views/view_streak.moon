@@ -14,8 +14,9 @@ class ViewStreak extends require "widgets.base"
       div class: "admin_tools", ->
         a href: @url_for("edit_streak", id: @streak.id), "Edit streak"
 
-    h2 @streak.title
-    h3 @streak.short_description
+    div class: "page_header", ->
+      h2 @streak.title
+      h3 @streak.short_description
 
     @streak_summary!
     @render_streak_units!

@@ -2,7 +2,9 @@ class UserSettings extends require "widgets.base"
   @include "widgets.form_helpers"
 
   inner_content: =>
-    h1 "User settings"
+    div class: "page_header", ->
+      h2 "User settings"
+
     @render_errors!
 
     form action: "", method: "POST", class: "form", ->

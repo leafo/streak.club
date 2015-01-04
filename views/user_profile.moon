@@ -5,14 +5,16 @@ class UserProfile extends require "widgets.base"
   @needs: {"user", "submissions", "streaks"}
 
   inner_content: =>
-    h2 @user\name_for_display!
-    p "A user registered #{@format_timestamp @user.created_at}"
+    div class: "page_header", ->
+      h2 @user\name_for_display!
+      h3 "A user registered #{@format_timestamp @user.created_at}"
+
     @render_submissions!
     @render_streaks!
 
   render_submissions: =>
     return unless next @submissions
-    h2 "Submissions"
+    h2 "All submissions"
     widget SubmissionList
 
   render_streaks: =>

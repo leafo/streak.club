@@ -16,8 +16,9 @@ class ViewStreakUnit extends require "widgets.base"
     p ->
       a href: @url_for(@streak), "Return to streak"
 
-    h2 @streak.title
-    end_date = @streak\increment_date_by_unit date @unit_date
-    h3 "Submissions from #{@unit_date\fmt Streaks.day_format_str} to #{end_date\fmt Streaks.day_format_str}"
+    div class: "page_header", ->
+      h2 @streak.title
+      end_date = @streak\increment_date_by_unit date @unit_date
+      h3 "Submissions from #{@unit_date\fmt Streaks.day_format_str} to #{end_date\fmt Streaks.day_format_str}"
     widget SubmissionList
 

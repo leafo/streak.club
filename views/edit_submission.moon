@@ -23,20 +23,21 @@ class EditSubmission extends require "widgets.base"
     "new S.EditSubmission(#{@widget_selector!}, #{to_json data});"
 
   inner_content: =>
-    if @submission
-      h2 "Edit submission"
-      h3 ->
-        text "A submission for"
-        num_streaks = #@streaks
-        for i, streak in ipairs @streaks
-          text " "
-          a href: @url_for(streak), streak.title
-          text ", " unless i == num_streaks
+    div class: "page_header", ->
+      if @submission
+        h2 "Edit submission"
+        h3 ->
+          text "A submission for"
+          num_streaks = #@streaks
+          for i, streak in ipairs @streaks
+            text " "
+            a href: @url_for(streak), streak.title
+            text ", " unless i == num_streaks
 
-    else
-      h2 "Submit to streak"
-      if @unit_date
-        h3 "Submiting for #{@unit_date\fmt Streaks.day_format_str}"
+      else
+        h2 "Submit to streak"
+        if @unit_date
+          h3 "Submiting for #{@unit_date\fmt Streaks.day_format_str}"
 
     if @streak
       p "Submitting to #{@streak.title}"
@@ -45,7 +46,7 @@ class EditSubmission extends require "widgets.base"
 
     @render_errors!
 
-    form class: "form", method: "POST", ->
+    form class: "form primary_form", method: "POST", ->
       input type: "hidden", name: "json", value: "yes"
       @csrf_input!
 
