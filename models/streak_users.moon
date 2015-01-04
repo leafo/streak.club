@@ -18,11 +18,14 @@ class StreakUsers extends Model
   -- UTC date
   submission_for_date: (d) =>
     streak = @get_streak!
-    import StreakSubmissions from require "models"
+    import Streaks, StreakSubmissions from require "models"
     format_str = "%Y-%m-%d %H:%M:%S"
 
-    left = streak\truncate_date d
-    right = streak\increment_date_by_unit date left
+    unit_start = streak\truncate_date d
+    unit_end = streak\increment_date_by_unit date unit_start
+
+    unit_start_formatted = unit_start\fmt(Streaks.timestamp_format_str)
+    unit_end_formatted = unit_end\fmt(Streaks.timestamp_format_str)
 
     streak_submission = unpack StreakSubmissions\select "
       where streak_id = ? and
@@ -30,7 +33,7 @@ class StreakUsers extends Model
         submit_time >= ? and
         submit_time < ?
       limit 1
-    ", @streak_id, @user_id, left\fmt(format_str), right\fmt(format_str)
+    ", @streak_id, @user_id, unit_start_formatted, unit_end_formatted
 
     streak_submission
 
@@ -40,7 +43,7 @@ class StreakUsers extends Model
 
     fields = db.interpolate_query [[
       submission_id,
-      (submit_time + ?::interval)::date submit_day
+      (submit_time - ?::interval)::date submit_day
     ]], "#{streak.hour_offset} hours"
 
     res = StreakSubmissions\select [[

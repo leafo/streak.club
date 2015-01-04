@@ -64,6 +64,7 @@ class StreaksApplication extends lapis.Application
 
     respond_to {
       before: find_streak
+
       GET: =>
         import StreakUsers from require "models"
         pager = StreakUsers\paginated "where streak_id = ?", @streak.id, {

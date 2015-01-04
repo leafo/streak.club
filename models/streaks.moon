@@ -6,6 +6,7 @@ date = require "date"
 
 class Streaks extends Model
   @day_format_str: "%Y-%m-%d"
+  @timestamp_format_str: "%Y-%m-%d %H:%M:%S"
   @timestamp: true
 
   @rates: enum {
@@ -141,7 +142,7 @@ class Streaks extends Model
 
     fields = db.interpolate_query [[
       count(*),
-      (submit_time + ?::interval)::date submit_day
+      (submit_time - ?::interval)::date submit_day
     ]], interval
 
     res = StreakSubmissions\select [[
@@ -155,18 +156,18 @@ class Streaks extends Model
     import StreakSubmissions, Submissions, Users, Uploads from require "models"
     unit_end = @increment_date_by_unit date unit_start
 
-    unit_start_formatted = unit_start\fmt @@day_format_str
-    unit_end_formatted = unit_end\fmt @@day_format_str
+    unit_start_formatted = unit_start\fmt @@timestamp_format_str
+    unit_end_formatted = unit_end\fmt @@timestamp_format_str
 
     interval = "#{@hour_offset} hours"
 
     StreakSubmissions\paginated [[
       where
         streak_id = ? and
-        submit_time >= ?::timestamp + ?::interval and
-        submit_time < ?::timestamp + ?::interval
+        submit_time >= ?::timestamp and
+        submit_time < ?::timestamp
       order by submit_time desc
-    ]], @id, unit_start_formatted, interval, unit_end_formatted, interval, {
+    ]], @id, unit_start_formatted, unit_end_formatted, {
       per_page: 20
       prepare_results: (submits) ->
         Submissions\include_in submits, "submission_id"
