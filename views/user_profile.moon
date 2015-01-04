@@ -1,4 +1,6 @@
 
+SubmissionList = require "widgets.submission_list"
+
 class UserProfile extends require "widgets.base"
   @needs: {"user", "submissions", "streaks"}
 
@@ -11,25 +13,7 @@ class UserProfile extends require "widgets.base"
   render_submissions: =>
     return unless next @submissions
     h2 "Submissions"
-
-    div class: "submission_list", ->
-      for submission in *@submissions
-        div class: "submission_row", ->
-          h3 ->
-            a href: @url_for(submission), submission.title
-
-          h4 ->
-            text "A submission for"
-            num_streaks = #submission.streaks
-            for i, streak in ipairs submission.streaks
-              text " "
-              a href: @url_for(streak), streak.title
-              text ", " unless i == num_streaks
-
-          p class: "sub", "Submitted #{@format_timestamp submission.created_at}"
-          p submission.description
-
-
+    widget SubmissionList
 
   render_streaks: =>
     return unless next @streaks
@@ -41,6 +25,4 @@ class UserProfile extends require "widgets.base"
             a href: @url_for(streak), streak.title
             text " by "
             a href: @url_for(streak.user), streak.user\name_for_display!
-
-
 
