@@ -71,11 +71,12 @@ class ViewStreak extends require "widgets.base"
         if submission_id
           tooltip ..= " - You submitted"
 
-        div {
-          class: classes
-          "data-date": tostring current_date
-          "data-tooltip": tooltip
-        }
+        a href: @url_for("view_streak_unit", date: formatted_date, id: @streak.id), ->
+          div {
+            class: classes
+            "data-date": tostring current_date
+            "data-tooltip": tooltip
+          }
 
         @streak\increment_date_by_unit current_date
 

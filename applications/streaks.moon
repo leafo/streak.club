@@ -11,6 +11,16 @@ import Streaks, Users from require "models"
 EditStreakFlow = require "flows.edit_streak"
 EditSubmissionFlow = require "flows.edit_submission"
 
+find_streak = =>
+  assert_valid @params, {
+    {"id", is_integer: true}
+  }
+
+  @streak = assert_error Streaks\find(@params.id), "invalid streak"
+  assert_error @streak\allowed_to_view @current_user
+  @streak_user = @streak\has_user @current_user
+  true
+
 class StreaksApplication extends lapis.Application
   [new_streak: "/streaks/new"]: require_login respond_to {
     GET: =>
@@ -53,15 +63,7 @@ class StreaksApplication extends lapis.Application
       not_found
 
     respond_to {
-      before: =>
-        assert_valid @params, {
-          {"id", is_integer: true}
-        }
-
-        @streak = assert_error Streaks\find(@params.id), "invalid streak"
-        assert_error @streak\allowed_to_view @current_user
-        @streak_user = @streak\has_user @current_user
-
+      before: find_streak
       GET: =>
         import StreakUsers from require "models"
         pager = StreakUsers\paginated "where streak_id = ?", @streak.id, {
@@ -95,6 +97,22 @@ class StreaksApplication extends lapis.Application
 
         redirect_to: @url_for @streak
     }
+  }
+
+  [view_streak_unit: "/streak/:id/unit/:date"]: capture_errors {
+    on_error: =>
+      not_found
+
+    =>
+      find_streak @
+      y, m, d = assert_error @params.date\match("%d+-%d+-%d+"), "invalid date"
+      @unit_date = @streak\truncate_date date(@params.date)
+      assert_error @streak\date_in_streak(@unit_date), "invalid date"
+      pager = @streak\find_submissions_for_unit @unit_date
+      @submissions = pager\get_page!
+
+      render: true
+      json: {@submissions}
   }
 
   [streaks: "/streaks"]: =>
