@@ -19,6 +19,32 @@
         }
     }
 
+    .redactor-box {
+        border: 2px solid lighten($border_color, 5%);
+        overflow: hidden;
+    }
+
+    .redactor-editor {
+        border: 0;
+    }
+
+    .redactor-toolbar {
+        z-index: 98 !important;
+
+        li a {
+            color: #666;
+
+            &:hover {
+                background: $button_color;
+            }
+
+            &:active, &.redactor-act {
+                background: #ddd;
+                color: #666;
+            }
+        }
+    }
+
     .label {
         font-size: 12px;
         font-weight: bold;

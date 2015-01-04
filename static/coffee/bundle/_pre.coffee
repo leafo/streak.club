@@ -32,6 +32,40 @@ window.S = {
       thing  + "&" + $.param token
     else
       $.extend thing, token
+
+  redactor: (el, opts={}) =>
+    return if window.location.href.match /\bredactor=0\b/
+    return unless $.fn.redactor
+
+    opts = $.extend {}, S.default_redactor_opts, opts
+    try
+      el.redactor opts
+    catch e
+      S.event "error", "redactor", "invalid_content"
+      # attempt to save the page
+      el.parent().replaceWith(el).end().val("").redactor opts
+
+  default_redactor_opts: {
+    toolbarFixed: false
+    buttonSource: true
+    buttons: [
+      'html'
+      'formatting'
+      'bold'
+      'italic'
+      'deleted'
+      'unorderedlist'
+      'orderedlist'
+      'outdent'
+      'indent'
+      'image'
+      'table'
+      'link'
+      'alignment'
+      'horizontalrule'
+    ]
+    minHeight: 250
+  }
 }
 
 $.fn.dispatch = (event_type, table) ->

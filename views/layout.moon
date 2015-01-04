@@ -2,6 +2,8 @@ import Widget from require "lapis.html"
 
 import to_json from require "lapis.util"
 
+config = require("lapis.config").get!
+
 class Layout extends Widget
   head: =>
     meta charset: "UTF-8"
@@ -57,6 +59,7 @@ class Layout extends Widget
     @include_js "main.js"
 
     @include_jquery_ui!
+    @include_redactor!
 
     script type: "text/javascript", ->
       opts = { flash: @flash }
@@ -68,6 +71,11 @@ class Layout extends Widget
     @include_css "lib/jquery-ui/css/jquery-ui.css"
     @include_css "lib/jquery-ui/css/jquery-ui.structure.css"
     @include_css "lib/jquery-ui/css/jquery-ui.theme.css"
+
+  include_redactor: =>
+    return unless config.enable_redactor
+    @include_js "lib/redactor/redactor.js"
+    @include_css "lib/redactor/redactor.css"
 
   include_fonts: =>
     if config._name == "production"

@@ -125,6 +125,7 @@ class S.EditSubmission
       console.log "submitted:", res
 
     @setup_uploads()
+    S.redactor @el.find "textarea"
 
   setup_uploads:  =>
     @upload_manager = new UploaderManager @el.find(".new_upload_btn"), @
