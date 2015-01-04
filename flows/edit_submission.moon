@@ -40,14 +40,14 @@ class EditSubmissionFlow extends Flow
       submit_date\fmt Streaks.timestamp_format_str
 
     @submission = Submissions\create params
-    submit = @streak\submit @submission, submit_timestamp
+    @current_user\update submissions_count: db.raw "submissions_count + 1"
 
+    submit = @streak\submit @submission, submit_timestamp
     if submit
       streak_user\update submissions_count: db.raw "submissions_count + 1"
       @streak\update submissions_count: db.raw "submissions_count + 1"
 
     @set_uploads!
-
     @submission, submit
 
   edit_submission: =>

@@ -7,7 +7,11 @@ class UserProfile extends require "widgets.base"
   inner_content: =>
     div class: "page_header", ->
       h2 @user\name_for_display!
-      h3 "A user registered #{@format_timestamp @user.created_at}"
+      h3 ->
+        text "A user registered #{@format_timestamp @user.created_at}"
+        raw " &middot; "
+        text @plural @user.submission_count, "submission", "submissions"
+
 
     @render_submissions!
     @render_streaks!

@@ -213,7 +213,8 @@ CREATE TABLE users (
     display_name character varying(255),
     avatar_url character varying(255),
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    submission_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -436,6 +437,7 @@ COPY lapis_migrations (name) FROM stdin;
 1420176501
 1420181212
 1420363626
+1420405517
 \.
 
 

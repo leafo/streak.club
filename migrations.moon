@@ -155,5 +155,12 @@ import
 
   [1420363626]: =>
     create_index "streak_submissions", "streak_id", "submit_time"
+
+  [1420405517]: =>
+    add_column "users", "submission_count", integer
+    db.query "
+      update users
+      set submission_count = (select count(*) from submissions where user_id = users.id)
+    "
 }
 
