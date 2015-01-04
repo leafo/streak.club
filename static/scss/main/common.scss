@@ -3,6 +3,7 @@ $button_color: #7ED6D7;
 $link_color: desaturate(darken(#7ED6D7, 8%), 8%);
 $border_color: #dadada;
 $site_width: 960px;
+$error_color: #D14343;
 
 @mixin default_font {
     font-family: 'Source Sans Pro', sans-serif;

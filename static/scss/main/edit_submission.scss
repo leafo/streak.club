@@ -22,10 +22,22 @@
             }
         }
 
+        &.has_error {
+            .upload_error {
+                display: inline-block;
+            }
+        }
+
         &:last-child {
             border-bottom: 0;
             padding-bottom: 0;
             margin-bottom: 0;
+        }
+
+        .upload_error {
+            display: none;
+            margin-left: 10px;
+            color: $error_color;
         }
 
         .upload_progress {

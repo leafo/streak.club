@@ -27,15 +27,23 @@ class Upload
       if e.lengthComputable
         @progress? e.loaded, e.total
 
-    xhr.upload.addEventListener "load", (e) =>
-      @save_upload?()
-      @el.removeClass "uploading"
-
     xhr.upload.addEventListener "error", (e) =>
       S.event "upload", "xhr error", @kind
 
     xhr.upload.addEventListener "abort", (e) =>
       S.event "upload", "xhr abort", @kind
+
+    xhr.addEventListener "load", (e) =>
+      @el.removeClass "uploading"
+
+      if xhr.status != 200
+        return @set_error "server failed to accept upload"
+
+      res = $.parseJSON(xhr.responseText)
+      if res.errors
+        return @set_error "#{res.errors.join ", "}"
+
+      @save_upload res
 
     xhr.open "POST", action
     xhr.send form_data
@@ -44,7 +52,11 @@ class Upload
     p = loaded/total * 100
     @progress_bar_inner.css "width", "#{p}%"
 
-  save_upload: =>
+  save_upload: (res) =>
+    @el.trigger "s:upload_complete", [@]
+
+  set_error: (msg) =>
+    @el.addClass("has_error").find(".upload_error").text msg
 
 class UploaderManager
   constructor: (@button_el, @view, @opts) ->
