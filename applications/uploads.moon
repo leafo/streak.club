@@ -41,17 +41,10 @@ class UploadsApplication extends lapis.Application
     }
 
     json: {
+      id: upload.id
       url: signed_url @url_for("receive_upload", id: upload.id)
     }
 
-  [receive_upload: "/uploads/receive/:id"]: require_login capture_errors_json =>
-    assert_valid @params, {
-      {"id", is_integer: true}
-    }
-
-    @upload = assert_error Uploads\find(@params.id), "invalid upload"
-    assert_error @upload\allowed_to_edit(@current_user), "not allowed to edit"
-    assert_error not @upload.ready, "upload already uploaded"
-
-    json: @params
+  [receive_upload: "/uploads/receive/:id"]: =>
+    error "placeholder for routing, handled in nginx"
 
