@@ -48,6 +48,42 @@ $.fn.dispatch = (event_type, table) ->
     null
   @
 
+$.fn.remote_submit = (fn, validate_fn) ->
+  click_input = null
+
+  @on "click", "button[name], input[type='submit'][name]", (e) =>
+    btn = $(e.currentTarget)
+    click_input?.remove()
+    click_input = $("<input type='hidden' />")
+      .attr("name", btn.attr "name")
+      .val(btn.attr "value")
+      .prependTo @
+
+  @on "submit", (e, callback) =>
+    e.preventDefault()
+    form = $ e.currentTarget
+
+    if validate_fn
+      return unless validate_fn? form
+
+    form.trigger "i:before_submit"
+
+    buttons = form.addClass("loading")
+      .find("button, input[type='submit']")
+      .prop("disabled", true).addClass("disabled")
+
+    $.post form.attr("action"), form.serializeArray(), (res) =>
+      buttons.prop("disabled", false).removeClass "disabled"
+      form.removeClass "loading"
+
+      if callback?
+        callback? res, form
+      else
+        fn res, form
+
+    null
+
+
 _.str.formatBytes = do ->
   thresholds = [
     ["gb", Math.pow 1024, 3]
