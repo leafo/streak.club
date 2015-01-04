@@ -20,12 +20,12 @@ class ViewStreak extends require "widgets.base"
     @streak_summary!
     @render_streak_units!
 
-    form action: "", method: "post", ->
+    form action: "", method: "post", class: "form", ->
       @csrf_input!
       if @streak_user
-        button name: "action", value: "leave_streak", "Leave streak"
+        button class: "button",name: "action", value: "leave_streak", "Leave streak"
       else
-        button name: "action", value: "join_streak", "Join streak"
+        button class: "button", name: "action", value: "join_streak", "Join streak"
 
     if @current_submit
       p ->
@@ -63,10 +63,18 @@ class ViewStreak extends require "widgets.base"
 
         pretty_date = @streak\format_date_unit current_date
 
+        tooltip = if today < current_date
+          pretty_date
+        else
+          "#{pretty_date}: #{@plural count, "submission", "submissions"}"
+
+        if submission_id
+          tooltip ..= " - You submitted"
+
         div {
           class: classes
           "data-date": tostring current_date
-          "data-tooltip": "#{pretty_date}: #{@plural count, "submission", "submissions"}"
+          "data-tooltip": tooltip
         }
 
         @streak\increment_date_by_unit current_date
