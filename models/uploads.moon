@@ -3,6 +3,8 @@ import Model, enum from require "lapis.db.model"
 
 config = require("lapis.config").get!
 
+import thumb from require "helpers.images"
+
 class Uploads extends Model
   @timestamp: true
 
@@ -77,6 +79,20 @@ class Uploads extends Model
 
   path: =>
     "uploads/#{@@types[@type]}/#{@id}.#{@extension}"
+
+  is_image: =>
+    @type == @@types.image
+
+  image_url: (size="original") =>
+    assert @is_image!, "upload not image"
+    thumb @path!, size
+
+  url_params: (_, ...) =>
+    switch @type
+      when @@types.image
+        nil, @image_url ...
+      else
+        error "don't know how to make url for upload type #{@@types[@type]}"
 
   delete: =>
     with super!

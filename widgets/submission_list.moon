@@ -22,3 +22,16 @@ class SubmissionList extends require "widgets.base"
 
           p class: "sub", "Submitted #{@format_timestamp submission.created_at}"
           p submission.description
+
+          @render_uploads submission
+
+
+  render_uploads: (submission) =>
+    return unless submission.uploads and next submission.uploads
+    div class: "submission_uploads", ->
+      for upload in *submission.uploads
+        continue unless upload\is_image!
+        div class: "submission_upload", ->
+          img src: @url_for(upload, "200x200")
+
+
