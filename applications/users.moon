@@ -18,20 +18,14 @@ class UsersApplication extends lapis.Application
   [user_profile: "/u/:slug"]: capture_errors {
     on_error: => not_found
     =>
-      import Submissions from require "models"
 
       @user = assert_error Users\find(slug: slugify @params.slug), "invalid user"
-      pager = Submissions\paginated [[
-        where user_id = ? order by id desc
-      ]], @user.id, {
-        per_page: 40
-        prepare_results: (submissions) ->
-          _, streaks = Submissions\preload_streaks submissions
-          Users\include_in streaks, "user_id"
-          submissions
-      }
-
+      pager = @user\find_submissions!
       @submissions = pager\get_page!
+
+      @streaks = @user\get_active_streaks!
+      Users\include_in @streaks, "user_id"
+
       render: true
   }
 

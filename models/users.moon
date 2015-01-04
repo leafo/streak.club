@@ -75,3 +75,44 @@ class Users extends Model
 
   is_admin: =>
     false
+
+  find_submissions: (extra_opts) =>
+    import Submissions from require "models"
+
+    opts = {
+      per_page: 40
+      prepare_results: (submissions) ->
+        _, streaks = Submissions\preload_streaks submissions
+        Users\include_in streaks, "user_id"
+        submissions
+    }
+
+    if extra_opts
+      for k, v in pairs extra_opts
+        opts[k] = v
+
+    Submissions\paginated [[
+      where user_id = ? order by id desc
+    ]], @id, opts
+
+  get_active_streaks: =>
+    unless @active_streaks
+      import Streaks from require "models"
+      @active_streaks = Streaks\select [[
+        where id in (select streak_id from streak_users where user_id = ?) and
+        start_date + (hour_offset || ' hours')::interval <= now() at time zone 'utc' and
+        end_date + (hour_offset || ' hours')::interval > now() at time zone 'utc'
+        order by id desc
+      ]], @id
+
+    @active_streaks
+
+  get_all_streaks: =>
+    unless @all_streaks
+      import Streaks from require "models"
+      @all_streaks = Streaks\select [[
+        where id in (select streak_id from streak_users where user_id = ?) order by id desc
+      ]], @id
+
+    @all_streaks
+
