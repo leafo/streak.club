@@ -62,7 +62,7 @@ CREATE TABLE streak_submissions (
     streak_id integer NOT NULL,
     submission_id integer NOT NULL,
     submit_time timestamp without time zone NOT NULL,
-    user_id integer
+    user_id integer NOT NULL
 );
 
 
@@ -499,6 +499,7 @@ COPY lapis_migrations (name) FROM stdin;
 1420424459
 1420431193
 1420433528
+1420437606
 \.
 
 

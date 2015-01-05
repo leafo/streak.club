@@ -191,6 +191,11 @@ import
 
     add_column "users", "following_count", integer
     add_column "users", "followers_count", integer
+
+  [1420437606]: =>
+    db.query "alter table streak_submissions alter user_id set not null"
+
+
 }
 
 
