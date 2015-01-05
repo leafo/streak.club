@@ -17,4 +17,4 @@ class StreakSubmissions extends Model
     start = streak\start_datetime!
     current = streak\truncate_date date @submit_time
     error "not yet for week" if streak.rate != streak.__class.rates.daily
-    date.diff(current, start)\spandays!
+    date.diff(current, start)\spandays! + 1
