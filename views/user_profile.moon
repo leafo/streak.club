@@ -19,7 +19,7 @@ class UserProfile extends require "widgets.base"
       h3 ->
         text "A user registered #{@format_timestamp @user.created_at}"
         raw " &middot; "
-        text @plural @user.submission_count, "submission", "submissions"
+        text @plural @user.submissions_count, "submission", "submissions"
 
     div class: "columns", ->
       div class: "submission_column", ->

@@ -255,7 +255,7 @@ CREATE TABLE users (
     avatar_url character varying(255),
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    submission_count integer DEFAULT 0 NOT NULL,
+    submissions_count integer DEFAULT 0 NOT NULL,
     following_count integer DEFAULT 0 NOT NULL,
     followers_count integer DEFAULT 0 NOT NULL
 );
@@ -531,6 +531,7 @@ COPY lapis_migrations (name) FROM stdin;
 1420433528
 1420437606
 1420444339
+1420449446
 \.
 
 

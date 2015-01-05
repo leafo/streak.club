@@ -210,6 +210,8 @@ import
     create_index "submission_likes", "user_id", "created_at"
     add_column "submissions", "likes_count", integer
 
+  [1420449446]: =>
+    db.query "alter table users rename column submission_count to submissions_count"
 }
 
 
