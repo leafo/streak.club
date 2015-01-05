@@ -34,8 +34,8 @@ class SubmissionList extends require "widgets.base"
                 href: "#"
                 class: classes
               }, ->
-                span class: "on_like", "Unlike"
-                span class: "on_no_like", "Like"
+                span class: "on_like", ["data-tooltip"]: "Unlike submission", "Unlike"
+                span class: "on_no_like", ["data-tooltip"]: "Like submission", "Like"
 
               text " "
               span class: "like_count", submission.likes_count

@@ -2,9 +2,12 @@
 
 class StreakUnitSubmitUrl extends require "widgets.base"
   inner_content: =>
-    h2 "Generate submit url for #{@params.date}"
-    h3 ->
-      a href: @url_for(@streak), @streak.title
+    div class: "page_header", ->
+      h2 "Generate submit URL for #{@params.date}"
+      h3 ->
+        a href: @url_for(@streak), @streak.title
+
+    br!
 
     if @users
       @render_user_list!
