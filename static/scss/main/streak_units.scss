@@ -1,0 +1,20 @@
+
+.streak_units {
+    .streak_unit {
+        background: $border_color;
+        display: inline-block;
+        margin: 0 4px 4px 0;
+
+        &.before_today {
+            background: darken($border_color, 18%);
+        }
+
+        &.today {
+            box-shadow: 0 0 0 2px mix($link_color, white, 50%);
+        }
+
+        &.submitted {
+            background: $link_color;
+        }
+    }
+}
