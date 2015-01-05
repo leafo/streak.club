@@ -11,18 +11,21 @@ import Flow from require "lapis.flow"
 class EditSubmissionFlow extends Flow
   validate_params: =>
     assert_valid @params, {
-      {"submission",  type: "table"}
+      {"submission", type: "table"}
     }
 
     submission_params = @params.submission
     trim_filter submission_params, {
-      "title", "description"
+      "title", "description", "tags"
     }
 
     assert_valid submission_params, {
       {"title", exists: true, max_length: 1024}
       {"description", exists: true, max_length: 1024 * 10}
     }
+
+    @tags_str = submission_params.tags or ""
+    submission_params.tags = nil
 
     submission_params
 
@@ -48,6 +51,7 @@ class EditSubmissionFlow extends Flow
       @streak\update submissions_count: db.raw "submissions_count + 1"
 
     @set_uploads!
+    @set_tags!
     @submission, submit
 
   edit_submission: =>
@@ -57,12 +61,19 @@ class EditSubmissionFlow extends Flow
     filter_update @submission, params
 
     @set_uploads!
+    @set_tags!
 
     if next params
       @submission\update params
 
+  set_tags: =>
+    assert @submission, "submission needed to set tags"
+
+    import yield_error from require "lapis.application"
+    @submission\set_tags @tags_str
+
   set_uploads: =>
-    assert @submission, "submission needs to exist"
+    assert @submission, "submission needed to set uploads"
     import Uploads from require "models"
 
     assert_valid @params, {

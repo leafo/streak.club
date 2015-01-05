@@ -78,3 +78,26 @@ class Submissions extends Model
   url_params: =>
     "view_submission", id: @id
 
+  set_tags: (tags_str) =>
+    import SubmissionTags from require "models"
+
+    tags = SubmissionTags\parse tags_str
+    old_tags = { tag.slug, true for tag in *SubmissionTags\select "where submission_id = ?", @id }
+    new_tags = { SubmissionTags\slugify(tag), true for tag in *tags }
+
+    -- filter and mark ones to add and ones to remove
+    for slug in pairs new_tags
+      if slug\match("^%-*$") or old_tags[slug]
+        new_tags[slug] = nil
+        old_tags[slug] = nil
+
+    if next old_tags
+      slugs = table.concat [db.escape_literal slug for slug in pairs old_tags], ","
+      db.delete SubmissionTags\table_name!, "submission_id = ? and slug in (#{slugs})", @id
+
+    for slug in pairs new_tags
+      SubmissionTags\create {
+        submission_id: @id
+        :slug
+      }
+

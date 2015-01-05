@@ -116,6 +116,18 @@ ALTER SEQUENCE streaks_id_seq OWNED BY streaks.id;
 
 
 --
+-- Name: submission_tags; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE submission_tags (
+    submission_id integer NOT NULL,
+    slug character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.submission_tags OWNER TO postgres;
+
+--
 -- Name: submissions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -302,6 +314,14 @@ ALTER TABLE ONLY streaks
 
 
 --
+-- Name: submission_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY submission_tags
+    ADD CONSTRAINT submission_tags_pkey PRIMARY KEY (submission_id, slug);
+
+
+--
 -- Name: submissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -351,6 +371,13 @@ CREATE INDEX streak_submissions_submission_id_streak_id_submit_time_idx ON strea
 --
 
 CREATE INDEX streak_users_user_id_idx ON streak_users USING btree (user_id);
+
+
+--
+-- Name: submission_tags_slug_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX submission_tags_slug_idx ON submission_tags USING btree (slug);
 
 
 --
@@ -438,6 +465,7 @@ COPY lapis_migrations (name) FROM stdin;
 1420181212
 1420363626
 1420405517
+1420424459
 \.
 
 

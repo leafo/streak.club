@@ -162,5 +162,16 @@ import
       update users
       set submission_count = (select count(*) from submissions where user_id = users.id)
     "
+
+  [1420424459]: =>
+    create_table "submission_tags", {
+      {"submission_id", foreign_key}
+      {"slug", varchar}
+
+      "PRIMARY KEY (submission_id, slug)"
+    }
+
+    create_index "submission_tags", "slug"
+
 }
 

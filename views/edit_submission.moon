@@ -63,6 +63,12 @@ class EditSubmission extends require "widgets.base"
         value: submission.description
       }
 
+      @text_input_row {
+        label: "Tags"
+        sub: "Classify your submission for easy browsing later (10 max). Press enter to add"
+        name: "submission[tags]"
+      }
+
       div class: "file_uploader", ->
         div class: "file_upload_list"
 

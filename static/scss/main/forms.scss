@@ -41,6 +41,7 @@
     .redactor-box {
         border: 2px solid lighten($border_color, 5%);
         overflow: hidden;
+        margin-bottom: 0;
     }
 
     .redactor-editor {
