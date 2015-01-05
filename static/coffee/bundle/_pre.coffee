@@ -5,6 +5,18 @@ _.templateSettings = {
 }
 
 window.S = {
+  slugify: (str, opts) ->
+    str = str.replace(/\s+/g, "-")
+
+    str = if opts?.for_tags
+      str.replace(/[^\w_.-]/g, "")
+        .replace(/^[_.-]+/, "")
+        .replace(/[_.-]+$/, "")
+    else
+      str.replace(/[^\w_-]/g, "")
+
+    str.toLowerCase()
+
   event: (category, action, label, value, interactive=true) ->
     params = ['_trackEvent', category, action, label, value]
     params.push true unless interactive
