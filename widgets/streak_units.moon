@@ -32,13 +32,13 @@ class StreakUnits extends require "widgets.base"
 
       pretty_date = @streak\format_date_unit current_date
 
-      tooltip = if today < current_time
+      tooltip = if (today < current_time) or not @unit_counts
         pretty_date
       else
         "#{pretty_date}: #{@plural count, "submission", "submissions"}"
 
       if submission_id
-        tooltip ..= " - You submitted"
+        tooltip ..= " - Submitted"
 
       a href: @url_for("view_streak_unit", date: formatted_date, id: @streak.id), ->
         div {

@@ -26,7 +26,7 @@ class SubmissionList extends require "widgets.base"
               div class: "submission_meta", ->
                 a {
                   href: @url_for submission
-                  title: submission.created_at
+                  "data-tooltip": submission.created_at
                   "#{@format_timestamp submission.created_at}"
                 }
 

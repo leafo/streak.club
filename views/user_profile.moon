@@ -49,5 +49,5 @@ class UserProfile extends require "widgets.base"
             text " to "
             nobr streak.end_date
 
-          widget StreakUnits streak: streak
+          widget StreakUnits streak: streak, completed_units: streak.completed_units
 

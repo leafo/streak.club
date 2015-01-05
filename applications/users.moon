@@ -9,7 +9,7 @@ import
 import assert_valid from require "lapis.validate"
 import trim_filter, slugify from require "lapis.util"
 
-import Users, Uploads, Submissions from require "models"
+import Users, Uploads, Submissions, StreakUsers from require "models"
 
 import not_found, require_login from require "helpers.app"
 import assert_csrf from require "helpers.csrf"
@@ -31,6 +31,14 @@ class UsersApplication extends lapis.Application
       @following = @user\followed_by @current_user
 
       @streaks = @user\get_active_streaks!
+      StreakUsers\include_in @streaks, "streak_id", flip: true, where: {
+        user_id: @user.id
+      }
+
+      for streak in *@streaks
+        continue unless streak.streak_user
+        streak.completed_units = streak.streak_user\completed_units!
+
       Users\include_in @streaks, "user_id"
       render: true
   }
