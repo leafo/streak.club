@@ -82,6 +82,9 @@ window.S = {
   has_follow_buttons: (el) ->
     el.dispatch "click", {
       toggle_follow_btn: (btn) =>
+        if btn.is ".logged_out"
+          return "continue"
+
         url_key = if btn.is(".following") then "unfollow_url" else "follow_url"
         url = btn.data url_key
         btn.addClass("disabled").prop "disabled", true
@@ -98,12 +101,14 @@ $.fn.dispatch = (event_type, table) ->
     for key, fn of table
       elm = $(e.target).closest ".#{key}"
       continue unless elm.length
-      return false if elm.is ".disabled"
+      if elm.is ".disabled"
+        e.preventDefault()
+        return
 
-      if elm.is "[data-require-login]"
-        return false if I.handle_require_login(elm) == false
-      fn elm, e
-      return false
+      res = fn elm, e
+      unless res == "continue"
+        e.preventDefault()
+        return
     null
   @
 
