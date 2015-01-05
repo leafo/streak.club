@@ -80,6 +80,7 @@ class EditSubmission extends require "widgets.base"
         value: tags_str
       }
 
+      div class: "label", "Files"
       div class: "file_uploader", ->
         div class: "file_upload_list"
 
