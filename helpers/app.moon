@@ -22,4 +22,10 @@ assert_timezone = (tz) ->
   res = unpack db.select "* from pg_timezone_names where name = ?", tz
   assert_error res, "invalid timezone: #{tz}"
 
-{ :not_found, :require_login, :require_admin, :assert_timezone }
+login_and_return_url = (url=ngx.var.request_uri) =>
+  import encode_query_string from require "lapis.util"
+  @url_for("user_login") .. "?" .. encode_query_string {
+    return_to: @build_url url
+  }
+
+{ :not_found, :require_login, :require_admin, :assert_timezone, :login_and_return_url }
