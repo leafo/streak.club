@@ -26,7 +26,13 @@ class UsersApplication extends lapis.Application
     =>
       @user = assert_error Users\find(slug: slugify @params.slug), "invalid user"
 
-      pager = @user\find_submissions prepare_results: Submissions\preload_for_list
+      pager = @user\find_submissions {
+        prepare_results: (...) ->
+          Submissions\preload_for_list ..., {
+            likes_for: @current_user
+          }
+      }
+
       @submissions = pager\get_page!
 
       @following = @user\followed_by @current_user
@@ -120,6 +126,7 @@ class UsersApplication extends lapis.Application
 
   [user_follow: "/user/:id/follow"]: require_login capture_errors_json =>
     find_user @
+    assert_csrf @
     assert_error @current_user.id != @user.id, "invalid user"
 
     import Followings from require "models"
@@ -131,6 +138,7 @@ class UsersApplication extends lapis.Application
 
   [user_unfollow: "/user/:id/unfollow"]: require_login capture_errors_json =>
     find_user @
+    assert_csrf @
     assert_error @current_user.id != @user.id, "invalid user"
 
     import Followings from require "models"

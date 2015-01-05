@@ -15,17 +15,21 @@ import Submissions from require "models"
 
 EditSubmissionFlow = require "flows.edit_submission"
 
+find_submission = =>
+  assert_valid @params, {
+    {"id", is_integer: true}
+  }
+
+  @submission = Submissions\find @params.id
+  assert_error @submission, "invalid submission"
+
 class UsersApplication extends lapis.Application
   [view_submission: "/submission/:id"]: capture_errors {
     on_error: =>
       not_found
 
     =>
-      assert_valid @params, {
-        {"id", is_integer: true}
-      }
-
-      @submission = Submissions\find @params.id
+      find_submission @
       Submissions\preload_for_list { @submission }
 
       @user = @submission\get_user!
@@ -33,18 +37,13 @@ class UsersApplication extends lapis.Application
       render: true
   }
 
-
   [edit_submission: "/submission/:id/edit"]: require_login capture_errors {
     on_error: =>
       not_found
 
     respond_to {
       before: =>
-        assert_valid @params, {
-          {"id", is_integer: true}
-        }
-
-        @submission = Submissions\find @params.id
+        find_submission @
         assert_error @submission\allowed_to_edit(@current_user), "invalid submission"
 
       GET: =>
@@ -69,3 +68,32 @@ class UsersApplication extends lapis.Application
           redirect_to: @url_for @submission
     }
   }
+
+  [submission_like: "/submission/:id/like"]: require_login capture_errors_json =>
+    find_submission @
+    assert_csrf @
+
+    import SubmissionLikes from require "models"
+    like = SubmissionLikes\create {
+      submission_id: @submission.id
+      user_id: @current_user.id
+    }
+    json: { success: not not like }
+
+  [submission_unlike: "/submission/:id/unlike"]: require_login capture_errors_json =>
+    find_submission @
+    assert_csrf @
+
+    import SubmissionLikes from require "models"
+
+    params = {
+      submission_id: @submission.id
+      user_id: @current_user.id
+    }
+
+    success = if f = SubmissionLikes\find params
+      f\delete!
+      true
+
+    json: { success: success or false }
+

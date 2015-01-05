@@ -130,6 +130,20 @@ ALTER SEQUENCE streaks_id_seq OWNED BY streaks.id;
 
 
 --
+-- Name: submission_likes; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE submission_likes (
+    submission_id integer NOT NULL,
+    user_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.submission_likes OWNER TO postgres;
+
+--
 -- Name: submission_tags; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -153,7 +167,8 @@ CREATE TABLE submissions (
     published boolean DEFAULT true NOT NULL,
     deleted boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    likes_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -338,6 +353,14 @@ ALTER TABLE ONLY streaks
 
 
 --
+-- Name: submission_likes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY submission_likes
+    ADD CONSTRAINT submission_likes_pkey PRIMARY KEY (submission_id, user_id);
+
+
+--
 -- Name: submission_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -402,6 +425,13 @@ CREATE INDEX streak_submissions_submission_id_streak_id_submit_time_idx ON strea
 --
 
 CREATE INDEX streak_users_user_id_idx ON streak_users USING btree (user_id);
+
+
+--
+-- Name: submission_likes_user_id_created_at_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX submission_likes_user_id_created_at_idx ON submission_likes USING btree (user_id, created_at);
 
 
 --
@@ -500,6 +530,7 @@ COPY lapis_migrations (name) FROM stdin;
 1420431193
 1420433528
 1420437606
+1420444339
 \.
 
 

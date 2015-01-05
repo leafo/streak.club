@@ -7,7 +7,7 @@ class UserProfile extends require "widgets.base"
   @include "widgets.follow_helpers"
 
   js_init: =>
-    "new S.UserProfile(#{@widget_selector!})"
+    "new S.UserProfile(#{@widget_selector!});"
 
   inner_content: =>
     if not @current_user or @current_user.id != @user.id

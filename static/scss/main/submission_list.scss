@@ -85,7 +85,7 @@
             text-align: center;
             word-wrap: break-word;
 
-            a {
+            .user_link {
                 text-decoration: none;
             }
 
@@ -109,6 +109,9 @@
                 }
             }
 
+            .like_row {
+                margin-top: 20px;
+            }
         }
 
         h3, h4 {
@@ -131,6 +134,22 @@
 
             &:before {
                 content: "#";
+            }
+        }
+
+        .toggle_like_btn {
+            &.liked {
+                .on_like {
+                    display: inline;
+                }
+
+                .on_no_like {
+                    display: none;
+                }
+            }
+
+            .on_like {
+                display: none;
             }
         }
     }

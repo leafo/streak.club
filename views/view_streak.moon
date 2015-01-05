@@ -9,7 +9,7 @@ class ViewStreak extends require "widgets.base"
 
   js_init: =>
     opts = {}
-    "new S.ViewStreak(#{@widget_selector!}, #{to_json opts})"
+    "new S.ViewStreak(#{@widget_selector!}, #{to_json opts});"
 
   inner_content: =>
     if @streak\allowed_to_edit @current_user

@@ -8,6 +8,9 @@ class SubmissionList extends require "widgets.base"
   show_streaks: true
   show_user: false
 
+  js_init: =>
+    "new S.SubmissionList(#{@widget_selector!});"
+
   inner_content: =>
     div class: "submission_list", ->
       for submission in *@submissions
@@ -15,11 +18,27 @@ class SubmissionList extends require "widgets.base"
         classes = "submission_row"
         classes ..= " no_title" unless has_title
 
-        div class: classes, ->
+        div class: classes, ["data-submission_id"]: submission.id, ->
           div class: "user_column", ->
-            a href: @url_for(submission.user), ->
+            a class: "user_link", href: @url_for(submission.user), ->
               img src: submission.user\gravatar!
               span class: "user_name", submission.user\name_for_display!
+
+            div class: "like_row", ->
+              classes = "toggle_like_btn"
+              classes ..= " liked" if submission.submission_like
+
+              a {
+                "data-like_url": @url_for("submission_like", id: submission.id)
+                "data-unlike_url": @url_for("submission_unlike", id: submission.id)
+                href: "#"
+                class: classes
+              }, ->
+                span class: "on_like", "Unlike"
+                span class: "on_no_like", "Like"
+
+              text " "
+              span class: "like_count", submission.likes_count
 
           div class: "submission_content", ->
             div class: "submission_header", ->

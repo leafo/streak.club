@@ -17,7 +17,7 @@ class Followings extends Model
       return false
 
     with Followings\load (unpack res)
-      @increment!
+      \increment!
 
   increment: (amount=1) =>
     amount = assert tonumber amount

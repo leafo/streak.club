@@ -196,6 +196,20 @@ import
     db.query "alter table streak_submissions alter user_id set not null"
 
 
+  [1420444339]: =>
+    create_table "submission_likes", {
+      {"submission_id", foreign_key}
+      {"user_id", foreign_key}
+
+      {"created_at", time}
+      {"updated_at", time}
+
+      "PRIMARY KEY (submission_id, user_id)"
+    }
+
+    create_index "submission_likes", "user_id", "created_at"
+    add_column "submissions", "likes_count", integer
+
 }
 
 

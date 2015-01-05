@@ -34,7 +34,7 @@ class Submissions extends Model
     submissions, [s.streak for s in *streak_submits]
 
   @preload_for_list: (submissions, opts={}) =>
-    import Users, Uploads from require "models"
+    import Users, Uploads, SubmissionLikes from require "models"
 
     Uploads\preload_objects submissions
 
@@ -49,6 +49,11 @@ class Submissions extends Model
     Users\include_in things_with_users, "user_id", {
       fields: "id, username, slug, display_name, email"
     }
+
+    if user = opts.likes_for
+      SubmissionLikes\include_in submissions, "submission_id", flip: true, where: {
+        user_id: user.id
+      }
 
     submissions
 
