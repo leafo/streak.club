@@ -4,11 +4,15 @@ SubmissionList = require "widgets.submission_list"
 
 class UserProfile extends require "widgets.base"
   @needs: {"user", "submissions", "streaks"}
+  @include "widgets.follow_helpers"
 
   js_init: =>
     "new S.UserProfile(#{@widget_selector!})"
 
   inner_content: =>
+    div class: "header_right", ->
+      @follow_button @user, @following
+
     div class: "page_header", ->
       h2 @user\name_for_display!
       h3 ->

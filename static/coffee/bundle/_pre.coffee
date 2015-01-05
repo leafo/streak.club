@@ -78,6 +78,19 @@ window.S = {
     ]
     minHeight: 250
   }
+
+  has_follow_buttons: (el) ->
+    el.dispatch "click", {
+      toggle_follow_btn: (btn) =>
+        url_key = if btn.is(".following") then "unfollow_url" else "follow_url"
+        url = btn.data url_key
+        btn.addClass("disabled").prop "disabled", true
+
+        $.post url, S.with_csrf(), (res) =>
+          btn.removeClass("disabled").prop "disabled", false
+          if res.success
+            btn.toggleClass "following"
+    }
 }
 
 $.fn.dispatch = (event_type, table) ->

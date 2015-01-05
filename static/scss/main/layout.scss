@@ -211,3 +211,20 @@ a {
     }
 }
 
+.toggle_follow_btn {
+    &.following {
+        .on_following {
+            display: inline;
+        }
+
+        .on_not_following {
+            display: none;
+        }
+
+    }
+
+    .on_following {
+        display: none;
+    }
+}
+

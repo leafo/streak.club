@@ -14,6 +14,12 @@ import Users, Uploads, Submissions from require "models"
 import not_found, require_login from require "helpers.app"
 import assert_csrf from require "helpers.csrf"
 
+find_user = =>
+  assert_valid @params, {
+    {"id", is_integer: true}
+  }
+  @user = assert_error Users\find(@params.id), "invalid user"
+
 class UsersApplication extends lapis.Application
   [user_profile: "/u/:slug"]: capture_errors {
     on_error: => not_found
@@ -22,6 +28,7 @@ class UsersApplication extends lapis.Application
 
       pager = @user\find_submissions prepare_results: Submissions\preload_for_list
       @submissions = pager\get_page!
+      @following = @user\followed_by @current_user
 
       @streaks = @user\get_active_streaks!
       Users\include_in @streaks, "user_id"
@@ -101,4 +108,28 @@ class UsersApplication extends lapis.Application
       @session.flash = "Profile updated"
       redirect_to: @url_for "user_settings"
   }
+
+  [user_follow: "/user/:id/follow"]: require_login capture_errors_json =>
+    find_user @
+    import Followings from require "models"
+    following = Followings\create {
+      source_user_id: @current_user.id
+      dest_user_id: @user.id
+    }
+    json: { success: not not following }
+
+  [user_unfollow: "/user/:id/unfollow"]: require_login capture_errors_json =>
+    find_user @
+    import Followings from require "models"
+
+    params = {
+      source_user_id: @current_user.id
+      dest_user_id: @user.id
+    }
+
+    success = if f = Followings\find params
+      f\delete!
+      true
+
+    json: { success: success or false }
 

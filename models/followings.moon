@@ -8,8 +8,8 @@ class Followings extends Model
   @timestamp: true
 
   @create: (opts={}) =>
-    assert opts.source_user_id
-    assert opts.dest_user_id
+    assert opts.source_user_id, "missing source_user_id"
+    assert opts.dest_user_id, "missing dest_user_id"
 
     res = safe_insert @, opts
 

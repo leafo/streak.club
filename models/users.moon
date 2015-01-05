@@ -130,3 +130,8 @@ class Users extends Model
 
     [t.slug for t in *tags]
 
+  followed_by: (user) =>
+    return nil unless user
+    import Followings from require "models"
+    Followings\find dest_user_id: @id, source_user_id: user.id
+

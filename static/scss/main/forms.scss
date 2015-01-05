@@ -94,41 +94,6 @@
         }
     }
 
-    .button {
-        @include default_font;
-        @include transition(background 0.1s ease);
-
-        font-weight: bold;
-        height: 35px;
-        line-height: 35px;
-        color: white;
-        padding: 0 20px;
-        background: $button_color;
-        border: 0;
-        cursor: pointer;
-
-        outline: none;
-
-        &:hover {
-            background: lighten($button_color, 5%);
-        }
-
-        &:active {
-            background: darken($button_color, 5%);
-        }
-
-        &:focus {
-            box-shadow: 0 0 0 2px lighten($button_color, 20%);
-        }
-
-        &:disabled, &.disabled {
-            @include opacity(0.8);
-            background: gray;
-            color: lighten(gray, 20%);
-            cursor: normal
-        }
-    }
-
     .button_row {
         margin-top: 40px;
         color: #999;
@@ -138,3 +103,43 @@
         }
     }
 }
+
+.button {
+    @include default_font;
+    @include transition(background 0.1s ease);
+
+    font-weight: bold;
+    height: 35px;
+    line-height: 35px;
+    color: white;
+    padding: 0 20px;
+    background: $button_color;
+    border: 0;
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
+
+    outline: none;
+
+    &:hover {
+        background: lighten($button_color, 5%);
+        color: white;
+    }
+
+    &:active {
+        background: darken($button_color, 5%);
+        color: white;
+    }
+
+    &:focus {
+        box-shadow: 0 0 0 2px lighten($button_color, 20%);
+    }
+
+    &:disabled, &.disabled {
+        @include opacity(0.8);
+        background: gray;
+        color: lighten(gray, 20%);
+        cursor: normal
+    }
+}
+
