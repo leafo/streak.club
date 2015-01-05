@@ -3,7 +3,7 @@ class UserLogin extends require "widgets.base"
   @include "widgets.form_helpers"
 
   inner_content: =>
-    div classs: "page_header", ->
+    div class: "page_header", ->
       h2 "Log in"
 
     form method: "POST", class: "form primary_form", ->

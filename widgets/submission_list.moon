@@ -11,7 +11,11 @@ class SubmissionList extends require "widgets.base"
   inner_content: =>
     div class: "submission_list", ->
       for submission in *@submissions
-        div class: "submission_row", ->
+        has_title = submission.title
+        classes = "submission_row"
+        classes ..= " no_title" unless has_title
+
+        div class: classes, ->
           div class: "user_column", ->
             a href: @url_for(submission.user), ->
               img src: submission.user\gravatar!
@@ -20,10 +24,15 @@ class SubmissionList extends require "widgets.base"
           div class: "submission_content", ->
             div class: "submission_header", ->
               div class: "submission_meta", ->
-                text "Submitted #{@format_timestamp submission.created_at}"
+                a {
+                  href: @url_for submission
+                  title: submission.created_at
+                  "#{@format_timestamp submission.created_at}"
+                }
 
-              h3 class: "submission_title", ->
-                a href: @url_for(submission), submission.title
+              if submission.title
+                h3 class: "submission_title", ->
+                  a href: @url_for(submission), submission.title
 
               h4 class: "submission_summary", ->
                 if @show_user
@@ -40,7 +49,7 @@ class SubmissionList extends require "widgets.base"
                     a href: @url_for(streak), streak.title
                     text ", " unless i == num_streaks
 
-            unless is_empty_html submission.description
+            if submission.description and not is_empty_html submission.description
               div class: "user_formatted", ->
                 raw sanitize_html submission.description
 

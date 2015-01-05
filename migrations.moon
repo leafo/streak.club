@@ -173,5 +173,10 @@ import
 
     create_index "submission_tags", "slug"
 
+  [1420431193]: =>
+    db.query "alter table submissions alter description drop not null"
+
 }
+
+
 

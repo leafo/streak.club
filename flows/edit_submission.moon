@@ -5,6 +5,7 @@ import assert_error from require "lapis.application"
 import assert_valid from require "lapis.validate"
 import trim_filter from require "lapis.util"
 import filter_update from require "helpers.model"
+import is_empty_html from require "helpers.html"
 
 import Flow from require "lapis.flow"
 
@@ -20,12 +21,18 @@ class EditSubmissionFlow extends Flow
     }
 
     assert_valid submission_params, {
-      {"title", exists: true, max_length: 1024}
-      {"description", exists: true, max_length: 1024 * 10}
+      {"title", optional: true, max_length: 1024}
+      {"description", optional: true, max_length: 1024 * 10}
     }
 
     @tags_str = submission_params.tags or ""
     submission_params.tags = nil
+
+    if is_empty_html submission_params.description or ""
+      submission_params.description = nil
+
+    submission_params.title or= db.NULL
+    submission_params.description or= db.NULL
 
     submission_params
 

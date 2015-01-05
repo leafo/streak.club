@@ -3,9 +3,22 @@
     margin: 40px 0;
     width: 700px;
 
+    $meta_margin: 140px;
+
     .submission_row {
         position: relative;
         margin-bottom: 40px;
+
+        &.no_title {
+            .submission_header {
+                margin-bottom: 15px;
+
+                .submission_summary {
+                    margin-top: 0;
+                    margin-right: $meta_margin;
+                }
+            }
+        }
 
         .submission_content {
             border: 1px solid $border_color;
@@ -25,10 +38,19 @@
                 right: 20px;
                 font-size: 16px;
                 color: #999;
+
+                a {
+                    color: #999;
+                    text-decoration: none;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
             }
 
             .submission_title {
-                margin-right: 200px;
+                margin-right: $meta_margin;
                 line-height: 1.6;
                 @include has_sub_link;
 

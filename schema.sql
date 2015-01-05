@@ -135,7 +135,7 @@ CREATE TABLE submissions (
     id integer NOT NULL,
     user_id integer NOT NULL,
     title character varying(255),
-    description text NOT NULL,
+    description text,
     published boolean DEFAULT true NOT NULL,
     deleted boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -466,6 +466,7 @@ COPY lapis_migrations (name) FROM stdin;
 1420363626
 1420405517
 1420424459
+1420431193
 \.
 
 
