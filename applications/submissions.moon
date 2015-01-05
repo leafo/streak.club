@@ -50,6 +50,7 @@ class UsersApplication extends lapis.Application
       GET: =>
         @uploads = @submission\get_uploads!
         @streaks = @submission\get_streaks!
+        @suggested_tags = @current_user\suggested_submission_tags!
         render: true
 
       POST: capture_errors_json =>

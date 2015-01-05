@@ -76,9 +76,7 @@ class Layout extends Widget
   all_js: =>
     @include_js "lib.js"
     @include_js "main.js"
-
-    @include_jquery_ui!
-    @include_redactor!
+    @content_for "all_js"
 
     script type: "text/javascript", ->
       opts = { flash: @flash }

@@ -129,6 +129,7 @@ class S.EditSubmission
         window.location = res.url
 
     @setup_uploads()
+    @setup_tags()
     S.redactor @el.find "textarea"
 
   setup_uploads:  =>
@@ -136,4 +137,14 @@ class S.EditSubmission
     if @opts.uploads
       for upload in @opts.uploads
         @upload_manager.add_existing upload
+
+  setup_tags: ->
+    slug_input = @el.find ".tags_input"
+
+    slug_input.tagit {
+      availableTags: @opts.suggested_tags
+      autocomplete: { delay: 0, minLength: 2 }
+      allowSpaces: true
+    }
+
 

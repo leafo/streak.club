@@ -120,3 +120,13 @@ class Users extends Model
     url = "https://www.gravatar.com/avatar/#{ngx.md5 @email}?d=identicon"
     url = url .. "&s=#{size}" if size
     url
+
+  suggested_submission_tags: =>
+    import SubmissionTags from require "models"
+
+    tags = SubmissionTags\select "
+      where submission_id in (select id from submissions where user_id = ?)
+    ", @id, fields: "distinct slug"
+
+    [t.slug for t in *tags]
+

@@ -18,11 +18,17 @@ class EditSubmission extends require "widgets.base"
       submission: @submission and {
         id: @submission.id
       }
+      suggested_tags: @suggested_tags
     }
 
     "new S.EditSubmission(#{@widget_selector!}, #{to_json data});"
 
   inner_content: =>
+    @content_for "all_js", ->
+      @include_jquery_ui!
+      @include_tagit!
+      @include_redactor!
+
     div class: "page_header", ->
       if @submission
         h2 "Edit submission"
@@ -43,6 +49,8 @@ class EditSubmission extends require "widgets.base"
       p "Submitting to #{@streak.title}"
 
     submission = @params.submission or @submission or {}
+    tags_str = if @submission
+      table.concat [tag.slug for tag in *@submission\get_tags!], ","
 
     @render_errors!
 
@@ -65,8 +73,11 @@ class EditSubmission extends require "widgets.base"
 
       @text_input_row {
         label: "Tags"
+        class: "tags_input"
+
         sub: "Classify your submission for easy browsing later (10 max). Press enter to add"
         name: "submission[tags]"
+        value: tags_str
       }
 
       div class: "file_uploader", ->

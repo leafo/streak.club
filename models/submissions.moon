@@ -75,6 +75,13 @@ class Submissions extends Model
 
     @uploads
 
+  get_tags: =>
+    unless @tags
+      import SubmissionTags from require "models"
+      @tags = SubmissionTags\select "where submission_id = ?", @id
+
+    @tags
+
   url_params: =>
     "view_submission", id: @id
 

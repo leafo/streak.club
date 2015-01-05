@@ -14,6 +14,10 @@ class EditStreak extends require "widgets.base"
     "new S.EditStreak(#{@widget_selector!}, #{to_json opts});"
 
   inner_content: =>
+    @content_for "all_js", ->
+      @include_jquery_ui!
+      @include_redactor!
+
     div class: "page_header", ->
       if @streak
         h2 "Edit streak"
