@@ -1,14 +1,84 @@
 
 .submission_list {
     margin: 40px 0;
+    width: 700px;
 
     .submission_row {
+        position: relative;
+        margin-bottom: 40px;
+
+        .submission_content {
+            border: 1px solid $border_color;
+            border-radius: 3px;
+            margin-left: 98px;
+        }
+
+        .submission_header {
+            position: relative;
+            border-bottom: 1px solid $border_color;
+            padding: 12px 20px;
+
+            .submission_meta {
+                position: absolute;
+                top: 12px;
+                right: 20px;
+                color: #666;
+            }
+
+            .submission_title {
+                a {
+                    @include transition(all 0.2s ease);
+                    color: #444;
+                    text-decoration: none;
+                    border-bottom: 2px solid $link_color;
+                    padding-bottom: 2px;
+
+                    &:hover {
+                        color: $link_color;
+                    }
+                }
+            }
+
+            .submission_summary {
+                margin-top: 15px;
+                color: #666;
+
+                a {
+                    @include transition(all 0.2s ease);
+                    color: #666;
+                    text-decoration: none;
+                    border-bottom: 2px solid $link_color;
+
+                    &:hover {
+                        color: $link_color;
+                    }
+                }
+            }
+        }
+
+        .submission_uploads {
+            img {
+                width: 100%;
+                display: block;
+            }
+            margin-bottom: 10px;
+        }
+
+        .avatar {
+            position: absolute;
+            top: 6px;
+            left: 0;
+
+            img {
+                width: 80px;
+                height: 80px;
+                display: block;
+                border-radius: 40px;
+            }
+        }
+
         h3, h4 {
             margin: 0;
         }
-
-        border: 1px solid $border_color;
-        margin-bottom: 10px;
-        padding: 10px;
     }
 }
