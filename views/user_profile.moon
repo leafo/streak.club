@@ -10,8 +10,9 @@ class UserProfile extends require "widgets.base"
     "new S.UserProfile(#{@widget_selector!})"
 
   inner_content: =>
-    div class: "header_right", ->
-      @follow_button @user, @following
+    if not @current_user or @current_user.id != @user.id
+      div class: "header_right", ->
+        @follow_button @user, @following
 
     div class: "page_header", ->
       h2 @user\name_for_display!

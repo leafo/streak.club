@@ -111,6 +111,8 @@ class UsersApplication extends lapis.Application
 
   [user_follow: "/user/:id/follow"]: require_login capture_errors_json =>
     find_user @
+    assert_error @current_user.id != @user.id, "invalid user"
+
     import Followings from require "models"
     following = Followings\create {
       source_user_id: @current_user.id
@@ -120,6 +122,8 @@ class UsersApplication extends lapis.Application
 
   [user_unfollow: "/user/:id/unfollow"]: require_login capture_errors_json =>
     find_user @
+    assert_error @current_user.id != @user.id, "invalid user"
+
     import Followings from require "models"
 
     params = {
