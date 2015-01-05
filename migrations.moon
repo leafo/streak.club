@@ -176,6 +176,21 @@ import
   [1420431193]: =>
     db.query "alter table submissions alter description drop not null"
 
+  [1420433528]: =>
+    create_table "followings", {
+      {"source_user_id", foreign_key}
+      {"dest_user_id", integer}
+
+      {"created_at", time}
+      {"updated_at", time}
+
+      "PRIMARY KEY (source_user_id, dest_user_id)"
+    }
+
+    create_index "followings", "dest_user_id"
+
+    add_column "users", "following_count", integer
+    add_column "users", "followers_count", integer
 }
 
 

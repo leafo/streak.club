@@ -30,6 +30,20 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: followings; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE followings (
+    source_user_id integer NOT NULL,
+    dest_user_id integer DEFAULT 0 NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.followings OWNER TO postgres;
+
+--
 -- Name: lapis_migrations; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -226,7 +240,9 @@ CREATE TABLE users (
     avatar_url character varying(255),
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    submission_count integer DEFAULT 0 NOT NULL
+    submission_count integer DEFAULT 0 NOT NULL,
+    following_count integer DEFAULT 0 NOT NULL,
+    followers_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -279,6 +295,14 @@ ALTER TABLE ONLY uploads ALTER COLUMN id SET DEFAULT nextval('uploads_id_seq'::r
 --
 
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+
+
+--
+-- Name: followings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY followings
+    ADD CONSTRAINT followings_pkey PRIMARY KEY (source_user_id, dest_user_id);
 
 
 --
@@ -343,6 +367,13 @@ ALTER TABLE ONLY uploads
 
 ALTER TABLE ONLY users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: followings_dest_user_id_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX followings_dest_user_id_idx ON followings USING btree (dest_user_id);
 
 
 --
@@ -467,6 +498,7 @@ COPY lapis_migrations (name) FROM stdin;
 1420405517
 1420424459
 1420431193
+1420433528
 \.
 
 
