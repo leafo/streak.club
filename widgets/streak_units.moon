@@ -21,7 +21,7 @@ class StreakUnits extends require "widgets.base"
     while current_date < end_date
       formatted_date = current_date\fmt day_str
       submission_id = @completed_units and @completed_units[formatted_date]
-      count = @unit_counts[formatted_date] or 0
+      count = @unit_counts and @unit_counts[formatted_date] or 0
 
       current_time = date(current_date)\addhours @streak.hour_offset
 

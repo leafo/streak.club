@@ -1,4 +1,5 @@
 
+StreakUnits = require "widgets.streak_units"
 SubmissionList = require "widgets.submission_list"
 
 class UserProfile extends require "widgets.base"
@@ -12,9 +13,12 @@ class UserProfile extends require "widgets.base"
         raw " &middot; "
         text @plural @user.submission_count, "submission", "submissions"
 
+    div class: "columns", ->
+      div class: "submission_column", ->
+        @render_submissions!
 
-    @render_submissions!
-    @render_streaks!
+      div class: "streak_column", ->
+        @render_streaks!
 
   render_submissions: =>
     return unless next @submissions
@@ -23,12 +27,14 @@ class UserProfile extends require "widgets.base"
 
   render_streaks: =>
     return unless next @streaks
-    h2 "Streaks"
+    h2 "Active streaks"
     div class: "streak_list", ->
       for streak in *@streaks
         div class: "streak_row", ->
           h3 ->
             a href: @url_for(streak), streak.title
-            text " by "
-            a href: @url_for(streak.user), streak.user\name_for_display!
+
+          h4 streak.short_description
+
+          widget StreakUnits streak: streak
 

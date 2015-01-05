@@ -30,34 +30,17 @@
             .submission_title {
                 margin-right: 200px;
                 line-height: 1.6;
+                @include has_sub_link;
 
                 a {
-                    @include transition(all 0.1s ease);
-                    color: #444;
-                    text-decoration: none;
-                    border-bottom: 2px solid $link_color;
                     padding-bottom: 2px;
-
-                    &:hover {
-                        color: $link_color;
-                    }
                 }
             }
 
             .submission_summary {
+                @include has_sub_link(#666);
                 margin-top: 15px;
                 color: #666;
-
-                a {
-                    @include transition(all 0.1s ease);
-                    color: #666;
-                    text-decoration: none;
-                    border-bottom: 2px solid $link_color;
-
-                    &:hover {
-                        color: $link_color;
-                    }
-                }
             }
         }
 
@@ -111,21 +94,6 @@
 
         .user_formatted {
             padding: 15px 20px;
-
-            h1,h2,h3,p,ul,ol,blockquote {
-                margin: 0;
-                margin-bottom: 20px;
-
-                &:last-child {
-                    margin-bottom: 0;
-                }
-            }
-
-            hr {
-                border: 0;
-                height: 1px;
-                background: $border_color;
-            }
         }
     }
 }

@@ -1,4 +1,5 @@
 
+import sanitize_html, is_empty_html from require "helpers.html"
 import time_ago_in_words, to_json from require "lapis.util"
 
 StreakUnits = require "widgets.streak_units"
@@ -57,6 +58,11 @@ class ViewStreak extends require "widgets.base"
         text "Ends"
 
       text " #{@format_timestamp @streak.end_date} (#{@streak\end_datetime!})."
+
+
+    unless is_empty_html @streak.description
+      div class: "user_formatted", ->
+        raw sanitize_html @streak.description
 
   render_participants: =>
     h3 ->

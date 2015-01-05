@@ -4,6 +4,7 @@ $link_color: desaturate(darken(#7ED6D7, 8%), 8%);
 $border_color: #dadada;
 $site_width: 960px;
 $error_color: #D14343;
+$body_size: 18px;
 
 @mixin default_font {
     font-family: 'Source Sans Pro', sans-serif;
@@ -56,6 +57,25 @@ $error_color: #D14343;
         $percent: round($opacity * 100);;
         filter: unquote("alpha(opacity=#{$percent})");
         -ms-filter: unquote('"progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$percent})"');
+    }
+}
+
+@mixin single_line {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@mixin has_sub_link($default_color: #444) {
+    a {
+        @include transition(all 0.1s ease);
+        color: $default_color;
+        text-decoration: none;
+        border-bottom: 2px solid $link_color;
+
+        &:hover {
+            color: $link_color;
+        }
     }
 }
 

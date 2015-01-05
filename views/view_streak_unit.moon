@@ -20,5 +20,9 @@ class ViewStreakUnit extends require "widgets.base"
       h2 @streak.title
       end_date = @streak\increment_date_by_unit date @unit_date
       h3 "Submissions from #{@unit_date\fmt Streaks.day_format_str} to #{end_date\fmt Streaks.day_format_str}"
-    widget SubmissionList
+
+    if next @submissions
+      widget SubmissionList
+    else
+      p class: "empty_message", "No submissions"
 

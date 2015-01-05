@@ -1,15 +1,55 @@
 
 .user_profile {
-
     .streak_list {
-        .streak_row {
-            border: 1px solid $border_color;
-            margin-bottom: 10px;
-            padding: 8px 10px;
+        h3, h4 {
+            margin: 0;
+            @include single_line;
+        }
 
-            h3, h4 {
-                margin: 0;
+        h4 {
+            color: #666;
+        }
+
+        .streak_row {
+            margin-bottom: 20px;
+        }
+
+        .streak_unit {
+            width: 18px;
+            height: 18px;
+        }
+
+        .streak_units {
+            margin-top: 10px;
+        }
+
+        .streak_units a {
+            &:nth-child(11n) {
+                .streak_unit {
+                    margin-right: 0;
+                }
             }
+        }
+
+    }
+
+    .columns {
+        font-size: 0;
+
+        .streak_column, .submission_column {
+            display: inline-block;
+            vertical-align: top;
+            font-size: $body_size;
+        }
+
+        .submission_column {
+            width: 700px;
+        }
+
+        .streak_column {
+            @include border_box;
+            width: $site_width - 700px;
+            padding-left: 20px;
         }
     }
 }

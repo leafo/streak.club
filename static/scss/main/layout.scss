@@ -167,6 +167,8 @@ a {
 }
 
 .footer {
+    margin-bottom: 40px;
+
     .footer_right {
         float: right;
     }
@@ -184,3 +186,28 @@ a {
         color: #666;
     }
 }
+
+.empty_message {
+    margin: 20px 0;
+    color: #666;
+}
+
+
+.user_formatted {
+
+    h1,h2,h3,p,ul,ol,blockquote {
+        margin: 0;
+        margin-bottom: 20px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    hr {
+        border: 0;
+        height: 1px;
+        background: $border_color;
+    }
+}
+
