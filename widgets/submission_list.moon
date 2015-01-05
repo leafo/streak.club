@@ -1,3 +1,4 @@
+import sanitize_html, is_empty_html from require "helpers.html"
 
 class SubmissionList extends require "widgets.base"
   @needs: {"submissions"}
@@ -11,8 +12,10 @@ class SubmissionList extends require "widgets.base"
     div class: "submission_list", ->
       for submission in *@submissions
         div class: "submission_row", ->
-          div class: "avatar", ->
-            img src: submission.user\gravatar!
+          div class: "user_column", ->
+            a href: @url_for(submission.user), ->
+              img src: submission.user\gravatar!
+              span class: "user_name", submission.user\name_for_display!
 
           div class: "submission_content", ->
             div class: "submission_header", ->
@@ -29,7 +32,7 @@ class SubmissionList extends require "widgets.base"
                 else
                   text "A submission"
 
-                if @show_streaks and submission.streaks
+                if @show_streaks and submission.streaks and next submission.streaks
                   text " for "
                   num_streaks = #submission.streaks
                   for i, streak in ipairs submission.streaks
@@ -37,7 +40,9 @@ class SubmissionList extends require "widgets.base"
                     a href: @url_for(streak), streak.title
                     text ", " unless i == num_streaks
 
-            p submission.description
+            unless is_empty_html submission.description
+              div class: "user_formatted", ->
+                raw sanitize_html submission.description
 
             @render_uploads submission
 
@@ -48,6 +53,6 @@ class SubmissionList extends require "widgets.base"
         continue unless upload\is_image!
         div class: "submission_upload", ->
           a href: @url_for(upload), target: "_blank", ->
-            img src: @url_for(upload, "400x400")
+            img src: @url_for upload, "600x"
 
 

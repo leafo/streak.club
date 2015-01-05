@@ -16,18 +16,23 @@
         .submission_header {
             position: relative;
             border-bottom: 1px solid $border_color;
-            padding: 12px 20px;
+            padding: 12px 20px 15px 20px;
+            background: #F5F5F5;
 
             .submission_meta {
                 position: absolute;
                 top: 12px;
                 right: 20px;
-                color: #666;
+                font-size: 16px;
+                color: #999;
             }
 
             .submission_title {
+                margin-right: 200px;
+                line-height: 1.6;
+
                 a {
-                    @include transition(all 0.2s ease);
+                    @include transition(all 0.1s ease);
                     color: #444;
                     text-decoration: none;
                     border-bottom: 2px solid $link_color;
@@ -44,7 +49,7 @@
                 color: #666;
 
                 a {
-                    @include transition(all 0.2s ease);
+                    @include transition(all 0.1s ease);
                     color: #666;
                     text-decoration: none;
                     border-bottom: 2px solid $link_color;
@@ -57,28 +62,70 @@
         }
 
         .submission_uploads {
+            margin-bottom: 15px;
+
             img {
                 width: 100%;
                 display: block;
+                border: 0;
             }
-            margin-bottom: 10px;
         }
 
-        .avatar {
+        .user_column {
             position: absolute;
             top: 6px;
             left: 0;
+            width: 80px;
+            text-align: center;
+            word-wrap: break-word;
+
+            a {
+                text-decoration: none;
+            }
 
             img {
                 width: 80px;
                 height: 80px;
                 display: block;
                 border-radius: 40px;
+                margin-bottom: 10px;
+                border: 0;
             }
+
+            .user_name {
+                @include transition(all 0.1s ease);
+                color: #666;
+                text-decoration: none;
+                border-bottom: 2px solid $link_color;
+
+                &:hover {
+                    color: $link_color;
+                }
+            }
+
         }
 
         h3, h4 {
             margin: 0;
+        }
+
+        .user_formatted {
+            padding: 15px 20px;
+
+            h1,h2,h3,p,ul,ol,blockquote {
+                margin: 0;
+                margin-bottom: 20px;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+
+            hr {
+                border: 0;
+                height: 1px;
+                background: $border_color;
+            }
         }
     }
 }

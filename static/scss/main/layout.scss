@@ -14,10 +14,15 @@ body {
         color: #222;
     }
 
+    h2 {
+        font-size: 28px;
+    }
+
     h3 {
         margin: 0;
         margin-top: 3px;
         color: #666;
+        font-size: 20px;
 
         a {
             @include transition(all 0.1s ease);
