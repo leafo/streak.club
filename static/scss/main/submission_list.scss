@@ -70,7 +70,8 @@
             margin-bottom: 15px;
 
             img {
-                width: 100%;
+                max-width: 100%;
+                margin: 0 auto;
                 display: block;
                 border: 0;
             }
