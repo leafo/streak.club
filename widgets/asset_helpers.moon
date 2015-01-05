@@ -21,13 +21,6 @@ class AssetsHelpers
     @include_js "lib/redactor/redactor.js"
     @include_css "lib/redactor/redactor.css"
 
-  include_textext: =>
-    @include_js "lib/textext/js/textext.core.js"
-    @include_js "lib/textext/js/textext.plugin.suggestions.js"
-    @include_js "lib/textext/js/textext.plugin.autocomplete.js"
-    @include_js "lib/textext/js/textext.plugin.tags.js"
-
-    @include_css "lib/textext/css/textext.core.css"
-    @include_css "lib/textext/css/textext.plugin.autocomplete.css"
-    @include_css "lib/textext/css/textext.plugin.tags.css"
-
+  include_tagit: =>
+    @include_js "lib/tag-it/js/tag-it.js"
+    @include_css "lib/tag-it/css/jquery.tagit.css"
