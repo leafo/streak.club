@@ -28,6 +28,7 @@ class UsersApplication extends lapis.Application
 
       pager = @user\find_submissions prepare_results: Submissions\preload_for_list
       @submissions = pager\get_page!
+
       @following = @user\followed_by @current_user
 
       @streaks = @user\get_active_streaks!

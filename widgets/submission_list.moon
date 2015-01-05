@@ -47,6 +47,11 @@ class SubmissionList extends require "widgets.base"
                   for i, streak in ipairs submission.streaks
                     text " "
                     a href: @url_for(streak), streak.title
+
+                    if submit = submission.streak_submissions and submission.streak_submissions[i]
+                      text " "
+                      span class: "unit_number", submit\unit_number!
+
                     text ", " unless i == num_streaks
 
             if submission.description and not is_empty_html submission.description

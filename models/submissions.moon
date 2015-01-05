@@ -18,16 +18,20 @@ class Submissions extends Model
 
     Streaks\include_in streak_submits, "streak_id"
 
-    s_by_s_id = {}
+    streaks_by_submission_id = {}
+    submits_by_submission_id = {}
     for submit in *streak_submits
-      s_by_s_id[submit.submission_id] or= {}
-      table.insert s_by_s_id[submit.submission_id], submit.streak
+      streaks_by_submission_id[submit.submission_id] or= {}
+      table.insert streaks_by_submission_id[submit.submission_id], submit.streak
+
+      submits_by_submission_id[submit.submission_id] or= {}
+      table.insert submits_by_submission_id[submit.submission_id], submit
 
     for submission in *submissions
-      submission.streaks = s_by_s_id[submission.id] or {}
+      submission.streaks = streaks_by_submission_id[submission.id] or {}
+      submission.streak_submissions = submits_by_submission_id[submission.id] or {}
 
     submissions, [s.streak for s in *streak_submits]
-
 
   @preload_for_list: (submissions, opts={}) =>
     import Users, Uploads from require "models"

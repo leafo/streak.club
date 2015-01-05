@@ -117,5 +117,20 @@
         .user_formatted {
             padding: 15px 20px;
         }
+
+        .unit_number {
+            font-size: 16px;
+            display: inline-block;
+            vertical-align: middle;
+            font-weight: normal;
+            background: $border_color;
+            padding: 1px 6px;
+            border-radius: 12px;
+            margin-left: 2px;
+
+            &:before {
+                content: "#";
+            }
+        }
     }
 }

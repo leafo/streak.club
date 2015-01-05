@@ -11,7 +11,7 @@ class Streaks extends Model
 
   @rates: enum {
     daily: 1
-    weekly: 1
+    weekly: 2
   }
 
   @create: (opts={}) =>
