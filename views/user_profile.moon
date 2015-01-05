@@ -5,6 +5,9 @@ SubmissionList = require "widgets.submission_list"
 class UserProfile extends require "widgets.base"
   @needs: {"user", "submissions", "streaks"}
 
+  js_init: =>
+    "new S.UserProfile(#{@widget_selector!})"
+
   inner_content: =>
     div class: "page_header", ->
       h2 @user\name_for_display!
@@ -35,6 +38,11 @@ class UserProfile extends require "widgets.base"
             a href: @url_for(streak), streak.title
 
           h4 streak.short_description
+          p class: "streak_sub", ->
+            text "#{streak\interval_noun!} from "
+            nobr streak.start_date
+            text " to "
+            nobr streak.end_date
 
           widget StreakUnits streak: streak
 

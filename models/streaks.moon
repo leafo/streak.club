@@ -94,6 +94,13 @@ class Streaks extends Model
       when @@rates.weekly
         "this week"
 
+  interval_noun: =>
+    switch @rate
+      when @@rates.daily
+        "daily"
+      when @@rates.weekly
+        "weekly"
+
   increment_date_by_unit: (date) =>
     switch @rate
       when @@rates.daily
