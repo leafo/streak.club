@@ -5,6 +5,8 @@ import to_json from require "lapis.util"
 config = require("lapis.config").get!
 
 class Layout extends Widget
+  @include "widgets.asset_helpers"
+
   head: =>
     meta charset: "UTF-8"
     meta name: "robots", content: "noindex" if @noindex
@@ -83,16 +85,6 @@ class Layout extends Widget
       raw "new S.Header('#global_header', #{to_json opts});"
       @content_for "js_init"
 
-  include_jquery_ui: =>
-    @include_js "lib/jquery-ui/js/jquery-ui.js"
-    @include_css "lib/jquery-ui/css/jquery-ui.css"
-    @include_css "lib/jquery-ui/css/jquery-ui.structure.css"
-    @include_css "lib/jquery-ui/css/jquery-ui.theme.css"
-
-  include_redactor: =>
-    return unless config.enable_redactor
-    @include_js "lib/redactor/redactor.js"
-    @include_css "lib/redactor/redactor.css"
 
   include_fonts: =>
     if config._name == "production"
@@ -130,12 +122,3 @@ class Layout extends Widget
         ga('send', 'pageview');
       ]]
       raw "}"
-
-  asset_url: (src, opts) =>
-    "/static/" .. src
-
-  include_js: (...) =>
-    script type: "text/javascript", src: @asset_url ...
-
-  include_css: (...) =>
-    link rel: "stylesheet", href: @asset_url ...

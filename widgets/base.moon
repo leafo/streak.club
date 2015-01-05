@@ -5,13 +5,11 @@ import underscore, time_ago_in_words from require "lapis.util"
 import random from math
 import concat from table
 
-import rawget from _G
-
-config = require"lapis.config".get!
-
 date = require "date"
 
 class Base extends Widget
+  @include "widgets.asset_helpers"
+
   @widget_name: => underscore @__name or "some_widget"
   base_widget: true
 
@@ -82,3 +80,4 @@ class Base extends Widget
       @_buffer.in_template = true
       raw capture fn
       @_buffer.in_template = old_t
+
