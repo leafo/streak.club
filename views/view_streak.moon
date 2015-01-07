@@ -1,4 +1,5 @@
 
+import login_and_return_url from require "helpers.app"
 import sanitize_html, is_empty_html from require "helpers.html"
 import time_ago_in_words, to_json from require "lapis.util"
 
@@ -50,7 +51,15 @@ class ViewStreak extends require "widgets.base"
         unless @streak_user
           form action: "", method: "post", class: "form", ->
             @csrf_input!
-            button class: "button", name: "action", value: "join_streak", "Join streak"
+
+            if @current_user
+              button class: "button", name: "action", value: "join_streak", "Join streak"
+            else
+              a {
+                class: "button"
+                href: login_and_return_url @
+                "Join streak"
+              }
 
         @render_streak_units!
 
@@ -76,7 +85,7 @@ class ViewStreak extends require "widgets.base"
       else
         text "Starts "
 
-      text "#{@format_timestamp @streak.start_date} (#{@streak\start_datetime!}). "
+      text "#{@format_timestamp @streak.start_date} (#{@streak\start_datetime!} UTC). "
       br!
 
       if @streak\after_end!
@@ -84,7 +93,7 @@ class ViewStreak extends require "widgets.base"
       else
         text "Ends"
 
-      text " #{@format_timestamp @streak.end_date} (#{@streak\end_datetime!})."
+      text " #{@format_timestamp @streak.end_date} (#{@streak\end_datetime!} UTC)."
 
 
     unless is_empty_html @streak.description
