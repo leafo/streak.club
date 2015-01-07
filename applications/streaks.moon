@@ -208,9 +208,12 @@ class StreaksApplication extends lapis.Application
 
         else
           assert_error @streak\allowed_to_submit @current_user
+          current_submit = @streak_user\current_unit_submission!
+          assert_error not current_submit, "you already submitted"
 
       GET: =>
         @title = "Submit to #{@streak.title}"
+        @suggested_tags = @current_user\suggested_submission_tags!
         render: "edit_submission"
 
       POST: capture_errors_json =>
