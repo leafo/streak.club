@@ -133,9 +133,12 @@ class Streaks extends Model
 
   -- move date to closest unit start date
   truncate_date: (d) =>
+    start = @start_datetime!
+
     switch @rate
       when @@rates.daily
-        date(d\getdate!)\addhours @hour_offset
+        days = math.floor date.diff(d, start)\spandays!
+        date(start)\adddays days
       else
         error "not yet"
 
