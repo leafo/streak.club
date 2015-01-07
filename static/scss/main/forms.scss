@@ -107,6 +107,8 @@
 .button {
     @include default_font;
     @include transition(background 0.1s ease);
+    @include border_box;
+    text-align: center;
 
     font-weight: bold;
     height: 35px;
@@ -140,6 +142,18 @@
         background: gray;
         color: lighten(gray, 20%);
         cursor: normal
+    }
+
+    &.outline_button {
+        background: white;
+        border: 2px solid rgba($button_color, 0.6);
+        color: $link_color;
+        line-height: 35px - 4px;
+
+        &:hover {
+            border: 2px solid $button_color;
+            background: mix($button_color, white, 10%);
+        }
     }
 }
 

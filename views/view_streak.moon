@@ -3,6 +3,7 @@ import sanitize_html, is_empty_html from require "helpers.html"
 import time_ago_in_words, to_json from require "lapis.util"
 
 StreakUnits = require "widgets.streak_units"
+SubmissionList = require "widgets.submission_list"
 
 class ViewStreak extends require "widgets.base"
   @needs: {"streak", "streak_users", "unit_counts", "completed_units"}
@@ -20,37 +21,58 @@ class ViewStreak extends require "widgets.base"
       h2 @streak.title
       h3 @streak.short_description
 
-    @streak_summary!
-    @render_streak_units!
 
-    form action: "", method: "post", class: "form", ->
-      @csrf_input!
-      if @streak_user
-        button class: "button",name: "action", value: "leave_streak", "Leave streak"
-      else
-        button class: "button", name: "action", value: "join_streak", "Join streak"
+    div class: "columns", ->
+      div class: "streak_feed_column",->
+        @streak_summary!
+        @render_submissions!
 
-    if @current_submit
-      p ->
-        text "You already submitted for #{@streak\unit_noun!}. "
-        a href: @url_for(@current_submit\get_submission!), "View submission"
+      div class: "streak_side_column", ->
 
-    elseif @streak\allowed_to_submit @current_user
-      a href: @url_for("new_streak_submission", id: @streak.id), "New submission"
+        if @current_submit
+          p ->
+            text "You already submitted for #{@streak\unit_noun!}. "
+            a href: @url_for(@current_submit\get_submission!), "View submission"
+          elseif @streak\allowed_to_submit @current_user
+            a {
+              href: @url_for("new_streak_submission", id: @streak.id)
+              class: "button"
+              "New submission"
+            }
 
-    @render_participants!
+            p class: "submit_sub", "You haven't submitted #{@streak\unit_noun!} yet."
+
+        unless @streak_user
+          form action: "", method: "post", class: "form", ->
+            @csrf_input!
+            button class: "button", name: "action", value: "join_streak", "Join streak"
+
+        @render_streak_units!
+
+        if @streak_user
+          form action: "", method: "post", class: "form", ->
+            @csrf_input!
+            button {
+              class: "button outline_button"
+              name: "action"
+              value: "leave_streak"
+              "Leave streak"
+            }
+
+        @render_participants!
 
   render_streak_units: =>
     widget StreakUnits
 
   streak_summary: =>
-    p ->
+    p class: "date_summary", ->
       if @streak\during! or @streak\after_end!
         text "Started "
       else
         text "Starts "
 
       text "#{@format_timestamp @streak.start_date} (#{@streak\start_datetime!}). "
+      br!
 
       if @streak\after_end!
         text "Ended"
@@ -82,4 +104,13 @@ class ViewStreak extends require "widgets.base"
       for su in *@streak_users
         li class: "streak_user", ->
           a href: @url_for(su.user), su.user\name_for_display!
+
+
+  render_submissions: =>
+    unless next @submissions
+      p class: "empty_message", "No submissions yet"
+      return
+
+    h4 "Recent submissions"
+    widget SubmissionList
 

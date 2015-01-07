@@ -4,6 +4,22 @@ import safe_insert from require "helpers.model"
 
 date = require "date"
 
+prepare_submits = (opts) ->
+  import Submissions from require "models"
+  (submits) ->
+    Submissions\include_in submits, "submission_id"
+
+    submits_by_submission_id = {s.submission_id, s for s in *submits}
+    submissions = [s.submission for s in *submits]
+
+    for s in *submissions
+      s.streak_submission = submits_by_submission_id[s.id]
+
+    if opts and opts.prepare_submissions
+      opts.prepare_submissions submissions
+    else
+      submissions
+
 class Streaks extends Model
   @day_format_str: "%Y-%m-%d"
   @timestamp_format_str: "%Y-%m-%d %H:%M:%S"
@@ -160,6 +176,16 @@ class Streaks extends Model
 
     {s.submit_day, s.count for s in *res}
 
+  find_submissions: (opts) =>
+    import StreakSubmissions, Submissions, Users, Uploads from require "models"
+    StreakSubmissions\paginated [[
+      where streak_id = ?
+      order by submit_time desc
+    ]], @id, {
+      per_page: 20
+      prepare_results: prepare_submits opts
+    }
+
   find_submissions_for_unit: (unit_date, opts) =>
     import StreakSubmissions, Submissions, Users, Uploads from require "models"
 
@@ -179,19 +205,7 @@ class Streaks extends Model
       order by submit_time desc
     ]], @id, unit_start_formatted, unit_end_formatted, {
       per_page: 20
-      prepare_results: (submits) ->
-        Submissions\include_in submits, "submission_id"
-
-        submits_by_submission_id = {s.submission_id, s for s in *submits}
-        submissions = [s.submission for s in *submits]
-
-        for s in *submissions
-          s.streak_submission = submits_by_submission_id[s.id]
-
-        if opts and opts.prepare_submissions
-          opts.prepare_submissions submissions
-        else
-          submissions
+      prepare_results: prepare_submits opts
     }
 
   find_users: =>

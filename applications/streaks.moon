@@ -74,6 +74,7 @@ class StreaksApplication extends lapis.Application
       before: find_streak
 
       GET: =>
+
         @title = @streak.title
         import StreakUsers from require "models"
         pager = StreakUsers\paginated "where streak_id = ?", @streak.id, {
@@ -89,6 +90,14 @@ class StreaksApplication extends lapis.Application
           @completed_units = @streak_user\completed_units!
 
         @unit_counts = @streak\unit_submission_counts!
+
+        import Submissions from require "models"
+        pager = @streak\find_submissions {
+          prepare_submissions: Submissions\preload_for_list
+        }
+
+        @submissions = pager\get_page!
+
         render: true
 
       POST: capture_errors_json =>
