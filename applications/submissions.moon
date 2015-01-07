@@ -78,7 +78,9 @@ class UsersApplication extends lapis.Application
       submission_id: @submission.id
       user_id: @current_user.id
     }
-    json: { success: not not like }
+
+    @submission\refresh "likes_count"
+    json: { success: not not like, count: @submission.likes_count }
 
   [submission_unlike: "/submission/:id/unlike"]: require_login capture_errors_json =>
     find_submission @
@@ -95,5 +97,6 @@ class UsersApplication extends lapis.Application
       f\delete!
       true
 
-    json: { success: success or false }
+    @submission\refresh "likes_count"
+    json: { success: success or false, count: @submission.likes_count }
 

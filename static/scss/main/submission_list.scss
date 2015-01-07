@@ -109,10 +109,36 @@
                 }
             }
 
-            .like_row {
-                margin-top: 20px;
+        }
+
+        .like_row {
+            margin-top: 20px;
+
+            &.has_likes {
+                .like_count {
+                    display: inline-block;
+                }
+            }
+
+            a {
+                text-decoration: none;
+                font-size: 22px;
+                color: #999;
+                display: inline-block;
+                vertical-align: middle;
+
+                &.liked {
+                    color: #FF5E5E;
+                }
+            }
+
+            .like_count {
+                color: #666;
+                display: none;
+                vertical-align: middle;
             }
         }
+
 
         h3, h4 {
             margin: 0;

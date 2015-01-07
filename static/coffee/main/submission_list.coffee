@@ -12,5 +12,11 @@ class S.SubmissionList
           btn.removeClass ".disabled"
           if res.success
             btn.toggleClass "liked"
+
+          if res.count?
+            btn.closest(".like_row")
+              .toggleClass("has_likes", res.count > 0)
+              .find(".like_count").text res.count
+
     }
 

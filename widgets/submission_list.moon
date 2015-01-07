@@ -24,7 +24,9 @@ class SubmissionList extends require "widgets.base"
               img src: submission.user\gravatar!
               span class: "user_name", submission.user\name_for_display!
 
-            div class: "like_row", ->
+            has_likes = submission.likes_count > 0
+
+            div class: "like_row #{has_likes and "has_likes" or ""}", ->
               classes = "toggle_like_btn"
               classes ..= " liked" if submission.submission_like
 
@@ -34,8 +36,11 @@ class SubmissionList extends require "widgets.base"
                 href: "#"
                 class: classes
               }, ->
-                span class: "on_like", ["data-tooltip"]: "Unlike submission", "Unlike"
-                span class: "on_no_like", ["data-tooltip"]: "Like submission", "Like"
+                span class: "on_like", ["data-tooltip"]: "Unlike submission", ->
+                  raw "&hearts;"
+
+                span class: "on_no_like", ["data-tooltip"]: "Like submission", ->
+                  raw "&hearts;"
 
               text " "
               span class: "like_count", submission.likes_count
