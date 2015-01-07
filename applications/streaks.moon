@@ -30,6 +30,7 @@ assert_unit_date = =>
 class StreaksApplication extends lapis.Application
   [new_streak: "/streaks/new"]: require_login respond_to {
     GET: =>
+      @title = "Create a Streak"
       render: "edit_streak"
 
     POST: capture_errors_json =>
@@ -53,6 +54,7 @@ class StreaksApplication extends lapis.Application
         assert_error @streak\allowed_to_edit @current_user
 
       GET: =>
+        @title = "Edit '#{@streak.title}'"
         render: "edit_streak"
 
       POST: capture_errors_json =>
@@ -72,6 +74,7 @@ class StreaksApplication extends lapis.Application
       before: find_streak
 
       GET: =>
+        @title = @streak.title
         import StreakUsers from require "models"
         pager = StreakUsers\paginated "where streak_id = ?", @streak.id, {
           prepare_results: (sus) ->
@@ -115,6 +118,8 @@ class StreaksApplication extends lapis.Application
       find_streak @
       assert_unit_date @
 
+      @title = "#{@streak.title} - #{@params.date}"
+
       pager = @streak\find_submissions_for_unit @unit_date, {
         prepare_submissions: Submissions\preload_for_list
       }
@@ -135,6 +140,7 @@ class StreaksApplication extends lapis.Application
         assert_error @streak\allowed_to_edit(@current_user), "invalid streak"
 
       GET: =>
+        @title = "Submit URL for #{@streak.title}"
         @users = @streak\find_users!\get_page!
         render: true
 
@@ -159,6 +165,7 @@ class StreaksApplication extends lapis.Application
 
 
   [streaks: "/streaks"]: =>
+    @title = "Browse Streaks"
     @pager = Streaks\paginated "order by id desc", prepare_results: (streaks) ->
       Users\include_in streaks, "user_id"
       streaks
@@ -188,6 +195,7 @@ class StreaksApplication extends lapis.Application
           assert_error @streak\allowed_to_submit @current_user
 
       GET: =>
+        @title = "Submit to #{@streak.title}"
         render: "edit_submission"
 
       POST: capture_errors_json =>
