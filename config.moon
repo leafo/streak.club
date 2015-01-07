@@ -1,6 +1,10 @@
 import config from require "lapis.config"
 
-config {"development", "test"}, ->
+config {"development", "test", "production"}, ->
+  code_cache "off"
+  daemon "off"
+  notice_log "stderr"
+
   session_name "streakclub"
   app_name "streak.club"
   host "localhost"
@@ -21,3 +25,11 @@ config "test", ->
     backend: "pgmoon"
     database: "streakclub_test"
   }
+
+config "production", ->
+  port 10005
+  daemon "on"
+  notice_log "logs/notice.log"
+  logging false
+  num_workers 3
+
