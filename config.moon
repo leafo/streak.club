@@ -5,6 +5,9 @@ config {"development", "test", "production"}, ->
   daemon "off"
   notice_log "stderr"
 
+  pcall ->
+    include require "secret.keys"
+
   session_name "streakclub"
   app_name "streak.club"
   host "localhost"
