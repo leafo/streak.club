@@ -169,7 +169,7 @@ class Streaks extends Model
 
     fields = db.interpolate_query [[
       count(*),
-      (submit_time - ?::interval)::date submit_day
+      (submit_time + ?::interval)::date submit_day
     ]], interval
 
     res = StreakSubmissions\select [[
@@ -192,7 +192,8 @@ class Streaks extends Model
   find_submissions_for_unit: (unit_date, opts) =>
     import StreakSubmissions, Submissions, Users, Uploads from require "models"
 
-    unit_start = @truncate_date unit_date
+    -- going from streak time to -> utc, subtract
+    unit_start = date(unit_date)\addhours -@hour_offset
     unit_end = @increment_date_by_unit date unit_start
 
     unit_start_formatted = unit_start\fmt @@timestamp_format_str
@@ -203,8 +204,8 @@ class Streaks extends Model
     StreakSubmissions\paginated [[
       where
         streak_id = ? and
-        submit_time >= ?::timestamp and
-        submit_time < ?::timestamp
+        submit_time >= ? and
+        submit_time < ?
       order by submit_time desc
     ]], @id, unit_start_formatted, unit_end_formatted, {
       per_page: 20

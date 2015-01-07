@@ -45,7 +45,7 @@ class StreakUsers extends Model
 
     fields = db.interpolate_query [[
       submission_id,
-      (submit_time - ?::interval)::date submit_day
+      (submit_time + ?::interval)::date submit_day
     ]], "#{streak.hour_offset} hours"
 
     res = StreakSubmissions\select [[
