@@ -15,6 +15,11 @@ test_db::
 	pg_dump -s -U postgres streakclub | psql -U postgres streakclub_test
 	pg_dump -a -t lapis_migrations -U postgres streakclub | psql -U postgres streakclub_test
 
+prod_db::
+	-dropdb -U postgres streakclub_prod
+	createdb -U postgres streakclub_prod
+	pg_restore -U postgres -d streakclub_prod $$(find /home/leafo/bin/backups/ | grep streakclub | sort -V | tail -n 1)
+
 migrate::
 	lapis migrate
 	make schema.sql
