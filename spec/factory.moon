@@ -36,6 +36,7 @@ Streaks = (opts={}) ->
   opts.description or= "<p>streak descdription #{counter}</p>"
   opts.rate = "daily"
   opts.hour_offset or= 0
+  opts.publish_status or= "published"
 
   if state = opts.state
     opts.state = nil
