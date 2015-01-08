@@ -2,8 +2,15 @@
 models = require "models"
 db = require "lapis.db"
 
+date = require "date"
+
 import Model from require "lapis.db.model"
 import slugify from require "lapis.util"
+
+relative_day = (day_offset=0) ->
+  d = date date(true)\getdate!
+  d\adddays day_offset
+  d\fmt models.Streaks.day_format_str
 
 next_counter = do
   counters = setmetatable {}, __index: => 1
@@ -20,4 +27,32 @@ Users = (opts={}) ->
   opts.password or= "my-password"
   assert models.Users\create opts
 
-{ :Users }
+Streaks = (opts={}) ->
+  counter = next_counter "streak"
+
+  opts.user_id or= Users!.id
+  opts.title or= "streak-#{counter}"
+  opts.short_description or= "short description for #{counter}"
+  opts.description or= "<p>streak descdription #{counter}</p>"
+  opts.rate = "daily"
+  opts.hour_offset or= 0
+
+  if state = opts.state
+    opts.state = nil
+    switch state
+      when "during"
+        opts.start_date = relative_day -10
+        opts.end_date = relative_day 10
+      when "before_start"
+        opts.start_date = relative_day 10
+        opts.end_date = relative_day 20
+      when "after_end"
+        opts.start_date = relative_day -20
+        opts.end_date = relative_day -10
+  else
+    opts.start_date or= relative_day 0
+    opts.end_date or= relative_day 20
+
+  models.Streaks\create opts
+
+{ :Users, :Streaks }
