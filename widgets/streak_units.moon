@@ -7,8 +7,7 @@ class StreakUnits extends require "widgets.base"
   base_widget: false
   inner_content: =>
     day_str = "%Y-%m-%d"
-    today = date date(true)\getdate!
-
+    today = date true
     formatted_today = today\fmt day_str
 
     start_date = date @streak.start_date
@@ -26,8 +25,12 @@ class StreakUnits extends require "widgets.base"
       current_time = date(current_date)\addhours @streak.hour_offset
 
       classes = "streak_unit"
-      classes ..= " before_today" if current_time < today
-      classes ..= " today" if formatted_date == formatted_today
+      if current_time < today
+        if date.diff(today, current_time)\spandays! <= 1
+          classes ..= " today"
+        else
+          classes ..= " before_today"
+
       classes ..= " submitted" if submission_id
 
       pretty_date = @streak\format_date_unit current_date
