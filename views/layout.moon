@@ -55,6 +55,10 @@ class Layout extends Widget
     div class: "footer", ->
       div class: "inner_column", ->
         div class: "footer_right", ->
+          text "streak.club is "
+          a href: "https://github.com/leafo/streak.club", "open source"
+          raw " &middot; "
+          text "follow "
           a href: "https://twitter.com/thestreakclub", "@thestreakclub"
 
         raw "&copy; #{os.date "%Y", ngx.time!} &middot; moon coop &middot; "
