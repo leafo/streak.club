@@ -62,7 +62,7 @@ class EditStreak extends require "widgets.base"
 
         div ->
           label ->
-            span class: "duration_label", "Start date:"
+            div class: "duration_label label", "Start date:"
             input {
               type: "text"
               class: "date_picker start_date"
@@ -72,7 +72,7 @@ class EditStreak extends require "widgets.base"
             }
 
           label ->
-            span class: "duration_label", "End date:"
+            div class: "duration_label label", "End date:"
             input {
               type: "text"
               class: "date_picker end_date"
@@ -97,7 +97,7 @@ class EditStreak extends require "widgets.base"
           {"draft", "Draft", "Only you can see the streak"}
           {"published", "Published", "Streak is public"}
           {"hidden", "Hidden", "Only people with the URL can participate in the streak"}
-        }, @streak.publish_status and Streaks.publish_statuses\to_name(@streak.publish_status) or "draft"
+        }, streak.publish_status and Streaks.publish_statuses\to_name(streak.publish_status) or "draft"
 
       div class: "button_row", ->
         button class: "button", "Save"
