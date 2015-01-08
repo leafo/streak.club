@@ -20,6 +20,9 @@ prepare_submits = (opts) ->
     else
       submissions
 
+-- How to use hour_offset
+-- convert UTC time to local, add hour_offset to time
+-- convert local time to UTC: subtract hour_offset from time
 class Streaks extends Model
   @day_format_str: "%Y-%m-%d"
   @timestamp_format_str: "%Y-%m-%d %H:%M:%S"
@@ -131,7 +134,7 @@ class Streaks extends Model
       else
         error "not yet"
 
-  -- move date to closest unit start date
+  -- move UTC date to closest unit start in UTC
   truncate_date: (d) =>
     start = @start_datetime!
 
