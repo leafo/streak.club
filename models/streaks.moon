@@ -162,6 +162,7 @@ class Streaks extends Model
   during: =>
     not @before_start! and not @after_end!
 
+  -- UTC contained in streak
   date_in_streak: (d) =>
     return false if d < @start_datetime!
     return false if @end_datetime! < d

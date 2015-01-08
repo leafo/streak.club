@@ -24,7 +24,7 @@ find_streak = =>
 
 assert_unit_date = =>
   y, m, d = assert_error @params.date\match("%d+-%d+-%d+"), "invalid date"
-  @unit_date = date @params.date
+  @unit_date = date(@params.date)\addhours -@streak.hour_offset
   assert_error @streak\date_in_streak(@unit_date), "invalid date"
 
 class StreaksApplication extends lapis.Application
