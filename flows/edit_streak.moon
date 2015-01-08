@@ -48,7 +48,7 @@ class EditStreakFlow extends Flow
     import Streaks from require "models"
 
     params = @validate_params!
-    streak_params.user_id = @current_user.id
+    params.user_id = @current_user.id
 
     Streaks\create params
 
