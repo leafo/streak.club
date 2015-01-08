@@ -97,5 +97,5 @@ class Uploads extends Model
   delete: =>
     with super!
       import shell_quote, exec from require "helpers.shell"
-      os.execute "rm #{shell_quote "#{config.user_content_path}/#{@path!}"}"
+      exec "rm #{shell_quote "#{config.user_content_path}/#{@path!}"}"
 

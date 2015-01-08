@@ -69,6 +69,23 @@ class UsersApplication extends lapis.Application
     }
   }
 
+  [delete_submission: "/submission/:id/delete"]: require_login capture_errors {
+    on_error: => not_found
+    respond_to {
+      before: =>
+        find_submission @
+        assert_error @submission\allowed_to_edit(@current_user), "invalid submission"
+
+      GET: =>
+        render: true
+
+      POST: =>
+        @submission\delete!
+        @session.flash = "Submission deleted"
+        redirect_to: @url_for "index"
+    }
+  }
+
   [submission_like: "/submission/:id/like"]: require_login capture_errors_json =>
     find_submission @
     assert_csrf @

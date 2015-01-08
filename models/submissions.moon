@@ -117,3 +117,25 @@ class Submissions extends Model
         :slug
       }
 
+  delete: =>
+    res = super!
+    if res.affected_rows and res.affected_rows > 0
+      import
+        SubmissionLikes
+        SubmissionTags
+        StreakSubmissions
+        Uploads
+        from require "models"
+
+      for model in *{SubmissionLikes, SubmissionTags, StreakSubmissions}
+        db.delete model\table_name!, submission_id: @id
+
+      uploads = Uploads\select [[
+        where object_type = ? and object_id = ?
+      ]], Uploads.object_types.submission, @id
+
+      for u in *uploads
+        u\delete!
+
+    res
+

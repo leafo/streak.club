@@ -9,7 +9,7 @@ class ViewStreakUnit extends require "widgets.base"
     if @streak\allowed_to_edit @current_user
       div class: "admin_tools", ->
         a href: @url_for("edit_streak", id: @streak.id), "Edit streak"
-        text " "
+        raw " &middot; "
         a href: @url_for("streak_unit_submit_url", id: @streak.id, date: @params.date),
           "Generate submit url"
 
