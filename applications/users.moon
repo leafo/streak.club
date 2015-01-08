@@ -62,6 +62,7 @@ class UsersApplication extends lapis.Application
         { "password", exists: true, min_length: 2 }
         { "password_repeat", equals: @params.password }
         { "email", exists: true, min_length: 3 }
+        { "accept_terms", equals: "yes", "You must accept the Terms of Service" }
       }
 
       user = assert_error Users\create {
@@ -72,8 +73,8 @@ class UsersApplication extends lapis.Application
 
       user\write_session @
 
-      json: { success: true }
-
+      @session.flash = "Welcome to streak.club!"
+      redirect_to: @url_for "index"
   }
 
   [user_login: "/login"]: respond_to {
@@ -90,7 +91,6 @@ class UsersApplication extends lapis.Application
 
       @session.flash = "Welcome back!"
       redirect_to: @params.return_to or @url_for("index")
-
   }
 
   [user_logout: "/logout"]: =>

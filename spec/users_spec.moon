@@ -36,3 +36,31 @@ describe "users", ->
     status, res = request "/u/#{user.slug}"
     assert.same 200, status
 
+  it "should register user", ->
+    status, res, headers = request_as nil, "/register", {
+      post: {
+        username: "leafo"
+        password: "hello"
+        password_repeat: "hello"
+        email: "leafo@example.com"
+        accept_terms: "yes"
+      }
+    }
+
+    assert.same 1, #Users\select!
+    assert.same 302, status
+    assert.same "http://127.0.0.1/", headers.location
+
+  it "should log in user", ->
+    user = factory.Users password: "hello world"
+
+    status, res, headers = request_as nil, "/login", {
+      post: {
+        username: user.username\upper!
+        password: "hello world"
+      }
+    }
+
+    assert.same 302, status
+    assert.same "http://127.0.0.1/", headers.location
+
