@@ -145,11 +145,13 @@ class Streaks extends Model
       else
         error "not yet"
 
+  -- get the starting time in UTC
   start_datetime: =>
-    date(@start_date)\addhours @hour_offset
+    date(@start_date)\addhours -@hour_offset
 
+  -- get the ending time in UTC
   end_datetime: =>
-    date(@end_date)\addhours @hour_offset
+    date(@end_date)\addhours -@hour_offset
 
   before_start: =>
     date(true) < @start_datetime!

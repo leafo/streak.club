@@ -67,10 +67,10 @@ describe "streaks", ->
     for h=0,23,4
       it "should truncate date on hour #{h}", ->
         d = streak\truncate_date date 2015, 3,1, h, 11
-        expect = if h < 16
-          "2015-02-28 16:00:00"
+        expect = if h < 8
+          "2015-02-28 08:00:00"
         else
-          "2015-03-01 16:00:00"
+          "2015-03-01 08:00:00"
 
         assert.same expect, d\fmt Streaks.timestamp_format_str
 
