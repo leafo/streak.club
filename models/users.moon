@@ -132,6 +132,17 @@ class Users extends Model
 
     @all_streaks
 
+  -- streaks user has control of
+  get_created_streaks: =>
+    unless @created_streaks
+      import Streaks from require "models"
+      @created_streaks = Streaks\select [[
+        where user_id = ?
+        order by id desc
+      ]], @id
+
+    @created_streaks
+
   gravatar: (size) =>
     url = "https://www.gravatar.com/avatar/#{ngx.md5 @email}?d=identicon"
     url = url .. "&s=#{size}" if size

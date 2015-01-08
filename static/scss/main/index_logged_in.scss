@@ -1,4 +1,33 @@
 
 .index_logged_in {
+    .columns {
+        font-size: 0;
+    }
 
+    .primary_column, .side_column {
+        display: inline-block;
+        vertical-align: top;
+        font-size: $body_size;
+    }
+
+    .primary_column {
+        width: 700px;
+    }
+
+    .side_column {
+        @include border_box;
+        width: $site_width - 700px;
+        padding-left: 20px;
+    }
+
+    .sidebar_buttons {
+        .button {
+            display: block;
+            margin-bottom: 10px;
+        }
+    }
+
+    .streak_list {
+        margin-top: 20px;
+    }
 }

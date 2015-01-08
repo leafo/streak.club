@@ -26,6 +26,13 @@ class extends lapis.Application
       @session.flash = false
 
   [index: "/"]: =>
-    render: true
+    if @current_user
+      @created_streaks = @current_user\get_created_streaks!
+      @active_streaks = @current_user\get_active_streaks!
+
+      Users\include_in @created_streaks, "user_id"
+      Users\include_in @active_streaks, "user_id"
+
+    render: @current_user and "index_logged_in" or "index_logged_out"
 
   [terms: "/terms"]: =>
