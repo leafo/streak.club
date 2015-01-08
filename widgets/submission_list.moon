@@ -76,11 +76,13 @@ class SubmissionList extends require "widgets.base"
                       text " "
                       span class: "unit_number", submit\unit_number!
 
-                    text ", " unless i == num_streaks
 
             if submission.description and not is_empty_html submission.description
               div class: "user_formatted", ->
                 raw sanitize_html submission.description
+            elseif not (submission.uploads and next submission.uploads)
+              p class: "empty_message", "This submission is empty"
+
 
             @render_uploads submission
 
