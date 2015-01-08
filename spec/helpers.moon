@@ -2,6 +2,8 @@
 import request from require "lapis.spec.server"
 import escape from require "lapis.util"
 
+csrf = require "lapis.csrf"
+
 take_screenshots = os.getenv "SCREENSHOT"
 
 local *
@@ -24,14 +26,22 @@ log_in_user_session = (user) ->
 
   "#{config.session_name}=#{val}"
 
+append_cookie = (opts, cookie) ->
+  opts.headers or= {}
+  if opts.headers.Cookie
+    opts.headers.Cookie ..= "; #{cookie}"
+  else
+    opts.headers.Cookie = cookie
+
+add_csrf = (opts) ->
+  import cookie_name from require "helpers.csrf"
+  opts.post.csrf_token = csrf.generate_token nil, "helloworld"
+  append_cookie opts, "#{cookie_name}=helloworld"
+  opts
+
 request_as = (user, url, opts={}) ->
   if user
-    cookie = log_in_user_session user
-    opts.headers or= {}
-    if opts.headers.Cookie
-      opts.headers.Cookie ..= "; #{cookie}"
-    else
-      opts.headers.Cookie = cookie
+    append_cookie opts, log_in_user_session user
 
   request_fn = if fn = opts.request_fn
     opts.request_fn = nil
@@ -39,8 +49,8 @@ request_as = (user, url, opts={}) ->
   else
     _request
 
-  -- if opts.post and opts.post.csrf_token == nil
-  --   add_csrf opts
+  if opts.post and opts.post.csrf_token == nil
+    add_csrf opts
 
   request_fn url, opts
 
@@ -75,6 +85,5 @@ request_with_snap = do
       counter += 1
 
     unpack out
-
 
 { request: _request, :request_as, :request_with_snap }

@@ -39,4 +39,4 @@ check_csrf = =>
 assert_csrf = =>
   assert_error check_csrf(@), "invalid csrf"
 
-{ :generate_csrf, :check_csrf, :assert_csrf }
+{ :generate_csrf, :check_csrf, :assert_csrf, :cookie_name }
