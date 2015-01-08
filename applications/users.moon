@@ -65,6 +65,8 @@ class UsersApplication extends lapis.Application
         { "accept_terms", equals: "yes", "You must accept the Terms of Service" }
       }
 
+      assert_error @params.email\match(".@."), "invalid email address"
+
       user = assert_error Users\create {
         username: @params.username
         email: @params.email
