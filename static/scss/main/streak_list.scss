@@ -1,0 +1,12 @@
+
+.streak_list {
+    .streak_row {
+        border: 1px solid $border_color;
+        margin-bottom: 10px;
+        padding: 8px 10px;
+
+        h3, h4 {
+            margin: 0;
+        }
+    }
+}
