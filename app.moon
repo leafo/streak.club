@@ -1,11 +1,17 @@
 lapis = require "lapis"
 
 import Users from require "models"
-
 import generate_csrf from require "helpers.csrf"
+
+date = require "date"
+config = require("lapis.config").get!
 
 class extends lapis.Application
   layout: require "views.layout"
+
+  cookie_attributes: =>
+    expires = date(true)\adddays(365)\fmt "${http}"
+    "Expires=#{expires}; Path=/; Domain=.#{config.host}; HttpOnly"
 
   @enable "exception_tracking"
 
