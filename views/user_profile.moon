@@ -36,7 +36,7 @@ class UserProfile extends require "widgets.base"
   render_streaks: =>
     return unless next @streaks
     h2 "Active streaks"
-    div class: "streak_list", ->
+    div class: "sidebar_streak_list", ->
       for streak in *@streaks
         div class: "streak_row", ->
           h3 ->
