@@ -116,9 +116,10 @@ class Users extends Model
       @active_streaks = Streaks\select [[
         where id in (select streak_id from streak_users where user_id = ?) and
         start_date + (hour_offset || ' hours')::interval <= now() at time zone 'utc' and
-        end_date + (hour_offset || ' hours')::interval > now() at time zone 'utc'
+        end_date + (hour_offset || ' hours')::interval > now() at time zone 'utc' and
+        publish_status = ?
         order by id desc
-      ]], @id
+      ]], @id, Streaks.publish_statuses.published
 
     @active_streaks
 
