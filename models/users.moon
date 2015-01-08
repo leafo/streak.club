@@ -6,6 +6,17 @@ import slugify from require "lapis.util"
 
 date = require "date"
 
+strip_non_ascii = do
+  filter_chars = (c, ...) ->
+    return unless c
+    if c >= 32 and c <= 126
+      c, filter_chars ...
+    else
+      filter_chars ...
+
+  (str) ->
+    string.char filter_chars str\byte 1, -1
+
 class Users extends Model
   @timestamp: true
 
@@ -37,7 +48,11 @@ class Users extends Model
 
     opts.encrypted_password = bcrypt.digest opts.password, bcrypt.salt 5
     opts.password = nil
+    stripped = strip_non_ascii(opts.username)
+    return nil, "username must be ASCII only" unless stripped == opts.username
+
     opts.slug = slugify opts.username
+    assert opts.slugify != "", "slug is empty"
 
     Model.create @, opts
 
