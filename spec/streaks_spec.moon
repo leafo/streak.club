@@ -1,12 +1,13 @@
 import
   load_test_server
   close_test_server
-  request
   from require "lapis.spec.server"
 
 import truncate_tables from require "lapis.spec.db"
 
 import Streaks, Users, Submissions, StreakUsers, StreakSubmissions from require "models"
+
+import request, request_as from require "spec.helpers"
 
 factory = require "spec.factory"
 
@@ -56,9 +57,11 @@ describe "streaks", ->
         assert.same "2015-03-01 00:00:00", d\fmt Streaks.timestamp_format_str
 
   describe "with fixed streak PST", ->
-    local streak
+    local streak, user
     before_each ->
+      user = factory.Users!
       streak = factory.Streaks {
+        user_id: user.id
         start_date: "2015-3-1"
         end_date: "2015-4-5"
         hour_offset: -8
@@ -92,3 +95,25 @@ describe "streaks", ->
         }
         assert.same 5, submit\unit_number!
 
+
+    it "should view streak", ->
+      for i=1,2
+        factory.StreakSubmissions {
+          streak_id: streak.id
+          submit_time: "2015-3-#{i} 09:00:00"
+        }
+
+      status = request "/streak/#{streak.id}"
+      assert.same 200, status
+
+    it "should view streak as owner", ->
+      status = request_as user, "/streak/#{streak.id}"
+      assert.same 200, status
+
+    it "should view first streak unit day", ->
+      status = request "/streak/#{streak.id}/unit/2015-3-1"
+      assert.same 200, status
+
+    it "should last first streak unit day", ->
+      status = request "/streak/#{streak.id}/unit/2015-4-5"
+      assert.same 200, status
