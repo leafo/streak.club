@@ -8,6 +8,15 @@
         margin-bottom: 20px;
     }
 
+    .draft_banner {
+        display: block;
+        background: lighten($error_color, 10%);
+        padding: 15px 20px;
+        color: white;
+        text-decoration: none;
+        margin-bottom: 20px;
+    }
+
     .streak_units {
         margin-top: 20px;
 

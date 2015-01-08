@@ -18,10 +18,17 @@ class ViewStreak extends require "widgets.base"
       div class: "admin_tools", ->
         a href: @url_for("edit_streak", id: @streak.id), "Edit streak"
 
+    if @streak\is_draft!
+      a {
+        href: @url_for("edit_streak", id: @streak.id) .. "#publish_status"
+        class: "draft_banner"
+        "This streak is currently a draft and unpublished"
+      }
+
+
     div class: "page_header", ->
       h2 @streak.title
       h3 @streak.short_description
-
 
     div class: "columns", ->
       div class: "streak_feed_column",->

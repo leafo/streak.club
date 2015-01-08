@@ -87,6 +87,9 @@ class Streaks extends Model
     StreakSubmissions\load (unpack res)
 
   allowed_to_view: (user) =>
+    if @publish_status == @@publish_statuses.draft
+      return @allowed_to_edit user
+
     true
 
   allowed_to_edit: (user) =>
@@ -236,3 +239,7 @@ class Streaks extends Model
         Users\include_in streak_users, "user_id"
         [su.user for su in *streak_users]
     }
+
+  is_draft: =>
+    @publish_status == @@publish_statuses.draft
+

@@ -91,6 +91,7 @@ class EditStreak extends require "widgets.base"
         value: ""
       }
 
+      div id: "publish_status"
       @input_row "Publish", ->
         @radio_buttons "streak[publish_status]", {
           {"draft", "Draft", "Only you can see the streak"}
