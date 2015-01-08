@@ -30,6 +30,8 @@ config "test", ->
   }
 
 config "production", ->
+  track_exceptions true
+  code_cache "on"
   port 10005
   daemon "on"
   notice_log "logs/notice.log"

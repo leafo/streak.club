@@ -7,6 +7,8 @@ import generate_csrf from require "helpers.csrf"
 class extends lapis.Application
   layout: require "views.layout"
 
+  @enable "exception_tracking"
+
   @include "applications.users"
   @include "applications.streaks"
   @include "applications.submissions"
