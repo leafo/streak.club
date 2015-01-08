@@ -180,7 +180,8 @@ CREATE TABLE streaks (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     submissions_count integer DEFAULT 0 NOT NULL,
-    hour_offset integer DEFAULT 0 NOT NULL
+    hour_offset integer DEFAULT 0 NOT NULL,
+    publish_status integer NOT NULL
 );
 
 
@@ -655,6 +656,7 @@ COPY lapis_migrations (name) FROM stdin;
 1420444339
 1420449446
 1420710737
+1420712611
 \.
 
 

@@ -8,6 +8,7 @@ import filter_update from require "helpers.model"
 import assert_timezone from require "helpers.app"
 
 import Flow from require "lapis.flow"
+import Streaks from require "models"
 
 class EditStreakFlow extends Flow
   validate_params: =>
@@ -17,7 +18,8 @@ class EditStreakFlow extends Flow
 
     streak_params = @params.streak
     trim_filter streak_params, {
-      "title", "description", "short_description", "start_date", "end_date", "hour_offset"
+      "title", "description", "short_description", "start_date", "end_date",
+      "hour_offset", "publish_status"
     }
 
     assert_valid streak_params, {
@@ -27,6 +29,7 @@ class EditStreakFlow extends Flow
       {"start_date", exists: true, max_length: 1024}
       {"end_date", exists: true, max_length: 1024}
       {"hour_offset", exists: true}
+      {"publish_status", one_of: Streaks.publish_statuses}
     }
 
     timezone = assert_timezone @params.timezone
@@ -45,7 +48,6 @@ class EditStreakFlow extends Flow
     streak_params
 
   create_streak: =>
-    import Streaks from require "models"
 
     params = @validate_params!
     params.user_id = @current_user.id
@@ -53,13 +55,13 @@ class EditStreakFlow extends Flow
     Streaks\create params
 
   edit_streak: =>
-    import Streaks from require "models"
-
     assert @streak
     params = @validate_params!
     params.rate = Streaks.rates\for_db params.rate
+    params.publish_status = Streaks.publish_statuses\for_db params.publish_status
 
     filter_update @streak, params
+
     if next params
       @streak\update params
 

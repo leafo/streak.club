@@ -215,6 +215,10 @@ import
 
   [1420710737]: =>
     require("lapis.exceptions.models").make_schema!
+
+  [1420712611]: =>
+    add_column "streaks", "publish_status", integer default: 2
+    db.query "alter table streaks alter publish_status drop default"
 }
 
 

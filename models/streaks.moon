@@ -33,9 +33,16 @@ class Streaks extends Model
     weekly: 2
   }
 
+  @publish_statuses: enum {
+    draft: 1
+    published: 2
+    hidden: 3
+  }
+
   @create: (opts={}) =>
     assert opts.user_id, "missing user_id"
     opts.rate = @rates\for_db opts.rate
+    opts.publish_status = @rates\for_db opts.publish_status or "draft"
     Model.create @, opts
 
   has_user: (user) =>

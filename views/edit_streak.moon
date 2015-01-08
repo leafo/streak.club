@@ -2,6 +2,8 @@
 import to_json from require "lapis.util"
 date = require "date"
 
+import Streaks from require "models"
+
 class EditStreak extends require "widgets.base"
   @include "widgets.form_helpers"
 
@@ -88,6 +90,13 @@ class EditStreak extends require "widgets.base"
         class: "hour_offset_input"
         value: ""
       }
+
+      @input_row "Publish", ->
+        @radio_buttons "streak[publish_status]", {
+          {"draft", "Draft", "Only you can see the streak"}
+          {"published", "Published", "Streak is public"}
+          {"hidden", "Hidden", "Only people with the URL can participate in the streak"}
+        }, @streak.publish_status and Streaks.publish_statuses\to_name(@streak.publish_status) or "draft"
 
       div class: "button_row", ->
         button class: "button", "Save"
