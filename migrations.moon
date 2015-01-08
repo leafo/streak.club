@@ -212,6 +212,9 @@ import
 
   [1420449446]: =>
     db.query "alter table users rename column submission_count to submissions_count"
+
+  [1420710737]: =>
+    require("lapis.exceptions.models").make_schema!
 }
 
 

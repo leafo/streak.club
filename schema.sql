@@ -30,6 +30,84 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: exception_requests; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE exception_requests (
+    id integer NOT NULL,
+    exception_type_id integer NOT NULL,
+    path text NOT NULL,
+    method character varying(255) NOT NULL,
+    referer text,
+    ip character varying(255) NOT NULL,
+    data text NOT NULL,
+    msg text NOT NULL,
+    trace text NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.exception_requests OWNER TO postgres;
+
+--
+-- Name: exception_requests_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE exception_requests_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.exception_requests_id_seq OWNER TO postgres;
+
+--
+-- Name: exception_requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE exception_requests_id_seq OWNED BY exception_requests.id;
+
+
+--
+-- Name: exception_types; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE exception_types (
+    id integer NOT NULL,
+    label text NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    count integer DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public.exception_types OWNER TO postgres;
+
+--
+-- Name: exception_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE exception_types_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.exception_types_id_seq OWNER TO postgres;
+
+--
+-- Name: exception_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE exception_types_id_seq OWNED BY exception_types.id;
+
+
+--
 -- Name: followings; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -288,6 +366,20 @@ ALTER SEQUENCE users_id_seq OWNED BY users.id;
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
+ALTER TABLE ONLY exception_requests ALTER COLUMN id SET DEFAULT nextval('exception_requests_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY exception_types ALTER COLUMN id SET DEFAULT nextval('exception_types_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
 ALTER TABLE ONLY streaks ALTER COLUMN id SET DEFAULT nextval('streaks_id_seq'::regclass);
 
 
@@ -310,6 +402,22 @@ ALTER TABLE ONLY uploads ALTER COLUMN id SET DEFAULT nextval('uploads_id_seq'::r
 --
 
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+
+
+--
+-- Name: exception_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY exception_requests
+    ADD CONSTRAINT exception_requests_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: exception_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY exception_types
+    ADD CONSTRAINT exception_types_pkey PRIMARY KEY (id);
 
 
 --
@@ -390,6 +498,20 @@ ALTER TABLE ONLY uploads
 
 ALTER TABLE ONLY users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: exception_requests_exception_type_id_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX exception_requests_exception_type_id_idx ON exception_requests USING btree (exception_type_id);
+
+
+--
+-- Name: exception_types_label_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX exception_types_label_idx ON exception_types USING btree (label);
 
 
 --
@@ -532,6 +654,7 @@ COPY lapis_migrations (name) FROM stdin;
 1420437606
 1420444339
 1420449446
+1420710737
 \.
 
 
