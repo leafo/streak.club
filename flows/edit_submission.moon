@@ -106,7 +106,7 @@ class EditSubmissionFlow extends Flow
     Uploads\include_in uploads, "upload_id"
     -- filter ones that can be attached, edited
     uploads = for u in *uploads
-      continue unless u.upload\allowed_to_edit
+      continue unless u.upload\allowed_to_edit @current_user
       continue if u.upload.object_id and not u.upload\belongs_to_object @submission
       u
 
