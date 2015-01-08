@@ -55,4 +55,27 @@ Streaks = (opts={}) ->
 
   models.Streaks\create opts
 
-{ :Users, :Streaks }
+Submissions = (opts={}) ->
+  counter = next_counter "submission"
+
+  opts.user_id or= Users!.id
+  opts.title or= "Submission #{counter}"
+  opts.description or= "hello world #{counter}"
+
+  models.Submissions\create opts
+
+StreakUsers = (opts={}) ->
+  opts.streak_id or= Streaks!.id
+  opts.user_id or= Users!.id
+  models.StreakUsers\create opts
+
+StreakSubmissions = (opts={}) ->
+  unless opts.submission_id
+    submission = Submissions!
+    opts.submission_id = submission.id
+    opts.user_id = submission.user_id
+
+  opts.streak_id or= Streaks!.id
+  models.StreakSubmissions\create opts
+
+{ :Users, :Streaks, :Submissions, :StreakUsers, :StreakSubmissions }

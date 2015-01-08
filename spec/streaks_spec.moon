@@ -6,7 +6,7 @@ import
 
 import truncate_tables from require "lapis.spec.db"
 
-import Streaks, Users from require "models"
+import Streaks, Users, Submissions, StreakUsers, StreakSubmissions from require "models"
 
 factory = require "spec.factory"
 
@@ -18,7 +18,7 @@ describe "streaks", ->
     close_test_server!
 
   before_each ->
-    truncate_tables Streaks, Users
+    truncate_tables Streaks, Users, Submissions, StreakUsers, StreakSubmissions
 
   it "should create a streak", ->
     streak = factory.Streaks!
@@ -64,7 +64,7 @@ describe "streaks", ->
         hour_offset: -8
       }
 
-    for h=8,20,4
+    for h=0,23,4
       it "should truncate date on hour #{h}", ->
         d = streak\truncate_date date 2015, 3,1, h, 11
         expect = if h < 16
@@ -73,3 +73,22 @@ describe "streaks", ->
           "2015-03-01 16:00:00"
 
         assert.same expect, d\fmt Streaks.timestamp_format_str
+
+    for h=0,23,4
+      it "should create streak submission on hour #{h}", ->
+        submit_time = date(streak\start_datetime!)\addhours h
+        submit = factory.StreakSubmissions {
+          streak_id: streak.id
+          submit_time: submit_time\fmt Streaks.timestamp_format_str
+        }
+        assert.same 1, submit\unit_number!
+
+    for h=0,23,4
+      it "should create streak submission on hour #{h} offset days", ->
+        submit_time = date(streak\start_datetime!)\adddays(4)\addhours h
+        submit = factory.StreakSubmissions {
+          streak_id: streak.id
+          submit_time: submit_time\fmt Streaks.timestamp_format_str
+        }
+        assert.same 5, submit\unit_number!
+
