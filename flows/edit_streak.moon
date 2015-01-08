@@ -37,6 +37,9 @@ class EditStreakFlow extends Flow
     timezone_offset = tonumber timezone.utc_offset\match "^(-?%d+)"
     hour_offset = tonumber(streak_params.hour_offset) or 0
 
+    assert_error hour_offset <= 12 and hour_offset >= -12,
+      "hour offset must not be more than 12 hours"
+
     streak_params.hour_offset = timezone_offset + hour_offset
 
     start_date = date streak_params.start_date
