@@ -11,7 +11,7 @@ class extends lapis.Application
 
   cookie_attributes: =>
     expires = date(true)\adddays(365)\fmt "${http}"
-    "Expires=#{expires}; Path=/; Domain=.#{config.host}; HttpOnly"
+    "Expires=#{expires}; Path=/; HttpOnly"
 
   @enable "exception_tracking"
 
