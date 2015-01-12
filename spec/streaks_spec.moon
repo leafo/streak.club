@@ -9,6 +9,8 @@ import Streaks, Users, Submissions, StreakUsers, StreakSubmissions from require 
 
 import request, request_as from require "spec.helpers"
 
+date = require "date"
+
 factory = require "spec.factory"
 
 describe "streaks", ->
@@ -114,6 +116,6 @@ describe "streaks", ->
       status = request "/streak/#{streak.id}/unit/2015-3-1"
       assert.same 200, status
 
-    it "should last first streak unit day", ->
+    it "should view last streak unit day", ->
       status = request "/streak/#{streak.id}/unit/2015-4-5"
       assert.same 200, status

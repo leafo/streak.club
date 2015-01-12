@@ -9,6 +9,8 @@ import assert_signed_url from require "helpers.url"
 
 import Streaks, Users from require "models"
 
+date = require "date"
+
 EditStreakFlow = require "flows.edit_streak"
 EditSubmissionFlow = require "flows.edit_submission"
 

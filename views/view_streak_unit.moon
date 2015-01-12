@@ -2,6 +2,8 @@ import Streaks from require "models"
 
 SubmissionList = require "widgets.submission_list"
 
+date = require "date"
+
 class ViewStreakUnit extends require "widgets.base"
   @needs: {"streak", "submissions"}
 

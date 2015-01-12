@@ -9,6 +9,8 @@ import is_empty_html from require "helpers.html"
 
 import Flow from require "lapis.flow"
 
+date = require "date"
+
 class EditSubmissionFlow extends Flow
   validate_params: =>
     assert_valid @params, {
