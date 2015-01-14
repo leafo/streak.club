@@ -17,7 +17,7 @@
         }
 
         &.today {
-            box-shadow: 0 0 0 2px mix($green, white, 50%);
+            box-shadow: 0 0 0 2px lighten($blue, 20%);
         }
 
         &.submitted {

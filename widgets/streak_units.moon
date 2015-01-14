@@ -10,6 +10,7 @@ class StreakUnits extends require "widgets.base"
     today = date true
     formatted_today = today\fmt day_str
 
+    -- IN LOCAL TIME!
     start_date = date @streak.start_date
     end_date = date @streak.end_date
 
@@ -22,7 +23,7 @@ class StreakUnits extends require "widgets.base"
       submission_id = @completed_units and @completed_units[formatted_date]
       count = @unit_counts and @unit_counts[formatted_date] or 0
 
-      current_time = date(current_date)\addhours @streak.hour_offset
+      current_time = date(current_date)\addhours -@streak.hour_offset
 
       classes = "streak_unit"
       before_today = current_time < today
