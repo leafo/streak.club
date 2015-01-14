@@ -72,4 +72,44 @@
         margin-bottom: 10px;
     }
 
+    .countdown_header {
+        font-size: 14px;
+        font-weight: bold;
+        text-align: center;
+        color: #666;
+    }
+
+    .countdown {
+        border-top: 1px solid $border_color;
+        border-bottom: 1px solid $border_color;
+
+        margin: 5px 0 20px 0;
+        padding: 10px 0;
+
+        text-align: center;
+
+        .time_block {
+            display: inline-block;
+            vertical-align: top;
+            text-align: center;
+            margin-left: 15px;
+
+            &.hidden {
+                display: none;
+            }
+
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+
+        .block_value {
+            font-size: 22px;
+        }
+
+        .block_label {
+            font-size: 16px;
+            color: #666;
+        }
+    }
 }

@@ -10,7 +10,14 @@ class ViewStreak extends require "widgets.base"
   @needs: {"streak", "streak_users", "unit_counts", "completed_units"}
 
   js_init: =>
-    opts = {}
+    current_unit = @streak\current_unit!
+
+    opts = {
+      start: @streak\start_datetime!\fmt "${iso}Z"
+      end: @streak\end_datetime!\fmt "${iso}Z"
+      unit_start: current_unit\fmt "${iso}Z"
+      unit_end: @streak\increment_date_by_unit(current_unit)\fmt "${iso}Z"
+    }
     "new S.ViewStreak(#{@widget_selector!}, #{to_json opts});"
 
   inner_content: =>
@@ -36,6 +43,13 @@ class ViewStreak extends require "widgets.base"
         @render_submissions!
 
       div class: "streak_side_column", ->
+        div class: "countdown_outer", ->
+          div class: "countdown_header", "Time left to submit"
+          div class: "countdown", ->
+            for p in *{"days", "hours", "minutes", "seconds"}
+              div class: "time_block", ["data-name"]: p, ->
+                div class: "block_value", ""
+                div class: "block_label", p
 
         if @current_submit
           a {

@@ -160,6 +160,11 @@ class Streaks extends Model
       else
         error "not yet"
 
+  -- start date of current unit in UTC
+  current_unit: =>
+    return nil if @before_start! or @after_end!
+    @truncate_date date true
+
   -- get the starting time in UTC
   start_datetime: =>
     date(@start_date)\addhours -@hour_offset
