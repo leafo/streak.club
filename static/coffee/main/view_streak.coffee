@@ -3,7 +3,7 @@ class S.ViewStreak
   constructor: (el, @streak) ->
     @el = $ el
     @el.has_tooltips()
-    S.format_dates @el, "format", "MMMM Do YYYY, h:mm:ss a"
+    S.format_dates @el, "format", "MMMM Do YYYY, h a"
 
     @start = moment @streak.start
     @end = moment @streak.start
