@@ -92,7 +92,10 @@ class ViewStreak extends require "widgets.base"
       else
         text "Starts "
 
-      text "#{@format_timestamp @streak.start_date} (#{@streak\start_datetime!} UTC). "
+      text "#{@format_timestamp @streak.start_date}"
+      text " ("
+      @date_format @streak\start_datetime!
+      text ")."
       br!
 
       if @streak\after_end!
@@ -100,8 +103,10 @@ class ViewStreak extends require "widgets.base"
       else
         text "Ends"
 
-      text " #{@format_timestamp @streak.end_date} (#{@streak\end_datetime!} UTC)."
-
+      text " #{@format_timestamp @streak.end_date} "
+      text " ("
+      @date_format @streak\end_datetime!
+      text ")."
 
     unless is_empty_html @streak.description
       div class: "user_formatted", ->

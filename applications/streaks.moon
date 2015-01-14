@@ -38,7 +38,6 @@ check_slug = =>
   else
     true
 
-
 class StreaksApplication extends lapis.Application
   [new_streak: "/streaks/new"]: require_login respond_to {
     GET: =>

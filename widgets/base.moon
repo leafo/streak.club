@@ -81,3 +81,22 @@ class Base extends Widget
       raw capture fn
       @_buffer.in_template = old_t
 
+
+  date_format: (d, extra_opts) =>
+    if type(d) == "string"
+      date = require "date"
+      d = date(d)
+
+    opts = {
+      class: "date_format"
+      title: tostring(d)
+    }
+
+    if extra_opts
+      for k,v in pairs extra_opts
+        if k == "class"
+          opts[k] = opts[k] .. " " .. v
+        else
+          opts[k] = v
+
+    span opts, d\fmt "${iso}Z"

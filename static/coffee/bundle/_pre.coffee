@@ -94,6 +94,19 @@ window.S = {
           if res.success
             btn.toggleClass "following"
     }
+
+  format_dates: (outer, method="calendar", args=[]) ->
+    for el in outer.find(".date_format")
+      do (el=$ el) ->
+        real_method = el.data("format_method") || method
+        method_args = el.data("format_args") || args
+
+        unless _.isArray method_args
+          method_args = [method_args]
+
+        full_date = el.html()
+        el.html(moment.utc(full_date).local()[real_method](method_args...))
+          .attr "title", full_date
 }
 
 $.fn.dispatch = (event_type, table) ->
