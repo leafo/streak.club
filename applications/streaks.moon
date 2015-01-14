@@ -29,6 +29,16 @@ assert_unit_date = =>
   @unit_date = date(@params.date)\addhours -@streak.hour_offset
   assert_error @streak\date_in_streak(@unit_date), "invalid date"
 
+
+check_slug = =>
+  assert_error @streak, "missing streak"
+  if @params.slug != @streak\slug!
+    @write redirect_to: @url_for @streak
+    false
+  else
+    true
+
+
 class StreaksApplication extends lapis.Application
   [new_streak: "/streaks/new"]: require_login respond_to {
     GET: =>
@@ -65,12 +75,14 @@ class StreaksApplication extends lapis.Application
     }
   }
 
-  [view_streak: "/streak/:id"]: capture_errors {
+  [view_streak: "/s/:id/:slug"]: capture_errors {
     on_error: =>
       not_found
 
     respond_to {
-      before: find_streak
+      before: =>
+        find_streak @
+        check_slug @
 
       GET: =>
 

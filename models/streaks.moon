@@ -4,6 +4,8 @@ import safe_insert from require "helpers.model"
 
 date = require "date"
 
+import slugify from require "lapis.util"
+
 prepare_submits = (opts) ->
   import Submissions from require "models"
   (submits) ->
@@ -113,8 +115,11 @@ class Streaks extends Model
 
     true
 
+  slug: =>
+    slugify @title
+
   url_params: =>
-    "view_streak", id: @id
+    "view_streak", id: @id, slug: @slug!
 
   unit_noun: =>
     switch @rate
