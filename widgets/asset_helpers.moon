@@ -1,8 +1,10 @@
 config = require("lapis.config").get!
 
+cache_buster = require "cache_buster"
+
 class AssetsHelpers
   asset_url: (src, opts) =>
-    "/static/" .. src
+    "/static/" .. src .. "?=" .. cache_buster
 
   include_js: (...) =>
     script type: "text/javascript", src: @asset_url ...
