@@ -1,4 +1,5 @@
 import sanitize_html, is_empty_html from require "helpers.html"
+import login_and_return_url from require "helpers.app"
 
 class SubmissionList extends require "widgets.base"
   @needs: {"submissions"}
@@ -33,7 +34,7 @@ class SubmissionList extends require "widgets.base"
               a {
                 "data-like_url": @url_for("submission_like", id: submission.id)
                 "data-unlike_url": @url_for("submission_unlike", id: submission.id)
-                href: "#"
+                href: @current_user and "#" or login_and_return_url @
                 class: classes
               }, ->
                 span class: "on_like", ["data-tooltip"]: "Unlike submission", ->

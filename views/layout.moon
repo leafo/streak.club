@@ -85,8 +85,8 @@ class Layout extends Widget
     script type: "text/javascript", ->
       opts = { flash: @flash }
       raw "new S.Header('#global_header', #{to_json opts});"
+      raw "S.current_user = #{to_json @current_user.id};" if @current_user
       @content_for "js_init"
-
 
   include_fonts: =>
     raw [[<link href='http://fonts.googleapis.com/css?family=Dosis:300,400,700' rel='stylesheet' type='text/css'>]]

@@ -4,6 +4,8 @@ class S.SubmissionList
     @el = $ el
     @el.dispatch "click", {
       toggle_like_btn: (btn) =>
+        return "continue" unless S.current_user?
+
         btn.addClass ".disabled"
         url_key = if btn.is(".liked") then "unlike_url" else "like_url"
         url = btn.data url_key
