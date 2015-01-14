@@ -154,10 +154,19 @@ class ViewStreak extends require "widgets.base"
     return if @streak\after_end!
 
     div class: "countdown_outer", ->
-      div class: "countdown_header", "Time left to submit"
+      div class: "countdown_header", ->
+        if @current_submit
+          text "Time remaining"
+        else
+          text "Time left to submit"
+
+        span class: "sub",
+          "#{@streak\interval_noun false} ##{@streak\unit_number_for_date(date true)}"
+
       div class: "countdown", ->
         for p in *{"days", "hours", "minutes", "seconds"}
           div class: "time_block", ["data-name"]: p, ->
             div class: "block_value", ""
             div class: "block_label", p
+
 
