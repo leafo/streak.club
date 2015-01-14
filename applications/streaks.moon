@@ -97,7 +97,8 @@ class StreaksApplication extends lapis.Application
         if @streak_user
           if @current_submit = @streak_user\current_unit_submission!
             @current_submit\get_submission!
-          @completed_units = @streak_user\completed_units!
+
+          @completed_units = @streak_user\get_completed_units!
 
         @unit_counts = @streak\unit_submission_counts!
 

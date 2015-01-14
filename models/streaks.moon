@@ -267,3 +267,13 @@ class Streaks extends Model
   is_draft: =>
     @publish_status == @@publish_statuses.draft
 
+  each_unit: =>
+    current = date @start_datetime!
+    stop = date @end_datetime!
+    coroutine.wrap ->
+      while true
+        coroutine.yield current
+        @increment_date_by_unit current
+        break if stop < current
+
+

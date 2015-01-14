@@ -39,20 +39,23 @@ class StreakUsers extends Model
 
     streak_submission
 
-  completed_units: =>
+  get_completed_units: =>
     import StreakSubmissions from require "models"
-    streak = @get_streak!
+    unless @completed_units
+      streak = @get_streak!
 
-    fields = db.interpolate_query [[
-      submission_id,
-      (submit_time + ?::interval)::date submit_day
-    ]], "#{streak.hour_offset} hours"
+      fields = db.interpolate_query [[
+        submission_id,
+        (submit_time + ?::interval)::date submit_day
+      ]], "#{streak.hour_offset} hours"
 
-    res = StreakSubmissions\select [[
-      where user_id = ? and streak_id = ?
-    ]], @user_id, @streak_id, :fields
+      res = StreakSubmissions\select [[
+        where user_id = ? and streak_id = ?
+      ]], @user_id, @streak_id, :fields
 
-    {submit.submit_day, submit.submission_id for submit in *res}
+      @completed_units = {submit.submit_day, submit.submission_id for submit in *res}
+
+    @completed_units
 
   submit_url: (r, date) =>
     import encode_query_string from require "lapis.util"
@@ -63,4 +66,23 @@ class StreakUsers extends Model
       :date
     }
 
+  current_streak: =>
+    streak = @get_streak!
+
+  longest_streak: =>
+    import Streaks from require "models"
+    streak = @get_streak!
+    completed = @get_completed_units!
+    longest = 0
+    current = nil
+    for unit in streak\each_unit!
+      stamp = date(unit)\addhours(streak.hour_offset)\fmt Streaks.day_format_str
+      if completed[stamp]
+        current or= 0
+        current += 1
+        longest = math.max current, longest
+      else
+        current = nil
+
+    longest
 

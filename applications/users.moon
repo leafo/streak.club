@@ -44,7 +44,7 @@ class UsersApplication extends lapis.Application
 
       for streak in *@streaks
         continue unless streak.streak_user
-        streak.completed_units = streak.streak_user\completed_units!
+        streak.completed_units = streak.streak_user\get_completed_units!
 
       Users\include_in @streaks, "user_id"
       render: true
