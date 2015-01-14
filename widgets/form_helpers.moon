@@ -2,6 +2,9 @@
 class FormHelpers
   text_input_row: (opts) =>
     @input_row opts.label, opts.sub, ->
+      if opts.between
+        opts.between!
+
       if opts.type == "textarea"
         textarea {
           required: opts.required and "required"

@@ -85,10 +85,19 @@ class EditStreak extends require "widgets.base"
 
       @text_input_row {
         label: "Roll over hour"
-        sub: "Hour in day when streak rolls over to next day, local timezone, 24 hour time"
+        sub: "Hour in day when streak rolls over to next day"
         name: "streak[hour_offset]"
         class: "hour_offset_input"
         value: ""
+
+        between: ->
+          p class: "input_full_directions", ->
+            text "Leave this at 0 to have each submission due at midnight. If you
+            want the deadline to be 4am you could set it to "
+            code "4"
+            text ". If you want the deadline to be 10pm you could set it to"
+            code "-2"
+            text ". Integers only."
       }
 
       div id: "publish_status"

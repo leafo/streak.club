@@ -62,6 +62,7 @@ class EditSubmission extends require "widgets.base"
         label: "Title"
         name: "submission[title]"
         value: submission.title
+        placeholder: "Optional"
       }
 
       @text_input_row {
@@ -69,11 +70,14 @@ class EditSubmission extends require "widgets.base"
         name: "submission[description]"
         type: "textarea"
         value: submission.description
+        placeholder: "Optional"
       }
 
       @text_input_row {
         label: "Tags"
         class: "tags_input"
+
+        placeholder: "Optional"
 
         sub: "Classify your submission for easy browsing later (10 max). Press enter to add"
         name: "submission[tags]"
