@@ -11,7 +11,7 @@
 
     .input_row {
         margin: 0;
-        margin-bottom: 20px;
+        margin-bottom: 30px;
     }
 
     .radio_list, .check_list {
@@ -106,7 +106,7 @@
     }
 
     .label {
-        font-size: 12px;
+        font-size: 14px;
         font-weight: bold;
         color: mix(#666, $button_color, 90%);
         margin-bottom: 4px;
@@ -129,7 +129,7 @@
         color: #666;
         font-size: 16px;
         max-width: 480px;
-        margin: 5px 0;
+        margin: 15px 0;
     }
 }
 

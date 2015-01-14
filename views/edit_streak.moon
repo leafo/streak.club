@@ -60,7 +60,7 @@ class EditStreak extends require "widgets.base"
           span class: "sub", ->
             raw " &mdash; When does the streak start and stop"
 
-        div ->
+        div class: "date_row", ->
           label ->
             div class: "duration_label label", "Start date:"
             input {
@@ -71,6 +71,7 @@ class EditStreak extends require "widgets.base"
               value: @format_date_for_input streak.start_date
             }
 
+        div class: "date_row", ->
           label ->
             div class: "duration_label label", "End date:"
             input {

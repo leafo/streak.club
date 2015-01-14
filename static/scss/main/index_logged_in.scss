@@ -1,5 +1,9 @@
 
 .index_logged_in {
+    h2:first-child {
+        margin-top: 0;
+    }
+
     .columns {
         font-size: 0;
     }
