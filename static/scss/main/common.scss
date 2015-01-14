@@ -1,15 +1,21 @@
 
-$button_color: #7ED6D7;
-$link_color: desaturate(darken(#7ED6D7, 8%), 8%);
 $border_color: #dadada;
 $site_width: 960px;
-$error_color: #D14343;
 $body_size: 18px;
 
+$teal: #7ED6D7;
 $red: #fe4e50;
 $green: #aada80;
+$blue: #34a0f2;
+
+$button_color: $blue;
+$link_color: $blue;
+$header_color: $blue;
+$error_color: $red;
+
 @mixin default_font {
-    font-family: 'Source Sans Pro', sans-serif;
+    // font-family: "Source Sans Pro", sans-serif;
+    font-family: "Dosis", sans-serif;
     font-size: 18px;
 }
 

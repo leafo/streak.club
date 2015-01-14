@@ -89,8 +89,9 @@ class Layout extends Widget
 
 
   include_fonts: =>
-    if config._name == "production"
-      raw [[<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic' rel='stylesheet' type='text/css'>]]
+    raw [[<link href='http://fonts.googleapis.com/css?family=Dosis:300,400,700' rel='stylesheet' type='text/css'>]]
+    -- if config._name == "production"
+    --   raw [[<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic' rel='stylesheet' type='text/css'>]]
 
   body_attributes: (class_name) =>
     {

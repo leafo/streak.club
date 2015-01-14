@@ -59,7 +59,7 @@ a {
     $inset_margin: 40px;
     $header_height: 50px;
 
-    background: $button_color;
+    background: $header_color;
     height: $header_height;
     color: white;
     position: relative;
@@ -112,7 +112,7 @@ a {
 
         &:hover {
             background: rgba(white, 0.8);
-            color: $button_color;
+            color: $header_color;
         }
 
         &:active {
