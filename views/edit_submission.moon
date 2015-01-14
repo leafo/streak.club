@@ -110,6 +110,11 @@ class EditSubmission extends require "widgets.base"
         input type: "hidden", name: "upload[{{ id }}][position]", value: "{{ position }}"
 
         div ->
+          div class: "upload_tools", ->
+            a href: "", class: "move_up_btn", "Move up"
+            a href: "", class: "move_down_btn", "Move down"
+            a href: "", class: "delete_btn", "Delete"
+
           span class: "filename", "{{ filename }}"
           text " "
           span class: "file_size", " ({{ _.str.formatBytes(size) }})"

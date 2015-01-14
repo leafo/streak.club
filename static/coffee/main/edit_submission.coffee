@@ -132,6 +132,20 @@ class S.EditSubmission
     @setup_tags()
     S.redactor @el.find "textarea"
 
+    @el.dispatch "click", {
+      move_down_btn: (btn) =>
+        upload = btn.closest ".file_upload"
+        upload.swap_with upload.next ".file_upload"
+
+      move_up_btn: (btn) =>
+        upload = btn.closest ".file_upload"
+        upload.swap_with upload.prev ".file_upload"
+
+      delete_btn: (btn) =>
+        if confirm "Are you sure you want to remove this file?"
+          btn.closest(".file_upload").remove()
+    }
+
   setup_uploads:  =>
     @upload_manager = new UploaderManager @el.find(".new_upload_btn"), @
     if @opts.uploads

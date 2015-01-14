@@ -22,16 +22,28 @@
         border-bottom: 1px solid $border_color;
         padding-bottom: 10px;
         margin-bottom: 10px;
+        position: relative;
+        top: 0;
+
+        @include transition(top 0.2s ease);
 
         &.uploading {
             .upload_progress {
                 display: inline-block;
+            }
+
+            .upload_tools {
+                display: none;
             }
         }
 
         &.has_error {
             .upload_error {
                 display: inline-block;
+            }
+
+            .upload_tools {
+                display: none;
             }
         }
 
@@ -73,6 +85,21 @@
                 height: 100%;
                 width: 0%;
                 background: $link_color;
+            }
+        }
+
+        .upload_tools {
+            float: right;
+            display: block;
+
+            a {
+                display: inline-block;
+                margin-right: 15px;
+                font-size: 16px;
+            }
+
+            .delete_btn {
+                color: $red;
             }
         }
     }
