@@ -24,11 +24,11 @@ find_streak = =>
   @streak_user = @streak\has_user @current_user
   true
 
+-- unit_date is in UTC
 assert_unit_date = =>
   y, m, d = assert_error @params.date\match("%d+-%d+-%d+"), "invalid date"
   @unit_date = date(@params.date)\addhours -@streak.hour_offset
   assert_error @streak\date_in_streak(@unit_date), "invalid date"
-
 
 check_slug = =>
   assert_error @streak, "missing streak"

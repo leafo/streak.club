@@ -229,11 +229,11 @@ class Streaks extends Model
       prepare_results: prepare_submits opts
     }
 
+  -- unit date in UTC
   find_submissions_for_unit: (unit_date, opts) =>
     import StreakSubmissions, Submissions, Users, Uploads from require "models"
 
-    -- going from streak time to -> utc, subtract
-    unit_start = date(unit_date)\addhours -@hour_offset
+    unit_start = @truncate_date unit_date
     unit_end = @increment_date_by_unit date unit_start
 
     unit_start_formatted = unit_start\fmt @@timestamp_format_str
