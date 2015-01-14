@@ -185,5 +185,29 @@
             margin: 0;
             color: #999;
         }
+
+        .submission_tags {
+            @include single_line;
+            text-align: right;
+            border-top: 1px solid $border_color;
+            padding: 4px 20px;
+
+            .submission_tag {
+                @include transition(all 0.2s ease);
+                display: inline-block;
+                font-size: 16px;
+                margin-left: 15px;
+                text-decoration: none;
+                color: #666;
+
+                &:hover {
+                    color: $link_color;
+                }
+
+                &:before {
+                    content: "#";
+                }
+            }
+        }
     }
 }

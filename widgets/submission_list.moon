@@ -82,8 +82,12 @@ class SubmissionList extends require "widgets.base"
             elseif not (submission.uploads and next submission.uploads)
               p class: "empty_message", "This submission is empty"
 
-
             @render_uploads submission
+
+            if submission.tags and next submission.tags
+              div class: "submission_tags", ->
+                for tag in *submission.tags
+                  a class: "submission_tag", tag.slug
 
   render_uploads: (submission) =>
     return unless submission.uploads and next submission.uploads
