@@ -33,6 +33,20 @@ class Submissions extends Model
 
     submissions, [s.streak for s in *streak_submits]
 
+  @preload_tags: (submissions) =>
+    import SubmissionTags from require "models"
+    submission_ids = [s.id for s in *submissions]
+    tags = SubmissionTags\find_all submission_ids, key: "submission_id"
+    tags_by_submission_id = {}
+    for t in *tags
+      tags_by_submission_id[t.submission_id] or= {}
+      table.insert tags_by_submission_id[t.submission_id], t
+
+    for s in *submissions
+      s.tags = tags_by_submission_id[s.id] or {}
+
+    submissions
+
   @preload_for_list: (submissions, opts={}) =>
     import Users, Uploads, SubmissionLikes from require "models"
 
@@ -45,6 +59,8 @@ class Submissions extends Model
 
       for streak in *streaks
         table.insert things_with_users, streak
+
+    @preload_tags submissions
 
     Users\include_in things_with_users, "user_id", {
       fields: "id, username, slug, display_name, email"
