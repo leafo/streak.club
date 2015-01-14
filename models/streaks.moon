@@ -165,6 +165,14 @@ class Streaks extends Model
     return nil if @before_start! or @after_end!
     @truncate_date date true
 
+  -- UTC date to unit number
+  unit_number_for_date: (d) =>
+    switch @rate
+      when @@rates.daily
+        math.floor(date.diff(d, @start_datetime!)\spandays!) + 1
+      else
+        error "not yet"
+
   -- get the starting time in UTC
   start_datetime: =>
     date(@start_date)\addhours -@hour_offset

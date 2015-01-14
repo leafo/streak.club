@@ -13,8 +13,5 @@ class StreakSubmissions extends Model
   }
 
   unit_number: =>
-    streak = @get_streak!
-    start = streak\start_datetime!
-    submitted = date @submit_time
-    error "not yet for week" if streak.rate != streak.__class.rates.daily
-    math.floor(date.diff(submitted, start)\spandays!) + 1
+    @get_streak!\unit_number_for_date date @submit_time
+
