@@ -37,11 +37,9 @@ class SubmissionList extends require "widgets.base"
                 href: @current_user and "#" or login_and_return_url @
                 class: classes
               }, ->
-                span class: "on_like", ["data-tooltip"]: "Unlike submission", ->
-                  raw "&hearts;"
+                span class: "on_like icon-heart", ["data-tooltip"]: "Unlike submission"
 
-                span class: "on_no_like", ["data-tooltip"]: "Like submission", ->
-                  raw "&hearts;"
+                span class: "on_no_like icon-heart", ["data-tooltip"]: "Like submission"
 
               text " "
               span class: "like_count", submission.likes_count
