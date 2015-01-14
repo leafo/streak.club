@@ -3,10 +3,17 @@
     .streak_unit {
         background: $border_color;
         display: inline-block;
+        vertical-align: top;
         margin: 0 4px 4px 0;
+        color: white;
+        color: #888;
+        font-size: 10px;
+        font-weight: bold;
+        text-align: center;
 
         &.before_today {
             background: darken($border_color, 18%);
+            color: #eee;
         }
 
         &.today {
@@ -15,6 +22,7 @@
 
         &.submitted {
             background: $green;
+            color: white;
         }
     }
 }

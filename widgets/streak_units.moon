@@ -25,7 +25,8 @@ class StreakUnits extends require "widgets.base"
       current_time = date(current_date)\addhours @streak.hour_offset
 
       classes = "streak_unit"
-      if current_time < today
+      before_today = current_time < today
+      if before_today
         if date.diff(today, current_time)\spandays! <= 1
           classes ..= " today"
         else
@@ -48,7 +49,9 @@ class StreakUnits extends require "widgets.base"
           class: classes
           "data-date": tostring current_date
           "data-tooltip": tooltip
+          @unit_counts and before_today and tostring(count) or nil
         }
+
 
       @streak\increment_date_by_unit current_date
 
