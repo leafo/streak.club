@@ -43,13 +43,7 @@ class ViewStreak extends require "widgets.base"
         @render_submissions!
 
       div class: "streak_side_column", ->
-        div class: "countdown_outer", ->
-          div class: "countdown_header", "Time left to submit"
-          div class: "countdown", ->
-            for p in *{"days", "hours", "minutes", "seconds"}
-              div class: "time_block", ["data-name"]: p, ->
-                div class: "block_value", ""
-                div class: "block_label", p
+        @render_countdown!
 
         if @current_submit
           a {
@@ -153,4 +147,17 @@ class ViewStreak extends require "widgets.base"
 
     h4 "Recent submissions"
     widget SubmissionList
+
+
+  render_countdown: =>
+    return if @streak\before_start!
+    return if @streak\after_end!
+
+    div class: "countdown_outer", ->
+      div class: "countdown_header", "Time left to submit"
+      div class: "countdown", ->
+        for p in *{"days", "hours", "minutes", "seconds"}
+          div class: "time_block", ["data-name"]: p, ->
+            div class: "block_value", ""
+            div class: "block_label", p
 

@@ -14,18 +14,18 @@ class S.ViewStreak
 
   setup_countdown: ->
     countdown = @el.find ".countdown"
+    return unless countdown.length
+
     parts = ["days", "hours", "minutes", "seconds"]
 
     update_countdown = =>
       dur = moment.duration @unit_end.diff moment()
-      console.log dur.days(), dur.hours(), dur.minutes(), dur.seconds()
       can_hide = true
 
       for p in parts
         p_el = countdown.find "[data-name='#{p}']"
         val = dur[p]()
         val = 0 if p == "minutes"
-        console.log p, val, can_hide
 
         p_el
           .toggleClass("hidden", can_hide && val == 0)
