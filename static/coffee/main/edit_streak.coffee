@@ -7,6 +7,16 @@ class S.EditStreak
 
     S.redactor @el.find "textarea"
 
+    form = @el.find("form")
+    form.remote_submit (res) =>
+      if res.errors
+        form.set_form_errors res.errors
+        return
+
+      if res.url
+        window.location = res.url
+
+
   setup_timezone: =>
     @el.find(".timezone_input").val jstz.determine().name()
 

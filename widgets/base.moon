@@ -81,7 +81,6 @@ class Base extends Widget
       raw capture fn
       @_buffer.in_template = old_t
 
-
   date_format: (d, extra_opts) =>
     if type(d) == "string"
       date = require "date"

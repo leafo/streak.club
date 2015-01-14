@@ -49,7 +49,7 @@ class StreaksApplication extends lapis.Application
       flow = EditStreakFlow @
       streak = flow\create_streak!
       streak\join @current_user
-      redirect_to: @url_for streak
+      json: { url: @url_for streak }
   }
 
   [edit_streak: "/streak/:id/edit"]: require_login capture_errors {
@@ -70,7 +70,7 @@ class StreaksApplication extends lapis.Application
         flow = EditStreakFlow @
         flow\edit_streak!
         @session.flash = "Streak saved"
-        redirect_to: @url_for @streak
+        json: { url: @url_for @streak }
     }
   }
 

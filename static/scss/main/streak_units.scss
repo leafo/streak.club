@@ -10,11 +10,11 @@
         }
 
         &.today {
-            box-shadow: 0 0 0 2px mix($link_color, white, 50%);
+            box-shadow: 0 0 0 2px mix($green, white, 50%);
         }
 
         &.submitted {
-            background: $link_color;
+            background: $green;
         }
     }
 }
