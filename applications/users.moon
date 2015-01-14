@@ -51,6 +51,10 @@ class UsersApplication extends lapis.Application
   }
 
   [user_register: "/register"]: respond_to {
+    before: =>
+      if @current_user
+        @write redirect_to: @url_for "index"
+
     GET: => render: true
 
     POST: capture_errors =>
@@ -80,6 +84,10 @@ class UsersApplication extends lapis.Application
   }
 
   [user_login: "/login"]: respond_to {
+    before: =>
+      if @current_user
+        @write redirect_to: @url_for "index"
+
     GET: => render: true
     POST: capture_errors =>
       assert_csrf @
