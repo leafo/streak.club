@@ -28,7 +28,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="52.240614"
-     inkscape:cx="7.2644629"
+     inkscape:cx="3.9145788"
      inkscape:cy="4.4857158"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -50,7 +50,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -61,7 +61,7 @@
      transform="translate(-0.04942266,-1032.43)">
     <path
        sodipodi:type="star"
-       style="color:#000000;fill:#7ed6d7;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       style="color:#000000;fill:#34a0f2;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        id="path3772"
        sodipodi:sides="3"
        sodipodi:cx="8.9272232"
@@ -75,6 +75,9 @@
        inkscape:randomized="0"
        d="M 8.9272236,16.907506 2.7647497,6.2337893 -3.397723,-4.4399268 l 12.3249464,-8e-7 12.3249456,2e-7 -6.162472,10.673717 z"
        transform="matrix(0.80995525,0,0,0.46587972,2.8014262,1034.4985)"
-       inkscape:transform-center-y="1.6575176" />
+       inkscape:transform-center-y="1.6575176"
+       inkscape:export-filename="/home/leafo/code/sites/streak.club/static/images/tooltip-tick.png"
+       inkscape:export-xdpi="49.58601"
+       inkscape:export-ydpi="49.58601" />
   </g>
 </svg>
