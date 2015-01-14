@@ -40,7 +40,7 @@ class EditStreakFlow extends Flow
     assert_error hour_offset <= 12 and hour_offset >= -12,
       "hour offset must not be more than 12 hours"
 
-    streak_params.hour_offset = timezone_offset + hour_offset
+    streak_params.hour_offset = timezone_offset - hour_offset
 
     start_date = date streak_params.start_date
     end_date = date streak_params.end_date
