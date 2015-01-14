@@ -7,6 +7,10 @@ date = require "date"
 class ViewStreakUnit extends require "widgets.base"
   @needs: {"streak", "submissions"}
 
+
+  js_init: =>
+    "new S.ViewStreakUnit(#{@widget_selector!});"
+
   inner_content: =>
     if @streak\allowed_to_edit @current_user
       div class: "admin_tools", ->
