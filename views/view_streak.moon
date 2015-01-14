@@ -3,6 +3,8 @@ import login_and_return_url from require "helpers.app"
 import sanitize_html, is_empty_html from require "helpers.html"
 import time_ago_in_words, to_json from require "lapis.util"
 
+date = require "date"
+
 StreakUnits = require "widgets.streak_units"
 SubmissionList = require "widgets.submission_list"
 
