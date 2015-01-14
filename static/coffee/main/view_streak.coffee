@@ -25,7 +25,6 @@ class S.ViewStreak
       for p in parts
         p_el = countdown.find "[data-name='#{p}']"
         val = dur[p]()
-        val = 0 if p == "minutes"
 
         p_el
           .toggleClass("hidden", can_hide && val == 0)
