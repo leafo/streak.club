@@ -79,7 +79,7 @@ class ViewStreak extends require "widgets.base"
         @render_streak_units!
 
         if @streak_user
-          form action: "", method: "post", class: "form", ->
+          form action: "", method: "post", class: "form leave_form", ->
             @csrf_input!
             button {
               class: "button outline_button"
