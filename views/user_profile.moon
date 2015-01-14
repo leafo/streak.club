@@ -17,7 +17,7 @@ class UserProfile extends require "widgets.base"
     div class: "page_header", ->
       h2 @user\name_for_display!
       h3 ->
-        text "A user registered #{@format_timestamp @user.created_at}"
+        text "A user registered #{@relative_timestamp @user.created_at}"
         raw " &middot; "
         text @plural @user.submissions_count, "submission", "submissions"
 

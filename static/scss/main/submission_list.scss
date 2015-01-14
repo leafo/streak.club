@@ -47,6 +47,21 @@
                         text-decoration: underline;
                     }
                 }
+
+                .edit_btn {
+                    @include transition(all 0.2s ease);
+                    display: inline-block;
+                    vertical-align: top;
+                    margin-left: 15px;
+                    position: relative;
+                    top: 2px;
+
+                    &:hover {
+                        color: $link_color;
+                        text-decoration: none;
+                    }
+                }
+
             }
 
             .submission_title {
@@ -64,6 +79,7 @@
                 margin-top: 15px;
                 color: #666;
             }
+
         }
 
         .submission_uploads {

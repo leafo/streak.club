@@ -50,8 +50,16 @@ class SubmissionList extends require "widgets.base"
                 a {
                   href: @url_for submission
                   "data-tooltip": submission.created_at
-                  "#{@format_timestamp submission.created_at}"
+                  "#{@relative_timestamp submission.created_at}"
                 }
+
+                if submission\allowed_to_edit @current_user
+                  a {
+                    href: @url_for("edit_submission", id: submission.id)
+                    "data-tooltip": "Edit submission"
+                    class: "icon-pencil edit_btn"
+                  }
+
 
               if submission.title
                 h3 class: "submission_title", ->

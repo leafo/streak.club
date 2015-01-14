@@ -58,7 +58,7 @@ class Base extends Widget
           for e in *@errors
             li e
 
-  format_timestamp: (d) =>
+  relative_timestamp: (d) =>
     now = date true
 
     suffix = if date(true) < date(d)

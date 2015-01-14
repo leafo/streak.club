@@ -102,7 +102,7 @@ class ViewStreak extends require "widgets.base"
       else
         text "Starts "
 
-      text "#{@format_timestamp @streak.start_date}"
+      text "#{@relative_timestamp @streak.start_date}"
       text " ("
       @date_format @streak\start_datetime!
       text ")."
@@ -113,7 +113,7 @@ class ViewStreak extends require "widgets.base"
       else
         text "Ends"
 
-      text " #{@format_timestamp @streak.end_date} "
+      text " #{@relative_timestamp @streak.end_date} "
       text " ("
       @date_format @streak\end_datetime!
       text ")."
