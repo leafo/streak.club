@@ -17,6 +17,15 @@ class UserSettings extends require "widgets.base"
         value: @user.display_name
       }
 
+
       div class: "button_row", ->
         input class: "button", type: "submit", value: "Submit"
+
+    div class: "form", ->
+      div class: "input_row", ->
+        div class: "label", "Avatar"
+        p ->
+          text "Set avatar on "
+          a href: "https://gravatar.com/", "Gravatar"
+
 
