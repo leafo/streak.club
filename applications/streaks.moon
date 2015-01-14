@@ -84,7 +84,6 @@ class StreaksApplication extends lapis.Application
         check_slug @
 
       GET: =>
-
         @title = @streak.title
         import StreakUsers from require "models"
         pager = StreakUsers\paginated "where streak_id = ?", @streak.id, {
@@ -233,6 +232,7 @@ class StreaksApplication extends lapis.Application
         assert_csrf @
         flow = EditSubmissionFlow @
         submission = flow\create_submission!
+        @session.flash = "Submission added"
 
         json: {
           success: true

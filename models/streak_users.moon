@@ -39,6 +39,7 @@ class StreakUsers extends Model
 
     streak_submission
 
+  -- return completed units indexed by local time date stamp
   get_completed_units: =>
     import StreakSubmissions from require "models"
     unless @completed_units
@@ -67,7 +68,25 @@ class StreakUsers extends Model
     }
 
   current_streak: =>
+    import Streaks from require "models"
     streak = @get_streak!
+    completed = @get_completed_units!
+
+    day = streak\truncate_date(date(true))\addhours streak.hour_offset
+    day_stamp = day\fmt Streaks.day_format_str
+
+    unless completed[day_stamp]
+      -- start counting from yesterday since today is still available
+      day\adddays -1
+
+    current = 0
+    while true
+      day_stamp = day\fmt Streaks.day_format_str
+      break unless completed[day_stamp]
+      current += 1
+      day\adddays -1
+
+    current
 
   longest_streak: =>
     import Streaks from require "models"
