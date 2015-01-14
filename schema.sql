@@ -336,7 +336,8 @@ CREATE TABLE users (
     updated_at timestamp without time zone NOT NULL,
     submissions_count integer DEFAULT 0 NOT NULL,
     following_count integer DEFAULT 0 NOT NULL,
-    followers_count integer DEFAULT 0 NOT NULL
+    followers_count integer DEFAULT 0 NOT NULL,
+    admin boolean DEFAULT false NOT NULL
 );
 
 
@@ -657,6 +658,7 @@ COPY lapis_migrations (name) FROM stdin;
 1420449446
 1420710737
 1420712611
+1421223602
 \.
 
 

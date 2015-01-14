@@ -89,7 +89,7 @@ class Users extends Model
     "user_profile", slug: @slug
 
   is_admin: =>
-    false
+    @admin
 
   find_submissions: (extra_opts) =>
     import Submissions from require "models"
