@@ -27,6 +27,18 @@
 
         @include transition(top 0.2s ease);
 
+        &:first-child {
+            .move_up_btn {
+                display: none;
+            }
+        }
+
+        &:last-child {
+            .move_down_btn {
+                display: none;
+            }
+        }
+
         &.uploading {
             .upload_progress {
                 display: inline-block;
