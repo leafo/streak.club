@@ -153,8 +153,8 @@ a {
 
 
 .admin_tools {
-    border: 1px solid lighten(mix($button_color, red, 60%), 20%);
-    background: lighten(mix($button_color, red, 60%), 38%);
+    border: 1px solid lighten(mix($button_color, $red, 60%), 25%);
+    background: lighten(mix($button_color, $red, 60%), 34%);
     margin-bottom: 20px;
     padding: 10px;
 

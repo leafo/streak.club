@@ -39,11 +39,8 @@ class StreaksApplication extends lapis.Application
       assert_csrf @
       flow = EditStreakFlow @
       streak = flow\create_streak!
-
-      json: {
-        :streak
-        url: @url_for streak
-      }
+      streak\join @current_user
+      redirect_to: @url_for streak
   }
 
   [edit_streak: "/streak/:id/edit"]: require_login capture_errors {
