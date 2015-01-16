@@ -64,3 +64,22 @@ describe "users", ->
     assert.same 302, status
     assert.same "http://127.0.0.1/", headers.location
 
+  describe "with streaks", ->
+    import Streaks, StreakSubmissions, Submissions, StreakUsers from require "models"
+
+    before_each ->
+      truncate_tables Streaks, StreakSubmissions, Submissions, StreakUsers
+
+    it "should get no active streaks", ->
+      user = factory.Users!
+      assert.same 0, #user\get_active_streaks!
+
+    it "should get one active streaks", ->
+      user = factory.Users!
+
+      for state in *{"during", "before_start", "after_end"}
+        streak = factory.Streaks state: state
+        factory.StreakUsers streak_id: streak.id, user_id: user.id
+
+      assert.same 1, #user\get_active_streaks!
+
