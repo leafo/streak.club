@@ -52,11 +52,15 @@ class SubmissionsApplication extends lapis.Application
           @streak = assert_error Streaks\find(@params.streak_id), "invalid streak"
 
           assert_unit_date @
-
           assert_error @streak\allowed_to_view @current_user
 
           @streak.streak_user = assert_error @streak\has_user @current_user,
             "not part of streak"
+
+          existing = @streak.streak_user\submission_for_date @unit_date
+          if existing
+            @session.flash = "You've already submitted for #{@params.date}"
+            return @write redirect_to: @url_for @streak
 
           @submittable_streaks = { @streak }
         else
