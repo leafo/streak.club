@@ -17,8 +17,8 @@ class ViewStreak extends require "widgets.base"
     opts = {
       start: @streak\start_datetime!\fmt "${iso}Z"
       end: @streak\end_datetime!\fmt "${iso}Z"
-      unit_start: current_unit\fmt "${iso}Z"
-      unit_end: @streak\increment_date_by_unit(current_unit)\fmt "${iso}Z"
+      unit_start: current_unit and current_unit\fmt "${iso}Z"
+      unit_end: current_unit and @streak\increment_date_by_unit(current_unit)\fmt "${iso}Z"
     }
     "new S.ViewStreak(#{@widget_selector!}, #{to_json opts});"
 
