@@ -45,9 +45,6 @@ class EditSubmission extends require "widgets.base"
         if @unit_date
           h3 "Submiting for #{@unit_date\fmt Streaks.day_format_str}"
 
-    if @streak
-      p "Submitting to #{@streak.title}"
-
     submission = @params.submission or @submission or {}
     tags_str = if @submission
       table.concat [tag.slug for tag in *@submission\get_tags!], ","
@@ -130,6 +127,12 @@ class EditSubmission extends require "widgets.base"
 
   streak_picker: =>
     return unless @submittable_streaks
+    if #@submittable_streaks == 1
+      streak = @submittable_streaks[1]
+      p class: "submit_banner", "Submitting to #{streak.title}"
+      input type: "hidden", name: "submit_to[#{streak.id}]", value: "on"
+      return
+
     selected = if @params.streak_id
       { [@params.streak_id]: true }
     else

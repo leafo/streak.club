@@ -39,7 +39,6 @@ class SubmissionsApplication extends lapis.Application
       render: true
   }
 
-
   [new_submission: "/submit"]: require_login capture_errors {
     on_error: => not_found
 
