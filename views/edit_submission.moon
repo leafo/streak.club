@@ -2,6 +2,8 @@
 import to_json from require "lapis.util"
 import Streaks from require "models"
 
+date = require "date"
+
 class EditSubmission extends require "widgets.base"
   @needs: {"submission", "uploads"}
 
@@ -129,7 +131,8 @@ class EditSubmission extends require "widgets.base"
     return unless @submittable_streaks
     if #@submittable_streaks == 1
       streak = @submittable_streaks[1]
-      p class: "submit_banner", "Submitting to #{streak.title}"
+      p class: "submit_banner", ->
+        text "Submitting to #{streak.title}, #{streak\interval_noun false} ##{streak\unit_number_for_date(date true)}."
       input type: "hidden", name: "submit_to[#{streak.id}]", value: "on"
       return
 
@@ -139,6 +142,9 @@ class EditSubmission extends require "widgets.base"
       {}
 
     @input_row "Submit to", ->
-      @checkboxes "submit_to",
-        [{tostring(s.id), s.title} for s in *@submittable_streaks], selected
+      opts = for s in *@submittable_streaks
+        unit_num = "#{s\interval_noun false} ##{s\unit_number_for_date(date true)}"
+        {tostring(s.id), s.title, unit_num}
+
+      @checkboxes "submit_to", opts, selected
 
