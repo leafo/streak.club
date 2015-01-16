@@ -70,16 +70,21 @@ describe "users", ->
     before_each ->
       truncate_tables Streaks, StreakSubmissions, Submissions, StreakUsers
 
-    it "should get no active streaks", ->
+    it "in no streak", ->
       user = factory.Users!
-      assert.same 0, #user\get_active_streaks!
+      factory.Streaks state: "during"
 
-    it "should get one active streaks", ->
+      assert.same 0, #user\get_active_streaks!
+      assert.same 0, #user\get_all_streaks!
+
+    it "in streaks of all states", ->
       user = factory.Users!
+      factory.Streaks state: "during"
 
       for state in *{"during", "before_start", "after_end"}
         streak = factory.Streaks state: state
         factory.StreakUsers streak_id: streak.id, user_id: user.id
 
       assert.same 1, #user\get_active_streaks!
+      assert.same 3, #user\get_all_streaks!
 
