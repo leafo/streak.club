@@ -27,6 +27,18 @@ describe "streaks", ->
     streak = factory.Streaks!
     assert.truthy streak
 
+  it "should recount a streak #ddd", ->
+    streak = factory.Streaks!
+
+    for i=1,2
+      factory.StreakSubmissions streak_id: streak.id
+
+    factory.StreakUsers streak_id: streak.id
+
+    streak\recount!
+    assert.same streak.users_count, 1
+    assert.same streak.submissions_count, 2
+
   it "should create a streak during", ->
     streak = factory.Streaks state: "during"
     assert.truthy streak\during!
@@ -98,6 +110,9 @@ describe "streaks", ->
         assert.same 5, submit\unit_number!
 
 
+    streak_url = (streak) ->
+      "/s/#{streak.id}/#{streak\slug!}"
+
     it "should view streak", ->
       for i=1,2
         factory.StreakSubmissions {
@@ -105,11 +120,11 @@ describe "streaks", ->
           submit_time: "2015-3-#{i} 09:00:00"
         }
 
-      status = request "/streak/#{streak.id}"
+      status = request streak_url(streak)
       assert.same 200, status
 
     it "should view streak as owner", ->
-      status = request_as user, "/streak/#{streak.id}"
+      status = request_as user, streak_url(streak)
       assert.same 200, status
 
     it "should view first streak unit day", ->

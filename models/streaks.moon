@@ -277,3 +277,13 @@ class Streaks extends Model
         break if stop < current
 
 
+  recount: =>
+    @update {
+      users_count: db.raw db.interpolate_query [[
+        (select count(*) from streak_users where streak_id = ?)
+      ]], @id
+      submissions_count: db.raw db.interpolate_query [[
+        (select count(*) from streak_submissions where streak_id = ?)
+      ]], @id
+    }
+
