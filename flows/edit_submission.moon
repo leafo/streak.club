@@ -1,7 +1,7 @@
 
 db = require "lapis.db"
 
-import assert_error from require "lapis.application"
+import assert_error, yield_error from require "lapis.application"
 import assert_valid from require "lapis.validate"
 import trim_filter from require "lapis.util"
 import filter_update from require "helpers.model"
@@ -12,6 +12,26 @@ import Flow from require "lapis.flow"
 date = require "date"
 
 class EditSubmissionFlow extends Flow
+  get_submitting_streaks: =>
+    @submittable_streaks or= @current_user\get_submittable_streaks!
+    submittable_by_id = {s.id, s for s in *@submittable_streaks}
+
+    unless @params.submit_to
+      yield_error "you must choose a streak to submit to"
+
+    assert_valid @params, {
+      {"submit_to", type: "table"}
+    }
+
+    streaks = for id in pairs @params.submit_to
+      with streak = submittable_by_id[tonumber id]
+        continue unless streak
+
+    unless next streaks
+      yield_error "you must choose a streak to submit to"
+
+    streaks
+
   validate_params: =>
     assert_valid @params, {
       {"submission", type: "table"}
@@ -43,21 +63,22 @@ class EditSubmissionFlow extends Flow
     params = @validate_params!
     params.user_id = @current_user.id
 
-    streak_user = assert_error @streak\has_user(@current_user),
-      "user not in streak"
+    streaks = @get_submitting_streaks!
 
-    submit_timestamp = if @unit_date
-      submit_date = @streak\increment_date_by_unit @streak\truncate_date date @unit_date
-      submit_date\addseconds -10
-      submit_date\fmt Streaks.timestamp_format_str
+    -- TODO: restore me
+    -- submit_timestamp = if @unit_date
+    --   submit_date = @streak\increment_date_by_unit @streak\truncate_date date @unit_date
+    --   submit_date\addseconds -10
+    --   submit_date\fmt Streaks.timestamp_format_str
 
     @submission = Submissions\create params
     @current_user\update submissions_count: db.raw "submissions_count + 1"
 
-    submit = @streak\submit @submission, submit_timestamp
-    if submit
-      streak_user\update submissions_count: db.raw "submissions_count + 1"
-      @streak\update submissions_count: db.raw "submissions_count + 1"
+    for streak in *streaks
+      submit = streak\submit @submission, submit_timestamp
+      if submit
+        streak.streak_user\update submissions_count: db.raw "submissions_count + 1"
+        streak\update submissions_count: db.raw "submissions_count + 1"
 
     @set_uploads!
     @set_tags!
@@ -78,7 +99,6 @@ class EditSubmissionFlow extends Flow
   set_tags: =>
     assert @submission, "submission needed to set tags"
 
-    import yield_error from require "lapis.application"
     @submission\set_tags @tags_str
 
   set_uploads: =>

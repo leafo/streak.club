@@ -58,6 +58,8 @@ class EditSubmission extends require "widgets.base"
       input type: "hidden", name: "json", value: "yes"
       @csrf_input!
 
+      @streak_picker!
+
       @text_input_row {
         label: "Title"
         name: "submission[title]"
@@ -126,4 +128,14 @@ class EditSubmission extends require "widgets.base"
 
           div class: "upload_success", "Success"
 
+  streak_picker: =>
+    return unless @submittable_streaks
+    selected = if @params.streak_id
+      { [@params.streak_id]: true }
+    else
+      {}
+
+    @input_row "Submit to", ->
+      @checkboxes "submit_to",
+        [{tostring(s.id), s.title} for s in *@submittable_streaks], selected
 

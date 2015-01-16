@@ -23,7 +23,7 @@ find_submission = =>
   @submission = Submissions\find @params.id
   assert_error @submission, "invalid submission"
 
-class UsersApplication extends lapis.Application
+class SubmissionsApplication extends lapis.Application
   [view_submission: "/submission/:id"]: capture_errors {
     on_error: =>
       not_found
@@ -35,6 +35,40 @@ class UsersApplication extends lapis.Application
       @user = @submission\get_user!
       @streaks = @submission\get_streaks!
       render: true
+  }
+
+
+  [new_submission: "/submit"]: require_login capture_errors {
+    on_error: => not_found
+
+    respond_to {
+      before: =>
+        @submittable_streaks = @current_user\get_submittable_streaks!
+
+        unless next @submittable_streaks
+          @session.flash = "You don't have any available streaks"
+          @write redirect_to: @url_for "index"
+
+      GET: =>
+        @title = if #@submittable_streaks == 1
+          "Submit to #{@submittable_streaks[1].title}"
+        else
+          "New submission"
+
+        render: "edit_submission"
+
+      POST: capture_errors_json =>
+        assert_csrf @
+        flow = EditSubmissionFlow @
+        submission = flow\create_submission!
+        @session.flash = "Submission added"
+
+        json: {
+          success: true
+          url: @url_for submission
+        }
+
+    }
   }
 
   [edit_submission: "/submission/:id/edit"]: require_login capture_errors {
