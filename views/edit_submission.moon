@@ -129,10 +129,12 @@ class EditSubmission extends require "widgets.base"
 
   streak_picker: =>
     return unless @submittable_streaks
+    submit_date = @unit_date or date true
+
     if #@submittable_streaks == 1
       streak = @submittable_streaks[1]
       p class: "submit_banner", ->
-        text "Submitting to #{streak.title}, #{streak\interval_noun false} ##{streak\unit_number_for_date(date true)}."
+        text "Submitting to #{streak.title}, #{streak\interval_noun false} ##{streak\unit_number_for_date(submit_date)}."
       input type: "hidden", name: "submit_to[#{streak.id}]", value: "on"
       return
 
@@ -143,7 +145,7 @@ class EditSubmission extends require "widgets.base"
 
     @input_row "Submit to", ->
       opts = for s in *@submittable_streaks
-        unit_num = "#{s\interval_noun false} ##{s\unit_number_for_date(date true)}"
+        unit_num = "#{s\interval_noun false} ##{s\unit_number_for_date(submit_date)}"
         {tostring(s.id), s.title, unit_num}
 
       @checkboxes "submit_to", opts, selected
