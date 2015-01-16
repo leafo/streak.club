@@ -9,8 +9,10 @@ import
   capture_errors_json
   from require "lapis.application"
 
-import not_found, require_login from require "helpers.app"
+import not_found, require_login, assert_unit_date from require "helpers.app"
 import assert_csrf from require "helpers.csrf"
+import assert_signed_url from require "helpers.url"
+
 import Submissions from require "models"
 
 EditSubmissionFlow = require "flows.edit_submission"
@@ -43,11 +45,25 @@ class SubmissionsApplication extends lapis.Application
 
     respond_to {
       before: =>
-        @submittable_streaks = @current_user\get_submittable_streaks!
+        if @params.date
+          assert_signed_url @
+          import Streaks from require "models"
 
-        unless next @submittable_streaks
-          @session.flash = "You don't have any available streaks"
-          @write redirect_to: @url_for "index"
+          @streak = assert_error Streaks\find(@params.streak_id), "invalid streak"
+
+          assert_unit_date @
+
+          assert_error @streak\allowed_to_view @current_user
+
+          @streak.streak_user = assert_error @streak\has_user @current_user,
+            "not part of streak"
+
+          @submittable_streaks = { @streak }
+        else
+          @submittable_streaks = @current_user\get_submittable_streaks!
+          unless next @submittable_streaks
+            @session.flash = "You don't have any available streaks"
+            @write redirect_to: @url_for "index"
 
       GET: =>
         @title = if #@submittable_streaks == 1

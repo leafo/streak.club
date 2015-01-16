@@ -28,4 +28,11 @@ login_and_return_url = (url=ngx.var.request_uri) =>
     return_to: @build_url url
   }
 
-{ :not_found, :require_login, :require_admin, :assert_timezone, :login_and_return_url }
+-- unit_date is in UTC
+assert_unit_date = =>
+  y, m, d = assert_error @params.date\match("%d+-%d+-%d+"), "invalid date"
+  @unit_date = date(@params.date)\addhours -@streak.hour_offset
+  assert_error @streak\date_in_streak(@unit_date), "invalid date"
+
+{ :not_found, :require_login, :require_admin, :assert_timezone,
+  :login_and_return_url, :assert_unit_date }

@@ -2,7 +2,7 @@
 lapis = require "lapis"
 
 import respond_to, capture_errors_json, capture_errors, assert_error, yield_error from require "lapis.application"
-import require_login, not_found from require "helpers.app"
+import require_login, not_found, assert_unit_date from require "helpers.app"
 import assert_valid from require "lapis.validate"
 import assert_csrf from require "helpers.csrf"
 import assert_signed_url from require "helpers.url"
@@ -23,12 +23,6 @@ find_streak = =>
   assert_error @streak\allowed_to_view @current_user
   @streak_user = @streak\has_user @current_user
   true
-
--- unit_date is in UTC
-assert_unit_date = =>
-  y, m, d = assert_error @params.date\match("%d+-%d+-%d+"), "invalid date"
-  @unit_date = date(@params.date)\addhours -@streak.hour_offset
-  assert_error @streak\date_in_streak(@unit_date), "invalid date"
 
 check_slug = =>
   assert_error @streak, "missing streak"

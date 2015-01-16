@@ -65,16 +65,15 @@ class EditSubmissionFlow extends Flow
 
     streaks = @get_submitting_streaks!
 
-    -- TODO: restore me
-    -- submit_timestamp = if @unit_date
-    --   submit_date = @streak\increment_date_by_unit @streak\truncate_date date @unit_date
-    --   submit_date\addseconds -10
-    --   submit_date\fmt Streaks.timestamp_format_str
-
     @submission = Submissions\create params
     @current_user\update submissions_count: db.raw "submissions_count + 1"
 
     for streak in *streaks
+      submit_timestamp = if @unit_date
+        submit_date = @streak\increment_date_by_unit @streak\truncate_date date @unit_date
+        submit_date\addseconds -10
+        submit_date\fmt Streaks.timestamp_format_str
+
       submit = streak\submit @submission, submit_timestamp
       if submit
         streak.streak_user\update submissions_count: db.raw "submissions_count + 1"

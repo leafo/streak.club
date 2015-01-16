@@ -60,10 +60,11 @@ class StreakUsers extends Model
 
   submit_url: (r, date) =>
     import encode_query_string from require "lapis.util"
-    base = r\url_for "new_streak_submission", id: @streak_id
+    base = r\url_for "new_submission"
     signed_url base .. "?" .. encode_query_string {
       expires: os.time! + 60*60*24*7
       user_id: @user_id
+      streak_id: @streak_id
       :date
     }
 
