@@ -56,14 +56,14 @@ class ViewStreak extends require "widgets.base"
 
           p class: "submit_sub", "You already submitted for #{@streak\unit_noun!}. "
 
-          elseif @streak\allowed_to_submit @current_user
-            a {
-              href: @url_for("new_streak_submission", id: @streak.id)
-              class: "button"
-              "New submission"
-            }
+        elseif @streak\allowed_to_submit @current_user
+          a {
+            href: @url_for("new_submission") .. "?streak_id=#{@streak.id}"
+            class: "button"
+            "New submission"
+          }
 
-            p class: "submit_sub", "You haven't submitted #{@streak\unit_noun!} yet."
+          p class: "submit_sub", "You haven't submitted #{@streak\unit_noun!} yet."
 
         unless @streak_user
           form action: "", method: "post", class: "form", ->
