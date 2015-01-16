@@ -123,6 +123,20 @@ class Users extends Model
 
     @active_streaks
 
+  get_submittable_streaks: (unit_date=date true)=>
+    import StreakUsers from require "models"
+    active_streaks = @get_active_streaks!
+    StreakUsers\include_in active_streaks, "streak_id", {
+      flip: true
+      where: { user_id: @id }
+    }
+
+    return for streak in *active_streaks
+      streak.streak_user.streak = streak
+      if streak.streak_user\submission_for_date unit_date
+        continue
+      streak
+
   get_all_streaks: =>
     unless @all_streaks
       import Streaks from require "models"

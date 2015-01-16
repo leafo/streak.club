@@ -72,7 +72,7 @@ StreakUsers = (opts={}) ->
 
 StreakSubmissions = (opts={}) ->
   unless opts.submission_id
-    submission = Submissions!
+    submission = Submissions user_id: opts.user_id
     opts.submission_id = submission.id
     opts.user_id = submission.user_id
 

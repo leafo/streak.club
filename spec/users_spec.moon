@@ -66,25 +66,40 @@ describe "users", ->
 
   describe "with streaks", ->
     import Streaks, StreakSubmissions, Submissions, StreakUsers from require "models"
+    local current_user
 
     before_each ->
       truncate_tables Streaks, StreakSubmissions, Submissions, StreakUsers
+      current_user = factory.Users!
 
     it "in no streak", ->
-      user = factory.Users!
       factory.Streaks state: "during"
 
-      assert.same 0, #user\get_active_streaks!
-      assert.same 0, #user\get_all_streaks!
+      assert.same 0, #current_user\get_active_streaks!
+      assert.same 0, #current_user\get_all_streaks!
 
-    it "in streaks of all states", ->
-      user = factory.Users!
-      factory.Streaks state: "during"
+    describe "in streaks of all states", ->
+      before_each ->
+        factory.Streaks state: "during" -- not in this one
+        for state in *{"during", "before_start", "after_end"}
+          streak = factory.Streaks state: state
+          factory.StreakUsers streak_id: streak.id, user_id: current_user.id
 
-      for state in *{"during", "before_start", "after_end"}
-        streak = factory.Streaks state: state
-        factory.StreakUsers streak_id: streak.id, user_id: user.id
+      it "get active streaks and all streaks", ->
+        assert.same 1, #current_user\get_active_streaks!
+        assert.same 3, #current_user\get_all_streaks!
 
-      assert.same 1, #user\get_active_streaks!
-      assert.same 3, #user\get_all_streaks!
+      it "should get submittable streaks", ->
+         assert.same 1, #current_user\get_submittable_streaks!
 
+    it "should get submittable streaks with submission", ->
+      streaks = for i=1,3
+        streak = factory.Streaks state: "during"
+        factory.StreakUsers streak_id: streak.id, user_id: current_user.id
+        streak
+
+      factory.StreakSubmissions {
+        streak_id: streaks[1].id
+        user_id: current_user.id
+      }
+      assert.same 2, #current_user\get_submittable_streaks!
