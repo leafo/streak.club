@@ -227,7 +227,6 @@ import
     add_column "streak_submissions", "late_submit", boolean
 
   [1421473830]: =>
-    drop_column "submissions", "user_rating"
     add_column "submissions", "user_rating", integer default: 2
 
 }
