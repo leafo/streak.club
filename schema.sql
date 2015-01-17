@@ -248,7 +248,8 @@ CREATE TABLE submissions (
     deleted boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    likes_count integer DEFAULT 0 NOT NULL
+    likes_count integer DEFAULT 0 NOT NULL,
+    user_rating integer DEFAULT 2 NOT NULL
 );
 
 
@@ -661,6 +662,7 @@ COPY lapis_migrations (name) FROM stdin;
 1420712611
 1421223602
 1421473626
+1421473830
 \.
 
 

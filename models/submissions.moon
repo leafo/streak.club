@@ -1,11 +1,17 @@
 db = require "lapis.db"
-import Model from require "lapis.db.model"
+import Model, enum from require "lapis.db.model"
 
 class Submissions extends Model
   @timestamp: true
 
   @relations: {
     {"user", belongs_to: "Users"}
+  }
+
+  @user_ratings: enum {
+    good: 1
+    neutral: 2
+    bad: 3
   }
 
   @preload_streaks: (submissions) =>

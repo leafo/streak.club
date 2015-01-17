@@ -1,6 +1,6 @@
 
 import to_json from require "lapis.util"
-import Streaks from require "models"
+import Streaks, Submissions from require "models"
 
 date = require "date"
 
@@ -73,6 +73,13 @@ class EditSubmission extends require "widgets.base"
         value: submission.description
         placeholder: "Optional"
       }
+
+      @input_row "How do you feel about this submission", ->
+        @radio_buttons "submission[user_rating]", {
+          {"good", "I'm proud of it"}
+          {"neutral", "I'm neutral about it"}
+          {"bad", "I'm not proud of it"}
+        }, @submission and Submissions.user_ratings\to_name(@submission.user_rating) or "neutral"
 
       @text_input_row {
         label: "Tags"

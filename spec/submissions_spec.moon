@@ -116,13 +116,15 @@ describe "submissions", ->
         post: {
           ["submit_to[#{streak.id}]"]: "on"
           "submission[title]": "yeah"
+          "submission[user_rating]": "neutral"
         }
         expect: "json"
       }
 
       assert.same 200, status
       assert.truthy res.success
-      assert 1, #Submissions\select!
+      submissions = Submissions\select!
+      assert 1, #submissions
 
       submits = StreakSubmissions\select!
       assert 1, #submits
@@ -130,9 +132,10 @@ describe "submissions", ->
       submit = unpack submits
       assert.same {
         streak_id: streak.id
-        submission_id: streak.id
+        submission_id: submissions[1].id
         user_id: current_user.id
         submit_time: "#{submit_stamp} 23:59:50"
+        late_submit: true
       }, submit
 
   describe "submitting", ->
@@ -151,6 +154,7 @@ describe "submissions", ->
     it "should require a streak to submit to", ->
       status, res = do_submit {
         "submission[title]": ""
+        "submission[user_rating]": "neutral"
       }
 
       assert.same {
@@ -164,6 +168,7 @@ describe "submissions", ->
       status, res = do_submit {
         ["submit_to[#{other_streak.id}]"]: "yes"
         "submission[title]": ""
+        "submission[user_rating]": "neutral"
       }
 
       assert.same {
@@ -175,6 +180,7 @@ describe "submissions", ->
       status, res = do_submit {
         ["submit_to[#{streak.id}]"]: "yes"
         "submission[title]": ""
+        "submission[user_rating]": "neutral"
       }
       assert.truthy res.success
       assert.same 1, #Submissions\select!
@@ -188,6 +194,7 @@ describe "submissions", ->
         ["submit_to[#{streak.id}]"]: "yes"
         ["submit_to[#{streak2.id}]"]: "yes"
         "submission[title]": ""
+        "submission[user_rating]": "neutral"
       }
       assert.truthy res.success
 
@@ -201,6 +208,7 @@ describe "submissions", ->
         post: {
           ["submit_to[#{streak.id}]"]: "yes"
           "submission[title]": ""
+          "submission[user_rating]": "neutral"
         }
       }
 

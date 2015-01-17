@@ -33,18 +33,20 @@ class EditSubmissionFlow extends Flow
     streaks
 
   validate_params: =>
+    import Submissions from require "models"
     assert_valid @params, {
       {"submission", type: "table"}
     }
 
     submission_params = @params.submission
     trim_filter submission_params, {
-      "title", "description", "tags"
+      "title", "description", "tags", "user_rating"
     }
 
     assert_valid submission_params, {
       {"title", optional: true, max_length: 1024}
       {"description", optional: true, max_length: 1024 * 10}
+      {"user_rating", one_of: Submissions.user_ratings}
     }
 
     @tags_str = submission_params.tags or ""
@@ -55,6 +57,7 @@ class EditSubmissionFlow extends Flow
 
     submission_params.title or= db.NULL
     submission_params.description or= db.NULL
+    submission_params.user_rating = Submissions.user_ratings\for_db submission_params.user_rating
 
     submission_params
 
