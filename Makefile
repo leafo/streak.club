@@ -28,11 +28,11 @@ lint::
 	# moonc -l $$(git ls-files | grep '\.moon$$' | grep -v config.moon)
 	for file in $$(git ls-files | grep '\.moon$$' | grep -v config.moon); do moonc -l $$file; done
 
-backup_dev_db:
+checkpoint:
 	mkdir -p dev_backup
 	pg_dump -F c -U postgres streakclub > dev_backup/$$(date +%F_%H-%M-%S).dump
 
-restore_dev_db::
+restore_checkpoint::
 	-dropdb -U postgres streakclub
 	createdb -U postgres streakclub
 	pg_restore -U postgres -d streakclub $$(find dev_backup | grep \.dump | sort -V | tail -n 1)
