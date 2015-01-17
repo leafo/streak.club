@@ -223,6 +223,8 @@ import
   [1421223602]: =>
     add_column "users", "admin", boolean
 
+  [1421473626]: =>
+    add_column "streak_submissions", "late_submit", boolean
 }
 
 

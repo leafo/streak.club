@@ -71,11 +71,19 @@ class Streaks extends Model
 
     false
 
-  submit: (submission, submit_time=db.format_date!) =>
+  submit: (submission, submit_time) =>
+    late_submit = false
+
+    if submit_time
+      late_submit = true
+    else
+      submit_time = db.format_date!
+
     import StreakSubmissions from require "models"
     res = safe_insert StreakSubmissions, {
       submission_id: submission.id
       streak_id: @id
+      :late_submit
       :submit_time
       user_id: submission.user_id
     }, {

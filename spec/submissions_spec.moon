@@ -94,6 +94,7 @@ describe "submissions", ->
         user_id: current_user.id
         streak_id: streak.id
         submit_time: submit_stamp
+        late_submit: true
       }
 
       import signed_url from require "helpers.url"
