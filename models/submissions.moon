@@ -87,6 +87,11 @@ class Submissions extends Model
     return true if user\is_admin!
     user.id == @user_id
 
+  allowed_to_comment: (user) =>
+    return false unless user
+    return false unless @allow_comments
+    true
+
   get_streaks: =>
     unless @streaks
       import StreakSubmissions, Streaks from require "models"

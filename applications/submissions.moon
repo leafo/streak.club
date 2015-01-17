@@ -16,6 +16,7 @@ import assert_signed_url from require "helpers.url"
 import Submissions from require "models"
 
 EditSubmissionFlow = require "flows.edit_submission"
+EditCommentFlow = require "flows.edit_comment"
 
 find_submission = =>
   assert_valid @params, {
@@ -172,4 +173,25 @@ class SubmissionsApplication extends lapis.Application
 
     @submission\refresh "likes_count"
     json: { success: success or false, count: @submission.likes_count }
+
+  [submission_new_comment: "/submission/:id/comment"]: require_login capture_errors {
+    on_error: => not_found
+
+    respond_to {
+      before: =>
+        find_submission @
+        assert_error @submission\allowed_to_comment(@current_user),
+          "invalid user"
+
+      POST: capture_errors_json =>
+        flow = EditCommentFlow @
+        comment = flow\create_comment!
+        json: {
+          success: true
+          comment_id: comment.id
+          comments_count: @submission.comments_count
+        }
+    }
+  }
+
 
