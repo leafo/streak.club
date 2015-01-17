@@ -53,6 +53,9 @@ class SubmissionsApplication extends lapis.Application
           assert_unit_date @
           assert_error @streak\allowed_to_view @current_user
 
+          assert_error tonumber(@params.user_id) == @current_user.id,
+            "invalid user"
+
           @streak.streak_user = assert_error @streak\has_user @current_user,
             "not part of streak"
 

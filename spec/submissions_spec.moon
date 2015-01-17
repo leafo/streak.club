@@ -4,11 +4,14 @@ import
   from require "lapis.spec.server"
 
 import truncate_tables from require "lapis.spec.db"
+import encode_query_string from require "lapis.util"
 
 factory = require "spec.factory"
 import request, request_as from require "spec.helpers"
 
 import Streaks, Users, Submissions, StreakUsers, StreakSubmissions from require "models"
+
+date = require "date"
 
 describe "submissions", ->
   local current_user
@@ -59,6 +62,52 @@ describe "submissions", ->
 
     status = request_as current_user, "/submit"
     assert.same 302, status
+
+  describe "late submit", ->
+    local streak, submit_url, submit_stamp
+
+    before_each ->
+      streak = factory.Streaks state: "during"
+      factory.StreakUsers user_id: current_user.id, streak_id: streak.id
+
+      submit_stamp = date(true)\adddays(-2)\fmt Streaks.day_format_str
+
+      submit_url = "/submit?" .. encode_query_string {
+        expires: os.time! + 60*10
+        date: submit_stamp
+        streak_id: streak.id
+        user_id: current_user.id
+      }
+
+    it "should not render submit for date with no signature", ->
+      status = request_as current_user, submit_url
+      assert.same 404, status
+
+    it "should render submit for date with signature", ->
+      import signed_url from require "helpers.url"
+
+      status = request_as current_user, signed_url submit_url
+      assert.same 200, status
+
+    it "should not render submit for date with signature if already submitted", ->
+      factory.StreakSubmissions {
+        user_id: current_user.id
+        streak_id: streak.id
+        submit_time: submit_stamp
+      }
+
+      import signed_url from require "helpers.url"
+
+      status = request_as current_user, signed_url submit_url
+      assert.same 302, status
+
+    it "should not render submit for other user", ->
+      other_user = factory.Users!
+      factory.StreakUsers user_id: other_user.id, streak_id: streak.id
+
+      import signed_url from require "helpers.url"
+      status = request_as other_user, signed_url submit_url
+      assert.same 404, status
 
   describe "submitting", ->
     local streak
