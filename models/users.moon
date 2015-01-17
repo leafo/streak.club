@@ -123,7 +123,7 @@ class Users extends Model
 
     @active_streaks
 
-  get_submittable_streaks: (unit_date=date true)=>
+  get_submittable_streaks: (unit_date=date true) =>
     import StreakUsers from require "models"
     active_streaks = @get_active_streaks!
     StreakUsers\include_in active_streaks, "streak_id", {

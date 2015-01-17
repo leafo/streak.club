@@ -58,8 +58,7 @@ describe "submissions", ->
       factory.StreakSubmissions streak_id: streak.id, user_id: current_user.id
 
     status = request_as current_user, "/submit"
-    assert.same 200, status
-
+    assert.same 302, status
 
   describe "submitting", ->
     local streak
@@ -74,7 +73,6 @@ describe "submissions", ->
         expect: "json"
       }
 
-
     it "should require a streak to submit to", ->
       status, res = do_submit {
         "submission[title]": ""
@@ -83,6 +81,7 @@ describe "submissions", ->
       assert.same {
         errors: { "you must choose a streak to submit to" }
       }, res
+      assert.same 0, #Submissions\select!
 
     it "should not allow submission to unrelated streak", ->
       other_streak = factory.Streaks!
@@ -95,6 +94,7 @@ describe "submissions", ->
       assert.same {
         errors: { "you must choose a streak to submit to" }
       }, res
+      assert.same 0, #Submissions\select!
 
     it "should submit a blank submission", ->
       status, res = do_submit {
@@ -102,22 +102,32 @@ describe "submissions", ->
         "submission[title]": ""
       }
       assert.truthy res.success
+      assert.same 1, #Submissions\select!
+      assert.same 1, #StreakSubmissions\select!
 
     it "should submit to multiple streaks", ->
+      streak2 = factory.Streaks state: "during"
+      factory.StreakUsers user_id: current_user.id, streak_id: streak2.id
+
       status, res = do_submit {
         ["submit_to[#{streak.id}]"]: "yes"
+        ["submit_to[#{streak2.id}]"]: "yes"
         "submission[title]": ""
       }
       assert.truthy res.success
 
+      assert.same 1, #Submissions\select!
+      assert.same 2, #StreakSubmissions\select!
 
     it "should not allow submission to streak already submitted to", ->
       factory.StreakSubmissions streak_id: streak.id, user_id: current_user.id
 
-      status, res = do_submit {
-        ["submit_to[#{streak.id}]"]: "yes"
-        "submission[title]": ""
+      status, res = request_as current_user, "/submit", {
+        post: {
+          ["submit_to[#{streak.id}]"]: "yes"
+          "submission[title]": ""
+        }
       }
 
-      error res
-
+      assert.same 302, status
+      assert.same 1, #Submissions\select!

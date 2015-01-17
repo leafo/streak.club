@@ -76,7 +76,7 @@ StreakSubmissions = (opts={}) ->
     opts.submission_id = submission.id
     opts.user_id = submission.user_id
 
-  opts.submit_time or= db.raw "date_trunc('second', now())"
+  opts.submit_time or= db.raw "date_trunc('second', now() at time zone 'utc')"
 
   opts.streak_id or= Streaks!.id
   models.StreakSubmissions\create opts
