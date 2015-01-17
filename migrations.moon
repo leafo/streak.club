@@ -229,6 +229,29 @@ import
   [1421473830]: =>
     add_column "submissions", "user_rating", integer default: 2
 
+  [1421477232]: =>
+    add_column "submissions", "allow_comments", boolean default: true
+    add_column "submissions", "comments_count", integer
+
+    create_table "submission_comments", {
+      {"id", serial}
+
+      {"submission_id", foreign_key}
+      {"user_id", foreign_key}
+
+      {"body", text}
+
+      {"edited_at", time null: true}
+      {"deleted", boolean}
+
+      {"created_at", time}
+      {"updated_at", time}
+
+      "PRIMARY KEY (id)"
+    }
+
+    create_index "submission_comments", "user_id", "id", where: "not deleted"
+    create_index "submission_comments", "submission_id", "id", where: "not deleted"
 }
 
 

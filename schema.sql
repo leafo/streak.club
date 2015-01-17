@@ -210,6 +210,45 @@ ALTER SEQUENCE streaks_id_seq OWNED BY streaks.id;
 
 
 --
+-- Name: submission_comments; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE submission_comments (
+    id integer NOT NULL,
+    submission_id integer NOT NULL,
+    user_id integer NOT NULL,
+    body text NOT NULL,
+    edited_at timestamp without time zone,
+    deleted boolean DEFAULT false NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.submission_comments OWNER TO postgres;
+
+--
+-- Name: submission_comments_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE submission_comments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.submission_comments_id_seq OWNER TO postgres;
+
+--
+-- Name: submission_comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE submission_comments_id_seq OWNED BY submission_comments.id;
+
+
+--
 -- Name: submission_likes; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -249,7 +288,9 @@ CREATE TABLE submissions (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     likes_count integer DEFAULT 0 NOT NULL,
-    user_rating integer DEFAULT 2 NOT NULL
+    user_rating integer DEFAULT 2 NOT NULL,
+    allow_comments boolean DEFAULT true NOT NULL,
+    comments_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -391,6 +432,13 @@ ALTER TABLE ONLY streaks ALTER COLUMN id SET DEFAULT nextval('streaks_id_seq'::r
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
+ALTER TABLE ONLY submission_comments ALTER COLUMN id SET DEFAULT nextval('submission_comments_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
 ALTER TABLE ONLY submissions ALTER COLUMN id SET DEFAULT nextval('submissions_id_seq'::regclass);
 
 
@@ -462,6 +510,14 @@ ALTER TABLE ONLY streak_users
 
 ALTER TABLE ONLY streaks
     ADD CONSTRAINT streaks_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: submission_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY submission_comments
+    ADD CONSTRAINT submission_comments_pkey PRIMARY KEY (id);
 
 
 --
@@ -551,6 +607,20 @@ CREATE INDEX streak_submissions_submission_id_streak_id_submit_time_idx ON strea
 --
 
 CREATE INDEX streak_users_user_id_idx ON streak_users USING btree (user_id);
+
+
+--
+-- Name: submission_comments_submission_id_id_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX submission_comments_submission_id_id_idx ON submission_comments USING btree (submission_id, id) WHERE (NOT deleted);
+
+
+--
+-- Name: submission_comments_user_id_id_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX submission_comments_user_id_id_idx ON submission_comments USING btree (user_id, id) WHERE (NOT deleted);
 
 
 --
@@ -663,6 +733,7 @@ COPY lapis_migrations (name) FROM stdin;
 1421223602
 1421473626
 1421473830
+1421477232
 \.
 
 
