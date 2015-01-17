@@ -12,6 +12,15 @@ class S.ViewStreak
 
     @setup_countdown()
 
+    @el.find(".streak_side_column").stick_in_parent offset_top: 25
+
+    recalc = _.throttle =>
+      console.log "recalc sticky"
+      $(document.body).trigger "sticky_kit:recalc"
+    , 50
+
+    @el.find(".submission_upload img").load recalc
+
   setup_countdown: ->
     countdown = @el.find ".countdown"
     return unless countdown.length
