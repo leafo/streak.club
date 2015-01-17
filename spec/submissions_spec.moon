@@ -109,6 +109,31 @@ describe "submissions", ->
       status = request_as other_user, signed_url submit_url
       assert.same 404, status
 
+    it "should late submit", ->
+      import signed_url from require "helpers.url"
+      status, res = request_as current_user, signed_url(submit_url), {
+        post: {
+          ["submit_to[#{streak.id}]"]: "on"
+          "submission[title]": "yeah"
+        }
+        expect: "json"
+      }
+
+      assert.same 200, status
+      assert.truthy res.success
+      assert 1, #Submissions\select!
+
+      submits = StreakSubmissions\select!
+      assert 1, #submits
+
+      submit = unpack submits
+      assert.same {
+        streak_id: streak.id
+        submission_id: streak.id
+        user_id: current_user.id
+        submit_time: "#{submit_stamp} 23:59:50"
+      }, submit
+
   describe "submitting", ->
     local streak
 
