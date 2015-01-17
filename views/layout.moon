@@ -58,6 +58,9 @@ class Layout extends Widget
           text "streak.club is "
           a href: "https://github.com/leafo/streak.club", "open source"
           raw " &middot; "
+          revision = require "revision"
+          a href: "https://github.com/leafo/streak.club/commit/#{revision}", rel: "nofollow", revision
+          raw " &middot; "
           text "follow "
           a href: "https://twitter.com/thestreakclub", "@thestreakclub"
 
