@@ -11,5 +11,5 @@ class ViewSubmission extends require "widgets.base"
         raw " &middot; "
         a href: @url_for("delete_submission", id: @submission.id), "Delete submission"
 
-    widget SubmissionList submissions: { @submission }, show_user: true
+    widget SubmissionList submissions: { @submission }, show_user: true, show_comments: true
 

@@ -10,7 +10,7 @@ class SubmissionList extends require "widgets.base"
 
   show_streaks: true
   show_user: false
-  show_comments: true
+  show_comments: false
 
   js_init: =>
     "new S.SubmissionList(#{@widget_selector!});"
