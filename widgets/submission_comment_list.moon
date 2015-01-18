@@ -10,12 +10,16 @@ class SubmissionCommentList extends require "widgets.base"
       user = comment.user
       user_url = @url_for user
 
-      div class: "submission_comment", ->
+      div {
+        class: "submission_comment"
+        id: "comment-#{comment.id}"
+        "data-id": comment.id
+      }, ->
         div class: "comment_avatar", ->
           a href: user_url, ->
             img src: comment.user\gravatar!
 
-        div class: "comment_content", id: "comment-#{comment.id}", ->
+        div class: "comment_content", ->
           div class: "comment_head", ->
             if comment\allowed_to_edit @current_user
               div class: "comment_tools", ->

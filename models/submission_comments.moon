@@ -9,3 +9,7 @@ class SubmissionComments extends Model
     {"submission", belongs_to: "Submissions"}
   }
 
+  allowed_to_edit: (user) =>
+    return false unless user
+    return true if user\is_admin!
+    user.id == @user_id

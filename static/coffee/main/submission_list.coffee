@@ -1,7 +1,9 @@
 
+
 class S.SubmissionList
   constructor: (el) ->
     @el = $ el
+    @setup_comments()
 
     @el.dispatch "click", {
       toggle_like_btn: (btn) =>
@@ -21,6 +23,15 @@ class S.SubmissionList
               .toggleClass("has_likes", res.count > 0)
               .find(".like_count").text res.count
 
+    }
+
+  setup_comments: =>
+    @el.dispatch "click", ".comment_list", {
+      delete_btn: (btn) =>
+        comment = btn.closest(".submission_comment").addClass "loading"
+        id = comment.data "id"
+        $.post "/submission-comment/#{id}/delete", S.with_csrf(), (res) =>
+          comment.slideUp => comment.remove()
     }
 
     S.redactor @el.find("textarea"), minHeight: 100

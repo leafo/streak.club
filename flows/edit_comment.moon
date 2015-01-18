@@ -48,3 +48,12 @@ class EditCommentFlow extends Flow
     if next params
       @comment\update params
 
+  delete_comment: =>
+    res = @comment\update deleted: true
+    if res.affected_rows and res.affected_rows > 0
+      @comment\get_submission!\update {
+        comments_count: db.raw "comments_count - 1"
+      }
+      true
+    else
+      false

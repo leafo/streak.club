@@ -13,7 +13,7 @@ import not_found, require_login, assert_unit_date from require "helpers.app"
 import assert_csrf from require "helpers.csrf"
 import assert_signed_url from require "helpers.url"
 
-import Submissions from require "models"
+import Submissions, SubmissionComments from require "models"
 
 EditSubmissionFlow = require "flows.edit_submission"
 EditCommentFlow = require "flows.edit_comment"
@@ -25,6 +25,14 @@ find_submission = =>
 
   @submission = Submissions\find @params.id
   assert_error @submission, "invalid submission"
+
+find_comment = =>
+  assert_valid @params, {
+    {"id", is_integer: true}
+  }
+
+  @comment = SubmissionComments\find @params.id
+  assert_error @comment, "invalid comment"
 
 class SubmissionsApplication extends lapis.Application
   [view_submission: "/submission/:id"]: capture_errors {
@@ -199,5 +207,22 @@ class SubmissionsApplication extends lapis.Application
         }
     }
   }
+
+
+  [delete_comment: "/submission-comment/:id/delete"]: require_login capture_errors_json respond_to {
+    POST: =>
+      find_comment @
+      assert_error @comment\allowed_to_edit(@current_user), "invalid comment"
+
+      flow = EditCommentFlow @
+      deleted = flow\delete_comment!
+
+      json: {
+        success: true
+        :deleted
+        comments_count: @comment\get_submission!.comments_count
+      }
+  }
+
 
 
