@@ -40,8 +40,19 @@ class S.SubmissionList
         form.set_form_errors res.errors
         return
 
+      if $.fn.redactor?
+        form.find("textarea").redactor "code.set", ""
+      else
+        form.find("textarea").val("")
+
       if res.rendered
         list = form.closest(".submission_row").find ".comment_list"
-        list.prepend res.rendered
+        new_comment = $(res.rendered).prependTo list
+        height = new_comment.height()
 
+        spacer = $ "<div class='comment_spacer'></div>"
+        spacer.insertAfter(new_comment).height(0).append new_comment
+
+        _.defer =>
+          spacer.height(height).addClass "animated"
 

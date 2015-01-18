@@ -250,6 +250,8 @@
         }
 
         .comment_list {
+            padding-top: 30px;
+
             &:empty {
                 padding: 10px 20px;
                 &:before {
@@ -260,14 +262,39 @@
 
             border-top: 1px solid $border_color;
 
-            .submission_comment {
-                @include clearfix;
-                margin: 30px 0 40px 0;
+            .submission_comment, .comment_spacer {
+                position: relative;
+                margin: 0 0 40px 0;
 
                 &:last-child {
                     margin-bottom: 30px;
                 }
+            }
 
+            .comment_spacer {
+                overflow: hidden;
+                @include transition(all 0.5s ease);
+                margin-bottom: 0;
+
+                &.animated {
+                    margin-bottom: 40px;
+
+                    .submission_comment {
+                        left: 0;
+                        @include opacity(2);
+                    }
+                }
+
+                .submission_comment {
+                    @include transition(all 0.5s ease);
+                    margin: 0;
+                    @include opacity(0);
+                    left: -25%;
+                }
+            }
+
+            .submission_comment {
+                @include clearfix;
 
                 &.loading {
                     position: relative;

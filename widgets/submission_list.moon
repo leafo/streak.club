@@ -124,7 +124,7 @@ class SubmissionList extends require "widgets.base"
         @csrf_input!
 
         div class: "input_wrapper", ->
-          textarea name: "comment[body]"
+          textarea name: "comment[body]", placeholder: "Your comment"
 
         div class: "button_row", ->
           button class: "button", "Leave comment"
