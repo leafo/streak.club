@@ -8,11 +8,15 @@ class SubmissionList extends require "widgets.base"
 
   show_streaks: true
   show_user: false
+  show_comment_form: true
 
   js_init: =>
     "new S.SubmissionList(#{@widget_selector!});"
 
   inner_content: =>
+    @content_for "all_js", ->
+      @include_redactor!
+
     div class: "submission_list", ->
       for submission in *@submissions
         has_title = submission.title
@@ -97,6 +101,8 @@ class SubmissionList extends require "widgets.base"
                 for tag in *submission.tags
                   a class: "submission_tag", tag.slug
 
+            @render_comments submission
+
   render_uploads: (submission) =>
     return unless submission.uploads and next submission.uploads
     div class: "submission_uploads", ->
@@ -106,4 +112,17 @@ class SubmissionList extends require "widgets.base"
           a href: @url_for(upload), target: "_blank", ->
             img src: @url_for upload, "600x"
 
+  render_comments: (submission) =>
+    div class: "comment_form_outer", ->
+      h3 "Leave a commment"
+      action = @url_for "submission_new_comment", id: submission.id
+      form class: "form comment_form", method: "POST", :action, ->
+        @csrf_input!
 
+        div class: "input_wrapper", ->
+          textarea name: "comment[body]"
+
+        div class: "button_row", ->
+          button class: "button", "Leave comment"
+
+    div class: "comment_list", ->

@@ -222,5 +222,43 @@
                 }
             }
         }
+
+        .comment_form_outer {
+            border-top: 1px solid $border_color;
+
+            h3 {
+                margin: 10px 20px;
+            }
+
+            .input_wrapper {
+                margin: 10px 20px;
+            }
+
+            textarea {
+                @include border_box;
+                width: 100%;
+                display: block;
+            }
+
+            .button_row {
+                margin: 10px 20px 15px 20px;
+            }
+
+            .form_errors {
+                margin: 20px;
+            }
+        }
+
+        .comment_list {
+            &:empty {
+                padding: 10px 20px;
+                &:before {
+                    content: "There are no comments yet";
+                    color: #999;
+                }
+            }
+
+            border-top: 1px solid $border_color;
+        }
     }
 }

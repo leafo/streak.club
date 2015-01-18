@@ -2,6 +2,7 @@
 class S.SubmissionList
   constructor: (el) ->
     @el = $ el
+
     @el.dispatch "click", {
       toggle_like_btn: (btn) =>
         return "continue" unless S.current_user?
@@ -21,4 +22,14 @@ class S.SubmissionList
               .find(".like_count").text res.count
 
     }
+
+    S.redactor @el.find("textarea"), minHeight: 100
+
+    @el.remote_submit ".comment_form", (res, form) =>
+      if res.errors
+        form.set_form_errors res.errors
+        return
+
+      console.log res
+
 

@@ -183,7 +183,12 @@ class SubmissionsApplication extends lapis.Application
         assert_error @submission\allowed_to_comment(@current_user),
           "invalid user"
 
+      GET: =>
+        redirect_to: @url_for "view_submission", id: @submission.id
+
       POST: capture_errors_json =>
+        assert_csrf @
+
         flow = EditCommentFlow @
         comment = flow\create_comment!
         json: {
