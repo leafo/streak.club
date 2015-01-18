@@ -86,7 +86,7 @@ class S.SubmissionList
         _.defer =>
           spacer.height(height).addClass "animated"
           setTimeout =>
-            spacer.css height: ""
-          , 300
+            spacer.replaceWith new_comment
+          , 500
 
 
