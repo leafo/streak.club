@@ -109,8 +109,12 @@ window.S = {
           .attr "title", full_date
 }
 
-$.fn.dispatch = (event_type, table) ->
-  @on event_type, (e) =>
+$.fn.dispatch = (event_type, selector, table) ->
+  if $.isPlainObject selector
+    table = selector
+    selector = undefined
+
+  handler = (e) =>
     for key, fn of table
       elm = $(e.target).closest ".#{key}"
       continue unless elm.length
@@ -123,7 +127,11 @@ $.fn.dispatch = (event_type, table) ->
         e.preventDefault()
         return
     null
-  @
+
+  if selector
+    @on event_type, selector, handler
+  else
+    @on event_type, handler
 
 $.fn.remote_submit = (selector, fn, validate_fn) ->
   click_input = null
@@ -193,6 +201,8 @@ $.fn.set_form_errors = (errors, scroll_to=true) ->
 
     if scroll_to
       @[0].scrollIntoView?()
+
+  @
 
 # TODO: use on collections page
 $.fn.swap_with = (other) ->
