@@ -125,18 +125,27 @@ $.fn.dispatch = (event_type, table) ->
     null
   @
 
-$.fn.remote_submit = (fn, validate_fn) ->
+$.fn.remote_submit = (selector, fn, validate_fn) ->
   click_input = null
 
-  @on "click", "button[name], input[type='submit'][name]", (e) =>
+  if $.isFunction selector
+    validate_fn = fn
+    fn = selector
+    selector = undefined
+
+
+  prefix = selector || ""
+  @on "click", "#{prefix} button[name], #{prefix} input[type='submit'][name]", (e) =>
     btn = $(e.currentTarget)
+    form = btn.closest("form")
+
     click_input?.remove()
     click_input = $("<input type='hidden' />")
       .attr("name", btn.attr "name")
       .val(btn.attr "value")
-      .prependTo @
+      .prependTo form
 
-  @on "submit", (e, callback) =>
+  submit_callback = (e, callback) =>
     e.preventDefault()
     form = $ e.currentTarget
 
@@ -160,9 +169,14 @@ $.fn.remote_submit = (fn, validate_fn) ->
 
     null
 
+  if selector
+    @on "submit", selector, submit_callback
+  else
+    @on "submit", submit_callback
 
 $.fn.set_form_errors = (errors, scroll_to=true) ->
   @find(".form_errors").remove()
+
   if errors?.length
     errors_el = $ """
       <div class="form_errors">
@@ -179,7 +193,6 @@ $.fn.set_form_errors = (errors, scroll_to=true) ->
 
     if scroll_to
       @[0].scrollIntoView?()
-
 
 # TODO: use on collections page
 $.fn.swap_with = (other) ->
