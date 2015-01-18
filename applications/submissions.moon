@@ -34,6 +34,7 @@ class SubmissionsApplication extends lapis.Application
     =>
       find_submission @
       Submissions\preload_for_list { @submission }
+      @submission.comments = @submission\find_comments!\get_page!
 
       @user = @submission\get_user!
       @streaks = @submission\get_streaks!

@@ -1,6 +1,8 @@
 import sanitize_html, is_empty_html from require "helpers.html"
 import login_and_return_url from require "helpers.app"
 
+SubmissionCommentList = require "widgets.submission_comment_list"
+
 class SubmissionList extends require "widgets.base"
   @needs: {"submissions"}
 
@@ -8,14 +10,15 @@ class SubmissionList extends require "widgets.base"
 
   show_streaks: true
   show_user: false
-  show_comment_form: true
+  show_comments: true
 
   js_init: =>
     "new S.SubmissionList(#{@widget_selector!});"
 
   inner_content: =>
-    @content_for "all_js", ->
-      @include_redactor!
+    if @show_comments
+      @content_for "all_js", ->
+        @include_redactor!
 
     div class: "submission_list", ->
       for submission in *@submissions
@@ -101,7 +104,8 @@ class SubmissionList extends require "widgets.base"
                 for tag in *submission.tags
                   a class: "submission_tag", tag.slug
 
-            @render_comments submission
+            if @show_comments
+              @render_comments submission
 
   render_uploads: (submission) =>
     return unless submission.uploads and next submission.uploads
@@ -126,3 +130,6 @@ class SubmissionList extends require "widgets.base"
           button class: "button", "Leave comment"
 
     div class: "comment_list", ->
+      return unless submission.comments and next submission.comments
+      widget SubmissionCommentList comments: submission.comments
+
