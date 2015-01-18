@@ -24,7 +24,8 @@ class EditCommentFlow extends Flow
       {"body", optional: true, max_length: 1024 * 10}
     }
 
-    assert_error not is_empty_html(comment_params.body), "comment can't be empty"
+    assert_error comment_params.body and not is_empty_html(comment_params.body),
+      "comment can't be empty"
 
     comment_params
 
