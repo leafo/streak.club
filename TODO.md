@@ -1,6 +1,7 @@
 
 * homepage
 * pagination on submission lists
+* comment pagination
 * notification system
 * weekly streaks
 * streak cover images
