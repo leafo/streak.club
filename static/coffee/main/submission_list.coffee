@@ -62,7 +62,8 @@ class S.SubmissionList
         form.set_form_errors res.errors
         return
 
-      # ...
+      if res.rendered
+        form.closest(".submission_comment").replaceWith $ res.rendered
 
     @el.remote_submit ".comment_form", (res, form) =>
       if res.errors
@@ -84,4 +85,8 @@ class S.SubmissionList
 
         _.defer =>
           spacer.height(height).addClass "animated"
+          setTimeout =>
+            spacer.css height: ""
+          , 300
+
 

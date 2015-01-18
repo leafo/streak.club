@@ -223,9 +223,16 @@ class SubmissionsApplication extends lapis.Application
       assert_error @comment\allowed_to_edit(@current_user), "invalid comment"
 
       flow = EditCommentFlow @
-      comment = flow\edit_comment!
+      flow\edit_comment!
+      @comment\get_user!
+
+      SubmissionCommentList = require "widgets.submission_comment_list"
+      widget = SubmissionCommentList comments: { @comment }
+      widget\include_helper @
+
       json: {
         success: true
+        rendered: widget\render_to_string!
       }
   }
 

@@ -46,6 +46,7 @@ class EditCommentFlow extends Flow
     filter_update @comment, params
 
     if next params
+      params.edited_at = db.format_date!
       @comment\update params
 
   delete_comment: =>
