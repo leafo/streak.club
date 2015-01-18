@@ -198,12 +198,20 @@ class SubmissionsApplication extends lapis.Application
       POST: capture_errors_json =>
         assert_csrf @
 
+
         flow = EditCommentFlow @
         comment = flow\create_comment!
+        comment\get_user!
+
+        SubmissionCommentList = require "widgets.submission_comment_list"
+        widget = SubmissionCommentList comments: { comment }
+        widget\include_helper @
+
         json: {
           success: true
           comment_id: comment.id
           comments_count: @submission.comments_count
+          rendered: widget\render_to_string!
         }
     }
   }
@@ -211,6 +219,7 @@ class SubmissionsApplication extends lapis.Application
 
   [delete_comment: "/submission-comment/:id/delete"]: require_login capture_errors_json respond_to {
     POST: =>
+      assert_csrf @
       find_comment @
       assert_error @comment\allowed_to_edit(@current_user), "invalid comment"
 

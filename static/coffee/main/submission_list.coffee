@@ -1,5 +1,4 @@
 
-
 class S.SubmissionList
   constructor: (el) ->
     @el = $ el
@@ -41,6 +40,8 @@ class S.SubmissionList
         form.set_form_errors res.errors
         return
 
-      console.log res
+      if res.rendered
+        list = form.closest(".submission_row").find ".comment_list"
+        list.prepend res.rendered
 
 
