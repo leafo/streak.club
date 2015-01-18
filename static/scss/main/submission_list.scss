@@ -249,128 +249,15 @@
             }
         }
 
-        .comment_list {
+        .submission_comment_list {
             padding-top: 30px;
+            border-top: 1px solid $border_color;
 
             &:empty {
                 padding: 10px 20px;
                 &:before {
                     content: "There are no comments yet";
                     color: #999;
-                }
-            }
-
-            border-top: 1px solid $border_color;
-
-            .submission_comment, .comment_spacer {
-                position: relative;
-                margin: 0 0 40px 0;
-
-                &:last-child {
-                    margin-bottom: 30px;
-                }
-            }
-
-            .comment_spacer {
-                overflow: hidden;
-                @include transition(all 0.5s ease);
-                margin-bottom: 0;
-
-                &.animated {
-                    margin-bottom: 40px;
-
-                    .submission_comment {
-                        left: 0;
-                        @include opacity(2);
-                    }
-                }
-
-                .submission_comment {
-                    @include transition(all 0.5s ease);
-                    margin: 0;
-                    @include opacity(0);
-                    left: -25%;
-                }
-            }
-
-            .submission_comment {
-                @include clearfix;
-
-                &.loading {
-                    position: relative;
-                    pointer-events: none;
-
-                    &:before {
-                        content: " ";
-                        position: absolute;
-                        display: block;
-                        z-index: 1;
-                        top: -10px;
-                        bottom: -10px;
-                        left: 0;
-                        right: 0;
-                        background: rgba(255,255,255, 0.5);
-                    }
-                }
-
-                &.editing {
-                    .edit_tool {
-                        display: none;
-                    }
-                }
-
-                .comment_avatar {
-                    float: left;
-                    margin-left: 20px;
-                    margin-top: 5px;
-
-                    img {
-                        display: inline-block;
-                        width: 40px;
-                        height: 40px;
-                        border-radius: 20px;
-                    }
-                }
-
-                .comment_tools {
-                    float: right;
-
-                    a {
-                        color: #999;
-                    }
-                }
-
-                .comment_content {
-                    margin-left: 80px;
-                    margin-right: 20px;
-                }
-
-                .comment_time {
-                    color: #999;
-                }
-
-                .comment_head {
-                    margin-bottom: 20px;
-                }
-
-                .comment_body {
-                    padding: 0;
-                }
-
-                .comment_editor {
-                    border: 1px solid $border_color;
-                    box-shadow: 0 0 4px rgba(0, 0, 0, 0.11);
-                    padding: 10px;
-
-                    textarea {
-                        @include border_box;
-                        width: 100%;
-                        display: block;
-                    }
-
-                    .button_row {
-                        margin-top: 10px;
-                    }
                 }
             }
         }

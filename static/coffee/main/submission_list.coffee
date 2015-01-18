@@ -27,7 +27,7 @@ class S.SubmissionList
     }
 
   setup_comments: =>
-    @el.dispatch "click", ".comment_list", {
+    @el.dispatch "click", ".submission_comment_list", {
       delete_btn: (btn) =>
         comment = btn.closest(".submission_comment").addClass "loading"
         id = comment.data "id"
@@ -76,7 +76,7 @@ class S.SubmissionList
         form.find("textarea").val("")
 
       if res.rendered
-        list = form.closest(".submission_row").find ".comment_list"
+        list = form.closest(".submission_row").find ".submission_comment_list"
         new_comment = $(res.rendered).prependTo list
         height = new_comment.height()
 

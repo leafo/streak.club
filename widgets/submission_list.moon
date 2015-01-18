@@ -129,7 +129,7 @@ class SubmissionList extends require "widgets.base"
         div class: "button_row", ->
           button class: "button", "Leave comment"
 
-    div class: "comment_list", ->
+    div class: "submission_comment_list", ->
       return unless submission.comments and next submission.comments
       widget SubmissionCommentList comments: submission.comments
 
