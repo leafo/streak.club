@@ -87,6 +87,7 @@ class SubmissionsApplication extends lapis.Application
         else
           "New submission"
 
+        @suggested_tags = @current_user\suggested_submission_tags!
         render: "edit_submission"
 
       POST: capture_errors_json =>
