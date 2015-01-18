@@ -313,6 +313,12 @@
                     }
                 }
 
+                &.editing {
+                    .edit_tool {
+                        display: none;
+                    }
+                }
+
                 .comment_avatar {
                     float: left;
                     margin-left: 20px;
@@ -349,6 +355,22 @@
 
                 .comment_body {
                     padding: 0;
+                }
+
+                .comment_editor {
+                    border: 1px solid $border_color;
+                    box-shadow: 0 0 4px rgba(0, 0, 0, 0.11);
+                    padding: 10px;
+
+                    textarea {
+                        @include border_box;
+                        width: 100%;
+                        display: block;
+                    }
+
+                    .button_row {
+                        margin-top: 10px;
+                    }
                 }
             }
         }

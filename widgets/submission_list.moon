@@ -133,3 +133,17 @@ class SubmissionList extends require "widgets.base"
       return unless submission.comments and next submission.comments
       widget SubmissionCommentList comments: submission.comments
 
+    @js_template "comment_editor", ->
+      div class: "comment_editor", ->
+        action = @url_for("edit_comment", id: "XXX")\gsub "XXX", "{{ id }}"
+        form class: "form edit_comment_form", method: "POST", :action, ->
+          @csrf_input!
+          div class: "input_wrapper", ->
+            textarea name: "comment[body]", placeholder: "Your comment", ->
+              raw "{{& body }}"
+
+          div class: "button_row", ->
+            button class: "button", "Update comment"
+            text " or "
+            a class: "cancel_edit_btn", href: "", "Cancel"
+

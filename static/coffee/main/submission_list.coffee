@@ -1,5 +1,7 @@
 
 class S.SubmissionList
+  comment_editor_template: S.lazy_template @, "comment_editor"
+
   constructor: (el) ->
     @el = $ el
     @setup_comments()
@@ -31,9 +33,36 @@ class S.SubmissionList
         id = comment.data "id"
         $.post "/submission-comment/#{id}/delete", S.with_csrf(), (res) =>
           comment.slideUp => comment.remove()
+
+      edit_btn: (btn) =>
+        comment = btn.closest(".submission_comment").addClass "editing"
+
+        id = comment.data "id"
+        body = comment.find(".user_formatted")
+
+        editor = $ @comment_editor_template {
+          id: id
+          body: body.html()
+        }
+
+        body.replaceWith editor
+        S.redactor editor.find("textarea"), minHeight: 100
+
+        editor.dispatch "click", {
+          cancel_edit_btn: (btn) =>
+            editor.replaceWith body
+            comment.removeClass "editing"
+        }
     }
 
     S.redactor @el.find("textarea"), minHeight: 100
+
+    @el.remote_submit ".edit_comment_form", (res, form) =>
+      if res.errors
+        form.set_form_errors res.errors
+        return
+
+      # ...
 
     @el.remote_submit ".comment_form", (res, form) =>
       if res.errors

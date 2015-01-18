@@ -216,6 +216,18 @@ class SubmissionsApplication extends lapis.Application
     }
   }
 
+  [edit_comment: "/submission-comment/:id/edit"]: require_login capture_errors_json respond_to {
+    POST: =>
+      assert_csrf @
+      find_comment @
+      assert_error @comment\allowed_to_edit(@current_user), "invalid comment"
+
+      flow = EditCommentFlow @
+      comment = flow\edit_comment!
+      json: {
+        success: true
+      }
+  }
 
   [delete_comment: "/submission-comment/:id/delete"]: require_login capture_errors_json respond_to {
     POST: =>

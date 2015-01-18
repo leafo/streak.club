@@ -23,8 +23,9 @@ class SubmissionCommentList extends require "widgets.base"
           div class: "comment_head", ->
             if comment\allowed_to_edit @current_user
               div class: "comment_tools", ->
-                a href: "#", class: "edit_btn", "Edit"
-                raw " &middot; "
+                span class: "edit_tool", ->
+                  a href: "#", class: "edit_btn", "Edit"
+                  raw " &middot; "
                 a href: "#", class: "delete_btn", "Delete"
 
             a href: user_url, comment.user\name_for_display!
