@@ -3,12 +3,14 @@ class S.IndexLoggedOut
   constructor: (el) ->
     @el = $ el
 
-    setTimeout =>
-      @fill_grid()
-    , 200
-
-
     new S.Countdown @el.find(".countdown"), moment().add(6, "hour").add(32, "minute")
+
+    grid = @el.find ".streak_grid"
+    win = $(window)
+    win.on "scroll.show_grid", =>
+      if win.scrollTop() + win.height() / 3 > grid.offset().top
+        @fill_grid()
+        win.off "scroll.show_grid"
 
   fill_grid: ->
     grid = @el.find ".streak_grid"
