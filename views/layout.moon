@@ -15,6 +15,9 @@ class Layout extends Widget
     -- raw [[<meta name="msvalidate.01" content="" />]]
     -- raw [[<meta property="fb:app_id" content="" />]]
 
+
+    link rel: "icon", type: "image/png", href: "/static/images/favicon.png"
+
     title ->
       if @title
         text "#{@title} - Streak Club"
