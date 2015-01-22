@@ -34,15 +34,15 @@ class StreakList extends require "widgets.base"
                 div class: "stat_value", streak.submissions_count
                 div class: "stat_label", "submissions"
 
-
-            if p = streak\progress!
+            p = streak\progress!
+            if p == 1
+              div class: "status_message", ->
+                text "Completed"
+            elseif p
               div class: "progress_row", ->
                 div class: "progress_outer", ->
                   div class: "progress_inner", style: "width: #{p * 100}%"
-
-              if p == 1
-                div class: "status_message", "Streak ended"
             else
-              div class: "pre_status_message", ->
+              div class: "status_message", ->
                 text "Hasn't started yet"
 
