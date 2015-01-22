@@ -44,3 +44,7 @@ class extends lapis.Application
       render: "index_logged_out"
 
   [terms: "/terms"]: =>
+    render: true
+
+  [privacy_policy: "/privacy-policy"]: =>
+    render: true
