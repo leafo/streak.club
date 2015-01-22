@@ -69,7 +69,7 @@ class ViewStreak extends require "widgets.base"
 
           p class: "submit_sub", "You haven't submitted #{@streak\unit_noun!} yet."
 
-        unless @streak_user
+        if not @streak_user and not @streak\after_end!
           form action: "", method: "post", class: "form", ->
             @csrf_input!
 
