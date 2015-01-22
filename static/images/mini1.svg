@@ -16,8 +16,8 @@
    inkscape:version="0.48.5 r10040"
    sodipodi:docname="mini1.svg"
    inkscape:export-filename="/home/leafo/code/sites/streak.club/static/images/mini1.png"
-   inkscape:export-xdpi="49.58601"
-   inkscape:export-ydpi="49.58601">
+   inkscape:export-xdpi="109.41"
+   inkscape:export-ydpi="109.41">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -27,16 +27,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4142136"
-     inkscape:cx="361.33522"
-     inkscape:cy="665.01413"
+     inkscape:zoom="1"
+     inkscape:cx="269.19402"
+     inkscape:cy="768.52581"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1758"
      inkscape:window-height="1000"
-     inkscape:window-x="144"
-     inkscape:window-y="60"
+     inkscape:window-x="158"
+     inkscape:window-y="124"
      inkscape:window-maximized="0"
      showguides="true"
      inkscape:guide-bbox="true" />
@@ -573,5 +573,116 @@
        height="291.42856"
        x="158.57143"
        y="281.07648" />
+    <rect
+       style="color:#000000;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#b6b6b6;stroke-width:1.39999998000000003;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;stroke-opacity:1"
+       id="rect4127"
+       width="195.86858"
+       height="195.86858"
+       x="73.539108"
+       y="41.906593" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Dosis;-inkscape-font-specification:Dosis"
+       x="84.852814"
+       y="78.67614"
+       id="text4137"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4139"
+         x="84.852814"
+         y="78.67614"
+         style="font-size:32px">The test</tspan><tspan
+         sodipodi:role="line"
+         x="84.852814"
+         y="118.67614"
+         id="tspan4141"
+         style="font-size:32px">streak</tspan></text>
+    <path
+       style="fill:none;stroke:#c6c6c6;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 73.539105,152.92236 196.575685,0"
+       id="path4143"
+       inkscape:connector-curvature="0" />
+    <rect
+       style="color:#000000;fill:#e8e8e8;fill-opacity:1;stroke:none;stroke-width:1.39999998;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect4145"
+       width="176.0696"
+       height="7.7781744"
+       x="81.317284"
+       y="222.92593"
+       ry="3.8890872" />
+    <rect
+       ry="2.4608526"
+       y="222.92593"
+       x="81.317284"
+       height="7.7781677"
+       width="103.76792"
+       id="rect4147"
+       style="color:#000000;fill:#aada80;fill-opacity:1;stroke:none;stroke-width:1.39999998000000003;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#777777;fill-opacity:1;stroke:none;font-family:Dosis;-inkscape-font-specification:Dosis"
+       x="86.267029"
+       y="141.60864"
+       id="text4157"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4159"
+         x="86.267029"
+         y="141.60864"
+         style="font-size:16px;fill:#777777;fill-opacity:1">by leafo</tspan></text>
+    <rect
+       style="color:#000000;fill:#34a0f2;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.39999998000000003;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect4161"
+       width="31.112698"
+       height="1.4142135"
+       x="102.88403"
+       y="144.08351"
+       ry="0" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Dosis;-inkscape-font-specification:Dosis"
+       x="105"
+       y="196.36218"
+       id="text4163"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4165"
+         x="105"
+         y="196.36218">32</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Dosis;-inkscape-font-specification:Dosis"
+       x="208.5"
+       y="196.36218"
+       id="text4167"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4169"
+         x="208.5"
+         y="196.36218">3</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#555555;fill-opacity:1;stroke:none;font-family:Dosis;-inkscape-font-specification:Dosis"
+       x="94.5"
+       y="211.86218"
+       id="text4171"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4173"
+         x="94.5"
+         y="211.86218"
+         style="font-size:12px;fill:#555555;fill-opacity:1">submissions</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text4175"
+       y="211.86218"
+       x="191.5"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#555555;fill-opacity:1;stroke:none;font-family:Dosis;-inkscape-font-specification:Dosis"
+       xml:space="preserve"><tspan
+         style="font-size:12px;fill:#555555;fill-opacity:1"
+         y="211.86218"
+         x="191.5"
+         sodipodi:role="line"
+         id="tspan4179">participants</tspan></text>
   </g>
 </svg>

@@ -1,3 +1,213 @@
 
+$gray: darken(#F5F5F5, 3%);
+
 .index_logged_out {
+    .primary_header {
+        background: $gray;
+        padding: 30px 0;
+        text-align: center;
+
+        h1 {
+            font-size: 60px;
+            font-weight: normal;
+            margin: 0;
+            line-height: 1.1;
+            padding: 0 10px
+        }
+
+        h2 {
+            font-weight: normal;
+            margin: 0;
+            font-size: 18px;
+            color: #666;
+            margin-top: 5px;
+        }
+    }
+
+    h3 {
+        color: #666;
+    }
+
+    .intro {
+        text-align: center;
+        padding: 80px 0;
+
+        h3 {
+            margin: 0 0 20px 0;
+        }
+
+        p {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .intro_left, .intro_right {
+            display: inline-block;
+            vertical-align: middle;
+            text-align: left;
+
+            @media (max-width: 1100px) {
+                display: block;
+            }
+        }
+
+        .intro_left  {
+            max-width: 440px;
+            margin-right: 60px;
+
+            @media (max-width: 1100px) {
+                max-width: 400px;
+                margin-left: auto;
+                margin-right: auto;
+                margin-bottom: 60px;
+                padding: 0 40px;
+
+                p:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+
+        .intro_right {
+            @media (max-width: 1100px) {
+                max-width: 548px;
+                padding: 0 20px;
+                margin-left: auto;
+                margin-right: auto;
+
+                img {
+                    width: 100%;
+                }
+            }
+        }
+    }
+
+    .streak_grid {
+        text-align: center;
+        padding: 0 10px;
+        padding: 40px 0;
+        background: $gray;
+
+        .grid_wrapper {
+            max-width: 420px;
+            margin: 0 auto;
+            font-size: 0;
+            height: 86px;
+            overflow: hidden;
+        }
+
+        .grid_note {
+            max-width: 300px;
+            margin: 25px auto 0 auto;
+            color: #666;
+            padding: 0 20px;
+        }
+
+        .grid_stats {
+            margin-top: 10px;
+
+            .stat_value {
+                font-size: 22px;
+            }
+
+            .stat_label {
+                color: #666;
+                font-size: 16px;
+            }
+        }
+
+        .grid_box {
+            @include transition(background 0.3s ease);
+            background: #DADADA;
+            width: 22px;
+            height: 22px;
+            display: inline-block;
+            margin-right: 5px;
+            margin-left: 5px;
+            margin-bottom: 10px;
+
+            &.active {
+                background: #AADA80;
+            }
+        }
+    }
+
+    .tutorial {
+        padding: 100px 0;
+        text-align: center;
+
+        h3 {
+            margin: 0 0 20px 0;
+        }
+
+        .tutorial_left {
+            margin-right: 60px;
+
+            @media (max-width: 1100px) {
+                margin-bottom: 40px;
+            }
+        }
+
+        .tutorial_left, .tutorial_right {
+            display: inline-block;
+            vertical-align: top;
+            width: 495px;
+            text-align: left;
+
+            @media (max-width: 1100px) {
+                display: block;
+                max-width: 400px;
+                width: auto;
+                margin-left: auto;
+                margin-right: auto;
+                padding: 0 40px;
+            }
+        }
+    }
+
+    .streak_countdown {
+        text-align: center;
+        padding: 0 10px;
+        padding: 40px 0;
+        background: $gray;
+
+        .countdown_note {
+            max-width: 300px;
+            margin: 25px auto 0 auto;
+            color: #666;
+            padding: 0 20px;
+        }
+
+
+        .countdown {
+            width: 300px;
+            margin: 0 auto;
+        }
+    }
+
+    .footer_buttons {
+        padding: 60px 0 100px 0;
+        text-align: center;
+        color: #999;
+
+        h3 {
+            margin-top: 0;
+        }
+
+        .button {
+            font-size: 30px;
+            height: 60px;
+            line-height: 60px - 4px;
+            padding: 0 40px;
+
+            @media (max-width: 400px) {
+                font-size: 22px;
+            }
+        }
+
+        .small_text {
+            margin-top: 10px;
+        }
+    }
 }
+

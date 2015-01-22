@@ -173,12 +173,17 @@ a {
 
     .footer_right {
         float: right;
+        @media (max-width: 600px) {
+            float: none;
+            margin-bottom: 10px;
+        }
     }
 
     .inner_column {
         border-top: 1px solid $border_color;
-        width: $site_width;
+        max-width: $site_width;
         margin: 0 auto;
+        padding: 0 20px;
         padding-top: 10px;
         color: #999;
         font-size: 14px;
