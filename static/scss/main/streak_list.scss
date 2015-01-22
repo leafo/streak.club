@@ -4,7 +4,7 @@
 
     .streak_box {
         width: 256px;
-        height: 256px;
+        height: 225px;
         border: 1px solid $border_color;
         position: relative;
         display: inline-block;
@@ -22,10 +22,9 @@
             font-size: 28px;
             font-weight: normal;
             margin: 0 20px;
-            max-height: 72px;
             overflow: hidden;
             line-height: 36px;
-
+            @include single_line;
 
             a {
                 color: #333;
@@ -65,7 +64,7 @@
         }
 
         .streak_stats {
-            margin-top: 8px;
+            margin-top: 12px;
             text-align: center;
             border-top: 1px solid $border_color;
             padding-top: 10px;

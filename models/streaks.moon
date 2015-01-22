@@ -208,7 +208,8 @@ class Streaks extends Model
     return if @before_start!
     start = @start_datetime!
     now = date true
-    date.diff(now, start)\spandays! / date.diff(@end_datetime!, start)\spandays!
+    math.min 1,
+      date.diff(now, start)\spandays! / date.diff(@end_datetime!, start)\spandays!
 
   -- UTC contained in streak
   date_in_streak: (d) =>
