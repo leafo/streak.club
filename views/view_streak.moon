@@ -7,6 +7,7 @@ date = require "date"
 
 StreakUnits = require "widgets.streak_units"
 SubmissionList = require "widgets.submission_list"
+Countdown = require "widgets.countdown"
 
 class ViewStreak extends require "widgets.base"
   @needs: {"streak", "streak_users", "unit_counts", "completed_units"}
@@ -155,8 +156,8 @@ class ViewStreak extends require "widgets.base"
     return if @streak\before_start!
     return if @streak\after_end!
 
-    div class: "countdown_outer", ->
-      div class: "countdown_header", ->
+    widget Countdown {
+      header_content: =>
         if @current_submit
           text "Time remaining"
         else
@@ -164,11 +165,5 @@ class ViewStreak extends require "widgets.base"
 
         span class: "sub",
           "#{@streak\interval_noun false} ##{@streak\unit_number_for_date(date true)}"
-
-      div class: "countdown", ->
-        for p in *{"days", "hours", "minutes", "seconds"}
-          div class: "time_block", ["data-name"]: p, ->
-            div class: "block_value", ""
-            div class: "block_label", p
-
+    }
 
