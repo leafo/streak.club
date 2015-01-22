@@ -61,31 +61,52 @@ a {
     $inset_margin: 40px;
     $header_height: 50px;
 
-    background: $header_color;
-    height: $header_height;
-    color: white;
     position: relative;
 
-    .right_buttons {
+    .primary_header {
+        background: $header_color;
+        height: $header_height;
+        color: white;
+    }
+
+    .right_header {
         position: absolute;
         top: 0;
         right: $inset_margin;
         margin-top: 10px;
+
+        @media (max-width: 600px) {
+            @include border_box;
+            height: $header_height;
+            position: static;
+            background: darken($header_color, 10%);
+            margin: 0;
+            text-align: center;
+            padding-top: 10px;
+
+            :first-child {
+                margin-left: 0;
+            }
+        }
     }
 
     .logo {
-        margin-top: 8px;
         margin-left: $inset_margin;
         display: inline-block;
         color: white;
         font-weight: bold;
         text-transform: uppercase;
         letter-spacing: 1px;
-        padding: 2px 0;
         text-decoration: none;
 
-        border-bottom: 4px dotted rgba(white, 0.8);
-        border-top: 4px dotted rgba(white, 0.8);
+        .logo_text, .logo_image {
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .logo_text {
+            margin-top: 14px;
+        }
     }
 
     .user_name {

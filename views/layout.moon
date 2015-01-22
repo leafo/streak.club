@@ -43,9 +43,12 @@ class Layout extends Widget
 
   header: =>
     div class: "header", id: "global_header", ->
-      a href: @url_for("index"), class: "logo", "Streak Club"
+      div class: "primary_header", ->
+        a href: @url_for("index"), class: "logo", ->
+          img class: "logo_image", src: "/static/images/rainbow-sm.png"
+          span class: "logo_text", "Streak Club"
 
-      div class: "right_buttons", ->
+      div class: "right_header", ->
         if @current_user
           a class: "user_name", href: @url_for(@current_user), @current_user\name_for_display!
           a class: "header_button", href: @url_for("user_settings"), "Settings"

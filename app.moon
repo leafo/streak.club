@@ -38,7 +38,9 @@ class extends lapis.Application
 
       Users\include_in @created_streaks, "user_id"
       Users\include_in @active_streaks, "user_id"
-
-    render: @current_user and "index_logged_in" or "index_logged_out"
+      render: "index_logged_in"
+    else
+      @mobile_friendly = true
+      render: "index_logged_out"
 
   [terms: "/terms"]: =>
