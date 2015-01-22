@@ -24,6 +24,9 @@ class ViewStreak extends require "widgets.base"
     "new S.ViewStreak(#{@widget_selector!}, #{to_json opts});"
 
   inner_content: =>
+    unless @current_user
+      @welcome_banner!
+
     if @streak\allowed_to_edit @current_user
       div class: "admin_tools", ->
         a href: @url_for("edit_streak", id: @streak.id), "Edit streak"
@@ -166,4 +169,12 @@ class ViewStreak extends require "widgets.base"
         span class: "sub",
           "#{@streak\interval_noun false} ##{@streak\unit_number_for_date(date true)}"
     }
+
+
+  welcome_banner: =>
+    div class: "welcome_banner", ->
+      h2 "Welcome to Streak Club"
+      p "Streak Club is a place for hosting and participating in creative streaks."
+      a href: @url_for("index"), class: "button outline_button", "Learn more"
+
 

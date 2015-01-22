@@ -5,6 +5,34 @@
         margin-top: 40px;
     }
 
+    .welcome_banner {
+        border: 2px solid $border_color;
+        padding: 20px;
+        padding-top: 15px;
+        position: relative;
+
+        margin-bottom: 30px;
+
+        p {
+            margin-top: 10px;
+        }
+
+        h2 {
+            margin: 0;
+            color: #666;
+        }
+
+        .button {
+            top: 30px;
+            right: 30px;
+            position: absolute;
+            font-size: 24px;
+            line-height: 41px;
+            height: 45px;
+            padding: 0 30px;
+        }
+    }
+
     .draft_banner {
         display: block;
         background: lighten($error_color, 10%);

@@ -25,6 +25,8 @@ body {
         margin-top: 3px;
         color: #666;
         font-size: 20px;
+        // font-weight: normal;
+        // color: $orange;
 
         a {
             @include transition(all 0.1s ease);
