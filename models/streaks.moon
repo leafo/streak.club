@@ -204,6 +204,12 @@ class Streaks extends Model
   during: =>
     not @before_start! and not @after_end!
 
+  progress: =>
+    return if @before_start!
+    start = @start_datetime!
+    now = date true
+    date.diff(now, start)\spandays! / date.diff(@end_datetime!, start)\spandays!
+
   -- UTC contained in streak
   date_in_streak: (d) =>
     return false if d < @start_datetime!
@@ -283,7 +289,6 @@ class Streaks extends Model
         coroutine.yield current
         @increment_date_by_unit current
         break if stop < current
-
 
   recount: =>
     @update {

@@ -1,12 +1,128 @@
 
 .streak_list {
-    .streak_row {
-        border: 1px solid $border_color;
-        margin-bottom: 10px;
-        padding: 8px 10px;
+    font-size: 0;
 
-        h3, h4 {
-            margin: 0;
+    .streak_box {
+        width: 256px;
+        height: 256px;
+        border: 1px solid $border_color;
+        position: relative;
+        display: inline-block;
+        font-size: $body_size;
+        margin: 10px;
+
+        .box_content {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        h3 {
+            font-size: 28px;
+            font-weight: normal;
+            margin: 0 20px;
+            max-height: 72px;
+            overflow: hidden;
+            line-height: 36px;
+
+
+            a {
+                color: #333;
+                text-decoration: none;
+                @include transition(color 0.2s ease);
+
+                &:hover {
+                    color: $link_color;
+                }
+            }
+        }
+
+        .streak_host {
+            color: #999;
+            margin: 0 20px;
+            margin-top: 9px;
+            @include single_line;
+            padding-bottom: 6px;
+
+            a {
+                color: #666;
+                text-decoration: none;
+                border-bottom: 2px solid $link_color;
+                @include transition(color 0.2s ease);
+
+                &:hover {
+                    color: $link_color;
+                }
+            }
+        }
+
+        .date_range {
+            @include single_line;
+            color: #666;
+            font-size: 15px;
+            margin: 0 20px;
+        }
+
+        .streak_stats {
+            margin-top: 8px;
+            text-align: center;
+            border-top: 1px solid $border_color;
+            padding-top: 10px;
+
+            .stat_box {
+                display: inline-block;
+                margin-right: 20px;
+
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+
+            .stat_value {
+                font-size: 28px;
+            }
+
+            .stat_label {
+                font-size: 16px;
+                color: #666;
+            }
+        }
+
+        .status_message {
+            position: absolute;
+            bottom: 3px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-weight: bold;
+
+            text-transform: uppercase;
+            font-size: 12px;
+            color: #999;
+        }
+
+        .pre_status_message {
+            color: #999;
+            text-align: center;
+            margin: 9px 20px;
+            line-height: 22px;
+        }
+
+        .progress_row {
+            margin: 15px 20px;
+        }
+
+        .progress_outer {
+            height: 10px;
+            background: $border_color;
+            border-radius: 10px;
+
+            .progress_inner {
+                height: 10px;
+                border-radius: 10px;
+                background: $green;
+            }
         }
     }
 }
