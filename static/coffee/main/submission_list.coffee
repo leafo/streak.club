@@ -66,7 +66,10 @@ class S.SubmissionList
         comment = btn.closest(".submission_comment").addClass "loading"
         id = comment.data "id"
         $.post "/submission-comment/#{id}/delete", S.with_csrf(), (res) =>
-          comment.slideUp => comment.remove()
+          comment.slideUp =>
+            comment.remove()
+            @el.trigger "s:reshape"
+
           btn.trigger "s:increment_comments", [-1]
 
       edit_btn: (btn) =>
@@ -81,12 +84,14 @@ class S.SubmissionList
         }
 
         body.replaceWith editor
+        @el.trigger "s:reshape"
         S.redactor editor.find("textarea"), minHeight: 100
 
         editor.dispatch "click", {
           cancel_edit_btn: (btn) =>
             editor.replaceWith body
             comment.removeClass "editing"
+            @el.trigger "s:reshape"
         }
     }
 
@@ -102,12 +107,15 @@ class S.SubmissionList
         $.get btn.data("href"), { page: page }, (res) =>
           btn.removeClass "loading"
           commenter = btn.closest(".submission_commenter")
+
           if res.rendered
             comments = $ res.rendered
             commenter.find(".submission_comment_list").append comments
 
           unless res.has_more
             commenter.find(".load_more_btn").remove()
+
+          @el.trigger "s:reshape"
     }
 
     @el.remote_submit ".edit_comment_form", (res, form) =>
@@ -117,6 +125,7 @@ class S.SubmissionList
 
       if res.rendered
         form.closest(".submission_comment").replaceWith $ res.rendered
+        @el.trigger "s:reshape"
 
     @el.remote_submit ".comment_form", (res, form) =>
       if res.errors
@@ -141,6 +150,7 @@ class S.SubmissionList
           spacer.height(height).addClass "animated"
           setTimeout =>
             spacer.replaceWith new_comment
+            @el.trigger "s:reshape"
           , 500
 
 

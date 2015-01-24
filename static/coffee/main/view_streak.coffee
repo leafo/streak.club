@@ -19,6 +19,7 @@ class S.ViewStreak
     , 50
 
     @el.find(".submission_upload img").load recalc
+    @el.on "s:reshape", recalc
 
   setup_countdown: ->
     countdown = @el.find ".countdown"
