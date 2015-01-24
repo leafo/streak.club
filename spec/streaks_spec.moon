@@ -174,13 +174,13 @@ describe "streaks", ->
       "/s/#{streak.id}/#{streak\slug!}"
 
     it "should view streak", ->
-      for i=1,2
-        factory.StreakSubmissions {
-          streak_id: streak.id
-          submit_time: "2015-3-#{i} 09:00:00"
-        }
-
       status = request streak_url(streak)
+      assert.same 200, status
+
+    it "should view streak json page", ->
+      status, res = request streak_url(streak) .. "?format=json", {
+        expect: "json"
+      }
       assert.same 200, status
 
     it "should view streak as owner", ->
@@ -194,3 +194,29 @@ describe "streaks", ->
     it "should view last streak unit day", ->
       status = request "/streak/#{streak.id}/unit/2015-4-5"
       assert.same 200, status
+
+    describe "with submissions", ->
+      before_each ->
+        for i=1,2
+          factory.StreakSubmissions {
+            streak_id: streak.id
+            submit_time: "2015-3-#{i} 09:00:00"
+          }
+
+      it "should view streak", ->
+        status = request streak_url(streak)
+        assert.same 200, status
+
+      it "should view streak json page", ->
+        status, res = request streak_url(streak) .. "?format=json", {
+          expect: "json"
+        }
+        assert.same 200, status
+
+      it "should view streak json page 2", ->
+        status, res = request streak_url(streak) .. "?format=json&page=2", {
+          expect: "json"
+        }
+        assert.same 200, status
+
+
