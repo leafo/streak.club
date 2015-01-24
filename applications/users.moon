@@ -11,8 +11,11 @@ import trim_filter, slugify from require "lapis.util"
 
 import Users, Uploads, Submissions, StreakUsers from require "models"
 
-import not_found, require_login from require "helpers.app"
+import not_found, require_login, assert_page from require "helpers.app"
 import assert_csrf from require "helpers.csrf"
+import render_submissions_page from require "helpers.submissions"
+
+SUBMISSION_PER_PAGE = 5
 
 find_user = =>
   assert_valid @params, {
@@ -24,17 +27,26 @@ class UsersApplication extends lapis.Application
   [user_profile: "/u/:slug"]: capture_errors {
     on_error: => not_found
     =>
+      assert_page @
+
       @user = assert_error Users\find(slug: slugify @params.slug), "invalid user"
       @user_profile = @user\get_user_profile!
 
       pager = @user\find_submissions {
+        per_page: SUBMISSION_PER_PAGE
         prepare_results: (...) ->
           Submissions\preload_for_list ..., {
             likes_for: @current_user
           }
       }
 
-      @submissions = pager\get_page!
+      @submissions = pager\get_page @page
+
+      if @params.format == "json"
+        return render_submissions_page @, SUBMISSION_PER_PAGE
+
+      @title = @user\name_for_display!
+      @has_more = @user.submissions_count > SUBMISSION_PER_PAGE
 
       @following = @user\followed_by @current_user
 
