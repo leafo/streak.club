@@ -36,7 +36,7 @@ describe "submission_comments", ->
     current_user = factory.Users!
 
   it "should create a comment", ->
-    submission  = factory.Submissions!
+    submission = factory.Submissions!
     status, res = request_as current_user, "/submission/#{submission.id}/comment", {
       post: {
         ["comment[body]"]: "Hello world"
@@ -55,4 +55,80 @@ describe "submission_comments", ->
     assert.same comment.body, "Hello world"
     assert.same comment.deleted, false
 
+  describe "with comment", ->
+    local comment
 
+    before_each ->
+      comment = factory.SubmissionComments user_id: current_user.id
+
+    it "should edit comment", ->
+      status, res = request_as current_user, "/submission-comment/#{comment.id}/edit", {
+        post: {
+          "comment[body]": "my edit"
+        }
+        expect: "json"
+      }
+
+      assert.same 200, status
+      assert.truthy res.success
+      assert.truthy res.rendered
+
+      comment\refresh!
+      assert.same comment.body, "my edit"
+      assert.truthy comment.edited_at
+
+    it "should not let stranger edit comment", ->
+      other_user = factory.Users!
+      status, res = request_as other_user, "/submission-comment/#{comment.id}/edit", {
+        post: {
+          "comment[body]": "my edit"
+        }
+        expect: "json"
+      }
+
+      assert.same 200, status
+      assert.truthy res.errors
+
+      old_body = comment.body
+      comment\refresh!
+      assert.same comment.body, old_body
+
+    it "should not let submission owner edit comment", ->
+      owner = comment\get_submission!\get_user!
+      status, res = request_as owner, "/submission-comment/#{comment.id}/edit", {
+        post: {
+          "comment[body]": "my edit"
+        }
+        expect: "json"
+      }
+
+      assert.same 200, status
+      assert.truthy res.errors
+
+    it "should delete comment", ->
+      status, res = request_as current_user, "/submission-comment/#{comment.id}/delete", {
+        post: { }
+        expect: "json"
+      }
+
+      assert.same 200, status
+      assert.truthy res.success
+
+      comment\refresh!
+      assert.truthy comment.deleted
+
+      comment\get_submission!\refresh!
+      assert.same comment.submission.comments_count, 0
+
+    it "should not let stranger delete", ->
+      other_user = factory.Users!
+      status, res = request_as other_user, "/submission-comment/#{comment.id}/delete", {
+        post: { }
+        expect: "json"
+      }
+
+      assert.same 200, status
+      assert.truthy res.errors
+
+      comment\refresh!
+      assert.falsy comment.deleted

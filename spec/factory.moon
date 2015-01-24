@@ -81,4 +81,15 @@ StreakSubmissions = (opts={}) ->
   opts.streak_id or= Streaks!.id
   models.StreakSubmissions\create opts
 
-{ :Users, :Streaks, :Submissions, :StreakUsers, :StreakSubmissions }
+SubmissionComments = (opts={}) ->
+  opts.user_id or= Users!.id
+  opts.body or= "my comment #{next_counter "submission_comment"}"
+  opts.submission_id or= Submissions!.id
+  comment = models.SubmissionComments\create opts
+  comment\get_submission!\update {
+    comments_count: db.raw "comments_count + 1"
+  }, timestamp: false
+
+  comment
+
+{ :Users, :Streaks, :Submissions, :StreakUsers, :StreakSubmissions, :SubmissionComments }
