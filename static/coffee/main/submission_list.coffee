@@ -66,6 +66,8 @@ class S.SubmissionList
 
     @el.dispatch "click", ".submission_comment_list", {
       delete_btn: (btn) =>
+        return unless confirm "Are you sure you want to delete this comment?"
+
         comment = btn.closest(".submission_comment").addClass "loading"
         id = comment.data "id"
         $.post "/submission-comment/#{id}/delete", S.with_csrf(), (res) =>

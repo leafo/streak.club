@@ -132,3 +132,13 @@ describe "submission_comments", ->
 
       comment\refresh!
       assert.falsy comment.deleted
+
+    it "should let submission owner delete comment", ->
+      owner = comment\get_submission!\get_user!
+      status, res = request_as owner, "/submission-comment/#{comment.id}/delete", {
+        post: { }
+        expect: "json"
+      }
+
+      assert.same 200, status
+      assert.truthy res.success

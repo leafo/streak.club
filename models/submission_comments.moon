@@ -13,3 +13,11 @@ class SubmissionComments extends Model
     return false unless user
     return true if user\is_admin!
     user.id == @user_id
+
+  allowed_to_delete: (user) =>
+    return true if @allowed_to_edit user
+    if user and user.id == @get_submission!.user_id
+      return true
+    false
+
+

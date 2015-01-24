@@ -3,7 +3,7 @@ import sanitize_html from require "helpers.html"
 import time_ago_in_words from require "lapis.util"
 
 class SubmissionCommentList extends require "widgets.base"
-  @needs: {"comments"}
+  @needs: {"comments", "submission"}
 
   content: =>
     for comment in *@comments
@@ -21,12 +21,18 @@ class SubmissionCommentList extends require "widgets.base"
 
         div class: "comment_content", ->
           div class: "comment_head", ->
-            if comment\allowed_to_edit @current_user
+            can_edit = comment\allowed_to_edit @current_user
+            can_delete = @current_user and @current_user.id == @submission.user_id
+
+            if can_edit or can_delete
               div class: "comment_tools", ->
-                span class: "edit_tool", ->
-                  a href: "#", class: "edit_btn", "Edit"
-                  raw " &middot; "
-                a href: "#", class: "delete_btn", "Delete"
+                if can_edit
+                  span class: "edit_tool", ->
+                    a href: "#", class: "edit_btn", "Edit"
+                    raw " &middot; "
+
+                if can_delete
+                  a href: "#", class: "delete_btn", "Delete"
 
             a href: user_url, comment.user\name_for_display!
             raw " &middot; "

@@ -231,7 +231,10 @@ class SubmissionsApplication extends lapis.Application
       @comment\get_user!
 
       SubmissionCommentList = require "widgets.submission_comment_list"
-      widget = SubmissionCommentList comments: { @comment }
+      widget = SubmissionCommentList {
+        comments: { @comment }
+        submission: @comment\get_submission!
+      }
       widget\include_helper @
 
       json: {
@@ -244,7 +247,7 @@ class SubmissionsApplication extends lapis.Application
     POST: =>
       assert_csrf @
       find_comment @
-      assert_error @comment\allowed_to_edit(@current_user), "invalid comment"
+      assert_error @comment\allowed_to_delete(@current_user), "invalid comment"
 
       flow = EditCommentFlow @
       deleted = flow\delete_comment!
