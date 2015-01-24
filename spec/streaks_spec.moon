@@ -99,6 +99,37 @@ describe "streaks", ->
       current_user\refresh!
       assert.same 1, current_user.streaks_count
 
+    it "should edit streak", ->
+      streak = factory.Streaks user_id: current_user.id
+
+      status, res = request_as current_user, "/streak/#{streak.id}/edit", {
+        post: {
+          "streak[title]": "Streak world"
+          "streak[short_description]": "This is my streak"
+          "streak[description]": "Streak description here"
+          "streak[hour_offset]": "0"
+          "streak[start_date]": "2015-1-1"
+          "streak[end_date]": "2015-2-1"
+          "streak[publish_status]": "published"
+          "timezone": "America/Los_Angeles"
+        }
+        expect: "json"
+      }
+
+      assert.same 200, status
+      assert.falsy res.errors
+      assert.truthy res.url
+
+    it "should not let stranger edit streak", ->
+      streak = factory.Streaks user_id: current_user.id
+      other_user = factory.Users!
+
+      status, res = request_as other_user, "/streak/#{streak.id}/edit", {
+        post: { }
+      }
+
+      assert.same 404, status
+
   describe "with fixed streak PST", ->
     local streak, user
     before_each ->
