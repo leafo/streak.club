@@ -6,6 +6,12 @@ class S.SubmissionList
     @el = $ el
     @setup_comments()
 
+    @el.on "s:increment_comments", ".submission_row", (e, amount=1) =>
+      btn = $(e.currentTarget).find ".comments_toggle_btn"
+      new_count = btn.data("count") + amount
+      btn.text _.template(btn.data("template")) { count: new_count }
+      btn.data "count", new_count
+
     @el.dispatch "click", {
       toggle_like_btn: (btn) =>
         return "continue" unless S.current_user?
@@ -55,6 +61,7 @@ class S.SubmissionList
         id = comment.data "id"
         $.post "/submission-comment/#{id}/delete", S.with_csrf(), (res) =>
           comment.slideUp => comment.remove()
+          btn.trigger "s:increment_comments", [-1]
 
       edit_btn: (btn) =>
         comment = btn.closest(".submission_comment").addClass "editing"
@@ -100,6 +107,7 @@ class S.SubmissionList
         form.find("textarea").val("")
 
       if res.rendered
+        form.trigger "s:increment_comments", [1]
         list = form.closest(".submission_row").find ".submission_comment_list"
         new_comment = $(res.rendered).prependTo list
         height = new_comment.height()

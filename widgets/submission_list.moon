@@ -103,6 +103,8 @@ class SubmissionList extends require "widgets.base"
                 href: ""
                 class: "comments_toggle_btn #{@show_comments and "locked" or ""}"
                 "data-comments_url": @url_for("submission_comments", id: submission.id)
+                "data-template": "{{ count }} comment{{ count == 1 ? '' : 's' }}"
+                "data-count": submission.comments_count
               }, ->
                 text @plural submission.comments_count, "comment", "comments"
 
