@@ -18,6 +18,8 @@ import Submissions, SubmissionComments from require "models"
 EditSubmissionFlow = require "flows.edit_submission"
 EditCommentFlow = require "flows.edit_comment"
 
+COMMENTS_PER_PAGE = 25
+
 find_submission = =>
   assert_valid @params, {
     {"id", is_integer: true}
@@ -42,7 +44,8 @@ class SubmissionsApplication extends lapis.Application
     =>
       find_submission @
       Submissions\preload_for_list { @submission }
-      @submission.comments = @submission\find_comments!\get_page!
+      @submission.comments = @submission\find_comments(per_page: COMMENTS_PER_PAGE)\get_page!
+      @submission.has_more_comments = @submission.comments_count > #@submission.comments
 
       @user = @submission\get_user!
       @streaks = @submission\get_streaks!
@@ -254,25 +257,28 @@ class SubmissionsApplication extends lapis.Application
   }
 
   [submission_comments: "/submission/:id/comments"]: capture_errors_json =>
-    per_page = 10
-
     find_submission @
     assert_valid @params, {
       {"page", optional: true, is_integer: true}
     }
 
     @page = math.max 1, tonumber(@params.page) or 1
-    @submission_comments = @submission\find_comments(:per_page)\get_page @page
-    @has_more = per_page == #@submission_comments
+    @submission_comments = @submission\find_comments(per_page: COMMENTS_PER_PAGE)\get_page @page
+    @has_more = if @page == 1
+      @submission.comments_count > COMMENTS_PER_PAGE
+    else
+      COMMENTS_PER_PAGE == #@submission_comments
 
     local widget
 
-    if @page == 1
-      SubmissionCommenter = require "widgets.submission_commenter"
-      widget = SubmissionCommenter
-      widget\include_helper @
+    widget = if @page == 1
+      require("widgets.submission_commenter")!
     else
-      error "not yet"
+      require("widgets.submission_comment_list") {
+        comments: @submission_comments
+      }
+
+    widget\include_helper @
 
     json: {
       comments_count: #@submission_comments

@@ -147,5 +147,6 @@ class SubmissionList extends require "widgets.base"
     widget SubmissionCommenter {
       submission: @submission
       submission_comments: @submission.comments
+      has_more: @submission.has_more_comments
     }
 

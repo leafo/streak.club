@@ -34,5 +34,31 @@
             padding: 0;
         }
     }
+
+    .load_more_comments {
+        @include unselectable;
+        border-top: 1px solid $border_color;
+        background: #F5F5F5;
+        text-align: center;
+        padding: 10px 20px;
+        cursor: pointer;
+
+        &.loading {
+            color: darken(#F5F5F5, 20%);
+            cursor: default;
+
+            &:hover, &:active {
+                background: #F5F5F5;
+            }
+        }
+
+        &:hover {
+            background: darken(#F5F5F5, 2%);
+        }
+
+        &:active {
+            background: darken(#F5F5F5, 5%);
+        }
+    }
 }
 

@@ -2,7 +2,7 @@
 SubmissionCommentList = require "widgets.submission_comment_list"
 
 class SubmissionCommenter extends require "widgets.base"
-  @needs: {"submission", "submission_comments"}
+  @needs: {"submission", "submission_comments", "has_more"}
 
   base_widget: false
 
@@ -22,4 +22,13 @@ class SubmissionCommenter extends require "widgets.base"
     div class: "submission_comment_list", ->
       return unless @submission_comments and next @submission_comments
       widget SubmissionCommentList comments: @submission_comments
+
+    if @has_more
+      div {
+        class: "load_more_comments load_more_btn"
+        "data-href": @url_for("submission_comments", id: @submission.id)
+        "data-page": 1
+      }, ->
+        text "Load more comments"
+
 

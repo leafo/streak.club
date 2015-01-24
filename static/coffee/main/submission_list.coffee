@@ -32,6 +32,8 @@ class S.SubmissionList
 
       comments_toggle_btn: (btn) =>
         return if btn.is ".locked"
+        return if btn.is ".loading"
+
         if btn.is ".open"
           btn.closest(".submission_row")
             .find(".submission_commenter").remove()
@@ -55,6 +57,10 @@ class S.SubmissionList
     }
 
   setup_comments: =>
+    textareas = @el.find("textarea")
+    if textareas.length
+      S.redactor textareas, minHeight: 100
+
     @el.dispatch "click", ".submission_comment_list", {
       delete_btn: (btn) =>
         comment = btn.closest(".submission_comment").addClass "loading"
@@ -84,9 +90,25 @@ class S.SubmissionList
         }
     }
 
-    textareas = @el.find("textarea")
-    if textareas.length
-      S.redactor textareas, minHeight: 100
+    @el.dispatch "click", ".submission_commenter", {
+      load_more_btn: (btn) =>
+        return if btn.is ".loading"
+        btn.addClass "loading"
+
+        page = btn.data("page")
+        page += 1
+        btn.data "page", page
+
+        $.get btn.data("href"), { page: page }, (res) =>
+          btn.removeClass "loading"
+          commenter = btn.closest(".submission_commenter")
+          if res.rendered
+            comments = $ res.rendered
+            commenter.find(".submission_comment_list").append comments
+
+          unless res.has_more
+            commenter.find(".load_more_btn").remove()
+    }
 
     @el.remote_submit ".edit_comment_form", (res, form) =>
       if res.errors
