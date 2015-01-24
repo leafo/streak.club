@@ -148,7 +148,12 @@ class ViewStreak extends require "widgets.base"
 
   render_submissions: =>
     unless next @submissions
-      p class: "empty_message", "No submissions yet"
+      p class: "empty_message", ->
+        if @page == 1
+          text "No submissions yet"
+        else
+          text "No submissions on this page"
+
       return
 
     h4 "Recent submissions"

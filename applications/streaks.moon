@@ -2,7 +2,7 @@
 lapis = require "lapis"
 
 import respond_to, capture_errors_json, capture_errors, assert_error, yield_error from require "lapis.application"
-import require_login, not_found, assert_unit_date from require "helpers.app"
+import require_login, not_found, assert_unit_date, assert_page from require "helpers.app"
 import assert_valid from require "lapis.validate"
 import assert_csrf from require "helpers.csrf"
 import assert_signed_url from require "helpers.url"
@@ -13,6 +13,8 @@ date = require "date"
 
 EditStreakFlow = require "flows.edit_streak"
 EditSubmissionFlow = require "flows.edit_submission"
+
+SUBMISSION_PER_PAGE = 25
 
 find_streak = =>
   assert_valid @params, {
@@ -78,7 +80,33 @@ class StreaksApplication extends lapis.Application
         check_slug @
 
       GET: =>
+        assert_page @
+        import Submissions from require "models"
+        pager = @streak\find_submissions {
+          per_page: SUBMISSION_PER_PAGE
+          prepare_submissions: (submissions) ->
+            Submissions\preload_for_list submissions, {
+              likes_for: @current_user
+            }
+        }
+
+        @submissions = pager\get_page @page
+
+        if @params.format == "json"
+          SubmissionList = require "widgets.submission_list_bare"
+          widget = SubmissionList!
+          widget\include_helper @
+
+          return json: {
+            success: true
+            submissions_count: #@submissions
+            has_more: #@submissions == SUBMISSION_PER_PAGE
+            rendered: widget\render_to_string!
+          }
+
         @title = @streak.title
+        @has_more = @streak.submissions_count > SUBMISSION_PER_PAGE
+
         import StreakUsers from require "models"
         pager = StreakUsers\paginated "where streak_id = ?", @streak.id, {
           prepare_results: (sus) ->
@@ -94,16 +122,6 @@ class StreaksApplication extends lapis.Application
           @completed_units = @streak_user\get_completed_units!
 
         @unit_counts = @streak\unit_submission_counts!
-
-        import Submissions from require "models"
-        pager = @streak\find_submissions {
-          prepare_submissions: (submissions) ->
-            Submissions\preload_for_list submissions, {
-              likes_for: @current_user
-            }
-        }
-
-        @submissions = pager\get_page!
 
         render: true
 

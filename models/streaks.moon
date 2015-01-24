@@ -240,7 +240,7 @@ class Streaks extends Model
       where streak_id = ?
       order by submit_time desc
     ]], @id, {
-      per_page: 20
+      per_page: opts.per_page or 20
       prepare_results: prepare_submits opts
     }
 

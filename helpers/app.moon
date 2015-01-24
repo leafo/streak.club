@@ -1,6 +1,7 @@
 
 db = require "lapis.db"
 import assert_error from require "lapis.application"
+import assert_valid from require "lapis.validate"
 
 not_found = { status: 404, render: "not_found" }
 
@@ -22,6 +23,14 @@ assert_timezone = (tz) ->
   res = unpack db.select "* from pg_timezone_names where name = ?", tz
   assert_error res, "invalid timezone: #{tz}"
 
+assert_page = =>
+  assert_valid @params, {
+    {"page", optional: true, is_integer: true}
+  }
+
+  @page = math.max 1, tonumber(@params.page) or 1
+  @page
+
 login_and_return_url = (url=ngx.var.request_uri) =>
   import encode_query_string from require "lapis.util"
   @url_for("user_login") .. "?" .. encode_query_string {
@@ -35,4 +44,4 @@ assert_unit_date = =>
   assert_error @streak\date_in_streak(@unit_date), "invalid date"
 
 { :not_found, :require_login, :require_admin, :assert_timezone,
-  :login_and_return_url, :assert_unit_date }
+  :login_and_return_url, :assert_unit_date, :assert_page }

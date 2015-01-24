@@ -9,7 +9,7 @@ import
   capture_errors_json
   from require "lapis.application"
 
-import not_found, require_login, assert_unit_date from require "helpers.app"
+import not_found, require_login, assert_unit_date, assert_page from require "helpers.app"
 import assert_csrf from require "helpers.csrf"
 import assert_signed_url from require "helpers.url"
 
@@ -258,11 +258,8 @@ class SubmissionsApplication extends lapis.Application
 
   [submission_comments: "/submission/:id/comments"]: capture_errors_json =>
     find_submission @
-    assert_valid @params, {
-      {"page", optional: true, is_integer: true}
-    }
+    assert_page @
 
-    @page = math.max 1, tonumber(@params.page) or 1
     @submission_comments = @submission\find_comments(per_page: COMMENTS_PER_PAGE)\get_page @page
     @has_more = if @page == 1
       @submission.comments_count > COMMENTS_PER_PAGE

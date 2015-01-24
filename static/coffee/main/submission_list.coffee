@@ -2,9 +2,10 @@
 class S.SubmissionList
   comment_editor_template: S.lazy_template @, "comment_editor"
 
-  constructor: (el) ->
+  constructor: (el, @opts={}) ->
     @el = $ el
     @setup_comments()
+    @setup_paging()
 
     @el.on "s:increment_comments", ".submission_row", (e, amount=1) =>
       btn = $(e.currentTarget).find ".comments_toggle_btn"
@@ -41,7 +42,7 @@ class S.SubmissionList
           return
 
         btn.addClass "loading"
-        $.get btn.data("comments_url"), (res) ->
+        $.get btn.data("comments_url"), (res) =>
           btn.removeClass("loading").addClass "open"
 
           if res.errors
@@ -54,6 +55,8 @@ class S.SubmissionList
 
           S.with_redactor =>
             S.redactor commenter.find("textarea"), minHeight: 100
+
+          @el.trigger "s:reshape"
     }
 
   setup_comments: =>
@@ -153,4 +156,22 @@ class S.SubmissionList
             @el.trigger "s:reshape"
           , 500
 
+
+  setup_paging: =>
+    scroller = new S.InfiniteScroll @el, {
+      get_next_page: =>
+        load_els = @el.add(scroller.loading_row).addClass "loading"
+        @opts.page += 1
+
+        $.get "", { page: @opts.page, format: "json" }, (res) =>
+          load_els.removeClass "loading"
+
+          unless res.has_more
+            scroller.remove_loader()
+
+          if res.rendered
+            @el.find(".submission_list").append $ res.rendered
+            @el.trigger "s:reshape"
+
+    }
 
