@@ -8,6 +8,7 @@ date = require "date"
 StreakUnits = require "widgets.streak_units"
 SubmissionList = require "widgets.submission_list"
 Countdown = require "widgets.countdown"
+WelcomeBanner = require "widgets.welcome_banner"
 
 class ViewStreak extends require "widgets.base"
   @needs: {"streak", "streak_users", "unit_counts", "completed_units"}
@@ -25,7 +26,7 @@ class ViewStreak extends require "widgets.base"
 
   inner_content: =>
     unless @current_user
-      @welcome_banner!
+      widget WelcomeBanner
 
     if @streak\allowed_to_edit @current_user
       div class: "admin_tools", ->
@@ -174,12 +175,4 @@ class ViewStreak extends require "widgets.base"
         span class: "sub",
           "#{@streak\interval_noun false} ##{@streak\unit_number_for_date(date true)}"
     }
-
-
-  welcome_banner: =>
-    div class: "welcome_banner", ->
-      h2 "Welcome to Streak Club"
-      p "Streak Club is a place for hosting and participating in creative streaks."
-      a href: @url_for("index"), class: "button outline_button", "Learn more"
-
 
