@@ -274,6 +274,13 @@ import
         comments_count = (select count(*) from submission_comments where user_id = users.id)
     "
 
+  [1422142380]: =>
+    add_column "users", "likes_count", integer
+    db.query "
+      update users set
+        likes_count = (select count(*) from submission_likes where user_id = users.id)
+    "
+
 }
 
 

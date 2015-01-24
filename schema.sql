@@ -398,7 +398,8 @@ CREATE TABLE users (
     followers_count integer DEFAULT 0 NOT NULL,
     admin boolean DEFAULT false NOT NULL,
     streaks_count integer DEFAULT 0 NOT NULL,
-    comments_count integer DEFAULT 0 NOT NULL
+    comments_count integer DEFAULT 0 NOT NULL,
+    likes_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -753,6 +754,7 @@ COPY lapis_migrations (name) FROM stdin;
 1421473830
 1421477232
 1422135963
+1422142380
 \.
 
 

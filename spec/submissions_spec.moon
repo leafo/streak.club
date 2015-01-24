@@ -214,3 +214,69 @@ describe "submissions", ->
 
       assert.same 302, status
       assert.same 1, #Submissions\select!
+
+  describe "submission likes", ->
+    import SubmissionLikes from require "models"
+
+    local submission
+    before_each ->
+      truncate_tables SubmissionLikes
+      submission = factory.Submissions!
+
+    it "should like submission", ->
+      status, res = request_as current_user, "/submission/#{submission.id}/like", {
+        post: {}
+        expect: "json"
+      }
+
+      assert.same 200, status
+      assert.same {
+        success: true
+        count: 1
+      }, res
+
+      current_user\refresh!
+      assert.same 1, current_user.likes_count
+      submission\refresh!
+      assert.same 1, submission.likes_count
+
+    it "should fail when double liking submission", ->
+      SubmissionLikes\create user_id: current_user.id, submission_id: submission.id
+      status, res = request_as current_user, "/submission/#{submission.id}/like", {
+        post: {}
+        expect: "json"
+      }
+
+      assert.same 200, status
+      assert.same {
+        success: false
+        count: 1
+      }, res
+
+      current_user\refresh!
+      assert.same 1, current_user.likes_count
+
+      submission\refresh!
+      assert.same 1, submission.likes_count
+
+    it "should unlike submission", ->
+      SubmissionLikes\create user_id: current_user.id, submission_id: submission.id
+
+      status, res = request_as current_user, "/submission/#{submission.id}/unlike", {
+        post: {}
+        expect: "json"
+      }
+
+      assert.same 200, status
+      assert.same {
+        success: true
+        count: 0
+      }, res
+
+
+      current_user\refresh!
+      assert.same 0, current_user.likes_count
+
+      submission\refresh!
+      assert.same 0, submission.likes_count
+
