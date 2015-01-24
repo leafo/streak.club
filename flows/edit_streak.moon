@@ -1,6 +1,8 @@
 
 date = require "date"
 
+db = require "lapis.db"
+
 import assert_error from require "lapis.application"
 import assert_valid from require "lapis.validate"
 import trim_filter from require "lapis.util"
@@ -51,11 +53,16 @@ class EditStreakFlow extends Flow
     streak_params
 
   create_streak: =>
-
     params = @validate_params!
     params.user_id = @current_user.id
 
-    Streaks\create params
+    streak = Streaks\create params
+
+    @current_user\update {
+      streaks_count: db.raw "streaks_count + 1"
+    }
+
+    streak
 
   edit_streak: =>
     assert @streak

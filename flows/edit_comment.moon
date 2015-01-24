@@ -39,6 +39,10 @@ class EditCommentFlow extends Flow
       comments_count: db.raw "comments_count + 1"
     }
 
+    @current_user\update {
+      comments_count: db.raw "comments_count + 1"
+    }
+
     comment
 
   edit_comment: =>
