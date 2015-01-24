@@ -17,6 +17,8 @@ class UserSettings extends require "widgets.base"
     form action: "", method: "POST", class: "form", ->
       @csrf_input!
 
+      profile = @user_profile or {}
+
       @text_input_row {
         label: "Display name"
         sub: "How others will see your name"
@@ -29,12 +31,14 @@ class UserSettings extends require "widgets.base"
         label: "Website"
         name: "user_profile[website]"
         placeholder: "Optional"
+        value: profile.website
       }
 
       @text_input_row {
         label: "Twitter"
         name: "user_profile[twitter]"
         placeholder: "Optional"
+        value: profile.twitter
       }
 
       @text_input_row {
@@ -43,6 +47,7 @@ class UserSettings extends require "widgets.base"
         sub: "A little about you and your interests, publicly visible"
         name: "user_profile[bio]"
         placeholder: "Optional"
+        value: profile.bio
       }
 
       div class: "button_row", ->

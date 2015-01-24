@@ -112,6 +112,7 @@ class UsersApplication extends lapis.Application
   [user_settings: "/user/settings"]: require_login respond_to {
     before: =>
       @user = @current_user
+      @user_profile = @user\get_user_profile!
 
     GET: =>
       render: true
