@@ -2,8 +2,10 @@
 StreakUnits = require "widgets.streak_units"
 SubmissionList = require "widgets.submission_list"
 
+import sanitize_html, is_empty_html from require "helpers.html"
+
 class UserProfile extends require "widgets.base"
-  @needs: {"user", "submissions", "streaks"}
+  @needs: {"user", "user_profile", "submissions", "streaks"}
   @include "widgets.follow_helpers"
 
   js_init: =>
@@ -23,6 +25,18 @@ class UserProfile extends require "widgets.base"
 
     div class: "columns", ->
       div class: "submission_column", ->
+        if @user_profile.bio and not is_empty_html @user_profile.bio
+          div class: "user_formatted", ->
+            raw sanitize_html @user_profile.bio
+
+        if website = @user_profile\format_website!
+          p class: "user_website", ->
+            a rel: "nofollow", href: website, @truncate @user_profile.website
+
+        if twitter = @user_profile\twitter_handle!
+          p class: "user_twitter", ->
+            a href: "http://twitter.com/#{twitter}", "@" .. twitter
+
         @render_submissions!
 
       div class: "streak_column", ->

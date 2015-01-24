@@ -99,3 +99,9 @@ class Base extends Widget
           opts[k] = v
 
     span opts, d\fmt "${iso}Z"
+
+  truncate: (str, len=30, tail="...") =>
+    if #str > len
+      str\sub(1, len) .. tail
+    else
+      str

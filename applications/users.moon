@@ -25,6 +25,7 @@ class UsersApplication extends lapis.Application
     on_error: => not_found
     =>
       @user = assert_error Users\find(slug: slugify @params.slug), "invalid user"
+      @user_profile = @user\get_user_profile!
 
       pager = @user\find_submissions {
         prepare_results: (...) ->
