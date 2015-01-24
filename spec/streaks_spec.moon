@@ -23,11 +23,11 @@ describe "streaks", ->
   before_each ->
     truncate_tables Streaks, Users, Submissions, StreakUsers, StreakSubmissions
 
-  it "should create a streak", ->
+  it "should create a streak from factory", ->
     streak = factory.Streaks!
     assert.truthy streak
 
-  it "should recount a streak #ddd", ->
+  it "should recount a streak", ->
     streak = factory.Streaks!
 
     for i=1,2
@@ -39,19 +39,19 @@ describe "streaks", ->
     assert.same streak.users_count, 1
     assert.same streak.submissions_count, 2
 
-  it "should create a streak during", ->
+  it "should create a streak from factory during", ->
     streak = factory.Streaks state: "during"
     assert.truthy streak\during!
     assert.falsy streak\before_start!
     assert.falsy streak\after_end!
 
-  it "should create a streak before start", ->
+  it "should create a streak from factory before start", ->
     streak = factory.Streaks state: "before_start"
     assert.falsy streak\during!
     assert.truthy streak\before_start!
     assert.falsy streak\after_end!
 
-  it "should create a streak after end", ->
+  it "should create a streak from factory after end", ->
     streak = factory.Streaks state: "after_end"
     assert.falsy streak\during!
     assert.falsy streak\before_start!
@@ -69,6 +69,35 @@ describe "streaks", ->
       it "should truncate date on hour #{h}", ->
         d = streak\truncate_date date 2015, 3,1, h, 11
         assert.same "2015-03-01 00:00:00", d\fmt Streaks.timestamp_format_str
+
+  describe "with user", ->
+    local current_user
+    before_each ->
+      current_user = factory.Users!
+
+    it "should create streak", ->
+      status, res = request_as current_user, "/streaks/new", {
+        post: {
+          "streak[title]": "Streak world"
+          "streak[short_description]": "This is my streak"
+          "streak[description]": "Streak description here"
+          "streak[hour_offset]": "0"
+          "streak[start_date]": "2015-1-1"
+          "streak[end_date]": "2015-2-1"
+          "streak[publish_status]": "published"
+          "timezone": "America/Los_Angeles"
+        }
+        expect: "json"
+      }
+
+      assert.same 200, status
+      assert.falsy res.errors
+      assert.truthy res.url
+
+      assert.same 1, #Streaks\select!
+
+      current_user\refresh!
+      assert.same 1, current_user.streaks_count
 
   describe "with fixed streak PST", ->
     local streak, user

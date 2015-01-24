@@ -55,6 +55,9 @@ describe "submission_comments", ->
     assert.same comment.body, "Hello world"
     assert.same comment.deleted, false
 
+    current_user\refresh!
+    assert.same 1, current_user.comments_count
+
   describe "with comment", ->
     local comment
 

@@ -20,6 +20,7 @@ require_admin = (fn) ->
       redirect_to: @url_for"index"
 
 assert_timezone = (tz) ->
+  assert_error tz, "missing timezone"
   res = unpack db.select "* from pg_timezone_names where name = ?", tz
   assert_error res, "invalid timezone: #{tz}"
 
