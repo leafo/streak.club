@@ -253,5 +253,32 @@ class SubmissionsApplication extends lapis.Application
       }
   }
 
+  [submission_comments: "/submission/:id/comments"]: capture_errors_json =>
+    per_page = 10
+
+    find_submission @
+    assert_valid @params, {
+      {"page", optional: true, is_integer: true}
+    }
+
+    @page = math.max 1, tonumber(@params.page) or 1
+    @submission_comments = @submission\find_comments(:per_page)\get_page @page
+    @has_more = per_page == #@submission_comments
+
+    local widget
+
+    if @page == 1
+      SubmissionCommenter = require "widgets.submission_commenter"
+      widget = SubmissionCommenter
+      widget\include_helper @
+    else
+      error "not yet"
+
+    json: {
+      comments_count: #@submission_comments
+      has_more: @has_more
+      success: true
+      rendered: widget\render_to_string!
+    }
 
 

@@ -166,11 +166,14 @@ class Submissions extends Model
 
     res
 
-  find_comments: =>
+  find_comments: (opts={}) =>
     import SubmissionComments, Users from require "models"
     SubmissionComments\paginated [[
       where submission_id = ? and not deleted
       order by id desc
-    ]], @id, prepare_results: (comments) ->
-      Users\include_in comments, "user_id"
-      comments
+    ]], @id, {
+      per_page: opts.per_page
+      prepare_results: (comments) ->
+        Users\include_in comments, "user_id"
+        comments
+    }

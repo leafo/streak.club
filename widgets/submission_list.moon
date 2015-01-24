@@ -1,7 +1,7 @@
 import sanitize_html, is_empty_html from require "helpers.html"
 import login_and_return_url from require "helpers.app"
 
-SubmissionCommentList = require "widgets.submission_comment_list"
+SubmissionCommenter = require "widgets.submission_commenter"
 
 class SubmissionList extends require "widgets.base"
   @needs: {"submissions"}
@@ -99,40 +99,25 @@ class SubmissionList extends require "widgets.base"
 
             @render_uploads submission
 
-            if submission.tags and next submission.tags
-              div class: "submission_tags", ->
-                for tag in *submission.tags
-                  a class: "submission_tag", tag.slug
+            div class: "submission_footer", ->
+              a {
+                href: ""
+                class: "comments_toggle_btn"
+                "data-comments_url": @url_for("submission_comments", id: submission.id)
+              }, ->
+                text @plural submission.comments_count, "comment", "comments"
+
+              if submission.tags and next submission.tags
+                div class: "submission_tags", ->
+                  for tag in *submission.tags
+                    a class: "submission_tag", tag.slug
 
             if @show_comments
               @render_comments submission
 
-  render_uploads: (submission) =>
-    return unless submission.uploads and next submission.uploads
-    div class: "submission_uploads", ->
-      for upload in *submission.uploads
-        continue unless upload\is_image!
-        div class: "submission_upload", ->
-          a href: @url_for(upload), target: "_blank", ->
-            img src: @url_for upload, "600x"
+    @templates!
 
-  render_comments: (submission) =>
-    div class: "comment_form_outer", ->
-      h3 "Leave a commment"
-      action = @url_for "submission_new_comment", id: submission.id
-      form class: "form comment_form", method: "POST", :action, ->
-        @csrf_input!
-
-        div class: "input_wrapper", ->
-          textarea name: "comment[body]", placeholder: "Your comment"
-
-        div class: "button_row", ->
-          button class: "button", "Leave comment"
-
-    div class: "submission_comment_list", ->
-      return unless submission.comments and next submission.comments
-      widget SubmissionCommentList comments: submission.comments
-
+  templates: =>
     @js_template "comment_editor", ->
       div class: "comment_editor", ->
         action = @url_for("edit_comment", id: "XXX")\gsub "XXX", "{{ id }}"
@@ -146,4 +131,20 @@ class SubmissionList extends require "widgets.base"
             button class: "button", "Update comment"
             text " or "
             a class: "cancel_edit_btn", href: "", "Cancel"
+
+
+  render_uploads: (submission) =>
+    return unless submission.uploads and next submission.uploads
+    div class: "submission_uploads", ->
+      for upload in *submission.uploads
+        continue unless upload\is_image!
+        div class: "submission_upload", ->
+          a href: @url_for(upload), target: "_blank", ->
+            img src: @url_for upload, "600x"
+
+  render_comments: (submission) =>
+    widget SubmissionCommenter {
+      submission: @submission
+      submission_comments: @submission.comments
+    }
 

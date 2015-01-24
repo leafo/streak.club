@@ -199,11 +199,29 @@
             color: #999;
         }
 
+        .submission_footer {
+            border-top: 1px solid $border_color;
+            padding: 10px 20px;
+
+            a {
+                color: #666;
+                &.loading {
+                    @include opacity(0.3);
+                }
+            }
+
+        }
+
+        .comments_toggle_btn {
+            &.locked {
+                cursor: default;
+                text-decoration: none;
+            }
+        }
+
         .submission_tags {
             @include single_line;
-            text-align: right;
-            border-top: 1px solid $border_color;
-            padding: 4px 20px;
+            float: right;
 
             .submission_tag {
                 @include transition(all 0.2s ease);
@@ -223,43 +241,5 @@
             }
         }
 
-        .comment_form_outer {
-            border-top: 1px solid $border_color;
-
-            h3 {
-                margin: 10px 20px;
-            }
-
-            .input_wrapper {
-                margin: 10px 20px;
-            }
-
-            textarea {
-                @include border_box;
-                width: 100%;
-                display: block;
-            }
-
-            .button_row {
-                margin: 10px 20px 15px 20px;
-            }
-
-            .form_errors {
-                margin: 20px;
-            }
-        }
-
-        .submission_comment_list {
-            padding-top: 30px;
-            border-top: 1px solid $border_color;
-
-            &:empty {
-                padding: 10px 20px;
-                &:before {
-                    content: "There are no comments yet";
-                    color: #999;
-                }
-            }
-        }
     }
 }

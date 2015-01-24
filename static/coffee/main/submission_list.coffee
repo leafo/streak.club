@@ -24,6 +24,24 @@ class S.SubmissionList
               .toggleClass("has_likes", res.count > 0)
               .find(".like_count").text res.count
 
+      comments_toggle_btn: (btn) =>
+        return if btn.is ".locked"
+        if btn.is ".open"
+          btn.closest(".submission_row")
+            .find(".submission_commenter").remove()
+          btn.removeClass "open"
+          return
+
+        btn.addClass "loading"
+        $.get btn.data("comments_url"), (res) ->
+          btn.removeClass("loading").addClass "open"
+
+          if res.errors
+            alert res.errors.join ","
+            return
+
+          btn.closest(".submission_row")
+            .find(".submission_footer").after res.rendered
     }
 
   setup_comments: =>
