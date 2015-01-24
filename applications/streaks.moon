@@ -6,6 +6,7 @@ import require_login, not_found, assert_unit_date, assert_page from require "hel
 import assert_valid from require "lapis.validate"
 import assert_csrf from require "helpers.csrf"
 import assert_signed_url from require "helpers.url"
+import render_submissions_page from require "helpers.submissions"
 
 import Streaks, Users from require "models"
 
@@ -93,16 +94,7 @@ class StreaksApplication extends lapis.Application
         @submissions = pager\get_page @page
 
         if @params.format == "json"
-          SubmissionList = require "widgets.submission_list_bare"
-          widget = SubmissionList!
-          widget\include_helper @
-
-          return json: {
-            success: true
-            submissions_count: #@submissions
-            has_more: #@submissions == SUBMISSION_PER_PAGE
-            rendered: widget\render_to_string!
-          }
+          return render_submissions_page @, SUBMISSION_PER_PAGE
 
         @title = @streak.title
         @has_more = @streak.submissions_count > SUBMISSION_PER_PAGE
