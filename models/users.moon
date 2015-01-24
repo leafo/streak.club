@@ -176,3 +176,9 @@ class Users extends Model
     import Followings from require "models"
     Followings\find dest_user_id: @id, source_user_id: user.id
 
+  get_user_profile: =>
+    unless @user_profile
+      import UserProfiles from require "models"
+      @user_profile = UserProfile\find(@id) or UserProfile\create user_id: @id
+
+    @user_profile

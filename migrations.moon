@@ -252,6 +252,28 @@ import
 
     create_index "submission_comments", "user_id", "id", where: "not deleted"
     create_index "submission_comments", "submission_id", "id", where: "not deleted"
+
+  [1422135963]: =>
+    create_table "user_profile", {
+      {"user_id", foreign_key}
+
+      {"bio", text null: true}
+      {"website", text null: true}
+      {"twitter", text null: true}
+
+      {"created_at", time}
+      {"updated_at", time}
+    }
+
+    add_column "users", "streaks_count", integer
+    add_column "users", "comments_count", integer
+
+    db.query "
+      update users set
+        streaks_count = (select count(*) from streaks where user_id = users.id),
+        comments_count = (select count(*) from submission_comments where user_id = users.id)
+    "
+
 }
 
 

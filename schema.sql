@@ -363,6 +363,22 @@ ALTER SEQUENCE uploads_id_seq OWNED BY uploads.id;
 
 
 --
+-- Name: user_profile; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE user_profile (
+    user_id integer NOT NULL,
+    bio text,
+    website text,
+    twitter text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.user_profile OWNER TO postgres;
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -380,7 +396,9 @@ CREATE TABLE users (
     submissions_count integer DEFAULT 0 NOT NULL,
     following_count integer DEFAULT 0 NOT NULL,
     followers_count integer DEFAULT 0 NOT NULL,
-    admin boolean DEFAULT false NOT NULL
+    admin boolean DEFAULT false NOT NULL,
+    streaks_count integer DEFAULT 0 NOT NULL,
+    comments_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -734,6 +752,7 @@ COPY lapis_migrations (name) FROM stdin;
 1421473626
 1421473830
 1421477232
+1422135963
 \.
 
 
