@@ -16,9 +16,8 @@ class SubmissionList extends require "widgets.base"
     "new S.SubmissionList(#{@widget_selector!});"
 
   inner_content: =>
-    if @show_comments
-      @content_for "all_js", ->
-        @include_redactor!
+    @content_for "all_js", ->
+      @include_redactor not @show_comments
 
     div class: "submission_list", ->
       for submission in *@submissions
@@ -102,7 +101,7 @@ class SubmissionList extends require "widgets.base"
             div class: "submission_footer", ->
               a {
                 href: ""
-                class: "comments_toggle_btn"
+                class: "comments_toggle_btn #{@show_comments and "locked" or ""}"
                 "data-comments_url": @url_for("submission_comments", id: submission.id)
               }, ->
                 text @plural submission.comments_count, "comment", "comments"

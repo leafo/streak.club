@@ -46,6 +46,24 @@ window.S = {
     else
       $.extend thing, token
 
+  # wait for it to be loaded
+  with_redactor: (fn) =>
+    t = 1
+    add = 10
+
+    unless $.fn.redactor
+      html = $(document.body).find(".redactor_loader").remove().data "script"
+      if html?
+        $("head").append html
+
+    tick = ->
+      return fn?() if $.fn.redactor
+      t += add
+      t = Math.min 500, t
+      setTimeout tick, t
+
+    tick()
+
   redactor: (el, opts={}) =>
     return if window.location.href.match /\bredactor=0\b/
     return unless $.fn.redactor

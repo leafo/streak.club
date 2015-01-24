@@ -30,11 +30,8 @@
         border-top: 1px solid $border_color;
 
         &:empty {
-            padding: 10px 20px;
-            &:before {
-                content: "There are no comments yet";
-                color: #999;
-            }
+            border-width: 0px;
+            padding: 0;
         }
     }
 }

@@ -40,8 +40,12 @@ class S.SubmissionList
             alert res.errors.join ","
             return
 
+          commenter = $ res.rendered
           btn.closest(".submission_row")
-            .find(".submission_footer").after res.rendered
+            .find(".submission_footer").after commenter
+
+          S.with_redactor =>
+            S.redactor commenter.find("textarea"), minHeight: 100
     }
 
   setup_comments: =>
@@ -73,7 +77,9 @@ class S.SubmissionList
         }
     }
 
-    S.redactor @el.find("textarea"), minHeight: 100
+    textareas = @el.find("textarea")
+    if textareas.length
+      S.redactor textareas, minHeight: 100
 
     @el.remote_submit ".edit_comment_form", (res, form) =>
       if res.errors
