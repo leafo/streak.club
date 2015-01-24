@@ -8,7 +8,7 @@ import truncate_tables from require "lapis.spec.db"
 import request, request_as from require "spec.helpers"
 
 factory = require "spec.factory"
-import Users from require "models"
+import Users, Submissions, Streaks, StreakSubmissions, StreakUsers from require "models"
 
 describe "users", ->
   setup ->
@@ -65,7 +65,6 @@ describe "users", ->
     assert.same "http://127.0.0.1/", headers.location
 
   describe "with streaks", ->
-    import Streaks, StreakSubmissions, Submissions, StreakUsers from require "models"
     local current_user
 
     before_each ->
@@ -103,3 +102,24 @@ describe "users", ->
         user_id: current_user.id
       }
       assert.same 2, #current_user\get_submittable_streaks!
+
+  describe "with submissions", ->
+    local current_user
+    truncate_tables Submissions, Streaks, StreakSubmissions, StreakUsers
+
+    before_each ->
+      current_user = factory.Users!
+
+      for i=1,3
+        factory.Submissions user_id: current_user.id
+
+    it "should view user profile", ->
+      status, res = request "/u/#{current_user.slug}"
+      assert.same 200, status
+
+    it "should view user profile json", ->
+      status, res = request "/u/#{current_user.slug}?format=json", {
+        expect: "json"
+      }
+      assert.same 200, status
+
