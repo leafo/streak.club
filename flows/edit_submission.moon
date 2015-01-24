@@ -84,7 +84,7 @@ class EditSubmissionFlow extends Flow
 
     @set_uploads!
     @set_tags!
-    @submission, submit
+    @submission
 
   edit_submission: =>
     import Submissions from require "models"
