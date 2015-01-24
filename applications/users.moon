@@ -119,17 +119,28 @@ class UsersApplication extends lapis.Application
       assert_csrf @
       assert_valid @params, {
         {"user", type: "table"}
+        {"user_profile", type: "table"}
       }
 
       user_update = @params.user
       trim_filter user_update, {"display_name"}
 
-      assert_valid @params, {
-        {"display_name", optional: true, max_length: "120"}
+      assert_valid user_update, {
+        {"display_name", optional: true, max_length: 120}
       }
 
       user_update.display_name or= db.NULL
       @user\update user_update
+
+      profile_update = @params.user_profile
+      trim_filter profile_update, {"website", "twitter", "bio"}, db.NULL
+
+      assert_valid profile_update, {
+        {"bio", optional: true, max_length: 1024*1024}
+      }
+
+      @user\get_user_profile!\update profile_update
+
       @session.flash = "Profile updated"
       redirect_to: @url_for "user_settings"
   }

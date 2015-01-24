@@ -69,6 +69,10 @@ a {
         background: $header_color;
         height: $header_height;
         color: white;
+
+        @media (max-width: 600px) {
+            text-align: center;
+        }
     }
 
     .right_header {
@@ -108,6 +112,10 @@ a {
 
         .logo_text {
             margin-top: 14px;
+        }
+
+        @media (max-width: 600px) {
+            margin-left: 0;
         }
     }
 

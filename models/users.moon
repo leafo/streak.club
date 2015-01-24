@@ -179,6 +179,6 @@ class Users extends Model
   get_user_profile: =>
     unless @user_profile
       import UserProfiles from require "models"
-      @user_profile = UserProfile\find(@id) or UserProfile\create user_id: @id
+      @user_profile = UserProfiles\find(@id) or UserProfiles\create user_id: @id
 
     @user_profile

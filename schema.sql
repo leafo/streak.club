@@ -363,10 +363,10 @@ ALTER SEQUENCE uploads_id_seq OWNED BY uploads.id;
 
 
 --
--- Name: user_profile; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: user_profiles; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE user_profile (
+CREATE TABLE user_profiles (
     user_id integer NOT NULL,
     bio text,
     website text,
@@ -376,7 +376,7 @@ CREATE TABLE user_profile (
 );
 
 
-ALTER TABLE public.user_profile OWNER TO postgres;
+ALTER TABLE public.user_profiles OWNER TO postgres;
 
 --
 -- Name: users; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 

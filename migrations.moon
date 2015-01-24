@@ -254,7 +254,7 @@ import
     create_index "submission_comments", "submission_id", "id", where: "not deleted"
 
   [1422135963]: =>
-    create_table "user_profile", {
+    create_table "user_profiles", {
       {"user_id", foreign_key}
 
       {"bio", text null: true}
