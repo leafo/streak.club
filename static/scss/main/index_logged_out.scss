@@ -2,6 +2,8 @@
 $gray: darken(#F5F5F5, 3%);
 
 .index_logged_out {
+    padding-bottom: 40px;
+
     .primary_header {
         background: $gray;
         padding: 30px 0;
@@ -26,6 +28,7 @@ $gray: darken(#F5F5F5, 3%);
 
     h3 {
         color: #666;
+        margin: 20px 0;
     }
 
     .intro {
@@ -186,12 +189,13 @@ $gray: darken(#F5F5F5, 3%);
     }
 
     .footer_buttons {
-        padding: 60px 0 100px 0;
+        padding: 60px 0 ;
         text-align: center;
         color: #999;
 
         h3 {
             margin-top: 0;
+            margin-bottom: 50px;
         }
 
         .button {
@@ -207,6 +211,14 @@ $gray: darken(#F5F5F5, 3%);
 
         .small_text {
             margin-top: 10px;
+        }
+    }
+
+    .featured_streaks {
+        text-align: center;
+
+        .streak_box {
+            text-align: left;
         }
     }
 }

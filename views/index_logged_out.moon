@@ -1,7 +1,10 @@
 
 Countdown = require "widgets.countdown"
+StreakList = require "widgets.streak_list"
 
 class IndexLoggedOut extends require "widgets.base"
+  @needs: {"featured_streaks"}
+
   base_widget: false
 
   js_init: =>
@@ -83,3 +86,10 @@ class IndexLoggedOut extends require "widgets.base"
         text " or "
         a href: @url_for("user_login"), "Log in"
 
+    if next @featured_streaks
+      div class: "featured_streaks", ->
+        h3 "Or check out some featured streaks"
+
+        widget StreakList {
+          streaks: @featured_streaks
+        }

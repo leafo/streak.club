@@ -44,6 +44,13 @@ class extends lapis.Application
       Users\include_in @active_streaks, "user_id"
       render: "index_logged_in"
     else
+      import FeaturedStreaks, Streaks, Users from require "models"
+      featured = FeaturedStreaks\select "order by position desc limit 4"
+
+      Streaks\include_in featured, "streak_id"
+      @featured_streaks = [f.streak for f in *featured]
+      Users\include_in @featured_streaks, "user_id"
+
       @mobile_friendly = true
       render: "index_logged_out"
 
