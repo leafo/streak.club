@@ -31,6 +31,7 @@ config "test", ->
 
 config "production", ->
   track_exceptions true
+  admin_email "leafot@gmail.com"
   code_cache "on"
   port 10005
   daemon "on"
