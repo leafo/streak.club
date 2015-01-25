@@ -24,5 +24,10 @@ class S.ViewStreak
   setup_countdown: ->
     countdown = @el.find ".countdown"
     return unless countdown.length
-    new S.Countdown countdown, @unit_end
+    countdown_time = if @streak.before_start
+      @start
+    else
+      @unit_end
+
+    new S.Countdown countdown, countdown_time
 

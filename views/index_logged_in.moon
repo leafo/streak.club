@@ -5,12 +5,12 @@ class IndexLoggedIn extends require "widgets.base"
   inner_content: =>
     div class: "columns", ->
       div class: "primary_column", ->
-        h2 "Streaks you're in"
+        h2 "Active streaks you're in"
 
         if next @active_streaks
           @render_streaks @active_streaks
         else
-          p class: "empty_message", "You aren't part of any streaks yet"
+          p class: "empty_message", "You aren't part of any"
 
         if next @created_streaks
           h2 "Streaks you've created"

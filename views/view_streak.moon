@@ -21,6 +21,9 @@ class ViewStreak extends require "widgets.base"
       end: @streak\end_datetime!\fmt "${iso}Z"
       unit_start: current_unit and current_unit\fmt "${iso}Z"
       unit_end: current_unit and @streak\increment_date_by_unit(current_unit)\fmt "${iso}Z"
+
+      before_start: @streak\before_start!
+      after_end: @streak\after_end!
     }
     "new S.ViewStreak(#{@widget_selector!}, #{to_json opts});"
 
@@ -38,7 +41,6 @@ class ViewStreak extends require "widgets.base"
         class: "draft_banner"
         "This streak is currently a draft and unpublished"
       }
-
 
     div class: "page_header", ->
       h2 @streak.title
@@ -151,7 +153,10 @@ class ViewStreak extends require "widgets.base"
     unless next @submissions
       p class: "empty_message", ->
         if @page == 1
-          text "No submissions yet"
+          if @streak\before_start!
+            text "Come back after the streak has started to browse submissions"
+          else
+            text "No submissions yet"
         else
           text "No submissions on this page"
 
@@ -162,7 +167,13 @@ class ViewStreak extends require "widgets.base"
 
 
   render_countdown: =>
-    return if @streak\before_start!
+    if @streak\before_start!
+      widget Countdown {
+        header_content: =>
+          text "Starts in"
+      }
+      return
+
     return if @streak\after_end!
 
     widget Countdown {
