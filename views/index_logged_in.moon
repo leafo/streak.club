@@ -23,6 +23,13 @@ class IndexLoggedIn extends require "widgets.base"
           a class: "button", href: @url_for("streaks"), "Browse streaks"
           a class: "button outline_button", href: @url_for("new_streak"), "Create a new streak"
 
+        p class: "side_notification", ->
+          strong "Hey!"
+          br!
+          text " Follow "
+          a href: "https://twitter.com/thestreakclub", "@thestreakclub"
+          text " on Twitter for site updates and interesting streaks and
+          submissions."
 
   render_streaks: (streaks) =>
     widget StreakList(:streaks)
