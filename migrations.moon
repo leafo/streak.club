@@ -320,6 +320,19 @@ import
 
       "PRIMARY KEY (notification_id, object_type, object_id)"
     }
+
+  [1422174951]: =>
+    create_table "featured_streaks", {
+      {"streak_id", foreign_key}
+      {"position", integer}
+
+      {"created_at", time}
+      {"updated_at", time}
+
+      "PRIMARY KEY (streak_id)"
+    }
+
+    create_index "featured_streaks", "streak_id", "position", unique: true
 }
 
 

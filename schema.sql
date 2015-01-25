@@ -108,6 +108,20 @@ ALTER SEQUENCE exception_types_id_seq OWNED BY exception_types.id;
 
 
 --
+-- Name: featured_streaks; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE featured_streaks (
+    streak_id integer NOT NULL,
+    "position" integer DEFAULT 0 NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.featured_streaks OWNER TO postgres;
+
+--
 -- Name: followings; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -582,6 +596,14 @@ ALTER TABLE ONLY exception_types
 
 
 --
+-- Name: featured_streaks_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY featured_streaks
+    ADD CONSTRAINT featured_streaks_pkey PRIMARY KEY (streak_id);
+
+
+--
 -- Name: followings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -697,6 +719,13 @@ CREATE INDEX exception_requests_exception_type_id_idx ON exception_requests USIN
 --
 
 CREATE INDEX exception_types_label_idx ON exception_types USING btree (label);
+
+
+--
+-- Name: featured_streaks_streak_id_position_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE UNIQUE INDEX featured_streaks_streak_id_position_idx ON featured_streaks USING btree (streak_id, "position");
 
 
 --
@@ -878,6 +907,7 @@ COPY lapis_migrations (name) FROM stdin;
 1422162067
 1422163531
 1422165197
+1422174951
 \.
 
 
