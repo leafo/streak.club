@@ -31,7 +31,7 @@ class ViewStreak extends require "widgets.base"
     unless @current_user
       widget WelcomeBanner
 
-    if @current_user\is_admin!
+    if @current_user and @current_user\is_admin!
       @admin_tools!
 
     if @streak\allowed_to_edit @current_user
