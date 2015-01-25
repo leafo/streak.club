@@ -10,13 +10,23 @@ class Notifications extends Model
     {"user", belongs_to: "Users"}
   }
 
-  @type: enum {
+  @types: enum {
     comment: 1
   }
 
   @object_types: enum {
     submission: 1
   }
+
+  @preload_objects: (notifications) =>
+    import Submissions from require "models"
+
+    submission_notifications = [n for n in *notifications when n.object_type == @object_types.submission]
+    Submissions\include_in submission_notifications, "object_id", {
+      as: "object"
+    }
+
+    notifications
 
   @object_type_for_object: (object) =>
     switch object.__class.__name
@@ -29,7 +39,7 @@ class Notifications extends Model
     return unless user
     import NotificationObjects from require "models"
 
-    notify_type = @type\for_db notify_type
+    notify_type = @types\for_db notify_type
     object_type = @object_type_for_object object
 
     create_params = {
@@ -67,3 +77,15 @@ class Notifications extends Model
 
     "update"
 
+  prefix: =>
+    switch @type
+      when @@types.comment
+        if @count == 1
+          "You got a comment on"
+        else
+          "You got #{@count} comments on"
+      else
+        error "unknown notification type"
+
+  mark_seen: =>
+    @update seen: true

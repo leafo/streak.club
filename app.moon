@@ -3,6 +3,8 @@ lapis = require "lapis"
 import Users from require "models"
 import generate_csrf from require "helpers.csrf"
 
+import require_login from require "helpers.app"
+
 date = require "date"
 config = require("lapis.config").get!
 
@@ -26,7 +28,7 @@ class extends lapis.Application
 
     if @current_user
       @current_user\update_last_active!
-      @notifications = @current_user\unseen_notifications!
+      @global_notifications = @current_user\unseen_notifications!
 
     if @session.flash
       @flash = @session.flash
@@ -43,6 +45,28 @@ class extends lapis.Application
     else
       @mobile_friendly = true
       render: "index_logged_out"
+
+  [notifications: "/notifications"]: require_login =>
+    import Notifications from require "models"
+
+    @old_notifications = Notifications\select "
+      where user_id = ? and seen
+      order by id
+      limit 10
+    ", @current_user.id
+
+    all = {}
+
+    for n in *@global_notifications
+      table.insert all, n
+
+    for n in *@old_notifications
+      table.insert all, n
+
+
+    Notifications\preload_objects all
+
+    render: true
 
   [terms: "/terms"]: =>
     render: true

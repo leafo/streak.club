@@ -52,8 +52,8 @@ class Layout extends Widget
         if @current_user
           a class: "user_name", href: @url_for(@current_user), @current_user\name_for_display!
 
-          if #@notifications > 0
-            a href: "", class: "notification_bubble", #@notifications
+          if #@global_notifications > 0
+            a href: @url_for("notifications"), class: "notification_bubble", #@global_notifications
 
           a class: "header_button", href: @url_for("index"), "Streaks"
           a class: "header_button", href: @url_for("user_settings"), "Settings"

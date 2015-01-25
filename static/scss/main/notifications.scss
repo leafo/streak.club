@@ -1,0 +1,12 @@
+
+.notifications {
+    @include has_sub_link;
+
+    .notification_row {
+        margin-bottom: 10px;
+    }
+
+    .timestamp {
+        color: #999;
+    }
+}
