@@ -49,6 +49,7 @@ class Streaks extends Model
     assert opts.user_id, "missing user_id"
     opts.rate = @rates\for_db opts.rate
     opts.publish_status = @publish_statuses\for_db opts.publish_status or "draft"
+    opts.rate = @rates\for_db opts.rate or "daily"
     Model.create @, opts
 
   has_user: (user) =>
@@ -157,15 +158,21 @@ class Streaks extends Model
     switch @rate
       when @@rates.daily
         date\adddays 1
+      when @@rates.weekly
+        date\adddays 7
       else
-        error "not yet"
+        error "don't know how to increment rate"
 
-  format_date_unit: (date) =>
+  -- DON'T EDIT DATE
+  format_date_unit: (d) =>
     switch @rate
       when @@rates.daily
-        date\fmt "%m/%d/%Y"
+        d\fmt "%m/%d/%Y"
+      when @@rates.weekly
+        tail = date(d)\adddays 6
+        "#{d\fmt "%b %d"} to #{tail\fmt "%d"}"
       else
-        error "not yet"
+        error "don't know how to format date for rate"
 
   -- move UTC date to closest unit start in UTC
   truncate_date: (d) =>
@@ -175,8 +182,12 @@ class Streaks extends Model
       when @@rates.daily
         days = math.floor date.diff(d, start)\spandays!
         date(start)\adddays days
+      when @@rates.weekly
+        days = math.floor date.diff(d, start)\spandays!
+        weeks = math.floor(days / 7)
+        date(start)\adddays weeks * 7
       else
-        error "not yet"
+        error "don't know how to truncate date for rate"
 
   -- start date of current unit in UTC
   current_unit: =>
@@ -189,7 +200,9 @@ class Streaks extends Model
       when @@rates.daily
         math.floor(date.diff(d, @start_datetime!)\spandays!) + 1
       else
-        error "not yet"
+        days = math.floor date.diff(d, @start_datetime!)\spandays!
+        weeks = math.floor(days / 7)
+        weeks + 1
 
   -- get the starting time in UTC
   start_datetime: =>
@@ -221,16 +234,29 @@ class Streaks extends Model
     return false if @end_datetime! < d
     true
 
+  _streak_submit_unit_group_field: =>
+    switch @rate
+      when @@rates.daily
+        interval = "#{@hour_offset} hours"
+        db.interpolate_query [[
+          (submit_time + ?::interval)::date submit_day
+        ]], "#{@hour_offset} hours"
+      when @@rates.weekly
+        one_week = 60*60*24*7
+        start = @start_datetime!
+        unix_start = date.diff(start, date.epoch!)\spanseconds!
+
+        db.interpolate_query [[
+          to_timestamp(
+            (extract(epoch from submit_time)::integer - ?) / ? * ? + ?)::date submit_day
+        ]], unix_start, one_week, one_week, unix_start
+      else
+        error "don't know how to "
+
   unit_submission_counts: =>
     import StreakSubmissions from require "models"
 
-    interval = "#{@hour_offset} hours"
-
-    fields = db.interpolate_query [[
-      count(*),
-      (submit_time + ?::interval)::date submit_day
-    ]], interval
-
+    fields = "count(*), " .. @_streak_submit_unit_group_field!
     res = StreakSubmissions\select [[
       where streak_id = ?
       group by submit_day

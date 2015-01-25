@@ -8,7 +8,7 @@ class StreakUnits extends require "widgets.base"
   inner_content: =>
     day_str = "%Y-%m-%d"
     today = date true
-    formatted_today = today\fmt day_str
+    today_unit = @streak\truncate_date today
 
     -- IN LOCAL TIME!
     start_date = date @streak.start_date
@@ -26,18 +26,22 @@ class StreakUnits extends require "widgets.base"
       current_time = date(current_date)\addhours -@streak.hour_offset
 
       classes = "streak_unit"
-      before_today = current_time < today
-      if before_today
-        if date.diff(today, current_time)\spandays! <= 1
-          classes ..= " today"
-        else
-          classes ..= " before_today"
+      show_count = false
+      before_unit = current_time < today_unit
+      if before_unit
+        classes ..= " before_current_unit"
+        show_count = true
+      else
+        delta = date.diff(today_unit, current_time)\spandays!
+        if delta == 0
+          classes ..= " current_unit"
+          show_count = true
 
       classes ..= " submitted" if submission_id
 
       pretty_date = @streak\format_date_unit current_date
 
-      tooltip = if (today < current_time) or not @unit_counts
+      tooltip = if not show_count or not @unit_counts
         pretty_date
       else
         "#{pretty_date}: #{@plural count, "submission", "submissions"}"
@@ -50,10 +54,8 @@ class StreakUnits extends require "widgets.base"
           class: classes
           "data-date": tostring current_date
           "data-tooltip": tooltip
-          @unit_counts and before_today and tostring(count) or nil
+          @unit_counts and show_count and tostring(count) or nil
         }
 
-
       @streak\increment_date_by_unit current_date
-
 

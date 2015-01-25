@@ -11,12 +11,12 @@
         font-weight: bold;
         text-align: center;
 
-        &.before_today {
+        &.before_current_unit {
             background: darken($border_color, 18%);
             color: #eee;
         }
 
-        &.today {
+        &.current_unit {
             box-shadow: 0 0 0 2px lighten($blue, 20%);
         }
 

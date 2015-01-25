@@ -45,11 +45,7 @@ class StreakUsers extends Model
     unless @completed_units
       streak = @get_streak!
 
-      fields = db.interpolate_query [[
-        submission_id,
-        (submit_time + ?::interval)::date submit_day
-      ]], "#{streak.hour_offset} hours"
-
+      fields = "submission_id, " .. streak\_streak_submit_unit_group_field!
       res = StreakSubmissions\select [[
         where user_id = ? and streak_id = ?
       ]], @user_id, @streak_id, :fields
