@@ -219,4 +219,95 @@ describe "streaks", ->
         }
         assert.same 200, status
 
+  describe "sampled streak", ->
+    -- this is just a bunch of submissions I pulled from my dev db. Not testing
+    -- anything specific, just trying to catch regressions in anything that I
+    -- may not have written a test for
+
+    it "should have correct unit counts #ddd", ->
+      streak = factory.Streaks {
+        start_date: "2014-12-02"
+        end_date: "2015-12-31"
+        hour_offset: -12
+      }
+
+      user1 = factory.StreakUsers streak_id: streak.id
+      user2 = factory.StreakUsers streak_id: streak.id
+
+      submit_times = {
+        [user1]: {
+          "2015-01-02 04:26:34"
+          "2015-01-04 09:58:29"
+          "2014-12-11 15:59:50"
+          "2014-12-24 15:59:50"
+          "2014-12-29 15:59:50"
+          "2014-12-18 15:59:50"
+          "2015-01-05 09:18:46"
+          "2014-12-02 15:59:50"
+          "2015-01-07 17:52:07"
+          "2015-01-07 18:10:01"
+          "2015-01-14 08:59:15"
+          "2015-01-13 11:59:50"
+          "2015-01-16 08:50:55"
+          "2015-01-16 09:09:21"
+          "2014-12-17 11:59:50"
+          "2015-01-17 06:21:52"
+          "2015-01-25 04:46:13"
+          "2015-01-18 11:59:50"
+        }
+
+        [user2]: {
+          "2015-01-25 22:09:17"
+          "2015-01-11 11:59:50"
+          "2015-01-10 11:59:50"
+        }
+      }
+
+      for u, times in pairs submit_times
+        for t in *times
+          factory.StreakSubmissions {
+            submit_time: t
+            user_id: u.user_id
+            streak_id: streak.id
+          }
+
+      counts = streak\unit_submission_counts!
+      assert.same {
+        "2014-12-02": 1
+        "2014-12-11": 1
+        "2014-12-16": 1
+        "2014-12-18": 1
+        "2014-12-24": 1
+        "2014-12-29": 1
+        "2015-01-01": 1
+        "2015-01-03": 1
+        "2015-01-04": 1
+        "2015-01-07": 2
+        "2015-01-09": 1
+        "2015-01-10": 1
+        "2015-01-12": 1
+        "2015-01-13": 1
+        "2015-01-15": 2
+        "2015-01-16": 1
+        "2015-01-17": 1
+        "2015-01-24": 1
+        "2015-01-25": 1
+      }, counts
+
+      u1_completed = {
+        "2015-01-03", "2014-12-18", "2014-12-16", "2015-01-15", "2015-01-24",
+        "2015-01-12", "2014-12-29", "2015-01-17", "2015-01-07", "2014-12-02",
+        "2015-01-04", "2014-12-11", "2015-01-01", "2015-01-16", "2014-12-24",
+        "2015-01-13"
+      }
+
+      u2_completed = {
+        "2015-01-09", "2015-01-10", "2015-01-25"
+      }
+
+      assert.same {k, true for k in *u1_completed},
+        {k, true for k in pairs user1\get_completed_units!}
+
+      assert.same {k, true for k in *u2_completed},
+        {k, true for k in pairs user2\get_completed_units!}
 
