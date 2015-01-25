@@ -63,8 +63,10 @@ class extends lapis.Application
     for n in *@old_notifications
       table.insert all, n
 
-
     Notifications\preload_objects all
+
+    for n in *@global_notifications
+      n\mark_seen!
 
     render: true
 
