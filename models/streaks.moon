@@ -30,6 +30,10 @@ class Streaks extends Model
   @timestamp_format_str: "%Y-%m-%d %H:%M:%S"
   @timestamp: true
 
+  @relations: {
+    {"featured_streak", has_one: "FeaturedStreaks"}
+  }
+
   @rates: enum {
     daily: 1
     weekly: 2

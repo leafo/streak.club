@@ -204,7 +204,7 @@ a {
 }
 
 
-.admin_tools {
+.owner_tools {
     border: 1px solid lighten(mix($button_color, $red, 60%), 25%);
     background: lighten(mix($button_color, $red, 60%), 34%);
     margin-bottom: 20px;
@@ -216,6 +216,15 @@ a {
         margin-right: 10px;
         color: rgba(#666, 0.8);
     }
+}
+
+.admin_tools {
+    position: fixed;
+    top: 60px;
+    right: 10px;
+    background: white;
+    border: 1px solid $border_color;
+    padding: 10px;
 }
 
 .footer {

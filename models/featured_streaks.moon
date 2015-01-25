@@ -6,6 +6,6 @@ class FeaturedStreaks extends Model
   @timestamp: true
 
   @create: (opts={}) =>
-    opts.position = db.raw "(select max(position) + 1 from featured_streaks)"
-    Model.create opts
+    opts.position = db.raw "(select coalesce(max(position) + 1, 0) from featured_streaks)"
+    Model.create @, opts
 

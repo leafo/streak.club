@@ -11,7 +11,7 @@ class ViewSubmission extends require "widgets.base"
       widget WelcomeBanner
 
     if @submission\allowed_to_edit @current_user
-      div class: "admin_tools", ->
+      div class: "owner_tools", ->
         a href: @url_for("edit_submission", id: @submission.id), "Edit submission"
         raw " &middot; "
         a href: @url_for("delete_submission", id: @submission.id), "Delete submission"

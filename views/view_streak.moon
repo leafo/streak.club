@@ -31,8 +31,11 @@ class ViewStreak extends require "widgets.base"
     unless @current_user
       widget WelcomeBanner
 
+    if @current_user\is_admin!
+      @admin_tools!
+
     if @streak\allowed_to_edit @current_user
-      div class: "admin_tools", ->
+      div class: "owner_tools", ->
         a href: @url_for("edit_streak", id: @streak.id), "Edit streak"
 
     if @streak\is_draft!
@@ -194,4 +197,18 @@ class ViewStreak extends require "widgets.base"
         span class: "sub",
           "#{@streak\interval_noun false} ##{@streak\unit_number_for_date(date true)}"
     }
+
+  admin_tools: =>
+    feature = @streak\get_featured_streak!
+
+    div class: "admin_tools", ->
+      form action: @url_for("admin_featured_streak", id: @streak.id), method: "POST", ->
+        @csrf_input!
+        if feature
+          p "Position: #{feature.position}"
+          input type: "hidden", name: "action", value: "delete"
+          button "Unfeature"
+        else
+          input type: "hidden", name: "action", value: "create"
+          button "Feature"
 
