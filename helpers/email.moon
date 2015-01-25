@@ -24,7 +24,7 @@ api_request = (path, data, prefix=api_url) ->
     source: data and ltn12.source.string(encode_query_string data) or nil
     headers: {
       "Content-type": "application/x-www-form-urlencoded"
-      "Authorization": "Basic " .. encode_base64 key
+      "Authorization": "Basic " .. encode_base64 "api:#{key}"
     }
     sink: ltn12.sink.table out
   }
