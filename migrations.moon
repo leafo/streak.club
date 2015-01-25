@@ -308,6 +308,18 @@ import
     drop_index "uploads", "object_type", "object_id", "position"
     create_index "uploads", "object_type", "object_id", "position", where: "ready"
 
+  [1422165197]: =>
+    create_table "notification_objects", {
+      {"notification_id", foreign_key}
+
+      {"object_type", integer}
+      {"object_id", integer}
+
+      {"created_at", time}
+      {"updated_at", time}
+
+      "PRIMARY KEY (notification_id, object_type, object_id)"
+    }
 }
 
 

@@ -11,7 +11,9 @@ import truncate_tables from require "lapis.spec.db"
 import
   Users
   Notifications
-  Submissions from require "models"
+  NotificationObjects
+  Submissions
+  SubmissionComments from require "models"
 
 factory = require "spec.factory"
 import request, request_as from require "spec.helpers"
@@ -26,7 +28,8 @@ describe "notifications", ->
     close_test_server!
 
   before_each ->
-    truncate_tables Users, Notifications, Submissions
+    truncate_tables Users, Notifications, Submissions, SubmissionComments,
+      NotificationObjects
     current_user = factory.Users!
 
   it "should create a new notification", ->
@@ -73,6 +76,31 @@ describe "notifications", ->
 
     Notifications\notify_for current_user, submission, "comment"
 
-
     notifications = Notifications\select!
     assert.same 2, #notifications
+
+  it "should create notification with associated object", ->
+    submission = factory.Submissions!
+    comment = factory.SubmissionComments submission_id: submission.id
+    Notifications\notify_for current_user, submission, "comment", comment
+
+    objects = NotificationObjects\select!
+    assert.same 1, #objects
+    object = unpack objects
+    assert.same comment.id, object.object_id
+    assert.same NotificationObjects.object_types.submission_comment, object.object_type
+
+    -- do it again no big woop
+    Notifications\notify_for current_user, submission, "comment", comment
+
+  it "should increment notification with associated object #ddd", ->
+    submission = factory.Submissions!
+    comment = factory.SubmissionComments submission_id: submission.id
+
+    for i=1,2
+      comment = factory.SubmissionComments submission_id: submission.id
+      Notifications\notify_for current_user, submission, "comment", comment
+
+    objects = NotificationObjects\select!
+    assert.same 2, #objects
+

@@ -21,8 +21,10 @@ class Notifications extends Model
       else
         error "unknown object"
 
-  @notify_for: (user, object, notify_type) =>
+  @notify_for: (user, object, notify_type, target_object) =>
     return unless user
+    import NotificationObjects from require "models"
+
     notify_type = @type\for_db notify_type
     object_type = @object_type_for_object object
 
@@ -44,11 +46,19 @@ class Notifications extends Model
 
     res = safe_insert @, create_params, ident_params
 
-    return "create" if (res.affected_rows or 0) > 0
+    if (res.affected_rows or 0) > 0
+      notification = unpack res
+      if target_object
+        NotificationObjects\create_for_object notification.id, target_object
+
+      return "create"
 
     db.update @table_name!, {
       count: db.raw "count + 1"
     }, ident_params
+
+    if notification = target_object and @find(ident_params)
+      NotificationObjects\create_for_object notification.id, target_object
 
     "update"
 

@@ -133,6 +133,21 @@ CREATE TABLE lapis_migrations (
 ALTER TABLE public.lapis_migrations OWNER TO postgres;
 
 --
+-- Name: notification_objects; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE notification_objects (
+    notification_id integer NOT NULL,
+    object_type integer DEFAULT 0 NOT NULL,
+    object_id integer DEFAULT 0 NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.notification_objects OWNER TO postgres;
+
+--
 -- Name: notifications; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -583,6 +598,14 @@ ALTER TABLE ONLY lapis_migrations
 
 
 --
+-- Name: notification_objects_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY notification_objects
+    ADD CONSTRAINT notification_objects_pkey PRIMARY KEY (notification_id, object_type, object_id);
+
+
+--
 -- Name: notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -854,6 +877,7 @@ COPY lapis_migrations (name) FROM stdin;
 1422142380
 1422162067
 1422163531
+1422165197
 \.
 
 
