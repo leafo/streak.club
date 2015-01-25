@@ -182,3 +182,31 @@ class Users extends Model
       @user_profile = UserProfiles\find(@id) or UserProfiles\create user_id: @id
 
     @user_profile
+
+  recount: =>
+    @update {
+      likes_count: db.raw db.interpolate_query [[
+        (select count(*) from submission_likes where user_id = ?)
+      ]], @id
+
+      submissions_count: db.raw db.interpolate_query [[
+        (select count(*) from submissions where user_id = ?)
+      ]], @id
+
+      comments_count: db.raw db.interpolate_query [[
+        (select count(*) from submission_comments where user_id = ?)
+      ]], @id
+
+      streaks_count: db.raw db.interpolate_query [[
+        (select count(*) from streaks where user_id = ?)
+      ]], @id
+
+      followers_count: db.raw db.interpolate_query [[
+        (select count(*) from followings where dest_user_id = ?)
+      ]], @id
+
+      following_count: db.raw db.interpolate_query [[
+        (select count(*) from followings where source_user_id = ?)
+      ]], @id
+    }
+
