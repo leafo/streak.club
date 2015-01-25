@@ -163,12 +163,14 @@ class Streaks extends Model
       else
         error "don't know how to increment rate"
 
-  format_date_unit: (date) =>
+  -- DON'T EDIT DATE
+  format_date_unit: (d) =>
     switch @rate
       when @@rates.daily
-        date\fmt "%m/%d/%Y"
+        d\fmt "%m/%d/%Y"
       when @@rates.weekly
-        "#{date\fmt "%b %d"} to #{date\adddays(6)\fmt "%d"}"
+        tail = date(d)\adddays 6
+        "#{d\fmt "%b %d"} to #{tail\fmt "%d"}"
       else
         error "don't know how to format date for rate"
 
