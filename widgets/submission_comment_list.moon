@@ -31,7 +31,7 @@ class SubmissionCommentList extends require "widgets.base"
                     a href: "#", class: "edit_btn", "Edit"
                     raw " &middot; "
 
-                if can_delete
+                if can_delete or can_edit
                   a href: "#", class: "delete_btn", "Delete"
 
             a href: user_url, comment.user\name_for_display!
