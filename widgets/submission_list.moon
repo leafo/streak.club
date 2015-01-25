@@ -64,7 +64,12 @@ class SubmissionList extends require "widgets.base"
               span class: "on_no_like icon-heart", ["data-tooltip"]: "Like submission"
 
             text " "
-            span class: "like_count", submission.likes_count
+            a {
+              href: @url_for("submission_likes", id: submission.id)
+              class: "like_count"
+              "data-tooltip": "View who liked"
+              submission.likes_count
+            }
 
         div class: "submission_content", ->
           div class: "submission_header", ->

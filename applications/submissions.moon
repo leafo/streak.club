@@ -43,7 +43,10 @@ class SubmissionsApplication extends lapis.Application
 
     =>
       find_submission @
-      Submissions\preload_for_list { @submission }
+      Submissions\preload_for_list { @submission }, {
+        likes_for: @current_user
+      }
+
       @submission.comments = @submission\find_comments(per_page: COMMENTS_PER_PAGE)\get_page!
       @submission.has_more_comments = @submission.comments_count > #@submission.comments
 

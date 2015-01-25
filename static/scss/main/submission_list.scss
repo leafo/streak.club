@@ -139,17 +139,27 @@
                 font-size: 18px;
                 color: #999;
                 display: inline-block;
-                vertical-align: middle;
+                vertical-align: top;
+                line-height: 18px;
 
                 &.liked {
-                    color: #FF5E5E;
+                    color: $like_color;
                 }
             }
 
             .like_count {
+                @include transition(all 0.2s ease);
                 color: #666;
                 display: none;
-                vertical-align: middle;
+                vertical-align: top;
+                border-radius: 4px;
+                padding: 0 4px;
+                margin-left: 3px;
+                line-height: 18px;
+
+                &:hover {
+                    color: $like_color;
+                }
             }
         }
 
