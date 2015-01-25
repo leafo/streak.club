@@ -72,6 +72,15 @@ class ViewStreak extends require "widgets.base"
 
           p class: "submit_sub", "You haven't submitted #{@streak\unit_noun!} yet."
 
+
+        if @streak_user and not @streak\before_start!
+          current = @streak_user\current_streak!
+          longest = @streak_user\longest_streak!
+
+          div class: "streak_summary", ->
+            span class: "stat", "Streak: #{current}"
+            span class: "stat", "Longest: #{longest}"
+
         if not @streak_user and not @streak\after_end!
           form action: "", method: "post", class: "form", ->
             @csrf_input!
@@ -164,7 +173,6 @@ class ViewStreak extends require "widgets.base"
 
     h4 "Recent submissions"
     widget SubmissionList
-
 
   render_countdown: =>
     if @streak\before_start!

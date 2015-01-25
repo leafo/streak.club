@@ -78,4 +78,21 @@
         display: block;
         margin-top: 20px;
     }
+
+    .streak_summary {
+        font-size: 14px;
+        font-weight: bold;
+        color: #666;
+        margin-top: 15px;
+        text-align: center;
+
+        .stat {
+            margin-left: 10px;
+            display: inline-block;
+
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+    }
 }
