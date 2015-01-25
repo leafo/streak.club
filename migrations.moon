@@ -151,7 +151,7 @@ import
     }
 
     create_index "uploads", "user_id", "type"
-    create_index "uploads", "object_type", "object_id", "position", when: "ready"
+    create_index "uploads", "object_type", "object_id", "position", when: "ready" -- 'when' fixed later
 
   [1420363626]: =>
     create_index "streak_submissions", "streak_id", "submit_time"
@@ -303,6 +303,10 @@ import
 
     create_index "notifications", "user_id", "seen", "id"
     create_index "notifications", "user_id", "type", "object_type", "object_id", where: "not seen", unique: "true"
+
+  [1422163531]: =>
+    drop_index "uploads", "object_type", "object_id", "position"
+    create_index "uploads", "object_type", "object_id", "position", where: "ready"
 
 }
 
