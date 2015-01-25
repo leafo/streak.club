@@ -19,9 +19,32 @@ class UserProfile extends require "widgets.base"
     div class: "page_header", ->
       h2 @user\name_for_display!
       h3 ->
-        text "A user registered #{@relative_timestamp @user.created_at}"
-        raw " &middot; "
-        text @plural @user.submissions_count, "submission", "submissions"
+        div class: "user_stat", ->
+          text "A user registered #{@relative_timestamp @user.created_at}"
+
+        if @user.submissions_count > 0
+          div class: "user_stat",
+            @plural @user.submissions_count, "submission", "submissions"
+
+        if @user.followers_count > 0
+          div class: "user_stat",
+            @plural @user.followers_count, "follower", "followers"
+
+        if @user.following_count > 0
+          div class: "user_stat", "Following #{@user.following_count}"
+
+        if @user.comments_count > 0
+          div class: "user_stat",
+            @plural @user.comments_count, "comment", "comments"
+
+        if @user.likes_count > 0
+          div class: "user_stat",
+            @plural @user.likes_count, "like", "likes"
+
+        if @user.streaks_count > 0
+          div class: "user_stat",
+            @plural @user.streaks_count, "streak", "streaks"
+
 
     div class: "columns", ->
       div class: "submission_column", ->
