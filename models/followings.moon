@@ -19,6 +19,15 @@ class Followings extends Model
     with Followings\load (unpack res)
       \increment!
 
+  @load_for_users: (users, current_user) =>
+    return unless current_user
+    Followings\include_in users, "dest_user_id", {
+      flip: true
+      where: {
+        source_user_id: current_user.id
+      }
+    }
+
   increment: (amount=1) =>
     amount = assert tonumber amount
     import Users from require "models"

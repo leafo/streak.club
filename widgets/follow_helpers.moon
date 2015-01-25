@@ -4,7 +4,7 @@ class FollowHelpers
   follow_button: (user, following) =>
     classes = "button toggle_follow_btn"
     classes ..= " logged_out" unless @current_user
-    classes ..= " following" if following
+    classes ..= " following outline_button" if following
 
     a {
       href: @current_user and "#" or login_and_return_url @

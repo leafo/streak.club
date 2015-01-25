@@ -111,7 +111,7 @@ window.S = {
         $.post url, S.with_csrf(), (res) =>
           btn.removeClass("disabled").prop "disabled", false
           if res.success
-            btn.toggleClass "following"
+            btn.toggleClass "following outline_button"
     }
 
   format_dates: (outer, method="calendar", args=[]) ->

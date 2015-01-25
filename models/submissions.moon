@@ -177,3 +177,16 @@ class Submissions extends Model
         Users\include_in comments, "user_id"
         comments
     }
+
+  find_likes: (opts={}) =>
+    import SubmissionLikes, Users from require "models"
+    SubmissionLikes\paginated [[
+      where submission_id = ?
+      order by created_at desc
+    ]], @id, {
+      per_page: opts.per_page
+      prepare_results: (likes) ->
+        Users\include_in likes, "user_id"
+        likes
+    }
+

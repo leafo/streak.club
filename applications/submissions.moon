@@ -287,4 +287,13 @@ class SubmissionsApplication extends lapis.Application
       rendered: widget\render_to_string!
     }
 
+  [submission_likes: "/submission/:id/likes"]: require_login =>
+    import Followings from require "models"
+
+    find_submission @
+    pager = @submission\find_likes per_page: 100
+    @likes = pager\get_page!
+
+    Followings\load_for_users [l.user for l in *@likes], @current_user
+    render: true
 
