@@ -333,6 +333,10 @@ import
     }
 
     create_index "featured_streaks", "streak_id", "position", unique: true
+
+  [1422177586]: =>
+    drop_index "featured_streaks", "streak_id", "position"
+    create_index "featured_streaks", "position", unique: true
 }
 
 

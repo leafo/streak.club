@@ -722,10 +722,10 @@ CREATE INDEX exception_types_label_idx ON exception_types USING btree (label);
 
 
 --
--- Name: featured_streaks_streak_id_position_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: featured_streaks_position_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE UNIQUE INDEX featured_streaks_streak_id_position_idx ON featured_streaks USING btree (streak_id, "position");
+CREATE UNIQUE INDEX featured_streaks_position_idx ON featured_streaks USING btree ("position");
 
 
 --
@@ -908,6 +908,7 @@ COPY lapis_migrations (name) FROM stdin;
 1422163531
 1422165197
 1422174951
+1422177586
 \.
 
 
