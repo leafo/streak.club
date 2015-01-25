@@ -281,7 +281,29 @@ import
         likes_count = (select count(*) from submission_likes where user_id = users.id)
     "
 
-}
+  [1422162067]: =>
+    create_table "notifications", {
+      {"id", serial}
+      {"user_id", serial}
 
+      {"type", integer}
+
+      {"object_type", integer}
+      {"object_id", integer}
+
+      {"count", integer}
+
+      {"seen", boolean}
+
+      {"created_at", time}
+      {"updated_at", time}
+
+      "PRIMARY KEY (id)"
+    }
+
+    create_index "notifications", "user_id", "seen", "id"
+    create_index "notifications", "user_id", "type", "object_type", "object_id", where: "not seen", unique: "true"
+
+}
 
 

@@ -133,6 +133,67 @@ CREATE TABLE lapis_migrations (
 ALTER TABLE public.lapis_migrations OWNER TO postgres;
 
 --
+-- Name: notifications; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE notifications (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    type integer DEFAULT 0 NOT NULL,
+    object_type integer DEFAULT 0 NOT NULL,
+    object_id integer DEFAULT 0 NOT NULL,
+    count integer DEFAULT 0 NOT NULL,
+    seen boolean DEFAULT false NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.notifications OWNER TO postgres;
+
+--
+-- Name: notifications_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE notifications_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.notifications_id_seq OWNER TO postgres;
+
+--
+-- Name: notifications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE notifications_id_seq OWNED BY notifications.id;
+
+
+--
+-- Name: notifications_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE notifications_user_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.notifications_user_id_seq OWNER TO postgres;
+
+--
+-- Name: notifications_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE notifications_user_id_seq OWNED BY notifications.user_id;
+
+
+--
 -- Name: streak_submissions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -444,6 +505,20 @@ ALTER TABLE ONLY exception_types ALTER COLUMN id SET DEFAULT nextval('exception_
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
+ALTER TABLE ONLY notifications ALTER COLUMN id SET DEFAULT nextval('notifications_id_seq'::regclass);
+
+
+--
+-- Name: user_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY notifications ALTER COLUMN user_id SET DEFAULT nextval('notifications_user_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
 ALTER TABLE ONLY streaks ALTER COLUMN id SET DEFAULT nextval('streaks_id_seq'::regclass);
 
 
@@ -505,6 +580,14 @@ ALTER TABLE ONLY followings
 
 ALTER TABLE ONLY lapis_migrations
     ADD CONSTRAINT lapis_migrations_pkey PRIMARY KEY (name);
+
+
+--
+-- Name: notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY notifications
+    ADD CONSTRAINT notifications_pkey PRIMARY KEY (id);
 
 
 --
@@ -601,6 +684,20 @@ CREATE INDEX followings_dest_user_id_idx ON followings USING btree (dest_user_id
 
 
 --
+-- Name: notifications_user_id_seen_id_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX notifications_user_id_seen_id_idx ON notifications USING btree (user_id, seen, id);
+
+
+--
+-- Name: notifications_user_id_type_object_type_object_id_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE UNIQUE INDEX notifications_user_id_type_object_type_object_id_idx ON notifications USING btree (user_id, type, object_type, object_id) WHERE (NOT seen);
+
+
+--
 -- Name: streak_submissions_streak_id_submit_time_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -667,7 +764,7 @@ CREATE INDEX submissions_user_id_idx ON submissions USING btree (user_id);
 -- Name: uploads_object_type_object_id_position_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
-CREATE INDEX uploads_object_type_object_id_position_idx ON uploads USING btree (object_type, object_id, "position");
+CREATE INDEX uploads_object_type_object_id_position_idx ON uploads USING btree (object_type, object_id, "position") WHERE ready;
 
 
 --
@@ -755,6 +852,8 @@ COPY lapis_migrations (name) FROM stdin;
 1421477232
 1422135963
 1422142380
+1422162067
+1422163531
 \.
 
 
