@@ -25,7 +25,7 @@ class IndexLoggedOut extends require "widgets.base"
           day to help improve yourself."
 
 
-        p "At Steak Club you can organize or join creative streaks, streaks
+        p "At Streak Club you can organize or join creative streaks, streaks
         where you create art, record music, write short stories, or anything
         else you can think of."
 
