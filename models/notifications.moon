@@ -6,6 +6,10 @@ import safe_insert from require "helpers.model"
 class Notifications extends Model
   @timestamp: true
 
+  @relations: {
+    {"user", belongs_to: "Users"}
+  }
+
   @type: enum {
     comment: 1
   }

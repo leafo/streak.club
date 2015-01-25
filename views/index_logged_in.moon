@@ -2,6 +2,8 @@
 StreakList = require "widgets.streak_list"
 
 class IndexLoggedIn extends require "widgets.base"
+  @needs: {"active_streaks", "current_streaks", "notifications"}
+
   inner_content: =>
     div class: "columns", ->
       div class: "primary_column", ->

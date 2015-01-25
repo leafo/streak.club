@@ -210,3 +210,6 @@ class Users extends Model
       ]], @id
     }
 
+  unseen_notifications: =>
+    import Notifications from require "models"
+    Notifications\select "where user_id = ? and not seen", @id
