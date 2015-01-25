@@ -56,7 +56,7 @@ class EditStreak extends require "widgets.base"
 
       @input_row "Interval", ->
         @radio_buttons "streak[rate]", {
-          {"daily", "Daily", "Submissions are due every day"}
+          {"daily", "Daily", "Submissions due every day"}
           {"weekly", "Weekly", "Submissions due every 7 days"}
         }, streak.rate and Streaks.rates[streak.rate] or "daily"
 
