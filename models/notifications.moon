@@ -55,6 +55,7 @@ class Notifications extends Model
 
     db.update @table_name!, {
       count: db.raw "count + 1"
+      updated_at: db.format_date!
     }, ident_params
 
     if notification = target_object and @find(ident_params)

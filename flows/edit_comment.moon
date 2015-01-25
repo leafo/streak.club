@@ -9,7 +9,7 @@ import is_empty_html from require "helpers.html"
 
 import Flow from require "lapis.flow"
 
-import SubmissionComments from require "models"
+import SubmissionComments, Notifications from require "models"
 
 class EditCommentFlow extends Flow
   validate_params: =>
@@ -35,6 +35,7 @@ class EditCommentFlow extends Flow
     params.submission_id = @submission.id
 
     comment = SubmissionComments\create params
+
     @submission\update {
       comments_count: db.raw "comments_count + 1"
     }
@@ -42,6 +43,10 @@ class EditCommentFlow extends Flow
     @current_user\update {
       comments_count: db.raw "comments_count + 1"
     }
+
+    unless @current_user.id == @submission\get_user!.id
+      Notifications\notify_for @submission\get_user!,
+        @submission, "comment", comment
 
     comment
 
