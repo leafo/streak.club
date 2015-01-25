@@ -234,28 +234,29 @@ class Streaks extends Model
     return false if @end_datetime! < d
     true
 
-  unit_submission_counts: =>
-    import StreakSubmissions from require "models"
-
-
-    fields = switch @rate
+  _streak_submit_unit_group_field: =>
+    switch @rate
       when @@rates.daily
         interval = "#{@hour_offset} hours"
         db.interpolate_query [[
-          count(*),
           (submit_time + ?::interval)::date submit_day
-        ]], interval
-      else
+        ]], "#{@hour_offset}"
+      when @@rates.weekly
         one_week = 60*60*24*7
         start = @start_datetime!
         unix_start = date.diff(start, date.epoch!)\spanseconds!
 
         db.interpolate_query [[
-          count(*),
           to_timestamp(
             (extract(epoch from submit_time)::integer - ?) / ? * ? + ?)::date submit_day
         ]], unix_start, one_week, one_week, unix_start
+      else
+        error "don't know how to "
 
+  unit_submission_counts: =>
+    import StreakSubmissions from require "models"
+
+    fields = "count(*), " .. @_streak_submit_unit_group_field!
     res = StreakSubmissions\select [[
       where streak_id = ?
       group by submit_day
