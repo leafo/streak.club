@@ -49,6 +49,7 @@ class Streaks extends Model
     assert opts.user_id, "missing user_id"
     opts.rate = @rates\for_db opts.rate
     opts.publish_status = @publish_statuses\for_db opts.publish_status or "draft"
+    opts.rate = @rates\for_db opts.rate or "daily"
     Model.create @, opts
 
   has_user: (user) =>
@@ -157,15 +158,19 @@ class Streaks extends Model
     switch @rate
       when @@rates.daily
         date\adddays 1
+      when @@rates.weekly
+        date\adddays 7
       else
-        error "not yet"
+        error "don't know how to increment rate"
 
   format_date_unit: (date) =>
     switch @rate
       when @@rates.daily
         date\fmt "%m/%d/%Y"
+      when @@rates.weekly
+        "#{date\fmt "%b %d"} to #{date\adddays(6)\fmt "%d"}"
       else
-        error "not yet"
+        error "don't know how to format date for rate"
 
   -- move UTC date to closest unit start in UTC
   truncate_date: (d) =>
@@ -175,8 +180,12 @@ class Streaks extends Model
       when @@rates.daily
         days = math.floor date.diff(d, start)\spandays!
         date(start)\adddays days
+      when @@rates.weekly
+        days = math.floor date.diff(d, start)\spandays!
+        weeks = math.floor(days / 7)
+        date(start)\adddays weeks * 7
       else
-        error "not yet"
+        error "don't know how to truncate date for rate"
 
   -- start date of current unit in UTC
   current_unit: =>
@@ -189,7 +198,9 @@ class Streaks extends Model
       when @@rates.daily
         math.floor(date.diff(d, @start_datetime!)\spandays!) + 1
       else
-        error "not yet"
+        days = math.floor date.diff(d, @start_datetime!)\spandays!
+        weeks = math.floor(days / 7)
+        weeks + 1
 
   -- get the starting time in UTC
   start_datetime: =>
