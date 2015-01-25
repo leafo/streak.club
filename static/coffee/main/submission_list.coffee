@@ -7,6 +7,8 @@ class S.SubmissionList
     @setup_comments()
     @setup_paging()
 
+    @el.has_tooltips()
+
     @el.on "s:increment_comments", ".submission_row", (e, amount=1) =>
       btn = $(e.currentTarget).find ".comments_toggle_btn"
       new_count = btn.data("count") + amount

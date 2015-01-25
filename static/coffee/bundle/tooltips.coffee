@@ -1,11 +1,13 @@
 
 $.fn.has_tooltips = ->
   tooltip_drop = ->
-    drop = $ '<div class="tooltip_drop"></div>'
-    $(document.body).append drop
+    drop = $(document.body).find ".tooltip_drop"
+    unless drop.length
+      drop = $ '<div class="tooltip_drop"></div>'
+      $(document.body).append drop
+
     tooltip_drop = -> drop
     drop
-
 
   tooltip_template = _.template """
   <div class="tooltip">{{ label }}</div>
@@ -36,6 +38,9 @@ $.fn.has_tooltips = ->
       setTimeout (=> el.addClass "visible"), 10
 
   @on "i:refresh_tooltip", "[data-tooltip]", (e) =>
+    return if e.originalEvent.tooltip_handled
+    e.originalEvent.tooltip_handled = true
+
     tooltip_target = $(e.currentTarget)
     el = tooltip_target.data "tooltip_el"
     tooltip_target.removeData "tooltip_el"
@@ -44,10 +49,16 @@ $.fn.has_tooltips = ->
       show_tooltip tooltip_target, true
 
   @on "mouseenter", "[data-tooltip]", (e) =>
+    return if e.originalEvent.tooltip_handled
+    e.originalEvent.tooltip_handled = true
+
     tooltip_target = $(e.currentTarget)
     show_tooltip tooltip_target
 
   @on "mouseleave i:hide_tooltip", "[data-tooltip]", (e) =>
+    return if e.originalEvent.tooltip_handled
+    e.originalEvent.tooltip_handled = true
+
     tooltip_target = $(e.currentTarget)
     if el = tooltip_target.data "tooltip_el"
       el.remove()
