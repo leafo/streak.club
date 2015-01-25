@@ -237,12 +237,24 @@ class Streaks extends Model
   unit_submission_counts: =>
     import StreakSubmissions from require "models"
 
-    interval = "#{@hour_offset} hours"
 
-    fields = db.interpolate_query [[
-      count(*),
-      (submit_time + ?::interval)::date submit_day
-    ]], interval
+    fields = switch @rate
+      when @@rates.daily
+        interval = "#{@hour_offset} hours"
+        db.interpolate_query [[
+          count(*),
+          (submit_time + ?::interval)::date submit_day
+        ]], interval
+      else
+        one_week = 60*60*24*7
+        start = @start_datetime!
+        unix_start = date.diff(start, date.epoch!)\spanseconds!
+
+        db.interpolate_query [[
+          count(*),
+          to_timestamp(
+            (extract(epoch from submit_time)::integer - ?) / ? * ? + ?)::date submit_day
+        ]], unix_start, one_week, one_week, unix_start
 
     res = StreakSubmissions\select [[
       where streak_id = ?

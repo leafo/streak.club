@@ -8,8 +8,6 @@ class StreakUnits extends require "widgets.base"
   inner_content: =>
     day_str = "%Y-%m-%d"
     today = date true
-    formatted_today = today\fmt day_str
-
     today_unit = @streak\truncate_date today
 
     -- IN LOCAL TIME!
