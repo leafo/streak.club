@@ -240,7 +240,7 @@ class Streaks extends Model
         interval = "#{@hour_offset} hours"
         db.interpolate_query [[
           (submit_time + ?::interval)::date submit_day
-        ]], "#{@hour_offset}"
+        ]], "#{@hour_offset} hours"
       when @@rates.weekly
         one_week = 60*60*24*7
         start = @start_datetime!
