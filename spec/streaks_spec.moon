@@ -86,6 +86,7 @@ describe "streaks", ->
           "streak[end_date]": "2015-2-1"
           "streak[publish_status]": "published"
           "streak[rate]": "daily"
+          "streak[category]": "other"
           "timezone": "America/Los_Angeles"
         }
         expect: "json"
@@ -113,6 +114,7 @@ describe "streaks", ->
           "streak[end_date]": "2015-2-1"
           "streak[publish_status]": "published"
           "streak[rate]": "daily"
+          "streak[category]": "other"
           "timezone": "America/Los_Angeles"
         }
         expect: "json"

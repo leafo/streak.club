@@ -39,6 +39,15 @@ class Streaks extends Model
     weekly: 2
   }
 
+  @categories: enum {
+    visual_art: 1
+    music: 2
+    video: 3
+    writing: 4
+    interactive: 5
+    other: 6
+  }
+
   @publish_statuses: enum {
     draft: 1
     published: 2
@@ -50,6 +59,7 @@ class Streaks extends Model
     opts.rate = @rates\for_db opts.rate
     opts.publish_status = @publish_statuses\for_db opts.publish_status or "draft"
     opts.rate = @rates\for_db opts.rate or "daily"
+    opts.category = @categories\for_db opts.category or "other"
     Model.create @, opts
 
   has_user: (user) =>

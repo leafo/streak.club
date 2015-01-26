@@ -337,6 +337,9 @@ import
   [1422177586]: =>
     drop_index "featured_streaks", "streak_id", "position"
     create_index "featured_streaks", "position", unique: true
+
+  [1422262875]: =>
+    add_column "streaks", "category", integer
 }
 
 

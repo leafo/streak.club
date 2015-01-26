@@ -21,7 +21,7 @@ class EditStreakFlow extends Flow
     streak_params = @params.streak
     trim_filter streak_params, {
       "title", "description", "short_description", "start_date", "end_date",
-      "hour_offset", "publish_status", "rate"
+      "hour_offset", "publish_status", "rate", "category"
     }
 
     assert_valid streak_params, {
@@ -32,6 +32,7 @@ class EditStreakFlow extends Flow
       {"end_date", exists: true, max_length: 1024}
       {"hour_offset", exists: true}
       {"publish_status", one_of: Streaks.publish_statuses}
+      {"category", one_of: Streaks.categories}
       {"rate", one_of: Streaks.rates}
     }
 
@@ -70,6 +71,7 @@ class EditStreakFlow extends Flow
 
     params.rate = Streaks.rates\for_db params.rate
     params.publish_status = Streaks.publish_statuses\for_db params.publish_status
+    params.category = Streaks.categories\for_db params.category
 
     filter_update @streak, params
 

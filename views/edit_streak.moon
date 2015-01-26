@@ -107,6 +107,16 @@ class EditStreak extends require "widgets.base"
             text ". Integers only."
       }
 
+      @input_row "Category", ->
+        @radio_buttons "streak[category]", {
+          {"visual_art", "Visual arts", "Drawing, painting, digital, etc."}
+          {"music", "Music & audio", "Recordings of music or sound"}
+          {"video", "Video", "Embedded videos"}
+          {"writing", "Writing", "Written text"}
+          {"interactive", "Interactive", "Games, downloadable programs, etc."}
+          {"other", "Other", "Anything else"}
+        }, streak.category and Streaks.categories[streak.category] or nil
+
       div id: "publish_status"
       @input_row "Publish", ->
         @radio_buttons "streak[publish_status]", {
