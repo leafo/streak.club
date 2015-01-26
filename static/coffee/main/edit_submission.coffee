@@ -87,7 +87,6 @@ class UploaderManager
   prepare_and_start_upload: (file, callback) ->
     prepare_url = @button_el.data "url"
     data = S.with_csrf {
-      "upload[type]": "image"
       "upload[filename]": file.name
       "upload[size]": file.size
     }

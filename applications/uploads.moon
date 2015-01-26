@@ -25,17 +25,15 @@ class UploadsApplication extends lapis.Application
     }
 
     upload_params = @params.upload
-    trim_filter upload_params, { "type", "filename", "size" }
+    trim_filter upload_params, { "filename", "size" }
 
     assert_valid upload_params, {
-      {"type", one_of: Uploads.types}
       {"filename", exists: true, max_length: 1028}
       {"size", is_integer: true}
     }
 
-    upload = Uploads\create {
+    upload = assert_error Uploads\create {
       user_id: @current_user.id
-      type: upload_params.type
       size: upload_params.size
       filename: upload_params.filename
     }

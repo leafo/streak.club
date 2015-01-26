@@ -10,6 +10,7 @@ class Uploads extends Model
 
   @types: enum {
     image: 1
+    file: 2
   }
 
   @object_types: enum {
@@ -18,6 +19,7 @@ class Uploads extends Model
 
   @content_types = {
     jpg: "image/jpeg"
+    jpeg: "image/jpeg"
     png: "image/png"
     gif: "image/gif"
   }
@@ -61,10 +63,18 @@ class Uploads extends Model
     assert opts.user_id, "missing user id"
     assert opts.filename, "missing file name"
 
-    opts.type = @types\for_db opts.type
-
     opts.extension or= opts.filename\match ".%.([%w_]+)$"
     opts.extension = opts.extension\lower! if opts.extension
+
+    unless opts.extension
+      return nil, "missing extensions"
+
+    opts.type = if @content_types[opts.extension]
+      "image"
+    else
+      "file"
+
+    opts.type = @types\for_db opts.type
 
     Model.create @, opts
 
