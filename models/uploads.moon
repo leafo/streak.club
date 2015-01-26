@@ -90,6 +90,9 @@ class Uploads extends Model
   path: =>
     "uploads/#{@@types[@type]}/#{@id}.#{@extension}"
 
+  short_path: =>
+    "#{@@types[@type]}/#{@id}.#{@extension}"
+
   is_image: =>
     @type == @@types.image
 
@@ -98,11 +101,14 @@ class Uploads extends Model
     thumb @path!, size
 
   url_params: (_, ...) =>
+
     switch @type
       when @@types.image
         nil, @image_url ...
       else
-        error "don't know how to make url for upload type #{@@types[@type]}"
+        import signed_url from require "helpers.url"
+        expire = os.time! + 15
+        nil, signed_url "/download/#{@short_path!}?expires=#{expire}"
 
   delete: =>
     with super!
