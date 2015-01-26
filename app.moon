@@ -3,7 +3,7 @@ lapis = require "lapis"
 import Users from require "models"
 import generate_csrf from require "helpers.csrf"
 
-import require_login from require "helpers.app"
+import require_login, not_found from require "helpers.app"
 
 date = require "date"
 config = require("lapis.config").get!
@@ -34,6 +34,8 @@ class extends lapis.Application
     if @session.flash
       @flash = @session.flash
       @session.flash = false
+
+  handle_404: => not_found
 
   [index: "/"]: =>
     if @current_user
