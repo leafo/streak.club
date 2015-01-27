@@ -33,7 +33,7 @@ SUBMISSION_PER_PAGE = 25
 
 browse_filters = {
   type: {
-    "visual-art": "visual_art"
+    "visual-arts": "visual_art"
     interactive: true
     "music-and-audio": "music"
     video: true
@@ -232,14 +232,16 @@ class StreaksApplication extends lapis.Application
     if has_invalid
       do return redirect_to: @url_for "streaks"
 
+    @filters or= {}
+
     clause = {
       publish_status: Streaks.publish_statuses.published
     }
 
-    if t = @filters and @filters.type
+    if t = @filters.type
       clause.category = Streaks.categories\for_db t
 
-    time_clause = if s = @filters and @filters.state
+    time_clause = if s = @filters.state
       switch s
         when "in-progress"
           [[
