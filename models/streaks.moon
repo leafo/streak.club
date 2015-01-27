@@ -129,9 +129,8 @@ class Streaks extends Model
 
     if check_time
       now = date true
-      -- TODO: timezones
-      start_date = date @start_date
-      end_date = date @end_date
+      start_date = @start_datetime!
+      end_date = @end_datetime!
 
       return false if now < start_date
       return false if end_date < now
