@@ -340,6 +340,10 @@ import
 
   [1422262875]: =>
     add_column "streaks", "category", integer
+
+  [1422337369]: =>
+    create_index "streaks", "publish_status", "users_count"
+
 }
 
 
