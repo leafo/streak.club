@@ -43,6 +43,20 @@ class SubmissionComments extends Model
 
     @mentioned_users
 
+  filled_body: (r) =>
+    body = @body
+
+    if m = @get_mentioned_users!
+      mentions_by_username = {u.username, u for u in *m}
+      import escape from require "lapis.html"
+
+      body = body\gsub "@([%w-_]+)", (username) ->
+        user = mentions_by_username[username]
+        return username unless user
+        "<a href='#{escape r\url_for user}'>@#{escape user\name_for_display!}</a>"
+
+    body
+
   allowed_to_edit: (user) =>
     return false unless user
     return true if user\is_admin!
