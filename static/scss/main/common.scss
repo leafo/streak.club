@@ -2,6 +2,7 @@
 $border_color: #dadada;
 $site_width: 960px;
 $body_size: 18px;
+$body_color: #333;
 
 $teal: #7ED6D7;
 $red: #fe4e50;
@@ -79,6 +80,7 @@ $like_color: #FF5E5E;
     a {
         @include transition(all 0.1s ease);
         color: $default_color;
+
         text-decoration: none;
         border-bottom: 2px solid $link_color;
 

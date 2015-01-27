@@ -1,7 +1,7 @@
 
 body {
     @include default_font;
-    color: #333;
+    color: $body_color;
     margin: 0;
     padding: 0;
 }
@@ -43,6 +43,29 @@ body {
 
         &:active {
             color: darken($link_color, 10%);
+        }
+    }
+}
+
+.page_tabs {
+    border-bottom: 1px solid $border_color;
+    margin-bottom: 40px;
+    .tab {
+        @include transition(all 0.2s ease);
+        color: $body_color;
+        text-decoration: none;
+        border-bottom: 1px solid rgba($link_color, 0);
+        margin-right: 40px;
+        font-size: 20px;
+        padding-bottom: 5px;
+        display: inline-block;
+        vertical-align: top;
+        position: relative;
+        top: 1px;
+
+        &.active, &:hover {
+            color: $link_color;
+            border-bottom: 1px solid rgba($link_color, 1);
         }
     }
 }
