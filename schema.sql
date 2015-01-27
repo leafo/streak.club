@@ -30,6 +30,19 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: daily_upload_downloads; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE daily_upload_downloads (
+    upload_id integer NOT NULL,
+    date date NOT NULL,
+    count integer DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public.daily_upload_downloads OWNER TO postgres;
+
+--
 -- Name: exception_requests; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -48,7 +61,7 @@ CREATE TABLE exception_requests (
 );
 
 
-ALTER TABLE exception_requests OWNER TO postgres;
+ALTER TABLE public.exception_requests OWNER TO postgres;
 
 --
 -- Name: exception_requests_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -62,7 +75,7 @@ CREATE SEQUENCE exception_requests_id_seq
     CACHE 1;
 
 
-ALTER TABLE exception_requests_id_seq OWNER TO postgres;
+ALTER TABLE public.exception_requests_id_seq OWNER TO postgres;
 
 --
 -- Name: exception_requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -84,7 +97,7 @@ CREATE TABLE exception_types (
 );
 
 
-ALTER TABLE exception_types OWNER TO postgres;
+ALTER TABLE public.exception_types OWNER TO postgres;
 
 --
 -- Name: exception_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -98,7 +111,7 @@ CREATE SEQUENCE exception_types_id_seq
     CACHE 1;
 
 
-ALTER TABLE exception_types_id_seq OWNER TO postgres;
+ALTER TABLE public.exception_types_id_seq OWNER TO postgres;
 
 --
 -- Name: exception_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -119,7 +132,7 @@ CREATE TABLE featured_streaks (
 );
 
 
-ALTER TABLE featured_streaks OWNER TO postgres;
+ALTER TABLE public.featured_streaks OWNER TO postgres;
 
 --
 -- Name: followings; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -133,7 +146,7 @@ CREATE TABLE followings (
 );
 
 
-ALTER TABLE followings OWNER TO postgres;
+ALTER TABLE public.followings OWNER TO postgres;
 
 --
 -- Name: lapis_migrations; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -144,7 +157,7 @@ CREATE TABLE lapis_migrations (
 );
 
 
-ALTER TABLE lapis_migrations OWNER TO postgres;
+ALTER TABLE public.lapis_migrations OWNER TO postgres;
 
 --
 -- Name: notification_objects; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -159,7 +172,7 @@ CREATE TABLE notification_objects (
 );
 
 
-ALTER TABLE notification_objects OWNER TO postgres;
+ALTER TABLE public.notification_objects OWNER TO postgres;
 
 --
 -- Name: notifications; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -178,7 +191,7 @@ CREATE TABLE notifications (
 );
 
 
-ALTER TABLE notifications OWNER TO postgres;
+ALTER TABLE public.notifications OWNER TO postgres;
 
 --
 -- Name: notifications_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -192,7 +205,7 @@ CREATE SEQUENCE notifications_id_seq
     CACHE 1;
 
 
-ALTER TABLE notifications_id_seq OWNER TO postgres;
+ALTER TABLE public.notifications_id_seq OWNER TO postgres;
 
 --
 -- Name: notifications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -213,7 +226,7 @@ CREATE SEQUENCE notifications_user_id_seq
     CACHE 1;
 
 
-ALTER TABLE notifications_user_id_seq OWNER TO postgres;
+ALTER TABLE public.notifications_user_id_seq OWNER TO postgres;
 
 --
 -- Name: notifications_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -235,7 +248,7 @@ CREATE TABLE streak_submissions (
 );
 
 
-ALTER TABLE streak_submissions OWNER TO postgres;
+ALTER TABLE public.streak_submissions OWNER TO postgres;
 
 --
 -- Name: streak_users; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -250,7 +263,7 @@ CREATE TABLE streak_users (
 );
 
 
-ALTER TABLE streak_users OWNER TO postgres;
+ALTER TABLE public.streak_users OWNER TO postgres;
 
 --
 -- Name: streaks; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -277,7 +290,7 @@ CREATE TABLE streaks (
 );
 
 
-ALTER TABLE streaks OWNER TO postgres;
+ALTER TABLE public.streaks OWNER TO postgres;
 
 --
 -- Name: streaks_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -291,7 +304,7 @@ CREATE SEQUENCE streaks_id_seq
     CACHE 1;
 
 
-ALTER TABLE streaks_id_seq OWNER TO postgres;
+ALTER TABLE public.streaks_id_seq OWNER TO postgres;
 
 --
 -- Name: streaks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -316,7 +329,7 @@ CREATE TABLE submission_comments (
 );
 
 
-ALTER TABLE submission_comments OWNER TO postgres;
+ALTER TABLE public.submission_comments OWNER TO postgres;
 
 --
 -- Name: submission_comments_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -330,7 +343,7 @@ CREATE SEQUENCE submission_comments_id_seq
     CACHE 1;
 
 
-ALTER TABLE submission_comments_id_seq OWNER TO postgres;
+ALTER TABLE public.submission_comments_id_seq OWNER TO postgres;
 
 --
 -- Name: submission_comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -351,7 +364,7 @@ CREATE TABLE submission_likes (
 );
 
 
-ALTER TABLE submission_likes OWNER TO postgres;
+ALTER TABLE public.submission_likes OWNER TO postgres;
 
 --
 -- Name: submission_tags; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -363,7 +376,7 @@ CREATE TABLE submission_tags (
 );
 
 
-ALTER TABLE submission_tags OWNER TO postgres;
+ALTER TABLE public.submission_tags OWNER TO postgres;
 
 --
 -- Name: submissions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -385,7 +398,7 @@ CREATE TABLE submissions (
 );
 
 
-ALTER TABLE submissions OWNER TO postgres;
+ALTER TABLE public.submissions OWNER TO postgres;
 
 --
 -- Name: submissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -399,7 +412,7 @@ CREATE SEQUENCE submissions_id_seq
     CACHE 1;
 
 
-ALTER TABLE submissions_id_seq OWNER TO postgres;
+ALTER TABLE public.submissions_id_seq OWNER TO postgres;
 
 --
 -- Name: submissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -426,11 +439,12 @@ CREATE TABLE uploads (
     deleted boolean DEFAULT false NOT NULL,
     data text,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    downloads_count integer DEFAULT 0 NOT NULL
 );
 
 
-ALTER TABLE uploads OWNER TO postgres;
+ALTER TABLE public.uploads OWNER TO postgres;
 
 --
 -- Name: uploads_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -444,7 +458,7 @@ CREATE SEQUENCE uploads_id_seq
     CACHE 1;
 
 
-ALTER TABLE uploads_id_seq OWNER TO postgres;
+ALTER TABLE public.uploads_id_seq OWNER TO postgres;
 
 --
 -- Name: uploads_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -467,7 +481,7 @@ CREATE TABLE user_profiles (
 );
 
 
-ALTER TABLE user_profiles OWNER TO postgres;
+ALTER TABLE public.user_profiles OWNER TO postgres;
 
 --
 -- Name: users; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -494,7 +508,7 @@ CREATE TABLE users (
 );
 
 
-ALTER TABLE users OWNER TO postgres;
+ALTER TABLE public.users OWNER TO postgres;
 
 --
 -- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -508,7 +522,7 @@ CREATE SEQUENCE users_id_seq
     CACHE 1;
 
 
-ALTER TABLE users_id_seq OWNER TO postgres;
+ALTER TABLE public.users_id_seq OWNER TO postgres;
 
 --
 -- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -578,6 +592,14 @@ ALTER TABLE ONLY uploads ALTER COLUMN id SET DEFAULT nextval('uploads_id_seq'::r
 --
 
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+
+
+--
+-- Name: daily_upload_downloads_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY daily_upload_downloads
+    ADD CONSTRAINT daily_upload_downloads_pkey PRIMARY KEY (upload_id, date);
 
 
 --
@@ -919,6 +941,7 @@ COPY lapis_migrations (name) FROM stdin;
 1422177586
 1422262875
 1422337369
+1422383477
 \.
 
 

@@ -344,6 +344,17 @@ import
   [1422337369]: =>
     create_index "streaks", "publish_status", "users_count"
 
+  [1422383477]: =>
+    add_column "uploads", "downloads_count", integer
+
+    create_table "daily_upload_downloads", {
+      {"upload_id", foreign_key}
+      {"date", "date NOT NULL"}
+      {"count", integer}
+
+      "PRIMARY KEY (upload_id, date)"
+    }
+
 }
 
 
