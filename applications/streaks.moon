@@ -196,7 +196,7 @@ class StreaksApplication extends lapis.Application
     @title = "Browse Streaks"
     @pager = Streaks\paginated [[
       where publish_status = ?
-      order by users_count
+      order by users_count desc
     ]], Streaks.publish_statuses.published, {
       per_page: 100
       prepare_results: (streaks) ->
