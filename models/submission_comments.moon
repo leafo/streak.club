@@ -9,10 +9,35 @@ class SubmissionComments extends Model
     {"submission", belongs_to: "Submissions"}
   }
 
+  @load_mentioned_users: (comments) =>
+    import Users from require "models"
+    all_usernames = {}
+    usernames_by_comment = {}
+
+    for comment in *comments
+      usernames = @_parse_usernames comment.body
+      if next usernames
+        usernames_by_comment[comment.id] = usernames
+        for u in *usernames
+          table.insert all_usernames, u
+
+
+    users = Users\find_all all_usernames, key: "username"
+    users_by_username = {u.username, u for u in *users}
+
+    for comment in *comments
+      comment.mentioned_users = for uname in *usernames_by_comment[comment.id] or {}
+        continue unless users_by_username[uname]
+        users_by_username[uname]
+
+    comments
+
+  @_parse_usernames: (body) =>
+    [username for username in body\gmatch "@([%w-_]+)"]
 
   get_mentioned_users: =>
     unless @mentioned_users
-      usernames = [username for username in @body\gmatch "@([%w-_]+)"]
+      usernames = @@_parse_usernames @body
       import Users from require "models"
       @mentioned_users = Users\find_all usernames, key: "username"
 

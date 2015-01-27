@@ -43,7 +43,7 @@ describe "submission_comments", ->
       }
       expect: "json"
     }
-      
+
     assert.truthy res.success
     assert.same 1, res.comments_count
     comments = SubmissionComments\select!
@@ -146,7 +146,6 @@ describe "submission_comments", ->
       assert.same 200, status
       assert.truthy res.success
 
-
   it "should find mentioned users", ->
     comment = factory.SubmissionComments {
       body: "hello @leafo how are @tester and @tester2"
@@ -161,5 +160,28 @@ describe "submission_comments", ->
       [u1.id]: true
       [u2.id]: true
     }, {u.id, true for u in *users}
+
+  it "should find bulk mentioned users", ->
+    comments = {
+      factory.SubmissionComments {
+        body: "hello @leafo how are @tester and @tester2"
+      }
+
+      factory.SubmissionComments {
+        body: "@tester2 reporting here"
+      }
+
+      factory.SubmissionComments {
+        body: "no mentions"
+      }
+    }
+
+    u1 = factory.Users username: "leafo"
+    u2 = factory.Users username: "tester2"
+
+    SubmissionComments\load_mentioned_users comments
+    assert.same 2, #comments[1].mentioned_users
+    assert.same 1, #comments[2].mentioned_users
+    assert.same 0, #comments[3].mentioned_users
 
 
