@@ -223,7 +223,6 @@ $.fn.set_form_errors = (errors, scroll_to=true) ->
 
   @
 
-# TODO: use on collections page
 $.fn.swap_with = (other) ->
   other = $ other
   return unless @length && other.length

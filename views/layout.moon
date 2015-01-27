@@ -11,11 +11,6 @@ class Layout extends Widget
     meta charset: "UTF-8"
     meta name: "robots", content: "noindex" if @noindex
 
-    -- TODO: this stuff
-    -- raw [[<meta name="msvalidate.01" content="" />]]
-    -- raw [[<meta property="fb:app_id" content="" />]]
-
-
     link rel: "icon", type: "image/png", href: "/static/images/favicon.png"
 
     title ->
@@ -26,9 +21,7 @@ class Layout extends Widget
 
     meta name: "csrf_token", value: @csrf_token
 
-    -- TODO: this stuff
-    -- meta property: "og:site_name", content: "Streak Club"
-    -- meta property: "twitter:account_id", content: ""
+    meta property: "og:site_name", content: "Streak Club"
 
     @content_for "meta_tags"
 
