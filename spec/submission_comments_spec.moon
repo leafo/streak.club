@@ -145,3 +145,21 @@ describe "submission_comments", ->
 
       assert.same 200, status
       assert.truthy res.success
+
+
+  it "should find mentioned users", ->
+    comment = factory.SubmissionComments {
+      body: "hello @leafo how are @tester and @tester2"
+    }
+
+    u1 = factory.Users username: "leafo"
+    u2 = factory.Users username: "tester2"
+
+    users = comment\get_mentioned_users!
+    assert.same 2, #users
+    assert.same {
+      [u1.id]: true
+      [u2.id]: true
+    }, {u.id, true for u in *users}
+
+
