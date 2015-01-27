@@ -46,5 +46,20 @@ assert_unit_date = =>
   @unit_date = date(@params.date)\addhours -@streak.hour_offset
   assert_error @streak\date_in_streak(@unit_date), "invalid date"
 
+parse_filters = (str, valid_keys) ->
+  has_invalid = false
+  out = {}
+  for key, val in str\gmatch "(%w+)%-([%w-,]+)"
+    valid_values = valid_keys[key]
+
+    unless valid_values and (valid_values == true or valid_values[val])
+      has_invalid = true
+      continue
+
+    out[key] = val
+
+  out, has_invalid
+
+
 { :not_found, :require_login, :require_admin, :assert_timezone,
-  :login_and_return_url, :assert_unit_date, :assert_page }
+  :login_and_return_url, :assert_unit_date, :assert_page, :parse_filters }
