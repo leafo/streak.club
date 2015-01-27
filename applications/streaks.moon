@@ -1,8 +1,22 @@
 
 lapis = require "lapis"
+db = require "lapis.db"
 
-import respond_to, capture_errors_json, capture_errors, assert_error, yield_error from require "lapis.application"
-import require_login, not_found, assert_unit_date, assert_page from require "helpers.app"
+import
+  respond_to
+  capture_errors_json
+  capture_errors
+  assert_error
+  yield_error
+  from require "lapis.application"
+
+import require_login,
+  not_found,
+  assert_unit_date,
+  assert_page
+  parse_filters
+  from require "helpers.app"
+
 import assert_valid from require "lapis.validate"
 import assert_csrf from require "helpers.csrf"
 import assert_signed_url from require "helpers.url"
@@ -16,6 +30,23 @@ EditStreakFlow = require "flows.edit_streak"
 EditSubmissionFlow = require "flows.edit_submission"
 
 SUBMISSION_PER_PAGE = 25
+
+browse_filters = {
+  type: {
+    "visual-art": "visual_art"
+    interactive: true
+    "music-and-audio": "music"
+    video: true
+    writing: true
+    other: true
+  }
+
+  state: {
+    "in-progress": true
+    upcoming: true
+    completed: true
+  }
+}
 
 find_streak = =>
   assert_valid @params, {
@@ -192,12 +223,44 @@ class StreaksApplication extends lapis.Application
 
   }
 
+  "/streaks/*": (...) =>
+    @route_name = "streaks"
+    @app.__class\find_action(@route_name) @, ...
+
   [streaks: "/streaks"]: =>
+    @filters, has_invalid = parse_filters @params.splat, browse_filters  if @params.splat
+    if has_invalid
+      do return redirect_to: @url_for "streaks"
+
+    clause = {
+      publish_status: Streaks.publish_statuses.published
+    }
+
+    if t = @filters and @filters.type
+      clause.category = Streaks.categories\for_db t
+
+    time_clause = if s = @filters and @filters.state
+      switch s
+        when "in-progress"
+          [[
+            start_date + (hour_offset || ' hours')::interval <= now() at time zone 'utc' and
+            end_date + (hour_offset || ' hours')::interval > now() at time zone 'utc'
+          ]]
+        when "upcoming"
+          [[
+            start_date + (hour_offset || ' hours')::interval > now() at time zone 'utc'
+          ]]
+        when "completed"
+          [[
+            end_date + (hour_offset || ' hours')::interval < now() at time zone 'utc'
+          ]]
+
     @title = "Browse Streaks"
-    @pager = Streaks\paginated [[
-      where publish_status = ?
+    @pager = Streaks\paginated "
+      where #{db.encode_clause clause}
+      #{time_clause and "and " .. time_clause or ""}
       order by users_count desc
-    ]], Streaks.publish_statuses.published, {
+    ", {
       per_page: 100
       prepare_results: (streaks) ->
         Users\include_in streaks, "user_id"
