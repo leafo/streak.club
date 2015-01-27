@@ -110,22 +110,19 @@ class Users extends Model
       where user_id = ? order by id desc
     ]], @id, opts
 
-  get_active_streaks: =>
-    unless @active_streaks
-      import Streaks from require "models"
-      @active_streaks = Streaks\select [[
-        where id in (select streak_id from streak_users where user_id = ?) and
-        start_date + (hour_offset || ' hours')::interval <= now() at time zone 'utc' and
-        end_date + (hour_offset || ' hours')::interval > now() at time zone 'utc' and
-        publish_status = ?
-        order by id desc
-      ]], @id, Streaks.publish_statuses.published
+  find_active_streaks: (opts={}) =>
+    import Streaks from require "models"
+    Streaks\select "
+      where id in (select streak_id from streak_users where user_id = ?) and
+      start_date + (hour_offset || ' hours')::interval <= now() at time zone 'utc' and
+      end_date + (hour_offset || ' hours')::interval > now() at time zone 'utc'
+      #{opts.status and "and publish_status = ?" or ""}
+      order by id desc
+    ", @id, opts.status
 
-    @active_streaks
-
-  get_submittable_streaks: (unit_date=date true) =>
+  find_submittable_streaks: (unit_date=date true) =>
     import StreakUsers from require "models"
-    active_streaks = @get_active_streaks!
+    active_streaks = @find_active_streaks!
     StreakUsers\include_in active_streaks, "streak_id", {
       flip: true
       where: { user_id: @id }
@@ -137,14 +134,11 @@ class Users extends Model
         continue
       streak
 
-  get_all_streaks: =>
-    unless @all_streaks
-      import Streaks from require "models"
-      @all_streaks = Streaks\select [[
-        where id in (select streak_id from streak_users where user_id = ?) order by id desc
-      ]], @id
-
-    @all_streaks
+  find_all_streaks: =>
+    import Streaks from require "models"
+    Streaks\select [[
+      where id in (select streak_id from streak_users where user_id = ?) order by id desc
+    ]], @id
 
   -- streaks user has control of
   get_created_streaks: =>

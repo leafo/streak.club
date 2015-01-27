@@ -74,8 +74,8 @@ describe "users", ->
     it "in no streak", ->
       factory.Streaks state: "during"
 
-      assert.same 0, #current_user\get_active_streaks!
-      assert.same 0, #current_user\get_all_streaks!
+      assert.same 0, #current_user\find_active_streaks!
+      assert.same 0, #current_user\find_all_streaks!
 
     describe "in streaks of all states", ->
       before_each ->
@@ -85,11 +85,31 @@ describe "users", ->
           factory.StreakUsers streak_id: streak.id, user_id: current_user.id
 
       it "get active streaks and all streaks", ->
-        assert.same 1, #current_user\get_active_streaks!
-        assert.same 3, #current_user\get_all_streaks!
+        assert.same 1, #current_user\find_active_streaks!
+        assert.same 3, #current_user\find_all_streaks!
 
       it "should get submittable streaks", ->
-         assert.same 1, #current_user\get_submittable_streaks!
+         assert.same 1, #current_user\find_submittable_streaks!
+
+    it "should get draft streak", ->
+      streak = factory.Streaks state: "during", publish_status: "draft"
+      factory.StreakUsers streak_id: streak.id, user_id: current_user.id
+
+      assert.same 1, #current_user\find_active_streaks!
+      assert.same 1, #current_user\find_all_streaks!
+      assert.same 0, #current_user\find_active_streaks {
+        status: Streaks.publish_statuses.published
+      }
+
+    it "should get hidden streak", ->
+      streak = factory.Streaks state: "during", publish_status: "hidden"
+      factory.StreakUsers streak_id: streak.id, user_id: current_user.id
+
+      assert.same 1, #current_user\find_active_streaks!
+      assert.same 1, #current_user\find_all_streaks!
+      assert.same 0, #current_user\find_active_streaks {
+        status: Streaks.publish_statuses.published
+      }
 
     it "should get submittable streaks with submission", ->
       streaks = for i=1,3
@@ -101,7 +121,7 @@ describe "users", ->
         streak_id: streaks[1].id
         user_id: current_user.id
       }
-      assert.same 2, #current_user\get_submittable_streaks!
+      assert.same 2, #current_user\find_submittable_streaks!
 
   describe "with submissions", ->
     local current_user

@@ -82,7 +82,7 @@ class SubmissionsApplication extends lapis.Application
 
           @submittable_streaks = { @streak }
         else
-          @submittable_streaks = @current_user\get_submittable_streaks!
+          @submittable_streaks = @current_user\find_submittable_streaks!
           unless next @submittable_streaks
             @session.flash = "You don't have any available streaks"
             @write redirect_to: @url_for "index"

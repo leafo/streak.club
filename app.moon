@@ -35,12 +35,14 @@ class extends lapis.Application
       @flash = @session.flash
       @session.flash = false
 
+  "/console": require"lapis.console".make!
+
   handle_404: => not_found
 
   [index: "/"]: =>
     if @current_user
       @created_streaks = @current_user\get_created_streaks!
-      @active_streaks = @current_user\get_active_streaks!
+      @active_streaks = @current_user\find_active_streaks!
 
       Users\include_in @created_streaks, "user_id"
       Users\include_in @active_streaks, "user_id"
