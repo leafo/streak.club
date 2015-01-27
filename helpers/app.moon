@@ -49,14 +49,18 @@ assert_unit_date = =>
 parse_filters = (str, valid_keys) ->
   has_invalid = false
   out = {}
-  for key, val in str\gmatch "(%w+)%-([%w-,]+)"
-    valid_values = valid_keys[key]
+  for slug in str\gmatch "([%w-]+)"
+    local key, value
+    for group, group_valid in pairs valid_keys
+      if v = group_valid[slug]
+        key = group
+        value = v
+        break
 
-    unless valid_values and (valid_values == true or valid_values[val])
+    if key
+      out[key] = value == true and slug or value
+    else
       has_invalid = true
-      continue
-
-    out[key] = val
 
   out, has_invalid
 
