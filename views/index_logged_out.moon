@@ -73,7 +73,7 @@ class IndexLoggedOut extends require "widgets.base"
         text "Try to post a submission before the countdown runs out of time."
 
     div class: "footer_buttons", ->
-      h3 "Get started"
+      h3 class: "sub_header", "Get started"
 
       div ->
         a {
@@ -88,8 +88,11 @@ class IndexLoggedOut extends require "widgets.base"
 
     if next @featured_streaks
       div class: "featured_streaks", ->
-        h3 "Or check out some featured streaks"
+        h3 class: "sub_header", "Or check out some featured streaks"
 
         widget StreakList {
           streaks: @featured_streaks
         }
+
+    div class: "all_streaks", ->
+      a href: @url_for("streaks"), "Browse all streaks"
