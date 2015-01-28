@@ -100,6 +100,27 @@ class Base extends Widget
 
     span opts, d\fmt "${iso}Z"
 
+  filesize_format: do
+    limits = {
+      {"gb", 1024^3}
+      {"mb", 1024^2}
+      {"kb", 1024}
+    }
+
+    (bytes) =>
+      bytes = math.floor bytes
+      suffix = " bytes"
+      for {label, min} in *limits
+        if bytes >= min
+          bytes = math.floor bytes / min
+          suffix = label
+          break
+
+      @number_format(bytes) .. suffix
+
+  number_format: (num) =>
+    tostring(num)\reverse!\gsub("(...)", "%1,")\match("^(.-),?$")\reverse!
+
   truncate: (str, len=30, tail="...") =>
     if #str > len
       str\sub(1, len) .. tail

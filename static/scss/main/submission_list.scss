@@ -91,6 +91,37 @@
             }
         }
 
+        .submission_upload {
+            display: block;
+            margin: 15px 20px;
+            height: 35px;
+            line-height: 35px;
+
+            button {
+                margin-right: 20px;
+            }
+
+            .upload_stats {
+                float: right;
+                color: #999;
+                font-size: 16px;
+            }
+
+            .upload_size {
+                display: inline-block;
+                color: #666;
+                margin-left: 10px;
+
+                &:before {
+                    content: "("
+                }
+
+                &:after {
+                    content: ")"
+                }
+            }
+        }
+
         .user_column {
             position: absolute;
             top: 6px;

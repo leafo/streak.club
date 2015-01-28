@@ -158,10 +158,20 @@ class SubmissionList extends require "widgets.base"
     return unless submission.uploads and next submission.uploads
     div class: "submission_uploads", ->
       for upload in *submission.uploads
-        continue unless upload\is_image!
-        div class: "submission_upload", ->
-          a href: @url_for(upload), target: "_blank", ->
-            img src: @url_for upload, "600x"
+          if upload\is_image!
+            div class: "submission_image", ->
+              a href: @url_for(upload), target: "_blank", ->
+                img src: @url_for upload, "600x"
+          else
+            form class: "submission_upload", action: "", method: "post", ->
+              if upload.downloads_count > 0
+                div class: "upload_stats", ->
+                  text @plural @number_format(upload.downloads_count),
+                    "download", "downloads"
+
+              button class: "upload_download button", "Download"
+              span class: "upload_name", upload.filename
+              span class: "upload_size", @filesize_format upload.size
 
   render_comments: (submission) =>
     widget SubmissionCommenter {
