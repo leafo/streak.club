@@ -17,3 +17,20 @@ unless is_valid
 
 if ngx.now! > tonumber params.expires
   return ngx.exit ngx.HTTP_GONE
+
+import escape from require "lapis.util"
+import Uploads from require "models"
+
+upload = if upload_id = ngx.var.uri\match "/download/.-(%d+)"
+  Uploads\find upload_id
+
+filename = if upload
+  upload.filename
+else
+  ngx.var.uri\match"([^/]*)$"
+
+
+filename = filename\gsub '"', "\\%1"
+
+ngx.header.content_disposition = 'attachment; filename="' .. filename ..'"'
+ngx.header.content_transfer_encoding = 'binary'
