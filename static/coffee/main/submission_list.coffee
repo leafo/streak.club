@@ -100,6 +100,15 @@ class S.SubmissionList
             comment.removeClass "editing"
             @el.trigger "s:reshape"
         }
+
+      reply_btn: (btn) =>
+        username = btn.closest(".submission_comment").data "author"
+        editor = btn.closest(".submission_commenter").find ".comment_form_outer textarea"
+        editor.redactor "insert.html", "@#{username}&nbsp;"
+
+        outer = editor.closest ".comment_form_outer"
+        outer[0].scrollIntoView?()
+
     }
 
     @el.dispatch "click", ".submission_commenter", {
