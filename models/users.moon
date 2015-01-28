@@ -152,7 +152,7 @@ class Users extends Model
     @created_streaks
 
   gravatar: (size) =>
-    url = "https://www.gravatar.com/avatar/#{ngx.md5 @email}?d=identicon"
+    url = "https://www.gravatar.com/avatar/#{ngx.md5 @email\lower!}?d=identicon"
     url = url .. "&s=#{size}" if size
     url
 
