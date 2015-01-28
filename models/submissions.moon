@@ -176,6 +176,7 @@ class Submissions extends Model
     ]], @id, {
       per_page: opts.per_page
       prepare_results: (comments) ->
+        SubmissionComments\load_mentioned_users comments
         Users\include_in comments, "user_id"
         comments
     }

@@ -53,7 +53,7 @@ class SubmissionComments extends Model
       body = body\gsub "@([%w-_]+)", (username) ->
         user = mentions_by_username[username]
         return username unless user
-        "<a href='#{escape r\url_for user}'>@#{escape user\name_for_display!}</a>"
+        "<a href='#{escape r\build_url r\url_for user}'>@#{escape user\name_for_display!}</a>"
 
     body
 

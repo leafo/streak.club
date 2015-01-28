@@ -39,5 +39,5 @@ class SubmissionCommentList extends require "widgets.base"
             span class: "comment_time", title: comment.created_at, time_ago_in_words comment.created_at
 
           div class: "comment_body user_formatted", ->
-            raw sanitize_html comment.body
+            raw sanitize_html comment\filled_body @
 
