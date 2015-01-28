@@ -12,19 +12,28 @@ class Notifications extends Model
 
   @types: enum {
     comment: 1
+    mention: 2
   }
 
   @object_types: enum {
     submission: 1
+    submission_comment: 2
   }
 
   @preload_objects: (notifications) =>
-    import Submissions from require "models"
+    import Submissions, SubmissionComments from require "models"
 
     submission_notifications = [n for n in *notifications when n.object_type == @object_types.submission]
     Submissions\include_in submission_notifications, "object_id", {
       as: "object"
     }
+
+    comment_notifications = [n for n in *notifications when n.object_type == @object_types.submission_comment]
+    SubmissionComments\include_in comment_notifications, "object_id", {
+      as: "object"
+    }
+
+    Submissions\include_in [n.object for n in *comment_notifications], "submission_id"
 
     notifications
 
@@ -32,6 +41,8 @@ class Notifications extends Model
     switch object.__class.__name
       when "Submissions"
         @@object_types.submission
+      when "SubmissionComments"
+        @@object_types.submission_comment
       else
         error "unknown object"
 
@@ -84,8 +95,17 @@ class Notifications extends Model
           "You got a comment on"
         else
           "You got #{@count} comments on"
+      when @@types.mention
+        "You got mentioned in"
       else
         error "unknown notification type"
+
+  object_title: =>
+    switch @object_type
+      when @@object_types.submission
+        @object.title or "you submission"
+      when @@object_types.submission_comment
+        "a comment"
 
   mark_seen: =>
     @update seen: true

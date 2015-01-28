@@ -48,6 +48,9 @@ class EditCommentFlow extends Flow
       Notifications\notify_for @submission\get_user!,
         @submission, "comment", comment
 
+    for u in *comment\get_mentioned_users!
+      Notifications\notify_for u, comment, "mention"
+
     comment
 
   edit_comment: =>

@@ -21,10 +21,12 @@ class Notifications extends require "widgets.base"
     div class: "notification_list", ->
       for notification in *nots
         object = notification.object
+        continue unless object
+
         div class: "notification_row", ->
           text notification\prefix!
           text " "
-          a href: @url_for(object), object.title or "your submission"
+          a href: @url_for(object), notification\object_title!
           text " "
           span {
             class: "timestamp"

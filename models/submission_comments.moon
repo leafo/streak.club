@@ -68,4 +68,6 @@ class SubmissionComments extends Model
       return true
     false
 
-
+  url_params: =>
+    submission = @get_submission!
+    "view_submission", id: submission.id
