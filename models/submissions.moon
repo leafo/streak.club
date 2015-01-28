@@ -1,6 +1,8 @@
 db = require "lapis.db"
 import Model, enum from require "lapis.db.model"
 
+import slugify from require "lapis.util"
+
 class Submissions extends Model
   @timestamp: true
 
@@ -199,3 +201,6 @@ class Submissions extends Model
       streaks = table.concat [s.title for s in *@get_streaks!], ", "
       "A submission for #{streaks} by #{user\name_for_display!}"
 
+  slug: =>
+    if @title
+      slugify @meta_title!
