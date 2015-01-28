@@ -280,3 +280,11 @@ describe "submissions", ->
       submission\refresh!
       assert.same 0, submission.likes_count
 
+  it "should get title", ->
+    submit = factory.StreakSubmissions!
+    submission = submit\get_submission!
+    assert.truthy submission\meta_title!
+    submission.title = nil
+    assert.truthy submission\meta_title!
+
+

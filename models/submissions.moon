@@ -190,3 +190,12 @@ class Submissions extends Model
         likes
     }
 
+  meta_title: =>
+    user = @get_user!
+
+    if @title
+      "#{@title} by #{user\name_for_display!}"
+    else
+      streaks = table.concat [s.title for s in *@get_streaks!], ", "
+      "A submission for #{streaks} by #{user\name_for_display!}"
+
