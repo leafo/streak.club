@@ -193,8 +193,9 @@ describe "submission_comments", ->
     u1 = factory.Users username: "leafo"
     u2 = factory.Users username: "tester2", display_name: "Great tester"
 
-    assert.same "hello <a href='[[Users]]'>@leafo</a> how are tester and <a href='[[Users]]'>@Great tester</a>", comment\filled_body {
+    assert.same "hello <a href='[[Users]]'>@leafo</a> how are @tester and <a href='[[Users]]'>@Great tester</a>", comment\filled_body {
       url_for: (thing) => "[[#{thing.__class.__name}]]"
+      build_url: (...) => ...
     }
 
 
