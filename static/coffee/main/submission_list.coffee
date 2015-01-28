@@ -87,7 +87,7 @@ class S.SubmissionList
 
         editor = $ @comment_editor_template {
           id: id
-          body: body.html()
+          body: comment.data("body") || body.html()
         }
 
         body.replaceWith editor
