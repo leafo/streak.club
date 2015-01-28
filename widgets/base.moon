@@ -69,7 +69,7 @@ class Base extends Widget
     time_ago_in_words d, nil, suffix
 
   plural: (num, single, plural) =>
-    if num == 1
+    if num == 1 or num == "1"
       "#{num} #{single}"
     else
       "#{num} #{plural}"

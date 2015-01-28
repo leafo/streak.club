@@ -78,6 +78,10 @@ class Uploads extends Model
 
     Model.create @, opts
 
+  allowed_to_download: (user) =>
+    return false if @is_image!
+    true
+
   allowed_to_edit: (user) =>
     return nil unless user
     return true if user\is_admin!
@@ -101,7 +105,6 @@ class Uploads extends Model
     thumb @path!, size
 
   url_params: (_, ...) =>
-
     switch @type
       when @@types.image
         nil, @image_url ...
@@ -114,4 +117,12 @@ class Uploads extends Model
     with super!
       import shell_quote, exec from require "helpers.shell"
       exec "rm #{shell_quote "#{config.user_content_path}/#{@path!}"}"
+
+  increment: =>
+    import DailyUploadDownloads from require "models"
+    DailyUploadDownloads\increment @id
+    @update downloads_count: db.raw "downloads_count + 1"
+
+
+
 

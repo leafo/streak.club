@@ -163,7 +163,12 @@ class SubmissionList extends require "widgets.base"
               a href: @url_for(upload), target: "_blank", ->
                 img src: @url_for upload, "600x"
           else
-            form class: "submission_upload", action: "", method: "post", ->
+            form {
+              class: "submission_upload"
+              action: @url_for "prepare_download", id: upload.id
+              method: "post"
+            }, ->
+              @csrf_input!
               if upload.downloads_count > 0
                 div class: "upload_stats", ->
                   text @plural @number_format(upload.downloads_count),

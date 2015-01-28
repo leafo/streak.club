@@ -4,6 +4,7 @@ import assert_valid from require "lapis.validate"
 import
   respond_to
   capture_errors
+  yield_error
   assert_error
   capture_errors_json
   from require "lapis.application"
@@ -42,6 +43,25 @@ class UploadsApplication extends lapis.Application
       id: upload.id
       url: signed_url @url_for("receive_upload", id: upload.id)
     }
+
+  [prepare_download: "/uploads/download/:id"]: capture_errors {
+    on_error: => not_found
+    respond_to {
+      GET: => yield_error "invalid method"
+
+      POST: =>
+        assert_csrf @
+        assert_valid @params, {
+          {"id", is_integer: true}
+        }
+
+        upload = assert_error Uploads\find(@params.id), "invalid upload"
+        assert_error upload\allowed_to_download(@current_user), "invalid upload"
+
+        upload\increment!
+        redirect_to: @url_for(upload)
+    }
+  }
 
   [receive_upload: "/uploads/receive/:id"]: =>
     error "placeholder for routing, handled in nginx"
