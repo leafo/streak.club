@@ -9,9 +9,12 @@ StreakUnits = require "widgets.streak_units"
 SubmissionList = require "widgets.submission_list"
 Countdown = require "widgets.countdown"
 WelcomeBanner = require "widgets.welcome_banner"
+StreakHeader = require "widgets.streak_header"
 
 class ViewStreak extends require "widgets.base"
   @needs: {"streak", "streak_users", "unit_counts", "completed_units"}
+
+  page_name: "overview"
 
   js_init: =>
     current_unit = @streak\current_unit!
@@ -34,20 +37,7 @@ class ViewStreak extends require "widgets.base"
     if @current_user and @current_user\is_admin!
       @admin_tools!
 
-    if @streak\allowed_to_edit @current_user
-      div class: "owner_tools", ->
-        a href: @url_for("edit_streak", id: @streak.id), "Edit streak"
-
-    if @streak\is_draft!
-      a {
-        href: @url_for("edit_streak", id: @streak.id) .. "#publish_status"
-        class: "draft_banner"
-        "This streak is currently a draft and unpublished"
-      }
-
-    div class: "page_header", ->
-      h2 @streak.title
-      h3 @streak.short_description
+    widget StreakHeader page_name: @page_name
 
     div class: "columns", ->
       div class: "streak_feed_column",->

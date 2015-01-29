@@ -166,6 +166,12 @@ class StreaksApplication extends lapis.Application
     }
   }
 
+  [view_streak_participants: "/s/:id/:slug/participants"]: =>
+    find_streak @
+    check_slug @
+
+    render: true
+
   [view_streak_unit: "/streak/:id/unit/:date"]: capture_errors {
     on_error: =>
       not_found
