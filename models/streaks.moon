@@ -340,3 +340,11 @@ class Streaks extends Model
       ]], @id
     }
 
+  find_participants: (opts={}) =>
+    import StreakUsers, Users from require "models"
+    opts.prepare_results or= (s_users) ->
+      Users\include_in s_users, "user_id"
+      s_users
+
+    StreakUsers\paginated "where streak_id = ?", @id, opts
+

@@ -130,13 +130,7 @@ class StreaksApplication extends lapis.Application
         @title = @streak.title
         @has_more = @streak.submissions_count > SUBMISSION_PER_PAGE
 
-        import StreakUsers from require "models"
-        pager = StreakUsers\paginated "where streak_id = ?", @streak.id, {
-          prepare_results: (sus) ->
-            Users\include_in sus, "user_id"
-        }
-
-        @streak_users = pager\get_page!
+        @streak_users = @streak\find_participants!\get_page!
 
         if @streak_user
           if @current_submit = @streak_user\current_unit_submission!
@@ -167,8 +161,15 @@ class StreaksApplication extends lapis.Application
   }
 
   [view_streak_participants: "/s/:id/:slug/participants"]: =>
+    import Followings from require "models"
+
     find_streak @
     check_slug @
+    assert_page @
+
+    @pager = @streak\find_participants per_page: 1
+    @users = [s.user for s in *@pager\get_page @page]
+    Followings\load_for_users @users, @current_user
 
     render: true
 
