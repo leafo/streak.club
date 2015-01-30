@@ -13,15 +13,18 @@ class Notifications extends Model
   @types: enum {
     comment: 1
     mention: 2
+    follow: 3
+    like: 4
   }
 
   @object_types: enum {
     submission: 1
     submission_comment: 2
+    user: 3
   }
 
   @preload_objects: (notifications) =>
-    import Submissions, SubmissionComments from require "models"
+    import Submissions, SubmissionComments, Users from require "models"
 
     submission_notifications = [n for n in *notifications when n.object_type == @object_types.submission]
     Submissions\include_in submission_notifications, "object_id", {
@@ -32,8 +35,12 @@ class Notifications extends Model
     SubmissionComments\include_in comment_notifications, "object_id", {
       as: "object"
     }
-
     Submissions\include_in [n.object for n in *comment_notifications], "submission_id"
+
+    user_notifications = [n for n in *notifications when n.object_type == @object_types.user]
+    Users\include_in user_notifications, "object_id", {
+      as: "object"
+    }
 
     notifications
 
@@ -43,6 +50,8 @@ class Notifications extends Model
         @@object_types.submission
       when "SubmissionComments"
         @@object_types.submission_comment
+      when "Users"
+        @@object_types.user
       else
         error "unknown object"
 
@@ -128,6 +137,8 @@ class Notifications extends Model
           "You got #{@count} comments on"
       when @@types.mention
         "You got mentioned in"
+      when @@types.follow
+        "You got followed by"
       else
         error "unknown notification type"
 
@@ -137,6 +148,8 @@ class Notifications extends Model
         @object.title or "you submission"
       when @@object_types.submission_comment
         "a comment"
+      when @@object_types.user
+        @object\name_for_display!
 
   mark_seen: =>
     @update seen: true

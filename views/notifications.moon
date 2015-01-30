@@ -21,9 +21,11 @@ class Notifications extends require "widgets.base"
     div class: "notification_list", ->
       for notification in *nots
         object = notification.object
-        continue unless object
-
         div class: "notification_row", ->
+          unless object
+            text "Unknown notification, oops!"
+            return
+
           text notification\prefix!
           text " "
           a href: @url_for(object), notification\object_title!

@@ -63,7 +63,7 @@ class extends lapis.Application
 
     @old_notifications = Notifications\select "
       where user_id = ? and seen
-      order by id
+      order by id desc
       limit 10
     ", @current_user.id
 

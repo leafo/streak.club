@@ -71,7 +71,6 @@ class UsersApplication extends lapis.Application
       render: true
   }
 
-
   [user_following: "/u/:slug/following"]: capture_errors {
     on_error: => not_found
     =>
@@ -209,11 +208,15 @@ class UsersApplication extends lapis.Application
     assert_csrf @
     assert_error @current_user.id != @user.id, "invalid user"
 
-    import Followings from require "models"
+    import Followings, Notifications from require "models"
     following = Followings\create {
       source_user_id: @current_user.id
       dest_user_id: @user.id
     }
+
+    if following
+      Notifications\notify_for @user, @current_user, "follow"
+
     json: { success: not not following }
 
   [user_unfollow: "/user/:id/unfollow"]: require_login capture_errors_json =>
@@ -221,7 +224,7 @@ class UsersApplication extends lapis.Application
     assert_csrf @
     assert_error @current_user.id != @user.id, "invalid user"
 
-    import Followings from require "models"
+    import Followings, Notifications from require "models"
 
     params = {
       source_user_id: @current_user.id
@@ -230,6 +233,7 @@ class UsersApplication extends lapis.Application
 
     success = if f = Followings\find params
       f\delete!
+      Notifications\undo_notify @user, @current_user, "follow"
       true
 
     json: { success: success or false }
