@@ -50,18 +50,31 @@ body {
 .page_tabs {
     border-bottom: 1px solid $border_color;
     margin-bottom: 40px;
-    .tab {
-        @include transition(all 0.2s ease);
-        color: $body_color;
-        text-decoration: none;
-        border-bottom: 1px solid rgba($link_color, 0);
-        margin-right: 40px;
+
+    .tab, .tab_sub {
         font-size: 20px;
         padding-bottom: 5px;
         display: inline-block;
         vertical-align: top;
         position: relative;
         top: 1px;
+    }
+
+    .tab_sub {
+        color: #999;
+        margin-right: 40px;
+    }
+
+    .tab {
+        @include transition(all 0.2s ease);
+        color: $body_color;
+        text-decoration: none;
+        border-bottom: 1px solid rgba($link_color, 0);
+        margin-right: 40px;
+
+        &.has_sub {
+            margin-right: 0px;
+        }
 
         &.active, &:hover {
             color: $link_color;
