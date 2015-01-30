@@ -104,3 +104,16 @@ describe "notifications", ->
     objects = NotificationObjects\select!
     assert.same 2, #objects
 
+  it "should undo notification", ->
+    Notifications\notify_for current_user, factory.Submissions!, "comment"
+
+    submission = factory.Submissions!
+    _, note = Notifications\notify_for current_user, submission, "comment"
+    note\mark_seen!
+
+    _, note2 = Notifications\notify_for current_user, submission, "comment"
+    Notifications\undo_notify current_user, submission, "comment"
+
+    assert.same 2, #Notifications\select!
+    assert.falsy Notifications\find note2.id
+

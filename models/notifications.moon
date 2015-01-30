@@ -76,7 +76,7 @@ class Notifications extends Model
       if target_object
         NotificationObjects\create_for_object notification.id, target_object
 
-      return "create"
+      return "create", Notifications\load notification
 
     db.update @table_name!, {
       count: db.raw "count + 1"
@@ -87,6 +87,37 @@ class Notifications extends Model
       NotificationObjects\create_for_object notification.id, target_object
 
     "update"
+
+  -- TODO: make this decrement, then delete
+  @undo_notify: (user, object, notify_type) =>
+    return unless user
+
+    import NotificationObjects from require "models"
+
+    notify_type = @types\for_db notify_type
+    object_type = @object_type_for_object object
+
+    ident_params = {
+      user_id: user.id
+      object_type: object_type
+      object_id: object.id
+      type: notify_type
+      seen: false
+    }
+
+    res = unpack db.query "
+      delete from #{db.escape_identifier @table_name!}
+      where #{db.encode_clause ident_params}
+      returning id
+    "
+
+    if res
+      db.query "
+        delete from #{db.escape_identifier NotificationObjects\table_name!}
+        where notification_id = ?
+      ", res.id
+
+    res
 
   prefix: =>
     switch @type
