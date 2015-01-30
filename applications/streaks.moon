@@ -167,9 +167,20 @@ class StreaksApplication extends lapis.Application
     check_slug @
     assert_page @
 
-    @pager = @streak\find_participants per_page: 1
+    @pager = @streak\find_participants per_page: 25
     @users = [s.user for s in *@pager\get_page @page]
+    if @page != 1 and not next @users
+      return redirect_to: @url_for "view_streak_participants", {
+        id: @streak.id
+        slug: @streak.slug
+      }
+
     Followings\load_for_users @users, @current_user
+
+    @title = "Participants for #{@streak.name}"
+
+    if @page > 1
+      @title = @title .. " - Page #{@page}"
 
     render: true
 

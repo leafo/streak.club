@@ -181,6 +181,10 @@ describe "streaks", ->
       status = request streak_url(streak)
       assert.same 200, status
 
+    it "should view streak participants", ->
+      status = request streak_url(streak) .. "/participants"
+      assert.same 200, status
+
     it "should view streak json page", ->
       status, res = request streak_url(streak) .. "?format=json", {
         expect: "json"
@@ -209,6 +213,10 @@ describe "streaks", ->
 
       it "should view streak", ->
         status = request streak_url(streak)
+        assert.same 200, status
+
+      it "should view streak participants", ->
+        status = request streak_url(streak) .. "/participants"
         assert.same 200, status
 
       it "should view streak json page", ->
