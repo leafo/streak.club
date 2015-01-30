@@ -1,12 +1,15 @@
 
 StreakUnits = require "widgets.streak_units"
 SubmissionList = require "widgets.submission_list"
+UserHeader = require "widgets.user_header"
 
 import sanitize_html, is_empty_html from require "helpers.html"
 
 class UserProfile extends require "widgets.base"
   @needs: {"user", "user_profile", "submissions", "streaks"}
   @include "widgets.follow_helpers"
+
+  page_name: "profile"
 
   js_init: =>
     "new S.UserProfile(#{@widget_selector!});"
@@ -16,35 +19,7 @@ class UserProfile extends require "widgets.base"
       div class: "header_right", ->
         @follow_button @user, @following
 
-    div class: "page_header", ->
-      h2 @user\name_for_display!
-      h3 ->
-        div class: "user_stat", ->
-          text "A user registered #{@relative_timestamp @user.created_at}"
-
-        if @user.submissions_count > 0
-          div class: "user_stat",
-            @plural @user.submissions_count, "submission", "submissions"
-
-        if @user.followers_count > 0
-          div class: "user_stat",
-            @plural @user.followers_count, "follower", "followers"
-
-        if @user.following_count > 0
-          div class: "user_stat", "Following #{@user.following_count}"
-
-        if @user.comments_count > 0
-          div class: "user_stat",
-            @plural @user.comments_count, "comment", "comments"
-
-        if @user.likes_count > 0
-          div class: "user_stat",
-            @plural @user.likes_count, "like", "likes"
-
-        if @user.streaks_count > 0
-          div class: "user_stat",
-            @plural @user.streaks_count, "streak", "streaks"
-
+    widget UserHeader page_name: @page_name
 
     div class: "columns", ->
       div class: "submission_column", ->
@@ -67,7 +42,10 @@ class UserProfile extends require "widgets.base"
 
   render_submissions: =>
     return unless next @submissions
-    h2 "All submissions"
+    h2 ->
+      text "All submissions "
+      span class: "sub", "(#{@user.submissions_count})"
+
     widget SubmissionList
 
   render_streaks: =>
