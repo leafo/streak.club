@@ -92,4 +92,11 @@ SubmissionComments = (opts={}) ->
 
   comment
 
-{ :Users, :Streaks, :Submissions, :StreakUsers, :StreakSubmissions, :SubmissionComments }
+Followings = (opts={}) ->
+  opts.source_user_id = Users!.id
+  opts.dest_user_id = Users!.id
+  models.Followings\create opts
+
+
+{ :Users, :Streaks, :Submissions, :StreakUsers, :StreakSubmissions,
+  :SubmissionComments, :Followings }
