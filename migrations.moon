@@ -355,6 +355,10 @@ import
       "PRIMARY KEY (upload_id, date)"
     }
 
+  [1422606062]: =>
+    create_index "followings", "source_user_id", "created_at"
+    create_index "followings", "dest_user_id", "created_at"
+
 }
 
 
