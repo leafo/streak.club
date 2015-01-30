@@ -2,7 +2,7 @@
 class StreakHeader extends require "widgets.base"
   base_widget: false
 
-  @include "widgets.tabs_helper"
+  @include "widgets.tabs_helpers"
 
   inner_content: =>
     if @streak\allowed_to_edit @current_user
