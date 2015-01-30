@@ -216,5 +216,19 @@ class Users extends Model
     import Followings from require "models"
     Followings\paginated [[
       where dest_user_id = ?
+      order by created_at desc
+    ]], @id, opts
+
+  find_following: (opts={}) =>
+    import Followings from require "models"
+
+    opts.prepare_results or= (follows) ->
+      Users\include_in follows, "dest_user_id"
+      [f.dest_user for f in *follows]
+
+    import Followings from require "models"
+    Followings\paginated [[
+      where source_user_id = ?
+      order by created_at desc
     ]], @id, opts
 

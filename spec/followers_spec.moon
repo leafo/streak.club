@@ -31,8 +31,7 @@ describe "followers", ->
     assert.same 1, dest.followers_count
     assert.same 0, dest.following_count
 
-
-  it "should find followers #ddd", ->
+  it "should find followers", ->
     user = factory.Users!
 
     followers = for i=1,2
@@ -48,3 +47,17 @@ describe "followers", ->
     assert.same {f.source_user_id, true for f in *followers}, user_ids
 
 
+  it "should find following #ddd", ->
+    user = factory.Users!
+
+    following = for i=1,2
+      factory.Followings source_user_id: user.id
+
+    factory.Followings dest_user_id: user.id
+
+    pager = user\find_following!
+    assert.same 2, pager\total_items!
+
+    users = pager\get_page!
+    user_ids = {u.id, true for u in *users}
+    assert.same {f.dest_user_id, true for f in *following}, user_ids
