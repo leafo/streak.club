@@ -60,3 +60,33 @@ describe "followers", ->
     users = pager\get_page!
     user_ids = {u.id, true for u in *users}
     assert.same {f.dest_user_id, true for f in *following}, user_ids
+
+
+  describe "with user", ->
+    local user
+
+    before_each ->
+      user = factory.Users!
+
+    it "should load empty followers page", ->
+      request_as nil, "/u/#{user.slug}/followers"
+      request_as user, "/u/#{user.slug}/followers"
+
+    it "should load empty following page", ->
+      request_as nil, "/u/#{user.slug}/followers"
+      request_as user, "/u/#{user.slug}/followers"
+
+    describe "with followers/following", ->
+      before_each ->
+        for i=1,2
+          factory.Followings source_user_id: user.id
+          factory.Followings dest_user_id: user.id
+
+      it "should load empty followers page", ->
+        request_as nil, "/u/#{user.slug}/followers"
+        request_as user, "/u/#{user.slug}/followers"
+
+      it "should load empty following page", ->
+        request_as nil, "/u/#{user.slug}/followers"
+        request_as user, "/u/#{user.slug}/followers"
+
