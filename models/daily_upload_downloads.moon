@@ -20,7 +20,7 @@ class DailyUploadDownloads extends Model
     res = safe_insert @, {
       :upload_id, :date, count: 1
     }, {
-      :upload_id, :date,
+      :upload_id, :date
     }
 
     if (res.affected_rows or 0) > 0
@@ -29,7 +29,6 @@ class DailyUploadDownloads extends Model
     db.update @table_name!, {
       count: db.raw "count + 1"
       :date
-    }, ident_params
-
+    }, { :date }
 
     "update"
