@@ -12,7 +12,7 @@ WelcomeBanner = require "widgets.welcome_banner"
 StreakHeader = require "widgets.streak_header"
 
 class ViewStreak extends require "widgets.base"
-  @needs: {"streak", "streak_users", "unit_counts", "completed_units"}
+  @needs: {"streak", "unit_counts", "completed_units"}
 
   page_name: "overview"
 
@@ -99,8 +99,6 @@ class ViewStreak extends require "widgets.base"
               "Leave streak"
             }
 
-        @render_participants!
-
   render_streak_units: =>
     widget StreakUnits
 
@@ -130,26 +128,6 @@ class ViewStreak extends require "widgets.base"
     unless is_empty_html @streak.description
       div class: "user_formatted", ->
         raw sanitize_html @streak.description
-
-  render_participants: =>
-    h3 ->
-      text "Participants"
-      if @streak.users_count > 0
-        text " "
-        span class: "header_count", "(#{@streak.users_count})"
-
-    unless next @streak_users
-      if @streak\after_end!
-        p "No one is participated in this streak"
-      else
-        p "No one is participating in this streak yet"
-      return
-
-    ul class: "streak_participants", ->
-      for su in *@streak_users
-        li class: "streak_user", ->
-          a href: @url_for(su.user), su.user\name_for_display!
-
 
   render_submissions: =>
     unless next @submissions

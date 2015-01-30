@@ -346,5 +346,5 @@ class Streaks extends Model
       Users\include_in s_users, "user_id"
       s_users
 
-    StreakUsers\paginated "where streak_id = ?", @id, opts
+    StreakUsers\paginated "where streak_id = ? order by created_at desc", @id, opts
 

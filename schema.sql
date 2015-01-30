@@ -808,6 +808,13 @@ CREATE INDEX streak_submissions_submission_id_streak_id_submit_time_idx ON strea
 
 
 --
+-- Name: streak_users_streak_id_created_at_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX streak_users_streak_id_created_at_idx ON streak_users USING btree (streak_id, created_at);
+
+
+--
 -- Name: streak_users_user_id_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -957,6 +964,7 @@ COPY lapis_migrations (name) FROM stdin;
 1422337369
 1422383477
 1422606062
+1422641893
 \.
 
 

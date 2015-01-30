@@ -359,6 +359,8 @@ import
     create_index "followings", "source_user_id", "created_at"
     create_index "followings", "dest_user_id", "created_at"
 
+  [1422641893]: =>
+    create_index "streak_users", "streak_id", "created_at"
 }
 
 

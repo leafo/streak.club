@@ -130,8 +130,6 @@ class StreaksApplication extends lapis.Application
         @title = @streak.title
         @has_more = @streak.submissions_count > SUBMISSION_PER_PAGE
 
-        @streak_users = @streak\find_participants!\get_page!
-
         if @streak_user
           if @current_submit = @streak_user\current_unit_submission!
             @current_submit\get_submission!
