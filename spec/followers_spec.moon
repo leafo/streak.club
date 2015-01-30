@@ -46,8 +46,7 @@ describe "followers", ->
     user_ids = {u.id, true for u in *users}
     assert.same {f.source_user_id, true for f in *followers}, user_ids
 
-
-  it "should find following #ddd", ->
+  it "should find following", ->
     user = factory.Users!
 
     following = for i=1,2

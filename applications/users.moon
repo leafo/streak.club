@@ -18,18 +18,23 @@ import render_submissions_page from require "helpers.submissions"
 SUBMISSION_PER_PAGE = 5
 
 find_user = =>
-  assert_valid @params, {
-    {"id", is_integer: true}
-  }
-  @user = assert_error Users\find(@params.id), "invalid user"
+  @user = if @params.id
+    assert_valid @params, {
+      {"id", is_integer: true}
+    }
+    Users\find @params.id
+  elseif @params.slug
+    Users\find slug: slugify @params.slug
+
+  assert_error @user, "invalid user"
 
 class UsersApplication extends lapis.Application
   [user_profile: "/u/:slug"]: capture_errors {
     on_error: => not_found
     =>
+      find_user @
       assert_page @
 
-      @user = assert_error Users\find(slug: slugify @params.slug), "invalid user"
       @user_profile = @user\get_user_profile!
 
       pager = @user\find_submissions {
@@ -63,6 +68,43 @@ class UsersApplication extends lapis.Application
         streak.completed_units = streak.streak_user\get_completed_units!
 
       Users\include_in @streaks, "user_id"
+      render: true
+  }
+
+
+  [user_following: "/u/:slug/following"]: capture_errors {
+    on_error: => not_found
+    =>
+      import Followings from require "models"
+
+      find_user @
+      assert_page @
+      @pager = @user\find_following per_page: 25
+      @users = @pager\get_page @page
+      Followings\load_for_users @users, @current_user
+
+      @title = "Followed by #{@user\name_for_display!}"
+      if @page > 1
+        @title ..= " - Page #{@page}"
+
+      render: true
+  }
+
+  [user_followers: "/u/:slug/followers"]: capture_errors {
+    on_error: => not_found
+    =>
+      import Followings from require "models"
+      find_user @
+      assert_page @
+
+      @pager = @user\find_followers per_page: 25
+      @users = @pager\get_page @page
+      Followings\load_for_users @users, @current_user
+
+      @title = "#{@user\name_for_display!}'s followers"
+      if @page > 1
+        @title ..= " - Page #{@page}"
+
       render: true
   }
 

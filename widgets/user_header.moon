@@ -24,19 +24,18 @@ class UserHeader extends require "widgets.base"
           div class: "user_stat",
             @plural @user.streaks_count, "streak", "streaks"
 
-
     div class: "page_tabs", ->
       @page_tab "Profile", "profile", @url_for(@user)
 
       if @user.following_count > 0
         @page_tab "Following",
           "following",
-          "",
+          @url_for("user_following", slug: @user.slug),
           "(#{@user.following_count})"
 
       if @user.following_count > 0
         @page_tab "Followers",
-          "following",
-          "",
+          "followers",
+          @url_for("user_followers", slug: @user.slug),
           "(#{@user.following_count})"
 

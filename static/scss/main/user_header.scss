@@ -1,0 +1,20 @@
+
+
+.user_header {
+    .user_stat {
+        display: inline-block;
+
+        &:before {
+            content: "·";
+            display: inline-block;
+            margin: 0 5px;
+            color: #999;
+        }
+
+        &:first-child {
+            &:before {
+                content: none;
+            }
+        }
+    }
+}
