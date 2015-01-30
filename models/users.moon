@@ -207,3 +207,14 @@ class Users extends Model
   unseen_notifications: =>
     import Notifications from require "models"
     Notifications\select "where user_id = ? and not seen", @id
+
+  find_followers: (opts={}) =>
+    opts.prepare_results or= (follows) ->
+      Users\include_in follows, "source_user_id"
+      [f.source_user for f in *follows]
+
+    import Followings from require "models"
+    Followings\paginated [[
+      where dest_user_id = ?
+    ]], @id, opts
+

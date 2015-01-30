@@ -93,8 +93,8 @@ SubmissionComments = (opts={}) ->
   comment
 
 Followings = (opts={}) ->
-  opts.source_user_id = Users!.id
-  opts.dest_user_id = Users!.id
+  opts.source_user_id or= Users!.id
+  opts.dest_user_id or= Users!.id
   models.Followings\create opts
 
 
