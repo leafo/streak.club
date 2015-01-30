@@ -163,13 +163,17 @@ class SubmissionsApplication extends lapis.Application
     find_submission @
     assert_csrf @
 
-    import SubmissionLikes from require "models"
+    import SubmissionLikes, Notifications from require "models"
     like = SubmissionLikes\create {
       submission_id: @submission.id
       user_id: @current_user.id
     }
 
+    if like and @current_user.id != @submission.user_id
+      Notifications\notify_for @submission\get_user!, @submission, "like"
+
     @submission\refresh "likes_count"
+
     json: { success: not not like, count: @submission.likes_count }
 
   [submission_unlike: "/submission/:id/unlike"]: require_login capture_errors_json =>

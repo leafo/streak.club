@@ -139,13 +139,18 @@ class Notifications extends Model
         "You got mentioned in"
       when @@types.follow
         "You got followed by"
+      when @@types.like
+        if @count == 1
+          "You got a like on"
+        else
+          "You got #{@count} likes on"
       else
         error "unknown notification type"
 
   object_title: =>
     switch @object_type
       when @@object_types.submission
-        @object.title or "you submission"
+        @object.title or "your submission"
       when @@object_types.submission_comment
         "a comment"
       when @@object_types.user
