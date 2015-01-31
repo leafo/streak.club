@@ -78,6 +78,9 @@
                 color: #666;
             }
 
+            .streak_title_group {
+                white-space: nowrap;
+            }
         }
 
         .submission_uploads {
@@ -304,8 +307,24 @@
             width: auto;
 
             .submission_row {
+                font-size: 16px;
+
                 .submission_content {
                     margin-left: 0;
+                }
+
+                .submission_title {
+                    margin-right: 0;
+                }
+
+                .submission_summary {
+                    font-size: 16px;
+                }
+
+                .submission_meta {
+                    font-size: 14px;
+                    position: static;
+                    margin-top: 15px;
                 }
 
                 .user_column {
@@ -325,9 +344,17 @@
                         vertical-align: top;
                         margin-left: 10px;
                         margin-top: 3px;
+                        font-size: 18px;
                     }
 
                     .like_row {
+                        display: none;
+                    }
+                }
+
+                .submission_upload {
+                    @include single_line;
+                    .upload_stats {
                         display: none;
                     }
                 }

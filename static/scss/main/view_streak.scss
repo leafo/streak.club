@@ -107,15 +107,11 @@
         width: auto;
         margin: 20px;
 
-        .streak_feed_column {
+        .streak_feed_column, .streak_side_column {
             width: auto;
             display: block;
-        }
-
-        .streak_side_column {
-            display: none;
+            padding-left: 0;
+            padding-right: 0;
         }
     }
-
-
 }

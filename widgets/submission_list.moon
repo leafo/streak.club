@@ -73,21 +73,6 @@ class SubmissionList extends require "widgets.base"
 
         div class: "submission_content", ->
           div class: "submission_header", ->
-            div class: "submission_meta", ->
-              a {
-                href: @url_for submission
-                "data-tooltip": submission.created_at
-                "#{@relative_timestamp submission.created_at}"
-              }
-
-              if submission\allowed_to_edit @current_user
-                a {
-                  href: @url_for("edit_submission", id: submission.id)
-                  "data-tooltip": "Edit submission"
-                  class: "icon-pencil edit_btn"
-                }
-
-
             if submission.title
               h3 class: "submission_title", ->
                 a href: @url_for(submission), submission.title
@@ -104,11 +89,26 @@ class SubmissionList extends require "widgets.base"
                 num_streaks = #submission.streaks
                 for i, streak in ipairs submission.streaks
                   text " "
-                  a href: @url_for(streak), streak.title
+                  span class: "streak_title_group", ->
+                    a href: @url_for(streak), streak.title
 
-                  if submit = submission.streak_submissions and submission.streak_submissions[i]
-                    text " "
-                    span class: "unit_number", submit\unit_number!
+                    if submit = submission.streak_submissions and submission.streak_submissions[i]
+                      text " "
+                      span class: "unit_number", submit\unit_number!
+
+            div class: "submission_meta", ->
+              a {
+                href: @url_for submission
+                "data-tooltip": submission.created_at
+                "#{@relative_timestamp submission.created_at}"
+              }
+
+              if submission\allowed_to_edit @current_user
+                a {
+                  href: @url_for("edit_submission", id: submission.id)
+                  "data-tooltip": "Edit submission"
+                  class: "icon-pencil edit_btn"
+                }
 
 
           if submission.description and not is_empty_html submission.description
