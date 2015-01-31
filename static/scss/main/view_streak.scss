@@ -113,5 +113,25 @@
             padding-left: 0;
             padding-right: 0;
         }
+
+        .columns {
+            display: -webkit-flex;
+            display: flex;
+            @include prefixed(flex-direction, column);
+        }
+
+        .streak_feed_column {
+            @include prefixed(order, 2);
+        }
+
+        .streak_side_column {
+            @include prefixed(order, 1);
+        }
+
+        .streak_units a {
+            &:nth-child(11n) {
+                margin-right: 4px;
+            }
+        }
     }
 }
