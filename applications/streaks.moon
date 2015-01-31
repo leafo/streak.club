@@ -128,6 +128,7 @@ class StreaksApplication extends lapis.Application
           return render_submissions_page @, SUBMISSION_PER_PAGE
 
         @title = @streak.title
+        @show_welcome_banner = true
         @has_more = @streak.submissions_count > SUBMISSION_PER_PAGE
 
         if @streak_user

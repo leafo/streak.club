@@ -8,7 +8,6 @@ date = require "date"
 StreakUnits = require "widgets.streak_units"
 SubmissionList = require "widgets.submission_list"
 Countdown = require "widgets.countdown"
-WelcomeBanner = require "widgets.welcome_banner"
 StreakHeader = require "widgets.streak_header"
 
 class ViewStreak extends require "widgets.base"
@@ -31,9 +30,6 @@ class ViewStreak extends require "widgets.base"
     "new S.ViewStreak(#{@widget_selector!}, #{to_json opts});"
 
   inner_content: =>
-    unless @current_user
-      widget WelcomeBanner
-
     if @current_user and @current_user\is_admin!
       @admin_tools!
 

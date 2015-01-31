@@ -1,10 +1,18 @@
 .welcome_banner {
-    border: 2px solid $border_color;
+    border-bottom: 2px solid $border_color;
     padding: 20px;
     padding-top: 15px;
     position: relative;
+    background: darken(#F5F5F5, 3%);
 
     margin-bottom: 40px;
+
+    .banner_inner {
+        max-width: $site_width;
+        padding: 0 20px;
+        margin: 0 auto;
+        position: relative;
+    }
 
     p {
         margin-top: 10px;
@@ -16,8 +24,8 @@
     }
 
     .button {
-        top: 30px;
-        right: 30px;
+        top: 18px;
+        right: 20px;
         position: absolute;
         font-size: 24px;
         line-height: 41px;

@@ -4,6 +4,8 @@ import to_json from require "lapis.util"
 
 config = require("lapis.config").get!
 
+WelcomeBanner = require "widgets.welcome_banner"
+
 class Layout extends Widget
   @include "widgets.asset_helpers"
 
@@ -120,6 +122,9 @@ class Layout extends Widget
 
       body @body_attributes(@body_class), ->
         @header!
+        if @show_welcome_banner and not @current_user
+          widget WelcomeBanner
+
         @main!
         @footer!
         @all_js!

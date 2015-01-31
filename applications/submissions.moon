@@ -52,6 +52,8 @@ class SubmissionsApplication extends lapis.Application
 
       @user = @submission\get_user!
       @streaks = @submission\get_streaks!
+      @show_welcome_banner = true
+      @title = @submission\meta_title!
       render: true
   }
 

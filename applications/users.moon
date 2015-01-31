@@ -51,6 +51,7 @@ class UsersApplication extends lapis.Application
         return render_submissions_page @, SUBMISSION_PER_PAGE
 
       @title = @user\name_for_display!
+      @show_welcome_banner = true
       @has_more = @user.submissions_count > SUBMISSION_PER_PAGE
 
       @following = @user\followed_by @current_user
@@ -133,6 +134,7 @@ class UsersApplication extends lapis.Application
 
       @pager = @user\find_hosted_streaks publish_status: "published"
       @streaks = @pager\get_page @page
+      @title = "Streaks hosted by #{@user\name_for_display!}"
 
       render: true
   }
