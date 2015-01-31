@@ -16,6 +16,12 @@ class StreakHeader extends require "widgets.base"
         "This streak is currently a draft and unpublished"
       }
 
+    if @streak\is_hidden!
+      div {
+        class: "hidden_banner"
+        "This streak is hidden and only visible to those with the URL"
+      }
+
     div class: "page_header", ->
       h2 @streak.title
       h3 @streak.short_description

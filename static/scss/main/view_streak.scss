@@ -5,13 +5,18 @@
         margin-top: 40px;
     }
 
-    .draft_banner {
+    .draft_banner, .hidden_banner {
         display: block;
         background: lighten($error_color, 10%);
         padding: 15px 20px;
         color: white;
         text-decoration: none;
         margin-bottom: 20px;
+    }
+
+    .hidden_banner {
+        background: lighten($green, 10%);
+        color: desaturate(darken($green, 40%), 20%);
     }
 
     .streak_units {

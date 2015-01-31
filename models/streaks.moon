@@ -321,6 +321,9 @@ class Streaks extends Model
   is_draft: =>
     @publish_status == @@publish_statuses.draft
 
+  is_hidden: =>
+    @publish_status == @@publish_statuses.hidden
+
   each_unit: =>
     current = date @start_datetime!
     stop = date @end_datetime!
