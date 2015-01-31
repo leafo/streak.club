@@ -57,14 +57,14 @@ describe "notifications", ->
     other_submission = factory.Submissions!
     other_user = factory.Users!
 
-    assert.same "create", Notifications\notify_for current_user, submission, "comment"
-    assert.same "create", Notifications\notify_for other_user, submission, "comment"
+    assert.same "create", (Notifications\notify_for current_user, submission, "comment")
+    assert.same "create", (Notifications\notify_for other_user, submission, "comment")
 
-    assert.same "create", Notifications\notify_for current_user, other_submission, "comment"
-    assert.same "create", Notifications\notify_for other_user, other_submission, "comment"
+    assert.same "create", (Notifications\notify_for current_user, other_submission, "comment")
+    assert.same "create", (Notifications\notify_for other_user, other_submission, "comment")
 
-    assert.same "update", Notifications\notify_for current_user, other_submission, "comment"
-    assert.same "update", Notifications\notify_for other_user, submission, "comment"
+    assert.same "update", (Notifications\notify_for current_user, other_submission, "comment")
+    assert.same "update", (Notifications\notify_for other_user, submission, "comment")
 
     assert.same 4, #Notifications\select!
     assert.same 6, unpack(db.query "select sum(count) from notifications").sum
