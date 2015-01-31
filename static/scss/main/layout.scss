@@ -139,6 +139,24 @@ a {
         }
     }
 
+    @media (min-width: 600px) {
+        height: $header_height;
+
+        .primary_header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+        }
+
+        .right_header {
+            position: fixed;
+            z-index: 10;
+        }
+    }
+
+
     .logo {
         margin-left: $inset_margin;
         display: inline-block;
