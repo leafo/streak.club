@@ -153,7 +153,7 @@ class Users extends Model
     if state
       query ..= " and #{Streaks\_time_clause state}"
 
-    Streaks\paginated "#{query} order by created_at desc"
+    Streaks\paginated "#{query} order by created_at desc", opts
 
   find_active_streaks: (opts={}) =>
     status = opts.status

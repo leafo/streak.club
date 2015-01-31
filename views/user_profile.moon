@@ -6,7 +6,7 @@ UserHeader = require "widgets.user_header"
 import sanitize_html, is_empty_html from require "helpers.html"
 
 class UserProfile extends require "widgets.base"
-  @needs: {"user", "user_profile", "submissions", "streaks"}
+  @needs: {"user", "user_profile", "submissions", "active_streaks", "completed_streaks", "upcoming_streaks"}
   @include "widgets.follow_helpers"
 
   page_name: "profile"
@@ -38,7 +38,9 @@ class UserProfile extends require "widgets.base"
         @render_submissions!
 
       div class: "streak_column", ->
-        @render_streaks!
+        @render_streaks "Active streaks", @active_streaks
+        @render_streaks "Completed streaks", @completed_streaks
+        @render_streaks "Upcoming streaks", @upcoming_streaks
 
   render_submissions: =>
     return unless next @submissions
@@ -48,11 +50,11 @@ class UserProfile extends require "widgets.base"
 
     widget SubmissionList
 
-  render_streaks: =>
-    return unless next @streaks
-    h2 "Active streaks"
+  render_streaks: (title, streaks) =>
+    return unless next streaks
+    h2 title
     div class: "sidebar_streak_list", ->
-      for streak in *@streaks
+      for streak in *streaks
         div class: "streak_row", ->
           h3 ->
             a href: @url_for(streak), streak.title
@@ -64,10 +66,12 @@ class UserProfile extends require "widgets.base"
             text " to "
             nobr streak.end_date
 
-          p class: "streak_sub", ->
-            current = streak.streak_user\current_streak!
-            longest = streak.streak_user\longest_streak!
-            text "Streak: #{current}, Longest: #{longest}"
 
-          widget StreakUnits streak: streak, completed_units: streak.completed_units
+          if streak.completed_units
+            p class: "streak_sub", ->
+              current = streak.streak_user\current_streak!
+              longest = streak.streak_user\longest_streak!
+              text "Streak: #{current}, Longest: #{longest}"
+
+            widget StreakUnits streak: streak, completed_units: streak.completed_units
 

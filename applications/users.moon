@@ -55,17 +55,37 @@ class UsersApplication extends lapis.Application
 
       @following = @user\followed_by @current_user
 
-      @streaks = @user\find_active_streaks status: "published"
+      with_streak_users = (streaks) ->
+        Users\include_in streaks, "user_id"
+        StreakUsers\include_in streaks, "streak_id", flip: true, where: {
+          user_id: @user.id
+        }
+        streaks
 
-      StreakUsers\include_in @streaks, "streak_id", flip: true, where: {
-        user_id: @user.id
-      }
+      @active_streaks = @user\find_participating_streaks({
+        status: "published"
+        state: "active"
+        prepare_results: with_streak_users
+      })\get_page!
 
-      for streak in *@streaks
-        continue unless streak.streak_user
-        streak.completed_units = streak.streak_user\get_completed_units!
+      @upcoming_streaks = @user\find_participating_streaks({
+        status: "published"
+        state: "upcoming"
+        prepare_results: with_streak_users
+      })\get_page!
 
-      Users\include_in @streaks, "user_id"
+      @completed_streaks = @user\find_participating_streaks({
+        status: "published"
+        state: "completed"
+        prepare_results: with_streak_users
+      })\get_page!
+
+      for streaks in *{@active_streaks, @completed_streaks}
+        for streak in *streaks
+          continue unless streak.streak_user
+          streak.streak_user.streak = streak
+          streak.completed_units = streak.streak_user\get_completed_units!
+
       render: true
   }
 
