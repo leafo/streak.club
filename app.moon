@@ -42,9 +42,8 @@ class extends lapis.Application
   [index: "/"]: =>
     if @current_user
       @created_streaks = @current_user\find_hosted_streaks!\get_page!
+      @active_streaks = @current_user\find_participating_streaks(state: "active")\get_page!
 
-      @active_streaks = @current_user\find_active_streaks!
-      Users\include_in @active_streaks, "user_id"
       render: "index_logged_in"
     else
       import FeaturedStreaks, Streaks, Users from require "models"

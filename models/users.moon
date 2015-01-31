@@ -155,21 +155,10 @@ class Users extends Model
 
     Streaks\paginated "#{query} order by created_at desc", opts
 
-  find_active_streaks: (opts={}) =>
-    status = opts.status
-    opts.status = nil
-    import Streaks from require "models"
-    Streaks\select "
-      where id in (select streak_id from streak_users where user_id = ?) and
-      start_date <= now() at time zone 'utc' + (hour_offset || ' hours')::interval and
-      end_date > now() at time zone 'utc' + (hour_offset || ' hours')::interval
-      #{opts.status and "and publish_status = ?" or ""}
-      order by id desc
-    ", @id, status and Streaks.publish_statuses\for_db(status), opts
-
   find_submittable_streaks: (unit_date=date true) =>
     import StreakUsers from require "models"
-    active_streaks = @find_active_streaks!
+    active_streaks = @find_participating_streaks(state: "active", per_page: 100)\get_page!
+
     StreakUsers\include_in active_streaks, "streak_id", {
       flip: true
       where: { user_id: @id }
