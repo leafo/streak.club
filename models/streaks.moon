@@ -324,6 +324,7 @@ class Streaks extends Model
   is_hidden: =>
     @publish_status == @@publish_statuses.hidden
 
+  -- each unit in utc
   each_unit: =>
     current = date @start_datetime!
     stop = date @end_datetime!
@@ -332,6 +333,12 @@ class Streaks extends Model
         coroutine.yield current
         @increment_date_by_unit current
         break if stop < current
+
+  -- each unit in local time stamp
+  each_unit_local: =>
+    coroutine.wrap ->
+      for unit in @each_unit!
+        coroutine.yield date(unit)\addhours(@hour_offset)\fmt Streaks.day_format_str
 
   recount: =>
     @update {

@@ -102,3 +102,14 @@ class StreakUsers extends Model
 
     longest
 
+  completion_rate: =>
+    streak = @get_streak!
+    completed = @get_completed_units!
+    count = 0
+    total = 0
+    for unit in streak\each_unit_local!
+      total += 1
+      count += 1 if completed[unit]
+
+    count/total if total > 0
+

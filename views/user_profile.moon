@@ -70,7 +70,10 @@ class UserProfile extends require "widgets.base"
             p class: "streak_sub", ->
               if streak\after_end!
                 longest = streak.streak_user\longest_streak!
-                text "Longest streak: #{longest}"
+                rate = streak.streak_user\completion_rate!
+                rate = math.floor rate * 100
+
+                text "Best streak: #{longest}, Completion: #{rate}%"
               else
                 current = streak.streak_user\current_streak!
                 longest = streak.streak_user\longest_streak!
