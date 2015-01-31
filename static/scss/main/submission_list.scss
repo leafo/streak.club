@@ -293,4 +293,45 @@
         color: darken(#F5F5F5, 20%);
         cursor: default;
     }
+
+
+    .responsive & {
+        @media (max-width: $site_width) {
+            width: auto;
+        }
+
+        @media (max-width: $narrow_width) {
+            width: auto;
+
+            .submission_row {
+                .submission_content {
+                    margin-left: 0;
+                }
+
+                .user_column {
+                    width: auto;
+                    text-align: left;
+                    position: static;
+
+                    img {
+                        display: inline-block;
+                        vertical-align: top;
+                        width: 30px;
+                        height: 30px;
+                    }
+
+                    .user_name {
+                        display: inline-block;
+                        vertical-align: top;
+                        margin-left: 10px;
+                        margin-top: 3px;
+                    }
+
+                    .like_row {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
 }

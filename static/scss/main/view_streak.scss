@@ -101,4 +101,21 @@
             }
         }
     }
+
+
+    @media (max-width: $site_width) {
+        width: auto;
+        margin: 20px;
+
+        .streak_feed_column {
+            width: auto;
+            display: block;
+        }
+
+        .streak_side_column {
+            display: none;
+        }
+    }
+
+
 }

@@ -1,7 +1,6 @@
 .welcome_banner {
     border-bottom: 2px solid $border_color;
-    padding: 20px;
-    padding-top: 15px;
+    padding: 15px 0 20px 0;
     position: relative;
     background: darken(#F5F5F5, 3%);
 
@@ -31,6 +30,14 @@
         line-height: 41px;
         height: 45px;
         padding: 0 30px;
+    }
+
+    @media (max-width: 700px) {
+        .button {
+            position: static;
+            display: inline-block;
+            margin-top: 20px;
+        }
     }
 }
 

@@ -15,6 +15,9 @@ class ViewStreak extends require "widgets.base"
 
   page_name: "overview"
 
+  widget_classes: =>
+    super! .. " responsive"
+
   js_init: =>
     current_unit = @streak\current_unit!
 
