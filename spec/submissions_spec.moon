@@ -287,4 +287,20 @@ describe "submissions", ->
     submission.title = nil
     assert.truthy submission\meta_title!
 
+  it "should delete submission not in streak #ddd", ->
+    sub = factory.Submissions!
+    sub\delete!
+
+  it "should delete submission in streak #ddd", ->
+    streak_sub = factory.StreakSubmissions!
+    streak = streak_sub\get_streak!
+    sub = streak_sub\get_submission!
+    streak\recount!
+
+    sub\delete!
+
+    streak\refresh!
+    assert.same 0, streak.submissions_count
+    assert.same 0, #Submissions\select!
+    assert.same 0, #StreakSubmissions\select!
 
