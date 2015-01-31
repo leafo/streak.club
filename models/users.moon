@@ -170,12 +170,6 @@ class Users extends Model
         continue
       streak
 
-  find_all_streaks: =>
-    import Streaks from require "models"
-    Streaks\select [[
-      where id in (select streak_id from streak_users where user_id = ?) order by id desc
-    ]], @id
-
   gravatar: (size) =>
     url = "https://www.gravatar.com/avatar/#{ngx.md5 @email\lower!}?d=identicon"
     url = url .. "&s=#{size}" if size

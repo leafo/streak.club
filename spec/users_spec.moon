@@ -71,11 +71,17 @@ describe "users", ->
       truncate_tables Streaks, StreakSubmissions, Submissions, StreakUsers
       current_user = factory.Users!
 
+    active_streaks = ->
+      current_user\find_participating_streaks(state: "active", per_page: 100)\get_page!
+
+    all_streaks = ->
+      current_user\find_participating_streaks(per_page: 100)\get_page!
+
     it "in no streak", ->
       factory.Streaks state: "during"
 
-      assert.same 0, #current_user\find_active_streaks!
-      assert.same 0, #current_user\find_all_streaks!
+      assert.same 0, #active_streaks!
+      assert.same 0, #all_streaks!
 
     describe "in streaks of all states", ->
       before_each ->
@@ -85,8 +91,8 @@ describe "users", ->
           factory.StreakUsers streak_id: streak.id, user_id: current_user.id
 
       it "get active streaks and all streaks", ->
-        assert.same 1, #current_user\find_active_streaks!
-        assert.same 3, #current_user\find_all_streaks!
+        assert.same 1, #active_streaks!
+        assert.same 3, #all_streaks!
 
       it "should get submittable streaks", ->
          assert.same 1, #current_user\find_submittable_streaks!
@@ -106,21 +112,23 @@ describe "users", ->
       streak = factory.Streaks state: "during", publish_status: "draft"
       factory.StreakUsers streak_id: streak.id, user_id: current_user.id
 
-      assert.same 1, #current_user\find_active_streaks!
-      assert.same 1, #current_user\find_all_streaks!
-      assert.same 0, #current_user\find_active_streaks {
-        status: Streaks.publish_statuses.published
-      }
+      assert.same 1, #active_streaks!
+      assert.same 1, #all_streaks!
+      assert.same 0, #current_user\find_participating_streaks({
+        publish_status: "published"
+        state: "active"
+      })\get_page!
 
     it "should get hidden streak", ->
       streak = factory.Streaks state: "during", publish_status: "hidden"
       factory.StreakUsers streak_id: streak.id, user_id: current_user.id
 
-      assert.same 1, #current_user\find_active_streaks!
-      assert.same 1, #current_user\find_all_streaks!
-      assert.same 0, #current_user\find_active_streaks {
-        status: Streaks.publish_statuses.published
-      }
+      assert.same 1, #active_streaks!
+      assert.same 1, #all_streaks!
+      assert.same 0, #current_user\find_participating_streaks({
+        publish_status: "published"
+        state: "active"
+      })\get_page!
 
     it "should get submittable streaks with submission", ->
       streaks = for i=1,3
