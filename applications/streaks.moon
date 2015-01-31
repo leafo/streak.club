@@ -175,7 +175,7 @@ class StreaksApplication extends lapis.Application
 
     Followings\load_for_users @users, @current_user
 
-    @title = "Participants for #{@streak.name}"
+    @title = "Participants for #{@streak.title}"
 
     if @page > 1
       @title = @title .. " - Page #{@page}"
