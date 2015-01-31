@@ -261,16 +261,16 @@ class StreaksApplication extends lapis.Application
       switch s
         when "in-progress"
           [[
-            start_date + (hour_offset || ' hours')::interval <= now() at time zone 'utc' and
-            end_date + (hour_offset || ' hours')::interval > now() at time zone 'utc'
+            start_date <= now() at time zone 'utc' + (hour_offset || ' hours')::interval and
+            end_date > now() at time zone 'utc' + (hour_offset || ' hours')::interval
           ]]
         when "upcoming"
           [[
-            start_date + (hour_offset || ' hours')::interval > now() at time zone 'utc'
+            start_date > now() at time zone 'utc' + (hour_offset || ' hours')::interval
           ]]
         when "completed"
           [[
-            end_date + (hour_offset || ' hours')::interval < now() at time zone 'utc'
+            end_date < now() at time zone 'utc' + (hour_offset || ' hours')::interval
           ]]
 
     @title = "Browse Streaks"

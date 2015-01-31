@@ -114,8 +114,8 @@ class Users extends Model
     import Streaks from require "models"
     Streaks\select "
       where id in (select streak_id from streak_users where user_id = ?) and
-      start_date + (hour_offset || ' hours')::interval <= now() at time zone 'utc' and
-      end_date + (hour_offset || ' hours')::interval > now() at time zone 'utc'
+      start_date <= now() at time zone 'utc' + (hour_offset || ' hours')::interval and
+      end_date > now() at time zone 'utc' + (hour_offset || ' hours')::interval
       #{opts.status and "and publish_status = ?" or ""}
       order by id desc
     ", @id, opts.status
