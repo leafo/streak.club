@@ -130,6 +130,12 @@ class StreaksApplication extends lapis.Application
         @title = @streak.title
         @show_welcome_banner = true
         @has_more = @streak.submissions_count > SUBMISSION_PER_PAGE
+        @canonical_url = @build_url @url_for @streak
+
+        if @page
+          @canonical_url ..= "?page=#{@page}"
+
+        @mobile_friendly = true
 
         if @streak_user
           if @current_submit = @streak_user\current_unit_submission!

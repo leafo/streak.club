@@ -24,6 +24,8 @@ class Layout extends Widget
     meta name: "csrf_token", value: @csrf_token
 
     meta property: "og:site_name", content: "Streak Club"
+    if @canonical_url
+      link rel: "canonical", href: @canonical_url
 
     @content_for "meta_tags"
 
