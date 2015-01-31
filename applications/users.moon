@@ -63,19 +63,19 @@ class UsersApplication extends lapis.Application
         streaks
 
       @active_streaks = @user\find_participating_streaks({
-        status: "published"
+        publish_status: "published"
         state: "active"
         prepare_results: with_streak_users
       })\get_page!
 
       @upcoming_streaks = @user\find_participating_streaks({
-        status: "published"
+        publish_status: "published"
         state: "upcoming"
         prepare_results: with_streak_users
       })\get_page!
 
       @completed_streaks = @user\find_participating_streaks({
-        status: "published"
+        publish_status: "published"
         state: "completed"
         prepare_results: with_streak_users
       })\get_page!
