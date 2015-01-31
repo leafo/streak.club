@@ -66,12 +66,15 @@ class UserProfile extends require "widgets.base"
             text " to "
             nobr streak.end_date
 
-
           if streak.completed_units
             p class: "streak_sub", ->
-              current = streak.streak_user\current_streak!
-              longest = streak.streak_user\longest_streak!
-              text "Streak: #{current}, Longest: #{longest}"
+              if streak\after_end!
+                longest = streak.streak_user\longest_streak!
+                text "Longest streak: #{longest}"
+              else
+                current = streak.streak_user\current_streak!
+                longest = streak.streak_user\longest_streak!
+                text "Streak: #{current}, Longest: #{longest}"
 
             widget StreakUnits streak: streak, completed_units: streak.completed_units
 
