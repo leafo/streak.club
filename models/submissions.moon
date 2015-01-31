@@ -153,8 +153,17 @@ class Submissions extends Model
         SubmissionLikes
         SubmissionTags
         StreakSubmissions
+        Streaks
         Uploads
         from require "models"
+
+      db.update Streaks\table_name!, {
+        submissions_count: db.raw "submissions_count - 1"
+      }, {
+        id: db.raw db.interpolate_query [[
+          (select streak_id from streak_submissions where submission_id = ?)
+        ]], @id
+      }
 
       for model in *{SubmissionLikes, SubmissionTags, StreakSubmissions}
         db.delete model\table_name!, submission_id: @id
