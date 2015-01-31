@@ -91,6 +91,17 @@ describe "users", ->
       it "should get submittable streaks", ->
          assert.same 1, #current_user\find_submittable_streaks!
 
+      it "should find participating streaks #ddd", ->
+        assert.same 3, #current_user\find_participating_streaks!\get_page!
+        assert.same 1, #current_user\find_participating_streaks(state: "active")\get_page!
+        assert.same 1, #current_user\find_participating_streaks(state: "upcoming")\get_page!
+        assert.same 1, #current_user\find_participating_streaks(state: "completed")\get_page!
+
+        assert.same 3, #current_user\find_participating_streaks(publish_status: "published")\get_page!
+        assert.same 0, #current_user\find_participating_streaks(publish_status: "draft")\get_page!
+
+        assert.same 1, #current_user\find_participating_streaks(publish_status: "published", state: "active")\get_page!
+
     it "should get draft streak", ->
       streak = factory.Streaks state: "during", publish_status: "draft"
       factory.StreakUsers streak_id: streak.id, user_id: current_user.id

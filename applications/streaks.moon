@@ -258,20 +258,8 @@ class StreaksApplication extends lapis.Application
       clause.category = Streaks.categories\for_db t
 
     time_clause = if s = @filters.state
-      switch s
-        when "in-progress"
-          [[
-            start_date <= now() at time zone 'utc' + (hour_offset || ' hours')::interval and
-            end_date > now() at time zone 'utc' + (hour_offset || ' hours')::interval
-          ]]
-        when "upcoming"
-          [[
-            start_date > now() at time zone 'utc' + (hour_offset || ' hours')::interval
-          ]]
-        when "completed"
-          [[
-            end_date < now() at time zone 'utc' + (hour_offset || ' hours')::interval
-          ]]
+      s = "active" if s == "in-progress"
+      Streaks\_time_clause s
 
     @title = "Browse Streaks"
     @pager = Streaks\paginated "

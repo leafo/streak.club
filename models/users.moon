@@ -126,7 +126,38 @@ class Users extends Model
       order by created_at desc
     ", @id, status and Streaks.publish_statuses\for_db(status), opts
 
+  find_participating_streaks: (opts={}) =>
+    import Streaks from require "models"
+
+    publish_status = opts.publish_status
+    opts.status = nil
+
+    state = opts.state
+    opts.state = nil
+
+    opts.prepare_results or= (streaks) ->
+      import Users from require "models"
+      Users\include_in streaks, "user_id"
+      streaks
+
+    opts.per_page or= 25
+
+    query = db.interpolate_query "
+      where id in (select streak_id from streak_users where user_id = ?)
+    ", @id
+
+    if publish_status
+      query ..= db.interpolate_query [[ and publish_status = ?]],
+        Streaks.publish_statuses\for_db publish_status
+
+    if state
+      query ..= " and #{Streaks\_time_clause state}"
+
+    Streaks\paginated "#{query} order by created_at desc"
+
   find_active_streaks: (opts={}) =>
+    status = opts.status
+    opts.status = nil
     import Streaks from require "models"
     Streaks\select "
       where id in (select streak_id from streak_users where user_id = ?) and
@@ -134,7 +165,7 @@ class Users extends Model
       end_date > now() at time zone 'utc' + (hour_offset || ' hours')::interval
       #{opts.status and "and publish_status = ?" or ""}
       order by id desc
-    ", @id, opts.status
+    ", @id, status and Streaks.publish_statuses\for_db(status), opts
 
   find_submittable_streaks: (unit_date=date true) =>
     import StreakUsers from require "models"

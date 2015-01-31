@@ -55,9 +55,7 @@ class UsersApplication extends lapis.Application
 
       @following = @user\followed_by @current_user
 
-      @streaks = @user\find_active_streaks {
-        status: Streaks.publish_statuses.published
-      }
+      @streaks = @user\find_active_streaks status: "published"
 
       StreakUsers\include_in @streaks, "streak_id", flip: true, where: {
         user_id: @user.id

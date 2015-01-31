@@ -348,3 +348,22 @@ class Streaks extends Model
 
     StreakUsers\paginated "where streak_id = ? order by created_at desc", @id, opts
 
+  @_time_clause: (state) =>
+    switch state
+      when "active"
+        [[
+          start_date <= now() at time zone 'utc' + (hour_offset || ' hours')::interval and
+          end_date > now() at time zone 'utc' + (hour_offset || ' hours')::interval
+        ]]
+      when "upcoming"
+        [[
+          start_date > now() at time zone 'utc' + (hour_offset || ' hours')::interval
+        ]]
+      when "completed"
+        [[
+          end_date < now() at time zone 'utc' + (hour_offset || ' hours')::interval
+        ]]
+      else
+        error "unknown state: #{state}"
+
+
