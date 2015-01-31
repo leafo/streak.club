@@ -20,10 +20,6 @@ class UserHeader extends require "widgets.base"
           div class: "user_stat",
             @plural @user.likes_count, "like", "likes"
 
-        if @user.streaks_count > 0
-          div class: "user_stat",
-            @plural @user.streaks_count, "streak", "streaks"
-
     div class: "page_tabs", ->
       @page_tab "Profile", "profile", @url_for(@user)
 
@@ -38,4 +34,10 @@ class UserHeader extends require "widgets.base"
           "followers",
           @url_for("user_followers", slug: @user.slug),
           "(#{@user.followers_count})"
+
+      if @user.streaks_count > 0
+        @page_tab "Streaks hosted",
+          "streaks_hosted",
+          @url_for("user_streaks_hosted", slug: @user.slug),
+          "(#{@user.streaks_count})"
 

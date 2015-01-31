@@ -41,10 +41,9 @@ class extends lapis.Application
 
   [index: "/"]: =>
     if @current_user
-      @created_streaks = @current_user\get_created_streaks!
-      @active_streaks = @current_user\find_active_streaks!
+      @created_streaks = @current_user\find_hosted_streaks!\get_page!
 
-      Users\include_in @created_streaks, "user_id"
+      @active_streaks = @current_user\find_active_streaks!
       Users\include_in @active_streaks, "user_id"
       render: "index_logged_in"
     else

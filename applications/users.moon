@@ -107,6 +107,19 @@ class UsersApplication extends lapis.Application
       render: true
   }
 
+  [user_streaks_hosted: "/u/:slug/streaks-hosted"]: capture_errors {
+    on_error: => not_found
+    =>
+      find_user @
+      assert_page @
+
+      @pager = @user\find_hosted_streaks status: "published"
+      @streaks = @pager\get_page @page
+
+      render: true
+  }
+
+
   [user_register: "/register"]: respond_to {
     before: =>
       if @current_user

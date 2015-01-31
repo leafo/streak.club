@@ -110,6 +110,22 @@ class Users extends Model
       where user_id = ? order by id desc
     ]], @id, opts
 
+  find_hosted_streaks: (opts={}) =>
+    status = opts.status
+    opts.status = nil
+
+    opts.per_page or= 25
+    opts.prepare_results or= (streaks) ->
+      Users\include_in streaks, "user_id"
+      streaks
+
+    import Streaks from require "models"
+    Streaks\paginated "
+      where user_id = ?
+      #{status and "and publish_status = ?" or ""}
+      order by created_at desc
+    ", @id, status and Streaks.publish_statuses\for_db(status), opts
+
   find_active_streaks: (opts={}) =>
     import Streaks from require "models"
     Streaks\select "
@@ -139,17 +155,6 @@ class Users extends Model
     Streaks\select [[
       where id in (select streak_id from streak_users where user_id = ?) order by id desc
     ]], @id
-
-  -- streaks user has control of
-  get_created_streaks: =>
-    unless @created_streaks
-      import Streaks from require "models"
-      @created_streaks = Streaks\select [[
-        where user_id = ?
-        order by id desc
-      ]], @id
-
-    @created_streaks
 
   gravatar: (size) =>
     url = "https://www.gravatar.com/avatar/#{ngx.md5 @email\lower!}?d=identicon"
