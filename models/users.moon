@@ -111,8 +111,8 @@ class Users extends Model
     ]], @id, opts
 
   find_hosted_streaks: (opts={}) =>
-    status = opts.status
-    opts.status = nil
+    publish_status = opts.publish_status
+    opts.publish_status = nil
 
     opts.per_page or= 25
     opts.prepare_results or= (streaks) ->
@@ -122,9 +122,9 @@ class Users extends Model
     import Streaks from require "models"
     Streaks\paginated "
       where user_id = ?
-      #{status and "and publish_status = ?" or ""}
+      #{publish_status and "and publish_status = ?" or ""}
       order by created_at desc
-    ", @id, status and Streaks.publish_statuses\for_db(status), opts
+    ", @id, publish_status and Streaks.publish_statuses\for_db(publish_status), opts
 
   find_participating_streaks: (opts={}) =>
     import Streaks from require "models"

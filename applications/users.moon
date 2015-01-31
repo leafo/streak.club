@@ -131,7 +131,7 @@ class UsersApplication extends lapis.Application
       find_user @
       assert_page @
 
-      @pager = @user\find_hosted_streaks status: "published"
+      @pager = @user\find_hosted_streaks publish_status: "published"
       @streaks = @pager\get_page @page
 
       render: true
