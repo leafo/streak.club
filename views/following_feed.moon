@@ -12,5 +12,12 @@ class FollowingFeed extends require "widgets.base"
       h2 "Following feed"
       h3 "Submissions from everyone you follow"
 
-    widget SubmissionList
+    if next @submission
+      widget SubmissionList
+    else
+      p class: "empty_message", ->
+        if @current_user.following_count
+          text "You're not following anyone yet"
+        else
+          text "None of the people you follow have posted yet"
 
