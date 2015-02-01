@@ -9,12 +9,15 @@ class NotificationObjects extends Model
 
   @object_types: enum {
     submission_comment: 1
+    user: 2
   }
 
   @object_type_for_object: (object) =>
     switch object.__class.__name
       when "SubmissionComments"
         @@object_types.submission_comment
+      when "Users"
+        @@object_types.user
       else
         error "unknown object"
 

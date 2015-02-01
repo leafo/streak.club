@@ -21,7 +21,7 @@ class Notifications extends require "widgets.base"
     div class: "notification_list", ->
       for notification in *nots
         object = notification.object
-        div class: "notification_row", ->
+        div class: "notification_row", ["data-notification_id"]: notification.id, ->
           unless object
             text "Unknown notification, oops!"
             return

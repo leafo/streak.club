@@ -15,12 +15,14 @@ class Notifications extends Model
     mention: 2
     follow: 3
     like: 4
+    join: 5
   }
 
   @object_types: enum {
     submission: 1
     submission_comment: 2
     user: 3
+    streak: 4
   }
 
   preloaders = {
@@ -53,6 +55,8 @@ class Notifications extends Model
         @@object_types.submission_comment
       when "Users"
         @@object_types.user
+      when "Streaks"
+        @@object_types.streak
       else
         error "unknown object"
 
@@ -145,6 +149,11 @@ class Notifications extends Model
           "You got a like on"
         else
           "You got #{@count} likes on"
+      when @@types.join
+        if @count == 1
+          "Somone joined "
+        else
+          "#{@count} people joined "
       else
         error "unknown notification type"
 
@@ -156,6 +165,8 @@ class Notifications extends Model
         "a comment"
       when @@object_types.user
         @object\name_for_display!
+      else
+        @object.title
 
   mark_seen: =>
     @update seen: true
