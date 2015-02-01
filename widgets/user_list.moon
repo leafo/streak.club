@@ -8,7 +8,7 @@ class UserList extends require "widgets.base"
 
   widget_classes: =>
     classes = super!
-    classes ..= " narrow" if narrow
+    classes ..= " narrow" if @narrow
     classes
 
   js_init: =>
