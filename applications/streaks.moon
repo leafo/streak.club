@@ -102,6 +102,13 @@ class StreaksApplication extends lapis.Application
     }
   }
 
+  "/s/:id": capture_errors {
+    on_error: => not_found
+    =>
+      find_streak @
+      redirect_to: @url_for @streak
+  }
+
   [view_streak: "/s/:id/:slug"]: capture_errors {
     on_error: =>
       not_found
