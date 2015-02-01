@@ -32,6 +32,7 @@ class Streaks extends Model
 
   @relations: {
     {"featured_streak", has_one: "FeaturedStreaks"}
+    {"user", belongs_to: "Users"}
   }
 
   @rates: enum {

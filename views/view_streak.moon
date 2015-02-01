@@ -9,6 +9,7 @@ StreakUnits = require "widgets.streak_units"
 SubmissionList = require "widgets.submission_list"
 Countdown = require "widgets.countdown"
 StreakHeader = require "widgets.streak_header"
+UserList = require "widgets.user_list"
 
 class ViewStreak extends require "widgets.base"
   @needs: {"streak", "unit_counts", "completed_units"}
@@ -111,6 +112,9 @@ class ViewStreak extends require "widgets.base"
           value: "leave_streak"
           "Leave streak"
         }
+
+    h3 "Hosted by"
+    widget UserList users: { @streak\get_user! }, narrow: true
 
     ul class: "misc_links", ->
       li ->

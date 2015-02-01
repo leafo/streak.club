@@ -305,4 +305,3 @@ class SubmissionsApplication extends lapis.Application
 
     Followings\load_for_users [l.user for l in *@likes], @current_user
     render: true
-
