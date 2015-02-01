@@ -288,6 +288,10 @@ a {
 .footer {
     margin-bottom: 40px;
 
+    .embed_page & {
+        margin-bottom: 100px;
+    }
+
     .footer_right {
         float: right;
         @media (max-width: 600px) {
