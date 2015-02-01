@@ -9,6 +9,9 @@ class S.SubmissionList
 
     @el.has_tooltips()
 
+    @el.find(".submission_content img").load =>
+      @el.trigger "s:reshape"
+
     @el.on "s:increment_comments", ".submission_row", (e, amount=1) =>
       btn = $(e.currentTarget).find ".comments_toggle_btn"
       new_count = btn.data("count") + amount
@@ -183,8 +186,9 @@ class S.SubmissionList
             scroller.remove_loader()
 
           if res.rendered
-            @el.find(".submission_list").append $ res.rendered
+            new_items = $ res.rendered
+            @el.find(".submission_list").append new_items
             @el.trigger "s:reshape"
-
+            new_items.find(".submission_content img").load => @el.trigger "s:reshape"
     }
 

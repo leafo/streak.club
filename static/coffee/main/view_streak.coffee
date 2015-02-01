@@ -13,12 +13,9 @@ class S.ViewStreak
     @setup_countdown()
     @setup_sticky()
 
-    recalc = _.throttle =>
+    @el.on "s:reshape", _.throttle =>
       $(document.body).trigger "sticky_kit:recalc"
     , 50
-
-    @el.find(".submission_upload img").load recalc
-    @el.on "s:reshape", recalc
 
   setup_sticky: =>
     to_stick = @el.find(".streak_side_column")
@@ -30,7 +27,6 @@ class S.ViewStreak
         unless sticky_kit_on
           to_stick.stick_in_parent {
             offset_top: 25 + 50 # header height
-            recalc_every: 2
           }
           sticky_kit_on = true
       else
