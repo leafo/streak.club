@@ -245,12 +245,48 @@
 
         .submission_footer {
             border-top: 1px solid $border_color;
-            padding: 10px 20px;
+            position: relative;
+            overflow: hidden;
+
+            .footer_inside {
+                padding: 10px 20px;
+                position: relative;
+                z-index: 1;
+                display: inline-block;
+                box-shadow: 0 0 10px 5px white;
+                background: white;
+            }
 
             a {
                 color: #666;
                 &.loading {
                     @include opacity(0.3);
+                }
+            }
+
+            .submission_tags {
+                position: absolute;
+                top: 0;
+                right: 0;
+                z-index: 0;
+                padding: 10px 20px;
+
+                @include single_line;
+                .submission_tag {
+                    @include transition(all 0.2s ease);
+                    display: inline-block;
+                    font-size: 16px;
+                    margin-left: 15px;
+                    text-decoration: none;
+                    color: #666;
+
+                    &:hover {
+                        color: $link_color;
+                    }
+
+                    &:before {
+                        content: "#";
+                    }
                 }
             }
 
@@ -263,27 +299,6 @@
             }
         }
 
-        .submission_tags {
-            @include single_line;
-            float: right;
-
-            .submission_tag {
-                @include transition(all 0.2s ease);
-                display: inline-block;
-                font-size: 16px;
-                margin-left: 15px;
-                text-decoration: none;
-                color: #666;
-
-                &:hover {
-                    color: $link_color;
-                }
-
-                &:before {
-                    content: "#";
-                }
-            }
-        }
 
     }
 

@@ -120,15 +120,16 @@ class SubmissionList extends require "widgets.base"
           @render_uploads submission
 
           div class: "submission_footer", ->
-            a {
-              id: "comments-#{submission.id}"
-              href: @url_for(submission) .. "#comments-#{submission.id}"
-              class: "comments_toggle_btn #{@show_comments and "locked" or ""}"
-              "data-comments_url": @url_for("submission_comments", id: submission.id)
-              "data-template": "{{ count }} comment{{ count == 1 ? '' : 's' }}"
-              "data-count": submission.comments_count
-            }, ->
-              text @plural submission.comments_count, "comment", "comments"
+            div class: "footer_inside", ->
+              a {
+                id: "comments-#{submission.id}"
+                href: @url_for(submission) .. "#comments-#{submission.id}"
+                class: "comments_toggle_btn #{@show_comments and "locked" or ""}"
+                "data-comments_url": @url_for("submission_comments", id: submission.id)
+                "data-template": "{{ count }} comment{{ count == 1 ? '' : 's' }}"
+                "data-count": submission.comments_count
+              }, ->
+                text @plural submission.comments_count, "comment", "comments"
 
             if submission.tags and next submission.tags
               div class: "submission_tags", ->
