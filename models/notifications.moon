@@ -23,24 +23,25 @@ class Notifications extends Model
     user: 3
   }
 
+  preloaders = {
+    submission: {"Submissions"}
+    submission_comment: {
+      "SubmissionComments"
+      (notes) ->
+        import Submissions from require "models"
+        Submissions\include_in [n.object for n in *notes], "submission_id"
+    }
+    user: {"Users"}
+    streak: {"Streaks"}
+  }
+
   @preload_objects: (notifications) =>
-    import Submissions, SubmissionComments, Users from require "models"
+    models = require "models"
 
-    submission_notifications = [n for n in *notifications when n.object_type == @object_types.submission]
-    Submissions\include_in submission_notifications, "object_id", {
-      as: "object"
-    }
-
-    comment_notifications = [n for n in *notifications when n.object_type == @object_types.submission_comment]
-    SubmissionComments\include_in comment_notifications, "object_id", {
-      as: "object"
-    }
-    Submissions\include_in [n.object for n in *comment_notifications], "submission_id"
-
-    user_notifications = [n for n in *notifications when n.object_type == @object_types.user]
-    Users\include_in user_notifications, "object_id", {
-      as: "object"
-    }
+    for otype, {cls, post} in pairs preloaders
+      filtered = [n for n in *notifications when n.object_type == @object_types[otype]]
+      models[cls]\include_in filtered, "object_id", as: "object"
+      post filtered if post
 
     notifications
 
