@@ -81,6 +81,7 @@ class extends lapis.Application
     render: true
 
   [following_feed: "/feed"]: require_login =>
+    import Submissions from require "models"
     @pager = @current_user\find_follower_submissions {
       per_page: 25
       prepare_results: (...) ->
