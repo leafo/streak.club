@@ -1,8 +1,40 @@
 
 .view_streak {
-    h4 {
+    .submission_list_title {
         color: #666;
         margin-top: 40px;
+    }
+
+    .embed_page & {
+        .submission_list_title {
+            display: none;
+        }
+
+        .submission_list {
+            margin-top: 0;
+        }
+    }
+
+    .embed_footer {
+        height: $header_height;
+        z-index: 10;
+        text-align: center;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: $header_color;
+        color: white;
+        line-height: $header_height;
+
+        .logo_image, .header_button {
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .header_button {
+            margin-top: 10px;
+        }
     }
 
     .draft_banner, .hidden_banner {

@@ -29,6 +29,9 @@ class Layout extends Widget
 
     @content_for "meta_tags"
 
+    if @embed_page
+      base target: "_blank"
+
     if @meta_description
       meta property: "og:description", content: @meta_description
       meta name: "description", content: @meta_description
@@ -39,6 +42,8 @@ class Layout extends Widget
     @include_fonts!
 
   header: =>
+    return if @embed_page
+
     div class: "header", id: "global_header", ->
       div class: "primary_header", ->
         a href: @url_for("index"), class: "logo", ->
@@ -78,7 +83,6 @@ class Layout extends Widget
 
         raw "&copy; #{os.date "%Y", ngx.time!} &middot; moon coop &middot; "
 
-
         a href: @url_for"terms", "terms"
         raw " &middot; "
         a href: @url_for"privacy_policy", "privacy policy"
@@ -110,6 +114,10 @@ class Layout extends Widget
     link href: @asset_url("fonts/streakclub/style.css"), rel: "stylesheet", type: "text/css"
 
   body_attributes: (class_name) =>
+    if @embed_page
+      class_name or= ""
+      class_name ..= " embed_page"
+
     {
       "data-page_name": @route_name
       class: class_name
@@ -124,7 +132,8 @@ class Layout extends Widget
 
       body @body_attributes(@body_class), ->
         @header!
-        if @show_welcome_banner and not @current_user
+
+        if @show_welcome_banner and not @current_user and not @embed_page
           widget WelcomeBanner
 
         @main!

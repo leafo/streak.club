@@ -121,7 +121,8 @@ class SubmissionList extends require "widgets.base"
 
           div class: "submission_footer", ->
             a {
-              href: ""
+              id: "comments-#{submission.id}"
+              href: @url_for(submission) .. "#comments-#{submission.id}"
               class: "comments_toggle_btn #{@show_comments and "locked" or ""}"
               "data-comments_url": @url_for("submission_comments", id: submission.id)
               "data-template": "{{ count }} comment{{ count == 1 ? '' : 's' }}"

@@ -33,73 +33,84 @@ class ViewStreak extends require "widgets.base"
     "new S.ViewStreak(#{@widget_selector!}, #{to_json opts});"
 
   inner_content: =>
-    if @current_user and @current_user\is_admin!
+    if not @embed_page and @current_user and @current_user\is_admin!
       @admin_tools!
 
-    widget StreakHeader page_name: @page_name
+    if @embed_page
+      div class: "embed_footer", ->
+        img class: "logo_image", src: "/static/images/rainbow-sm.png"
+        a href: "", class: "header_button", "View on Streak Club"
+    else
+      widget StreakHeader page_name: @page_name
 
     div class: "columns", ->
       div class: "streak_feed_column",->
-        @streak_summary!
+        unless @embed_page
+          @streak_summary!
+
         @render_submissions!
 
-      div class: "streak_side_column", ->
-        @render_countdown!
-
-        if @current_submit
-          a {
-            href: @url_for(@current_submit\get_submission!)
-            class: "button outline_button"
-            "View submission"
-          }
-
-          p class: "submit_sub", "You already submitted for #{@streak\unit_noun!}. "
-
-        elseif @streak\allowed_to_submit @current_user
-          a {
-            href: @url_for("new_submission") .. "?streak_id=#{@streak.id}"
-            class: "button"
-            "New submission"
-          }
-
-          p class: "submit_sub", "You haven't submitted #{@streak\unit_noun!} yet."
-
-
-        if @streak_user and not @streak\before_start!
-          current = @streak_user\current_streak!
-          longest = @streak_user\longest_streak!
-
-          div class: "streak_summary", ->
-            span class: "stat", "Streak: #{current}"
-            span class: "stat", "Longest: #{longest}"
-
-        if not @streak_user and not @streak\after_end!
-          form action: "", method: "post", class: "form", ->
-            @csrf_input!
-
-            if @current_user
-              button class: "button", name: "action", value: "join_streak", "Join streak"
-            else
-              a {
-                class: "button"
-                href: login_and_return_url @
-                "Join streak"
-              }
-
-        @render_streak_units!
-
-        if @streak_user
-          form action: "", method: "post", class: "form leave_form", ->
-            @csrf_input!
-            button {
-              class: "button outline_button"
-              name: "action"
-              value: "leave_streak"
-              "Leave streak"
-            }
+      unless @embed_page
+        div class: "streak_side_column", ->
+          @render_side_column!
 
   render_streak_units: =>
     widget StreakUnits
+
+  render_side_column: =>
+    @render_countdown!
+
+    if @current_submit
+      a {
+        href: @url_for(@current_submit\get_submission!)
+        class: "button outline_button"
+        "View submission"
+      }
+
+      p class: "submit_sub", "You already submitted for #{@streak\unit_noun!}. "
+
+    elseif @streak\allowed_to_submit @current_user
+      a {
+        href: @url_for("new_submission") .. "?streak_id=#{@streak.id}"
+        class: "button"
+        "New submission"
+      }
+
+      p class: "submit_sub", "You haven't submitted #{@streak\unit_noun!} yet."
+
+
+    if @streak_user and not @streak\before_start!
+      current = @streak_user\current_streak!
+      longest = @streak_user\longest_streak!
+
+      div class: "streak_summary", ->
+        span class: "stat", "Streak: #{current}"
+        span class: "stat", "Longest: #{longest}"
+
+    if not @streak_user and not @streak\after_end!
+      form action: "", method: "post", class: "form", ->
+        @csrf_input!
+
+        if @current_user
+          button class: "button", name: "action", value: "join_streak", "Join streak"
+        else
+          a {
+            class: "button"
+            href: login_and_return_url @
+            "Join streak"
+          }
+
+    @render_streak_units!
+
+    if @streak_user
+      form action: "", method: "post", class: "form leave_form", ->
+        @csrf_input!
+        button {
+          class: "button outline_button"
+          name: "action"
+          value: "leave_streak"
+          "Leave streak"
+        }
 
   streak_summary: =>
     p class: "date_summary", ->
@@ -141,7 +152,7 @@ class ViewStreak extends require "widgets.base"
 
       return
 
-    h4 "Recent submissions"
+    h4 class: "submission_list_title", "Recent submissions"
     widget SubmissionList
 
   render_countdown: =>

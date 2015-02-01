@@ -104,7 +104,6 @@ a {
 
 .header {
     $inset_margin: 40px;
-    $header_height: 50px;
 
     position: relative;
 
@@ -206,39 +205,38 @@ a {
         margin-top: 4px;
         text-decoration: none;
     }
+}
 
-    .header_button {
-        @include border_box;
-        @include transition(all 0.2s ease);
+.header_button {
+    @include border_box;
+    @include transition(all 0.2s ease);
 
-        display: inline-block;
-        height: 30px;
-        line-height: 30px - 4px;
-        color: white;
-        padding: 0 15px;
-        border: 2px solid rgba(white, 0.5);
-        text-decoration: none;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px - 4px;
+    color: white;
+    padding: 0 15px;
+    border: 2px solid rgba(white, 0.5);
+    text-decoration: none;
 
-        border-radius: 3px;
-        margin-left: 10px;
+    border-radius: 3px;
+    margin-left: 10px;
 
-        &:hover {
-            background: rgba(white, 0.8);
-            color: $header_color;
-        }
+    &:hover {
+        background: rgba(white, 0.8);
+        color: $header_color;
+    }
 
-        &:active {
-            background: rgba(white, 0.4);
-        }
+    &:active {
+        background: rgba(white, 0.4);
     }
 }
+
 
 .base_widget {
     width: $site_width;
     margin: 40px auto;
 }
-
-
 
 .global_flash {
     position: fixed;
