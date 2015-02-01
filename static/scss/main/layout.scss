@@ -337,6 +337,10 @@ a {
         height: 1px;
         background: $border_color;
     }
+
+    img {
+        max-width: 100%;
+    }
 }
 
 .toggle_follow_btn {
