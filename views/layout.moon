@@ -86,8 +86,8 @@ class Layout extends Widget
         a href: @url_for"terms", "terms"
         raw " &middot; "
         a href: @url_for"privacy_policy", "privacy policy"
-        -- raw " &middot; "
-        -- a href: @url_for"support", "support/contact"
+        raw " &middot; "
+        a href: "http://streakclub.tumblr.com", "blog"
 
         if @current_user
           raw " &middot; "
