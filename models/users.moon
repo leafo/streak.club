@@ -251,3 +251,19 @@ class Users extends Model
       order by created_at desc
     ]], @id, opts
 
+  -- TODO: this query will not scale
+  find_follower_submissions: (opts={}) =>
+    import Submissions from require "models"
+
+    opts.per_page or= 25
+    opts.prepare_results = (submissions)->
+      _, streaks = Submissions\preload_streaks submissions
+      Users\include_in streaks, "user_id"
+      Users\include_in submissions, "user_id"
+      submissions
+
+    Submissions\paginated "
+      where user_id in (select dest_user_id from followings where source_user_id = ?)
+      order by created_at desc
+    ", @id, opts
+

@@ -80,6 +80,11 @@ class extends lapis.Application
 
     render: true
 
+  [following_feed: "/feed"]: require_login =>
+    @pager = @current_user\find_follower_submissions per_page: 25
+    @submissions = @pager\get_page!
+    render: true
+
   [terms: "/terms"]: =>
     render: true
 

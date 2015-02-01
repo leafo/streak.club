@@ -80,7 +80,7 @@ class SubmissionList extends require "widgets.base"
             h4 class: "submission_summary", ->
               if @show_user
                 text "A submission by "
-                a href: @url_for(@user), @user\name_for_display!
+                a href: @url_for(submission.user), submission.user\name_for_display!
               else
                 text "A submission"
 
