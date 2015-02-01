@@ -1,0 +1,22 @@
+
+.streak_embed {
+    iframe {
+        border: 2px solid #dadada;
+    }
+
+    .columns {
+        margin-top: 20px;
+    }
+
+    .example, .embed_inputs {
+        display: inline-block;
+        vertical-align: top;
+        margin-right: 20px;
+    }
+
+    textarea {
+        width: 500px;
+        height: 100px;
+        color: #666;
+    }
+}

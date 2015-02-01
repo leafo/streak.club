@@ -285,3 +285,8 @@ class StreaksApplication extends lapis.Application
     @streaks = @pager\get_page 1
     render: true
 
+  [streak_embed: "/streak/:id/embed"]: =>
+    find_streak @
+    @title = "Embed #{@streak.title}"
+    render: true
+

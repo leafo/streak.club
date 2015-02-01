@@ -112,6 +112,10 @@ class ViewStreak extends require "widgets.base"
           "Leave streak"
         }
 
+    ul class: "misc_links", ->
+      li ->
+        a href: @url_for("streak_embed", id: @streak.id), "Embed streak on another page"
+
   streak_summary: =>
     p class: "date_summary", ->
       if @streak\during! or @streak\after_end!
