@@ -12,7 +12,7 @@ StreakHeader = require "widgets.streak_header"
 UserList = require "widgets.user_list"
 
 class ViewStreak extends require "widgets.base"
-  @needs: {"streak", "unit_counts", "completed_units"}
+  @needs: {"streak", "streak_host", "unit_counts", "completed_units"}
 
   page_name: "overview"
 
@@ -114,7 +114,7 @@ class ViewStreak extends require "widgets.base"
         }
 
     h3 "Hosted by"
-    widget UserList users: { @streak\get_user! }, narrow: true
+    widget UserList users: { @streak_host }, narrow: true
 
     ul class: "misc_links", ->
       li ->

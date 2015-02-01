@@ -146,6 +146,8 @@ class StreaksApplication extends lapis.Application
           @completed_units = @streak_user\get_completed_units!
 
         @unit_counts = @streak\unit_submission_counts!
+        @streak_host = @streak\get_user!
+        @streak_host.following = @streak_host\followed_by @current_user
 
         render: true
 

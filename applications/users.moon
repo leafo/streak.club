@@ -15,7 +15,7 @@ import not_found, require_login, assert_page from require "helpers.app"
 import assert_csrf from require "helpers.csrf"
 import render_submissions_page from require "helpers.submissions"
 
-SUBMISSION_PER_PAGE = 5
+SUBMISSION_PER_PAGE = 25
 
 find_user = =>
   @user = if @params.id
