@@ -40,7 +40,7 @@ class ViewStreak extends require "widgets.base"
     if @embed_page
       div class: "embed_footer", ->
         img class: "logo_image", src: "/static/images/rainbow-sm.png"
-        a href: "", class: "header_button", "View on Streak Club"
+        a href: @url_for(@streak), class: "header_button", "View on Streak Club"
     else
       widget StreakHeader page_name: @page_name
 
