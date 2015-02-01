@@ -28,7 +28,10 @@ class S.ViewStreak
     update = =>
       if win.width() >= 960
         unless sticky_kit_on
-          to_stick.stick_in_parent offset_top: 25 + 50 # header height
+          to_stick.stick_in_parent {
+            offset_top: 25 + 50 # header height
+            recalc_every: 2
+          }
           sticky_kit_on = true
       else
         if sticky_kit_on
