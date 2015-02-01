@@ -251,10 +251,7 @@
             .footer_inside {
                 padding: 10px 20px;
                 position: relative;
-                z-index: 1;
-                display: inline-block;
-                box-shadow: 0 0 10px 5px white;
-                background: white;
+                float: left;
             }
 
             a {
@@ -265,13 +262,9 @@
             }
 
             .submission_tags {
-                position: absolute;
-                top: 0;
-                right: 0;
-                z-index: 0;
                 padding: 10px 20px;
+                text-align: right;
 
-                @include single_line;
                 .submission_tag {
                     @include transition(all 0.2s ease);
                     display: inline-block;
