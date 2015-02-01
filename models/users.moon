@@ -256,7 +256,7 @@ class Users extends Model
     import Submissions from require "models"
 
     opts.per_page or= 25
-    opts.prepare_results = (submissions)->
+    opts.prepare_results or= (submissions)->
       _, streaks = Submissions\preload_streaks submissions
       Users\include_in streaks, "user_id"
       Users\include_in submissions, "user_id"
