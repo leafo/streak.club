@@ -1,3 +1,5 @@
+db = require "lapis.db"
+
 import
   load_test_server
   close_test_server
@@ -303,4 +305,17 @@ describe "submissions", ->
     assert.same 0, streak.submissions_count
     assert.same 0, #Submissions\select!
     assert.same 0, #StreakSubmissions\select!
+
+  it "should delete submission in many streaks", ->
+    streak_sub = factory.StreakSubmissions!
+    sub = streak_sub\get_submission!
+    factory.StreakSubmissions submission_id: sub.id, user_id: sub.user_id
+
+    for s in *Streaks\select!
+      s\recount!
+
+    sub\delete!
+
+    count = unpack db.query "select sum(submissions_count) from streaks"
+    assert.same 0, count.sum
 
