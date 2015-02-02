@@ -43,7 +43,7 @@ class Email extends Widget
   footer: =>
     h4 ->
       text "powered by "
-      a href: "http://streka.club", "Streak Club"
+      a href: "http://streak.club", "Streak Club"
 
     if @show_tag_unsubscribe
       div style: "color: #666666; font-size: smaller", ->
