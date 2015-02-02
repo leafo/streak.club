@@ -5,6 +5,7 @@
 : foreach *.md |> markdown < %f > %o |> %B.html
 
 : coffee/bundle/_pre.js coffee/bundle/*.js coffee/main/*.js |> cat %f > %o |> main.js
+: coffee/admin/*.js |> cat %f > %o |> admin.js
 
 # lib
 : lib/jquery-2.1.1.min.js lib/underscore-min.js lib/*.js |> cat %f > %o |> lib.js
