@@ -6,6 +6,7 @@ class ReminderEmail extends require "emails.email"
 
   body: =>
     h1 @email_subject
+    p -> raw "Hello %recipient.name_for_display%,"
     div class: "user_formatted", ->
-      raw assert @email_body, "missing body for email"
+      raw (assert @email_body, "missing body for email")
 
