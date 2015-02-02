@@ -37,6 +37,32 @@ class AdminApplication extends lapis.Application
       json: { success: true, :res }
   }
 
+  [admin_user: "/user/:id"]: capture_errors_json respond_to {
+    before: =>
+      import Users from require "models"
+      @user = assert_error Users\find(@params.id), "invalid user"
+
+    GET: =>
+      render: true
+
+    POST: =>
+      assert_csrf @
+
+      assert_valid @params, {
+        {"action", one_of: {"set_password"}}
+      }
+
+      switch @params.action
+        when "set_password"
+          assert_valid @params, {
+            {"password", exists: true}
+          }
+          @user\set_password @params.password
+          @session.flash = "Password updated"
+
+      redirect_to: @url_for "admin_user", id: @user.id
+  }
+
   [admin_email_streak: "/email/:streak_id"]: capture_errors_json respond_to {
     before: =>
       import Streaks from require "models"
@@ -48,6 +74,8 @@ class AdminApplication extends lapis.Application
     GET: => render: true
 
     POST: =>
+      assert_csrf @
+
       import Users from require "models"
       assert_valid @params, {
         {"email", type: "table"}

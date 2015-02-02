@@ -63,6 +63,9 @@ class Users extends Model
         if user and user\salt! == user_session.key
           user
 
+  set_password: (new_pass) =>
+    @update encrypted_password: bcrypt.digest new_pass, bcrypt.salt 5
+
   write_session: (r) =>
     r.session.user = {
       id: @id
