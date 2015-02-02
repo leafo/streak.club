@@ -1,8 +1,6 @@
 import Widget from require "lapis.html"
 
 class Email extends Widget
-  @include "widgets.helpers"
-
   @render: (r, params) =>
     i = @(params)
     i\include_helper r

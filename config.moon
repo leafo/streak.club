@@ -4,6 +4,7 @@ config {"development", "test", "production"}, ->
   code_cache "off"
   daemon "off"
   notice_log "stderr"
+  admin_email "leafot@gmail.com"
 
   pcall ->
     include require "secret.keys"

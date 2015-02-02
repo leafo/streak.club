@@ -17,6 +17,8 @@ class AdminEmailStreak extends require "widgets.base"
         a href: @url_for(@streak), @streak.title
 
     form class: "form", method: "post", ->
+      @csrf_input!
+
       @text_input_row {
         label: "Subject"
         name: "email[subject]"
@@ -29,7 +31,7 @@ class AdminEmailStreak extends require "widgets.base"
       }
 
       @input_row "Options", ->
-        @radio_buttons "email[action]", {
+        @radio_buttons "action", {
           {"dry_run", "Dry run"}
           {"preview", "Preview"}
           {"send", "Send"}

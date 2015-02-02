@@ -2,6 +2,8 @@
 lapis = require "lapis"
 db = require "lapis.db"
 
+config = require("lapis.config").get!
+
 import respond_to, capture_errors_json, assert_error from require "lapis.application"
 import assert_valid from require "lapis.validate"
 import trim_filter from require "lapis.util"
@@ -79,21 +81,57 @@ class AdminApplication extends lapis.Application
       import Users from require "models"
       assert_valid @params, {
         {"email", type: "table"}
+        {"action", one_of: {"dry_run", "preview", "send"}}
       }
 
       email = trim_filter @params.email
 
       assert_valid email, {
-        {"action", one_of: {"dry_run", "preview", "send"}}
+        {"subject", exists: true}
+        {"body", exists: true}
       }
 
       users = Users\select "
         where id in
           (select user_id from streak_users where streak_id = ? and submissions_count = 0)
-      ", @streak.id, fields: "id, username, email"
+      ", @streak.id, fields: "id, username, email, display_name"
 
-      -- get all users that have not submitted
-      json: { success: true, params: @params, :users }
+      if @params.action == "dry_run"
+        return json: {
+          emails: [u.email for u in *users]
+        }
+
+      recipeints = if @params.action == "preview"
+        { { config.admin_email, {name_for_display: "Test user"}} }
+      else
+        [{u.email, {name_for_display: u\name_for_display!}} for u in *users]
+
+      template = require "emails.reminder_email"
+      t = template {
+        email_body: email.body
+        email_subject: email.subject
+        show_tag_unsubscribe: true
+      }
+      t\include_helper @
+
+      vars = {}
+      emails = for {email, email_vars} in *recipeints
+        vars[email] = email_vars
+        email
+
+      import send_email from require "helpers.email"
+      res = send_email emails, t\subject!, t\render_to_string!, {
+        html: true
+        sender: "Streak Club <postmaster@streak.club>"
+        tags: { "reminder_email" }
+        :vars
+        track_opens: true
+        headers: {
+          "Reply-To": config.admin_email
+        }
+      }
+
+      json: { success: true, :res }
 
   }
 
