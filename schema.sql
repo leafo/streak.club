@@ -829,6 +829,13 @@ CREATE INDEX streaks_publish_status_users_count_idx ON streaks USING btree (publ
 
 
 --
+-- Name: streaks_user_id_publish_status_created_at_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX streaks_user_id_publish_status_created_at_idx ON streaks USING btree (user_id, publish_status, created_at);
+
+
+--
 -- Name: submission_comments_submission_id_id_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -965,6 +972,7 @@ COPY lapis_migrations (name) FROM stdin;
 1422383477
 1422606062
 1422641893
+1422731265
 \.
 
 

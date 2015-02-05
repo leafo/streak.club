@@ -365,6 +365,10 @@ import
   [1422731265]: =>
     create_index "streaks", "user_id", "publish_status", "created_at"
 
+  [1423123029]: =>
+    create_index "streak_users", "current_streak", "integer"
+    create_index "streak_users", "longest_streak", "integer"
+
 }
 
 

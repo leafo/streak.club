@@ -81,8 +81,8 @@ class ViewStreak extends require "widgets.base"
 
 
     if @streak_user and not @streak\before_start!
-      current = @streak_user\current_streak!
-      longest = @streak_user\longest_streak!
+      current = @streak_user\get_current_streak!
+      longest = @streak_user\get_longest_streak!
 
       div class: "streak_summary", ->
         span class: "stat", "Streak: #{current}"
