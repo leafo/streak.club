@@ -164,6 +164,17 @@ class SubmissionList extends require "widgets.base"
             div class: "submission_image", ->
               a href: @url_for(upload), target: "_blank", ->
                 img src: @url_for upload, "600x"
+
+          if upload\is_audio!
+            mp3_url = "/static/music.mp3"
+            div class: "submission_audio", ["data-url"]: mp3_url, ->
+              div class: "play_audio_btn"
+              span class: "upload_name", upload.filename
+              span class: "upload_size", @filesize_format upload.size
+
+              div class: "audio_progress_outer", ->
+                div class: "audio_progress_inner"
+
           else
             form {
               class: "submission_upload"

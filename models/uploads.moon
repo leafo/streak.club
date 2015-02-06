@@ -100,6 +100,9 @@ class Uploads extends Model
   is_image: =>
     @type == @@types.image
 
+  is_audio: =>
+    @extension == "mp3"
+
   image_url: (size="original") =>
     assert @is_image!, "upload not image"
     thumb @path!, size

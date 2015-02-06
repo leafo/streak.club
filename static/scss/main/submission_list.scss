@@ -94,7 +94,7 @@
             }
         }
 
-        .submission_upload {
+        .submission_upload, .submission_audio {
             display: block;
             margin: 15px 20px;
             height: 35px;
@@ -121,6 +121,76 @@
 
                 &:after {
                     content: ")"
+                }
+            }
+        }
+
+        .submission_audio {
+            position: relative;
+
+            &.loading {
+                .play_audio_btn {
+                    @include opacity(0.5);
+                }
+            }
+
+            &.loaded {
+                .audio_progress_outer {
+                    @include opacity(1);
+                }
+            }
+
+            &.playing {
+                .play_audio_btn {
+                    &:before {
+                        content: "▐▐";
+                    }
+                }
+
+                .audio_progress_inner {
+                    @include transition(all 0.3s linear);
+                }
+            }
+
+            .audio_progress_outer {
+                @include transition(opacity 0.2s ease);
+                @include opacity(0);
+                position: absolute;
+                bottom: 0px;
+                left: 35px + 20px;
+                right: 20px;
+                height: 5px;
+                background: lighten($border_color, 8%);
+
+                .audio_progress_inner {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    bottom: 0;
+                    width: 50%;
+                    background: $border_color;
+                }
+            }
+
+            .play_audio_btn {
+                background: $blue;
+                height: 35px;
+                width: 35px;
+                border-radius: 35px;
+                color: white;
+                text-align: center;
+                line-height: 30px;
+                cursor: pointer;
+                display: inline-block;
+                margin-right: 20px;
+
+                &:hover {
+                    background: lighten($button_color, 5%);
+                }
+
+                &:before {
+                    content: "▶";
+                    display: inline-block;
                 }
             }
         }
