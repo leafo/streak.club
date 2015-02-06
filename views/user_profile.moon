@@ -76,7 +76,7 @@ class UserProfile extends require "widgets.base"
                 text "Best streak: #{longest}, Completion: #{rate}%"
               else
                 current = streak.streak_user\get_current_streak!
-                longest = streak.streak_user\longest_streak!
+                longest = streak.streak_user\get_longest_streak!
                 text "Streak: #{current}, Longest: #{longest}"
 
             widget StreakUnits streak: streak, completed_units: streak.completed_units
