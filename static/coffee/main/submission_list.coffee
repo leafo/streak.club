@@ -21,6 +21,8 @@ class S.SubmissionList
     @el.dispatch "click", {
       play_audio_btn: (btn) =>
         audio_row = btn.closest ".submission_audio"
+        return if audio_row.is ".loading"
+        url = btn.data "audio_url"
 
         if audio_row.is ".playing"
           audio_row.data("audio").pause()
@@ -32,33 +34,32 @@ class S.SubmissionList
           audio_row.addClass "playing"
           return
 
-        progress_bar = audio_row.find ".audio_progress_inner"
-        progress_bar.width "0%"
+        audio_row.addClass "loading"
+        $.post url, S.with_csrf(), (res) =>
+          progress_bar = audio_row.find ".audio_progress_inner"
+          progress_bar.width "0%"
 
-        url = audio_row.data "url"
+          audio = document.createElement "audio"
 
-        audio = document.createElement "audio"
+          unless audio.canPlayType "audio/mpeg"
+            alert "Yikes, doesn't look like your browser supports audio"
 
-        unless audio.canPlayType "audio/mpeg"
-          alert "Yikes, doesn't look like your browser supports audio"
+          audio.setAttribute "src", res.url
+          audio.play()
 
-        audio.setAttribute "src", url
-        audio.play()
+          audio.addEventListener "loadstart", =>
 
-        audio.addEventListener "loadstart", =>
-          audio_row.addClass "loading"
+          audio.addEventListener "pause", =>
+            audio_row.removeClass "playing"
 
-        audio.addEventListener "pause", =>
-          audio_row.removeClass "playing"
+          audio.addEventListener "timeupdate", =>
+            audio_row.removeClass("loading").addClass "playing loaded"
+            progress_bar.width "#{audio.currentTime / audio.duration * 100}%"
 
-        audio.addEventListener "timeupdate", =>
-          audio_row.removeClass("loading").addClass "playing loaded"
-          progress_bar.width "#{audio.currentTime / audio.duration * 100}%"
+          audio.addEventListener "ended", =>
+            audio_row.removeClass "loaded playing"
 
-        audio.addEventListener "ended", =>
-          audio_row.removeClass "loaded playing"
-
-        audio_row.data "audio", audio
+          audio_row.data "audio", audio
 
       toggle_like_btn: (btn) =>
         return "continue" unless S.current_user?

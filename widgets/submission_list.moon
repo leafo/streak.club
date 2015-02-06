@@ -166,9 +166,11 @@ class SubmissionList extends require "widgets.base"
                 img src: @url_for upload, "600x"
 
           if upload\is_audio!
-            mp3_url = "/static/music.mp3"
-            div class: "submission_audio", ["data-url"]: mp3_url, ->
-              div class: "play_audio_btn"
+            div class: "submission_audio", ->
+              div {
+                class: "play_audio_btn"
+                ["data-audio_url"]: @url_for "prepare_play_audio", id: upload.id
+              }
 
               form {
                 class: "download_form"
@@ -184,7 +186,6 @@ class SubmissionList extends require "widgets.base"
 
                 div class: "audio_progress_outer", ->
                   div class: "audio_progress_inner"
-
 
           else
             form {
