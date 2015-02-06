@@ -30,6 +30,19 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: daily_audio_plays; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE daily_audio_plays (
+    upload_id integer NOT NULL,
+    date date NOT NULL,
+    count integer DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE daily_audio_plays OWNER TO postgres;
+
+--
 -- Name: daily_upload_downloads; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -259,7 +272,9 @@ CREATE TABLE streak_users (
     user_id integer NOT NULL,
     submissions_count integer DEFAULT 0 NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    current_streak integer,
+    longest_streak integer
 );
 
 
@@ -592,6 +607,14 @@ ALTER TABLE ONLY uploads ALTER COLUMN id SET DEFAULT nextval('uploads_id_seq'::r
 --
 
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+
+
+--
+-- Name: daily_audio_plays_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY daily_audio_plays
+    ADD CONSTRAINT daily_audio_plays_pkey PRIMARY KEY (upload_id, date);
 
 
 --
@@ -973,6 +996,8 @@ COPY lapis_migrations (name) FROM stdin;
 1422606062
 1422641893
 1422731265
+1423123029
+1423209193
 \.
 
 

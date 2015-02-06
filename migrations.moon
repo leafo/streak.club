@@ -369,6 +369,15 @@ import
     add_column "streak_users", "current_streak", "integer"
     add_column "streak_users", "longest_streak", "integer"
 
+  [1423209193]: =>
+    create_table "daily_audio_plays", {
+      {"upload_id", foreign_key}
+      {"date", "date NOT NULL"}
+      {"count", integer}
+
+      "PRIMARY KEY (upload_id, date)"
+    }
+
 }
 
 
