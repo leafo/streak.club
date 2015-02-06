@@ -17,6 +17,13 @@ import signed_url from require "helpers.url"
 
 import Uploads from require "models"
 
+find_upload = =>
+  assert_valid @params, {
+    {"id", is_integer: true}
+  }
+
+  @upload = assert_error Uploads\find(@params.id), "invalid upload"
+
 class UploadsApplication extends lapis.Application
   [prepare_upload: "/uploads/prepare"]: require_login capture_errors_json =>
     assert_csrf @
@@ -51,15 +58,30 @@ class UploadsApplication extends lapis.Application
 
       POST: =>
         assert_csrf @
-        assert_valid @params, {
-          {"id", is_integer: true}
-        }
+        find_upload @
 
-        upload = assert_error Uploads\find(@params.id), "invalid upload"
-        assert_error upload\allowed_to_download(@current_user), "invalid upload"
+        assert_error @upload\allowed_to_download(@current_user), "invalid upload"
 
-        upload\increment!
-        redirect_to: @url_for(upload)
+        @upload\increment!
+        redirect_to: @url_for @upload
+    }
+  }
+
+  [prepare_play_audio: "/uploads/play-audio/:id"]: capture_errors {
+    on_error: => not_found
+    respond_to {
+      GET: => yield_error "invalid method"
+
+      POST: =>
+        assert_csrf @
+        find_upload @
+
+        assert_error @upload\allowed_to_download(@current_user), "invalid upload"
+        assert_error @upload\is_audio!, "upload must be audio"
+
+        @upload\increment_audio!
+
+        json: { url: @url_for @upload, 60*8 }
     }
   }
 

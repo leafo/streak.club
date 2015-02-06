@@ -112,6 +112,7 @@ class Uploads extends Model
       when @@types.image
         nil, @image_url ...
       else
+        expires = ... or 15
         import signed_url from require "helpers.url"
         expire = os.time! + 15
         nil, signed_url "/download/#{@short_path!}?expires=#{expire}"
@@ -126,6 +127,6 @@ class Uploads extends Model
     DailyUploadDownloads\increment @id
     @update downloads_count: db.raw "downloads_count + 1"
 
-
-
-
+  increment_audio: =>
+    import DailyAudioPlays from require "models"
+    DailyAudioPlays\increment @id
