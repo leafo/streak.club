@@ -31,8 +31,17 @@ class S.SubmissionList
 
         if audio_row.is ".loaded"
           audio_row.data("audio").play()
+          btn.trigger "s:play_audio", [btn]
           audio_row.addClass "playing"
           return
+
+
+        unless btn.is ".listener_bound"
+          btn.addClass "listener_bound"
+
+          $(document).on "s:play_audio", (e, el) =>
+            return if el.is btn
+            audio_row.data("audio")?.pause()
 
         audio_row.addClass "loading"
         $.post url, S.with_csrf(), (res) =>
@@ -42,10 +51,13 @@ class S.SubmissionList
           audio = document.createElement "audio"
 
           unless audio.canPlayType "audio/mpeg"
-            alert "Yikes, doesn't look like your browser supports audio"
+            alert "Yikes, doesn't look like your browser supports playing MP3s"
+            return
 
           audio.setAttribute "src", res.url
           audio.play()
+          btn.trigger "s:play_audio", [btn]
+          audio_row.data "audio", audio
 
           audio.addEventListener "loadstart", =>
 
@@ -59,7 +71,6 @@ class S.SubmissionList
           audio.addEventListener "ended", =>
             audio_row.removeClass "loaded playing"
 
-          audio_row.data "audio", audio
 
       toggle_like_btn: (btn) =>
         return "continue" unless S.current_user?
