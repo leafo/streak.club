@@ -169,11 +169,22 @@ class SubmissionList extends require "widgets.base"
             mp3_url = "/static/music.mp3"
             div class: "submission_audio", ["data-url"]: mp3_url, ->
               div class: "play_audio_btn"
-              span class: "upload_name", upload.filename
-              span class: "upload_size", @filesize_format upload.size
 
-              div class: "audio_progress_outer", ->
-                div class: "audio_progress_inner"
+              form {
+                class: "download_form"
+                action: @url_for "prepare_download", id: upload.id
+                method: "post"
+              }, ->
+                @csrf_input!
+                button class: "upload_download button", "Download"
+
+              div class: "truncate_content", ->
+                span class: "upload_name", upload.filename
+                span class: "upload_size", @filesize_format upload.size
+
+                div class: "audio_progress_outer", ->
+                  div class: "audio_progress_inner"
+
 
           else
             form {
