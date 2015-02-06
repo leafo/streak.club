@@ -164,8 +164,7 @@ class SubmissionList extends require "widgets.base"
             div class: "submission_image", ->
               a href: @url_for(upload), target: "_blank", ->
                 img src: @url_for upload, "600x"
-
-          if upload\is_audio!
+          elseif upload\is_audio!
             div class: "submission_audio", ->
               div {
                 class: "play_audio_btn"
