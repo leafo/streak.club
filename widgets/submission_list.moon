@@ -170,7 +170,9 @@ class SubmissionList extends require "widgets.base"
               div {
                 class: "play_audio_btn"
                 ["data-audio_url"]: @url_for "prepare_play_audio", id: upload.id
-              }
+              }, ->
+                img class: "play_icon", src: "/static/images/audio_play.svg"
+                img class: "pause_icon", src: "/static/images/audio_pause.svg"
 
               form {
                 class: "download_form"
