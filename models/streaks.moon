@@ -139,7 +139,9 @@ class Streaks extends Model
     true
 
   slug: =>
-    slugify @title
+    slug = slugify @title
+    slug = "-" if slug == ""
+    slug
 
   url_params: =>
     "view_streak", id: @id, slug: @slug!
