@@ -1,37 +1,6 @@
 
 .user_profile {
     .sidebar_streak_list {
-        h3, h4 {
-            margin: 0;
-            @include has_sub_link(#444);
-        }
-
-        h4 {
-            margin-top: 4px;
-            color: #666;
-            @include single_line;
-        }
-
-        .streak_sub {
-            color: #666;
-            font-size: 15px;
-            margin-top: 6px;
-        }
-
-        .streak_row {
-            margin-bottom: 20px;
-        }
-
-        .streak_unit {
-            width: 18px;
-            height: 18px;
-            line-height: 18px;
-        }
-
-        .streak_units {
-            margin-top: 10px;
-        }
-
         .streak_units a {
             &:nth-child(11n) {
                 .streak_unit {
