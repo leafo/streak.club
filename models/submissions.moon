@@ -99,7 +99,11 @@ class Submissions extends Model
       import StreakSubmissions, Streaks from require "models"
       submits = StreakSubmissions\select "where submission_id = ?", @id
       Streaks\include_in submits, "streak_id"
-      @streaks = [s.streak for s in *submits]
+      @streaks = for s in *submits
+        s.streak.streak_submission = s
+        s.streak
+
+      @streaks = {}
 
     @streaks
 

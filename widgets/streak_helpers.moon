@@ -1,7 +1,7 @@
 StreakUnits = require "widgets.streak_units"
 
 class StreakHelpers
-  render_streak_row: (streak) =>
+  render_streak_row: (streak, highlight_date) =>
     div class: "streak_row", ->
       h3 ->
         a href: @url_for(streak), streak.title
@@ -26,5 +26,8 @@ class StreakHelpers
             longest = streak.streak_user\get_longest_streak!
             text "Streak: #{current}, Longest: #{longest}"
 
-        widget StreakUnits streak: streak, completed_units: streak.completed_units
+        widget StreakUnits {
+          :streak, :highlight_date
+          completed_units: streak.completed_units
+        }
 

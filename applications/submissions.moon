@@ -51,14 +51,17 @@ class SubmissionsApplication extends lapis.Application
       @submission.has_more_comments = @submission.comments_count > #@submission.comments
 
       @user = @submission\get_user!
-      @streaks = @submission\get_streaks!
+      @streak_submissions = @submission.streak_submissions -- from preload for list
+
+      streaks = [s.streak for s in *@streak_submissions]
+
       import Users, StreakUsers from require "models"
-      Users\include_in @streaks, "user_id"
-      StreakUsers\include_in @streaks, "streak_id", flip: true, where: {
+      Users\include_in streaks, "user_id"
+      StreakUsers\include_in streaks, "streak_id", flip: true, where: {
         user_id: @user.id
       }
 
-      for streak in *@streaks
+      for streak in *streaks
         streak.streak_user.streak = streak
         streak.completed_units = streak.streak_user\get_completed_units!
 

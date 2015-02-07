@@ -10,6 +10,11 @@ class StreakUnits extends require "widgets.base"
     today = date true
     today_unit = @streak\truncate_date today
 
+    highlight_unit = if @highlight_date
+      @streak\truncate_date(@highlight_date)
+    else
+      today_unit
+
     -- IN LOCAL TIME!
     start_date = date @streak.start_date
     end_date = date @streak.end_date
@@ -31,11 +36,11 @@ class StreakUnits extends require "widgets.base"
       if before_unit
         classes ..= " before_current_unit"
         show_count = true
-      else
-        delta = date.diff(today_unit, current_time)\spandays!
-        if delta == 0
-          classes ..= " current_unit"
-          show_count = true
+
+      delta = date.diff(highlight_unit, current_time)\spandays!
+      if delta == 0
+        classes ..= " current_unit"
+        show_count = true
 
       classes ..= " submitted" if submission_id
 

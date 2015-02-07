@@ -1,6 +1,8 @@
 
 SubmissionList = require "widgets.submission_list"
 
+date = require "date"
+
 class ViewSubmission extends require "widgets.base"
   @needs: {"submission", "streaks"}
   @include "widgets.twitter_card_helpers"
@@ -19,13 +21,13 @@ class ViewSubmission extends require "widgets.base"
     div class: "submission_column", ->
       widget SubmissionList submissions: { @submission }, show_user: true, show_comments: true
 
-    if next @streaks
+    if next @streak_submissions
       div class: "streaks_column", ->
-        if #@streaks == 1
+        if #@streak_submissions == 1
           h2 "Streak"
         else
           h2 "Streaks"
 
-        for streak in *@streaks
-          @render_streak_row streak
+        for submit in *@streak_submissions
+          @render_streak_row submit.streak, date(submit.submit_time)
 
