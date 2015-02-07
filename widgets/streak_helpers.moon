@@ -1,7 +1,7 @@
 StreakUnits = require "widgets.streak_units"
 
 class StreakHelpers
-  render_streak_row: (streak, highlight_date) =>
+  render_streak_row: (streak, highlight_date, show_user_streak=true) =>
     div class: "streak_row", ->
       h3 ->
         a href: @url_for(streak), streak.title
@@ -15,16 +15,17 @@ class StreakHelpers
 
       if streak.completed_units
         p class: "streak_sub", ->
-          if streak\after_end!
-            longest = streak.streak_user\get_longest_streak!
-            rate = streak.streak_user\completion_rate!
-            rate = math.floor rate * 100
+          if show_user_streak
+            if streak\after_end!
+              longest = streak.streak_user\get_longest_streak!
+              rate = streak.streak_user\completion_rate!
+              rate = math.floor rate * 100
 
-            text "Best streak: #{longest}, Completion: #{rate}%"
-          else
-            current = streak.streak_user\get_current_streak!
-            longest = streak.streak_user\get_longest_streak!
-            text "Streak: #{current}, Longest: #{longest}"
+              text "Best streak: #{longest}, Completion: #{rate}%"
+            else
+              current = streak.streak_user\get_current_streak!
+              longest = streak.streak_user\get_longest_streak!
+              text "Streak: #{current}, Longest: #{longest}"
 
         widget StreakUnits {
           :streak, :highlight_date
