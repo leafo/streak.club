@@ -52,6 +52,16 @@ class SubmissionsApplication extends lapis.Application
 
       @user = @submission\get_user!
       @streaks = @submission\get_streaks!
+      import Users, StreakUsers from require "models"
+      Users\include_in @streaks, "user_id"
+      StreakUsers\include_in @streaks, "streak_id", flip: true, where: {
+        user_id: @user.id
+      }
+
+      for streak in *@streaks
+        streak.streak_user.streak = streak
+        streak.completed_units = streak.streak_user\get_completed_units!
+
       @show_welcome_banner = true
       @title = @submission\meta_title!
       render: true

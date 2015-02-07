@@ -4,4 +4,20 @@
     .submission_list {
         margin-top: 0;
     }
+
+    .submission_column, .streaks_column {
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .streaks_column {
+        @include border_box;
+        width: $site_width - 700px;
+        padding-left: 20px;
+        padding-bottom: 60px;
+
+        h2 {
+            margin-top: 0;
+        }
+    }
 }
