@@ -1,6 +1,6 @@
 class TwitterCardHelpers
   twitter_card_thumb_size: "300x300#"
-  twitter_card_default_description: "Streak Club is a place for staying motiviated by doing something creative every day or week"
+  twitter_card_default_description: "Streak Club is a place for staying motivated by doing something creative every day or week"
 
   twitter_card_for_submission: (submission) =>
     uploads = submission\get_uploads!
