@@ -12,6 +12,8 @@ class ViewSubmission extends require "widgets.base"
     @content_for "meta_tags", ->
       @twitter_card_for_submission @submission
 
+    @tweet_builder!
+
     if @submission\allowed_to_edit @current_user
       div class: "owner_tools", ->
         a href: @url_for("edit_submission", id: @submission.id), "Edit submission"
@@ -30,4 +32,15 @@ class ViewSubmission extends require "widgets.base"
 
         for submit in *@streak_submissions
           @render_streak_row submit.streak, date(submit.submit_time), false
+
+  tweet_builder: =>
+    return unless @current_user and @current_user\is_admin!
+    div class: "tweet_builder", ->
+      textarea readonly: true, ->
+        text @submission\meta_title true
+        hashes = ["##{s.streak.twitter_hash}" for s in *@streak_submissions when s.streak.twitter_hash]
+
+        if next hashes
+          text " "
+          text table.concat hashes, " "
 

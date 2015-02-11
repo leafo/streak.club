@@ -270,3 +270,8 @@ class Users extends Model
       order by created_at desc
     ", @id, opts
 
+  -- without @
+  twitter_handle: =>
+    return unless @twitter
+    @twitter\match("twitter.com/([^/]+)") or @twitter\match("^@(.+)") or @twitter
+

@@ -202,15 +202,36 @@ class Submissions extends Model
         likes
     }
 
-  meta_title: =>
+  meta_title: (for_twitter=false) =>
     user = @get_user!
+    streaks = @get_streaks!
 
-    if @title
-      "#{@title} by #{user\name_for_display!}"
+    name = if for_twitter
+      handle = user\get_user_profile!\twitter_handle!
+      handle = "@#{handle}" if handle
+      handle
+
+    name or= user\name_for_display!
+
+    base = if @title
+      "#{@title} by #{name}"
     else
-      streaks = table.concat [s.title for s in *@get_streaks!], ", "
-      "A submission for #{streaks} by #{user\name_for_display!}"
+      streak_names = table.concat [s.title for s in *streaks], ", "
+      "A submission for #{streak_names} by #{name}"
+
+    if #streaks == 1
+      import StreakUsers from require "models"
+      s_user = StreakUsers\find {
+        streak_id: streaks[1].id
+        user_id: @user_id
+      }
+
+      if s_user
+        base ..= " (Streak #{s_user\get_current_streak!})"
+
+    base
 
   slug: =>
     if @title
-      slugify @meta_title!
+      user = @get_user!
+      slugify "#{@title} by #{user\name_for_display!}"

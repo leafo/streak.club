@@ -20,4 +20,16 @@
             margin-top: 0;
         }
     }
+
+    .tweet_builder {
+        position: fixed;
+        top: 70px;
+        left: 10px;
+        background: white;
+        border: 1px solid $border_color;
+        padding: 10px;
+        textarea {
+            height: 200px;
+        }
+    }
 }
