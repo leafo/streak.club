@@ -21,7 +21,7 @@ class EditStreakFlow extends Flow
     streak_params = @params.streak
     trim_filter streak_params, {
       "title", "description", "short_description", "start_date", "end_date",
-      "hour_offset", "publish_status", "rate", "category"
+      "hour_offset", "publish_status", "rate", "category", "twitter_hash"
     }
 
     assert_valid streak_params, {
@@ -34,6 +34,7 @@ class EditStreakFlow extends Flow
       {"publish_status", one_of: Streaks.publish_statuses}
       {"category", one_of: Streaks.categories}
       {"rate", one_of: Streaks.rates}
+      {"twitter_hash", optional: true, max_length: 139}
     }
 
     timezone = assert_timezone @params.timezone
@@ -50,6 +51,14 @@ class EditStreakFlow extends Flow
     end_date = date streak_params.end_date
 
     assert_error start_date < end_date, "start date must be before end date"
+
+    if h = streak_params.twitter_hash
+      h = h\gsub "%s", ""
+      h = h\gsub "#", ""
+      h = nil if #h == 0
+      streak_params.twitter_hash = h
+
+    streak_params.twitter_hash or= db.NULL
 
     streak_params
 

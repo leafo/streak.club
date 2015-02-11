@@ -125,6 +125,14 @@ class EditStreak extends require "widgets.base"
           {"hidden", "Hidden", "Only people with the URL can participate in the streak"}
         }, streak.publish_status and Streaks.publish_statuses\to_name(streak.publish_status) or "draft"
 
+
+      @text_input_row {
+        label: "Twitter Hashtag"
+        sub: "Submitters will be encouraged to share with this hashtag"
+        name: "streak[twitter_hash]"
+        value: streak.twitter_hash
+      }
+
       div class: "button_row", ->
         button class: "button", "Save"
 

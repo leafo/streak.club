@@ -378,6 +378,8 @@ import
       "PRIMARY KEY (upload_id, date)"
     }
 
+  [1423678535]: =>
+    add_column "streaks", "twitter_hash", text null: true
 }
 
 
