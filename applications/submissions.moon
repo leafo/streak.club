@@ -62,8 +62,10 @@ class SubmissionsApplication extends lapis.Application
       }
 
       for streak in *streaks
-        streak.streak_user.streak = streak
-        streak.completed_units = streak.streak_user\get_completed_units!
+        -- doesn't exist if they joined, submitted, then left
+        if streak.streak_user
+          streak.streak_user.streak = streak
+          streak.completed_units = streak.streak_user\get_completed_units!
 
       @show_welcome_banner = true
       @title = @submission\meta_title!
