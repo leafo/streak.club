@@ -5,6 +5,10 @@ class FeaturedStreaks extends Model
   @primary_key: "streak_id"
   @timestamp: true
 
+  @relations: {
+    {"streak", belongs_to: "Streaks"}
+  }
+
   @create: (opts={}) =>
     opts.position = db.raw "(select coalesce(max(position) + 1, 0) from featured_streaks)"
     Model.create @, opts

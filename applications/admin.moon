@@ -18,7 +18,29 @@ class AdminApplication extends lapis.Application
     unless @current_user and @current_user\is_admin!
       @write not_found
 
-  [admin_featured_streak: "/feature/:id"]: respond_to {
+  [admin_feature_submission: "/feature-submission/:id"]: respond_to {
+    POST: capture_errors_json =>
+      assert_csrf @
+      import Submissions, FeaturedSubmissions from require "models"
+
+      submission = assert_error Submissions\find(@params.id), "invalid submission"
+
+      assert_valid @params, {
+        {"action", one_of: {"create", "delete"}}
+      }
+
+      res = switch @params.action
+        when "create"
+          FeaturedSubmissions\create submission_id: submission.id
+        when "delete"
+          FeaturedSubmissions\load(submission_id: submission.id)\delete!
+
+      json: { success: true, :res }
+
+  }
+
+
+  [admin_featured_streak: "/feature-streak/:id"]: respond_to {
     POST: capture_errors_json =>
       assert_csrf @
 

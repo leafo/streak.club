@@ -35,7 +35,21 @@ class ViewSubmission extends require "widgets.base"
 
   tweet_builder: =>
     return unless @current_user and @current_user\is_admin!
-    div class: "tweet_builder", ->
+    div class: "admin_tools", ->
+      div ->
+        strong "Feature"
+
+      form method: "post", action: @url_for("admin_feature_submission", id: @submission.id), ->
+        feature = @submission\get_featured_submission!
+        @csrf_input!
+        if feature
+          button name:"action", value: "delete", "Unfeature"
+        else
+          button name:"action", value: "create", "Feature"
+
+      div ->
+        strong "Tweet builder"
+
       textarea readonly: true, ->
         text @submission\meta_title true
         hashes = ["##{s.streak.twitter_hash}" for s in *@streak_submissions when s.streak.twitter_hash]

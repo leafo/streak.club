@@ -148,6 +148,19 @@ CREATE TABLE featured_streaks (
 ALTER TABLE featured_streaks OWNER TO postgres;
 
 --
+-- Name: featured_submissions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE featured_submissions (
+    submission_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE featured_submissions OWNER TO postgres;
+
+--
 -- Name: followings; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -651,6 +664,14 @@ ALTER TABLE ONLY featured_streaks
 
 
 --
+-- Name: featured_submissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY featured_submissions
+    ADD CONSTRAINT featured_submissions_pkey PRIMARY KEY (submission_id);
+
+
+--
 -- Name: followings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1000,6 +1021,7 @@ COPY lapis_migrations (name) FROM stdin;
 1423123029
 1423209193
 1423678535
+1423712362
 \.
 
 

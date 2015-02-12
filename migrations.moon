@@ -380,6 +380,16 @@ import
 
   [1423678535]: =>
     add_column "streaks", "twitter_hash", text null: true
+
+
+  [1423712362]: =>
+    create_table "featured_submissions", {
+      {"submission_id", foreign_key}
+      {"created_at", time}
+      {"updated_at", time}
+
+      "PRIMARY KEY (submission_id)"
+    }
 }
 
 

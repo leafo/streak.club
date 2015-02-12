@@ -8,6 +8,7 @@ class Submissions extends Model
 
   @relations: {
     {"user", belongs_to: "Users"}
+    {"featured_submission", has_one: "FeaturedSubmissions"}
   }
 
   @user_ratings: enum {
