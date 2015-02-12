@@ -99,7 +99,16 @@ class extends lapis.Application
     render: true
 
   [stats: "/stats"]: =>
+    import Submissions, Streaks, SubmissionComments, SubmissionLikes from require "models"
+
     import cumulative_created from require "helpers.stats"
+
     @cumulative_users = cumulative_created Users
+    @cumulative_streaks = cumulative_created Streaks
+
+    @cumulative_submissions = cumulative_created Submissions
+    @cumulative_submission_comments = cumulative_created SubmissionComments
+    @cumulative_submission_likes = cumulative_created SubmissionLikes
+
     render: true
 
