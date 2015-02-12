@@ -100,5 +100,6 @@ class extends lapis.Application
 
   [stats: "/stats"]: =>
     import cumulative_created from require "helpers.stats"
-    json: cumulative_created Users
+    @cumulative_users = cumulative_created Users
+    render: true
 
