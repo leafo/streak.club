@@ -97,3 +97,8 @@ class extends lapis.Application
 
   [privacy_policy: "/privacy-policy"]: =>
     render: true
+
+  [stats: "/stats"]: =>
+    import cumulative_created from require "helpers.stats"
+    json: cumulative_created Users
+
