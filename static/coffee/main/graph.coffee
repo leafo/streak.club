@@ -11,7 +11,7 @@ class S.Grapher
   margin_left: 40
   margin_bottom: 30
   margin_right: 30
-  margin_top: 20
+  margin_top: 40
 
   dot_hitbox_w: 30
   dot_hitbox_h: 120
@@ -169,7 +169,7 @@ class S.Grapher
     # label
     label = @svg.append("g")
       .attr("class", "label")
-      .attr("transform", "translate(#{@margin_left}, 10)")
+      .attr("transform", "translate(#{@margin_left}, 25)")
 
     label.append("circle")
       .attr("cx", 0)

@@ -22,10 +22,10 @@ class Stats extends require "widgets.base"
     div class: "page_header", ->
       h2 "Stats"
 
-      div id: "users_graph", class: "graph_container"
-      div id: "submissions_graph", class: "graph_container"
-      div id: "submission_likes_graph", class: "graph_container"
-      div id: "submission_comments_graph", class: "graph_container"
-      div id: "streaks_graph", class: "graph_container"
+    div id: "users_graph", class: "graph_container"
+    div id: "submissions_graph", class: "graph_container"
+    div id: "submission_likes_graph", class: "graph_container"
+    div id: "submission_comments_graph", class: "graph_container"
+    div id: "streaks_graph", class: "graph_container"
 
 
