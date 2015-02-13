@@ -80,8 +80,7 @@ class Streaks extends Model
 
   leave: (user) =>
     if su = @has_user user
-      res = su\delete!
-      if res.affected_rows > 0
+      if su\delete!
         @update { users_count: db.raw "users_count - 1" }, timestamp: false
         return true
 

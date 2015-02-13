@@ -37,7 +37,7 @@ class SubmissionLikes extends Model
     }, timestamp: false
 
   delete: =>
-    with out = super!
-      if out.affected_rows and out.affected_rows > 0
-        @increment -1
+    if super!
+      @increment -1
+      true
 

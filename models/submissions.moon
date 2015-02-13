@@ -150,31 +150,30 @@ class Submissions extends Model
       }
 
   delete: =>
-    res = super!
-    if res.affected_rows and res.affected_rows > 0
-      import
-        SubmissionLikes
-        SubmissionTags
-        StreakSubmissions
-        Streaks
-        Uploads
-        from require "models"
+    return unless super!
+    import
+      SubmissionLikes
+      SubmissionTags
+      StreakSubmissions
+      Streaks
+      Uploads
+      from require "models"
 
-      db.update Streaks\table_name!, {
-        submissions_count: db.raw "submissions_count - 1"
-      }, db.interpolate_query "id in (select streak_id from streak_submissions where submission_id = ?)", @id
+    db.update Streaks\table_name!, {
+      submissions_count: db.raw "submissions_count - 1"
+    }, db.interpolate_query "id in (select streak_id from streak_submissions where submission_id = ?)", @id
 
-      for model in *{SubmissionLikes, SubmissionTags, StreakSubmissions}
-        db.delete model\table_name!, submission_id: @id
+    for model in *{SubmissionLikes, SubmissionTags, StreakSubmissions}
+      db.delete model\table_name!, submission_id: @id
 
-      uploads = Uploads\select [[
-        where object_type = ? and object_id = ?
-      ]], Uploads.object_types.submission, @id
+    uploads = Uploads\select [[
+      where object_type = ? and object_id = ?
+    ]], Uploads.object_types.submission, @id
 
-      for u in *uploads
-        u\delete!
+    for u in *uploads
+      u\delete!
 
-    res
+    true
 
   find_comments: (opts={}) =>
     import SubmissionComments, Users from require "models"
