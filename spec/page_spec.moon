@@ -6,7 +6,7 @@ import
 import request, request_as from require "spec.helpers"
 
 import truncate_tables from require "lapis.spec.db"
-import Users, UserProfiles from require "models"
+import Users, UserProfiles, Streaks from require "models"
 
 factory = require "spec.factory"
 
@@ -18,7 +18,7 @@ describe "page", ->
     close_test_server!
 
   before_each ->
-    truncate_tables Users, UserProfiles
+    truncate_tables Users, UserProfiles, Streaks
 
   should_load = (path) ->
     it "should load #{path}", ->
