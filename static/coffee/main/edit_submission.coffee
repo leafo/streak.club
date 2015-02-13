@@ -115,6 +115,10 @@ class UploaderManager
     upload = new Upload upload
     @upload_list.append upload.el
 
+  reset_upload_positions: =>
+    for input, i in @upload_list.find(".position_input")
+      $(input).val i
+
 class S.EditSubmission
   constructor: (el, @opts) ->
     @el = $ el
@@ -135,14 +139,17 @@ class S.EditSubmission
       move_down_btn: (btn) =>
         upload = btn.closest ".file_upload"
         upload.swap_with upload.next ".file_upload"
+        @upload_manager.reset_upload_positions()
 
       move_up_btn: (btn) =>
         upload = btn.closest ".file_upload"
         upload.swap_with upload.prev ".file_upload"
+        @upload_manager.reset_upload_positions()
 
       delete_btn: (btn) =>
         if confirm "Are you sure you want to remove this file?"
           btn.closest(".file_upload").remove()
+          @upload_manager.reset_upload_positions()
     }
 
   setup_uploads:  =>

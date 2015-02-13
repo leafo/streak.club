@@ -115,7 +115,12 @@ class EditSubmission extends require "widgets.base"
 
     @js_template "file_upload", =>
       div class: "file_upload", ->
-        input type: "hidden", name: "upload[{{ id }}][position]", value: "{{ position }}"
+        input {
+          type: "hidden"
+          class: "position_input"
+          name: "upload[{{ id }}][position]"
+          value: "{{ position }}"
+        }
 
         div ->
           div class: "upload_tools", ->
