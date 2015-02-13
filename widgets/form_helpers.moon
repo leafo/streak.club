@@ -1,7 +1,7 @@
 
 class FormHelpers
   text_input_row: (opts) =>
-    @input_row opts.label, opts.sub, ->
+    inside = ->
       if opts.between
         opts.between!
 
@@ -22,22 +22,28 @@ class FormHelpers
           class: opts.class
         }
 
+    @input_row opts.label, opts.sub, inside, true
 
-  input_row: (title, sub, fn) =>
+
+  input_row: (title, sub, fn, wrap_label=false) =>
     if type(sub) == "function"
       fn = sub
       sub = nil
 
     div class: "input_row", ->
-      label ->
+      label_inside = ->
         div class: "label", ->
           text title
           if sub
             span class: "sub", ->
               raw " &mdash; "
               text sub
-
         fn!
+
+      if wrap_label
+        label label_inside
+      else
+        label_inside!
 
   -- @checkboxes "game", {
   --   {"p_windows", "Windows"}
