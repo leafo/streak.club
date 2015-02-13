@@ -301,3 +301,23 @@ class StreaksApplication extends lapis.Application
     @title = "Embed #{@streak.title}"
     render: true
 
+  [streak_stats: "/s/:id/:slug/stats"]: capture_errors {
+    on_error: => not_found
+
+    =>
+      find_streak @
+      check_slug @
+
+      import cumulative_created from require "helpers.stats"
+      import StreakSubmissions, StreakUsers from require "models"
+
+      @cumulative_users = cumulative_created StreakUsers, {
+        streak_id: @streak.id
+      }
+
+      @cumulative_submissions = cumulative_created StreakSubmissions, {
+        streak_id: @streak.id
+      }, "submit_time"
+
+      render: true
+  }

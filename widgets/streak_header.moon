@@ -33,4 +33,6 @@ class StreakHeader extends require "widgets.base"
         @url_for("view_streak_participants", slug: @streak\slug!, id: @streak.id),
         "(#{@streak.users_count})"
 
+      @page_tab "Stats", "stats", @url_for "streak_stats", slug: @streak\slug!, id: @streak.id
+
 
