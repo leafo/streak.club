@@ -239,7 +239,7 @@ class Streaks extends Model
     math.min 1,
       date.diff(now, start)\spandays! / date.diff(@end_datetime!, start)\spandays!
 
-  -- UTC contained in streak
+  -- checks if UTC date is contained in streak
   date_in_streak: (d) =>
     return false if d < @start_datetime!
     return false if @end_datetime! < d
@@ -258,9 +258,12 @@ class Streaks extends Model
         unix_start = date.diff(start, date.epoch!)\spanseconds!
 
         db.interpolate_query [[
-          to_timestamp(
-            (extract(epoch from submit_time)::integer - ?) / ? * ? + ?)::date submit_day
-        ]], unix_start, one_week, one_week, unix_start
+          (
+            to_timestamp(
+              (extract(epoch from submit_time)::integer - ?) / ? * ? + ?
+            ) at time zone 'UTC' + ?::interval
+          )::date submit_day
+        ]], unix_start, one_week, one_week, unix_start, "#{@hour_offset} hours"
       else
         error "don't know how to "
 
