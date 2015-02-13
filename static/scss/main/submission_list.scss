@@ -309,6 +309,10 @@
 
         .user_formatted {
             padding: 15px 20px;
+
+            pre {
+                overflow-x: scroll;
+            }
         }
 
         .unit_number {
