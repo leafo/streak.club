@@ -10,7 +10,7 @@ class S.StreakStats
     }
 
 
-    new S.CumulativeGrapher "#submissions_graph", graphs.cumulative_users, {
+    new S.CumulativeGrapher "#submissions_graph", graphs.cumulative_submissions, {
       label: "Total submissions"
       min_y: 10
     }
