@@ -66,7 +66,7 @@ class Base extends Widget
     else
       "ago"
 
-    time_ago_in_words d, nil, suffix
+    time_ago_in_words tostring(d), nil, suffix
 
   plural: (num, single, plural) =>
     if num == 1 or num == "1"
