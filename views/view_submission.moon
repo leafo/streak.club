@@ -12,7 +12,7 @@ class ViewSubmission extends require "widgets.base"
     @content_for "meta_tags", ->
       @twitter_card_for_submission @submission
 
-    @tweet_builder!
+    @admin_tools!
 
     if @submission\allowed_to_edit @current_user
       div class: "owner_tools", ->
@@ -33,9 +33,11 @@ class ViewSubmission extends require "widgets.base"
         for submit in *@streak_submissions
           @render_streak_row submit.streak, date(submit.submit_time), false
 
-  tweet_builder: =>
+  admin_tools: =>
     return unless @current_user and @current_user\is_admin!
     div class: "admin_tools", ->
+      a href: @url_for("admin_submission", id: @submission.id), "Admin"
+
       div ->
         strong "Feature"
 

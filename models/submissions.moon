@@ -104,8 +104,6 @@ class Submissions extends Model
         s.streak.streak_submission = s
         s.streak
 
-      @streaks = {}
-
     @streaks
 
   get_uploads: =>

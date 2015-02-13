@@ -70,6 +70,20 @@ class AdminApplication extends lapis.Application
       render: true
   }
 
+
+  [admin_submission: "/submission/:id"]: capture_errors_json respond_to {
+    before: =>
+      import Submissions from require "models"
+      @submission = assert_error Submissions\find(@params.id), "invalid submission"
+
+    GET: =>
+      render: true
+
+    POST: =>
+      assert_csrf @
+  }
+
+
   [admin_user: "/user/:id"]: capture_errors_json respond_to {
     before: =>
       import Users from require "models"
