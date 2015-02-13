@@ -1,4 +1,6 @@
 
+import time_ago_in_words from require "lapis.util"
+
 class TableHelpers
   field_table: (object, fields, extra_fields) =>
     element "table", class: "nice_table field_table", ->
@@ -22,7 +24,7 @@ class TableHelpers
           when "boolean"
             style = "color: #{val and "green" or "red"}"
           when "number"
-            val = @format_number val
+            val = @number_format val
           when "nil"
             style = "color: gray; font-style: italic"
 

@@ -188,6 +188,8 @@ class ViewStreak extends require "widgets.base"
     feature = @streak\get_featured_streak!
 
     div class: "admin_tools", ->
+      a href: @url_for("admin_streak", id: @streak.id), "Admin"
+
       form action: @url_for("admin_featured_streak", id: @streak.id), method: "POST", ->
         @csrf_input!
         if feature

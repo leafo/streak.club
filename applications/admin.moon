@@ -61,6 +61,15 @@ class AdminApplication extends lapis.Application
       json: { success: true, :res }
   }
 
+  [admin_streak: "/streak/:id"]: capture_errors_json respond_to {
+    before: =>
+      import Streaks from require "models"
+      @streak = assert_error Streaks\find(@params.id), "invalid streak"
+
+    GET: =>
+      render: true
+  }
+
   [admin_user: "/user/:id"]: capture_errors_json respond_to {
     before: =>
       import Users from require "models"

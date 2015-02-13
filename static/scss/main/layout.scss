@@ -369,3 +369,50 @@ a {
         margin-right: 10px;
     }
 }
+
+
+.nice_table {
+    border: 1px solid gray;
+    margin-bottom: 20px;
+
+    &.field_table {
+        tr:nth-child(2n) {
+            background: #eee;
+        }
+
+        td:first-child {
+            text-align: right;
+        }
+    }
+
+    thead {
+        td {
+            background: #eee;
+            font-weight: bold;
+            color: #444;
+        }
+    }
+
+    .empty_row {
+        color: #666;
+        font-style: italic;
+    }
+
+    td {
+        padding: 4px;
+    }
+
+    .sub {
+        color: #666;
+        font-style: italic;
+    }
+
+    a {
+        color: #666;
+    }
+}
+
+
+fieldset {
+    border: 1px solid $border_color;
+}
