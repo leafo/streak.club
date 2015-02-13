@@ -81,6 +81,41 @@ class AdminApplication extends lapis.Application
 
     POST: =>
       assert_csrf @
+      assert_valid @params, {
+        {"action", one_of: {"remove_submission", "update_submission"}}
+      }
+
+      import StreakSubmissions from require "models"
+
+      switch @params.action
+        when "remove_submission"
+          assert_error @params.confirm == "true", "Please tick confirm"
+
+          submit = StreakSubmissions\find {
+            submission_id: @submission.id
+            streak_id: @params.streak_id
+          }
+
+          submit\delete!
+          @session.flash = "Submission removed from streak"
+        when "update_submission"
+          submit = StreakSubmissions\find {
+            submission_id: @submission.id
+            streak_id: @params.streak_id
+          }
+
+          assert_valid @params, {
+            {"submit", type: "table"}
+          }
+
+          submit_update = trim_filter @params.submit
+          submit\update {
+            submit_time: submit_update.submit_time
+            late_submit: not not submit_update.late_submit
+          }
+          @session.flash = "Submission updated"
+
+      redirect_to: @url_for "admin_submission", id: @params.id
   }
 
 

@@ -42,7 +42,6 @@ class AdminSubmission extends require "widgets.base"
         form method: "post", class: "form", ->
           @csrf_input!
           input type: "hidden", name: "streak_id", value: streak.id
-          input type: "hidden", name: "submission_id", value: @submission.id
 
           div class: "input_row", ->
             input type: "checkbox", name: "confirm", value: "true"
@@ -50,16 +49,21 @@ class AdminSubmission extends require "widgets.base"
 
         @field_table streak.streak_submission, {
           {"streak id", -> text streak.id}
-          {"streak", -> a href: @url_for(streak), streak.title}
+          {"streak", ->
+            a href: @url_for(streak), streak.title
+            text " ("
+            a href: @url_for("admin_streak", id: streak.id), "Admin"
+            text ")"
+          }
           "submit_time"
           "late_submit"
+          {"unit_number", -> text streak.streak_submission\unit_number! }
         }
 
 
         form method: "post", class: "form", ->
           @csrf_input!
           input type: "hidden", name: "streak_id", value: streak.id
-          input type: "hidden", name: "submission_id", value: @submission.id
 
           @text_input_row {
             name: "submit[submit_time]"
@@ -72,5 +76,5 @@ class AdminSubmission extends require "widgets.base"
               {"late_submit", "Late submit"}
             }, streak.streak_submission
 
-          button name: "action", value: "set_submit_time", "Update"
+          button name: "action", value: "update_submission", "Update"
 

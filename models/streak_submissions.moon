@@ -15,3 +15,10 @@ class StreakSubmissions extends Model
   unit_number: =>
     @get_streak!\unit_number_for_date date @submit_time
 
+  delete: =>
+    if super!
+      streak = @get_streak!
+      streak\update {
+        submissions_count: db.raw "submissions_count - 1"
+      }
+      true
