@@ -236,6 +236,10 @@ a {
 .base_widget {
     width: $site_width;
     margin: 40px auto;
+    .responsive {
+        max-width: $site_width;
+        width: auto;
+    }
 }
 
 .global_flash {
