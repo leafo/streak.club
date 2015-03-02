@@ -390,6 +390,9 @@ import
 
       "PRIMARY KEY (submission_id)"
     }
+
+  [1425376265]: =>
+    add_column "user_profiles", "password_reset_token", varchar null: true
 }
 
 
