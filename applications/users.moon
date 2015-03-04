@@ -271,3 +271,43 @@ class UsersApplication extends lapis.Application
 
     json: { success: success or false }
 
+
+  [user_forgot_password: "/user/forgot-password"]: respond_to {
+    before: =>
+      -- validate token
+
+
+    GET: capture_errors =>
+      render: true
+
+    POST: capture_errors =>
+      assert_csrf @
+
+      if validate_token @, "password_reset_token"
+        assert_valid @params, {
+          { "password", exists: true, min_length: 2 }
+          { "password_repeat", equals: @params.password }
+        }
+        @user\update_password @params.password, @
+        @user.data\update { password_reset_token: db.NULL }
+        @session.flash = "Your password has been updated"
+        redirect_to: @url_for"index"
+      else
+        assert_valid @params, {
+          { "email", exists: true, min_length: 3 }
+        }
+
+        user = assert_error Users\find({ [db.raw("lower(email)")]: @params.email\lower! }),
+          "don't know anyone with that email"
+
+        token = user\generate_password_reset!
+
+        reset_url = @build_url @url_for"user_forgot_password",
+          query: "token=#{token}&id=#{user.id}"
+
+        mailer = require "emails.reset_password"
+        mailer\send @, user.email, { :reset_url, :user }
+
+        redirect_to: @url_for"user_forgot_password" .. "?sent=true"
+  }
+
