@@ -393,6 +393,24 @@ import
 
   [1425376265]: =>
     add_column "user_profiles", "password_reset_token", varchar null: true
+
+  [1425545586]: =>
+    create_table "api_keys", {
+      {"id", serial}
+
+      {"key", varchar}
+      {"source", integer}
+      {"user_id", foreign_key}
+
+      {"created_at", time}
+      {"updated_at", time}
+
+      "PRIMARY KEY (id)"
+    }
+
+    create_index "api_keys", "key", unique: true
+    create_index "api_keys", "user_id"
+
 }
 
 
