@@ -97,6 +97,11 @@ Followings = (opts={}) ->
   opts.dest_user_id or= Users!.id
   models.Followings\create opts
 
+ApiKeys = (opts={}) ->
+  opts.user_id or= Users!.id
+  opts.source or= "web"
+  models.ApiKeys\create opts
+
 
 { :Users, :Streaks, :Submissions, :StreakUsers, :StreakSubmissions,
-  :SubmissionComments, :Followings }
+  :SubmissionComments, :Followings, :ApiKeys }

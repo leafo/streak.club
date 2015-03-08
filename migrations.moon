@@ -410,7 +410,6 @@ import
 
     create_index "api_keys", "key", unique: true
     create_index "api_keys", "user_id"
-
 }
 
 
