@@ -22,3 +22,31 @@ describe "api", ->
   it "it should create api key", ->
     assert factory.ApiKeys!
 
+  it "it should log in user", ->
+    user = factory.Users username: "leafo", password: "leafo"
+    status, res = request "/api/1/login", {
+      post: {
+        source: "ios"
+        username: "leafo"
+        password: "leafo"
+      }
+      expect: "json"
+    }
+
+    assert.same 200, status
+    key = assert res.key
+    assert.same ApiKeys.sources.ios, key.source
+    assert.same user.id, key.user_id
+
+    -- try again, re-use key
+    status, res = request "/api/1/login", {
+      post: {
+        source: "ios"
+        username: "leafo"
+        password: "leafo"
+      }
+      expect: "json"
+    }
+
+    assert.same key, res.key
+

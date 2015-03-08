@@ -2,9 +2,9 @@
 lapis = require "lapis"
 
 import assert_valid from require "lapis.validate"
-import capture_errors_json from require "lapis.application"
+import capture_errors_json, assert_error from require "lapis.application"
 
-import ApiKeys from require "models"
+import ApiKeys, Users from require "models"
 
 api_request = (fn) ->
   capture_errors_json =>
@@ -29,7 +29,10 @@ class StreakApi extends lapis.Application
     ]], user.id, ApiKeys.sources\for_db @params.source
 
     unless key
-      key = ApiKeys\generate user.id, @params.source
+      key = ApiKeys\create {
+        user_id: user.id
+        source: @params.source
+      }
 
     json: { :key }
 

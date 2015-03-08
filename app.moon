@@ -22,6 +22,7 @@ class extends lapis.Application
   @include "applications.submissions"
   @include "applications.uploads"
   @include "applications.admin"
+  @include "applications.api"
 
   @before_filter =>
     @current_user = Users\read_session @

@@ -276,11 +276,12 @@ class UsersApplication extends lapis.Application
     before: =>
       -- validate token
 
-
     GET: capture_errors =>
+      error "not yet"
       render: true
 
     POST: capture_errors =>
+      error "not yet"
       assert_csrf @
 
       if validate_token @, "password_reset_token"
