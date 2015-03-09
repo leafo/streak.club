@@ -21,5 +21,19 @@ class ApiKeys extends Model
     opts.source = @sources\for_db opts.source
     Model.create @, opts
 
+
+  @find_or_create: (user_id, source) =>
+    source = @sources\for_db source
+
+    key = unpack @select [[
+      where user_id = ? and source = ?
+    ]], user_id, source
+
+    unless key
+      key = @create user_id: user_id, :source
+
+    key
+
+
   url_key: => @key
 

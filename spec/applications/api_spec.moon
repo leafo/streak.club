@@ -50,6 +50,23 @@ describe "api", ->
 
     assert.same key, res.key
 
+
+  it "should register user", ->
+    status, res = request "/api/1/register", {
+      post: {
+        source: "ios"
+        username: "leafo"
+        password: "leafo"
+        password_repeat: "leafo"
+        email: "leafo@example.com"
+      }
+      expect: "json"
+    }
+
+    assert.truthy res.key
+    assert.same 1, #Users\select!
+
+
   describe "with key", ->
     local api_key, current_user
 
@@ -68,11 +85,7 @@ describe "api", ->
       assert.same 200, status
       assert.same {
         hosted: {}
-        joined: {
-          upcoming: {}
-          active: {}
-          completed: {}
-        }
+        joined: {}
       }, res
 
 
