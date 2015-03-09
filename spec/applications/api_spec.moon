@@ -50,3 +50,41 @@ describe "api", ->
 
     assert.same key, res.key
 
+  describe "with key", ->
+    local api_key, current_user
+
+    request_with_key = (url, opts={}) ->
+      opts.get or= {}
+      opts.get.key = api_key.key
+      opts.expect = "json"
+      request url, opts
+
+    before_each ->
+      api_key = factory.ApiKeys!
+      current_user = api_key\get_user!
+
+    it "should get empty my-streaks", ->
+      status, res = request_with_key "/api/1/my-streaks"
+      assert.same 200, status
+      assert.same {
+        upcoming: {}
+        active: {}
+        completed: {}
+      }, res
+
+
+    it "should get my-streaks with streaks", ->
+      s1 = factory.Streaks state: "before_start"
+      s2 = factory.Streaks state: "after_end"
+      s3 = factory.Streaks state: "during"
+
+      for s in *{s1, s2}
+        factory.StreakUsers user_id: current_user.id, streak_id: s.id
+
+      status, res = request_with_key "/api/1/my-streaks"
+      assert.same 200, status
+
+      assert.same {}, res.active
+      assert.same {s1.id}, [s.id for s in *res.upcoming]
+      assert.same {s2.id}, [s.id for s in *res.completed]
+
