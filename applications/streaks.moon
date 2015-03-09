@@ -10,11 +10,12 @@ import
   yield_error
   from require "lapis.application"
 
-import require_login,
-  not_found,
-  assert_unit_date,
+import require_login
+  not_found
+  assert_unit_date
   assert_page
   parse_filters
+  find_streak
   from require "helpers.app"
 
 import assert_valid from require "lapis.validate"
@@ -47,16 +48,6 @@ browse_filters = {
     completed: true
   }
 }
-
-find_streak = =>
-  assert_valid @params, {
-    {"id", is_integer: true}
-  }
-
-  @streak = assert_error Streaks\find(@params.id), "invalid streak"
-  assert_error @streak\allowed_to_view @current_user
-  @streak_user = @streak\has_user @current_user
-  true
 
 check_slug = =>
   assert_error @streak, "missing streak"

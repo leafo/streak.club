@@ -64,6 +64,19 @@ parse_filters = (str, valid_keys) ->
 
   out, has_invalid
 
+find_streak = =>
+  assert_valid @params, {
+    {"id", is_integer: true}
+  }
+
+  import Streaks from require "models"
+
+  @streak = assert_error Streaks\find(@params.id), "invalid streak"
+  assert_error @streak\allowed_to_view @current_user
+  @streak_user = @streak\has_user @current_user
+  true
+
 
 { :not_found, :require_login, :require_admin, :assert_timezone,
-  :login_and_return_url, :assert_unit_date, :assert_page, :parse_filters }
+  :login_and_return_url, :assert_unit_date, :assert_page, :parse_filters,
+  :find_streak }
