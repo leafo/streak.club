@@ -410,6 +410,10 @@ import
 
     create_index "api_keys", "key", unique: true
     create_index "api_keys", "user_id"
+
+  [1425941245]: =>
+    create_index "user_profiles", "password_reset_token", where: "password_reset_token is not null"
+
 }
 
 

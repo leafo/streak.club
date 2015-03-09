@@ -72,6 +72,15 @@ class Users extends Model
       key: @salt!
     }
 
+  generate_password_reset: =>
+    profile = @get_user_profile!
+    import generate_key from require "helpers.keys"
+
+    token = generate_key 30
+    profile\update password_reset_token: token
+
+    "#{@id}-#{token}"
+
   check_password: (pass) =>
     bcrypt.verify pass, @encrypted_password
 

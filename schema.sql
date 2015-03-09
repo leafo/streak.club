@@ -997,6 +997,13 @@ CREATE INDEX uploads_user_id_type_idx ON uploads USING btree (user_id, type);
 
 
 --
+-- Name: user_profiles_password_reset_token_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX user_profiles_password_reset_token_idx ON user_profiles USING btree (password_reset_token) WHERE (password_reset_token IS NOT NULL);
+
+
+--
 -- Name: users_lower_email_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1091,6 +1098,7 @@ COPY lapis_migrations (name) FROM stdin;
 1423712362
 1425376265
 1425545586
+1425941245
 \.
 
 

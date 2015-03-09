@@ -5,6 +5,10 @@ class UserProfiles extends Model
   @primary_key: {"user_id"}
   @timestamp: true
 
+  @relations: {
+    {"user", belongs_to: "Users"}
+  }
+
   -- without @
   twitter_handle: =>
     return unless @twitter

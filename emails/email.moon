@@ -7,7 +7,7 @@ class Email extends Widget
     i\subject!, i\render_to_string!, html: true
 
   @send: (r, recipient, widget_opts, email_opts) =>
-    import send_email from require "email"
+    import send_email from require "helpers.email"
     email_opts or= html: true
     subject, body = @render r, widget_opts
     send_email recipient, subject, body, email_opts

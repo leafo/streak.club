@@ -274,41 +274,51 @@ class UsersApplication extends lapis.Application
 
   [user_forgot_password: "/user/forgot-password"]: respond_to {
     before: =>
-      -- validate token
+      import UserProfiles from require "models"
+      trim_filter @params
+
+      if @params.token and "string" == type @params.token
+        id, token = @params.token\match "^(%d+)-(.*)"
+        if id
+          @profile = UserProfiles\find {
+            user_id: id
+            password_reset_token: token
+          }
+
+      if @profile
+        @user = @profile\get_user!
 
     GET: capture_errors =>
-      error "not yet"
       render: true
 
     POST: capture_errors =>
-      error "not yet"
       assert_csrf @
 
-      if validate_token @, "password_reset_token"
+      if @profile
         assert_valid @params, {
           { "password", exists: true, min_length: 2 }
           { "password_repeat", equals: @params.password }
         }
-        @user\update_password @params.password, @
-        @user.data\update { password_reset_token: db.NULL }
+        @user\set_password @params.password, @
+        @profile\update { password_reset_token: db.NULL }
         @session.flash = "Your password has been updated"
+        @user\write_session @
         redirect_to: @url_for"index"
       else
         assert_valid @params, {
           { "email", exists: true, min_length: 3 }
         }
 
-        user = assert_error Users\find({ [db.raw("lower(email)")]: @params.email\lower! }),
-          "don't know anyone with that email"
+        user = assert_error Users\find({
+          [db.raw("lower(email)")]: @params.email\lower!
+        }), "don't know anyone with that email"
 
         token = user\generate_password_reset!
 
-        reset_url = @build_url @url_for"user_forgot_password",
-          query: "token=#{token}&id=#{user.id}"
-
-        mailer = require "emails.reset_password"
+        reset_url = @build_url @url_for "user_forgot_password", nil, { :token }
+        mailer = require "emails.password_reset"
         mailer\send @, user.email, { :reset_url, :user }
-
-        redirect_to: @url_for"user_forgot_password" .. "?sent=true"
+        @session.flash = "Password reset email has been updated"
+        redirect_to: @url_for "index"
   }
 
