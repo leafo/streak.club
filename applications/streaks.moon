@@ -269,31 +269,11 @@ class StreaksApplication extends lapis.Application
       do return redirect_to: @url_for "streaks"
 
     @filters or= {}
-
-    clause = {
-      publish_status: Streaks.publish_statuses.published
-    }
-
-    if t = @filters.type
-      clause.category = Streaks.categories\for_db t
-
-    time_clause = if s = @filters.state
-      s = "active" if s == "in-progress"
-      Streaks\_time_clause s
-
     @title = "Browse Streaks"
-    @pager = Streaks\paginated "
-      where #{db.encode_clause clause}
-      #{time_clause and "and " .. time_clause or ""}
-      order by users_count desc
-    ", {
-      per_page: 100
-      prepare_results: (streaks) ->
-        Users\include_in streaks, "user_id"
-        streaks
-    }
+    import BrowseStreaksFlow from require "flows.browse_streaks"
 
-    @streaks = @pager\get_page 1
+    flow = BrowseStreaksFlow @
+    flow\browse_by_filters @filters
     render: true
 
   [streak_embed: "/streak/:id/embed"]: =>
