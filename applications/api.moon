@@ -2,12 +2,11 @@
 lapis = require "lapis"
 
 import assert_valid from require "lapis.validate"
-import capture_errors_json, assert_error from require "lapis.application"
+import capture_errors_json, assert_error, respond_to from require "lapis.application"
 import trim_filter from require "lapis.util"
 import ApiKeys, Users from require "models"
 
-
-import assert_page from require "helpers.app"
+import find_streak from require "helpers.app"
 
 api_request = (fn) ->
   capture_errors_json =>
@@ -100,5 +99,23 @@ class StreakApi extends lapis.Application
       streaks: [format_streak streak for streak in *@streaks]
     }
 
+  "/api/1/streak/:id/join": api_request respond_to {
+    POST: =>
+      find_streak @
+      -- TODO: this notification stuff is copied
+      streak_user = @streak\join @current_user
+      if streak_user
+        import Notifications from require "models"
+        Notifications\notify_for @streak\get_user!, @streak, "join", @current_user
+
+      json: { :streak_user, joined: streak_user and true or false }
+  }
+
+  "/api/1/streak/:id/leave": api_request respond_to {
+    POST: =>
+      find_streak @
+      left = @streak\leave @current_user
+      json: { left: not not left }
+  }
 
   "/api/1/submit": api_request =>

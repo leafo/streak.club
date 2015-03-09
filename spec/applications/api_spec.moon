@@ -127,4 +127,18 @@ describe "api", ->
       status, res = request_with_key "/api/1/streaks"
       assert.same 3, #res.streaks
 
+    it "should join streak", ->
+      streak = factory.Streaks!
+      status, res = request_with_key "/api/1/streak/#{streak.id}/join", post: {}
+      assert.truthy res.joined
+
+    it "should leave streak", ->
+      streak = factory.Streaks!
+      status, res = request_with_key "/api/1/streak/#{streak.id}/leave", post: {}
+      assert.same false, res.left
+      factory.StreakUsers user_id: current_user.id, streak_id: streak.id
+
+      status, res = request_with_key "/api/1/streak/#{streak.id}/leave", post: {}
+      assert.same true, res.left
+
 
