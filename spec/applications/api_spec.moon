@@ -87,12 +87,18 @@ describe "api", ->
       status, res = request_with_key "/api/1/my-streaks"
       assert.same 200, status
 
-      assert.same {}, res.joined.active
+
+      assert.same {}, res.hosted
       assert.same {s1.id}, [s.id for s in *res.joined.upcoming]
       assert.same {s2.id}, [s.id for s in *res.joined.completed]
+      assert.same nil, res.joined.active
 
     it "should get my-streaks with hosted streaks", ->
       s = factory.Streaks state: "before_start", user_id: current_user.id
       status, res = request_with_key "/api/1/my-streaks"
-      assert.same {s.id}, [s.id for s in *res.hosted]
+
+      assert.same {}, res.joined
+      assert.same {s.id}, [s.id for s in *res.hosted.upcoming]
+      assert.same nil, res.hosted.active
+      assert.same nil, res.hosted.completed
 

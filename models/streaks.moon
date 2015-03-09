@@ -63,6 +63,22 @@ class Streaks extends Model
     opts.category = @categories\for_db opts.category or "other"
     Model.create @, opts
 
+  @group_by_state: (streaks) =>
+    grouped = {}
+
+    for s in *streaks
+      key = if s\during!
+        "active"
+      elseif s\before_start!
+        "upcoming"
+      else
+        "completed"
+
+      grouped[key] or= {}
+      table.insert grouped[key], s
+
+    grouped
+
   has_user: (user) =>
     import StreakUsers from require "models"
     return nil unless user

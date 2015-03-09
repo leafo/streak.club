@@ -60,20 +60,18 @@ class StreakApi extends lapis.Application
       Users\include_in streaks, "user_id"
       streaks
 
-    active = @current_user\find_participating_streaks(state: "active", :prepare_results)\get_page!
-    upcoming = @current_user\find_participating_streaks(state: "upcoming", :prepare_results)\get_page!
-    completed = @current_user\find_participating_streaks(state: "completed", :prepare_results)\get_page!
+    joined = @current_user\find_participating_streaks(:prepare_results)\get_page!
     hosted = @current_user\find_hosted_streaks(:prepare_results)\get_page!
 
-    json: {
-      joined: {
-        active: [format_streak s for s in *active]
-        upcoming: [format_streak s for s in *upcoming]
-        completed: [format_streak s for s in *completed]
-      }
-      hosted: [format_streak s for s in *hosted]
-    }
+    joined = Streaks\group_by_state joined
+    hosted = Streaks\group_by_state hosted
 
+
+    out = {}
+    for {groups, kind} in *{{joined, "joined"}, {hosted, "hosted"}}
+      out[kind] = {k, [format_streak s for s in *streaks] for k, streaks in pairs groups}
+
+    json: out
 
   "/api/1/streaks": api_request =>
   "/api/1/submit": api_request =>
