@@ -17,7 +17,7 @@ describe "api", ->
     close_test_server!
 
   before_each ->
-    truncate_tables Users, ApiKeys
+    truncate_tables Users, ApiKeys, Streaks, StreakUsers
 
   it "it should create api key", ->
     assert factory.ApiKeys!
@@ -114,4 +114,17 @@ describe "api", ->
       assert.same {s.id}, [s.id for s in *res.hosted.upcoming]
       assert.same nil, res.hosted.active
       assert.same nil, res.hosted.completed
+
+    it "should get browse empty streaks", ->
+      status, res = request_with_key "/api/1/streaks"
+      assert.same {streaks: {}}, res
+
+    it "should get browse empty streaks", ->
+      s1 = factory.Streaks state: "before_start"
+      s2 = factory.Streaks state: "after_end"
+      s3 = factory.Streaks state: "during"
+
+      status, res = request_with_key "/api/1/streaks"
+      assert.same 3, #res.streaks
+
 

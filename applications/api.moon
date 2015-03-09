@@ -6,6 +6,9 @@ import capture_errors_json, assert_error from require "lapis.application"
 import trim_filter from require "lapis.util"
 import ApiKeys, Users from require "models"
 
+
+import assert_page from require "helpers.app"
+
 api_request = (fn) ->
   capture_errors_json =>
     return fn @ if @params.key == "me" and @current_user
@@ -89,4 +92,13 @@ class StreakApi extends lapis.Application
     json: out
 
   "/api/1/streaks": api_request =>
+    import BrowseStreaksFlow from require "flows.browse_streaks"
+    flow = BrowseStreaksFlow @
+    flow\browse_by_filters {}
+
+    json: {
+      streaks: [format_streak streak for streak in *@streaks]
+    }
+
+
   "/api/1/submit": api_request =>
