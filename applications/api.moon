@@ -24,8 +24,10 @@ format_user = (u) ->
 format_streak = do
   fields = {"id", "start_date", "end_date", "hour_offset"}
   (s) ->
+    import Streaks from require "models"
     out = {f, s[f] for f in *fields}
     out.host = format_user s\get_user!
+    out.publish_status = Streaks.publish_statuses\to_name s.publish_status
     out
 
 class StreakApi extends lapis.Application
@@ -61,11 +63,15 @@ class StreakApi extends lapis.Application
     active = @current_user\find_participating_streaks(state: "active", :prepare_results)\get_page!
     upcoming = @current_user\find_participating_streaks(state: "upcoming", :prepare_results)\get_page!
     completed = @current_user\find_participating_streaks(state: "completed", :prepare_results)\get_page!
+    hosted = @current_user\find_hosted_streaks(:prepare_results)\get_page!
 
     json: {
-      active: [format_streak s for s in *active]
-      upcoming: [format_streak s for s in *upcoming]
-      completed: [format_streak s for s in *completed]
+      joined: {
+        active: [format_streak s for s in *active]
+        upcoming: [format_streak s for s in *upcoming]
+        completed: [format_streak s for s in *completed]
+      }
+      hosted: [format_streak s for s in *hosted]
     }
 
 

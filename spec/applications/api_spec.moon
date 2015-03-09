@@ -67,13 +67,16 @@ describe "api", ->
       status, res = request_with_key "/api/1/my-streaks"
       assert.same 200, status
       assert.same {
-        upcoming: {}
-        active: {}
-        completed: {}
+        hosted: {}
+        joined: {
+          upcoming: {}
+          active: {}
+          completed: {}
+        }
       }, res
 
 
-    it "should get my-streaks with streaks", ->
+    it "should get my-streaks with joined streaks", ->
       s1 = factory.Streaks state: "before_start"
       s2 = factory.Streaks state: "after_end"
       s3 = factory.Streaks state: "during"
@@ -84,7 +87,12 @@ describe "api", ->
       status, res = request_with_key "/api/1/my-streaks"
       assert.same 200, status
 
-      assert.same {}, res.active
-      assert.same {s1.id}, [s.id for s in *res.upcoming]
-      assert.same {s2.id}, [s.id for s in *res.completed]
+      assert.same {}, res.joined.active
+      assert.same {s1.id}, [s.id for s in *res.joined.upcoming]
+      assert.same {s2.id}, [s.id for s in *res.joined.completed]
+
+    it "should get my-streaks with hosted streaks", ->
+      s = factory.Streaks state: "before_start", user_id: current_user.id
+      status, res = request_with_key "/api/1/my-streaks"
+      assert.same {s.id}, [s.id for s in *res.hosted]
 
