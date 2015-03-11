@@ -46,5 +46,7 @@ class UserRegister extends require "widgets.base"
         input class: "button", type: "submit", value: "Create account"
         text " or "
         a href: @url_for("user_login"), "Log in to existing account"
+        raw " &middot; "
+        a href: @url_for("user_forgot_password"), "Forgot password"
 
 

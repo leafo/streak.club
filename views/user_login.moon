@@ -1,4 +1,3 @@
-
 class UserLogin extends require "widgets.base"
   @include "widgets.form_helpers"
 
@@ -27,4 +26,6 @@ class UserLogin extends require "widgets.base"
         input class: "button", type: "submit", value: "Log in"
         text " or "
         a href: @url_for("user_register"), "Create new account"
+        raw " &middot; "
+        a href: @url_for("user_forgot_password"), "Forgot password"
 

@@ -82,7 +82,6 @@ get_campaigns = ->
   res = json.decode res
   res.items
 
-
 get_messages = ->
   params = encode_query_string {
     event: "stored"

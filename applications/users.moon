@@ -318,7 +318,7 @@ class UsersApplication extends lapis.Application
         reset_url = @build_url @url_for "user_forgot_password", nil, { :token }
         mailer = require "emails.password_reset"
         mailer\send @, user.email, { :reset_url, :user }
-        @session.flash = "Password reset email has been updated"
+        @session.flash = "Password reset email has been sent"
         redirect_to: @url_for "index"
   }
 
