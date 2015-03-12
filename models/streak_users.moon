@@ -85,6 +85,12 @@ class StreakUsers extends Model
 
     current
 
+  update_streaks: =>
+    @update {
+      longest_streak: @get_longest_streak!
+      current_streak: @get_current_streak!
+    }
+
   get_longest_streak: =>
     import Streaks from require "models"
     streak = @get_streak!
