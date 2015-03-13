@@ -52,7 +52,7 @@ class Users extends Model
     return nil, "username must be ASCII only" unless stripped == opts.username
 
     opts.slug = slugify opts.username
-    assert opts.slugify != "", "slug is empty"
+    assert opts.slug != "", "slug is empty"
 
     Model.create @, opts
 
