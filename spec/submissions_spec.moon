@@ -289,11 +289,11 @@ describe "submissions", ->
     submission.title = nil
     assert.truthy submission\meta_title!
 
-  it "should delete submission not in streak #ddd", ->
+  it "should delete submission not in streak", ->
     sub = factory.Submissions!
     sub\delete!
 
-  it "should delete submission in streak #ddd", ->
+  it "should delete submission in streak", ->
     streak_sub = factory.StreakSubmissions!
     streak = streak_sub\get_streak!
     sub = streak_sub\get_submission!
@@ -322,4 +322,26 @@ describe "submissions", ->
 
     count = unpack db.query "select sum(submissions_count) from streaks"
     assert.same 0, count.sum
+
+  it "should delete streak submission, (but not submission)", ->
+    streak_sub = factory.StreakSubmissions!
+    streak = streak_sub\get_streak!
+
+    streak\join streak_sub\get_user!
+    streak\recount!
+
+    streak_user = streak_sub\get_streak_user!
+    streak_user\update_streaks!
+
+    assert.same 1, streak_user.current_streak
+    assert.same 1, streak_user.longest_streak
+    assert.truthy streak_user.last_submitted_at
+
+    streak_sub.streak_user = nil -- force it to be refetched
+    streak_sub\delete!
+    streak_user\refresh!
+
+    assert.same 0, streak_user.current_streak
+    assert.same 0, streak_user.longest_streak
+    assert.falsy streak_user.last_submitted_at
 
