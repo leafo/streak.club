@@ -3,6 +3,11 @@
     .submission_list_title {
         color: #666;
         margin-top: 40px;
+
+        .sub {
+            font-weight: normal;
+            color: $body_color_lighter;
+        }
     }
 
     .embed_page & {

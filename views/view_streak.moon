@@ -160,7 +160,11 @@ class ViewStreak extends require "widgets.base"
 
       return
 
-    h4 class: "submission_list_title", "Recent submissions"
+    h4 class: "submission_list_title", ->
+      text "Recent submissions"
+      text " "
+      span class: "sub", "(#{@streak.submissions_count} total)"
+
     widget SubmissionList
 
   render_countdown: =>
