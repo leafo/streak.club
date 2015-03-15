@@ -422,6 +422,14 @@ import
     db.query "create index steaks_title_idx on streaks using gin(title gin_trgm_ops) where not deleted and publish_status = #{Streaks.publish_statuses.published}"
     db.query "create index users_username_idx on users using gin(username gin_trgm_ops)"
 
-}
+  [1426439394]: =>
+    add_column "streak_users", "last_submitted_at", time null: true
+    db.query [[
+      update streak_users set last_submitted_at = (
+        select max(submit_time) from streak_submissions
+        where streak_submissions.user_id = streak_users.user_id and streak_submissions.streak_id = streak_users.streak_id
+      )
+    ]]
 
+}
 

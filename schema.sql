@@ -338,7 +338,8 @@ CREATE TABLE streak_users (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     current_streak integer,
-    longest_streak integer
+    longest_streak integer,
+    last_submitted_at timestamp without time zone
 );
 
 
@@ -1127,6 +1128,7 @@ COPY lapis_migrations (name) FROM stdin;
 1425545586
 1425941245
 1426401405
+1426439394
 \.
 
 
