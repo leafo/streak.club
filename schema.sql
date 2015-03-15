@@ -23,6 +23,20 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
+--
+-- Name: pg_trgm; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS pg_trgm WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pg_trgm; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION pg_trgm IS 'text similarity measurement and index searching based on trigrams';
+
+
 SET search_path = public, pg_catalog;
 
 SET default_tablespace = '';
@@ -340,7 +354,6 @@ CREATE TABLE streaks (
     title character varying(255) NOT NULL,
     short_description text NOT NULL,
     description text NOT NULL,
-    published boolean DEFAULT false NOT NULL,
     deleted boolean DEFAULT false NOT NULL,
     start_date date NOT NULL,
     end_date date NOT NULL,
@@ -899,6 +912,13 @@ CREATE UNIQUE INDEX notifications_user_id_type_object_type_object_id_idx ON noti
 
 
 --
+-- Name: steaks_title_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX steaks_title_idx ON streaks USING gin (title gin_trgm_ops) WHERE ((NOT deleted) AND (publish_status = 2));
+
+
+--
 -- Name: streak_submissions_streak_id_submit_time_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1025,6 +1045,13 @@ CREATE UNIQUE INDEX users_slug_idx ON users USING btree (slug);
 
 
 --
+-- Name: users_username_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX users_username_idx ON users USING gin (username gin_trgm_ops);
+
+
+--
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
 
@@ -1099,6 +1126,7 @@ COPY lapis_migrations (name) FROM stdin;
 1425376265
 1425545586
 1425941245
+1426401405
 \.
 
 

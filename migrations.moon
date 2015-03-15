@@ -414,6 +414,14 @@ import
   [1425941245]: =>
     create_index "user_profiles", "password_reset_token", where: "password_reset_token is not null"
 
+  [1426401405]: =>
+    import Streaks from require "models"
+    drop_column "streaks", "published"
+
+    db.query "create extension pg_trgm;"
+    db.query "create index steaks_title_idx on streaks using gin(title gin_trgm_ops) where not deleted and publish_status = #{Streaks.publish_statuses.published}"
+    db.query "create index users_username_idx on users using gin(username gin_trgm_ops)"
+
 }
 
 
