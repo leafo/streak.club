@@ -297,6 +297,9 @@ describe "submissions", ->
     streak_sub = factory.StreakSubmissions!
     streak = streak_sub\get_streak!
     sub = streak_sub\get_submission!
+
+    -- user isn't joined in factory by default
+    streak\join streak_sub\get_user!
     streak\recount!
 
     sub\delete!
@@ -312,6 +315,7 @@ describe "submissions", ->
     factory.StreakSubmissions submission_id: sub.id, user_id: sub.user_id
 
     for s in *Streaks\select!
+      s\join streak_sub\get_user!
       s\recount!
 
     sub\delete!

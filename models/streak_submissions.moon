@@ -7,7 +7,7 @@ class StreakSubmissions extends Model
   @primary_key: {"streak_id", "submission_id"}
 
   @relations: {
-    {"user", belongs_to: "User"}
+    {"user", belongs_to: "Users"}
     {"streak", belongs_to: "Streaks"}
     {"submission", belongs_to: "Submissions"}
   }

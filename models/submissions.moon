@@ -151,10 +151,12 @@ class Submissions extends Model
 
   delete: =>
     return unless super!
+
     import
       SubmissionLikes
       SubmissionTags
       StreakSubmissions
+      StreakUsers
       Streaks
       Uploads
       from require "models"
@@ -162,6 +164,14 @@ class Submissions extends Model
     db.update Streaks\table_name!, {
       submissions_count: db.raw "submissions_count - 1"
     }, db.interpolate_query "id in (select streak_id from streak_submissions where submission_id = ?)", @id
+
+    streak_users = StreakUsers\select "
+      where user_id = ? and
+        streak_id in (select streak_id from streak_submissions where submission_id = ?)
+    ", @user_id, @id
+
+    for u in *streak_users
+      u\update_streaks!
 
     for model in *{SubmissionLikes, SubmissionTags, StreakSubmissions}
       db.delete model\table_name!, submission_id: @id
