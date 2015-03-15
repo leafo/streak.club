@@ -181,12 +181,12 @@ class Streaks extends Model
         else
           "week"
 
-  increment_date_by_unit: (date) =>
+  increment_date_by_unit: (date, mul=1) =>
     switch @rate
       when @@rates.daily
-        date\adddays 1
+        date\adddays 1 * mul
       when @@rates.weekly
-        date\adddays 7
+        date\adddays 7 * mul
       else
         error "don't know how to increment rate"
 

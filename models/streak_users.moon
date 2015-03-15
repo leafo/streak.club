@@ -65,6 +65,18 @@ class StreakUsers extends Model
     }
 
   get_current_streak: =>
+    streak = @get_streak!
+
+    ago = streak\increment_date_by_unit date(true), -1
+    if date(@last_submitted_at) > ago
+      @current_streak
+    else
+      0
+
+  get_longest_streak: =>
+    @longest_streak
+
+  count_current_streak: =>
     import Streaks from require "models"
     streak = @get_streak!
     completed = @get_completed_units!
@@ -85,7 +97,7 @@ class StreakUsers extends Model
 
     current
 
-  get_longest_streak: =>
+  count_longest_streak: =>
     import Streaks from require "models"
     streak = @get_streak!
     completed = @get_completed_units!
@@ -115,8 +127,8 @@ class StreakUsers extends Model
 
   update_streaks: =>
     @update {
-      longest_streak: @get_longest_streak!
-      current_streak: @get_current_streak!
+      longest_streak: @count_longest_streak!
+      current_streak: @count_current_streak!
       last_submitted_at: db.raw "(
         select max(submit_time) from streak_submissions
         where streak_submissions.user_id = streak_users.user_id and streak_submissions.streak_id = streak_users.streak_id

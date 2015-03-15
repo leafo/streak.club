@@ -356,3 +356,52 @@ describe "submissions", ->
     assert.same 0, streak_user.longest_streak
     assert.falsy streak_user.last_submitted_at
 
+  describe "streak users #ddd", ->
+    it "should get correct streak for recent submission", ->
+      su = factory.StreakUsers!
+
+      submit = factory.StreakSubmissions {
+        user_id: su.user_id
+        streak_id: su.streak_id
+      }
+
+      su\refresh!
+      su\update_streaks!
+
+      assert.same 1, su\get_current_streak!
+      assert.same 1, su\get_longest_streak!
+
+    it "should get correct streak for old submission", ->
+      streak = factory.Streaks state: "during"
+      su = factory.StreakUsers streak_id: streak.id
+
+      submit = factory.StreakSubmissions {
+        user_id: su.user_id
+        streak_id: streak.id
+        submit_time: db.raw "date_trunc('second', now() at time zone 'utc' - '2 days'::interval)"
+      }
+
+      su\refresh!
+      su\update_streaks!
+
+      assert.same 0, su\get_current_streak!
+      assert.same 1, su\get_longest_streak!
+
+    it "should get correct streak when time elapses", ->
+      streak = factory.Streaks state: "during"
+      su = factory.StreakUsers!
+
+      submit = factory.StreakSubmissions {
+        user_id: su.user_id
+        streak_id: su.streak_id
+      }
+
+      su\refresh!
+      su\update_streaks!
+
+      ago = db.raw "date_trunc('second', now() at time zone 'utc' - '2 days'::interval)"
+      submit\update submit_time: ago
+      su\update last_submitted_at: ago
+
+      assert.same 0, su\get_current_streak!
+      assert.same 1, su\get_longest_streak!
