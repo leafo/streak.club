@@ -85,16 +85,6 @@ class StreakUsers extends Model
 
     current
 
-  update_streaks: =>
-    @update {
-      longest_streak: @get_longest_streak!
-      current_streak: @get_current_streak!
-      last_submitted_at: db.raw "(
-        select max(submit_time) from streak_submissions
-        where streak_submissions.user_id = streak_users.user_id and streak_submissions.streak_id = streak_users.streak_id
-      )"
-    }, timestamp: false
-
   get_longest_streak: =>
     import Streaks from require "models"
     streak = @get_streak!
@@ -122,4 +112,15 @@ class StreakUsers extends Model
       count += 1 if completed[unit]
 
     count/total if total > 0
+
+  update_streaks: =>
+    @update {
+      longest_streak: @get_longest_streak!
+      current_streak: @get_current_streak!
+      last_submitted_at: db.raw "(
+        select max(submit_time) from streak_submissions
+        where streak_submissions.user_id = streak_users.user_id and streak_submissions.streak_id = streak_users.streak_id
+      )"
+    }, timestamp: false
+
 

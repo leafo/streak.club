@@ -80,6 +80,8 @@ class EditSubmissionFlow extends Flow
       submit = streak\submit @submission, submit_timestamp
       if submit
         streak.streak_user\update submissions_count: db.raw "submissions_count + 1"
+        streak.streak_user\update_streaks!
+
         streak\update submissions_count: db.raw "submissions_count + 1"
 
     @set_uploads!

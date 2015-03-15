@@ -141,11 +141,11 @@ describe "submissions", ->
       }, submit
 
   describe "submitting", ->
-    local streak
+    local streak, streak_user
 
     before_each ->
       streak = factory.Streaks state: "during"
-      factory.StreakUsers user_id: current_user.id, streak_id: streak.id
+      streak_user = factory.StreakUsers user_id: current_user.id, streak_id: streak.id
 
     do_submit = (post) ->
       request_as current_user, "/submit", {
@@ -188,9 +188,14 @@ describe "submissions", ->
       assert.same 1, #Submissions\select!
       assert.same 1, #StreakSubmissions\select!
 
+      streak_user\refresh!
+      assert.same 1, streak_user.current_streak
+      assert.same 1, streak_user.longest_streak
+      assert.truthy streak_user.last_submitted_at
+
     it "should submit to multiple streaks", ->
       streak2 = factory.Streaks state: "during"
-      factory.StreakUsers user_id: current_user.id, streak_id: streak2.id
+      streak_user2 = factory.StreakUsers user_id: current_user.id, streak_id: streak2.id
 
       status, res = do_submit {
         ["submit_to[#{streak.id}]"]: "yes"
@@ -202,6 +207,12 @@ describe "submissions", ->
 
       assert.same 1, #Submissions\select!
       assert.same 2, #StreakSubmissions\select!
+
+      for su in *{streak_user, streak_user2}
+        su\refresh!
+        assert.same 1, su.current_streak
+        assert.same 1, su.longest_streak
+        assert.truthy su.last_submitted_at
 
     it "should not allow submission to streak already submitted to", ->
       factory.StreakSubmissions streak_id: streak.id, user_id: current_user.id
