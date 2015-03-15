@@ -19,6 +19,8 @@ class SearchApplication extends lapis.Application
     unless @params.q
       return redirect_to: @url_for "index"
 
+    @noindex = true
+
     @query = @params.q
     @results = {}
 
@@ -30,7 +32,6 @@ class SearchApplication extends lapis.Application
       order by similarity desc
       limit 10
     ]], @query, :fields
-
 
     fields = db.interpolate_query "*, similarity(title, ?)", @query
     @results.streaks = Streaks\select [[
