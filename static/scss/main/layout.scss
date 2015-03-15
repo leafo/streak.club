@@ -107,6 +107,32 @@ a {
 
     position: relative;
 
+    .header_search {
+        display: inline-block;
+        vertical-align: top;
+        margin-left: 20px;
+
+        @media (max-width: 950px) {
+            display: none;
+        }
+
+        input {
+            @include default_font;
+            @include border_box;
+            margin-top: 10px;
+            background: white;
+            border: 0;
+            border-radius: 4px;
+            width: 250px;
+            padding: 0 10px;
+            height: 30px;
+
+            &:focus {
+                outline: none;
+            }
+        }
+    }
+
     .primary_header {
         background: $header_color;
         height: $header_height;

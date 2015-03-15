@@ -50,6 +50,10 @@ class Layout extends Widget
           img class: "logo_image", src: "/static/images/rainbow-sm.png"
           span class: "logo_text", "Streak Club"
 
+
+        form class: "header_search", ->
+          input required: "required", type: "text", name: "q", placeholder: "Search...", value: @query
+
       div class: "right_header", ->
         if @current_user
           a class: "user_name", href: @url_for(@current_user), @current_user\name_for_display!
