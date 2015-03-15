@@ -89,7 +89,11 @@ class StreakUsers extends Model
     @update {
       longest_streak: @get_longest_streak!
       current_streak: @get_current_streak!
-    }
+      last_submitted_at: db.raw "(
+        select max(submit_time) from streak_submissions
+        where streak_submissions.user_id = streak_users.user_id and streak_submissions.streak_id = streak_users.streak_id
+      )"
+    }, timestamp: false
 
   get_longest_streak: =>
     import Streaks from require "models"
