@@ -51,7 +51,7 @@ class Layout extends Widget
           span class: "logo_text", "Streak Club"
 
 
-        form class: "header_search", ->
+        form class: "header_search", action: @url_for("search"), ->
           input required: "required", type: "text", name: "q", placeholder: "Search...", value: @query
 
       div class: "right_header", ->

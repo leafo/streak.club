@@ -22,7 +22,7 @@ class SearchApplication extends lapis.Application
     @query = @params.q
     @results = {}
 
-    import Users, Streaks from require "models"
+    import Users, Streaks, Followings from require "models"
 
     fields = db.interpolate_query "*, similarity(username, ?)", @query
     @results.users = Users\select [[
@@ -44,5 +44,8 @@ class SearchApplication extends lapis.Application
 
     if streaks = @results.streaks
       Users\include_in streaks, "user_id"
+
+    if users = @results.users
+      Followings\load_for_users users, @current_user
 
     render: true

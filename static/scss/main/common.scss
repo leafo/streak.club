@@ -6,6 +6,8 @@ $header_height: 50px;
 
 $body_size: 18px;
 $body_color: #333;
+$body_color_light: #666;
+$body_color_lighter: #999;
 
 $teal: #7ED6D7;
 $red: #fe4e50;
@@ -102,6 +104,20 @@ $like_color: #FF5E5E;
 
     &:after {
         clear: both;
+    }
+}
+
+@mixin quotes {
+    &:before {
+        content: "“";
+        font-weight: normal;
+        color: $body_color_lighter;
+    }
+
+    &:after {
+        content: "”";
+        font-weight: normal;
+        color: $body_color_lighter;
     }
 }
 
