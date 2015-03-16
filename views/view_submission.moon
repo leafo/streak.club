@@ -54,6 +54,9 @@ class ViewSubmission extends require "widgets.base"
 
       textarea readonly: true, ->
         text @submission\meta_title true
+        text " "
+        text @build_url @url_for @submission
+
         hashes = ["##{s.streak.twitter_hash}" for s in *@streak_submissions when s.streak.twitter_hash]
 
         if next hashes
