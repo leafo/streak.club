@@ -8,6 +8,7 @@ class StreakHeader extends require "widgets.base"
     if @streak\allowed_to_edit @current_user
       div class: "owner_tools", ->
         a href: @url_for("edit_streak", id: @streak.id), "Edit streak"
+        @owner_tools_extra!
 
     if @streak\is_draft!
       a {
@@ -24,7 +25,10 @@ class StreakHeader extends require "widgets.base"
 
     div class: "page_header", ->
       h2 @streak.title
-      h3 @streak.short_description
+      if @sub_header
+        @sub_header!
+      else
+        h3 @streak.short_description
 
     div class: "page_tabs", ->
       url_params = { slug: @streak\slug!, id: @streak.id }
@@ -39,3 +43,4 @@ class StreakHeader extends require "widgets.base"
       @page_tab "Top submissions", "top_submissions", @url_for "streak_top_submissions", url_params
       @page_tab "Stats", "stats", @url_for "streak_stats", url_params
 
+  owner_tools_extra: =>
