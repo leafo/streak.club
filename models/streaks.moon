@@ -379,6 +379,30 @@ class Streaks extends Model
 
     StreakUsers\paginated "where streak_id = ? order by created_at desc", @id, opts
 
+
+  find_longest_active_streakers: =>
+    import StreakUsers, Users from require "models"
+
+    ago = @increment_date_by_unit @truncate_date(date true), -1
+    StreakUsers\paginated [[
+      where streak_id = ? and last_submitted_at > ? and submissions_count > 0
+      order by current_streak desc
+    ]], @id, ago\fmt(@@timestamp_format_str), prepare_results: (sus) ->
+      Users\include_in sus, "user_id"
+      sus
+
+  find_longest_streakers: =>
+    import StreakUsers, Users from require "models"
+    StreakUsers\paginated [[
+      where streak_id = ? and submissions_count > 0
+      order by longest_streak desc
+    ]], @id, {
+      page_tabs
+      prepare_results: (sus) ->
+        Users\include_in sus, "user_id"
+        sus
+    }
+
   @_time_clause: (state) =>
     switch state
       when "active"

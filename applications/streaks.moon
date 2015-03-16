@@ -292,3 +292,18 @@ class StreaksApplication extends lapis.Application
 
       render: true
   }
+
+  [streak_top_participants: "/s/:id/:slug/top-streaks"]: capture_errors {
+    on_error: => not_found
+    =>
+      find_streak @
+      check_slug @
+      @title = "Top streaks of #{@streak.title}"
+
+      -- todo: none of these queries have indexes
+      @active_top_streak_users = @streak\find_longest_active_streakers!\get_page!
+      @top_streak_users = @streak\find_longest_streakers!\get_page!
+
+      render: true
+  }
+
