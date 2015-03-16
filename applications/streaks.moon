@@ -304,6 +304,10 @@ class StreaksApplication extends lapis.Application
       @active_top_streak_users = @streak\find_longest_active_streakers!\get_page!
       @top_streak_users = @streak\find_longest_streakers!\get_page!
 
+      import Followings from require "models"
+      for sus in *{@active_top_streak_users, @top_streak_users}
+        Followings\load_for_users [su.user for su in *sus], @current_user
+
       render: true
   }
 
