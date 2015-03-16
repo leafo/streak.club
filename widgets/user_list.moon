@@ -12,7 +12,7 @@ class UserList extends require "widgets.base"
     classes
 
   js_init: =>
-    "new S.UserList(#{@widget_selector!})"
+    "new S.UserList(#{@widget_selector!});"
 
   user_link: (user) =>
     @url_for user
