@@ -12,7 +12,7 @@ prepare_submits = (opts) ->
     Submissions\include_in submits, "submission_id"
 
     submits_by_submission_id = {s.submission_id, s for s in *submits}
-    submissions = [s.submission for s in *submits]
+    submissions = [s.submission for s in *submits when s.submission]
 
     for s in *submissions
       s.streak_submission = submits_by_submission_id[s.id]
