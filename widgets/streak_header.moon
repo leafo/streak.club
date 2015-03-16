@@ -27,14 +27,15 @@ class StreakHeader extends require "widgets.base"
       h3 @streak.short_description
 
     div class: "page_tabs", ->
+      url_params = { slug: @streak\slug!, id: @streak.id }
+
       @page_tab "Overview", "overview", @url_for(@streak)
       @page_tab "Participants",
         "participants",
-        @url_for("view_streak_participants", slug: @streak\slug!, id: @streak.id),
+        @url_for("view_streak_participants", url_params),
         "(#{@streak.users_count})"
 
-
-      @page_tab "Top streaks", "top_streaks", @url_for "streak_top_participants", slug: @streak\slug!, id: @streak.id
-
-      @page_tab "Stats", "stats", @url_for "streak_stats", slug: @streak\slug!, id: @streak.id
+      @page_tab "Top streaks", "top_participants", @url_for "streak_top_participants", url_params
+      @page_tab "Top submissions", "top_submissions", @url_for "streak_top_submissions", url_params
+      @page_tab "Stats", "stats", @url_for "streak_stats", url_params
 

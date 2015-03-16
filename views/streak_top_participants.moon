@@ -5,7 +5,7 @@ UserList = require "widgets.user_list"
 class StreakTopParticipants extends require "widgets.base"
   @needs: {"active_top_streak_users", "top_streak_users"}
 
-  page_name: "top_streaks"
+  page_name: "top_participants"
 
   inner_content: =>
     widget StreakHeader page_name: @page_name

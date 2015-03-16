@@ -379,7 +379,6 @@ class Streaks extends Model
 
     StreakUsers\paginated "where streak_id = ? order by created_at desc", @id, opts
 
-
   find_longest_active_streakers: =>
     import StreakUsers, Users from require "models"
 
@@ -401,6 +400,20 @@ class Streaks extends Model
       prepare_results: (sus) ->
         Users\include_in sus, "user_id"
         sus
+    }
+
+  find_top_submissions: (opts={}) =>
+    import StreakSubmissions, Submissions, Users, Uploads from require "models"
+
+    -- todo: index
+    StreakSubmissions\paginated [[
+      inner join submissions on submission_id = submissions.id
+      where streak_id = ?
+      order by likes_count desc
+    ]], @id, {
+      fields: "streak_submissions.*"
+      per_page: opts.per_page or 20
+      prepare_results: prepare_submits opts
     }
 
   @_time_clause: (state) =>

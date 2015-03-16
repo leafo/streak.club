@@ -311,3 +311,20 @@ class StreaksApplication extends lapis.Application
       render: true
   }
 
+  [streak_top_submissions: "/s/:id/:slug/top-submissions"]: capture_errors {
+    on_error: => not_found
+    =>
+      find_streak @
+      check_slug @
+
+      import Submissions from require "models"
+      pager = @streak\find_top_submissions {
+        per_page: SUBMISSION_PER_PAGE
+        prepare_submissions: (submissions) ->
+          Submissions\preload_for_list submissions, {
+            likes_for: @current_user
+          }
+      }
+      @submissions = pager\get_page!
+      render: true
+  }
