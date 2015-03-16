@@ -8,7 +8,6 @@ date = require "date"
 class ViewStreakUnit extends require "widgets.base"
   @needs: {"streak", "submissions"}
 
-
   js_init: =>
     "new S.ViewStreakUnit(#{@widget_selector!});"
 
@@ -21,7 +20,10 @@ class ViewStreakUnit extends require "widgets.base"
     }
 
     end_date = @streak\increment_date_by_unit date @unit_date
-    h3 "Submissions from #{@unit_date\fmt Streaks.day_format_str} to #{end_date\fmt Streaks.day_format_str}"
+    h4 class: "submission_list_title", ->
+      text "Submissions from #{@unit_date\fmt Streaks.day_format_str} to #{end_date\fmt Streaks.day_format_str}"
+      text " "
+      span class: "sub", "(#{@pager\total_items!} total)"
 
     if next @submissions
       widget SubmissionList

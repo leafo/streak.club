@@ -204,14 +204,14 @@ class StreaksApplication extends lapis.Application
 
       @title = "#{@streak.title} - #{@params.date}"
 
-      pager = @streak\find_submissions_for_unit @unit_date, {
+      @pager = @streak\find_submissions_for_unit @unit_date, {
         prepare_submissions: (submissions) ->
           Submissions\preload_for_list submissions, {
             likes_for: @current_user
           }
       }
 
-      @submissions = pager\get_page!
+      @submissions = @pager\get_page!
 
       render: true
   }
