@@ -225,7 +225,15 @@ class Submissions extends Model
       "#{@title} by #{name}"
     else
       streak_names = table.concat [s.title for s in *streaks], ", "
-      "A submission for #{streak_names} by #{name}"
+      if for_twitter and #streaks == 1
+        import StreakSubmissions from require "models"
+        submit = StreakSubmissions\find {
+          streak_id: streaks[1].id
+          submission_id: @id
+        }
+        "Submission #{submit\unit_number!} for #{streak_names} by #{name}"
+      else
+        "A submission for #{streak_names} by #{name}"
 
     if #streaks == 1
       import StreakUsers from require "models"
