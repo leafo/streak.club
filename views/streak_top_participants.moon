@@ -15,7 +15,7 @@ class StreakTopParticipants extends require "widgets.base"
       return
 
     if next @active_top_streak_users
-      h3 "Longest acive streak"
+      h3 "Longest active streak"
       widget UserList @list_params @active_top_streak_users
 
     h3 "Longest streak"
