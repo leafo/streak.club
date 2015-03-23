@@ -12,8 +12,8 @@ class IndexLoggedOut extends require "widgets.base"
 
   inner_content: =>
     div class: "primary_header", ->
-      h1 "Streak Club"
-      h2 "A place for staying motivated"
+      h1 class: "slide_up", "Streak Club"
+      h2 class: "slide_up", "A place for staying motivated"
 
     div class: "streak_browser page_tabs", ->
       span class: "tab_sub", "Browse:"
@@ -32,8 +32,7 @@ class IndexLoggedOut extends require "widgets.base"
           text "A "
           em "streak"
           text " is a commitment to yourself to complete some activity every
-          day to help improve yourself."
-
+          day or week to help improve yourself."
 
         p "At Streak Club you can organize or join creative streaks, streaks
         where you create art, record music, write short stories, or anything
@@ -44,6 +43,9 @@ class IndexLoggedOut extends require "widgets.base"
         img src: "/static/images/mini1.png"
 
     div class: "streak_grid", ->
+      div class: "grid_note above",
+        "When you join a streak you get a calander of squares you need to fill:"
+
       div class: "grid_wrapper", ->
         for i=1,39
           div class: "grid_box"
@@ -52,9 +54,8 @@ class IndexLoggedOut extends require "widgets.base"
         div class: "stat_value", "0"
         div class: "stat_label",  "current streak"
 
-      div class: "grid_note", ->
-        text "Get a green box each time you complete a day. Try to fill them all up!"
-
+      div class: "grid_note below",
+        "Get a green box each time you submit. Try to fill as many in a row as possible!"
 
     div class: "tutorial", ->
       div class: "tutorial_left", ->
@@ -71,6 +72,9 @@ class IndexLoggedOut extends require "widgets.base"
 
 
     div class: "streak_countdown", ->
+      div class: "countdown_note above",
+        "Streak.club will keep track of what streaks need submissions and when:"
+
       widget Countdown {
         header_content: =>
           text "Time left to submit"
@@ -79,8 +83,8 @@ class IndexLoggedOut extends require "widgets.base"
             "day #27"
       }
 
-      div class: "countdown_note", ->
-        text "Try to post a submission before the countdown runs out of time."
+      div class: "countdown_note below",
+        "Try to post a submission before the countdown runs out of time."
 
     div class: "footer_buttons", ->
       h3 class: "sub_header", "Get started"

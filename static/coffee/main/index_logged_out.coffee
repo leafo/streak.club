@@ -12,6 +12,8 @@ class S.IndexLoggedOut
         @fill_grid()
         win.off "scroll.show_grid"
 
+    @el.find(".slide_up").removeClass "slide_up"
+
   fill_grid: ->
     grid = @el.find ".streak_grid"
     boxes = grid.find ".grid_box"

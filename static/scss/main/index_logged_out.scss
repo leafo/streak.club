@@ -1,16 +1,33 @@
 
 $gray: darken(#F5F5F5, 3%);
 
+@mixin text_outline {
+    $shadow: rgba(black, 0.2);
+    text-shadow: -1px -1px 0 $shadow, 1px 1px 0 $shadow, -1px 1px 0 $shadow, 1px -1px $shadow;
+}
+
 .index_logged_out {
     padding-bottom: 40px;
 
     .primary_header {
-        background: #8E6F65;
+        background: #717485;
         padding: 30px 0;
         text-align: center;
         background: url(/static/images/banner_wide.jpg);
         background-position: 50% 50%;
         background-size: cover;
+
+        .slide_up {
+            top: 10px;
+            opacity: 0;
+        }
+
+        h1, h2 {
+            @include text_outline;
+            @include transition(all 0.6s ease-out);
+            position: relative;
+            top: 0;
+        }
 
         h1 {
             font-size: 60px;
@@ -43,6 +60,10 @@ $gray: darken(#F5F5F5, 3%);
 
         .tab {
             padding-bottom: 10px;
+        }
+
+        .tab, .tab_sub {
+            font-size: 18px;
         }
     }
 
@@ -125,9 +146,17 @@ $gray: darken(#F5F5F5, 3%);
 
         .grid_note {
             max-width: 300px;
-            margin: 25px auto 0 auto;
             color: #666;
             padding: 0 20px;
+            line-height: 1.5;
+
+            &.above {
+                margin: 0 auto 25px auto;
+            }
+
+            &.below {
+                margin: 25px auto 0 auto;
+            }
         }
 
         .grid_stats {
@@ -200,11 +229,18 @@ $gray: darken(#F5F5F5, 3%);
 
         .countdown_note {
             max-width: 300px;
-            margin: 25px auto 0 auto;
             color: #666;
             padding: 0 20px;
-        }
+            line-height: 1.5;
 
+            &.above {
+                margin: 0 auto 25px auto;
+            }
+
+            &.below {
+                margin: 25px auto 0 auto;
+            }
+        }
 
         .countdown {
             width: 300px;
