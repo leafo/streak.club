@@ -255,6 +255,8 @@ class StreaksApplication extends lapis.Application
     @app.__class\find_action(@route_name) @, ...
 
   [streaks: "/streaks"]: =>
+    @show_welcome_banner = true
+
     @filters, has_invalid = parse_filters @params.splat, browse_filters  if @params.splat
     if has_invalid
       do return redirect_to: @url_for "streaks"
