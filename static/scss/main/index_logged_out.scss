@@ -26,6 +26,19 @@ $gray: darken(#F5F5F5, 3%);
         }
     }
 
+    .streak_browser {
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 0;
+        white-space: nowrap;
+        overflow: auto;
+        overflow-y: hidden;
+        padding: 0 20px;
+        .tab {
+            padding-bottom: 10px;
+        }
+    }
+
     h3 {
         color: #666;
         margin: 20px 0;

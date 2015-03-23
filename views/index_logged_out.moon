@@ -15,6 +15,16 @@ class IndexLoggedOut extends require "widgets.base"
       h1 "Streak Club"
       h2 "A place for creative streaks"
 
+    div class: "streak_browser page_tabs", ->
+      span class: "tab_sub", "Browse:"
+      @filter_tab "All streaks", "type", nil
+      @filter_tab "Visual arts", "type", "visual_art", "visual-arts"
+      @filter_tab "Interactive", "type", "interactive"
+      @filter_tab "Music & audio", "type", "music", "music-and-audio"
+      @filter_tab "Video", "type", "video"
+      @filter_tab "Writing", "type", "writing"
+      @filter_tab "Other", "type", "other"
+
     div class: "intro", ->
       div class: "intro_left", ->
         h3 "Streaks?"
@@ -96,3 +106,9 @@ class IndexLoggedOut extends require "widgets.base"
 
     div class: "all_streaks", ->
       a href: @url_for("streaks"), "Browse all streaks"
+
+  filter_tab: (label, key, val, slug) =>
+    base_url = @url_for "streaks"
+    url = base_url .. "/#{slug or val }"
+    a href: url, class: "tab", label
+
