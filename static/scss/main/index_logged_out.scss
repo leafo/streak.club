@@ -9,6 +9,10 @@ $gray: darken(#F5F5F5, 3%);
 .index_logged_out {
     padding-bottom: 40px;
 
+    .typed-cursor {
+        display: none;
+    }
+
     .primary_header {
         background: #717485;
         padding: 30px 0;
