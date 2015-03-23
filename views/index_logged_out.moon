@@ -91,16 +91,17 @@ class IndexLoggedOut extends require "widgets.base"
     div class: "footer_buttons", ->
       h3 class: "sub_header", "Get started"
 
-      div ->
-        a {
-          class: "button outline_button"
-          href: @url_for("user_register")
-          "Create an account"
-        }
+      div class: "buttons_box", ->
+        div ->
+          a {
+            class: "button outline_button"
+            href: @url_for("user_register")
+            "Create an account"
+          }
 
-      div class: "small_text", ->
-        text " or "
-        a href: @url_for("user_login"), "Log in"
+        div class: "small_text", ->
+          text " or "
+          a href: @url_for("user_login"), "Log in"
 
     if next @featured_streaks
       div class: "featured_streaks", ->
