@@ -13,7 +13,7 @@ class IndexLoggedOut extends require "widgets.base"
   inner_content: =>
     div class: "primary_header", ->
       h1 "Streak Club"
-      h2 "A place for creative streaks"
+      h2 "A place for staying motivated"
 
     div class: "streak_browser page_tabs", ->
       span class: "tab_sub", "Browse:"
