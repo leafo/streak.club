@@ -44,6 +44,7 @@ $gray: darken(#F5F5F5, 3%);
             margin-top: 5px;
             color: white;
         }
+
     }
 
     .streak_browser {
@@ -68,6 +69,7 @@ $gray: darken(#F5F5F5, 3%);
     h3 {
         color: #666;
         margin: 20px 0;
+        font-size: 28px;
     }
 
     .sub_header {
@@ -133,6 +135,7 @@ $gray: darken(#F5F5F5, 3%);
         padding: 0 10px;
         padding: 40px 0;
         background: $gray;
+        background: linear-gradient(to bottom, $gray, lighten($gray, 2%));
 
         .grid_wrapper {
             max-width: 420px;
@@ -194,6 +197,10 @@ $gray: darken(#F5F5F5, 3%);
             margin: 0 0 20px 0;
         }
 
+        p {
+            font-size: 20px;
+        }
+
         .tutorial_left {
             margin-right: 60px;
 
@@ -224,6 +231,7 @@ $gray: darken(#F5F5F5, 3%);
         padding: 0 10px;
         padding: 40px 0;
         background: $gray;
+        background: linear-gradient(to bottom, $gray, lighten($gray, 2%));
 
         .countdown_note {
             max-width: 300px;
@@ -247,14 +255,17 @@ $gray: darken(#F5F5F5, 3%);
     }
 
     .footer_buttons {
-        padding: 60px 0 80px 0;
+        padding: 40px 0 60px;
         text-align: center;
-        color: #999;
+        color: white;
+        background: $header_color;
+        background: linear-gradient(45deg, $link_color, mix($link_color, orange, 70%));
 
         h3 {
             margin: 0;
             font-weight: normal;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            color: white;
         }
 
         .buttons_box {
@@ -267,6 +278,8 @@ $gray: darken(#F5F5F5, 3%);
 
             background: url(/static/images/box.jpg);
             background-position: 50% 50%;
+
+            box-shadow: 0 0 0 5px rgba(white, 0.5);
         }
 
         .button {
@@ -299,15 +312,17 @@ $gray: darken(#F5F5F5, 3%);
         }
     }
 
-    .featured_streaks {
-        border-top: 1px solid #dadada;
+    .featured_streaks, .featured_submissions {
         text-align: center;
 
         h3 {
             margin-bottom: 0;
             font-weight: normal;
+            margin-top: 40px;
         }
+    }
 
+    .featured_streaks {
         .streak_box {
             text-align: left;
 
@@ -322,5 +337,9 @@ $gray: darken(#F5F5F5, 3%);
         text-align: center;
     }
 
+    .featured_submissions {
+        margin-top: 40px;
+        border-top: 1px solid $border_color;
+    }
 }
 

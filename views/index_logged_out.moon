@@ -46,7 +46,7 @@ class IndexLoggedOut extends require "widgets.base"
 
     div class: "streak_grid", ->
       div class: "grid_note above",
-        "When you join a streak you get a calander of squares you need to fill:"
+        "When you join a streak you get a calendar of squares you need to fill:"
 
       div class: "grid_wrapper", ->
         for i=1,39
@@ -89,7 +89,7 @@ class IndexLoggedOut extends require "widgets.base"
         "Try to post a submission before the countdown runs out of time."
 
     div class: "footer_buttons", ->
-      h3 class: "sub_header", "Get started"
+      h3 "Get started"
 
       div class: "buttons_box", ->
         div ->
@@ -105,7 +105,7 @@ class IndexLoggedOut extends require "widgets.base"
 
     if next @featured_streaks
       div class: "featured_streaks", ->
-        h3 class: "sub_header", "Or check out some featured streaks"
+        h3 class: "sub_header", "Check out some featured streaks"
 
         widget StreakList {
           streaks: @featured_streaks
