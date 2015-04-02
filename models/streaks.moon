@@ -396,7 +396,6 @@ class Streaks extends Model
       where streak_id = ? and submissions_count > 0
       order by longest_streak desc
     ]], @id, {
-      page_tabs
       prepare_results: (sus) ->
         Users\include_in sus, "user_id"
         sus

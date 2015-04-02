@@ -2,6 +2,7 @@
 db = require "lapis.db"
 import assert_error from require "lapis.application"
 import assert_valid from require "lapis.validate"
+import build_url from require "lapis.util"
 
 config = require("lapis.config").get!
 
