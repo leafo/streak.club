@@ -10,3 +10,17 @@ class FeaturedSubmissions extends Model
     {"submission", belongs_to: "Submissions"}
   }
 
+  @find_submissions: (per_page=25) =>
+    @paginated "order by created_at desc", {
+      :per_page
+      prepare_results: (featured) ->
+        import Submissions from require "models"
+
+        Submissions\include_in featured, "submission_id"
+        submissions = [f.submission for f in *featured]
+        Submissions\preload_for_list submissions
+
+        [s for s in *submissions when not s.deleted]
+    }
+
+
