@@ -3,7 +3,7 @@ lapis = require "lapis"
 import Users from require "models"
 import generate_csrf from require "helpers.csrf"
 
-import require_login, not_found from require "helpers.app"
+import require_login, not_found, ensure_https from require "helpers.app"
 
 date = require "date"
 config = require("lapis.config").get!
@@ -41,7 +41,7 @@ class extends lapis.Application
 
   handle_404: => not_found
 
-  [index: "/"]: =>
+  [index: "/"]: ensure_https =>
     if @current_user
       @created_streaks = @current_user\find_hosted_streaks!\get_page!
       @active_streaks = @current_user\find_participating_streaks(state: "active")\get_page!

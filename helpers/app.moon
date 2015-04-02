@@ -76,7 +76,18 @@ find_streak = =>
   @streak_user = @streak\has_user @current_user
   true
 
+ensure_https = (fn) ->
+  =>
+    scheme = @req.headers['x-original-scheme']
+    if scheme == "http" and config.enable_https
+      url_opts = {k,v for k,v in pairs @req.parsed_url}
+      url_opts.scheme = "https"
+      url_opts.port = nil
+
+      return status: 301, redirect_to: build_url url_opts
+
+    fn @
 
 { :not_found, :require_login, :require_admin, :assert_timezone,
   :login_and_return_url, :assert_unit_date, :assert_page, :parse_filters,
-  :find_streak }
+  :find_streak, :ensure_https }

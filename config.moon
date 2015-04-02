@@ -40,3 +40,5 @@ config "production", ->
   logging false
   num_workers 3
 
+  enable_https true
+
