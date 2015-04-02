@@ -3,6 +3,8 @@ db = require "lapis.db"
 import assert_error from require "lapis.application"
 import assert_valid from require "lapis.validate"
 
+config = require("lapis.config").get!
+
 date = require "date"
 
 not_found = { status: 404, render: "not_found" }
