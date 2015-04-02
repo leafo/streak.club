@@ -1,35 +1,49 @@
 .welcome_banner {
-    border-bottom: 2px solid $border_color;
-    padding: 15px 0 20px 0;
+    border-top: 2px solid white;
+    @include border_box;
     position: relative;
-    background: darken(#F5F5F5, 3%);
+    background: $link_color;
+    background: linear-gradient(45deg, $link_color, mix($link_color, orange, 70%));
+    color: white;
 
     margin-bottom: 40px;
 
     .banner_inner {
         max-width: $site_width;
-        padding: 0 20px;
+        padding: 20px 20px 30px 20px;
         margin: 0 auto;
         position: relative;
     }
 
     p {
         margin-top: 10px;
+        color: rgba(white, 0.9);
     }
 
     h2 {
         margin: 0;
-        color: #666;
+        font-size: 32px;
+        font-weight: normal;
     }
 
     .button {
-        top: 18px;
+        top: 38px;
         right: 20px;
         position: absolute;
         font-size: 24px;
-        line-height: 41px;
+        line-height: 45px - 4px;
         height: 45px;
-        padding: 0 30px;
+        padding: 0 40px;
+
+        background: transparent;
+        color: white;
+        border-color: white;
+
+        &:hover {
+            background-color: white;
+            color: $link_color;
+            border-color: white;
+        }
     }
 
     @media (max-width: 700px) {
