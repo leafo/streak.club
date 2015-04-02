@@ -160,49 +160,49 @@ class SubmissionList extends require "widgets.base"
     return unless submission.uploads and next submission.uploads
     div class: "submission_uploads", ->
       for upload in *submission.uploads
-          if upload\is_image!
-            div class: "submission_image", ->
-              a href: @url_for(upload), target: "_blank", ->
-                img src: @url_for upload, "600x"
-          elseif upload\is_audio!
-            div class: "submission_audio", ->
-              div {
-                class: "play_audio_btn"
-                ["data-audio_url"]: @url_for "prepare_play_audio", id: upload.id
-              }, ->
-                img class: "play_icon", src: "/static/images/audio_play.svg"
-                img class: "pause_icon", src: "/static/images/audio_pause.svg"
+        if upload\is_image!
+          div class: "submission_image", ->
+            a href: @url_for(upload), target: "_blank", ->
+              img src: @url_for upload, "600x"
+        elseif upload\is_audio!
+          div class: "submission_audio", ->
+            div {
+              class: "play_audio_btn"
+              ["data-audio_url"]: @url_for "prepare_play_audio", id: upload.id
+            }, ->
+              img class: "play_icon", src: "/static/images/audio_play.svg"
+              img class: "pause_icon", src: "/static/images/audio_pause.svg"
 
-              form {
-                class: "download_form"
-                action: @url_for "prepare_download", id: upload.id
-                method: "post"
-              }, ->
-                @csrf_input!
-                button class: "upload_download button", "Download"
-
-              div class: "truncate_content", ->
-                span class: "upload_name", upload.filename
-                span class: "upload_size", @filesize_format upload.size
-
-                div class: "audio_progress_outer", ->
-                  div class: "audio_progress_inner"
-
-          else
             form {
-              class: "submission_upload"
+              class: "download_form"
               action: @url_for "prepare_download", id: upload.id
               method: "post"
             }, ->
               @csrf_input!
-              if upload.downloads_count > 0
-                div class: "upload_stats", ->
-                  text @plural @number_format(upload.downloads_count),
-                    "download", "downloads"
-
               button class: "upload_download button", "Download"
+
+            div class: "truncate_content", ->
               span class: "upload_name", upload.filename
               span class: "upload_size", @filesize_format upload.size
+
+              div class: "audio_progress_outer", ->
+                div class: "audio_progress_inner"
+
+        else
+          form {
+            class: "submission_upload"
+            action: @url_for "prepare_download", id: upload.id
+            method: "post"
+          }, ->
+            @csrf_input!
+            if upload.downloads_count > 0
+              div class: "upload_stats", ->
+                text @plural @number_format(upload.downloads_count),
+                  "download", "downloads"
+
+            button class: "upload_download button", "Download"
+            span class: "upload_name", upload.filename
+            span class: "upload_size", @filesize_format upload.size
 
   render_comments: (submission) =>
     widget SubmissionCommenter {
