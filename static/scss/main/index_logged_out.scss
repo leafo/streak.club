@@ -340,6 +340,107 @@ $gray: darken(#F5F5F5, 3%);
     .featured_submissions {
         margin-top: 40px;
         border-top: 1px solid $border_color;
+        border-bottom: 1px solid $border_color;
+        @include border_box;
+        background: lighten($gray, 5%);
+
+        .submission_columns {
+            margin-top: 30px;
+        }
+
+        .submissions_column {
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 30px;
+            width: 400px;
+
+            &:nth-child(3) {
+                margin-right: 0;
+            }
+
+            @media (max-width: 1380px) {
+                &.col3 {
+                    display: none;
+                }
+
+                &:nth-child(2) {
+                    margin-right: 0;
+                }
+            }
+
+            @media (max-width: 940px) {
+                width: 300px;
+            }
+
+            @media (max-width: 715px) {
+                &.col2 {
+                    display: none;
+                }
+
+                &:nth-child(1) {
+                    margin-right: 0;
+                }
+            }
+
+
+            @media (max-width: 400px) {
+                width: 100%;
+                .featured_submission {
+                    border: 0;
+                    border-bottom: 1px solid $border_color;
+                }
+            }
+        }
+
+        .featured_submission {
+            border: 1px solid $border_color;
+            padding: 10px;
+            margin-bottom: 30px;
+            text-align: left;
+            background: white;
+
+            .submission_image img {
+                width: 100%;
+                display: block;
+            }
+
+            .submission_author, .submission_title {
+                @include single_line;
+                margin-left: 63px;
+                line-height: 1.4;
+
+                a {
+                    text-decoration: none;
+                    display: inline-block;
+                    border-bottom: 1px solid $link_color;
+                    line-height: 1.2
+                }
+            }
+
+            .submission_title {
+                font-size: 20px;
+            }
+
+            .submission_author {
+                color: $body_color_lighter;
+
+                a {
+                    color: $body_color_light;
+                    border-color: $body_color_lighter;
+                }
+            }
+
+            .submission_meta {
+                margin-top: 10px;
+
+                img {
+                    width: 53px;
+                    height: 53px;
+                    border-radius: 53px;
+                    float: left;
+                }
+            }
+        }
     }
 }
 

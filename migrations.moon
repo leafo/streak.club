@@ -431,5 +431,7 @@ import
       )
     ]]
 
+  [1427955442]: =>
+    create_index "featured_streaks", "created_at"
 }
 

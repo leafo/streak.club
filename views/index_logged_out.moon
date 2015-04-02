@@ -40,7 +40,6 @@ class IndexLoggedOut extends require "widgets.base"
         where you create art, record music, write short stories, or anything
         else you can think of."
 
-
       div class: "intro_right", ->
         img src: "/static/images/mini1.png"
 
@@ -113,6 +112,48 @@ class IndexLoggedOut extends require "widgets.base"
 
     div class: "all_streaks", ->
       a href: @url_for("streaks"), "Browse all streaks"
+
+    if next @featured_submissions
+      div class: "featured_submissions", ->
+        h3 class: "sub_header", "Featured submissions"
+
+        div class: "submission_columns", ->
+          @submission_columns @featured_submissions
+
+  submission_columns: (submissions) =>
+    grouped_submissions = {}
+    cols = 3
+    for i, sub in ipairs submissions
+      col = (i - 1) % cols + 1
+      grouped_submissions[col] or= {}
+      table.insert grouped_submissions[col], sub
+
+    for col=1,cols
+      div class: "submissions_column col#{col}", ->
+        for sub in *grouped_submissions[col]
+          continue unless sub.streak_submissions and next sub.streak_submissions
+          div class: "featured_submission", ->
+            for upload in *sub.uploads
+              if upload\is_image!
+                div class: "submission_image", ->
+                  a href: @url_for(sub), target: "_blank", ->
+                    img src: @url_for upload, "600x"
+
+              break
+
+            div class: "submission_meta", ->
+              a class: "user_link", href: @url_for(sub.user), ->
+                img src: sub.user\gravatar!
+
+              div class: "submission_title", ->
+                submit = unpack sub.streak_submissions
+                strong "##{submit\unit_number!}"
+                text " for "
+                a href: @url_for(submit.streak), submit.streak.title
+
+              div class: "submission_author", ->
+                text "by "
+                a href: @url_for(sub.user), sub.user\name_for_display!
 
   filter_tab: (label, key, val, slug) =>
     base_url = @url_for "streaks"

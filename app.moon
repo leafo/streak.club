@@ -48,7 +48,7 @@ class extends lapis.Application
 
       render: "index_logged_in"
     else
-      import FeaturedStreaks, Streaks, Users from require "models"
+      import FeaturedStreaks, FeaturedSubmissions, Streaks, Users from require "models"
       featured = FeaturedStreaks\select "order by position desc limit 4"
 
       Streaks\include_in featured, "streak_id"
@@ -56,6 +56,19 @@ class extends lapis.Application
       Users\include_in @featured_streaks, "user_id"
 
       @mobile_friendly = true
+
+      @featured_submissions = FeaturedSubmissions\find_submissions!\get_page!
+
+      -- filter out things that don't have image
+      @featured_submissions = for sub in *@featured_submissions
+        has_image = false
+        for upload in *sub.uploads
+          has_image = true if upload\is_image!
+          break if has_image
+
+        continue unless has_image
+        sub
+
       render: "index_logged_out"
 
   [notifications: "/notifications"]: require_login =>
