@@ -24,8 +24,8 @@ class Email extends Widget
       element "table", style: "background-color: #{bg_color}; width: 100%", cellspacing: "0", cellpadding: "0", ->
         tr ->
           td style:"text-align: center; padding-top: 30px;", ->
-            a href: "http://streak.club", ->
-              img src: "http://streak.club/static/images/favicon.png", border: "0"
+            a href: "https://streak.club", ->
+              img src: "https://streak.club/static/images/favicon.png", border: "0"
         tr ->
           td ->
             element "table", style: @container_style!, ->
@@ -43,7 +43,7 @@ class Email extends Widget
   footer: =>
     h4 ->
       text "powered by "
-      a href: "http://streak.club", "Streak Club"
+      a href: "https://streak.club", "Streak Club"
 
     if @show_tag_unsubscribe
       div style: "color: #666666; font-size: smaller", ->

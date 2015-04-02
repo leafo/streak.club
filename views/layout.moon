@@ -113,7 +113,7 @@ class Layout extends Widget
 
   include_fonts: =>
     if config._name == "production"
-      link href: "http://fonts.googleapis.com/css?family=Dosis:300,400,700", rel: "stylesheet", type: "text/css"
+      link href: "//fonts.googleapis.com/css?family=Dosis:300,400,700", rel: "stylesheet", type: "text/css"
 
     link href: @asset_url("fonts/streakclub/style.css"), rel: "stylesheet", type: "text/css"
 
