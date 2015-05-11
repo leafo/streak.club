@@ -24,12 +24,19 @@ format_user = (u) ->
   }
 
 format_streak = do
-  fields = {"id", "start_date", "end_date", "hour_offset"}
+  fields = {
+    "id", "start_date", "end_date", "hour_offset", "title", "short_description"
+  }
+
   (s) ->
     import Streaks from require "models"
     out = {f, s[f] for f in *fields}
     out.host = format_user s\get_user!
+
     out.publish_status = Streaks.publish_statuses\to_name s.publish_status
+    out.rate = Streaks.rates\to_name s.rate
+    out.category = Streaks.categories\to_name s.category
+
     out
 
 class StreakApi extends lapis.Application

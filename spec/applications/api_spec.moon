@@ -100,7 +100,6 @@ describe "api", ->
       status, res = request_with_key "/api/1/my-streaks"
       assert.same 200, status
 
-
       assert.same {}, res.hosted
       assert.same {s1.id}, [s.id for s in *res.joined.upcoming]
       assert.same {s2.id}, [s.id for s in *res.joined.completed]
