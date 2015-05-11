@@ -18,7 +18,6 @@ unless is_valid
 if ngx.now! > tonumber params.expires
   return ngx.exit ngx.HTTP_GONE
 
-import escape from require "lapis.util"
 import Uploads from require "models"
 
 upload = if upload_id = ngx.var.uri\match "/download/.-(%d+)"
