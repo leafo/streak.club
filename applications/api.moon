@@ -35,7 +35,7 @@ format_streak = do
 
     out.publish_status = Streaks.publish_statuses\to_name s.publish_status
     out.rate = Streaks.rates\to_name s.rate
-    out.category = Streaks.categories\to_name s.category
+    out.category = s.category > 0 and Streaks.categories\to_name(s.category) or nil
 
     out
 
