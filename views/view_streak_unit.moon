@@ -19,14 +19,26 @@ class ViewStreakUnit extends require "widgets.base"
           "Generate submit url"
     }
 
-    end_date = @streak\increment_date_by_unit date @unit_date
     h4 class: "submission_list_title", ->
-      text "Submissions from #{@unit_date\fmt Streaks.day_format_str} to #{end_date\fmt Streaks.day_format_str}"
+      text "Submissions from #{@start_time\fmt Streaks.day_format_str} to #{@end_time\fmt Streaks.day_format_str}"
       text " "
       span class: "sub", "(#{@pager\total_items!} total)"
+
+    if @can_late_submit!
+      div class: "late_submitter", ->
+        p ->
+          text "This submission time as ended but you can "
+          a href: @streak_user\submit_url(@, @params.date), "late submit"
+          text "."
 
     if next @submissions
       widget SubmissionList
     else
       p class: "empty_message", "No submissions"
 
+
+  can_late_submit: =>
+    return false unless @streak_user
+    return false if @streak_submission
+
+    date(true) > @end_time

@@ -212,6 +212,13 @@ class StreaksApplication extends lapis.Application
       }
 
       @submissions = @pager\get_page!
+      @streak_user = @streak\find_streak_user @current_user
+
+      if @streak_user
+        @streak_submission = @streak_user\submission_for_date @unit_date
+
+      @start_time = date @unit_date
+      @end_time = @streak\increment_date_by_unit date @unit_date
 
       render: true
   }

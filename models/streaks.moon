@@ -415,6 +415,15 @@ class Streaks extends Model
       prepare_results: prepare_submits opts
     }
 
+
+  find_streak_user: (user) =>
+    return unless user
+    import StreakUsers from require "models"
+    StreakUsers\find {
+      streak_id: @id
+      user_id: user.id
+    }
+
   @_time_clause: (state) =>
     switch state
       when "active"
