@@ -366,7 +366,8 @@ CREATE TABLE streaks (
     hour_offset integer DEFAULT 0 NOT NULL,
     publish_status integer NOT NULL,
     category integer DEFAULT 0 NOT NULL,
-    twitter_hash text
+    twitter_hash text,
+    late_submit_type integer DEFAULT 1 NOT NULL
 );
 
 
@@ -1137,6 +1138,7 @@ COPY lapis_migrations (name) FROM stdin;
 1426401405
 1426439394
 1427955442
+1431573586
 \.
 
 

@@ -55,12 +55,18 @@ class Streaks extends Model
     hidden: 3
   }
 
+  @late_submit_types: enum {
+    admins_only: 1
+    public: 2
+  }
+
   @create: (opts={}) =>
     assert opts.user_id, "missing user_id"
     opts.rate = @rates\for_db opts.rate
     opts.publish_status = @publish_statuses\for_db opts.publish_status or "draft"
     opts.rate = @rates\for_db opts.rate or "daily"
     opts.category = @categories\for_db opts.category or "other"
+    opts.late_submit_type = @late_submit_types\for_db opts.late_submit_type or "admins_only"
     Model.create @, opts
 
   @group_by_state: (streaks) =>
@@ -423,6 +429,10 @@ class Streaks extends Model
       streak_id: @id
       user_id: user.id
     }
+
+  can_late_submit: (user) =>
+    return false unless user
+    @late_submit_type == @@late_submit_types.public
 
   @_time_clause: (state) =>
     switch state

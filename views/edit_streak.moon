@@ -117,6 +117,12 @@ class EditStreak extends require "widgets.base"
           {"other", "Other", "Anything else"}
         }, streak.category and Streaks.categories[streak.category] or nil
 
+      @input_row "Late submit", ->
+        @radio_buttons "streak[late_submit_type]", {
+          {"admins_only", "Restricted", "Only you can generate late submit links"}
+          {"public", "Public", "Any participant can late submit"}
+        }, streak.late_submit_type and Streaks.late_submit_types[streak.late_submit_type] or nil
+
       div id: "publish_status"
       @input_row "Publish", ->
         @radio_buttons "streak[publish_status]", {

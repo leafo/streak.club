@@ -87,6 +87,7 @@ describe "streaks", ->
           "streak[publish_status]": "published"
           "streak[rate]": "daily"
           "streak[category]": "other"
+          "streak[late_submit_type]": "public"
           "timezone": "America/Los_Angeles"
         }
         expect: "json"
@@ -115,6 +116,7 @@ describe "streaks", ->
           "streak[publish_status]": "published"
           "streak[rate]": "daily"
           "streak[category]": "other"
+          "streak[late_submit_type]": "public"
           "timezone": "America/Los_Angeles"
         }
         expect: "json"
