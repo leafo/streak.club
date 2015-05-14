@@ -40,5 +40,5 @@ class ViewStreakUnit extends require "widgets.base"
   can_late_submit: =>
     return false unless @streak_user
     return false if @streak_submission
-
+    return false unless @streak\can_late_submit @current_user
     date(true) > @end_time
