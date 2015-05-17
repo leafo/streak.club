@@ -228,8 +228,48 @@ describe "submissions", ->
       assert.same 302, status
       assert.same 1, #Submissions\select!
 
-  describe "submission likes", ->
+  describe "with submission", ->
+    local submission, submission_owner
 
+    before_each ->
+      submission = factory.Submissions!
+      submission_owner = submission\get_user!
+
+    it "should redirect to correct slug with missing slug", ->
+      status, _, headers = request_as nil, "/submission/#{submission.id}"
+      assert.same 302, status
+      assert.same "http://127.0.0.1/p/#{submission.id}/#{submission\slug!}", headers.location
+
+    it "should redirect to correct slug with invalid slug", ->
+      status, _, headers = request_as nil, "/p/#{submission.id}/#{submission\slug!}-fake"
+      assert.same 302, status
+      assert.same "http://127.0.0.1/p/#{submission.id}/#{submission\slug!}", headers.location
+
+    it "should show submission as anon", ->
+      status = request_as nil, "/p/#{submission.id}/#{submission\slug!}"
+      assert.same 200, status
+
+    it "should show submission as other user", ->
+      status = request_as current_user, "/p/#{submission.id}/#{submission\slug!}"
+      assert.same 200, status
+
+    it "should show submission as owner", ->
+      status = request_as submission_owner, "/p/#{submission.id}/#{submission\slug!}"
+      assert.same 200, status
+
+    it "should show submission when there is no slug", ->
+      submission\update title: db.NULL
+      status = request_as current_user, "/submission/#{submission.id}"
+      assert.same 200, status
+
+    it "should redirect to no slug url when slug provided for titleless submission", ->
+      submission\update title: db.NULL
+      status, _, headers = request_as nil, "/p/#{submission.id}/blguahgegfefe"
+      assert.same 302, status
+      assert.same "http://127.0.0.1/submission/#{submission.id}", headers.location
+
+
+  describe "submission likes", ->
     local submission
     before_each ->
       truncate_tables SubmissionLikes
@@ -355,7 +395,7 @@ describe "submissions", ->
     assert.same 0, streak_user.longest_streak
     assert.falsy streak_user.last_submitted_at
 
-  describe "streak users #ddd", ->
+  describe "streak users", ->
     it "should get correct streak for recent submission", ->
       su = factory.StreakUsers!
 
