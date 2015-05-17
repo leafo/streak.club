@@ -10,6 +10,8 @@ class FormHelpers
           required: opts.required and "required"
           placeholder: opts.placeholder
           name: opts.name
+          autocorrect: opts.mobile and "off" or nil
+          autocapitalize: opts.mobile and "off" or nil
         }, opts.value
       else
         input {
@@ -20,10 +22,12 @@ class FormHelpers
           name: opts.name
           value: opts.value
           class: opts.class
+
+          autocorrect: opts.mobile and "off" or nil
+          autocapitalize: opts.mobile and "off" or nil
         }
 
     @input_row opts.label, opts.sub, inside, true
-
 
   input_row: (title, sub, fn, wrap_label=false) =>
     if type(sub) == "function"

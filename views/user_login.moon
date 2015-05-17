@@ -13,6 +13,7 @@ class UserLogin extends require "widgets.base"
         label: "Username"
         name: "username"
         required: true
+        mobile: true
       }
 
       @text_input_row {
@@ -20,6 +21,7 @@ class UserLogin extends require "widgets.base"
         name: "password"
         required: true
         type: "password"
+        mobile: true
       }
 
       div class: "button_row", ->
