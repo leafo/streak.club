@@ -3,4 +3,20 @@
     h1 {
         margin-bottom: 5px;
     }
+
+    @media (max-width: 600px) {
+        .form {
+            input[type=text], input[type=password] {
+                width: 100%;
+            }
+        }
+
+        .button_row {
+            .button {
+                display: block;
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    }
 }
