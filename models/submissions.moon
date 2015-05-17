@@ -126,7 +126,11 @@ class Submissions extends Model
     @tags
 
   url_params: =>
-    "view_submission", id: @id
+    slug = @slug!
+    if slug
+      "view_submission_slug", id: @id, :slug
+    else
+      "view_submission", id: @id
 
   set_tags: (tags_str) =>
     import SubmissionTags from require "models"

@@ -36,43 +36,51 @@ find_comment = =>
   @comment = SubmissionComments\find @params.id
   assert_error @comment, "invalid comment"
 
+view_submission = capture_errors {
+  on_error: =>
+    not_found
+
+  =>
+    find_submission @
+    if @params.slug != @submission\slug!
+      return redirect_to: @url_for @submission
+
+    @canonical_url = @build_url @url_for(@submission)
+    @mobile_friendly = true
+
+    Submissions\preload_for_list { @submission }, {
+      likes_for: @current_user
+    }
+
+    @submission.comments = @submission\find_comments(per_page: COMMENTS_PER_PAGE)\get_page!
+    @submission.has_more_comments = @submission.comments_count > #@submission.comments
+
+    @user = @submission\get_user!
+    @streak_submissions = @submission.streak_submissions -- from preload for list
+
+    streaks = [s.streak for s in *@streak_submissions]
+
+    import Users, StreakUsers from require "models"
+    Users\include_in streaks, "user_id"
+    StreakUsers\include_in streaks, "streak_id", flip: true, where: {
+      user_id: @user.id
+    }
+
+    for streak in *streaks
+      -- doesn't exist if they joined, submitted, then left
+      if streak.streak_user
+        streak.streak_user.streak = streak
+        streak.completed_units = streak.streak_user\get_completed_units!
+
+    @show_welcome_banner = true
+    @title = @submission\meta_title!
+    render: "view_submission"
+}
+
+
 class SubmissionsApplication extends lapis.Application
-  [view_submission: "/submission/:id"]: capture_errors {
-    on_error: =>
-      not_found
-
-    =>
-      find_submission @
-      @mobile_friendly = true
-
-      Submissions\preload_for_list { @submission }, {
-        likes_for: @current_user
-      }
-
-      @submission.comments = @submission\find_comments(per_page: COMMENTS_PER_PAGE)\get_page!
-      @submission.has_more_comments = @submission.comments_count > #@submission.comments
-
-      @user = @submission\get_user!
-      @streak_submissions = @submission.streak_submissions -- from preload for list
-
-      streaks = [s.streak for s in *@streak_submissions]
-
-      import Users, StreakUsers from require "models"
-      Users\include_in streaks, "user_id"
-      StreakUsers\include_in streaks, "streak_id", flip: true, where: {
-        user_id: @user.id
-      }
-
-      for streak in *streaks
-        -- doesn't exist if they joined, submitted, then left
-        if streak.streak_user
-          streak.streak_user.streak = streak
-          streak.completed_units = streak.streak_user\get_completed_units!
-
-      @show_welcome_banner = true
-      @title = @submission\meta_title!
-      render: true
-  }
+  [view_submission_slug: "/submission/:id/:slug"]: view_submission
+  [view_submission: "/submission/:id"]: view_submission
 
   [new_submission: "/submit"]: require_login capture_errors {
     on_error: => not_found
