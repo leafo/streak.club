@@ -7,7 +7,10 @@ init_schema::
 	cat schema.sql | psql -U postgres streakclub
 
 test::
-	busted -p _spec.moon$
+	busted
+
+screenshot::
+	busted -o spec/screenshot_handler.lua
 
 test_db::
 	-dropdb -U postgres streakclub_test
