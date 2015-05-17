@@ -14,6 +14,7 @@ class SubmissionList extends require "widgets.base"
   show_streaks: true
   show_user: false
   show_comments: false
+  hide_hidden: false
 
   js_init: =>
     opts = {
@@ -37,6 +38,8 @@ class SubmissionList extends require "widgets.base"
 
   render_submissions: =>
     for submission in *@submissions
+      return if @hide_hidden and submission\is_hidden_from @current_user
+
       has_title = submission.title
       classes = "submission_row"
       classes ..= " no_title" unless has_title

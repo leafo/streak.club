@@ -48,7 +48,9 @@ class UserProfile extends require "widgets.base"
       text "All submissions "
       span class: "sub", "(#{@user.submissions_count})"
 
-    widget SubmissionList
+    widget SubmissionList {
+      hide_hidden: true
+    }
 
   render_streaks: (title, streaks) =>
     return unless next streaks
