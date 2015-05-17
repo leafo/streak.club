@@ -400,6 +400,13 @@
                     &:before {
                         content: "#";
                     }
+
+                    &.late_submit_tag {
+                        background: mix(white, $link_color, 90%);
+                        padding: 0px 4px;
+                        border-radius: 2px;
+                        box-shadow: 0 0 0 3px mix(white, $link_color, 90%), 0 0 0 4px mix(white, $link_color, 70%);
+                    }
                 }
             }
 

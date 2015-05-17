@@ -2,7 +2,7 @@
 class Upload
   upload_template: S.lazy_template @, "file_upload"
   constructor: (@data, @manager) ->
-    @el = $ @upload_template data
+    @el = $ @upload_template @data
     @el.data "upload", @
     @el.data "upload_id", @data.id
 

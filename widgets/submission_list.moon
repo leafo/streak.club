@@ -41,6 +41,13 @@ class SubmissionList extends require "widgets.base"
       classes = "submission_row"
       classes ..= " no_title" unless has_title
 
+      late_submit = false
+      if submits = submission.streak_submissions
+        for submit in *submits
+          if submit.late_submit
+            late_submit = true
+            break
+
       div class: classes, ["data-submission_id"]: submission.id, ->
         div class: "user_column", ->
           a class: "user_link", href: @url_for(submission.user), ->
@@ -133,8 +140,11 @@ class SubmissionList extends require "widgets.base"
               }, ->
                 text @plural submission.comments_count, "comment", "comments"
 
-            if submission.tags and next submission.tags
+            if submission.tags and next(submission.tags) or late_submit
               div class: "submission_tags", ->
+                if late_submit
+                  a class: "submission_tag late_submit_tag", ["data-tooltip"]: "Submission added past the deadline", "late-submit"
+
                 for tag in *submission.tags
                   a class: "submission_tag", tag.slug
 
