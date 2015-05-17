@@ -262,9 +262,11 @@ a {
 .base_widget {
     width: $site_width;
     margin: 40px auto;
-    .responsive {
+
+    &.responsive {
         max-width: $site_width;
         width: auto;
+        margin: 20px;
     }
 }
 
