@@ -129,6 +129,8 @@ class IndexLoggedOut extends require "widgets.base"
       table.insert grouped_submissions[col], sub
 
     for col=1,cols
+      continue unless grouped_submissions[col]
+
       div class: "submissions_column col#{col}", ->
         for sub in *grouped_submissions[col]
           continue unless sub.streak_submissions and next sub.streak_submissions
