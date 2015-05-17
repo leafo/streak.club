@@ -264,9 +264,11 @@ a {
     margin: 40px auto;
 
     &.responsive {
-        max-width: $site_width;
-        width: auto;
-        margin: 20px;
+        @media (max-width: $site_width) {
+            max-width: $site_width;
+            width: auto;
+            margin: 20px;
+        }
     }
 }
 
