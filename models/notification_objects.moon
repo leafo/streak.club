@@ -7,19 +7,12 @@ class NotificationObjects extends Model
   @timestamp: true
   @primary_key: {"notification_id", "object_type", "object_type"}
 
-  @object_types: enum {
-    submission_comment: 1
-    user: 2
+  @relations: {
+    {"object", polymorphic_belongs_to: {
+      [1]: {"submission_comment", "SubmissionComments"}
+      [2]: {"user", "Users"}
+    }}
   }
-
-  @object_type_for_object: (object) =>
-    switch object.__class.__name
-      when "SubmissionComments"
-        @@object_types.submission_comment
-      when "Users"
-        @@object_types.user
-      else
-        error "unknown object"
 
   @create_for_object: (notification_id, object) =>
     @create {
