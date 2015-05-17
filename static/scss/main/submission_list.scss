@@ -18,6 +18,17 @@
             }
         }
 
+        .submission_admin {
+            margin-top: 10px;
+            background: white;
+            border: 1px solid #dadada;
+            padding: 10px;
+            position: absolute;
+            top: 0;
+            right: 100%;
+            margin-right: 10px;
+        }
+
         .submission_content {
             border: 1px solid $border_color;
             border-radius: 3px;
@@ -450,7 +461,6 @@
                     }
                 }
 
-
                 .user_column {
                     width: auto;
                     text-align: left;
@@ -482,6 +492,7 @@
                             font-size: 16px;
                         }
                     }
+
                 }
 
                 .submission_upload {

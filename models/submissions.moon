@@ -57,7 +57,7 @@ class Submissions extends Model
     submissions
 
   @preload_for_list: (submissions, opts={}) =>
-    import Users, Uploads, SubmissionLikes from require "models"
+    import Users, Uploads, SubmissionLikes, FeaturedSubmissions from require "models"
 
     Uploads\preload_objects submissions
 
@@ -74,6 +74,8 @@ class Submissions extends Model
     Users\include_in things_with_users, "user_id", {
       fields: "id, username, slug, display_name, email"
     }
+
+    FeaturedSubmissions\include_in submissions, "submission_id", flip: true
 
     if user = opts.likes_for
       SubmissionLikes\include_in submissions, "submission_id", flip: true, where: {

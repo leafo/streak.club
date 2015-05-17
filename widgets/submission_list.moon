@@ -71,6 +71,8 @@ class SubmissionList extends require "widgets.base"
               submission.likes_count
             }
 
+            @submission_admin_panel submission
+
         div class: "submission_content", ->
           div class: "submission_header", ->
             if submission.title
@@ -139,6 +141,22 @@ class SubmissionList extends require "widgets.base"
           if @show_comments
             @render_comments submission
 
+
+  submission_admin_panel: (submission) =>
+    return unless @current_user and @current_user\is_admin!
+    div class: "submission_admin", ->
+      a href: @url_for("admin_submission", id: submission.id), "Admin"
+
+      form {
+        method: "post"
+        action: @url_for("admin_feature_submission", id: submission.id)
+        target: "_blank"
+      }, ->
+        @csrf_input!
+        if submission.featured_submission
+          button name:"action", value: "delete", "Unfeature"
+        else
+          button name:"action", value: "create", "Feature"
 
   templates: =>
     @js_template "comment_editor", ->
