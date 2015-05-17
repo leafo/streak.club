@@ -20,16 +20,28 @@ class Notifications extends require "widgets.base"
   render_notifications: (nots) =>
     div class: "notification_list", ->
       for notification in *nots
+        nos = notification.notification_objects
+
         object = notification.object
         div class: "notification_row", ["data-notification_id"]: notification.id, ->
           unless object
             text "Unknown notification, oops!"
             return
 
-          text notification\prefix!
+          if notification\show_join_usernames!
+            for i, no in ipairs nos
+              text ", " if i > 1
+              user = no\get_object!
+              a href: @url_for(user), user\name_for_display!
+
+            text " joined"
+          else
+            text notification\prefix!
+
           text " "
           a href: @url_for(object), notification\object_title!
           text " "
+
           span {
             class: "timestamp"
             title: "#{notification.created_at} UTC"

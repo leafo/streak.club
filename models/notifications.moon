@@ -45,6 +45,16 @@ class Notifications extends Model
       models[cls]\include_in filtered, "object_id", as: "object"
       post filtered if post
 
+    import NotificationObjects from require "models"
+    NotificationObjects\include_in notifications, "notification_id", flip: true, many: true
+
+    notification_objects = {}
+    for n in *notifications
+      if objs = n.notification_objects
+        for no in *objs
+          table.insert notification_objects, no
+
+    NotificationObjects\preload_objects notification_objects
     notifications
 
   @object_type_for_object: (object) =>
@@ -170,3 +180,11 @@ class Notifications extends Model
 
   mark_seen: =>
     @update seen: true
+
+  show_join_usernames: =>
+    return false unless @type == @@types.join
+    return false unless @notification_objects
+    return false unless next @notification_objects
+    return false if #@notification_objects > 10
+    true
+

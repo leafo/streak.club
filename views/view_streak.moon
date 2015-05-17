@@ -28,6 +28,7 @@ class ViewStreak extends require "widgets.base"
       before_start: @streak\before_start!
       after_end: @streak\after_end!
     }
+
     "new S.ViewStreak(#{@widget_selector!}, #{to_json opts});"
 
   inner_content: =>
