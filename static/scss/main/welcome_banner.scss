@@ -2,8 +2,7 @@
     border-top: 2px solid white;
     @include border_box;
     position: relative;
-    background: $link_color;
-    background: linear-gradient(45deg, $link_color, mix($link_color, orange, 70%));
+    background: $purple;
     color: white;
 
     margin-bottom: 40px;
