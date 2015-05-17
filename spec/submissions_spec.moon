@@ -11,7 +11,7 @@ import encode_query_string from require "lapis.util"
 factory = require "spec.factory"
 import request, request_as from require "spec.helpers"
 
-import Streaks, Users, Submissions, StreakUsers, StreakSubmissions from require "models"
+import Streaks, Users, Submissions, StreakUsers, StreakSubmissions, SubmissionLikes from require "models"
 
 date = require "date"
 
@@ -25,7 +25,7 @@ describe "submissions", ->
     close_test_server!
 
   before_each ->
-    truncate_tables Streaks, Users, Submissions, StreakUsers, StreakSubmissions
+    truncate_tables Streaks, Users, Submissions, StreakUsers, StreakSubmissions, SubmissionLikes
     current_user = factory.Users!
 
   it "not render submit page when not part of any streaks", ->
@@ -229,7 +229,6 @@ describe "submissions", ->
       assert.same 1, #Submissions\select!
 
   describe "submission likes", ->
-    import SubmissionLikes from require "models"
 
     local submission
     before_each ->

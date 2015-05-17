@@ -79,7 +79,8 @@ view_submission = capture_errors {
 
 
 class SubmissionsApplication extends lapis.Application
-  [view_submission_slug: "/submission/:id/:slug"]: view_submission
+  "/p/:id": => redirect_to: @url_for "view_submission", id: @params.id
+  [view_submission_slug: "/p/:id/:slug"]: view_submission
   [view_submission: "/submission/:id"]: view_submission
 
   [new_submission: "/submit"]: require_login capture_errors {
