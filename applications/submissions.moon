@@ -43,6 +43,8 @@ class SubmissionsApplication extends lapis.Application
 
     =>
       find_submission @
+      @mobile_friendly = true
+
       Submissions\preload_for_list { @submission }, {
         likes_for: @current_user
       }
