@@ -9,6 +9,8 @@ class Submissions extends Model
   @relations: {
     {"user", belongs_to: "Users"}
     {"featured_submission", has_one: "FeaturedSubmissions"}
+    {"streak_submissions", has_many: "StreakSubmissions"}
+    {"tags", has_many: "SubmissionTags"}
   }
 
   @user_ratings: enum {
@@ -99,8 +101,8 @@ class Submissions extends Model
 
   get_streaks: =>
     unless @streaks
-      import StreakSubmissions, Streaks from require "models"
-      submits = StreakSubmissions\select "where submission_id = ?", @id
+      submits = @get_streak_submissions!
+      import Streaks from require "models"
       Streaks\include_in submits, "streak_id"
       @streaks = for s in *submits
         s.streak.streak_submission = s
@@ -117,13 +119,6 @@ class Submissions extends Model
       ", Uploads.object_types.submission, @id
 
     @uploads
-
-  get_tags: =>
-    unless @tags
-      import SubmissionTags from require "models"
-      @tags = SubmissionTags\select "where submission_id = ?", @id
-
-    @tags
 
   url_params: =>
     slug = @slug!
