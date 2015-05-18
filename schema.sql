@@ -1007,6 +1007,20 @@ CREATE INDEX submission_tags_slug_idx ON submission_tags USING btree (slug);
 
 
 --
+-- Name: submissions_user_id_id_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX submissions_user_id_id_idx ON submissions USING btree (user_id, id);
+
+
+--
+-- Name: submissions_user_id_id_not_hidden_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX submissions_user_id_id_not_hidden_idx ON submissions USING btree (user_id, id) WHERE (NOT hidden);
+
+
+--
 -- Name: submissions_user_id_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1142,6 +1156,7 @@ COPY lapis_migrations (name) FROM stdin;
 1427955442
 1431573586
 1431917444
+1431922768
 \.
 
 

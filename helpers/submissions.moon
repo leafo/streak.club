@@ -1,9 +1,9 @@
 
-render_submissions_page = (per_page) =>
+render_submissions_page = (per_page, opts={}) =>
   assert @submissions, "missing submissions"
 
   SubmissionList = require "widgets.submission_list_bare"
-  widget = SubmissionList!
+  widget = SubmissionList opts
   widget\include_helper @
 
   json: {

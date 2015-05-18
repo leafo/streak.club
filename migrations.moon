@@ -453,5 +453,13 @@ import
       update users set hidden_submissions_count =
         (select count(*) from submissions where user_id = users.id and hidden)
     "
+
+  [1431922768]: =>
+    drop_index "submissions", "users"
+    create_index "submissions", "user_id", "id"
+    create_index "submissions", "user_id", "id", {
+      where: "not hidden"
+      index_name: "submissions_user_id_id_not_hidden_idx"
+    }
 }
 

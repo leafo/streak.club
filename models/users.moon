@@ -103,8 +103,12 @@ class Users extends Model
   is_admin: =>
     @admin
 
-  find_submissions: (extra_opts) =>
+  find_submissions: (extra_opts={}) =>
     import Submissions from require "models"
+
+    show_hidden = false
+    show_hidden = true if extra_opts.show_hidden
+    extra_opts.show_hidden = nil
 
     opts = {
       per_page: 40
@@ -118,9 +122,15 @@ class Users extends Model
       for k, v in pairs extra_opts
         opts[k] = v
 
-    Submissions\paginated [[
-      where user_id = ? order by id desc
-    ]], @id, opts
+    clause = {
+      user_id: @id
+      hidden: false
+    }
+
+    if show_hidden
+      clause.hidden = nil
+
+    Submissions\paginated "where #{db.encode_clause clause} order by id desc", opts
 
   find_hosted_streaks: (opts={}) =>
     publish_status = opts.publish_status

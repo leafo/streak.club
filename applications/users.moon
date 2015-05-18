@@ -38,6 +38,9 @@ class UsersApplication extends lapis.Application
       @user_profile = @user\get_user_profile!
 
       pager = @user\find_submissions {
+        show_hidden: @current_user and
+          (@current_user\is_admin! or @current_user.id == @user.id)
+
         per_page: SUBMISSION_PER_PAGE
         prepare_results: (...) ->
           Submissions\preload_for_list ..., {
@@ -48,7 +51,9 @@ class UsersApplication extends lapis.Application
       @submissions = pager\get_page @page
 
       if @params.format == "json"
-        return render_submissions_page @, SUBMISSION_PER_PAGE
+        return render_submissions_page @, SUBMISSION_PER_PAGE, {
+          hide_hidden: true
+        }
 
       @title = @user\name_for_display!
       @show_welcome_banner = true
