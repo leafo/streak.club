@@ -461,5 +461,16 @@ import
       where: "not hidden"
       index_name: "submissions_user_id_id_not_hidden_idx"
     }
+
+  [1431928525]: =>
+    add_column "users", "hidden_streaks_count", integer
+
+    import Streaks from require "models"
+
+    db.query "
+      update users set hidden_streaks_count =
+        (select count(*) from streaks where user_id = users.id and publish_status != ?)
+    ", Streaks.publish_statuses.published
+
 }
 

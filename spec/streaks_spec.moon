@@ -75,21 +75,29 @@ describe "streaks", ->
     before_each ->
       current_user = factory.Users!
 
+    streak_params = (override={}) ->
+      p = {
+        "streak[title]": "Streak world"
+        "streak[short_description]": "This is my streak"
+        "streak[description]": "Streak description here"
+        "streak[hour_offset]": "0"
+        "streak[start_date]": "2015-1-1"
+        "streak[end_date]": "2015-2-1"
+        "streak[publish_status]": "published"
+        "streak[rate]": "daily"
+        "streak[category]": "other"
+        "streak[late_submit_type]": "public"
+        "timezone": "America/Los_Angeles"
+      }
+
+      for k,v in pairs override
+        p[k] = v
+
+      p
+
     it "should create streak", ->
       status, res = request_as current_user, "/streaks/new", {
-        post: {
-          "streak[title]": "Streak world"
-          "streak[short_description]": "This is my streak"
-          "streak[description]": "Streak description here"
-          "streak[hour_offset]": "0"
-          "streak[start_date]": "2015-1-1"
-          "streak[end_date]": "2015-2-1"
-          "streak[publish_status]": "published"
-          "streak[rate]": "daily"
-          "streak[category]": "other"
-          "streak[late_submit_type]": "public"
-          "timezone": "America/Los_Angeles"
-        }
+        post: streak_params!
         expect: "json"
       }
 
@@ -101,23 +109,43 @@ describe "streaks", ->
 
       current_user\refresh!
       assert.same 1, current_user.streaks_count
+      assert.same 0, current_user.hidden_streaks_count
+
+
+    it "should create a hidden streak", ->
+      status, res = request_as current_user, "/streaks/new", {
+        post: streak_params {
+          "streak[publish_status]": "hidden"
+        }
+        expect: "json"
+      }
+
+      assert.same 200, status
+      assert.falsy res.errors
+
+      current_user\refresh!
+      assert.same 1, current_user.streaks_count
+      assert.same 1, current_user.hidden_streaks_count
 
     it "should edit streak", ->
       streak = factory.Streaks user_id: current_user.id
 
       status, res = request_as current_user, "/streak/#{streak.id}/edit", {
-        post: {
-          "streak[title]": "Streak world"
-          "streak[short_description]": "This is my streak"
-          "streak[description]": "Streak description here"
-          "streak[hour_offset]": "0"
-          "streak[start_date]": "2015-1-1"
-          "streak[end_date]": "2015-2-1"
-          "streak[publish_status]": "published"
-          "streak[rate]": "daily"
-          "streak[category]": "other"
-          "streak[late_submit_type]": "public"
-          "timezone": "America/Los_Angeles"
+        post: streak_params!
+        expect: "json"
+      }
+
+      assert.same 200, status
+      assert.falsy res.errors
+      assert.truthy res.url
+
+    it "should edit streak from public to hidden", ->
+      streak = factory.Streaks user_id: current_user.id
+      current_user\recount!
+
+      status, res = request_as current_user, "/streak/#{streak.id}/edit", {
+        post: streak_params {
+          "streak[publish_status]": "hidden"
         }
         expect: "json"
       }
@@ -125,6 +153,11 @@ describe "streaks", ->
       assert.same 200, status
       assert.falsy res.errors
       assert.truthy res.url
+
+      current_user\refresh!
+
+      assert.same 1, current_user.streaks_count
+      assert.same 1, current_user.hidden_streaks_count
 
     it "should not let stranger edit streak", ->
       streak = factory.Streaks user_id: current_user.id

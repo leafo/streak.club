@@ -72,6 +72,8 @@ class EditStreakFlow extends Flow
 
     @current_user\update {
       streaks_count: db.raw "streaks_count + 1"
+      hidden_streaks_count: if streak\is_hidden! or streak\is_draft!
+        db.raw "hidden_streaks_count + 1"
     }
 
     streak
@@ -89,4 +91,7 @@ class EditStreakFlow extends Flow
 
     if next params
       @streak\update params
+
+    -- lazy
+    @streak\get_user!\recount "hidden_streaks_count"
 

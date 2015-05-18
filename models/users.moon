@@ -218,8 +218,10 @@ class Users extends Model
 
     @user_profile
 
-  recount: =>
-    @update {
+  recount: (...) =>
+    import Streaks from require "models"
+
+    updates = {
       likes_count: db.raw db.interpolate_query [[
         (select count(*) from submission_likes where user_id = ?)
       ]], @id
@@ -240,6 +242,10 @@ class Users extends Model
         (select count(*) from streaks where user_id = ?)
       ]], @id
 
+      hidden_streaks_count: db.raw db.interpolate_query [[
+        (select count(*) from streaks where user_id = ? and publish_status != ?)
+      ]], @id, Streaks.publish_statuses.published
+
       followers_count: db.raw db.interpolate_query [[
         (select count(*) from followings where dest_user_id = ?)
       ]], @id
@@ -248,6 +254,11 @@ class Users extends Model
         (select count(*) from followings where source_user_id = ?)
       ]], @id
     }
+
+    if ...
+      updates = {key, updates[key] for key in *{...}}
+
+    @update updates
 
   unseen_notifications: =>
     import Notifications from require "models"
@@ -304,3 +315,8 @@ class Users extends Model
     return @submissions_count if user\is_admin! or user.id == @user_id
     public_count
 
+  streaks_count_for: (user) =>
+    public_count = @streaks_count - @hidden_streaks_count
+    return public_count unless user
+    return @streaks_count if user\is_admin! or user.id == @user_id
+    public_count

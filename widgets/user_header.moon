@@ -35,9 +35,10 @@ class UserHeader extends require "widgets.base"
           @url_for("user_followers", slug: @user.slug),
           "(#{@user.followers_count})"
 
-      if @user.streaks_count > 0
+      streaks_count = @user\streaks_count_for @current_user
+      if streaks_count
         @page_tab "Streaks hosted",
           "streaks_hosted",
           @url_for("user_streaks_hosted", slug: @user.slug),
-          "(#{@user.streaks_count})"
+          "(#{streaks_count})"
 
