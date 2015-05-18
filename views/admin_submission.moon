@@ -30,6 +30,7 @@ class AdminSubmission extends require "widgets.base"
       "likes_count"
       "allow_comments"
       "comments_count"
+      "hidden"
     }
 
     h3 "Streak submissions"
