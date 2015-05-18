@@ -72,6 +72,12 @@ class Users extends Model
       key: @salt!
     }
 
+  allowed_to_edit: (user) =>
+    return false unless user
+    return true if user\is_admin!
+    return true if user.id == @id
+    false
+
   generate_password_reset: =>
     profile = @get_user_profile!
     import generate_key from require "helpers.keys"

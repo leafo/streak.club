@@ -137,7 +137,11 @@ class UsersApplication extends lapis.Application
       find_user @
       assert_page @
 
-      @pager = @user\find_hosted_streaks publish_status: "published"
+      @pager = @user\find_hosted_streaks {
+        publish_status: unless @user\allowed_to_edit(@current_user)
+          "published"
+      }
+
       @streaks = @pager\get_page @page
       @title = "Streaks hosted by #{@user\name_for_display!}"
 
