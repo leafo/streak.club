@@ -257,8 +257,8 @@ class Submissions extends Model
     return true if @hidden and not user
 
     if user
-      return false, true if user.id == @user_id
-      return false, true if user\is_admin!
+      return false, @hidden if user.id == @user_id
+      return false, @hidden if user\is_admin!
 
     @hidden
 
