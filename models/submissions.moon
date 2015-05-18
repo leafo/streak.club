@@ -262,3 +262,16 @@ class Submissions extends Model
 
     @hidden
 
+  visible_streaks_for: (user, current_streak_id) =>
+    return for streak in *@get_streaks!
+      if current_streak_id == streak.id
+        -- can see it if we're viewing streak
+        streak
+      elseif @allowed_to_edit user
+        -- can see all streaks if we own submission
+        streak
+      else
+        continue if streak\is_hidden_from @current_user
+        streak
+
+

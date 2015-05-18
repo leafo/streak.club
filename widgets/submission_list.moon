@@ -101,15 +101,7 @@ class SubmissionList extends require "widgets.base"
 
               if @show_streaks and submission.streaks
                 current_streak_id = @streak and @streak.id
-                filtered = for streak in *submission.streaks
-                  if current_streak_id == streak.id
-                    streak
-                  else
-                    if submission.user_id == (@current_user and @current_user.id)
-                      streak
-                    else
-                      continue if streak\is_hidden_from @current_user
-                      streak
+                filtered = submission\visible_streaks_for @current_user, current_streak_id
 
                 if next filtered
                   text " for "
