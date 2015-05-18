@@ -99,17 +99,29 @@ class SubmissionList extends require "widgets.base"
               else
                 text "A submission"
 
-              if @show_streaks and submission.streaks and next submission.streaks
-                text " for "
-                num_streaks = #submission.streaks
-                for i, streak in ipairs submission.streaks
-                  text " "
-                  span class: "streak_title_group", ->
-                    a href: @url_for(streak), streak.title
+              if @show_streaks and submission.streaks
+                current_streak_id = @streak and @streak.id
+                filtered = for streak in *submission.streaks
+                  if current_streak_id == streak.id
+                    streak
+                  else
+                    if submission.user_id == (@current_user and @current_user.id)
+                      streak
+                    else
+                      continue if streak\is_hidden_from @current_user
+                      streak
 
-                    if submit = submission.streak_submissions and submission.streak_submissions[i]
-                      text " "
-                      span class: "unit_number", submit\unit_number!
+                if next filtered
+                  text " for "
+                  num_streaks = #filtered
+                  for i, streak in ipairs filtered
+                    text " "
+                    span class: "streak_title_group", ->
+                      a href: @url_for(streak), streak.title
+
+                      if submit = submission.streak_submissions and submission.streak_submissions[i]
+                        text " "
+                        span class: "unit_number", submit\unit_number!
 
             div class: "submission_meta", ->
               a {

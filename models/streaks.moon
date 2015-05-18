@@ -434,6 +434,14 @@ class Streaks extends Model
     return false unless user
     @late_submit_type == @@late_submit_types.public
 
+  is_hidden_from: (user) =>
+    return false unless @is_hidden!
+    return true unless user
+
+    return false if user\is_admin!
+    return false if user.id == @user_id
+    true
+
   @_time_clause: (state) =>
     switch state
       when "active"
@@ -451,5 +459,7 @@ class Streaks extends Model
         ]]
       else
         error "unknown state: #{state}"
+
+
 
 
