@@ -185,13 +185,23 @@ describe "submissions", ->
         "submission[user_rating]": "neutral"
       }
       assert.truthy res.success
-      assert.same 1, #Submissions\select!
+      submission = assert unpack(Submissions\select!), "missing submission"
+
+      assert.same nil, submission.title
+      assert.same Submissions.user_ratings.neutral, submission.user_rating
+      assert.same false, submission.hidden
+      assert.same current_user.id, submission.user_id
+
       assert.same 1, #StreakSubmissions\select!
 
       streak_user\refresh!
       assert.same 1, streak_user.current_streak
       assert.same 1, streak_user.longest_streak
       assert.truthy streak_user.last_submitted_at
+
+      current_user\refresh!
+      assert.same 1, current_user.submissions_count
+      assert.same 0, current_user.hidden_submissions_count
 
     it "should submit to multiple streaks", ->
       streak2 = factory.Streaks state: "during"
@@ -213,6 +223,29 @@ describe "submissions", ->
         assert.same 1, su.current_streak
         assert.same 1, su.longest_streak
         assert.truthy su.last_submitted_at
+
+    it "should mark submission hidden when submitting to hidden streak", ->
+      streak2 = factory.Streaks {
+        state: "during"
+        publish_status: "hidden"
+      }
+
+      streak_user2 = factory.StreakUsers user_id: current_user.id, streak_id: streak2.id
+
+      status, res = do_submit {
+        ["submit_to[#{streak.id}]"]: "yes"
+        ["submit_to[#{streak2.id}]"]: "yes"
+        "submission[title]": ""
+        "submission[user_rating]": "neutral"
+      }
+
+      assert.falsy res.errors
+      current_user\refresh!
+      assert.same 1, current_user.submissions_count
+      assert.same 1, current_user.hidden_submissions_count
+
+      submission = assert unpack Submissions\select!
+      assert.truthy submission.hidden
 
     it "should not allow submission to streak already submitted to", ->
       factory.StreakSubmissions streak_id: streak.id, user_id: current_user.id

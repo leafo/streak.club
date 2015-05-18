@@ -67,9 +67,17 @@ class EditSubmissionFlow extends Flow
     params.user_id = @current_user.id
 
     streaks = @get_submitting_streaks!
+    for streak in *streaks
+      if streak\is_hidden!
+        params.hidden = true
+        break
 
     @submission = Submissions\create params
-    @current_user\update submissions_count: db.raw "submissions_count + 1"
+    user_update = submissions_count: db.raw "submissions_count + 1"
+    if @submission.hidden
+      user_update.hidden_submissions_count = db.raw "hidden_submissions_count + 1"
+
+    @current_user\update user_update
 
     for streak in *streaks
       submit_timestamp = if @unit_date
