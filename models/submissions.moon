@@ -254,11 +254,17 @@ class Submissions extends Model
       slugify "#{@title} by #{user\name_for_display!}"
 
   is_hidden_from: (user) =>
-    return false if user and user.id == @user_id
-    return false if user and user\is_admin!
+    in_hidden = false
 
     for streak in *@get_streaks!
-      return true if streak\is_hidden!
+      if streak\is_hidden!
+        in_hidden = true
+        break
 
-    false
+    return true if in_hidden and not user
+
+    return false, in_hidden if user.id == @user_id
+    return false, in_hidden if user\is_admin!
+
+    in_hidden
 

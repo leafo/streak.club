@@ -38,7 +38,10 @@ class SubmissionList extends require "widgets.base"
 
   render_submissions: =>
     for submission in *@submissions
-      return if @hide_hidden and submission\is_hidden_from @current_user
+      hidden, would_hide = if @hide_hidden
+        submission\is_hidden_from @current_user
+
+      return if hidden
 
       has_title = submission.title
       classes = "submission_row"
@@ -122,6 +125,10 @@ class SubmissionList extends require "widgets.base"
                   class: "icon-pencil edit_btn"
                 }
 
+            if would_hide
+              div class: "hidden_notice", ->
+                text "This submission is part of a hidden streak but you have
+                permission to see it."
 
           if submission.description and not is_empty_html submission.description
             div class: "user_formatted", ->
