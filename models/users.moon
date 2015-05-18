@@ -218,6 +218,10 @@ class Users extends Model
         (select count(*) from submissions where user_id = ?)
       ]], @id
 
+      hidden_submissions_count: db.raw db.interpolate_query [[
+        (select count(*) from submissions where user_id = ? and hidden)
+      ]], @id
+
       comments_count: db.raw db.interpolate_query [[
         (select count(*) from submission_comments where user_id = ?)
       ]], @id
@@ -283,4 +287,10 @@ class Users extends Model
   twitter_handle: =>
     return unless @twitter
     @twitter\match("twitter.com/([^/]+)") or @twitter\match("^@(.+)") or @twitter
+
+  submissions_count_for: (user) =>
+    public_count = @submissions_count - @hidden_submissions_count
+    return public_count unless user
+    return @submissions_count if user\is_admin! or user.id == @user_id
+    public_count
 

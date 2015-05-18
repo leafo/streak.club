@@ -46,7 +46,7 @@ class UserProfile extends require "widgets.base"
     return unless next @submissions
     h2 ->
       text "All submissions "
-      span class: "sub", "(#{@user.submissions_count})"
+      span class: "sub", "(#{@user\submissions_count_for @current_user})"
 
     widget SubmissionList {
       hide_hidden: true

@@ -41,7 +41,7 @@ class SubmissionList extends require "widgets.base"
       hidden, would_hide = if @hide_hidden
         submission\is_hidden_from @current_user
 
-      return if hidden
+      continue if hidden
 
       has_title = submission.title
       classes = "submission_row"
