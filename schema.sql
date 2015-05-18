@@ -475,7 +475,8 @@ CREATE TABLE submissions (
     likes_count integer DEFAULT 0 NOT NULL,
     user_rating integer DEFAULT 2 NOT NULL,
     allow_comments boolean DEFAULT true NOT NULL,
-    comments_count integer DEFAULT 0 NOT NULL
+    comments_count integer DEFAULT 0 NOT NULL,
+    hidden boolean DEFAULT false NOT NULL
 );
 
 
@@ -586,7 +587,8 @@ CREATE TABLE users (
     admin boolean DEFAULT false NOT NULL,
     streaks_count integer DEFAULT 0 NOT NULL,
     comments_count integer DEFAULT 0 NOT NULL,
-    likes_count integer DEFAULT 0 NOT NULL
+    likes_count integer DEFAULT 0 NOT NULL,
+    hidden_submissions_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1139,6 +1141,7 @@ COPY lapis_migrations (name) FROM stdin;
 1426439394
 1427955442
 1431573586
+1431917444
 \.
 
 

@@ -436,5 +436,22 @@ import
 
   [1431573586]: =>
     add_column "streaks", "late_submit_type", integer default: 1
+
+  [1431917444]: =>
+    add_column "submissions", "hidden", boolean
+    add_column "users", "hidden_submissions_count", integer
+
+    import Streaks from require "models"
+
+    db.query "
+      update submissions set hidden = true
+      where exists(select 1 from streak_submissions
+        inner join streaks on streak_submissions.streak_id = streaks.id
+        where streak_submissions.submission_id = submissions.id and streaks.publish_status = ?)", Streaks.publish_statuses.hidden
+
+    db.query "
+      update users set hidden_submissions_count =
+        (select count(*) from submissions where user_id = users.id and hidden)
+    "
 }
 
