@@ -11,6 +11,23 @@
         font-size: $body_size;
         margin: 30px;
 
+        .streak_tag {
+            position: absolute;
+            top: 0px;
+            right: 10px;
+            font-size: 12px;
+            text-transform: uppercase;
+            background: lighten($red, 10%);
+            color: white;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-weight: bold;
+
+            &.hidden_tag {
+                background: $purple;
+            }
+        }
+
         .box_content {
             position: absolute;
             left: 0;

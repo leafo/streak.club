@@ -12,6 +12,12 @@ class StreakList extends require "widgets.base"
         i += 1
         div class: "streak_box", ->
           div class: "box_content", ->
+            if streak\is_hidden!
+              div class: "streak_tag hidden_tag", "Hidden"
+
+            if streak\is_draft!
+              div class: "streak_tag draft_tag", "Draft"
+
             h3 ->
               a href: @url_for(streak), streak.title
 
