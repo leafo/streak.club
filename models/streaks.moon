@@ -359,7 +359,7 @@ class Streaks extends Model
       while true
         coroutine.yield current
         @increment_date_by_unit current
-        break if stop < current
+        break if stop <= current
 
   -- each unit in local time stamp
   each_unit_local: =>
