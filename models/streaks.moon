@@ -60,6 +60,11 @@ class Streaks extends Model
     public: 2
   }
 
+  @membership_types: enum {
+    public: 1
+    members_only: 2
+  }
+
   @create: (opts={}) =>
     assert opts.user_id, "missing user_id"
     opts.rate = @rates\for_db opts.rate
@@ -67,6 +72,8 @@ class Streaks extends Model
     opts.rate = @rates\for_db opts.rate or "daily"
     opts.category = @categories\for_db opts.category or "other"
     opts.late_submit_type = @late_submit_types\for_db opts.late_submit_type or "admins_only"
+    opts.membership_type = @membership_types\for_db opts.membership_type or "public"
+
     Model.create @, opts
 
   @group_by_state: (streaks) =>

@@ -472,5 +472,10 @@ import
         (select count(*) from streaks where user_id = users.id and publish_status != ?)
     ", Streaks.publish_statuses.published
 
+
+  [1432002497]: =>
+    add_column "streak_users", "pending", boolean default: false
+    add_column "streaks", "membership_type", integer default: 1
+
 }
 

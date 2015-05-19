@@ -123,6 +123,12 @@ class EditStreak extends require "widgets.base"
           {"public", "Public", "Any participant can late submit"}
         }, streak.late_submit_type and Streaks.late_submit_types[streak.late_submit_type] or nil
 
+      @input_row "Membership", ->
+        @radio_buttons "streak[membership_type]", {
+          {"public", "Public", "Anyone can join and submit to the streak"}
+          {"members_only", "Members only", "You must approve someone before they can submit to the streak"}
+        }, Streaks.membership_types[streak.membership_type]
+
       div id: "publish_status"
       @input_row "Publish", ->
         @radio_buttons "streak[publish_status]", {

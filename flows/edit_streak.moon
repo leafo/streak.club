@@ -22,7 +22,7 @@ class EditStreakFlow extends Flow
     trim_filter streak_params, {
       "title", "description", "short_description", "start_date", "end_date",
       "hour_offset", "publish_status", "rate", "category", "twitter_hash",
-      "late_submit_type"
+      "late_submit_type", "membership_type"
     }
 
     assert_valid streak_params, {
@@ -34,6 +34,7 @@ class EditStreakFlow extends Flow
       {"hour_offset", exists: true}
       {"publish_status", one_of: Streaks.publish_statuses}
       {"category", one_of: Streaks.categories}
+      {"membership_type", one_of: Streaks.membership_types}
       {"rate", one_of: Streaks.rates}
       {"late_submit_type", one_of: Streaks.late_submit_types}
       {"twitter_hash", optional: true, max_length: 139}
@@ -86,6 +87,7 @@ class EditStreakFlow extends Flow
     params.publish_status = Streaks.publish_statuses\for_db params.publish_status
     params.category = Streaks.categories\for_db params.category
     params.late_submit_type = Streaks.late_submit_types\for_db params.late_submit_type
+    params.membership_type = Streaks.membership_types\for_db params.membership_type
 
     filter_update @streak, params
 

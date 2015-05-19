@@ -339,7 +339,8 @@ CREATE TABLE streak_users (
     updated_at timestamp without time zone NOT NULL,
     current_streak integer,
     longest_streak integer,
-    last_submitted_at timestamp without time zone
+    last_submitted_at timestamp without time zone,
+    pending boolean DEFAULT false NOT NULL
 );
 
 
@@ -367,7 +368,8 @@ CREATE TABLE streaks (
     publish_status integer NOT NULL,
     category integer DEFAULT 0 NOT NULL,
     twitter_hash text,
-    late_submit_type integer DEFAULT 1 NOT NULL
+    late_submit_type integer DEFAULT 1 NOT NULL,
+    membership_type integer DEFAULT 1 NOT NULL
 );
 
 
@@ -1159,6 +1161,7 @@ COPY lapis_migrations (name) FROM stdin;
 1431917444
 1431922768
 1431928525
+1432002497
 \.
 
 

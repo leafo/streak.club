@@ -87,6 +87,7 @@ describe "streaks", ->
         "streak[rate]": "daily"
         "streak[category]": "other"
         "streak[late_submit_type]": "public"
+        "streak[membership_type]": "public"
         "timezone": "America/Los_Angeles"
       }
 
