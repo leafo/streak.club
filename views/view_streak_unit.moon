@@ -12,12 +12,11 @@ class ViewStreakUnit extends require "widgets.base"
     "new S.ViewStreakUnit(#{@widget_selector!});"
 
   inner_content: =>
-    widget StreakHeader {
-      owner_tools_extra: =>
-        raw " &middot; "
-        a href: @url_for("streak_unit_submit_url", id: @streak.id, date: @params.date),
-          "Generate submit url"
-    }
+    widget StreakHeader
+
+    div class: "owner_tools", ->
+      a href: @url_for("streak_unit_submit_url", id: @streak.id, date: @params.date),
+        "Generate late submit URL for participant"
 
     h4 class: "submission_list_title", ->
       text "Submissions from #{@start_time\fmt Streaks.day_format_str} to #{@end_time\fmt Streaks.day_format_str}"
