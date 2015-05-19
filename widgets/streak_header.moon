@@ -36,7 +36,7 @@ class StreakHeader extends require "widgets.base"
       @page_tab "Overview", "overview", @url_for(@streak)
       @page_tab "Participants",
         "participants",
-        @url_for("view_streak_participants", url_params),
+        @url_for("streak_participants", url_params),
         "(#{@streak\approved_participants_count!})"
 
       @page_tab "Top streaks", "top_participants", @url_for "streak_top_participants", url_params

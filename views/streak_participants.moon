@@ -2,7 +2,7 @@
 StreakHeader = require "widgets.streak_header"
 UserList = require "widgets.user_list"
 
-class ViewStreakParticipants extends require "widgets.base"
+class StreakParticipants extends require "widgets.base"
   @needs: {"streak"}
   @include "widgets.pagination_helpers"
 

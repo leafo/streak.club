@@ -172,7 +172,7 @@ class StreaksApplication extends lapis.Application
     }
   }
 
-  [view_streak_participants: "/s/:id/:slug/participants"]: =>
+  [streak_participants: "/s/:id/:slug/participants"]: =>
     import Followings from require "models"
 
     find_streak @
@@ -186,7 +186,7 @@ class StreaksApplication extends lapis.Application
 
     @users = [s.user for s in *@pager\get_page @page]
     if @page != 1 and not next @users
-      return redirect_to: @url_for "view_streak_participants", {
+      return redirect_to: @url_for "streak_participants", {
         id: @streak.id
         slug: @streak.slug
       }
