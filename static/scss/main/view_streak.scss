@@ -56,6 +56,14 @@
         color: desaturate(darken($green, 40%), 20%);
     }
 
+    .pending_join_banner {
+        background: $orange;
+        color: white;
+        padding: 15px 20px;
+        color: white;
+        margin-bottom: 40px;
+    }
+
     .streak_units {
         margin-top: 20px;
 
@@ -144,6 +152,11 @@
                 margin-left: 0;
             }
         }
+    }
+
+    .members_only_message {
+        color: $body_color_light;
+        margin-top: 10px;
     }
 
 

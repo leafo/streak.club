@@ -42,6 +42,11 @@ class ViewStreak extends require "widgets.base"
     else
       widget StreakHeader page_name: @page_name
 
+    if @streak_user and @streak_user.pending
+      div class: "pending_join_banner", "You've requested to join this streak
+      but not have been approved by the owner yet. When you are approved you'll
+      be able to post."
+
     div class: "columns", ->
       div class: "streak_feed_column",->
         unless @embed_page
@@ -78,9 +83,9 @@ class ViewStreak extends require "widgets.base"
       p class: "submit_sub", "You haven't submitted #{@streak\unit_noun!} yet."
 
 
-    if @streak_user and not @streak\before_start!
-      current = @streak_user\get_current_streak!
-      longest = @streak_user\get_longest_streak!
+    if @streak_user and not @streak\before_start! and not @streak_user.pending
+      current = @streak_user\get_current_streak! or 0
+      longest = @streak_user\get_longest_streak! or 0
 
       div class: "streak_summary", ->
         span class: "stat", "Streak: #{current}"
@@ -90,14 +95,23 @@ class ViewStreak extends require "widgets.base"
       form action: "", method: "post", class: "form", ->
         @csrf_input!
 
+        label = if @streak\is_members_only
+          "Request to join"
+        else
+          "Join streak"
+
         if @current_user
-          button class: "button", name: "action", value: "join_streak", "Join streak"
+          button class: "button", name: "action", value: "join_streak", label
         else
           a {
             class: "button"
             href: login_and_return_url @
-            "Join streak"
+            label
           }
+
+        if @streak\is_members_only!
+          p class: "members_only_message", "You must be approved by streak
+          owner to join."
 
     @render_streak_units!
 

@@ -160,7 +160,10 @@ class StreaksApplication extends lapis.Application
             if @streak\join @current_user
               import Notifications from require "models"
               Notifications\notify_for @streak\get_user!, @streak, "join", @current_user
-              @session.flash = "Streak joined"
+              if @streak\is_members_only!
+                @session.flash = "Requested to join"
+              else
+                @session.flash = "Streak joined"
           when "leave_streak"
             if @streak\leave @current_user
               @session.flash = "Streak left"

@@ -157,6 +157,8 @@ class Streaks extends Model
     su = @has_user user
     return false unless su
 
+    return false if @is_members_only! and su.pending
+
     if check_time
       now = date true
       start_date = @start_datetime!
