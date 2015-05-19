@@ -126,15 +126,20 @@ $like_color: #FF5E5E;
 }
 
 @mixin responsive_column {
-    max-width: $site_width;
+    width: $site_width;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 40px;
-    padding-right: 40px;
 
-    @media (max-width: 600px) {
-        padding-left: 20px;
-        padding-right: 20px;
+    .responsive & {
+        width: auto;
+        max-width: $site_width;
+        padding-left: 40px;
+        padding-right: 40px;
+
+        @media (max-width: 600px) {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
     }
 }
 

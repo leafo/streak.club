@@ -122,6 +122,10 @@ class Layout extends Widget
       class_name or= ""
       class_name ..= " embed_page"
 
+    if @mobile_friendly
+      class_name or= ""
+      class_name ..= " responsive"
+
     {
       "data-page_name": @route_name
       class: class_name

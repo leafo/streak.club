@@ -21,8 +21,6 @@ class Base extends Widget
     local inner
     if @base_widget
       classes ..= " base_widget"
-      if @mobile_friendly
-        classes ..= " responsive"
 
     @_opts = { class: classes, -> raw inner }
 

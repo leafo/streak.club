@@ -262,7 +262,7 @@ a {
     width: $site_width;
     margin: 40px auto;
 
-    &.responsive {
+    .responsive & {
         @media (max-width: $site_width) {
             max-width: $site_width;
             width: auto;
