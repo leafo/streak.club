@@ -172,41 +172,71 @@ class StreaksApplication extends lapis.Application
     }
   }
 
-  [streak_participants: "/s/:id/:slug/participants"]: =>
-    import Followings from require "models"
+  [streak_participants: "/s/:id/:slug/participants"]: respond_to {
+    on_error: => not_found
 
-    find_streak @
-    check_slug @
-    assert_page @
+    before: =>
+      find_streak @
+      check_slug @
 
-    @pager = @streak\find_participants {
-      per_page: 25
-      pending: if @streak\is_members_only! then false
-    }
-
-    @users = [s.user for s in *@pager\get_page @page]
-    if @page != 1 and not next @users
-      return redirect_to: @url_for "streak_participants", {
-        id: @streak.id
-        slug: @streak.slug
+    POST: capture_errors_json =>
+      assert_valid @params, {
+        {"action", one_of: {"approve_member"}}
+        {"user_id", optional: true, is_integer: true}
       }
 
-    Followings\load_for_users @users, @current_user
+      switch @params.action
+        when "approve_member"
+          assert_error @params.user_id, "missing user id"
+          import StreakUsers from require "models"
+          su = StreakUsers\find {
+            user_id: @params.user_id
+            streak_id: @streak.id
+          }
 
-    @title = "Participants for #{@streak.title}"
+          assert_error su, "invalid user"
+          assert_error su.pending, "invalid user"
+          su\update pending: false
 
-    if @streak\is_members_only! and @streak\allowed_to_edit(@current_user)
-      @pending_users = @streak\find_participants({
-        per_page: 100
-        pending: true
-      })\get_page!
+          @streak\recount "pending_users_count"
+          @session.flash = "Approved member"
 
-      @pending_users = [su.user for su in *@pending_users]
+      redirect_to: @url_for "streak_participants", id: @streak.id, slug: @streak\slug!
 
-    if @page > 1
-      @title = @title .. " - Page #{@page}"
+    GET: =>
+      import Followings from require "models"
 
-    render: true
+      assert_page @
+
+      @pager = @streak\find_participants {
+        per_page: 25
+        pending: if @streak\is_members_only! then false
+      }
+
+      @users = [s.user for s in *@pager\get_page @page]
+      if @page != 1 and not next @users
+        return redirect_to: @url_for "streak_participants", {
+          id: @streak.id
+          slug: @streak.slug
+        }
+
+      Followings\load_for_users @users, @current_user
+
+      @title = "Participants for #{@streak.title}"
+
+      if @streak\is_members_only! and @streak\allowed_to_edit(@current_user)
+        @pending_users = @streak\find_participants({
+          per_page: 100
+          pending: true
+        })\get_page!
+
+        @pending_users = [su.user for su in *@pending_users]
+
+      if @page > 1
+        @title = @title .. " - Page #{@page}"
+
+      render: true
+  }
 
   [view_streak_unit: "/streak/:id/unit/:date"]: capture_errors {
     on_error: =>
@@ -250,6 +280,7 @@ class StreaksApplication extends lapis.Application
 
       GET: =>
         @title = "Submit URL for #{@streak.title}"
+        -- TODO: when streak has more than 200 members this fails
         @users = @streak\find_users!\get_page!
         render: true
 

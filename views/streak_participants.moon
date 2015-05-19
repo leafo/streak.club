@@ -16,9 +16,14 @@ class StreakParticipants extends require "widgets.base"
 
       widget UserList {
         users: @pending_users
-        action_area: =>
-          form action: "", ->
-            button class: "button user_action_btn", "Approve member"
+        action_area: (user) =>
+          form method: "POST", ->
+            input type: "hidden", name: "user_id", value: user.id
+            button {
+              name: "action"
+              value: "approve_member"
+              class: "button user_action_btn", "Approve member"
+            }
       }
 
       h3 "Approved participants"
