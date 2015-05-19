@@ -5,11 +5,6 @@ class StreakHeader extends require "widgets.base"
   base_widget: false
 
   inner_content: =>
-    if @streak\allowed_to_edit @current_user
-      div class: "owner_tools", ->
-        a href: @url_for("edit_streak", id: @streak.id), "Edit streak"
-        @owner_tools_extra!
-
     if @streak\is_draft!
       a {
         href: @url_for("edit_streak", id: @streak.id) .. "#publish_status"
@@ -31,16 +26,19 @@ class StreakHeader extends require "widgets.base"
         h3 @streak.short_description
 
     div class: "page_tabs", ->
-      url_params = { slug: @streak\slug!, id: @streak.id }
+      div class: "tabs_inner", ->
+        url_params = { slug: @streak\slug!, id: @streak.id }
 
-      @page_tab "Overview", "overview", @url_for(@streak)
-      @page_tab "Participants",
-        "participants",
-        @url_for("streak_participants", url_params),
-        "(#{@streak\approved_participants_count!})"
+        @page_tab "Overview", "overview", @url_for(@streak)
+        @page_tab "Participants",
+          "participants",
+          @url_for("streak_participants", url_params),
+          "(#{@streak\approved_participants_count!})"
 
-      @page_tab "Top streaks", "top_participants", @url_for "streak_top_participants", url_params
-      @page_tab "Top submissions", "top_submissions", @url_for "streak_top_submissions", url_params
-      @page_tab "Stats", "stats", @url_for "streak_stats", url_params
+        @page_tab "Top streaks", "top_participants", @url_for "streak_top_participants", url_params
+        @page_tab "Top submissions", "top_submissions", @url_for "streak_top_submissions", url_params
+        @page_tab "Stats", "stats", @url_for "streak_stats", url_params
 
-  owner_tools_extra: =>
+        if @streak\allowed_to_edit @current_user
+          a href: @url_for("edit_streak", id: @streak.id), class: "tab_button", "Edit streak"
+

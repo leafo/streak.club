@@ -258,7 +258,6 @@ a {
     }
 }
 
-
 .base_widget {
     width: $site_width;
     margin: 40px auto;
@@ -270,6 +269,10 @@ a {
             margin: 20px;
         }
     }
+}
+
+.responsive_column {
+    @include responsive_column;
 }
 
 .global_flash {

@@ -15,6 +15,7 @@ class ViewStreak extends require "widgets.base"
   @needs: {"streak", "streak_host", "unit_counts", "completed_units"}
 
   page_name: "overview"
+  base_widget: false
 
   js_init: =>
     current_unit = @streak\current_unit!
@@ -42,21 +43,22 @@ class ViewStreak extends require "widgets.base"
     else
       widget StreakHeader page_name: @page_name
 
-    if @streak_user and @streak_user.pending
-      div class: "pending_join_banner", "You've requested to join this streak
-      but not have been approved by the owner yet. When you are approved you'll
-      be able to post."
+    div class: "responsive_column responsive", ->
+      if @streak_user and @streak_user.pending
+        div class: "pending_join_banner", "You've requested to join this streak
+        but not have been approved by the owner yet. When you are approved you'll
+        be able to post."
 
-    div class: "columns", ->
-      div class: "streak_feed_column",->
+      div class: "columns", ->
+        div class: "streak_feed_column",->
+          unless @embed_page
+            @streak_summary!
+
+          @render_submissions!
+
         unless @embed_page
-          @streak_summary!
-
-        @render_submissions!
-
-      unless @embed_page
-        div class: "streak_side_column", ->
-          @render_side_column!
+          div class: "streak_side_column", ->
+            @render_side_column!
 
   render_streak_units: =>
     widget StreakUnits
