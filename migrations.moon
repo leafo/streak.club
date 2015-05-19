@@ -485,6 +485,7 @@ import
           where streak_id = streaks.id and pending)
     "
 
-
+  [1432010515]: =>
+    create_index "streak_users", "streak_id", "pending", "created_at"
 }
 

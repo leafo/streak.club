@@ -179,7 +179,11 @@ class StreaksApplication extends lapis.Application
     check_slug @
     assert_page @
 
-    @pager = @streak\find_participants per_page: 25
+    @pager = @streak\find_participants {
+      per_page: 25
+      pending: if @streak\is_members_only! then false
+    }
+
     @users = [s.user for s in *@pager\get_page @page]
     if @page != 1 and not next @users
       return redirect_to: @url_for "view_streak_participants", {
@@ -190,6 +194,14 @@ class StreaksApplication extends lapis.Application
     Followings\load_for_users @users, @current_user
 
     @title = "Participants for #{@streak.title}"
+
+    if @streak\is_members_only! and @streak\allowed_to_edit(@current_user)
+      @pending_users = @streak\find_participants({
+        per_page: 100
+        pending: true
+      })\get_page!
+
+      @pending_users = [su.user for su in *@pending_users]
 
     if @page > 1
       @title = @title .. " - Page #{@page}"

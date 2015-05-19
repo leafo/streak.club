@@ -52,9 +52,11 @@ class UserList extends require "widgets.base"
           div ->
             a class: "user_name", href: @user_link(user), user\name_for_display!
 
-
           div class: "user_stats", ->
             @user_stats user
 
-        unless @current_user and user.id == @current_user.id
-          @follow_button user, user.following
+        @action_area user
+
+  action_area: (user) =>
+    unless @current_user and user.id == @current_user.id
+      @follow_button user, user.following

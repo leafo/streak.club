@@ -412,7 +412,12 @@ class Streaks extends Model
       Users\include_in s_users, "user_id"
       s_users
 
-    StreakUsers\paginated "where streak_id = ? order by created_at desc", @id, opts
+    clause = db.encode_clause {
+      streak_id: @id
+      pending: opts.pending
+    }
+
+    StreakUsers\paginated "where #{clause} order by created_at desc", opts
 
   find_longest_active_streakers: =>
     import StreakUsers, Users from require "models"
