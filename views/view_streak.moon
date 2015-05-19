@@ -97,7 +97,7 @@ class ViewStreak extends require "widgets.base"
       form action: "", method: "post", class: "form", ->
         @csrf_input!
 
-        label = if @streak\is_members_only
+        label = if @streak\is_members_only!
           "Request to join"
         else
           "Join streak"
