@@ -170,6 +170,35 @@ describe "streaks", ->
 
       assert.same 404, status
 
+    it "should join streak", ->
+      streak = factory.Streaks!
+      status, res = request_as current_user, "/s/#{streak.id}/#{streak\slug!}", {
+        post: {
+          action: "join_streak"
+        }
+      }
+
+      assert.same 302, status
+      streak_user = assert unpack(StreakUsers\select!), "missing streak user"
+      assert.same current_user.id, streak_user.user_id
+      assert.same streak.id, streak_user.streak_id
+      assert.same false, streak_user.pending
+
+    it "should join streak members only streak with pending", ->
+      streak = factory.Streaks membership_type: "members_only"
+      status, res = request_as current_user, "/s/#{streak.id}/#{streak\slug!}", {
+        post: {
+          action: "join_streak"
+        }
+      }
+
+      assert.same 302, status
+      streak_user = assert unpack(StreakUsers\select!), "missing streak user"
+      assert.same current_user.id, streak_user.user_id
+      assert.same streak.id, streak_user.streak_id
+      assert.same true, streak_user.pending
+
+
   describe "with fixed streak PST", ->
     local streak, user
     before_each ->
@@ -284,7 +313,7 @@ describe "streaks", ->
     -- anything specific, just trying to catch regressions in anything that I
     -- may not have written a test for
 
-    it "should have correct unit counts #ddd", ->
+    it "should have correct unit counts", ->
       streak = factory.Streaks {
         start_date: "2014-12-02"
         end_date: "2015-12-31"

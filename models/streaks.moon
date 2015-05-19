@@ -99,7 +99,8 @@ class Streaks extends Model
 
   join: (user) =>
     import StreakUsers from require "models"
-    res = safe_insert StreakUsers, streak_id: @id, user_id: user.id
+    pending = not not (@is_members_only! and user.id != @user_id)
+    res = safe_insert StreakUsers, streak_id: @id, user_id: user.id, :pending
 
     if res.affected_rows != 1
       return false
@@ -357,6 +358,9 @@ class Streaks extends Model
 
   is_hidden: =>
     @publish_status == @@publish_statuses.hidden
+
+  is_members_only: =>
+    @membership_type == @@membership_types.members_only
 
   -- each unit in utc
   each_unit: =>
