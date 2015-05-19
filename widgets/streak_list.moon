@@ -33,7 +33,7 @@ class StreakList extends require "widgets.base"
 
             div class: "streak_stats", ->
               div class: "stat_box", ->
-                div class: "stat_value", streak.users_count
+                div class: "stat_value", streak\approved_participants_count!
                 div class: "stat_label", "participants"
 
               div class: "stat_box", ->

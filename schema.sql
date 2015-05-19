@@ -369,7 +369,8 @@ CREATE TABLE streaks (
     category integer DEFAULT 0 NOT NULL,
     twitter_hash text,
     late_submit_type integer DEFAULT 1 NOT NULL,
-    membership_type integer DEFAULT 1 NOT NULL
+    membership_type integer DEFAULT 1 NOT NULL,
+    pending_users_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1162,6 +1163,7 @@ COPY lapis_migrations (name) FROM stdin;
 1431922768
 1431928525
 1432002497
+1432009672
 \.
 
 

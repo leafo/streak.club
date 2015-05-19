@@ -385,6 +385,11 @@ class Streaks extends Model
       users_count: db.raw db.interpolate_query [[
         (select count(*) from streak_users where streak_id = ?)
       ]], @id
+
+      pending_users_count: db.raw db.interpolate_query [[
+        (select count(*) from streak_users where streak_id = ? and pending)
+      ]], @id
+
       submissions_count: db.raw db.interpolate_query [[
         (select count(*) from streak_submissions where streak_id = ?)
       ]], @id
@@ -455,6 +460,12 @@ class Streaks extends Model
     return false if user.id == @user_id
     true
 
+  approved_participants_count: =>
+    if @is_members_only!
+      @users_count - @pending_users_count
+    else
+      @users_count
+
   @_time_clause: (state) =>
     switch state
       when "active"
@@ -472,7 +483,4 @@ class Streaks extends Model
         ]]
       else
         error "unknown state: #{state}"
-
-
-
 
