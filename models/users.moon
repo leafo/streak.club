@@ -264,7 +264,7 @@ class Users extends Model
     if ...
       updates = {key, updates[key] for key in *{...}}
 
-    @update updates
+    @update updates, timestamp: false
 
   unseen_notifications: =>
     import Notifications from require "models"

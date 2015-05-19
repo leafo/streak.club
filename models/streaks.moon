@@ -105,13 +105,19 @@ class Streaks extends Model
     if res.affected_rows != 1
       return false
 
-    @update { users_count: db.raw "users_count + 1" }, timestamp: false
+    @update {
+      users_count: db.raw "users_count + 1"
+      pending_users_count: if pending
+        db.raw "pending_users_count + 1"
+    }, timestamp: false
+
     StreakUsers\load (unpack res)
 
   leave: (user) =>
     if su = @has_user user
       if su\delete!
         @update { users_count: db.raw "users_count - 1" }, timestamp: false
+        @recount "pending_users_count"
         return true
 
     false
@@ -380,8 +386,8 @@ class Streaks extends Model
       for unit in @each_unit!
         coroutine.yield date(unit)\addhours(@hour_offset)\fmt Streaks.day_format_str
 
-  recount: =>
-    @update {
+  recount: (...) =>
+    updates = {
       users_count: db.raw db.interpolate_query [[
         (select count(*) from streak_users where streak_id = ?)
       ]], @id
@@ -394,6 +400,11 @@ class Streaks extends Model
         (select count(*) from streak_submissions where streak_id = ?)
       ]], @id
     }
+
+    if ...
+      updates = {key, updates[key] for key in *{...}}
+
+    @update updates, timestamp: false
 
   find_participants: (opts={}) =>
     import StreakUsers, Users from require "models"
