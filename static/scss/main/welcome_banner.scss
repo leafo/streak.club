@@ -1,11 +1,9 @@
 .welcome_banner {
-    border-top: 2px solid white;
+    margin: 2px 0;
     @include border_box;
     position: relative;
     background: $purple;
     color: white;
-
-    margin-bottom: 40px;
 
     .banner_inner {
         max-width: $site_width;
