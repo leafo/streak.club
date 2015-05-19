@@ -198,6 +198,9 @@ class StreaksApplication extends lapis.Application
           assert_error su.pending, "invalid user"
           su\update pending: false
 
+          import Notifications from require "models"
+          Notifications\notify_for su\get_user!, @streak, "approve_join"
+
           @streak\recount "pending_users_count"
           @session.flash = "Approved member"
 

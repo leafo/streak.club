@@ -16,6 +16,7 @@ class Notifications extends Model
     follow: 3
     like: 4
     join: 5
+    approve_join: 6
   }
 
   @object_types: enum {
@@ -164,6 +165,8 @@ class Notifications extends Model
           "Somone joined "
         else
           "#{@count} people joined "
+      when @@types.approve_join
+        "You can now post in "
       else
         error "unknown notification type"
 
