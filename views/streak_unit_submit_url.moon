@@ -1,15 +1,19 @@
-
+StreakHeader = require "widgets.streak_header"
 
 class StreakUnitSubmitUrl extends require "widgets.base"
+  base_widget: false
+
   inner_content: =>
-    div class: "page_header", ->
-      h2 "Generate submit URL for #{@params.date}"
-      h3 ->
-        a href: @url_for(@streak), @streak.title
+    widget StreakHeader
 
-    br!
+    div class: "responsive_column", ->
+      @column_content!
 
+  column_content: =>
     if @users
+      h3 ->
+        text "Generate submit URL for "
+        a href: @url_for("view_streak_unit", id: @streak.id, slug: @streak\slug!, date: @params.date), @params.date
       @render_user_list!
 
     if @submit_url
@@ -28,7 +32,7 @@ class StreakUnitSubmitUrl extends require "widgets.base"
       return
 
     p "A submission URL lets a user submit to the streak for a specified date
-    at any time. Once generated, the URL will expire in 1 week. If the user has
+    late. Once generated, the URL will expire in 1 week. If the user has
     already submitted they will not be able to submit again."
 
     h4 "Select a user"

@@ -8,12 +8,18 @@ date = require "date"
 class ViewStreakUnit extends require "widgets.base"
   @needs: {"streak", "submissions"}
 
+  base_widget: false
+
   js_init: =>
     "new S.ViewStreakUnit(#{@widget_selector!});"
 
   inner_content: =>
     widget StreakHeader
 
+    div class: "responsive_column", ->
+      @column_content!
+
+  column_content: =>
     div class: "owner_tools", ->
       a href: @url_for("streak_unit_submit_url", id: @streak.id, date: @params.date),
         "Generate late submit URL for participant"

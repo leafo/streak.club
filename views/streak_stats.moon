@@ -4,6 +4,7 @@ StreakHeader = require "widgets.streak_header"
 
 class StreakStats extends require "widgets.base"
   page_name: "stats"
+  base_widget: false
 
   js_init: =>
     data = {
@@ -18,6 +19,10 @@ class StreakStats extends require "widgets.base"
   inner_content: =>
     widget StreakHeader page_name: @page_name
 
+    div class: "responsive_column", ->
+      @column_content!
+
+  column_content: =>
     div id: "users_graph", class: "graph_container"
     div id: "submissions_graph", class: "graph_container"
 

@@ -7,10 +7,15 @@ class StreakParticipants extends require "widgets.base"
   @include "widgets.pagination_helpers"
 
   page_name: "participants"
+  base_widget: false
 
   inner_content: =>
     widget StreakHeader page_name: @page_name
 
+    div class: "responsive_column", ->
+      @column_content!
+
+  column_content: =>
     if @pending_users and next @pending_users
       h3 "Pending participants"
 

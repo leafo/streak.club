@@ -6,10 +6,15 @@ class StreakTopParticipants extends require "widgets.base"
   @needs: {"active_top_streak_users", "top_streak_users"}
 
   page_name: "top_participants"
+  base_widget: false
 
   inner_content: =>
     widget StreakHeader page_name: @page_name
 
+    div class: "responsive_column", ->
+      @column_content!
+
+  column_content: =>
     unless next @top_streak_users
       p class: "empty_message", "There don't appear to be any submission streaks"
       return
