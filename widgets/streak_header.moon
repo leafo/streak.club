@@ -2,6 +2,9 @@
 class StreakHeader extends require "widgets.base"
   @include "widgets.tabs_helpers"
 
+  widget_classes: =>
+    super! .. " tab_header"
+
   base_widget: false
 
   inner_content: =>

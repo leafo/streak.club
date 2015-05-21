@@ -6,9 +6,15 @@ class IndexLoggedIn extends require "widgets.base"
   @include "widgets.tabs_helpers"
   @needs: {"active_streaks", "current_streaks", "notifications"}
 
+  base_widget: false
+
   inner_content: =>
     widget HomeHeader page_name: "index"
 
+    div class: "responsive_column", ->
+      @column_content!
+
+  column_content: =>
     div class: "columns", ->
       div class: "primary_column", ->
         h2 "Active streaks you're in"

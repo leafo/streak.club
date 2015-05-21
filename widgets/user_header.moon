@@ -10,7 +10,7 @@ class UserHeader extends require "widgets.base"
       h2 @user\name_for_display!
       h3 ->
         div class: "user_stat", ->
-          text "A user registered #{@relative_timestamp @user.created_at}"
+          text "Registered #{@relative_timestamp @user.created_at}"
 
         if @user.comments_count > 0
           div class: "user_stat",

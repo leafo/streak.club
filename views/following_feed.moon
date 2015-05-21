@@ -5,12 +5,18 @@ HomeHeader = require "widgets.home_header"
 class FollowingFeed extends require "widgets.base"
   @needs: {"submission"}
 
+  base_widget: false
+
   js_init: =>
     "S.FollowingFeed(#{@widget_selector!});"
 
   inner_content: =>
     widget HomeHeader page_name: "following_feed"
 
+    div class: "responsive_column", ->
+      @column_content!
+
+  column_content: =>
     h3 "Submissions from everyone you follow"
 
     if next @submissions

@@ -43,7 +43,7 @@ class ViewStreak extends require "widgets.base"
     else
       widget StreakHeader page_name: @page_name
 
-    div class: "responsive_column responsive", ->
+    div class: "responsive_column", ->
       if @streak_user and @streak_user.pending
         div class: "pending_join_banner", "You've requested to join this streak
         but not have been approved by the owner yet. When you are approved you'll

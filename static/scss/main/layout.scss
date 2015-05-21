@@ -53,6 +53,35 @@ h2 {
     }
 }
 
+.tab_header {
+    background: $gray_back;
+
+    .page_header {
+        padding-top: 40px;
+    }
+
+    .page_header, .page_tabs .tabs_inner, .responsive_column {
+        @include responsive_column;
+    }
+
+    .page_tabs {
+        .tab.active, .tab:hover {
+            border-width: 4px;
+        }
+
+        .tab_button {
+            display: inline-block;
+            color: white;
+            background: $purple;
+            padding: 4px 14px;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+    }
+}
+
 .page_tabs {
     border-bottom: 1px solid $border_color;
     margin-bottom: 40px;
