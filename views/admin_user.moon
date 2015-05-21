@@ -17,6 +17,8 @@ class AdminUser extends require "widgets.base"
       "streaks_count"
       "submissions_count"
       "hidden_submissions_count"
+      "last_active"
+      "last_seen_feed_at"
     }
 
     fieldset ->
