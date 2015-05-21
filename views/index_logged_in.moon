@@ -12,6 +12,7 @@ class IndexLoggedIn extends require "widgets.base"
       @page_tab "Your streaks", "index", @url_for "index"
       @page_tab "Following feed", "following_feed", @url_for "following_feed"
       @page_tab "Your profile", "profile", @url_for @current_user
+      @page_tab "New this week", "profile", @url_for "stats_this_week"
 
     div class: "columns", ->
       div class: "primary_column", ->
