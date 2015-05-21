@@ -277,7 +277,7 @@ a {
     border-radius: 3px;
     margin-left: 10px;
 
-    &:hover {
+    &:hover, &.current {
         background: rgba(white, 0.8);
         color: $header_color;
     }

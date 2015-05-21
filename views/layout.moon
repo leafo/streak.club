@@ -65,7 +65,7 @@ class Layout extends Widget
           if available > 0
             a href: @url_for("notifications"), class: "notification_bubble", available
 
-          a class: "header_button", href: @url_for("index"), "Streaks"
+          a class: "header_button #{@route_name == "index" and "current" or ""}", href: @url_for("index"), "Streaks"
           a class: "header_button", href: @url_for("user_logout"), "Log out"
         else
           a class: "header_button", href: @url_for("user_login"), "Log in"
