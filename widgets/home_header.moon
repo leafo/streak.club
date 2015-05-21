@@ -23,5 +23,5 @@ class HomeHeader extends require "widgets.base"
           feed_tab!
 
         @page_tab "Your profile", "profile", @url_for @current_user
-        @page_tab "New this week", "weekly", @url_for "stats_this_week"
+        @page_tab "Top this week", "weekly", @url_for "stats_this_week"
         @page_tab "Account settings", "settings", @url_for "user_settings"
