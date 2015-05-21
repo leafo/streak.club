@@ -14,6 +14,9 @@ class Stats extends require "widgets.base"
     "graph_submission_likes"
   }
 
+
+  base_widget: false
+
   js_init: =>
     data = {
       cumulative: @graph_type == "cumulative"
@@ -31,10 +34,11 @@ class Stats extends require "widgets.base"
   inner_content: =>
     widget StatsHeader page_name: @graph_type
 
-    div id: "users_graph", class: "graph_container"
-    div id: "submissions_graph", class: "graph_container"
-    div id: "submission_likes_graph", class: "graph_container"
-    div id: "submission_comments_graph", class: "graph_container"
-    div id: "streaks_graph", class: "graph_container"
+    div class: "responsive_column", ->
+      div id: "users_graph", class: "graph_container"
+      div id: "submissions_graph", class: "graph_container"
+      div id: "submission_likes_graph", class: "graph_container"
+      div id: "submission_comments_graph", class: "graph_container"
+      div id: "streaks_graph", class: "graph_container"
 
 

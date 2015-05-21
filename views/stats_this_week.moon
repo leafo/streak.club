@@ -11,13 +11,16 @@ class StatsThisWeek extends require "widgets.base"
     "top_users"
   }
 
+  base_widget: false
+
   inner_content: =>
     widget StatsHeader page_name: "this_week"
 
-    @render_active_streaks!
-    @render_popular_submissions!
-    @render_top_users!
-    @render_new_streaks!
+    div class: "responsive_column", ->
+      @render_active_streaks!
+      @render_popular_submissions!
+      @render_top_users!
+      @render_new_streaks!
 
   render_active_streaks: =>
     h3 "Streaks active in the past 7 days by submissions"
