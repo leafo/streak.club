@@ -1,5 +1,6 @@
 
 SubmissionList = require "widgets.submission_list"
+HomeHeader = require "widgets.home_header"
 
 class FollowingFeed extends require "widgets.base"
   @needs: {"submission"}
@@ -8,9 +9,9 @@ class FollowingFeed extends require "widgets.base"
     "S.FollowingFeed(#{@widget_selector!});"
 
   inner_content: =>
-    div class: "page_header", ->
-      h2 "Following feed"
-      h3 "Submissions from everyone you follow"
+    widget HomeHeader page_name: "following_feed"
+
+    h3 "Submissions from everyone you follow"
 
     if next @submissions
       widget SubmissionList
