@@ -4,14 +4,13 @@ class Stats extends require "widgets.base"
   @include "widgets.tabs_helpers"
 
   @needs: {
+    "page_name"
     "graph_users"
     "graph_streaks"
     "graph_submissions"
     "graph_submission_comments"
     "graph_submission_likes"
   }
-
-  page_name: "cumulative"
 
   js_init: =>
     data = {

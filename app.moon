@@ -117,6 +117,7 @@ class extends lapis.Application
     import Submissions, Streaks, SubmissionComments, SubmissionLikes from require "models"
 
     @graph_type = @params.graph_type or "cumulative"
+    @page_name = @graph_type
 
     import cumulative_created, daily_created from require "helpers.stats"
 

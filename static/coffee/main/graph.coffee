@@ -180,7 +180,7 @@ class S.Grapher
       .text(@opts.label)
       .attr("x", 10)
 
-    return if @opts.num_days > 60
+    return if @opts.num_days > 60 || @opts.no_dots
 
     # popups
     popups = @svg.append("g")
@@ -289,8 +289,6 @@ class S.Grapher
       .domain([0, Math.max Math.floor(max*1.3) || 0, @opts.min_y])
       .rangeRound([@h - @margin_bottom, @margin_top])
 
-
-
 class S.RangeGrapher extends S.Grapher
   # get the range from the dates provided
   get_range: =>
@@ -302,12 +300,14 @@ class S.RangeGrapher extends S.Grapher
     first = format.parse first.date
     last = format.parse last.date
 
-    range_ago = d3.time.day.offset last, -@opts.min_range
+    min_range = @opts.min_range || 7
+
+    range_ago = d3.time.day.offset last, -min_range
+
     if range_ago < first
       first = range_ago
 
     [first, last]
-
 
 class S.CumulativeGrapher extends S.RangeGrapher
   default_opts: {

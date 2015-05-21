@@ -30,6 +30,7 @@ daily_created = (model, clause, field="created_at") ->
     from #{table_name}
     #{clause or ""}
     group by date_trunc('day', #{field})::date
+    order by date asc
   "
 
 { :cumulative_created, :daily_created }

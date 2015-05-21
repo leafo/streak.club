@@ -4,32 +4,32 @@ class S.Stats
     @el = $ el
     graphs = @opts.graphs
 
-    console.log @opts
-
     if @opts.cumulative
       grapher = S.CumulativeGrapher
       prefix = "Cumulative"
+      gopts = {}
     else
       grapher = S.RangeGrapher
       prefix = "Daily"
+      gopts = { no_dots: true, x_ticks: 8 }
 
-    new grapher "#users_graph", graphs.users, {
+    new grapher "#users_graph", graphs.users, $.extend {
       label: "#{prefix} users"
-    }
+    }, gopts
 
-    new grapher "#submissions_graph", graphs.submissions, {
+    new grapher "#submissions_graph", graphs.submissions, $.extend {
       label: "#{prefix} submissions"
-    }
+    }, gopts
 
-    new grapher "#submission_comments_graph", graphs.submission_comments, {
+    new grapher "#submission_comments_graph", graphs.submission_comments, $.extend {
       label: "#{prefix} comments"
-    }
+    }, gopts
 
-    new grapher "#submission_likes_graph", graphs.submission_likes, {
+    new grapher "#submission_likes_graph", graphs.submission_likes, $.extend {
       label: "#{prefix} likes"
-    }
+    }, gopts
 
-    new grapher "#streaks_graph", graphs.streaks, {
+    new grapher "#streaks_graph", graphs.streaks, $.extend {
       label: "#{prefix} streaks"
-    }
+    }, gopts
 
