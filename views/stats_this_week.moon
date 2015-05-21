@@ -20,14 +20,15 @@ class StatsThisWeek extends require "widgets.base"
     @render_new_streaks!
 
   render_active_streaks: =>
-    p "Streaks active by submissions in the past 7 days"
+    h3 "Streaks active in the past 7 days by submissions"
 
     element "table", class: "nice_table", ->
       thead ->
         tr ->
-          td "Ranks"
+          td "Rank"
           td "Streak"
           td "Submissions"
+          td "Category"
     
       for rank, active in ipairs @active_streaks
         streak = active.streak
@@ -46,8 +47,19 @@ class StatsThisWeek extends require "widgets.base"
 
           td @number_format active.count
 
+          td ->
+            category_name = Streaks.categories[streak.category]
+            slug = BrowseStreaksFlow.category_slugs[category_name]
+
+            a {
+              href: @url_for("streaks") .. "/#{slug}"
+              BrowseStreaksFlow.category_names[category_name]
+            }
+
+
+
   render_popular_submissions: =>
-    p "Top submissions in the past 7 days by likes"
+    h3 "Top submissions in the past 7 days by likes"
 
     element "table", class: "nice_table", ->
       thead ->
@@ -82,7 +94,7 @@ class StatsThisWeek extends require "widgets.base"
           td @number_format sub.likes_count
 
   render_top_users: =>
-    p "Top submitters in the past 7 days"
+    h3 "Top submitters in the past 7 days"
 
     element "table", class: "nice_table", ->
       thead ->
@@ -101,7 +113,7 @@ class StatsThisWeek extends require "widgets.base"
           td @number_format submitter.count
 
   render_new_streaks: =>
-    p "New streaks created this past week"
+    h3 "New streaks created in the past 7 days"
 
     element "table", class: "nice_table", ->
       thead ->

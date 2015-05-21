@@ -147,6 +147,10 @@ class extends lapis.Application
     @title = "Streak club this past week"
     import Streaks, StreakSubmissions, Submissions from require "models"
 
+    streak_fields = "id, title, user_id, membership_type, publish_status,
+      category, rate, hour_offset, start_date, end_date, users_count,
+      pending_users_count"
+
     range = "now() at time zone 'utc' - '7 days'::interval"
 
     @active_streaks = StreakSubmissions\select "
@@ -156,7 +160,7 @@ class extends lapis.Application
       limit 15
     ", fields: "count(*), streak_id"
 
-    Streaks\include_in @active_streaks, "streak_id"
+    Streaks\include_in @active_streaks, "streak_id", fields: streak_fields
 
     @popular_submissions = Submissions\select "
       where created_at > #{range}
@@ -179,8 +183,7 @@ class extends lapis.Application
       where created_at > #{range} and not deleted
       order by users_count desc
       limit 25
-    ", fields: "id, title, user_id, membership_type, publish_status, category,
-      rate, hour_offset, start_date, end_date, users_count, pending_users_count"
+    ", fields: streak_fields
 
     Users\include_in @new_streaks, "user_id"
 
