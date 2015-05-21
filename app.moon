@@ -116,14 +116,30 @@ class extends lapis.Application
   [stats: "/stats"]: =>
     import Submissions, Streaks, SubmissionComments, SubmissionLikes from require "models"
 
-    import cumulative_created from require "helpers.stats"
+    graph_type = @params.graph_type or "cumulative"
 
-    @cumulative_users = cumulative_created Users
-    @cumulative_streaks = cumulative_created Streaks
+    import cumulative_created, daily_created from require "helpers.stats"
 
-    @cumulative_submissions = cumulative_created Submissions
-    @cumulative_submission_comments = cumulative_created SubmissionComments
-    @cumulative_submission_likes = cumulative_created SubmissionLikes
+    switch graph_type
+      when "cumulative"
+        @cumulative_users = cumulative_created Users
+        @cumulative_streaks = cumulative_created Streaks
+
+        @cumulative_submissions = cumulative_created Submissions
+        @cumulative_submission_comments = cumulative_created SubmissionComments
+        @cumulative_submission_likes = cumulative_created SubmissionLikes
+      when "daily"
+        do return json: {
+          daily_users: daily_created Users
+          daily_streaks: daily_created Streaks
+
+          daily_submissions: daily_created Submissions
+          daily_submissions_comments: daily_created SubmissionComments
+          daily_submissions_likes: daily_created SubmissionLikes
+        }
+      else
+        return not_found
+
 
     render: true
 

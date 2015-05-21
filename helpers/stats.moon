@@ -16,4 +16,20 @@ cumulative_created = (model, clause, field="created_at") ->
     group by date_trunc('day', #{field})::date
   "
 
-{ :cumulative_created }
+
+daily_created = (model, clause, field="created_at") ->
+  clause = if clause
+    "where " .. db.encode_clause clause
+
+  table_name = db.escape_identifier model\table_name!
+  field = db.escape_identifier field
+
+  db.query "select
+    date_trunc('day', #{field})::date as date,
+    count(*)
+    from #{table_name}
+    #{clause or ""}
+    group by date_trunc('day', #{field})::date
+  "
+
+{ :cumulative_created, :daily_created }
