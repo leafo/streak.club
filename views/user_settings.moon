@@ -1,16 +1,25 @@
+HomeHeader = require "widgets.home_header"
+
 class UserSettings extends require "widgets.base"
   @needs: {"user", "user_profile"}
   @include "widgets.form_helpers"
+
+  base_widget: false
 
   js_init: =>
     "new S.UserSettings(#{@widget_selector!})"
 
   inner_content: =>
+    widget HomeHeader page_name: "settings"
+
+    div class: "responsive_column", ->
+      @column_content!
+
+  column_content: =>
     @content_for "all_js", ->
       @include_redactor!
 
-    div class: "page_header", ->
-      h2 "Account & profile settings"
+    h2 "Account & profile settings"
 
     @render_errors!
 

@@ -66,7 +66,6 @@ class Layout extends Widget
             a href: @url_for("notifications"), class: "notification_bubble", available
 
           a class: "header_button", href: @url_for("index"), "Streaks"
-          a class: "header_button", href: @url_for("user_settings"), "Settings"
           a class: "header_button", href: @url_for("user_logout"), "Log out"
         else
           a class: "header_button", href: @url_for("user_login"), "Log in"
