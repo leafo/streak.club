@@ -14,7 +14,7 @@ class S.Stats
       gopts = { no_dots: true, x_ticks: 8 }
 
     new grapher "#users_graph", graphs.users, $.extend {
-      label: "#{prefix} users"
+      label: "#{prefix} registrations"
     }, gopts
 
     new grapher "#submissions_graph", graphs.submissions, $.extend {
