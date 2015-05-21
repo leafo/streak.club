@@ -138,6 +138,10 @@ class StatsThisWeek extends require "widgets.base"
           td ->
             a href: @url_for(streak), streak.title
 
+            if should_hide
+              text " "
+              em class:"sub", "(Hidden)"
+
           td ->
             category_name = Streaks.categories[streak.category]
             slug = BrowseStreaksFlow.category_slugs[category_name]
