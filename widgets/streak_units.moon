@@ -60,7 +60,7 @@ class StreakUnits extends require "widgets.base"
       unit_url = @url_for "view_streak_unit", {
         date: formatted_date
         id: @streak.id
-      }, @user_id and {user_id: @user_id} or nil
+      }, submission_id and @user_id and {user_id: @user_id} or nil
 
       a href: unit_url, ->
         div {
