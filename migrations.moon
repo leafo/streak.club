@@ -487,5 +487,11 @@ import
 
   [1432010515]: =>
     create_index "streak_users", "streak_id", "pending", "created_at"
+
+  [1432190692]: =>
+    add_column "users", "last_seen_feed_at", time null: true
+    db.query "
+      update users set last_seen_feed_at = last_active
+    "
 }
 

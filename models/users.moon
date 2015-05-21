@@ -310,6 +310,25 @@ class Users extends Model
       order by created_at desc
     ", @id, opts
 
+  -- TODO: this query will not scale
+  unread_feed_count: =>
+    unless @last_seen_feed_at
+      return @find_follower_submissions!\total_items!
+
+    import Submissions from require "models"
+    Submissions\count "
+      user_id in (
+        select dest_user_id from followings where source_user_id = ?
+      ) and created_at > ?
+    ", @id, @last_seen_feed_at
+
+  seen_feed: (date) =>
+    return unless date
+    return if date == @last_seen_feed_at
+    @update {
+      last_seen_feed_at: date
+    }, timestamp: false
+
   -- without @
   twitter_handle: =>
     return unless @twitter
