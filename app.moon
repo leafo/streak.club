@@ -48,6 +48,7 @@ class extends lapis.Application
       @created_streaks = @current_user\find_hosted_streaks!\get_page!
       @active_streaks = @current_user\find_participating_streaks(state: "active")\get_page!
       @completed_streaks = @current_user\find_participating_streaks(state: "completed")\get_page!
+      @unseen_feed_count = @current_user\unseen_feed_count!
 
       render: "index_logged_in"
     else
@@ -108,6 +109,9 @@ class extends lapis.Application
         }
     }
     @submissions = @pager\get_page!
+    if first = @submissions[1]
+      @current_user\update_seen_feed first.created_at
+
     render: true
 
   [terms: "/terms"]: =>

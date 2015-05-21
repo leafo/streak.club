@@ -311,7 +311,7 @@ class Users extends Model
     ", @id, opts
 
   -- TODO: this query will not scale
-  unread_feed_count: =>
+  unseen_feed_count: =>
     unless @last_seen_feed_at
       return @find_follower_submissions!\total_items!
 
@@ -322,7 +322,7 @@ class Users extends Model
       ) and created_at > ?
     ", @id, @last_seen_feed_at
 
-  seen_feed: (date) =>
+  update_seen_feed: (date) =>
     return unless date
     return if date == @last_seen_feed_at
     @update {
