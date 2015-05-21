@@ -31,7 +31,11 @@ class ViewSubmission extends require "widgets.base"
           h2 "Streaks"
 
         for submit in *@streak_submissions
-          @render_streak_row submit.streak, date(submit.submit_time), false
+          @render_streak_row submit.streak, {
+            highlight_date: date(submit.submit_time)
+            show_user_streak: false
+            user_id: @user.id
+          }
 
   admin_tools: =>
     return unless @current_user and @current_user\is_admin!

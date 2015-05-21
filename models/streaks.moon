@@ -336,15 +336,17 @@ class Streaks extends Model
     unit_start_formatted = unit_start\fmt @@timestamp_format_str
     unit_end_formatted = unit_end\fmt @@timestamp_format_str
 
-    interval = "#{@hour_offset} hours"
+    clause = if opts.where
+      db.encode_clause opts.where
 
-    StreakSubmissions\paginated [[
+    StreakSubmissions\paginated "
       where
         streak_id = ? and
         submit_time >= ? and
         submit_time < ?
+        #{clause and "and #{clause}" or ""}
       order by submit_time desc
-    ]], @id, unit_start_formatted, unit_end_formatted, {
+    ", @id, unit_start_formatted, unit_end_formatted, {
       per_page: 20
       prepare_results: prepare_submits opts
     }

@@ -13,4 +13,10 @@
         background: lighten($green, 10%);
         color: desaturate(darken($green, 40%), 20%);
     }
+
+    h2 a {
+        color: inherit;
+        text-decoration: none;
+        border: 0;
+    }
 }

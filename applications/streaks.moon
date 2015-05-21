@@ -250,15 +250,16 @@ class StreaksApplication extends lapis.Application
       find_streak @
       assert_unit_date @
 
+      @canonical_url = @build_url @url_for "view_streak_unit", id: @params.id, date: @params.date
+
       @title = "#{@streak.title} - #{@params.date}"
 
-      @pager = @streak\find_submissions_for_unit @unit_date, {
-        prepare_submissions: (submissions) ->
-          Submissions\preload_for_list submissions, {
-            likes_for: @current_user
-          }
-      }
+      prepare_submissions = (submissions) ->
+        Submissions\preload_for_list submissions, {
+          likes_for: @current_user
+        }
 
+      @pager = @streak\find_submissions_for_unit @unit_date, :prepare_submissions
       @submissions = @pager\get_page!
       @streak_user = @streak\find_streak_user @current_user
 
@@ -267,6 +268,28 @@ class StreaksApplication extends lapis.Application
 
       @start_time = date @unit_date
       @end_time = @streak\increment_date_by_unit date @unit_date
+
+      if user_id = tonumber @params.user_id
+        found_submission = false
+        -- see if they have a submission in results, move to top
+        for i, sub in ipairs @submissions
+          if sub.user_id == user_id
+            table.remove @submissions, i
+            table.insert @submissions, 1, sub
+            found_submission = true
+            break
+
+        if not found_submission and #@submissions > 0
+          user_submission = @streak\find_submissions_for_unit @unit_date, {
+            :prepare_submissions
+            where: {
+              user_id: user_id
+            }
+          }
+
+          user_submission = unpack user_submission\get_page!
+          if user_submission
+            table.insert @submissions, 1, user_submission
 
       render: true
   }

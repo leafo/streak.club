@@ -22,7 +22,9 @@ class StreakHeader extends require "widgets.base"
       }
 
     div class: "page_header", ->
-      h2 @streak.title
+      h2 ->
+        a href: @url_for(@streak), @streak.title
+
       if @sub_header
         @sub_header!
       else

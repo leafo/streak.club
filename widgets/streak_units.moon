@@ -4,7 +4,10 @@ date = require "date"
 class StreakUnits extends require "widgets.base"
   @needs: {"streak", "completed_units", "unit_counts"}
 
+  user_id: nil
+
   base_widget: false
+
   inner_content: =>
     day_str = "%Y-%m-%d"
     today = date true
@@ -54,7 +57,12 @@ class StreakUnits extends require "widgets.base"
       if submission_id
         tooltip ..= " - Submitted"
 
-      a href: @url_for("view_streak_unit", date: formatted_date, id: @streak.id), ->
+      unit_url = @url_for "view_streak_unit", {
+        date: formatted_date
+        id: @streak.id
+      }, @user_id and {user_id: @user_id} or nil
+
+      a href: unit_url, ->
         div {
           class: classes
           "data-date": tostring current_date

@@ -280,6 +280,10 @@ describe "streaks", ->
       status = request "/streak/#{streak.id}/unit/2015-4-5"
       assert.same 200, status
 
+    it "should view unit day with user id", ->
+      status = request "/streak/#{streak.id}/unit/2015-4-5?user_id=123"
+      assert.same 200, status
+
     describe "with submissions", ->
       before_each ->
         for i=1,2
@@ -307,6 +311,63 @@ describe "streaks", ->
           expect: "json"
         }
         assert.same 200, status
+
+      it "should view unit with submissions", ->
+        status = request "/streak/#{streak.id}/unit/2015-3-1"
+        assert.same 200, status
+
+      it "should lift user to top of submission", ->
+        for i=1,3
+          factory.StreakSubmissions {
+            streak_id: streak.id
+            submit_time: "2015-3-1 09:00:00"
+          }
+
+        submit = factory.Submissions {
+          title: "I am lifted"
+        }
+
+        last = factory.StreakSubmissions {
+          submission_id: submit.id
+          user_id: submit.user_id
+
+          streak_id: streak.id
+          submit_time: "2015-3-1 09:00:00"
+        }
+
+        status = request "/streak/#{streak.id}/unit/2015-3-1", {
+          get: {
+            user_id: last.user_id
+          }
+        }
+        assert.same 200, status
+
+      it "should lift user to top of submission when there are a lot #ddd", ->
+        for i=1,30
+          factory.StreakSubmissions {
+            streak_id: streak.id
+            submit_time: "2015-3-1 09:00:00"
+          }
+
+        submit = factory.Submissions {
+          title: "I am lifted"
+        }
+
+        last = factory.StreakSubmissions {
+          submission_id: submit.id
+          user_id: submit.user_id
+
+          streak_id: streak.id
+          submit_time: "2015-3-1 09:00:00"
+        }
+
+        status = request "/streak/#{streak.id}/unit/2015-3-1", {
+          get: {
+            user_id: last.user_id
+          }
+        }
+        assert.same 200, status
+
 
   describe "sampled streak", ->
     -- this is just a bunch of submissions I pulled from my dev db. Not testing

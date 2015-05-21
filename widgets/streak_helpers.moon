@@ -1,7 +1,10 @@
 StreakUnits = require "widgets.streak_units"
 
 class StreakHelpers
-  render_streak_row: (streak, highlight_date, show_user_streak=true) =>
+  render_streak_row: (streak, opts={}) =>
+    {:highlight_date, :show_user_streak, :user_id} = opts
+    show_user_streak = true if show_user_streak == nil
+
     div class: "streak_row", ->
       h3 ->
         a href: @url_for(streak), streak.title
@@ -30,5 +33,6 @@ class StreakHelpers
         widget StreakUnits {
           :streak, :highlight_date
           completed_units: streak.completed_units
+          user_id: user_id
         }
 
