@@ -306,7 +306,9 @@ class Users extends Model
       submissions
 
     Submissions\paginated "
-      where user_id in (select dest_user_id from followings where source_user_id = ?)
+      where user_id in (
+        select dest_user_id from followings where source_user_id = ?
+      ) and not hidden
       order by created_at desc
     ", @id, opts
 
@@ -319,7 +321,7 @@ class Users extends Model
     Submissions\count "
       user_id in (
         select dest_user_id from followings where source_user_id = ?
-      ) and created_at > ?
+      ) and created_at > ? and not hidden
     ", @id, @last_seen_feed_at
 
   update_seen_feed: (date) =>
