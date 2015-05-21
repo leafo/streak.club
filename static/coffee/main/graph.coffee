@@ -290,23 +290,14 @@ class S.Grapher
       .rangeRound([@h - @margin_bottom, @margin_top])
 
 
-class S.CumulativeGrapher extends S.Grapher
-  default_opts: {
-    min_y: 100
-    x_ticks: 8
-    fit_dots: true
-    min_range: 7 # min number of days
-  }
 
-  get_y: (d) => d.count
-
+class S.RangeGrapher extends S.Grapher
   # get the range from the dates provided
   get_range: =>
     format = d3.time.format "%Y-%m-%d"
 
     first = @data[0]
     last = @data[@data.length - 1]
-
 
     first = format.parse first.date
     last = format.parse last.date
@@ -316,6 +307,17 @@ class S.CumulativeGrapher extends S.Grapher
       first = range_ago
 
     [first, last]
+
+
+class S.CumulativeGrapher extends S.RangeGrapher
+  default_opts: {
+    min_y: 100
+    x_ticks: 8
+    fit_dots: true
+    min_range: 7 # min number of days
+  }
+
+  get_y: (d) => d.count
 
   format_data: ->
     by_date = {}

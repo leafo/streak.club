@@ -133,8 +133,8 @@ class extends lapis.Application
         @graph_streaks = daily_created Streaks
 
         @graph_submissions = daily_created Submissions
-        @graph_submissions_comments = daily_created SubmissionComments
-        @graph_submissions_likes = daily_created SubmissionLikes
+        @graph_submission_comments = daily_created SubmissionComments
+        @graph_submission_likes = daily_created SubmissionLikes
       else
         return not_found
 

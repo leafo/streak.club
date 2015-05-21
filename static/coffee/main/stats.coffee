@@ -10,8 +10,8 @@ class S.Stats
       grapher = S.CumulativeGrapher
       prefix = "Cumulative"
     else
-      throw new Error "not yet"
-
+      grapher = S.RangeGrapher
+      prefix = "Daily"
 
     new grapher "#users_graph", graphs.users, {
       label: "#{prefix} users"
