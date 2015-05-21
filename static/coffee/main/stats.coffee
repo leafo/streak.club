@@ -4,23 +4,32 @@ class S.Stats
     @el = $ el
     graphs = @opts.graphs
 
-    new S.CumulativeGrapher "#users_graph", graphs.cumulative_users, {
-      label: "Cumulative users"
+    console.log @opts
+
+    if @opts.cumulative
+      grapher = S.CumulativeGrapher
+      prefix = "Cumulative"
+    else
+      throw new Error "not yet"
+
+
+    new grapher "#users_graph", graphs.users, {
+      label: "#{prefix} users"
     }
 
-    new S.CumulativeGrapher "#submissions_graph", graphs.cumulative_submissions, {
-      label: "Cumulative submissions"
+    new grapher "#submissions_graph", graphs.submissions, {
+      label: "#{prefix} submissions"
     }
 
-    new S.CumulativeGrapher "#submission_comments_graph", graphs.cumulative_submission_comments, {
-      label: "Cumulative comments"
+    new grapher "#submission_comments_graph", graphs.submission_comments, {
+      label: "#{prefix} comments"
     }
 
-    new S.CumulativeGrapher "#submission_likes_graph", graphs.cumulative_submission_likes, {
-      label: "Cumulative likes"
+    new grapher "#submission_likes_graph", graphs.submission_likes, {
+      label: "#{prefix} likes"
     }
 
-    new S.CumulativeGrapher "#streaks_graph", graphs.cumulative_streaks, {
-      label: "Cumulative streaks"
+    new grapher "#streaks_graph", graphs.streaks, {
+      label: "#{prefix} streaks"
     }
 
