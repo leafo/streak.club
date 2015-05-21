@@ -1,10 +1,12 @@
 import to_json from require "lapis.util"
 
+StatsHeader = require "widgets.stats_header"
+
 class Stats extends require "widgets.base"
   @include "widgets.tabs_helpers"
 
   @needs: {
-    "page_name"
+    "graph_type"
     "graph_users"
     "graph_streaks"
     "graph_submissions"
@@ -27,12 +29,7 @@ class Stats extends require "widgets.base"
     "S.Stats(#{@widget_selector!}, #{to_json data});"
 
   inner_content: =>
-    div class: "page_header", ->
-      h2 "Stats"
-
-    div class: "page_tabs", ->
-      @page_tab "Cumulative", "cumulative", @url_for "stats"
-      @page_tab "Daily", "daily", @url_for "stats", nil, graph_type: "daily"
+    widget StatsHeader page_name: @graph_type
 
     div id: "users_graph", class: "graph_container"
     div id: "submissions_graph", class: "graph_container"

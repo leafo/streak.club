@@ -1,5 +1,7 @@
 lapis = require "lapis"
 
+db = require "lapis.db"
+
 import Users from require "models"
 import generate_csrf from require "helpers.csrf"
 
@@ -117,7 +119,6 @@ class extends lapis.Application
     import Submissions, Streaks, SubmissionComments, SubmissionLikes from require "models"
 
     @graph_type = @params.graph_type or "cumulative"
-    @page_name = @graph_type
 
     import cumulative_created, daily_created from require "helpers.stats"
 
@@ -139,5 +140,51 @@ class extends lapis.Application
       else
         return not_found
 
+    @title = "Stats #{@graph_type}"
     render: true
+
+  [stats_this_week: "/stats/this-week"]: =>
+    @title = "Streak club this past week"
+    import Streaks, StreakSubmissions, Submissions from require "models"
+
+    range = "now() at time zone 'utc' - '7 days'::interval"
+
+    @active_streaks = StreakSubmissions\select "
+      where submit_time > #{range}
+      group by streak_id
+      order by count desc
+      limit 15
+    ", fields: "count(*), streak_id"
+
+    Streaks\include_in @active_streaks, "streak_id"
+
+    @popular_submissions = Submissions\select "
+      where created_at > #{range}
+      order by likes_count desc
+      limit 15
+    "
+
+    Users\include_in @popular_submissions, "user_id"
+
+    @top_users = StreakSubmissions\select "
+      where submit_time > #{range}
+      group by user_id
+      order by count desc
+      limit 15
+    ", fields: "count(*), user_id"
+
+    Users\include_in @top_users, "user_id"
+
+    @new_streaks = Streaks\select "
+      where created_at > #{range} and not deleted
+      order by users_count desc
+      limit 25
+    ", fields: "id, title, user_id, membership_type, publish_status, category,
+      rate, hour_offset, start_date, end_date, users_count, pending_users_count"
+
+    Users\include_in @new_streaks, "user_id"
+
+    render: true
+
+
 

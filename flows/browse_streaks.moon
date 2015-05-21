@@ -5,6 +5,24 @@ import Flow from require "lapis.flow"
 import assert_page from require "helpers.app"
 
 class BrowseStreaksFlow extends Flow
+  @category_names: {
+    visual_art: "Visual arts"
+    music: "Music & audio"
+    video: "Video"
+    writing: "Writing"
+    interactive: "Interactive"
+    other: "Other"
+  }
+
+  @category_slugs: {
+    visual_art: "visual-arts"
+    music: "music-and-audio"
+    video: "video"
+    writing: "writing"
+    interactive: "Interactive"
+    other: "other"
+  }
+
   expose_assigns: true
 
   browse_by_filters: (filters={}) =>

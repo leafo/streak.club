@@ -482,6 +482,9 @@ class Streaks extends Model
     else
       @users_count
 
+  duration: =>
+    date.diff(@end_datetime!, @start_datetime!)\spandays!
+
   @_time_clause: (state) =>
     switch state
       when "active"
