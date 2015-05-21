@@ -47,6 +47,7 @@ class extends lapis.Application
     if @current_user
       @created_streaks = @current_user\find_hosted_streaks!\get_page!
       @active_streaks = @current_user\find_participating_streaks(state: "active")\get_page!
+      @completed_streaks = @current_user\find_participating_streaks(state: "completed")\get_page!
 
       render: "index_logged_in"
     else

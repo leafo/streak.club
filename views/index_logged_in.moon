@@ -27,6 +27,10 @@ class IndexLoggedIn extends require "widgets.base"
           h2 "Streaks you've created"
           @render_streaks @created_streaks
 
+        if next @completed_streaks
+          h2 "Streaks you've completed"
+          @render_streaks @completed_streaks
+
       div class: "side_column", ->
         div class: "sidebar_buttons", ->
           a class: "button", href: @url_for("streaks"), "Browse streaks"
