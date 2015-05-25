@@ -6,6 +6,8 @@ import Users from require "models"
 import generate_csrf from require "helpers.csrf"
 
 import require_login, not_found, ensure_https from require "helpers.app"
+import capture_errors_json from require "lapis.application"
+import assert_valid from require "lapis.validate"
 
 date = require "date"
 config = require("lapis.config").get!
@@ -150,15 +152,23 @@ class extends lapis.Application
     @title = "Stats #{@graph_type}"
     render: true
 
-  [stats_this_week: "/stats/this-week"]: =>
+  [stats_this_week: "/stats/this-week"]: capture_errors_json =>
     @title = "Streak club this past week"
     import Streaks, StreakSubmissions, Submissions from require "models"
+
+    assert_valid @params, {
+      {"days", is_integer: true, optional: true}
+    }
+
+    @days = @params.days or 7
+    @days = math.min 60, math.max 1, @days
 
     streak_fields = "id, title, user_id, membership_type, publish_status,
       category, rate, hour_offset, start_date, end_date, users_count,
       pending_users_count"
 
-    range = "now() at time zone 'utc' - '7 days'::interval"
+    range = db.interpolate_query "now() at time zone 'utc' - ?::interval",
+      "#{@days} days"
 
     @active_streaks = StreakSubmissions\select "
       where submit_time > #{range}

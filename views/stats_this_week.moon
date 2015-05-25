@@ -9,6 +9,7 @@ class StatsThisWeek extends require "widgets.base"
     "active_streaks"
     "popular_submissions"
     "top_users"
+    "days"
   }
 
   base_widget: false
@@ -23,7 +24,7 @@ class StatsThisWeek extends require "widgets.base"
       @render_new_streaks!
 
   render_active_streaks: =>
-    h3 "Streaks active in the past 7 days by submissions"
+    h3 "Streaks active in the past #{@days} days by submissions"
 
     element "table", class: "nice_table", ->
       thead ->
@@ -62,7 +63,7 @@ class StatsThisWeek extends require "widgets.base"
 
 
   render_popular_submissions: =>
-    h3 "Top submissions in the past 7 days by likes"
+    h3 "Top submissions in the past #{@days} days by likes"
 
     element "table", class: "nice_table", ->
       thead ->
@@ -97,7 +98,7 @@ class StatsThisWeek extends require "widgets.base"
           td @number_format sub.likes_count
 
   render_top_users: =>
-    h3 "Top submitters in the past 7 days"
+    h3 "Top submitters in the past #{@days} days"
 
     element "table", class: "nice_table", ->
       thead ->
@@ -116,7 +117,7 @@ class StatsThisWeek extends require "widgets.base"
           td @number_format submitter.count
 
   render_new_streaks: =>
-    h3 "New streaks created in the past 7 days"
+    h3 "New streaks created in the past #{@days} days"
 
     element "table", class: "nice_table", ->
       thead ->
