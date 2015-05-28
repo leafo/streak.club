@@ -8,7 +8,7 @@ import truncate_tables from require "lapis.spec.db"
 import request, request_as from require "spec.helpers"
 
 factory = require "spec.factory"
-import Users, Submissions, Streaks, StreakSubmissions, StreakUsers from require "models"
+import Users, Submissions, Streaks, StreakSubmissions, StreakUsers, SubmissionTags from require "models"
 
 describe "users", ->
   setup ->
@@ -161,4 +161,21 @@ describe "users", ->
         expect: "json"
       }
       assert.same 200, status
+
+  describe "submission_tags", ->
+    local current_user
+
+    before_each ->
+      truncate_tables SubmissionTags
+      current_user = factory.Users!
+
+    it "should detect if user has no tags", ->
+      SubmissionTags\create submission_id: -1, user_id: -1, slug: "hello-world"
+      assert.falsy current_user\has_tags!
+
+    it "should detect if user has no tags", ->
+      SubmissionTags\create submission_id: -1, user_id: current_user.id, slug: "hello-world"
+      assert.truthy current_user\has_tags!
+
+
 

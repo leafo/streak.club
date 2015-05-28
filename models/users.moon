@@ -348,3 +348,7 @@ class Users extends Model
     return @streaks_count if user\is_admin! or user.id == @id
     public_count
 
+  has_tags: =>
+    import SubmissionTags from require "models"
+    not not unpack SubmissionTags\select "where user_id = ? limit 1", @id, fields: "1"
+
