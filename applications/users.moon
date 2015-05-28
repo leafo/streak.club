@@ -103,6 +103,28 @@ class UsersApplication extends lapis.Application
       render: true
   }
 
+  [user_tags: "/u/:slug/tag/:tag_slug"]: capture_errors {
+    on_error: => not_found
+    =>
+      find_user @
+      assert_page @
+
+      pager = @user\find_submissions {
+        tag: @params.tag_slug
+        show_hidden: @current_user and
+          (@current_user\is_admin! or @current_user.id == @user.id)
+
+        per_page: SUBMISSION_PER_PAGE
+        prepare_results: (...) ->
+          Submissions\preload_for_list ..., {
+            likes_for: @current_user
+          }
+      }
+
+      @submissions = pager\get_page @page
+      json: { submissions: @submissions }
+  }
+
   [user_following: "/u/:slug/following"]: capture_errors {
     on_error: => not_found
     =>

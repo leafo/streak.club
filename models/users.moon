@@ -116,6 +116,9 @@ class Users extends Model
     show_hidden = true if extra_opts.show_hidden
     extra_opts.show_hidden = nil
 
+    tag = extra_opts.tag
+    extra_opts.tag = nil
+
     opts = {
       per_page: 40
       prepare_results: (submissions) ->
@@ -136,7 +139,15 @@ class Users extends Model
     if show_hidden
       clause.hidden = nil
 
-    Submissions\paginated "where #{db.encode_clause clause} order by id desc", opts
+    join = if tag
+      -- TODO: this is inefficient
+      opts.fields or= "submissions.*"
+      clause = { db.raw("submissions.#{k}"), v for k,v in pairs clause }
+
+      db.interpolate_query "inner join submission_tags
+        on slug = ? and submission_id = submissions.id", tag
+
+    Submissions\paginated "#{join or ""} where #{db.encode_clause clause} order by id desc", opts
 
   find_hosted_streaks: (opts={}) =>
     publish_status = opts.publish_status
