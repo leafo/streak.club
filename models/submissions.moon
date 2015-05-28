@@ -146,6 +146,7 @@ class Submissions extends Model
 
     for slug in pairs new_tags
       SubmissionTags\create {
+        user_id: @user_id
         submission_id: @id
         :slug
       }

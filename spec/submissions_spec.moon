@@ -11,7 +11,7 @@ import encode_query_string from require "lapis.util"
 factory = require "spec.factory"
 import request, request_as from require "spec.helpers"
 
-import Streaks, Users, Submissions, StreakUsers, StreakSubmissions, SubmissionLikes from require "models"
+import Streaks, Users, Submissions, StreakUsers, StreakSubmissions, SubmissionLikes, SubmissionTags from require "models"
 
 date = require "date"
 
@@ -25,7 +25,7 @@ describe "submissions", ->
     close_test_server!
 
   before_each ->
-    truncate_tables Streaks, Users, Submissions, StreakUsers, StreakSubmissions, SubmissionLikes
+    truncate_tables Streaks, Users, Submissions, StreakUsers, StreakSubmissions, SubmissionLikes, SubmissionTags
     current_user = factory.Users!
 
   it "not render submit page when not part of any streaks", ->
@@ -202,6 +202,18 @@ describe "submissions", ->
       current_user\refresh!
       assert.same 1, current_user.submissions_count
       assert.same 0, current_user.hidden_submissions_count
+
+    it "should tag submission on submit", ->
+      status, res = do_submit {
+        ["submit_to[#{streak.id}]"]: "yes"
+        "submission[title]": "Hello world"
+        "submission[user_rating]": "neutral"
+        "submission[tags]": "one,two,three,one"
+      }
+
+      assert.same 3, SubmissionTags\count!
+      assert.same {"one", "three", "two"},
+        [t.slug for t in *SubmissionTags\select "order by slug"]
 
     it "should submit to multiple streaks", ->
       streak2 = factory.Streaks state: "during"

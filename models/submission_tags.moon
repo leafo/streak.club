@@ -42,6 +42,8 @@ class SubmissionTags extends Model
   @create: (opts={}) =>
     assert opts.slug
     assert opts.submission_id
+    assert opts.user_id
+
     opts.slug = @slugify opts.slug
     Model.create @, opts
 
