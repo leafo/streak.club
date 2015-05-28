@@ -493,5 +493,14 @@ import
     db.query "
       update users set last_seen_feed_at = last_active
     "
+
+  [1432794242]: =>
+    add_column "submission_tags", "user_id", foreign_key null: true
+    db.query "update submission_tags
+      set user_id = (select user_id from submissions where id = submission_tags.submission_id)"
+
+    db.query "alter table streak_submissions alter user_id drop default"
+    create_index "submission_tags", "user_id"
+
 }
 

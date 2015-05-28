@@ -456,7 +456,8 @@ ALTER TABLE submission_likes OWNER TO postgres;
 
 CREATE TABLE submission_tags (
     submission_id integer NOT NULL,
-    slug character varying(255) NOT NULL
+    slug character varying(255) NOT NULL,
+    user_id integer
 );
 
 
@@ -1019,6 +1020,13 @@ CREATE INDEX submission_tags_slug_idx ON submission_tags USING btree (slug);
 
 
 --
+-- Name: submission_tags_user_id_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX submission_tags_user_id_idx ON submission_tags USING btree (user_id);
+
+
+--
 -- Name: submissions_user_id_id_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1174,6 +1182,7 @@ COPY lapis_migrations (name) FROM stdin;
 1432009672
 1432010515
 1432190692
+1432794242
 \.
 
 
