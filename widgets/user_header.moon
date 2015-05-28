@@ -42,3 +42,5 @@ class UserHeader extends require "widgets.base"
           @url_for("user_streaks_hosted", slug: @user.slug),
           "(#{streaks_count})"
 
+      @page_tab "Tags", "tags", @url_for("user_tags", slug: @user.slug)
+

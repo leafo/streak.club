@@ -95,6 +95,14 @@ class UsersApplication extends lapis.Application
       render: true
   }
 
+  [user_tags: "/u/:slug/tags"]: capture_errors {
+    on_error: => not_found
+    =>
+      find_user @
+      @tags_by_frequency = @user\tags_by_frequency!
+      render: true
+  }
+
   [user_following: "/u/:slug/following"]: capture_errors {
     on_error: => not_found
     =>

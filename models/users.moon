@@ -352,3 +352,11 @@ class Users extends Model
     import SubmissionTags from require "models"
     not not unpack SubmissionTags\select "where user_id = ? limit 1", @id, fields: "1"
 
+  tags_by_frequency: =>
+    import SubmissionTags from require "models"
+    SubmissionTags\select "
+      where user_id = ?
+      group by slug
+      order by count desc
+    ", @id, fields: "slug, count(*)", load: false
+
