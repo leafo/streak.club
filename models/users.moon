@@ -339,11 +339,12 @@ class Users extends Model
   submissions_count_for: (user) =>
     public_count = @submissions_count - @hidden_submissions_count
     return public_count unless user
-    return @submissions_count if user\is_admin! or user.id == @user_id
+    return @submissions_count if user\is_admin! or user.id == @id
     public_count
 
   streaks_count_for: (user) =>
     public_count = @streaks_count - @hidden_streaks_count
     return public_count unless user
-    return @streaks_count if user\is_admin! or user.id == @user_id
+    return @streaks_count if user\is_admin! or user.id == @id
     public_count
+
