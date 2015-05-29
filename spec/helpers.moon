@@ -54,4 +54,4 @@ request_as = (user, url, opts={}) ->
 
   request_fn url, opts
 
-{ :request, :request_as, :request_with_snap }
+{ :request, :request_as }
