@@ -103,7 +103,7 @@ class UsersApplication extends lapis.Application
       render: true
   }
 
-  [user_tags: "/u/:slug/tag/:tag_slug"]: capture_errors {
+  [user_tag: "/u/:slug/tag/:tag_slug"]: capture_errors {
     on_error: => not_found
     =>
       find_user @
@@ -122,7 +122,7 @@ class UsersApplication extends lapis.Application
       }
 
       @submissions = pager\get_page @page
-      json: { submissions: @submissions }
+      render: true
   }
 
   [user_following: "/u/:slug/following"]: capture_errors {
