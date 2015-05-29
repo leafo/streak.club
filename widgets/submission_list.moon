@@ -158,9 +158,12 @@ class SubmissionList extends require "widgets.base"
               div class: "submission_tags", ->
                 if late_submit
                   a class: "submission_tag late_submit_tag", ["data-tooltip"]: "Submission added past the deadline", "late-submit"
-
                 for tag in *submission.tags
-                  a class: "submission_tag", tag.slug
+                  a {
+                    class: "submission_tag"
+                    href: @url_for "user_tag", slug: submission.user.slug, tag_slug: tag.slug
+                    tag.slug
+                  }
 
           if @show_comments
             @render_comments submission

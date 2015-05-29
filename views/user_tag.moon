@@ -14,7 +14,7 @@ class UserFollowers extends require "widgets.base"
     widget UserHeader page_name: @page_name
 
     h2 ->
-      text "Submissions tagged "
+      text "Submissions by #{@user\name_for_display!} tagged "
       span class: "tag", "#{@params.tag_slug}"
 
     widget SubmissionList {

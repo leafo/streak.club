@@ -18,7 +18,8 @@ class UserFollowers extends require "widgets.base"
 
         for {:slug, :count} in *@tags_by_frequency
           tr ->
-            td slug
+            td ->
+              a href: @url_for("user_tag", slug: @user.slug, tag_slug: slug), slug
             td @number_format count
 
     else
