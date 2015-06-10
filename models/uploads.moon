@@ -17,6 +17,11 @@ class Uploads extends Model
     submission: 1
   }
 
+  @storage_types: enum {
+    filesystem: 1
+    google_cloud_storage: 2
+  }
+
   @content_types = {
     jpg: "image/jpeg"
     jpeg: "image/jpeg"
@@ -108,6 +113,8 @@ class Uploads extends Model
     thumb @path!, size
 
   url_params: (_, ...) =>
+    error "implement delete" unless @storage_type == @@storage_types.filesystem
+
     switch @type
       when @@types.image
         nil, @image_url ...
@@ -118,6 +125,8 @@ class Uploads extends Model
         nil, signed_url "/download/#{@short_path!}?expires=#{expire}"
 
   delete: =>
+    error "implement delete" unless @storage_type == @@storage_types.filesystem
+
     with super!
       import shell_quote, exec from require "helpers.shell"
       exec "rm #{shell_quote "#{config.user_content_path}/#{@path!}"}"

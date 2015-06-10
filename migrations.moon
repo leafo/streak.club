@@ -502,5 +502,8 @@ import
     db.query "alter table streak_submissions alter user_id drop default"
     create_index "submission_tags", "user_id"
 
+  [1433905410]: =>
+    add_column "uploads", "storage_type", integer default: 1
+
 }
 

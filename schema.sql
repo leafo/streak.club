@@ -526,7 +526,8 @@ CREATE TABLE uploads (
     data text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    downloads_count integer DEFAULT 0 NOT NULL
+    downloads_count integer DEFAULT 0 NOT NULL,
+    storage_type integer DEFAULT 1 NOT NULL
 );
 
 
@@ -1183,6 +1184,7 @@ COPY lapis_migrations (name) FROM stdin;
 1432010515
 1432190692
 1432794242
+1433905410
 \.
 
 
