@@ -64,6 +64,15 @@ class Uploads extends Model
       else
         error "unknown object (#{object.__class.__name})"
 
+  @use_google_cloud_storage: =>
+    -- if we have secret and storage
+    local storage
+    pcall ->
+      storage = require "secret.storage"
+
+    bucket = require("lapis.config").get!.storage_bucket
+    storage and bucket
+
   @create: (opts={}) =>
     assert opts.user_id, "missing user id"
     assert opts.filename, "missing file name"
@@ -80,6 +89,11 @@ class Uploads extends Model
       "file"
 
     opts.type = @types\for_db opts.type
+
+    opts.storage_type = if @use_google_cloud_storage!
+      @storage_types.google_cloud_storage
+    else
+      @storage_types.filesystem
 
     Model.create @, opts
 
@@ -108,9 +122,26 @@ class Uploads extends Model
   is_audio: =>
     @extension == "mp3"
 
+  is_filesystem: =>
+    @storage_type == @@storage_types.filesystem
+
+  is_google_cloud_storage: =>
+    @storage_type == @@storage_types.google_cloud_storage
+
   image_url: (size="original") =>
     assert @is_image!, "upload not image"
     thumb @path!, size
+
+  upload_url_and_params: (req) =>
+    switch @storage_type
+      when @@storage_types.filesystem
+        import signed_url from require "helpers.url"
+        url = signed_url req\url_for("receive_upload", id: @id)
+        url, {}
+      when @@storage_types.google_cloud_storage
+        error "not net"
+      else
+        error "unknown storage type"
 
   url_params: (_, ...) =>
     error "implement delete" unless @storage_type == @@storage_types.filesystem

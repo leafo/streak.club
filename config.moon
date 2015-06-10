@@ -14,6 +14,8 @@ config {"development", "test", "production"}, ->
   host "localhost"
   user_content_path "user_content"
 
+  storage_bucket "streakclub_dev"
+
   -- my Redactor license doesn't let me bundle it with opensource so you'll
   -- have to disable it here if you don't have it. Otherwise place in
   -- static/lib/redactor/
@@ -39,6 +41,8 @@ config "production", ->
   notice_log "logs/notice.log"
   logging false
   num_workers 3
+
+  storage_bucket "streakclub"
 
   enable_https true
 

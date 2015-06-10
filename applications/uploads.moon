@@ -13,7 +13,6 @@ import not_found, require_login from require "helpers.app"
 
 import assert_csrf from require "helpers.csrf"
 import trim_filter from require "lapis.util"
-import signed_url from require "helpers.url"
 
 import Uploads from require "models"
 
@@ -46,9 +45,12 @@ class UploadsApplication extends lapis.Application
       filename: upload_params.filename
     }
 
+    upload_url, params = upload\upload_url_and_params @
+
     json: {
       id: upload.id
-      url: signed_url @url_for("receive_upload", id: upload.id)
+      url: upload_url
+      post_params: params
     }
 
   [prepare_download: "/uploads/download/:id"]: capture_errors {
