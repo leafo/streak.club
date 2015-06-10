@@ -139,7 +139,11 @@ class Uploads extends Model
         url = signed_url req\url_for("receive_upload", id: @id)
         url, {}
       when @@storage_types.google_cloud_storage
-        error "not net"
+        storage = require "secret.storage"
+        bucket = assert require("lapis.config").get!.storage_bucket, "missing bucket"
+        storage\upload_url bucket, @path!, {
+          size_limit: 20 * 1024^3
+        }
       else
         error "unknown storage type"
 

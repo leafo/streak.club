@@ -9,7 +9,7 @@ class Upload
     @progress_bar = @el.find ".upload_progress"
     @progress_bar_inner = @progress_bar.find ".upload_progress_inner"
 
-  upload_params: => {}
+  upload_params: => @_upload_params ||= {}
 
   start_upload: (action) ->
     throw "missing file" unless @data.file
@@ -103,6 +103,10 @@ class UploaderManager
         id: res.id
         position: @next_upload_position()
       }
+
+      if res.post_params
+        for k,v of res.post_params
+          upload.upload_params()[k] = v
 
       @upload_list.append upload.el
       upload.start_upload res.url
