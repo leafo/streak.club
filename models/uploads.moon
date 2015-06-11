@@ -156,7 +156,7 @@ class Uploads extends Model
         error "unknown storage type"
 
   url_params: (_, ...) =>
-    error "implement delete" unless @storage_type == @@storage_types.filesystem
+    error "implement url params" unless @storage_type == @@storage_types.filesystem
 
     switch @type
       when @@types.image
@@ -168,11 +168,17 @@ class Uploads extends Model
         nil, signed_url "/download/#{@short_path!}?expires=#{expire}"
 
   delete: =>
-    error "implement delete" unless @storage_type == @@storage_types.filesystem
-
     with super!
-      import shell_quote, exec from require "helpers.shell"
-      exec "rm #{shell_quote "#{config.user_content_path}/#{@path!}"}"
+      return true unless @ready
+
+      switch @storage_type
+        when @@storage_types.filesystem
+          import shell_quote, exec from require "helpers.shell"
+          exec "rm #{shell_quote "#{config.user_content_path}/#{@path!}"}"
+        when @@storage_types.google_cloud_storage
+          storage = require "secret.storage"
+          bucket = require("lapis.config").get!.storage_bucket
+          storage\delete_file bucket_key, @bucket_key!
 
   increment: =>
     import DailyUploadDownloads from require "models"
