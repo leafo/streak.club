@@ -42,7 +42,12 @@ window.S = {
   with_csrf: (thing={}) ->
     token = csrf_token: S.get_csrf()
     if $.type(thing) == "string"
-      thing  + "&" + $.param token
+      sep = if thing.match "?"
+        "&"
+      else
+        "?"
+
+      thing + sep + $.param token
     else
       $.extend thing, token
 
