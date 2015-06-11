@@ -50,8 +50,21 @@ class UploadsApplication extends lapis.Application
     json: {
       id: upload.id
       url: upload_url
+      save_url: upload\save_url @
       post_params: params
     }
+
+  [save_upload: "/uploads/save/:id"]: require_login capture_errors_json =>
+    assert_valid @params, {
+      {"id", is_integer: true}
+    }
+
+    upload = Uploads\find @params.id
+    assert_error upload\allowed_to_edit(@current_user), "invalid upload"
+    import assert_file_uploaded from require "helpers.upload"
+    assert_file_uploaded upload
+    upload\update ready: true
+    json: { success: true }
 
   [prepare_download: "/uploads/download/:id"]: capture_errors {
     on_error: => not_found

@@ -11,6 +11,17 @@ class Upload
 
   upload_params: => @_upload_params ||= {}
 
+  set_upload_params: (obj) =>
+    return unless obj
+    params = @upload_params()
+
+    for k,v of obj
+      params[k] = v
+
+    params
+
+  set_save_url: (@save_url) =>
+
   start_upload: (action) ->
     throw "missing file" unless @data.file
 
@@ -36,14 +47,22 @@ class Upload
     xhr.addEventListener "load", (e) =>
       @el.removeClass "uploading"
 
-      if xhr.status != 200
+      if xhr.status != 200 && xhr.status != 204
         return @set_error "server failed to accept upload"
 
-      res = $.parseJSON(xhr.responseText)
-      if res.errors
-        return @set_error "#{res.errors.join ", "}"
+      try
+        res = $.parseJSON(xhr.responseText)
+        if res.errors
+          return @set_error "#{res.errors.join ", "}"
 
-      @save_upload res
+      if @save_url
+        $.post @save_url, S.with_csrf(), (res) =>
+          if res.errors
+            return @set_error "#{res.errors.join ", "}"
+
+          @save_upload res
+      else
+        @save_upload res
 
     xhr.open "POST", action
     xhr.send form_data
@@ -104,9 +123,10 @@ class UploaderManager
         position: @next_upload_position()
       }
 
-      if res.post_params
-        for k,v of res.post_params
-          upload.upload_params()[k] = v
+
+      upload.set_upload_params res.post_params
+      upload.set_save_url res.save_url
+
 
       @upload_list.append upload.el
       upload.start_upload res.url

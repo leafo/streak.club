@@ -132,6 +132,14 @@ class Uploads extends Model
     assert @is_image!, "upload not image"
     thumb @path!, size
 
+  save_url: (req) =>
+    if @is_google_cloud_storage!
+      req\url_for "save_upload", id: @id
+
+  bucket_key: =>
+    if @is_google_cloud_storage!
+      @path!
+
   upload_url_and_params: (req) =>
     switch @storage_type
       when @@storage_types.filesystem
@@ -141,7 +149,7 @@ class Uploads extends Model
       when @@storage_types.google_cloud_storage
         storage = require "secret.storage"
         bucket = assert require("lapis.config").get!.storage_bucket, "missing bucket"
-        storage\upload_url bucket, @path!, {
+        storage\upload_url bucket, @bucket_key!, {
           size_limit: 20 * 1024^3
         }
       else
