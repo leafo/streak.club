@@ -156,16 +156,23 @@ class Uploads extends Model
         error "unknown storage type"
 
   url_params: (_, ...) =>
-    error "implement url params" unless @storage_type == @@storage_types.filesystem
-
     switch @type
       when @@types.image
+        error "implement image url" unless @storage_type == @@storage_types.filesystem
         nil, @image_url ...
       else
         expires = ... or 15
-        import signed_url from require "helpers.url"
-        expire = os.time! + 15
-        nil, signed_url "/download/#{@short_path!}?expires=#{expire}"
+        expire = os.time! + expires
+
+        switch @storage_type
+          when @@storage_types.filesystem
+            import signed_url from require "helpers.url"
+            nil, signed_url "/download/#{@short_path!}?expires=#{expire}"
+
+          when @@storage_types.google_cloud_storage
+            storage = require "secret.storage"
+            bucket = require("lapis.config").get!.storage_bucket
+            nil, storage\signed_url bucket, @bucket_key!, expire
 
   delete: =>
     with super!
