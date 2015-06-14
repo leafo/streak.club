@@ -1,7 +1,8 @@
 
 lapis = require "lapis.init"
-
 config = require"lapis.config".get!
+
+http = require "lapis.nginx.http"
 
 import Uploads from require "models"
 import image_signature, unb64_from_url from require "helpers.images"
@@ -37,19 +38,33 @@ lapis.serve class extends lapis.Application
     key = unb64_from_url key
 
     storage_type, real_key = key\match "^(%d+),(.+)$"
-    if storage
+
+    if storage_type
       storage_type = tonumber storage_type
       key = real_key
     else
       storage_type = Uploads.storage_types.filesystem
 
     start = time!
-    local image_blob
-    file, load_err = io.open "#{config.user_content_path}/#{key}", "r"
+    local image_blob, load_err
 
-    if file
-      image_blob = file\read "*a"
-      file\close!
+    switch storage_type
+      when Uploads.storage_types.filesystem
+        file, load_err = io.open "#{config.user_content_path}/#{key}", "r"
+        if file
+          image_blob = file\read "*a"
+          file\close!
+
+      when Uploads.storage_types.google_cloud_storage
+        storage = require "secret.storage"
+        bucket_name = config.storage_bucket
+
+        url = storage\signed_url bucket_name, key, os.time! + 10
+        image_blob, status = http.request url
+
+        if status != 200
+          image_blob = nil
+          load_err = "bucket #{status}"
 
     load_time = fmt_time time! - start
 
