@@ -133,7 +133,7 @@ class Uploads extends Model
     key = @path!
 
     if @storage_type != 1
-      key = "#{@storage_type}, #{key}"
+      key = "#{@storage_type},#{key}"
 
     thumb key, size
 
