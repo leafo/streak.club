@@ -36,6 +36,13 @@ lapis.serve class extends lapis.Application
 
     key = unb64_from_url key
 
+    storage_type, real_key = key\match "^(%d+),(.+)$"
+    if storage
+      storage_type = tonumber storage_type
+      key = real_key
+    else
+      storage_type = Uploads.storage_types.filesystem
+
     start = time!
     local image_blob
     file, load_err = io.open "#{config.user_content_path}/#{key}", "r"

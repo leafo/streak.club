@@ -130,7 +130,12 @@ class Uploads extends Model
 
   image_url: (size="original") =>
     assert @is_image!, "upload not image"
-    thumb @path!, size
+    key = @path!
+
+    if @storage_type != 1
+      key = "#{@storage_type}, #{key}"
+
+    thumb key, size
 
   save_url: (req) =>
     if @is_google_cloud_storage!
@@ -158,7 +163,6 @@ class Uploads extends Model
   url_params: (_, ...) =>
     switch @type
       when @@types.image
-        error "implement image url" unless @storage_type == @@storage_types.filesystem
         nil, @image_url ...
       else
         expires = ... or 15
