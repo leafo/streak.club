@@ -2,7 +2,7 @@
 import Submissions from require "models"
 
 class AdminSubmission extends require "widgets.base"
-  @needs: {"submission"}
+  @needs: {"submission", "uploads"}
   @include "widgets.table_helpers"
   @include "widgets.form_helpers"
 
@@ -32,6 +32,11 @@ class AdminSubmission extends require "widgets.base"
       "comments_count"
       "hidden"
     }
+
+    h3 "Uploads"
+    for upload in *@uploads
+      @field_table upload
+
 
     h3 "Streak submissions"
     streaks = @submission\get_streaks!

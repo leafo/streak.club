@@ -77,6 +77,12 @@ class AdminApplication extends lapis.Application
       @submission = assert_error Submissions\find(@params.id), "invalid submission"
 
     GET: =>
+      import Uploads from require "models"
+      @uploads = Uploads\select "
+        where object_type = ? and object_id = ?
+        order by position
+      ", Uploads.object_types.submission, @submission.id
+
       render: true
 
     POST: =>
