@@ -8,8 +8,10 @@ request = (url, opts, ...) ->
   out = { original_request url, opts, ... }
   opts or= {}
 
+  busted = require "busted"
+  busted.publish {"lapis", "request"}, url, opts, ...
+
   if out[1] == 200 and not opts.post and out[3].content_type == "text/html"
-    busted = require "busted"
     busted.publish {"lapis", "screenshot"}, url, opts, ...
 
   unpack out

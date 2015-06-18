@@ -39,7 +39,7 @@ import columnize from require "lapis.cmd.util"
       "Routes missed: %{bright red}#{misses}%{reset}, " ..
       "Percent: %{yellow}#{"%0.2f"\format 100 * hits / (misses + hits)}%"
 
-  busted.subscribe { "lapis", "screenshot" }, (url, opts) ->
+  busted.subscribe { "lapis", "request" }, (url, opts) ->
     path = url\gsub "%?.*$", ""
     params, _, pattern, name = router.p\match path
 
