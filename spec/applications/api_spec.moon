@@ -1,8 +1,9 @@
 import
   load_test_server
   close_test_server
-  request
   from require "lapis.spec.server"
+
+import request from require "spec.helpers"
 
 import truncate_tables from require "lapis.spec.db"
 import ApiKeys, Users, Streaks, StreakUsers from require "models"

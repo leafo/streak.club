@@ -1,7 +1,6 @@
 import
   load_test_server
   close_test_server
-  request
   from require "lapis.spec.server"
 
 db = require "lapis.db"

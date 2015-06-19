@@ -124,5 +124,3 @@ class StreakApi extends lapis.Application
       left = @streak\leave @current_user
       json: { left: not not left }
   }
-
-  "/api/1/submit": api_request =>
