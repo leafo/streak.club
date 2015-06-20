@@ -27,6 +27,14 @@ describe "users", ->
     current_user = factory.Users!
     request_as current_user, "/"
 
+  it "loads user settings logged in", ->
+    current_user = factory.Users!
+    request_as current_user, "/user/settings"
+
+  it "loads feed logged in", ->
+    current_user = factory.Users!
+    request_as current_user, "/feed"
+
   it "should load login", ->
     status, res = request "/login"
     assert.same 200, status
