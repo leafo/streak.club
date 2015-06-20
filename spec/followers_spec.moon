@@ -73,8 +73,8 @@ describe "followers", ->
       request_as user, "/u/#{user.slug}/followers"
 
     it "should load empty following page", ->
-      request_as nil, "/u/#{user.slug}/followers"
-      request_as user, "/u/#{user.slug}/followers"
+      request_as nil, "/u/#{user.slug}/following"
+      request_as user, "/u/#{user.slug}/following"
 
     describe "with followers/following", ->
       before_each ->
@@ -87,6 +87,6 @@ describe "followers", ->
         request_as user, "/u/#{user.slug}/followers"
 
       it "should load empty following page", ->
-        request_as nil, "/u/#{user.slug}/followers"
-        request_as user, "/u/#{user.slug}/followers"
+        request_as nil, "/u/#{user.slug}/following"
+        request_as user, "/u/#{user.slug}/following"
 
