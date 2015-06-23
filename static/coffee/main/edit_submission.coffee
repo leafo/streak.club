@@ -1,4 +1,35 @@
 
+@R = {}
+
+{ div, span, a, p, ol, ul, li, strong, em, img,
+  form, label, input, textarea, button,
+  h1, h2, h3, h4, h5, h6 } = React.DOM
+
+R.component = (name, data) ->
+  data.displayName = "R.#{name}"
+  cl = React.createClass(data)
+  R[name] = React.createFactory(cl)
+  R[name]._class = cl
+
+R.component "UploadList", {
+  render: ->
+    console.log @state.uploads
+    uploads = @render_uploads()
+    div className: "upload_list", uploads...
+
+  render_uploads: ->
+    for upload in @state.uploads
+      R.Upload upload: upload
+
+}
+
+R.component "Upload", {
+  render: ->
+    console.log @state
+
+    div className: "upload_row", @state.upload.filename
+}
+
 class Upload
   upload_template: S.lazy_template @, "file_upload"
   constructor: (@data, @manager) ->
@@ -156,6 +187,8 @@ class S.EditSubmission
         window.location = res.url
 
     @setup_uploads()
+    @setup_upload2()
+
     @setup_tags()
     S.redactor @el.find "textarea"
 
@@ -176,7 +209,12 @@ class S.EditSubmission
           @upload_manager.reset_upload_positions()
     }
 
-  setup_uploads:  =>
+  setup_upload2: =>
+    container = @el.find ".uploader2"
+    console.log "rendering uploader2", @opts.uploads
+    React.render (R.UploadList { uploads: @opts.uploads || [] }), container[0]
+
+  setup_uploads: =>
     @upload_manager = new UploaderManager @el.find(".new_upload_btn"), @
     if @opts.uploads
       for upload in @opts.uploads

@@ -18,6 +18,14 @@
         }
     }
 
+    .uploader2 {
+        border: 1px solid red;
+        .upload_row {
+            border: 1px solid blue;
+            margin: 2px;
+        }
+    }
+
     .submit_banner {
         margin-bottom: 20px;
     }

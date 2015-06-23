@@ -102,6 +102,8 @@ class EditSubmission extends require "widgets.base"
           "Add file(s)"
         }
 
+      div class: "uploader2", ->
+
       div class: "button_row", ->
         button class: "button", ->
           if @submission
