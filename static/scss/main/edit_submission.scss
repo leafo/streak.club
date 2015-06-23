@@ -18,14 +18,6 @@
         }
     }
 
-    .uploader2 {
-        border: 1px solid red;
-        .upload_row {
-            border: 1px solid blue;
-            margin: 2px;
-        }
-    }
-
     .submit_banner {
         margin-bottom: 20px;
     }
@@ -39,44 +31,6 @@
 
         @include transition(top 0.2s ease);
 
-        &:first-child {
-            .move_up_btn {
-                display: none;
-            }
-        }
-
-        &:last-child {
-            .move_down_btn {
-                display: none;
-            }
-        }
-
-        &.uploading {
-            .upload_progress {
-                display: inline-block;
-            }
-
-            .upload_tools {
-                display: none;
-            }
-        }
-
-        &.has_error {
-            .upload_error {
-                display: inline-block;
-            }
-
-            .upload_tools {
-                display: none;
-            }
-        }
-
-        &.has_success {
-            .upload_success {
-                display: inline-block;
-            }
-        }
-
         &:last-child {
             border-bottom: 0;
             padding-bottom: 0;
@@ -84,19 +38,19 @@
         }
 
         .upload_error {
-            display: none;
+            display: inline-block;
             margin-left: 10px;
             color: $error_color;
         }
 
         .upload_success {
-            display: none;
+            display: inline-block;
             margin-left: 10px;
             color: #999;
         }
 
         .upload_progress {
-            display: none;
+            display: inline-block;
             vertical-align: middle;
             margin-left: 10px;
 

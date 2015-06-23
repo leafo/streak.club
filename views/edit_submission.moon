@@ -21,6 +21,9 @@ class EditSubmission extends require "widgets.base"
         id: @submission.id
       }
       suggested_tags: @suggested_tags
+      uploader_opts: {
+        prepare_url: @url_for "prepare_upload"
+      }
     }
 
     "new S.EditSubmission(#{@widget_selector!}, #{to_json data});"
@@ -93,16 +96,7 @@ class EditSubmission extends require "widgets.base"
       }
 
       div class: "label", "Files"
-      div class: "file_uploader", ->
-        div class: "file_upload_list"
-
-        button {
-          class: "new_upload_btn button"
-          "data-url": @url_for("prepare_upload") .. "?type=image"
-          "Add file(s)"
-        }
-
-      div class: "uploader2", ->
+      div class: "file_uploader" -- rendered via react
 
       div class: "button_row", ->
         button class: "button", ->
@@ -114,32 +108,6 @@ class EditSubmission extends require "widgets.base"
         if @submission
           text " or "
           a href: @url_for(@submission), "Return to submission"
-
-    @js_template "file_upload", =>
-      div class: "file_upload", ->
-        input {
-          type: "hidden"
-          class: "position_input"
-          name: "upload[{{ id }}][position]"
-          value: "{{ position }}"
-        }
-
-        div ->
-          div class: "upload_tools", ->
-            a href: "", class: "move_up_btn", "Move up"
-            a href: "", class: "move_down_btn", "Move down"
-            a href: "", class: "delete_btn", "Delete"
-
-          span class: "filename", "{{ filename }}"
-          text " "
-          span class: "file_size", " ({{ _.str.formatBytes(size) }})"
-
-          div class: "upload_progress", ->
-            div class: "upload_progress_inner"
-
-          div class: "upload_error"
-
-          div class: "upload_success", "Success"
 
   streak_picker: =>
     return unless @submittable_streaks
