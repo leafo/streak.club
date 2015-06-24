@@ -189,7 +189,7 @@ class Uploads extends Model
         when @@storage_types.google_cloud_storage
           storage = require "secret.storage"
           bucket = require("lapis.config").get!.storage_bucket
-          storage\delete_file bucket_key, @bucket_key!
+          storage\delete_file bucket, @bucket_key!
 
   increment: =>
     import DailyUploadDownloads from require "models"
