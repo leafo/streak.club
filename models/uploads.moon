@@ -130,10 +130,11 @@ class Uploads extends Model
 
   image_url: (size="original") =>
     assert @is_image!, "upload not image"
-    key = @path!
 
-    if @storage_type != 1
-      key = "#{@storage_type},#{key}"
+    key = if @storage_type != 1
+      "#{@storage_type},#{@bucket_key!}"
+    else
+      @path!
 
     thumb key, size
 
@@ -143,7 +144,7 @@ class Uploads extends Model
 
   bucket_key: =>
     if @is_google_cloud_storage!
-      @path!
+      "user_content/#{@path!}"
 
   upload_url_and_params: (req) =>
     switch @storage_type
