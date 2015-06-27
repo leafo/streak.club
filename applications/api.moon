@@ -25,7 +25,8 @@ format_user = (u) ->
 
 format_streak = do
   fields = {
-    "id", "start_date", "end_date", "hour_offset", "title", "short_description"
+    "id", "start_date", "end_date", "hour_offset", "title",
+    "short_description", "submissions_count", "users_count"
   }
 
   (s) ->
