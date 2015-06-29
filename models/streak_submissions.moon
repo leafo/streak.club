@@ -3,6 +3,21 @@ import Model from require "lapis.db.model"
 
 date = require "date"
 
+-- Generated schema dump: (do not edit)
+--
+-- CREATE TABLE streak_submissions (
+--   streak_id integer NOT NULL,
+--   submission_id integer NOT NULL,
+--   submit_time timestamp without time zone NOT NULL,
+--   user_id integer NOT NULL,
+--   late_submit boolean DEFAULT false NOT NULL
+-- );
+-- ALTER TABLE ONLY streak_submissions
+--   ADD CONSTRAINT streak_submissions_pkey PRIMARY KEY (streak_id, submission_id);
+-- CREATE INDEX streak_submissions_streak_id_submit_time_idx ON streak_submissions USING btree (streak_id, submit_time);
+-- CREATE INDEX streak_submissions_streak_id_user_id_submit_time_idx ON streak_submissions USING btree (streak_id, user_id, submit_time);
+-- CREATE INDEX streak_submissions_submission_id_streak_id_submit_time_idx ON streak_submissions USING btree (submission_id, streak_id, submit_time);
+--
 class StreakSubmissions extends Model
   @primary_key: {"streak_id", "submission_id"}
 

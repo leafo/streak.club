@@ -2,6 +2,16 @@ db = require "lapis.db"
 import Model from require "lapis.db.model"
 import safe_insert from require "helpers.model"
 
+-- Generated schema dump: (do not edit)
+--
+-- CREATE TABLE featured_submissions (
+--   submission_id integer NOT NULL,
+--   created_at timestamp without time zone NOT NULL,
+--   updated_at timestamp without time zone NOT NULL
+-- );
+-- ALTER TABLE ONLY featured_submissions
+--   ADD CONSTRAINT featured_submissions_pkey PRIMARY KEY (submission_id);
+--
 class FeaturedSubmissions extends Model
   @primary_key: "submission_id"
   @timestamp: true

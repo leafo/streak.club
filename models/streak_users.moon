@@ -5,6 +5,25 @@ date = require "date"
 
 import signed_url from require "helpers.url"
 
+-- Generated schema dump: (do not edit)
+--
+-- CREATE TABLE streak_users (
+--   streak_id integer NOT NULL,
+--   user_id integer NOT NULL,
+--   submissions_count integer DEFAULT 0 NOT NULL,
+--   created_at timestamp without time zone NOT NULL,
+--   updated_at timestamp without time zone NOT NULL,
+--   current_streak integer,
+--   longest_streak integer,
+--   last_submitted_at timestamp without time zone,
+--   pending boolean DEFAULT false NOT NULL
+-- );
+-- ALTER TABLE ONLY streak_users
+--   ADD CONSTRAINT streak_users_pkey PRIMARY KEY (streak_id, user_id);
+-- CREATE INDEX streak_users_streak_id_created_at_idx ON streak_users USING btree (streak_id, created_at);
+-- CREATE INDEX streak_users_streak_id_pending_created_at_idx ON streak_users USING btree (streak_id, pending, created_at);
+-- CREATE INDEX streak_users_user_id_idx ON streak_users USING btree (user_id);
+--
 class StreakUsers extends Model
   @timestamp: true
   @primary_key: {"streak_id", "user_id"}

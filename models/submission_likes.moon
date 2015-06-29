@@ -3,6 +3,18 @@ import Model from require "lapis.db.model"
 
 import safe_insert from require "helpers.model"
 
+-- Generated schema dump: (do not edit)
+--
+-- CREATE TABLE submission_likes (
+--   submission_id integer NOT NULL,
+--   user_id integer NOT NULL,
+--   created_at timestamp without time zone NOT NULL,
+--   updated_at timestamp without time zone NOT NULL
+-- );
+-- ALTER TABLE ONLY submission_likes
+--   ADD CONSTRAINT submission_likes_pkey PRIMARY KEY (submission_id, user_id);
+-- CREATE INDEX submission_likes_user_id_created_at_idx ON submission_likes USING btree (user_id, created_at);
+--
 class SubmissionLikes extends Model
   @timestamp: true
   @primary_key: {"submission_id", "user_id"}

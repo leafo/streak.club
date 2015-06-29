@@ -17,6 +17,37 @@ strip_non_ascii = do
   (str) ->
     string.char filter_chars str\byte 1, -1
 
+-- Generated schema dump: (do not edit)
+--
+-- CREATE TABLE users (
+--   id integer NOT NULL,
+--   username character varying(255) NOT NULL,
+--   encrypted_password character varying(255) NOT NULL,
+--   email character varying(255) NOT NULL,
+--   slug character varying(255) NOT NULL,
+--   last_active timestamp without time zone,
+--   display_name character varying(255),
+--   avatar_url character varying(255),
+--   created_at timestamp without time zone NOT NULL,
+--   updated_at timestamp without time zone NOT NULL,
+--   submissions_count integer DEFAULT 0 NOT NULL,
+--   following_count integer DEFAULT 0 NOT NULL,
+--   followers_count integer DEFAULT 0 NOT NULL,
+--   admin boolean DEFAULT false NOT NULL,
+--   streaks_count integer DEFAULT 0 NOT NULL,
+--   comments_count integer DEFAULT 0 NOT NULL,
+--   likes_count integer DEFAULT 0 NOT NULL,
+--   hidden_submissions_count integer DEFAULT 0 NOT NULL,
+--   hidden_streaks_count integer DEFAULT 0 NOT NULL,
+--   last_seen_feed_at timestamp without time zone
+-- );
+-- ALTER TABLE ONLY users
+--   ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+-- CREATE UNIQUE INDEX users_lower_email_idx ON users USING btree (lower((email)::text));
+-- CREATE UNIQUE INDEX users_lower_username_idx ON users USING btree (lower((username)::text));
+-- CREATE UNIQUE INDEX users_slug_idx ON users USING btree (slug);
+-- CREATE INDEX users_username_idx ON users USING gin (username gin_trgm_ops);
+--
 class Users extends Model
   @timestamp: true
 

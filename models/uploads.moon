@@ -5,6 +5,31 @@ config = require("lapis.config").get!
 
 import thumb from require "helpers.images"
 
+-- Generated schema dump: (do not edit)
+--
+-- CREATE TABLE uploads (
+--   id integer NOT NULL,
+--   user_id integer NOT NULL,
+--   type integer DEFAULT 0 NOT NULL,
+--   "position" integer DEFAULT 0 NOT NULL,
+--   object_type integer DEFAULT 0,
+--   object_id integer,
+--   extension character varying(255) NOT NULL,
+--   filename character varying(255) NOT NULL,
+--   size integer DEFAULT 0 NOT NULL,
+--   ready boolean DEFAULT false NOT NULL,
+--   deleted boolean DEFAULT false NOT NULL,
+--   data text,
+--   created_at timestamp without time zone NOT NULL,
+--   updated_at timestamp without time zone NOT NULL,
+--   downloads_count integer DEFAULT 0 NOT NULL,
+--   storage_type integer DEFAULT 1 NOT NULL
+-- );
+-- ALTER TABLE ONLY uploads
+--   ADD CONSTRAINT uploads_pkey PRIMARY KEY (id);
+-- CREATE INDEX uploads_object_type_object_id_position_idx ON uploads USING btree (object_type, object_id, "position") WHERE ready;
+-- CREATE INDEX uploads_user_id_type_idx ON uploads USING btree (user_id, type);
+--
 class Uploads extends Model
   @timestamp: true
 

@@ -4,6 +4,18 @@ import Model from require "lapis.db.model"
 import concat from table
 import from_json from require "lapis.util"
 
+-- Generated schema dump: (do not edit)
+--
+-- CREATE TABLE submission_tags (
+--   submission_id integer NOT NULL,
+--   slug character varying(255) NOT NULL,
+--   user_id integer
+-- );
+-- ALTER TABLE ONLY submission_tags
+--   ADD CONSTRAINT submission_tags_pkey PRIMARY KEY (submission_id, slug);
+-- CREATE INDEX submission_tags_slug_idx ON submission_tags USING btree (slug);
+-- CREATE INDEX submission_tags_user_id_idx ON submission_tags USING btree (user_id);
+--
 class SubmissionTags extends Model
   @max_tags_per_item: 10
   @primary_key: {"submission_id", "slug"}

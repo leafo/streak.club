@@ -3,6 +3,29 @@ import Model, enum from require "lapis.db.model"
 
 import slugify from require "lapis.util"
 
+-- Generated schema dump: (do not edit)
+--
+-- CREATE TABLE submissions (
+--   id integer NOT NULL,
+--   user_id integer NOT NULL,
+--   title character varying(255),
+--   description text,
+--   published boolean DEFAULT true NOT NULL,
+--   deleted boolean DEFAULT false NOT NULL,
+--   created_at timestamp without time zone NOT NULL,
+--   updated_at timestamp without time zone NOT NULL,
+--   likes_count integer DEFAULT 0 NOT NULL,
+--   user_rating integer DEFAULT 2 NOT NULL,
+--   allow_comments boolean DEFAULT true NOT NULL,
+--   comments_count integer DEFAULT 0 NOT NULL,
+--   hidden boolean DEFAULT false NOT NULL
+-- );
+-- ALTER TABLE ONLY submissions
+--   ADD CONSTRAINT submissions_pkey PRIMARY KEY (id);
+-- CREATE INDEX submissions_user_id_id_idx ON submissions USING btree (user_id, id);
+-- CREATE INDEX submissions_user_id_id_not_hidden_idx ON submissions USING btree (user_id, id) WHERE (NOT hidden);
+-- CREATE INDEX submissions_user_id_idx ON submissions USING btree (user_id);
+--
 class Submissions extends Model
   @timestamp: true
 

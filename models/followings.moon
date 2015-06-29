@@ -3,6 +3,20 @@ import Model from require "lapis.db.model"
 
 import safe_insert from require "helpers.model"
 
+-- Generated schema dump: (do not edit)
+--
+-- CREATE TABLE followings (
+--   source_user_id integer NOT NULL,
+--   dest_user_id integer DEFAULT 0 NOT NULL,
+--   created_at timestamp without time zone NOT NULL,
+--   updated_at timestamp without time zone NOT NULL
+-- );
+-- ALTER TABLE ONLY followings
+--   ADD CONSTRAINT followings_pkey PRIMARY KEY (source_user_id, dest_user_id);
+-- CREATE INDEX followings_dest_user_id_created_at_idx ON followings USING btree (dest_user_id, created_at);
+-- CREATE INDEX followings_dest_user_id_idx ON followings USING btree (dest_user_id);
+-- CREATE INDEX followings_source_user_id_created_at_idx ON followings USING btree (source_user_id, created_at);
+--
 class Followings extends Model
   @primary_key: {"source_user_id", "dest_user_id"}
   @timestamp: true

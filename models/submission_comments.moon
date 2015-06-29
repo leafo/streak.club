@@ -1,6 +1,23 @@
 b = require "lapis.db"
 import Model from require "lapis.db.model"
 
+-- Generated schema dump: (do not edit)
+--
+-- CREATE TABLE submission_comments (
+--   id integer NOT NULL,
+--   submission_id integer NOT NULL,
+--   user_id integer NOT NULL,
+--   body text NOT NULL,
+--   edited_at timestamp without time zone,
+--   deleted boolean DEFAULT false NOT NULL,
+--   created_at timestamp without time zone NOT NULL,
+--   updated_at timestamp without time zone NOT NULL
+-- );
+-- ALTER TABLE ONLY submission_comments
+--   ADD CONSTRAINT submission_comments_pkey PRIMARY KEY (id);
+-- CREATE INDEX submission_comments_submission_id_id_idx ON submission_comments USING btree (submission_id, id) WHERE (NOT deleted);
+-- CREATE INDEX submission_comments_user_id_id_idx ON submission_comments USING btree (user_id, id) WHERE (NOT deleted);
+--
 class SubmissionComments extends Model
   @timestamp: true
 
