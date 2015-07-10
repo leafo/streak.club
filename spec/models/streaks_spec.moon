@@ -229,4 +229,17 @@ describe "models.streaks", ->
       assert.same {k, true for k in *u2_completed},
         {k, true for k in pairs user2\get_completed_units!}
 
+  it "finds streaks ending soon when there are no streaks", ->
+    assert.same {}, Streaks\find_streaks_ending_soon!
+
+  it "finds streaks ending soon", ->
+    hour = date(true)\gethours!
+    offset = -(hour + 1)
+
+    factory.Streaks state: "before_start", hour_offset: offset
+    factory.Streaks state: "after_end", hour_offset: offset
+    d = factory.Streaks state: "during", hour_offset: offset
+    factory.Streaks state: "during", hour_offset: -(hour + 5)
+
+    assert.same {d.id}, [s.id for s in *Streaks\find_streaks_ending_soon!]
 

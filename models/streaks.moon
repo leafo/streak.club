@@ -122,6 +122,16 @@ class Streaks extends Model
 
     grouped
 
+  @find_streaks_ending_soon: =>
+
+    @select "
+      where
+        start_date < now() at time zone 'utc' + (hour_offset || ' hours')::interval
+        and end_date > now() at time zone 'utc' + (hour_offset || ' hours')::interval
+        and (date_trunc('day', now() at time zone 'utc' + (hour_offset || ' hours')::interval) + '1 day'::interval) - (hour_offset || ' hours')::interval - '4 hours'::interval < now() at time zone 'utc'
+      and rate = ?
+    ", @rates.daily
+
   has_user: (user) =>
     import StreakUsers from require "models"
     return nil unless user

@@ -505,5 +505,12 @@ import
   [1433905410]: =>
     add_column "uploads", "storage_type", integer default: 1
 
+
+  [1436502059]: =>
+    add_column "streak_users", "last_notified_at", time null: true
+    add_column "streak_users", "notifications", boolean
+
+
 }
+
 

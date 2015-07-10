@@ -210,5 +210,9 @@ class extends lapis.Application
 
     render: true
 
+  "/cron/send-notifications": =>
+    import Streaks from require "models"
+    streaks = Streaks\find_streaks_ending_soon!
 
+    json: {:streaks}
 
