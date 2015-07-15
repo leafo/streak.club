@@ -1,5 +1,4 @@
 
-
 class DeleteSubmission extends require "widgets.base"
   inner_content: =>
     div class: "page_header", ->
@@ -15,6 +14,6 @@ class DeleteSubmission extends require "widgets.base"
       div class: "button_row", ->
         button class: "button", "Delete it"
         text " or "
-        a href: "", "Go back"
+        a href: @url_for(@submission), "Go back"
 
  
