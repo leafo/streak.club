@@ -141,4 +141,17 @@ describe "api", ->
       status, res = request_with_key "/api/1/streak/#{streak.id}/leave", post: {}
       assert.same true, res.left
 
+    it "views streak", ->
+      streak = factory.Streaks!
+      status, res = request_with_key "/api/1/streak/#{streak.id}"
+      assert.truthy res.streak
+
+    it "views streak that user is in", ->
+      streak = factory.Streaks!
+      factory.StreakUsers streak_id: streak.id, user_id: current_user.id
+
+      status, res = request_with_key "/api/1/streak/#{streak.id}"
+      assert.truthy res.streak
+      assert.truthy res.streak_user
+
 

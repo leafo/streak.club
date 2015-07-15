@@ -21,6 +21,15 @@ api_request = (fn) ->
     fn @
 
 
+format_streak_user = (u) ->
+  {
+    pending: u.pending
+    submissions_count: u.submissions_count
+    created_at: u.created_at
+    current_streak: u\get_current_streak!
+    longest_streak: u\get_longest_streak!
+  }
+
 format_user = (u) ->
   {
     id: u.id
@@ -110,6 +119,21 @@ class StreakApi extends lapis.Application
 
     json: {
       streaks: [format_streak streak for streak in *@streaks]
+    }
+
+  "/api/1/streak/:id": api_request =>
+    import Streaks from require "models"
+    assert_valid @params, {
+      {"id", is_integer: true}
+    }
+
+    streak = Streaks\find @params.id
+    assert_error streak\allowed_to_view @current_user
+    streak_user = streak\find_streak_user @current_user
+
+    json: {
+      streak: format_streak streak
+      streak_user: format_streak_user streak_user
     }
 
   "/api/1/streak/:id/join": api_request respond_to {
