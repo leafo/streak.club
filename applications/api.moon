@@ -11,6 +11,11 @@ import find_streak from require "helpers.app"
 api_request = (fn) ->
   capture_errors_json =>
     return fn @ if @params.key == "me" and @current_user
+
+    assert_valid @params, {
+      {"key", type: "string", exists: true}
+    }
+
     @key = assert_error ApiKeys\find(key: @params.key), "invalid key"
     @current_user = Users\find id: @key.user_id
     fn @
