@@ -65,6 +65,11 @@ format_submission = do
           upload\image_url!
       } for upload in *s.uploads]
 
+    out.submission_like = if s.submission_like
+      {
+        created_at: s.submission_like.created_at
+      }
+
     out
 
 format_streak = do

@@ -7,7 +7,7 @@ import request from require "spec.helpers"
 
 import truncate_tables from require "lapis.spec.db"
 import ApiKeys, Users, Streaks, StreakUsers, Submissions, StreakSubmissions,
-  Uploads from require "models"
+  Uploads, SubmissionLikes from require "models"
 
 factory = require "spec.factory"
 
@@ -20,7 +20,7 @@ describe "api", ->
 
   before_each ->
     truncate_tables Users, ApiKeys, Streaks, StreakUsers, Submissions,
-      StreakSubmissions, Uploads
+      StreakSubmissions, Uploads, SubmissionLikes
 
   it "it should create api key", ->
     assert factory.ApiKeys!
@@ -170,7 +170,7 @@ describe "api", ->
       assert.truthy res.submissions
       assert.same 2, #res.submissions
 
-    it "views streak submissions with upload", ->
+    it "views streak submissions with upload and like", ->
       streak = factory.Streaks!
       streak_sub = factory.StreakSubmissions streak_id: streak.id
       submission = streak_sub\get_submission!
@@ -183,7 +183,13 @@ describe "api", ->
         ready: true
       }
 
+      SubmissionLikes\create {
+        submission_id: submission.id
+        user_id: current_user.id
+      }
+
       status, res = request_with_key "/api/1/streak/#{streak.id}/submissions"
       assert.truthy res.submissions
       assert.same 1, #res.submissions[1].uploads
+      assert.truthy res.submissions[1].submission_like
 
