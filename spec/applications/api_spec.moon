@@ -170,7 +170,7 @@ describe "api", ->
       assert.truthy res.submissions
       assert.same 2, #res.submissions
 
-    it "views streak submissions with upload #ddd", ->
+    it "views streak submissions with upload", ->
       streak = factory.Streaks!
       streak_sub = factory.StreakSubmissions streak_id: streak.id
       submission = streak_sub\get_submission!
@@ -185,5 +185,5 @@ describe "api", ->
 
       status, res = request_with_key "/api/1/streak/#{streak.id}/submissions"
       assert.truthy res.submissions
-      error res.submissions
+      assert.same 1, #res.submissions[1].uploads
 
