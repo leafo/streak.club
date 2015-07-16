@@ -6,7 +6,7 @@ import capture_errors_json, assert_error, respond_to from require "lapis.applica
 import trim_filter from require "lapis.util"
 import ApiKeys, Users from require "models"
 
-import find_streak from require "helpers.app"
+import find_streak, assert_page from require "helpers.app"
 
 api_request = (fn) ->
   capture_errors_json =>
@@ -122,18 +122,11 @@ class StreakApi extends lapis.Application
     }
 
   "/api/1/streak/:id": api_request =>
-    import Streaks from require "models"
-    assert_valid @params, {
-      {"id", is_integer: true}
-    }
-
-    streak = Streaks\find @params.id
-    assert_error streak\allowed_to_view @current_user
-    streak_user = streak\find_streak_user @current_user
+    find_streak @
 
     json: {
-      streak: format_streak streak
-      streak_user: format_streak_user streak_user
+      streak: format_streak @streak
+      streak_user: @streak_user and format_streak_user @streak_user
     }
 
   "/api/1/streak/:id/join": api_request respond_to {
