@@ -159,7 +159,8 @@ describe "api", ->
     it "views streak submissions for empty streak", ->
       streak = factory.Streaks!
       status, res = request_with_key "/api/1/streak/#{streak.id}/submissions"
-      error res
+      assert.truthy res.submissions
+      assert.same 0, #res.submissions
 
     it "views streak submissions", ->
       streak = factory.Streaks!
