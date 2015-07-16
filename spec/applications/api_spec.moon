@@ -6,7 +6,7 @@ import
 import request from require "spec.helpers"
 
 import truncate_tables from require "lapis.spec.db"
-import ApiKeys, Users, Streaks, StreakUsers from require "models"
+import ApiKeys, Users, Streaks, StreakUsers, Submissions, StreakSubmissions from require "models"
 
 factory = require "spec.factory"
 
@@ -18,7 +18,8 @@ describe "api", ->
     close_test_server!
 
   before_each ->
-    truncate_tables Users, ApiKeys, Streaks, StreakUsers
+    truncate_tables Users, ApiKeys, Streaks, StreakUsers, Submissions,
+      StreakSubmissions
 
   it "it should create api key", ->
     assert factory.ApiKeys!
@@ -154,4 +155,18 @@ describe "api", ->
       assert.truthy res.streak
       assert.truthy res.streak_user
 
+    it "views streak submissions for empty streak", ->
+      streak = factory.Streaks!
+      status, res = request_with_key "/api/1/streak/#{streak.id}/submissions"
+      error res
+
+
+    it "views streak submissions", ->
+      streak = factory.Streaks!
+      factory.StreakSubmissions streak_id: streak.id
+      factory.StreakSubmissions streak_id: streak.id
+
+      status, res = request_with_key "/api/1/streak/#{streak.id}/submissions"
+      assert.truthy res.submissions
+      assert.same 2, #res.submissions
 

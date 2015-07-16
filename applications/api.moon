@@ -37,6 +37,36 @@ format_user = (u) ->
     display_name: u.display_name
   }
 
+format_submission = do
+  fields = {
+    "title", "description", "published", "comments_count", "allow_comments",
+    "likes_count", "created_at"
+  }
+
+  (s) ->
+    -- error require("moon").dump s
+
+    out = {f, s[f] for f in *fields}
+    out.user = format_user s.user
+    out.streak_submission = {
+      submit_time: s.streak_submission.submit_time
+      late_submit: s.streak_submission.late_submit
+    }
+    out.streaks = [{
+      id: streak.id
+      title: streak.title
+    } for streak in *s.streaks]
+
+    out.uploads = if s.uploads
+      [{
+        id: upload.id
+        type: upload.__class.types\to_name upload.type
+        url: if upload.type == upload.__class.types.image
+          upload\image_url!
+      } for upload in *s.uploads]
+
+    out
+
 format_streak = do
   fields = {
     "id", "start_date", "end_date", "hour_offset", "title",
@@ -127,6 +157,26 @@ class StreakApi extends lapis.Application
     json: {
       streak: format_streak @streak
       streak_user: @streak_user and format_streak_user @streak_user
+    }
+
+  "/api/1/streak/:id/submissions": api_request =>
+    find_streak @
+    assert_page @
+
+    import Submissions from require "models"
+    pager = @streak\find_submissions {
+      per_page: SUBMISSION_PER_PAGE
+      prepare_submissions: (submissions) ->
+        Submissions\preload_for_list submissions, {
+          likes_for: @current_user
+        }
+    }
+
+    submissions = pager\get_page @page
+
+    json: {
+      page: @page
+      submissions: [format_submission s for s in *submissions]
     }
 
   "/api/1/streak/:id/join": api_request respond_to {
