@@ -116,3 +116,18 @@ describe "notifications", ->
     assert.same 2, #Notifications\select!
     assert.falsy Notifications\find note2.id
 
+  it "views empty notificadtions page", ->
+    status, res = request_as current_user, "/notifications"
+    assert.same 200, status
+
+
+  it "views empty notifications page with notifications", ->
+    Notifications\notify_for current_user, factory.Submissions!, "comment"
+    Notifications\notify_for current_user, factory.Submissions!, "comment"
+
+    status, res = request_as current_user, "/notifications"
+    assert.same 200, status
+
+
+
+
