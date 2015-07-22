@@ -20,9 +20,10 @@ class ViewStreakUnit extends require "widgets.base"
       @column_content!
 
   column_content: =>
-    div class: "owner_tools", ->
-      a href: @url_for("streak_unit_submit_url", id: @streak.id, date: @params.date),
-        "Generate late submit URL for participant"
+    if @streak\allowed_to_edit @current_user
+      div class: "owner_tools", ->
+        a href: @url_for("streak_unit_submit_url", id: @streak.id, date: @params.date),
+          "Generate late submit URL for participant"
 
     h4 class: "submission_list_title", ->
       text "Submissions from #{@start_time\fmt Streaks.day_format_str} to #{@end_time\fmt Streaks.day_format_str}"
