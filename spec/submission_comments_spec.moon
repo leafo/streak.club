@@ -64,6 +64,15 @@ describe "submission_comments", ->
     before_each ->
       comment = factory.SubmissionComments user_id: current_user.id
 
+    it "gets comments for submission", ->
+      status, res = request_as current_user, "/submission/#{comment.submission_id}/comments", {
+        expect: "json"
+      }
+
+      assert.truthy res.rendered
+      assert.same 1, res.comments_count
+      assert.false res.has_more
+
     it "should edit comment", ->
       status, res = request_as current_user, "/submission-comment/#{comment.id}/edit", {
         post: {
