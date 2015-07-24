@@ -16,7 +16,9 @@ import signed_url from require "helpers.url"
 --   current_streak integer,
 --   longest_streak integer,
 --   last_submitted_at timestamp without time zone,
---   pending boolean DEFAULT false NOT NULL
+--   pending boolean DEFAULT false NOT NULL,
+--   last_notified_at timestamp without time zone,
+--   notifications boolean DEFAULT false NOT NULL
 -- );
 -- ALTER TABLE ONLY streak_users
 --   ADD CONSTRAINT streak_users_pkey PRIMARY KEY (streak_id, user_id);
