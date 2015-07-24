@@ -47,11 +47,13 @@ for model in exec("ls models/*.moon")\gmatch "([%w_]+)%.moon"
   source = source_f\read "*all"
   source_f\close!
 
-  source_with_header = source\gsub "-- Generated .-\nclass ", "#{header}\nclass ", 1
-  if source_with_header == source
-    source_with_header = source\gsub "class ", "#{header}\nclass ", 1
+  source_with_header = if source\match "%-%- Generated .-\nclass "
+    source\gsub "%-%- Generated .-\nclass ", "#{header}\nclass ", 1
+  else
+    source\gsub "class ", "#{header}\nclass ", 1
 
   source_out = io.open fname, "w"
   source_out\write source_with_header
   source_out\close!
+
 
