@@ -61,6 +61,30 @@ describe "followers", ->
     user_ids = {u.id, true for u in *users}
     assert.same {f.dest_user_id, true for f in *following}, user_ids
 
+  it "follows user", ->
+    user = factory.Users!
+    other_user = factory.Users!
+
+    status, res = request_as user, "/user/#{other_user.id}/follow", {
+      post: {}
+      expect: "json"
+    }
+
+    assert.same 200, status
+    assert.falsy res.errors
+    followings = Followings\select!
+    assert.same 1, #followings
+    assert.same user.id, followings[1].source_user_id
+    assert.same other_user.id, followings[1].dest_user_id
+
+  it "unfollows user", ->
+    f = factory.Followings!
+    status, res = request_as f\get_source_user!, "/user/#{f\get_dest_user!.id}/unfollow", {
+      post: {}
+      expect: "json"
+    }
+
+    assert.same 0, #Followings\select!
 
   describe "with user", ->
     local user
