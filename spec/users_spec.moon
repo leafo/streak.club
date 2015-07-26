@@ -23,6 +23,10 @@ describe "users", ->
   it "should create a user", ->
     factory.Users!
 
+  it "loads forgot password", ->
+    status, res = request_as nil, "/user/forgot-password"
+    assert.same 200, status
+
   it "should load index logged in", ->
     current_user = factory.Users!
     request_as current_user, "/"
@@ -42,6 +46,11 @@ describe "users", ->
   it "should view user profile", ->
     user = factory.Users!
     status, res = request "/u/#{user.slug}"
+    assert.same 200, status
+
+  it "views user profile tags", ->
+    user = factory.Users!
+    status, res = request "/u/#{user.slug}/tags"
     assert.same 200, status
 
   it "should register user", ->
