@@ -97,7 +97,12 @@
         .user_list {
             .user_data {
                 margin-left: 20px;
+                margin-top: 13px;
                 width: 140px;
+            }
+
+            .user_name {
+                font-size: $body_size;
             }
         }
     }
