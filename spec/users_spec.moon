@@ -18,7 +18,7 @@ describe "users", ->
     close_test_server!
 
   before_each ->
-    truncate_tables Users
+    truncate_tables Users, Followings
 
   it "should create a user", ->
     factory.Users!
@@ -81,6 +81,7 @@ describe "users", ->
     assert.same 302, status
     assert.same "http://127.0.0.1/", headers.location
 
+
   describe "with streaks", ->
     local current_user
 
@@ -114,7 +115,7 @@ describe "users", ->
       it "should get submittable streaks", ->
          assert.same 1, #current_user\find_submittable_streaks!
 
-      it "should find participating streaks #ddd", ->
+      it "should find participating streaks", ->
         assert.same 3, #current_user\find_participating_streaks!\get_page!
         assert.same 1, #current_user\find_participating_streaks(state: "active")\get_page!
         assert.same 1, #current_user\find_participating_streaks(state: "upcoming")\get_page!
