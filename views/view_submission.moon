@@ -19,6 +19,15 @@ class ViewSubmission extends require "widgets.base"
         a href: @url_for("edit_submission", id: @submission.id), "Edit submission"
         raw " &middot; "
         a href: @url_for("delete_submission", id: @submission.id), "Delete submission"
+        raw " &middot; "
+        a href: @url_for("submission_streaks", id: @submission.id), "Edit streaks"
+    else
+      for submit in *@streak_submissions
+        if submit\allowed_to_moderate @current_user
+          div class: "moderator_tools", ->
+            a href: @url_for("submission_streaks", id: @submission.id), "Manage this submission's streaks"
+          break
+
 
     div class: "submission_column", ->
       widget SubmissionList submissions: { @submission }, show_user: true, show_comments: true

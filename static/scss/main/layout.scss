@@ -328,7 +328,7 @@ a {
 }
 
 
-.owner_tools {
+.owner_tools, .moderator_tools {
     background: $purple;
     margin-bottom: 20px;
     padding: 15px 20px;
@@ -343,6 +343,12 @@ a {
         font-weight: bold;
         margin-right: 10px;
         color: rgba(white, 0.7);
+    }
+}
+
+.moderator_tools {
+    &:before {
+        content: "Moderator tools:";
     }
 }
 
