@@ -7,17 +7,18 @@ class SubmissionStreaks extends require "widgets.base"
 
   inner_content: =>
     div class: "page_header", ->
-      h2 "Submission streaks"
+      h2 "Submission's streaks"
 
     p ->
-      a href: @url_for(@submission), "Return to submission"
+      a href: @url_for(@submission), ->
+        raw "&laquo; Return to submission"
 
-    ul class: "submission_list", ->
+    ul class: "streak_submission_list", ->
       for submit in *@submits
         streak = submit\get_streak!
         continue unless streak\allowed_to_view @current_user
 
-        li class: "submission_row", ->
+        li class: "streak_submission_row", ->
           a href: @url_for(streak), streak.title
           text " on "
           @date_format submit.submit_time

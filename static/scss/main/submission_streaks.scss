@@ -1,0 +1,17 @@
+
+
+
+.submission_streaks {
+    .streak_submission_row {
+        margin-bottom: 15px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        form {
+            display: inline-block;
+            margin-left: 10px;
+        }
+    }
+}

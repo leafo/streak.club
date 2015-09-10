@@ -220,10 +220,10 @@ class SubmissionsApplication extends lapis.Application
 
       switch @params.action
         when "unsubmit"
-          error "delete it"
+          @session.flash = "Removed from streak"
+          streak_submission\delete!
 
-      json: { success: true }
-
+      redirect_to: @url_for "submission_streaks", id: @submission.id
 
   }
 
