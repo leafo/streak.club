@@ -30,6 +30,14 @@ class StreakSubmissions extends Model
   unit_number: =>
     @get_streak!\unit_number_for_date date @submit_time
 
+  allowed_to_moderate: (user) =>
+    return false unless user
+    submission = @get_submission!
+    return true if submission\allowed_to_edit user
+    streak = @get_streak!
+    return true if streak\allowed_to_edit user
+    false
+
   -- might return false if user is no longer in streak
   get_streak_user: =>
     if @streak_user == nil

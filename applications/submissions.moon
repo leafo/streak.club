@@ -187,6 +187,47 @@ class SubmissionsApplication extends lapis.Application
     }
   }
 
+  [submission_streaks: "/submission/:id/streaks"]: require_login capture_errors_json respond_to {
+    before: =>
+      find_submission @
+      @submits = @submission\get_streak_submissions!
+      import Streaks from require "models"
+      Streaks\include_in @submits, "streak_id"
+      for submit in *@submits
+        submit.submission = @submission
+
+    GET: =>
+      render: true
+
+    POST: =>
+      assert_csrf @
+
+      assert_valid @params, {
+        {"action", one_of: {"unsubmit"}}
+        {"streak_id", is_integer: true}
+      }
+
+      local streak_submission
+
+      for submit in *@submits
+        if submit.streak_id == tonumber @params.streak_id
+          streak_submission = submit
+          break
+
+      assert_error streak_submission, "invalid submission"
+      assert_error streak_submission\allowed_to_moderate(@current_user),
+        "invalid submission"
+
+      switch @params.action
+        when "unsubmit"
+          error "delete it"
+
+      json: { success: true }
+
+
+  }
+
+
   [submission_like: "/submission/:id/like"]: require_login capture_errors_json =>
     find_submission @
     assert_csrf @
