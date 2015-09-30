@@ -9,7 +9,7 @@ import Streaks, Users, StreakUsers from require "models"
 
 factory = require "spec.factory"
 
-describe "streakapp", ->
+describe "applications.streaks", ->
   setup ->
     load_test_server!
 
