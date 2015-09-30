@@ -70,6 +70,43 @@ describe "streaks", ->
         d = streak\truncate_date date 2015, 3,1, h, 11
         assert.same "2015-03-01 00:00:00", d\fmt Streaks.timestamp_format_str
 
+  describe "unsubmitted_users", ->
+    it "gets empty unsubmitted users list for empty streak", ->
+      streak = factory.Streaks state: "during"
+      assert.same {}, streak\unsubmitted_users!
+
+    it "gets every streak user when there are no submissions", ->
+      other_streak = factory.Streaks state: "during"
+      factory.StreakUsers streak_id: other_streak.id
+
+
+      streak = factory.Streaks state: "during"
+      su = factory.StreakUsers streak_id: streak.id
+
+      unsubmitted = streak\unsubmitted_users!
+      assert.same 1, #unsubmitted
+
+      for _su in *unsubmitted
+        assert.same streak.id, _su.streak_id
+        assert.same su.user_id, _su.user_id
+
+    it "gets only streak users who have not submitted", ->
+      other_streak = factory.Streaks state: "during"
+      factory.StreakUsers streak_id: other_streak.id
+
+      streak = factory.Streaks state: "during"
+      su1 = factory.StreakUsers streak_id: streak.id
+
+      su2 = factory.StreakUsers streak_id: streak.id
+      factory.StreakSubmissions streak_id: streak.id, user_id: su2.user_id
+
+      unsubmitted = streak\unsubmitted_users!
+      assert.same 1, #unsubmitted
+
+      for _su in *unsubmitted
+        assert.same streak.id, _su.streak_id
+        assert.same su1.user_id, _su.user_id
+
   describe "with user", ->
     local current_user
     before_each ->
@@ -342,7 +379,7 @@ describe "streaks", ->
         }
         assert.same 200, status
 
-      it "should lift user to top of submission when there are a lot #ddd", ->
+      it "should lift user to top of submission when there are a lot", ->
         for i=1,30
           factory.StreakSubmissions {
             streak_id: streak.id

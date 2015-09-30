@@ -42,7 +42,6 @@ class StreakUsers extends Model
   submission_for_date: (d) =>
     streak = @get_streak!
     import Streaks, StreakSubmissions from require "models"
-    format_str = "%Y-%m-%d %H:%M:%S"
 
     unit_start = streak\truncate_date d
     unit_end = streak\increment_date_by_unit date unit_start

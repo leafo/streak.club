@@ -283,6 +283,34 @@ class Streaks extends Model
         weeks = math.floor(days / 7)
         weeks + 1
 
+  -- find all streak users who have not submitted to the unit
+  unsubmitted_users: (d=date(true)) =>
+    import StreakUsers, Users from require "models"
+
+    unit_start = @truncate_date d
+    unit_end = @increment_date_by_unit date unit_start
+
+    unit_start_formatted = unit_start\fmt(Streaks.timestamp_format_str)
+    unit_end_formatted = unit_end\fmt(Streaks.timestamp_format_str)
+
+    sus = StreakUsers\select "
+      where streak_id = ?
+      and not exists(
+        select 1 from streak_submissions
+        where
+          streak_submissions.streak_id = streak_users.streak_id and
+          streak_submissions.user_id = streak_users.user_id and
+          submit_time >= ? and
+          submit_time < ?
+      )
+    ", @id, unit_start_formatted, unit_end_formatted
+
+    Users\include_in sus, "user_id"
+    for s in *sus
+      s.streak = @
+
+    sus
+
   -- get the starting time in UTC
   start_datetime: =>
     date(@start_date)\addhours -@hour_offset
