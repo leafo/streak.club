@@ -46,7 +46,7 @@ describe "emails", ->
       html: true
       sender: "Streak Club <postmaster@streak.club>"
       tags: { "reminder_email" }
-      vars: { u.email, { recipient_name: u\name_for_display! } for u in *users }
+      vars: { u.email, { name_for_display: u\name_for_display! } for u in *users }
       track_opens: true
       headers: {
         "Reply-To": require("lapis.config").get!.admin_email
@@ -56,7 +56,7 @@ describe "emails", ->
     recipient, subject, body, opts = unpack last_email!
     assert.same recipient, {users[1].email}
     assert.same opts.vars, {
-      [users[1].email]: { recipient_name: users[1]\name_for_display! }
+      [users[1].email]: { name_for_display: users[1]\name_for_display! }
     }
 
 
