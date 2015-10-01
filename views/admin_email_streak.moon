@@ -32,9 +32,9 @@ class AdminEmailStreak extends require "widgets.base"
 
       @input_row "Options", ->
         @radio_buttons "action", {
-          {"dry_run", "Dry run"}
-          {"preview", "Preview"}
-          {"send", "Send"}
+          {"dry_run", "Dry run", "Just print email addresses this would be sent to"}
+          {"preview", "Preview", "Just send the email once to the config.admin_email"}
+          {"send", "Send", "Send to everyone"}
         }
 
       div class: "button_row", ->
