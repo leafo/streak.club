@@ -3,8 +3,6 @@ import slugify from require "lapis.util"
 
 import parse_query_string, encode_query_string from require "lapis.util"
 
-counts = {}
-
 get_file_name = (context) ->
   busted = require "busted"
 
@@ -22,6 +20,18 @@ get_file_name = (context) ->
 
   table.concat names, "."
 
+screenshot_path = do
+  counts = {}
+  (spec_name) ->
+    full_name = if counts[spec_name]
+      counts[spec_name] += 1
+      "#{spec_name}.#{counts[spec_name]}"
+    else
+      counts[spec_name] = 1
+      spec_name
+
+    "#{dir}/#{full_name}.png"
+
 (options) ->
   busted = require "busted"
   handler = require("busted.outputHandlers.utfTerminal") options
@@ -33,6 +43,12 @@ get_file_name = (context) ->
 
   busted.subscribe { "test", "end" }, ->
     spec_name = nil
+
+  busted.subscribe { "lapis", "html" }, (html, opts) ->
+    fname = screenshot_path spec_name
+    f = io.popen "wkhtmltoimage -q - '#{fname}'", "w"
+    f\write html
+    f\close!
 
   busted.subscribe { "lapis", "screenshot" }, (url, opts) ->
     assert spec_name, "no spec name set"
@@ -59,14 +75,7 @@ get_file_name = (context) ->
 
     headers = table.concat headers
 
-    full_name = if counts[spec_name]
-      counts[spec_name] += 1
-      "#{spec_name}.#{counts[spec_name]}"
-    else
-      counts[spec_name] = 1
-      spec_name
-
-    cmd = "CutyCapt #{headers} '--min-width=1024' '--url=#{full_url}' '--out=#{dir}/#{full_name}.png'"
+    cmd = "CutyCapt #{headers} '--min-width=1024' '--url=#{full_url}' '--out=#{screenshot_path(spec_name)}'"
     assert os.execute cmd
 
   handler
