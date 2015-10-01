@@ -60,9 +60,17 @@ describe "emails", ->
     }
 
   it "sends first deadline email", ->
+    s = factory.Streaks state: "first_unit"
+
     emailer = require "emails.deadline_email"
     emailer\send req, "leafot@gmail.com", {
       streak: factory.Streaks state: "first_unit"
+    }
+
+  it "sends some unit deadline email", ->
+    emailer = require "emails.deadline_email"
+    emailer\send req, "leafot@gmail.com", {
+      streak: factory.Streaks state: "during"
     }
 
 

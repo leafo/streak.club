@@ -42,7 +42,9 @@ Streaks = (opts={}) ->
     opts.state = nil
     switch state
       when "first_unit"
-        opts.start_date = relative_day -0.5
+        -- this makes it so it started at least 1 hour ago, at most 1:59
+        opts.hour_offset = -date(true)\gethours! + 1
+        opts.start_date = relative_day 0
         opts.end_date = relative_day 10
       when "during"
         opts.start_date = relative_day -10

@@ -13,10 +13,17 @@ class DeadlineEmail extends require "emails.email"
     p ->
       text "You signed up for "
       a href: @url_for(@streak), @streak.title
-      current_unit_end = @streak\increment_date_by_unit @streak\current_unit!
+      text ". "
 
-      text ". The first submission is due in
-      about #{format_date current_unit_end} (#{current_unit_end\fmt Streaks.timestamp_format_str} UTC)"
+      unit_number = @streak\current_unit_number!
+      current_unit_end = @streak\current_unit_end_date!
+
+      if unit_number == 1
+        text "The first "
+      else
+        text "The next "
+
+      text " submission is due in about #{format_date current_unit_end} (#{current_unit_end\fmt Streaks.timestamp_format_str} UTC)."
 
     p style: "text-align: center;", ->
       a {
@@ -25,4 +32,7 @@ class DeadlineEmail extends require "emails.email"
         "Submit"
       }
 
-
+    p style: "font-size: small; color: #666", ->
+      text "If you want to leave the streak you can find the 'leave streak' button on the "
+      a style: "color: #666", href: @url_for(@streak), "streak's page"
+      text "."
