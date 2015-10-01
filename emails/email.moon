@@ -41,12 +41,12 @@ class Email extends Widget
     "background-color: white; max-width: 600px; margin: 10px auto 40px auto;border-radius: 2px; border: 1px solid #dadada;"
 
   footer: =>
-    h4 ->
+    h4 style: "margin-bottom: 0px", ->
       text "powered by "
       a href: "https://streak.club", "Streak Club"
 
     if @show_tag_unsubscribe
-      div style: "color: #666666; font-size: smaller", ->
+      div style: "color: #666666; font-size: smaller; margin-top: 15px;", ->
         text "Don't want to receive emails like this? "
         a href: "%tag_unsubscribe_url%", style: "color: #666", "Unsubscribe"
 
