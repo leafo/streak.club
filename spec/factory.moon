@@ -41,6 +41,9 @@ Streaks = (opts={}) ->
   if state = opts.state
     opts.state = nil
     switch state
+      when "first_unit"
+        opts.start_date = relative_day -0.5
+        opts.end_date = relative_day 10
       when "during"
         opts.start_date = relative_day -10
         opts.end_date = relative_day 10

@@ -273,6 +273,12 @@ class Streaks extends Model
     return nil if @before_start! or @after_end!
     @truncate_date date true
 
+  current_unit_number: =>
+    @unit_number_for_date date true
+
+  current_unit_end_date: =>
+    @increment_date_by_unit @current_unit!
+
   -- UTC date to unit number
   unit_number_for_date: (d) =>
     switch @rate

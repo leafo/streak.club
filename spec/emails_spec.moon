@@ -59,4 +59,10 @@ describe "emails", ->
       [users[1].email]: { name_for_display: users[1]\name_for_display! }
     }
 
+  it "sends first deadline email", ->
+    emailer = require "emails.deadline_email"
+    emailer\send req, "leafot@gmail.com", {
+      streak: factory.Streaks state: "first_unit"
+    }
+
 
