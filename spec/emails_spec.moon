@@ -24,4 +24,39 @@ describe "emails", ->
     recipient, subject, body, opts = unpack last_email!
     assert.same recipient, user.email
 
+  it "sends reminder email", ->
+    -- TODO: this should be moved into a flow so we don't have to duplicate
+    -- logic from admin action
+
+    users = {
+      factory.Users!
+    }
+
+    template = require "emails.reminder_email"
+    t = template {
+      email_body: "<p>Here is your custom reminder email</p>"
+      email_subject: "A test reminder email"
+      show_tag_unsubscribe: true
+    }
+
+    t\include_helper @
+
+    import send_email from require "helpers.email"
+    send_email [u.email for u in *users], t\subject!, t\render_to_string!, {
+      html: true
+      sender: "Streak Club <postmaster@streak.club>"
+      tags: { "reminder_email" }
+      vars: { u.email, { recipient_name: u\name_for_display! } for u in *users }
+      track_opens: true
+      headers: {
+        "Reply-To": require("lapis.config").get!.admin_email
+      }
+    }
+
+    recipient, subject, body, opts = unpack last_email!
+    assert.same recipient, {users[1].email}
+    assert.same opts.vars, {
+      [users[1].email]: { recipient_name: users[1]\name_for_display! }
+    }
+
 
