@@ -19,7 +19,8 @@ class UserIpAddresses extends Model
 
   @register_ip: (r) =>
     return unless r.current_user
-    ip = ngx.var.remote_addr
+    ip = r.headers['x-original-ip'] or ngx.var.remote_addr
+
     current = @find user_id: r.current_user.id, ip: ip
     return if current
     pcall ->
