@@ -8,7 +8,8 @@ import truncate_tables from require "lapis.spec.db"
 import request, request_as from require "spec.helpers"
 
 factory = require "spec.factory"
-import Users, Submissions, Streaks, StreakSubmissions, StreakUsers, SubmissionTags from require "models"
+import Users, Followings, Submissions, Streaks, StreakSubmissions, StreakUsers,
+  SubmissionTags from require "models"
 
 describe "users", ->
   setup ->

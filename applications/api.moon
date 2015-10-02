@@ -1,6 +1,8 @@
 
 lapis = require "lapis"
 
+SUBMISSION_PER_PAGE = 25
+
 import assert_valid from require "lapis.validate"
 import capture_errors_json, assert_error, respond_to from require "lapis.application"
 import trim_filter from require "lapis.util"

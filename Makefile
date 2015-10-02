@@ -28,8 +28,7 @@ migrate::
 	make schema.sql
 
 lint::
-	# moonc -l $$(git ls-files | grep '\.moon$$' | grep -v config.moon)
-	for file in $$(git ls-files | grep '\.moon$$' | grep -v config.moon); do moonc -l $$file; done
+	git ls-files | grep '\.moon$$' | grep -v config.moon | xargs -n 100 moonc -l
 
 checkpoint:
 	mkdir -p dev_backup
