@@ -505,5 +505,7 @@ import
   [1433905410]: =>
     add_column "uploads", "storage_type", integer default: 1
 
+  [1443740672]: =>
+    add_column "streaks", "last_deadline_email_at", time null: true
 }
 

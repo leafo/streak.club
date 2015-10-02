@@ -290,7 +290,7 @@ class Streaks extends Model
         weeks + 1
 
   -- find all streak users who have not submitted to the unit
-  unsubmitted_users: (d=date(true)) =>
+  find_unsubmitted_users: (d=date(true)) =>
     import StreakUsers, Users from require "models"
 
     unit_start = @truncate_date d
@@ -521,7 +521,6 @@ class Streaks extends Model
       prepare_results: prepare_submits opts
     }
 
-
   find_streak_user: (user) =>
     return unless user
     import StreakUsers from require "models"
@@ -550,6 +549,54 @@ class Streaks extends Model
 
   duration: =>
     date.diff(@end_datetime!, @start_datetime!)\spandays!
+
+  send_deadline_email: (req) =>
+    now = date true
+    if now < @start_datetime!
+      return nil, "before start"
+
+    if @end_datetime! < now
+      return nil, "after end"
+
+    if @last_deadline_email_at
+      last = date @last_deadline_email_at
+      if @current_unit_number! == @unit_number_for_date last
+        return nil, "already reminded for this unit"
+
+    res = db.update @@table_name!, {
+      last_deadline_email_at: db.format_date!
+    }, {
+      id: @id
+      last_deadline_email_at: @last_deadline_email_at or db.NULL
+    }
+
+    unless res.affected_rows and res.affected_rows > 0
+      return nil, "email sent by another thread"
+
+    streak_users = @find_unsubmitted_users!
+
+    vars = {}
+    emails = for su in *streak_users
+      vars[su.user.email] = {
+        name_for_display: su.user\name_for_display!
+      }
+      su.user.email
+
+    return nil, "no emails" unless next emails
+
+    emailer = require "emails.deadline_email"
+    emailer\send req, emails, {
+      streak: @
+    }, {
+      html: true
+      sender: "Streak Club <postmaster@streak.club>"
+      tags: { "deadline_email" }
+      :vars
+      track_opens: true
+      headers: {
+        "Reply-To": require("lapis.config").get!.admin_email
+      }
+    }
 
   @_time_clause: (state) =>
     switch state

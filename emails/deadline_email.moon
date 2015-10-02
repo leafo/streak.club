@@ -29,7 +29,7 @@ class DeadlineEmail extends require "emails.email"
       a {
         href: @url_for(@streak)
         style: "background-color: #34a0f2; border-radius: 8px; font-size: larger; color: white; text-decoration: none; font-weight: bold; padding: 8px 20px; display: inline-block;"
-        "Submit"
+        "Go to Streak to Submit"
       }
 
     p style: "font-size: small; color: #666", ->

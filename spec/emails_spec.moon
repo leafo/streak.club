@@ -59,18 +59,38 @@ describe "emails", ->
       [users[1].email]: { name_for_display: users[1]\name_for_display! }
     }
 
-  it "sends first deadline email", ->
-    s = factory.Streaks state: "first_unit"
+  describe "deadline email #ddd", ->
+    it "sends first deadline email", ->
+      s = factory.Streaks state: "first_unit"
 
-    emailer = require "emails.deadline_email"
-    emailer\send req, "leafot@gmail.com", {
-      streak: factory.Streaks state: "first_unit"
-    }
+      emailer = require "emails.deadline_email"
+      emailer\send req, "leafot@gmail.com", {
+        streak: factory.Streaks state: "first_unit"
+      }
 
-  it "sends some unit deadline email", ->
-    emailer = require "emails.deadline_email"
-    emailer\send req, "leafot@gmail.com", {
-      streak: factory.Streaks state: "during"
-    }
+    it "sends some unit deadline email", ->
+      emailer = require "emails.deadline_email"
+      emailer\send req, "leafot@gmail.com", {
+        streak: factory.Streaks state: "during"
+      }
 
+    it "attemps to send deadline email to empty streak", ->
+      streak = factory.Streaks state: "first_unit"
+      assert.same {nil, "no emails"}, {streak\send_deadline_email req}
+      assert.nil last_email!
+
+    it "sends deadline email to streak #kkk", ->
+      streak = factory.Streaks state: "first_unit"
+      su = factory.StreakUsers streak_id: streak.id
+
+      streak\send_deadline_email req
+      recipients, title, body, opts = unpack last_email!
+
+      assert.same {su\get_user!.email}, recipients
+      assert.same {"deadline_email"}, opts.tags
+      assert.same {
+        [su\get_user!.email]: {
+          name_for_display: su\get_user!\name_for_display!
+        }
+      }, opts.vars
 

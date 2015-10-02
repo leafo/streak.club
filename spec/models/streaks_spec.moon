@@ -60,10 +60,10 @@ describe "models.streaks", ->
         d = streak\truncate_date date 2015, 3,1, h, 11
         assert.same "2015-03-01 00:00:00", d\fmt Streaks.timestamp_format_str
 
-  describe "unsubmitted_users", ->
+  describe "find_unsubmitted_users", ->
     it "gets empty unsubmitted users list for empty streak", ->
       streak = factory.Streaks state: "during"
-      assert.same {}, streak\unsubmitted_users!
+      assert.same {}, streak\find_unsubmitted_users!
 
     it "gets every streak user when there are no submissions", ->
       other_streak = factory.Streaks state: "during"
@@ -73,7 +73,7 @@ describe "models.streaks", ->
       streak = factory.Streaks state: "during"
       su = factory.StreakUsers streak_id: streak.id
 
-      unsubmitted = streak\unsubmitted_users!
+      unsubmitted = streak\find_unsubmitted_users!
       assert.same 1, #unsubmitted
 
       for _su in *unsubmitted
@@ -90,7 +90,7 @@ describe "models.streaks", ->
       su2 = factory.StreakUsers streak_id: streak.id
       factory.StreakSubmissions streak_id: streak.id, user_id: su2.user_id
 
-      unsubmitted = streak\unsubmitted_users!
+      unsubmitted = streak\find_unsubmitted_users!
       assert.same 1, #unsubmitted
 
       for _su in *unsubmitted
