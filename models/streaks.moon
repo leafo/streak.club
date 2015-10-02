@@ -47,7 +47,8 @@ prepare_submits = (opts) ->
 --   twitter_hash text,
 --   late_submit_type integer DEFAULT 1 NOT NULL,
 --   membership_type integer DEFAULT 1 NOT NULL,
---   pending_users_count integer DEFAULT 0 NOT NULL
+--   pending_users_count integer DEFAULT 0 NOT NULL,
+--   last_deadline_email_at timestamp without time zone
 -- );
 -- ALTER TABLE ONLY streaks
 --   ADD CONSTRAINT streaks_pkey PRIMARY KEY (id);

@@ -210,5 +210,3 @@ class extends lapis.Application
 
     render: true
 
-
-
