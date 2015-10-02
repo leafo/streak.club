@@ -69,6 +69,7 @@ class AdminApplication extends lapis.Application
         Users\include_in streaks, "user_id"
         streaks
     }
+
     assert_page @
     @streaks = @pager\get_page @
     render: true
@@ -162,6 +163,32 @@ class AdminApplication extends lapis.Application
           @session.flash = "Password updated"
 
       redirect_to: @url_for "admin_user", id: @user.id
+  }
+
+  [admin_send_deadline_email: "/email/:streak_id/deadline"]: capture_errors_json respond_to {
+    before: =>
+      import Streaks from require "models"
+      assert_error @params, {
+        {"streak_id", is_integer: true}
+      }
+
+      @streak = assert_error Streaks\find(@params.streak_id), "invalid streak"
+
+    GET: =>
+      emails = [su\get_user!.email for su in *@streak\find_unsubmitted_users!]
+
+      json: {
+        count: #emails
+        emails: emails
+      }
+
+    POST: =>
+      assert_csrf @
+
+      json: {
+        @streak\send_deadline_email @
+      }
+
   }
 
   [admin_email_streak: "/email/:streak_id"]: capture_errors_json respond_to {

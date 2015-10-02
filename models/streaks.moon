@@ -587,6 +587,7 @@ class Streaks extends Model
     emailer = require "emails.deadline_email"
     emailer\send req, emails, {
       streak: @
+      show_tag_unsubscribe: true
     }, {
       html: true
       sender: "Streak Club <postmaster@streak.club>"
@@ -597,6 +598,8 @@ class Streaks extends Model
         "Reply-To": require("lapis.config").get!.admin_email
       }
     }
+
+    return #emails
 
   @_time_clause: (state) =>
     switch state

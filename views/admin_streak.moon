@@ -52,9 +52,11 @@ class AdminStreak extends require "widgets.base"
       }
       br!
       br!
-      button class: "button", "Send unit deadline reminder"
+      form method: "post", action: @url_for("admin_send_deadline_email", streak_id: @streak.id), ->
+        @csrf_input!
+        button class: "button", "Send unit deadline reminder"
 
-
-
-
+        text " "
+        a href: @url_for("admin_send_deadline_email", streak_id: @streak.id),
+          "preview recipients"
 

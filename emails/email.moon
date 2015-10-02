@@ -14,6 +14,7 @@ class Email extends Widget
 
   url_for: (...) =>
     url_for = @_find_helper "url_for"
+    assert url_for, "failed to find url_for helper, did you pass in req?"
     @build_url url_for nil, ...
 
   subject: => "Streak Club"
