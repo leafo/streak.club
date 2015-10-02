@@ -8,7 +8,7 @@ import respond_to, capture_errors_json, assert_error from require "lapis.applica
 import assert_valid from require "lapis.validate"
 import trim_filter from require "lapis.util"
 
-import not_found from require "helpers.app"
+import not_found, assert_page from require "helpers.app"
 import assert_csrf from require "helpers.csrf"
 
 class AdminApplication extends lapis.Application
@@ -36,7 +36,6 @@ class AdminApplication extends lapis.Application
           FeaturedSubmissions\load(submission_id: submission.id)\delete!
 
       json: { success: true, :res }
-
   }
 
 
@@ -60,6 +59,20 @@ class AdminApplication extends lapis.Application
 
       json: { success: true, :res }
   }
+
+  [admin_streaks: "/streaks"]: capture_errors_json =>
+    import Streaks, Users from require "models"
+
+    @pager = Streaks\paginated "order by id desc", {
+      per_page: 50
+      prepare_results: (streaks) ->
+        Users\include_in streaks, "user_id"
+        streaks
+    }
+    assert_page @
+    @streaks = @pager\get_page @
+    render: true
+
 
   [admin_streak: "/streak/:id"]: capture_errors_json respond_to {
     before: =>

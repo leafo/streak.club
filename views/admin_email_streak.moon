@@ -15,6 +15,8 @@ class AdminEmailStreak extends require "widgets.base"
       h2 "Email streak users"
       h3 ->
         a href: @url_for(@streak), @streak.title
+        raw " &middot; "
+        a href: @url_for("admin_streak", id: @streak.id), "Return to admin"
 
     form class: "form", method: "post", ->
       @csrf_input!

@@ -26,6 +26,10 @@ class AdminStreak extends require "widgets.base"
       "submissions_count",
       {"category", Streaks.categories},
       {"publish_status", Streaks.publish_statuses},
+      {"late_submit_type", Streaks.late_submit_types}
+      {"membership_type", Streaks.membership_types}
+
+      "last_deadline_email_at"
       "twitter_hash"
     }
 
@@ -38,4 +42,19 @@ class AdminStreak extends require "widgets.base"
       {"", -> a href: @url_for(@streak\get_user!), "Profile"}
       {"", -> a href: @url_for("admin_user", id: @streak\get_user!.id), "Admin"}
     }
+
+    h3 "Tools"
+    fieldset ->
+      a {
+        class: "button"
+        href: @url_for("admin_email_streak", streak_id: @streak.id)
+        "Email users..."
+      }
+      br!
+      br!
+      button class: "button", "Send unit deadline reminder"
+
+
+
+
 
