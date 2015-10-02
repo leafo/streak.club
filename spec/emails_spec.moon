@@ -5,6 +5,8 @@ import truncate_tables from require "lapis.spec.db"
 import stub_email, assert_email_sent, assert_emails_sent from require "spec.helpers.email"
 import Streaks, StreakUsers, StreakSubmissions, Submissions, Users from require "models"
 
+db = require "lapis.db"
+
 factory = require "spec.factory"
 
 describe "emails", ->
@@ -79,7 +81,7 @@ describe "emails", ->
       assert.same {nil, "no emails"}, {streak\send_deadline_email req}
       assert.nil last_email!
 
-    it "sends deadline email to streak #kkk", ->
+    it "sends deadline email to streak", ->
       streak = factory.Streaks state: "first_unit"
       su = factory.StreakUsers streak_id: streak.id
 
@@ -93,4 +95,21 @@ describe "emails", ->
           name_for_display: su\get_user!\name_for_display!
         }
       }, opts.vars
+
+    it "doesn't send deadline email if already sent", ->
+      streak = factory.Streaks state: "first_unit", last_deadline_email_at: db.format_date!
+      su = factory.StreakUsers streak_id: streak.id
+      assert.same {nil, "already reminded for this unit"},
+        {streak\send_deadline_email req}
+
+    it "doesn't send deadline email if another thread sends it sent", ->
+      streak = factory.Streaks state: "first_unit"
+      db.update "streaks", {
+        last_deadline_email_at: db.format_date!
+      }, {
+        id: streak.id
+      }
+
+      assert.same {nil, "email sent by another thread"},
+        {streak\send_deadline_email req}
 
