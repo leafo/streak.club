@@ -507,5 +507,19 @@ import
 
   [1443740672]: =>
     add_column "streaks", "last_deadline_email_at", time null: true
+
+  [1443753807]: =>
+    create_table "user_ip_addresses", {
+      {"user_id", foreign_key}
+      {"ip", varchar}
+
+      {"created_at", time}
+      {"updated_at", time}
+
+      "PRIMARY KEY (user_id, ip)"
+    }
+
+    create_index "user_ip_addresses", "ip"
+
 }
 

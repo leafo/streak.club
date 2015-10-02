@@ -6,7 +6,7 @@ lapis = require "lapis"
 
 db = require "lapis.db"
 
-import Users from require "models"
+import Users, UserIpAddresses from require "models"
 import generate_csrf from require "helpers.csrf"
 
 import require_login, not_found, ensure_https from require "helpers.app"
@@ -36,6 +36,7 @@ class extends lapis.Application
   @before_filter =>
     @current_user = Users\read_session @
     generate_csrf @
+    UserIpAddresses\register_ip @
 
     if @current_user
       @current_user\update_last_active!

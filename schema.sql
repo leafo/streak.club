@@ -556,6 +556,20 @@ ALTER SEQUENCE uploads_id_seq OWNED BY uploads.id;
 
 
 --
+-- Name: user_ip_addresses; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE user_ip_addresses (
+    user_id integer NOT NULL,
+    ip character varying(255) NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE user_ip_addresses OWNER TO postgres;
+
+--
 -- Name: user_profiles; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -846,6 +860,14 @@ ALTER TABLE ONLY uploads
 
 
 --
+-- Name: user_ip_addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY user_ip_addresses
+    ADD CONSTRAINT user_ip_addresses_pkey PRIMARY KEY (user_id, ip);
+
+
+--
 -- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1064,6 +1086,13 @@ CREATE INDEX uploads_user_id_type_idx ON uploads USING btree (user_id, type);
 
 
 --
+-- Name: user_ip_addresses_ip_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX user_ip_addresses_ip_idx ON user_ip_addresses USING btree (ip);
+
+
+--
 -- Name: user_profiles_password_reset_token_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1187,6 +1216,7 @@ COPY lapis_migrations (name) FROM stdin;
 1432794242
 1433905410
 1443740672
+1443753807
 \.
 
 
