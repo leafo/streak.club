@@ -1,5 +1,12 @@
 
 .view_streak_page {
+    .user_formatted {
+        background: white;
+        border: 1px solid $border_color;
+        padding: 20px;
+        border-radius: 3px;
+    }
+
     .submission_list_title {
         color: $body_color_light;
         margin-top: 40px;
@@ -117,7 +124,7 @@
     .date_summary {
         color: #666;
         font-size: 16px;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
     }
 
     .countdown {

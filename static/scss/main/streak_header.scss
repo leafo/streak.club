@@ -1,5 +1,7 @@
 
 .streak_header {
+    margin-bottom: 25px;
+
     .draft_banner, .hidden_banner {
         display: block;
         background: lighten($error_color, 10%);
@@ -12,6 +14,10 @@
     .page_header {
         padding-top: 25px;
         margin-bottom: 25px;
+    }
+
+    .page_tabs {
+        margin-bottom: 0;
     }
 
     .hidden_banner {
