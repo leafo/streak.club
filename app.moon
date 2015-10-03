@@ -211,3 +211,13 @@ class extends lapis.Application
 
     render: true
 
+  [set_timezone: "/set-timezone"]: require_login capture_errors_json =>
+    import assert_timezone from require "helpers.app"
+    assert_timezone @params.timezone
+
+    @current_user\update {
+      last_timezone: @params.timezone
+    }, timestamp: false
+
+    json: { success: true }
+

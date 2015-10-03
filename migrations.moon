@@ -521,5 +521,10 @@ import
 
     create_index "user_ip_addresses", "ip"
 
+  [1443853745]: =>
+    add_column "users", "last_timezone", varchar null: true
+
+
+
 }
 

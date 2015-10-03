@@ -52,3 +52,13 @@ class S.Header
 
     @flasher.show type, flash
 
+class S.Timezone
+  save_timezone: (timezone) ->
+    $.post @url, S.with_csrf(timezone: timezone)
+
+  constructor: (@url, current_user) ->
+    return unless current_user
+
+    timezone = jstz.determine().name()
+    if timezone != current_user.last_timezone
+      @save_timezone timezone

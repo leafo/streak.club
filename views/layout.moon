@@ -107,7 +107,12 @@ class Layout extends Widget
     script type: "text/javascript", ->
       opts = { flash: @flash }
       raw "new S.Header('#global_header', #{to_json opts});"
-      raw "S.current_user = #{to_json @current_user.id};" if @current_user
+      if @current_user
+        raw "S.current_user = #{to_json @current_user.id};"
+        tz_url = @url_for "set_timezone"
+        tz = last_timezone: @current_user.last_timezone
+        raw "new S.Timezone(#{to_json tz_url}, #{to_json tz})"
+
       @content_for "js_init"
 
   include_fonts: =>

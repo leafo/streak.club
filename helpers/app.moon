@@ -26,6 +26,7 @@ require_admin = (fn) ->
 
 assert_timezone = (tz) ->
   assert_error tz, "missing timezone"
+  assert_error type(tz) == "string", "missing timezone"
   res = unpack db.select "* from pg_timezone_names where name = ?", tz
   assert_error res, "invalid timezone: #{tz}"
 
