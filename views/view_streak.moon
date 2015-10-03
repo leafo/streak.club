@@ -157,7 +157,7 @@ class ViewStreak extends require "widgets.page"
       text ")."
 
     unless is_empty_html @streak.description
-      div class: "user_formatted", ->
+      div class: "user_formatted streak_description", ->
         raw sanitize_html @streak.description
 
   render_submissions: =>
