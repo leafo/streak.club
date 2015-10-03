@@ -1,10 +1,8 @@
 HomeHeader = require "widgets.home_header"
 
-class UserSettings extends require "widgets.base"
+class UserSettings extends require "widgets.page"
   @needs: {"user", "user_profile"}
   @include "widgets.form_helpers"
-
-  base_widget: false
 
   js_init: =>
     "new S.UserSettings(#{@widget_selector!})"

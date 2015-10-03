@@ -6,8 +6,6 @@ class HomeHeader extends require "widgets.base"
   widget_classes: =>
     super! .. " tab_header"
 
-  base_widget: false
-
   inner_content: =>
     div class: "page_tabs", ->
       div class: "tabs_inner", ->

@@ -1,8 +1,8 @@
 
-class UserRegister extends require "widgets.base"
+class UserRegister extends require "widgets.page"
   @include "widgets.form_helpers"
 
-  inner_content: =>
+  column_content: =>
     div class: "page_header", ->
       h2 "Sign up"
 

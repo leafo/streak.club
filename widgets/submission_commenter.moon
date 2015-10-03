@@ -6,8 +6,6 @@ import login_and_return_url from require "helpers.app"
 class SubmissionCommenter extends require "widgets.base"
   @needs: {"submission", "submission_comments", "has_more"}
 
-  base_widget: false
-
   inner_content: =>
     div class: "comment_form_outer", ->
       h3 class: "comment_header", "Leave a commment"

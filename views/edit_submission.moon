@@ -4,7 +4,7 @@ import Streaks, Submissions from require "models"
 
 date = require "date"
 
-class EditSubmission extends require "widgets.base"
+class EditSubmission extends require "widgets.page"
   @needs: {"submission", "uploads"}
 
   @include "widgets.form_helpers"
@@ -28,7 +28,7 @@ class EditSubmission extends require "widgets.base"
 
     "new S.EditSubmission(#{@widget_selector!}, #{to_json data});"
 
-  inner_content: =>
+  column_content: =>
     @content_for "all_js", ->
       @include_jquery_ui!
       @include_tagit!

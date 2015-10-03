@@ -3,12 +3,12 @@ SubmissionList = require "widgets.submission_list"
 
 date = require "date"
 
-class ViewSubmission extends require "widgets.base"
+class ViewSubmission extends require "widgets.page"
   @needs: {"submission", "streaks"}
   @include "widgets.twitter_card_helpers"
   @include "widgets.streak_helpers"
 
-  inner_content: =>
+  column_content: =>
     @content_for "meta_tags", ->
       @twitter_card_for_submission @submission
 

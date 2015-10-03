@@ -2,9 +2,8 @@
 StreakHeader = require "widgets.streak_header"
 SubmissionList = require "widgets.submission_list"
 
-class StreakTopSubmissions extends require "widgets.base"
+class StreakTopSubmissions extends require "widgets.page"
   page_name: "top_submissions"
-  base_widget: false
 
   inner_content:  =>
     widget StreakHeader page_name: @page_name

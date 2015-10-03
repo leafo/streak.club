@@ -2,10 +2,8 @@
 Countdown = require "widgets.countdown"
 StreakList = require "widgets.streak_list"
 
-class IndexLoggedOut extends require "widgets.base"
+class IndexLoggedOut extends require "widgets.page"
   @needs: {"featured_streaks"}
-
-  base_widget: false
 
   js_init: =>
     "new S.IndexLoggedOut(#{@widget_selector!});"

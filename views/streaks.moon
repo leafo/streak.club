@@ -9,10 +9,10 @@ flatten_filters = (filters) ->
   path = "/" .. path if path != ""
   path
 
-class Streaks extends require "widgets.base"
+class Streaks extends require "widgets.page"
   @needs: {"facets"}
 
-  inner_content: =>
+  column_content: =>
     div class: "page_header", ->
       h2 "Streaks"
 
@@ -35,7 +35,6 @@ class Streaks extends require "widgets.base"
       widget StreakList
     else
       p class: "empty_message", "There don't appear to be any streaks here"
-
 
   filter_tab: (label, key, val, slug) =>
     base_url = @url_for "streaks"

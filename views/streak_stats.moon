@@ -2,9 +2,8 @@
 import to_json from require "lapis.util"
 StreakHeader = require "widgets.streak_header"
 
-class StreakStats extends require "widgets.base"
+class StreakStats extends require "widgets.page"
   page_name: "stats"
-  base_widget: false
 
   js_init: =>
     data = {

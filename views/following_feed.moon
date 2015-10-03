@@ -2,10 +2,8 @@
 SubmissionList = require "widgets.submission_list"
 HomeHeader = require "widgets.home_header"
 
-class FollowingFeed extends require "widgets.base"
+class FollowingFeed extends require "widgets.page"
   @needs: {"submission"}
-
-  base_widget: false
 
   js_init: =>
     "S.FollowingFeed(#{@widget_selector!});"

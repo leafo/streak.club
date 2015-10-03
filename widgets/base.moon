@@ -11,7 +11,6 @@ class Base extends Widget
   @include "widgets.asset_helpers"
 
   @widget_name: => underscore @__name or "some_widget"
-  base_widget: true
 
   inner_content: =>
 
@@ -19,9 +18,6 @@ class Base extends Widget
     classes = @widget_classes!
 
     local inner
-    if @base_widget
-      classes ..= " base_widget"
-
     @_opts = { class: classes, -> raw inner }
 
     if @js_init

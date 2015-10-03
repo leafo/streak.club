@@ -1,9 +1,9 @@
-class AdminUser extends require "widgets.base"
+class AdminUser extends require "widgets.page"
   @needs: {"user"}
   @include "widgets.form_helpers"
   @include "widgets.table_helpers"
 
-  inner_content: =>
+  column_content: =>
     @content_for "all_js", ->
       @include_js "admin.js"
 

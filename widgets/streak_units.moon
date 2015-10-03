@@ -6,8 +6,6 @@ class StreakUnits extends require "widgets.base"
 
   user_id: nil
 
-  base_widget: false
-
   inner_content: =>
     day_str = "%Y-%m-%d"
     today = date true

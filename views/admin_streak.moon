@@ -1,12 +1,12 @@
 
 import Streaks from require "models"
 
-class AdminStreak extends require "widgets.base"
+class AdminStreak extends require "widgets.page"
   @needs: {"streak"}
 
   @include "widgets.table_helpers"
 
-  inner_content: =>
+  column_content: =>
     div class: "page_header", ->
       h2 @streak.title
       h3 ->

@@ -1,11 +1,11 @@
 
-class SubmissionStreaks extends require "widgets.base"
+class SubmissionStreaks extends require "widgets.page"
   @needs: {
     "submission"
     "submits"
   }
 
-  inner_content: =>
+  column_content: =>
     div class: "page_header", ->
       h2 "Submission's streaks"
 

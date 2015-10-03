@@ -2,8 +2,8 @@
 StreakList = require "widgets.streak_list"
 UserList = require "widgets.user_list"
 
-class Search extends require "widgets.base"
-  inner_content: =>
+class Search extends require "widgets.page"
+  column_content: =>
     div class: "page_header", ->
       h2 ->
         text "Search results for "

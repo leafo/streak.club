@@ -11,7 +11,6 @@ class SubmissionCommentList extends require "widgets.base"
       user_url = @url_for user
       filled = comment\filled_body @
 
-
       div {
         class: "submission_comment"
         id: "comment-#{comment.id}"

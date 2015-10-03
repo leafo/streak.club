@@ -5,8 +5,6 @@ class StreakHeader extends require "widgets.base"
   widget_classes: =>
     super! .. " tab_header"
 
-  base_widget: false
-
   inner_content: =>
     if @streak\is_draft!
       a {

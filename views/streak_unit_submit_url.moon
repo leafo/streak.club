@@ -1,8 +1,6 @@
 StreakHeader = require "widgets.streak_header"
 
-class StreakUnitSubmitUrl extends require "widgets.base"
-  base_widget: false
-
+class StreakUnitSubmitUrl extends require "widgets.page"
   inner_content: =>
     widget StreakHeader
 
@@ -18,6 +16,7 @@ class StreakUnitSubmitUrl extends require "widgets.base"
 
     if @submit_url
       @render_url!
+      br!
 
   render_url: =>
     user = @streak_user\get_user!

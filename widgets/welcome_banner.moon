@@ -1,7 +1,5 @@
 
 class WelcomeBanner extends require "widgets.base"
-  base_widget: false
-
   inner_content: =>
     div class: "banner_inner", ->
       h2 "Welcome to Streak Club"

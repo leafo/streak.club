@@ -1,10 +1,10 @@
 
 UserList = require "widgets.user_list"
 
-class SubmissionLikes extends require "widgets.base"
+class SubmissionLikes extends require "widgets.page"
   @needs: {"submission", "likes"}
 
-  inner_content: =>
+  column_content: =>
     div class: "page_header", ->
       h2 ->
         text "Likes for "

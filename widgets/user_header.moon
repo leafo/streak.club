@@ -3,8 +3,6 @@ class UserHeader extends require "widgets.base"
   @needs: {"user"}
   @include "widgets.tabs_helpers"
 
-  base_widget: false
-
   inner_content: =>
     div class: "page_header", ->
       h2 @user\name_for_display!

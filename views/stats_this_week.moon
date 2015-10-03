@@ -2,7 +2,7 @@ StatsHeader = require "widgets.stats_header"
 import Streaks from require "models"
 import BrowseStreaksFlow from require "flows.browse_streaks"
 
-class StatsThisWeek extends require "widgets.base"
+class StatsThisWeek extends require "widgets.page"
   @include "widgets.table_helpers"
 
   @needs: {
@@ -11,8 +11,6 @@ class StatsThisWeek extends require "widgets.base"
     "top_users"
     "days"
   }
-
-  base_widget: false
 
   inner_content: =>
     widget StatsHeader page_name: "this_week"
@@ -59,8 +57,6 @@ class StatsThisWeek extends require "widgets.base"
               href: @url_for("streaks") .. "/#{slug}"
               BrowseStreaksFlow.category_names[category_name]
             }
-
-
 
   render_popular_submissions: =>
     h3 "Top submissions in the past #{@days} days by likes"

@@ -1,12 +1,12 @@
 
-class AdminEmailStreak extends require "widgets.base"
+class AdminEmailStreak extends require "widgets.page"
   @needs: {"streak"}
   @include "widgets.form_helpers"
 
   js_init: =>
     "new S.AdminEmailStreak(#{@widget_selector!});"
 
-  inner_content: =>
+  column_content: =>
     @content_for "all_js", ->
       @include_redactor!
       @include_js "admin.js"

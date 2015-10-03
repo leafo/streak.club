@@ -1,6 +1,4 @@
 class Countdown extends require "widgets.base"
-  base_widget: false
-
   inner_content: =>
     if @header_content
       div class: "countdown_header", ->

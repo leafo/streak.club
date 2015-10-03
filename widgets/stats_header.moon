@@ -2,7 +2,6 @@ HomeHeader = require "widgets.home_header"
 
 class StatsHeader extends require "widgets.base"
   @include "widgets.tabs_helpers"
-  base_widget: false
 
   inner_content: =>
     if @current_user

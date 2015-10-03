@@ -5,10 +5,8 @@ SubmissionList = require "widgets.submission_list"
 
 date = require "date"
 
-class ViewStreakUnit extends require "widgets.base"
+class ViewStreakUnit extends require "widgets.page"
   @needs: {"streak", "submissions"}
-
-  base_widget: false
 
   js_init: =>
     "new S.ViewStreakUnit(#{@widget_selector!});"

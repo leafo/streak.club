@@ -2,11 +2,9 @@
 HomeHeader = require "widgets.home_header"
 StreakList = require "widgets.streak_list"
 
-class IndexLoggedIn extends require "widgets.base"
+class IndexLoggedIn extends require "widgets.page"
   @include "widgets.tabs_helpers"
   @needs: {"active_streaks", "current_streaks", "notifications"}
-
-  base_widget: false
 
   inner_content: =>
     widget HomeHeader page_name: "index"

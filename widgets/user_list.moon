@@ -3,7 +3,6 @@ class UserList extends require "widgets.base"
   @include "widgets.follow_helpers"
   @needs: {"users"}
 
-  base_widget: false
   narrow: false
 
   widget_classes: =>

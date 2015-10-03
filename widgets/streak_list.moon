@@ -3,8 +3,6 @@ import sanitize_html, is_empty_html from require "helpers.html"
 class StreakList extends require "widgets.base"
   @needs: {"streaks"}
 
-  base_widget: false
-
   inner_content: =>
     div class: "streak_list", ->
       i = 0

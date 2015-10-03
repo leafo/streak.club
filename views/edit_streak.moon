@@ -4,7 +4,7 @@ date = require "date"
 
 import Streaks from require "models"
 
-class EditStreak extends require "widgets.base"
+class EditStreak extends require "widgets.page"
   @include "widgets.form_helpers"
 
   js_init: =>
@@ -15,7 +15,7 @@ class EditStreak extends require "widgets.base"
     }
     "new S.EditStreak(#{@widget_selector!}, #{to_json opts});"
 
-  inner_content: =>
+  column_content: =>
     @content_for "all_js", ->
       @include_jquery_ui!
       @include_redactor!

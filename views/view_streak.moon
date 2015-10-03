@@ -11,11 +11,10 @@ Countdown = require "widgets.countdown"
 StreakHeader = require "widgets.streak_header"
 UserList = require "widgets.user_list"
 
-class ViewStreak extends require "widgets.base"
+class ViewStreak extends require "widgets.page"
   @needs: {"streak", "streak_host", "unit_counts", "completed_units"}
 
   page_name: "overview"
-  base_widget: false
 
   js_init: =>
     current_unit = @streak\current_unit!

@@ -2,7 +2,7 @@ import to_json from require "lapis.util"
 
 StatsHeader = require "widgets.stats_header"
 
-class Stats extends require "widgets.base"
+class Stats extends require "widgets.page"
   @include "widgets.tabs_helpers"
 
   @needs: {
@@ -13,9 +13,6 @@ class Stats extends require "widgets.base"
     "graph_submission_comments"
     "graph_submission_likes"
   }
-
-
-  base_widget: false
 
   js_init: =>
     data = {

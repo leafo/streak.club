@@ -2,12 +2,11 @@
 StreakHeader = require "widgets.streak_header"
 UserList = require "widgets.user_list"
 
-class StreakParticipants extends require "widgets.base"
+class StreakParticipants extends require "widgets.page"
   @needs: {"streak"}
   @include "widgets.pagination_helpers"
 
   page_name: "participants"
-  base_widget: false
 
   inner_content: =>
     widget StreakHeader page_name: @page_name

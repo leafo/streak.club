@@ -2,7 +2,7 @@ UserHeader = require "widgets.user_header"
 SubmissionList = require "widgets.submission_list"
 
 
-class UserFollowers extends require "widgets.base"
+class UserFollowers extends require "widgets.page"
   @needs: {"user", "submissions"}
 
   @include "widgets.follow_helpers"
@@ -10,7 +10,7 @@ class UserFollowers extends require "widgets.base"
 
   page_name: "tags"
 
-  inner_content: =>
+  column_content: =>
     widget UserHeader page_name: @page_name
 
     h2 ->

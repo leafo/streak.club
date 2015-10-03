@@ -4,12 +4,8 @@ import to_json from require "lapis.util"
 
 SubmissionCommenter = require "widgets.submission_commenter"
 
-Base = require "widgets.base"
-
 class SubmissionList extends require "widgets.base"
   @needs: {"submissions", "has_more"}
-
-  base_widget: false
 
   show_streaks: true
   show_user: false

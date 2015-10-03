@@ -1,12 +1,12 @@
 
 UserHeader = require "widgets.user_header"
 
-class UserFollowers extends require "widgets.base"
+class UserFollowers extends require "widgets.page"
   @needs: {"user", "tags_by_frequency"}
 
   page_name: "tags"
 
-  inner_content: =>
+  column_content: =>
     widget UserHeader page_name: @page_name
 
     if next @tags_by_frequency

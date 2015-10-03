@@ -1,6 +1,6 @@
 
-class DeleteSubmission extends require "widgets.base"
-  inner_content: =>
+class DeleteSubmission extends require "widgets.page"
+  column_content: =>
     div class: "page_header", ->
       h2 "Delete submission"
       h3 @submission.title

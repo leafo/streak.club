@@ -4,7 +4,7 @@ UserHeader = require "widgets.user_header"
 
 import sanitize_html, is_empty_html from require "helpers.html"
 
-class UserProfile extends require "widgets.base"
+class UserProfile extends require "widgets.page"
   @needs: {"user", "user_profile", "submissions", "active_streaks", "completed_streaks", "upcoming_streaks"}
   @include "widgets.follow_helpers"
   @include "widgets.streak_helpers"
@@ -14,7 +14,7 @@ class UserProfile extends require "widgets.base"
   js_init: =>
     "new S.UserProfile(#{@widget_selector!});"
 
-  inner_content: =>
+  column_content: =>
     if not @current_user or @current_user.id != @user.id
       div class: "header_right", ->
         @follow_button @user, @following

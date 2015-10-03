@@ -1,12 +1,12 @@
 
 import Submissions from require "models"
 
-class AdminSubmission extends require "widgets.base"
+class AdminSubmission extends require "widgets.page"
   @needs: {"submission", "uploads"}
   @include "widgets.table_helpers"
   @include "widgets.form_helpers"
 
-  inner_content: =>
+  column_content: =>
     div class: "page_header", ->
       h2 @submission.title or "Submission #{@submission.id}"
       h3 ->
