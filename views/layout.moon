@@ -111,7 +111,7 @@ class Layout extends Widget
         raw "S.current_user = #{to_json @current_user.id};"
         tz_url = @url_for "set_timezone"
         tz = last_timezone: @current_user.last_timezone
-        raw "new S.Timezone(#{to_json tz_url}, #{to_json tz})"
+        raw "new S.Timezone(#{to_json tz_url}, #{to_json tz});"
 
       @content_for "js_init"
 
