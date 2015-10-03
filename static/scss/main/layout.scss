@@ -2,6 +2,7 @@
 body {
     @include default_font;
     color: $body_color;
+    background: $gray_back;
     margin: 0;
     padding: 0;
 }
@@ -54,7 +55,7 @@ h2 {
 }
 
 .tab_header {
-    background: $gray_back;
+    background: white;
 
     .page_header {
         padding-top: 40px;
@@ -288,12 +289,27 @@ a {
 }
 
 .base_widget {
-    width: $site_width;
+    max-width: $site_width;
+    min-width: $site_width - 80px;
+
     margin: 40px auto;
+    background: white;
+    border: 1px solid $border_color;
+    padding: 40px;
+
+    > h2:first-child, > h3:first-child {
+        margin-top: -5px;
+    }
+
+    @media (max-width: $site_width + 80px) {
+        border-left: 0;
+        border-right: 0;
+    }
 
     .responsive & {
         @media (max-width: $site_width) {
             max-width: $site_width;
+            min-width: 0;
             width: auto;
             margin: 20px;
         }

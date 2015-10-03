@@ -30,8 +30,9 @@
         }
 
         .submission_content {
+            background: white;
             border: 1px solid $border_color;
-            border-radius: 3px;
+            border-radius: 4px;
             margin-left: 98px;
         }
 
@@ -39,7 +40,8 @@
             position: relative;
             border-bottom: 1px solid $border_color;
             padding: 12px 20px 15px 20px;
-            background: #F5F5F5;
+            background: mix($gray_back, white, 50%);
+            border-radius: 4px 4px 0 0;
 
             .submission_meta {
                 position: absolute;

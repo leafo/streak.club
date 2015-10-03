@@ -15,7 +15,7 @@ class StatsThisWeek extends require "widgets.page"
   inner_content: =>
     widget StatsHeader page_name: "this_week"
 
-    div class: "responsive_column", ->
+    div class: "base_widget", ->
       @render_active_streaks!
       @render_popular_submissions!
       @render_top_users!

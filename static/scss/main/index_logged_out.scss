@@ -2,7 +2,7 @@
 $gray: darken(#F5F5F5, 3%);
 
 .index_logged_out_page {
-    padding-bottom: 40px;
+    background: white;
 
     .typed-cursor {
         display: none;
@@ -55,7 +55,7 @@ $gray: darken(#F5F5F5, 3%);
         overflow-y: hidden;
         padding: 0 20px;
         padding-top: 10px;
-        background: $gray;
+        background: $gray_back;
 
         .tab {
             padding-bottom: 10px;
@@ -134,7 +134,7 @@ $gray: darken(#F5F5F5, 3%);
         text-align: center;
         padding: 0 10px;
         padding: 40px 0;
-        background: $gray;
+        background: $gray_back;
         background: linear-gradient(to bottom, $gray, lighten($gray, 2%));
 
         .grid_wrapper {
@@ -230,7 +230,7 @@ $gray: darken(#F5F5F5, 3%);
         text-align: center;
         padding: 0 10px;
         padding: 40px 0;
-        background: $gray;
+        background: $gray_back;
         background: linear-gradient(to bottom, $gray, lighten($gray, 2%));
 
         .countdown_note {
@@ -340,9 +340,8 @@ $gray: darken(#F5F5F5, 3%);
     .featured_submissions {
         margin-top: 40px;
         border-top: 1px solid $border_color;
-        border-bottom: 1px solid $border_color;
         @include border_box;
-        background: lighten($gray, 5%);
+        background: $gray_back;
 
         .submission_columns {
             margin-top: 30px;

@@ -31,7 +31,7 @@ class Stats extends require "widgets.page"
   inner_content: =>
     widget StatsHeader page_name: @graph_type
 
-    div class: "responsive_column", ->
+    div class: "base_widget", ->
       div id: "users_graph", class: "graph_container"
       div id: "submissions_graph", class: "graph_container"
       div id: "submission_likes_graph", class: "graph_container"

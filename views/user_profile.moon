@@ -14,6 +14,10 @@ class UserProfile extends require "widgets.page"
   js_init: =>
     "new S.UserProfile(#{@widget_selector!});"
 
+  inner_content: =>
+    div class: "responsive_column", ->
+      @column_content!
+
   column_content: =>
     if not @current_user or @current_user.id != @user.id
       div class: "header_right", ->

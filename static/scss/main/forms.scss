@@ -2,7 +2,8 @@
 .form {
     // takes up majority of page
     &.primary_form {
-        margin: 40px 0;
+        margin: 40px 0 0 0;
+
         input[type='text'], input[type='password'], input[type='email'], textarea {
             width: 50%;
             display: block;
