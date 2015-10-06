@@ -232,7 +232,7 @@ class AdminApplication extends lapis.Application
       else
         [{u.email, {name_for_display: u\name_for_display!}} for u in *users]
 
-      template = require "emails.reminder_email"
+      template = require "emails.generic_email"
       t = template {
         email_body: email.body
         email_subject: email.subject

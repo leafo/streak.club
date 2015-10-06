@@ -610,7 +610,8 @@ CREATE TABLE users (
     likes_count integer DEFAULT 0 NOT NULL,
     hidden_submissions_count integer DEFAULT 0 NOT NULL,
     hidden_streaks_count integer DEFAULT 0 NOT NULL,
-    last_seen_feed_at timestamp without time zone
+    last_seen_feed_at timestamp without time zone,
+    last_timezone character varying(255)
 );
 
 
@@ -1217,6 +1218,7 @@ COPY lapis_migrations (name) FROM stdin;
 1433905410
 1443740672
 1443753807
+1443853745
 \.
 
 

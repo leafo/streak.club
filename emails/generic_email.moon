@@ -1,5 +1,5 @@
 
-class ReminderEmail extends require "emails.email"
+class GenericEmail extends require "emails.email"
   @needs: {"email_subject", "email_body"}
 
   subject: => "#{assert @email_subject, "missing subject for email"} - Streak Club"

@@ -26,7 +26,7 @@ describe "emails", ->
     recipient, subject, body, opts = unpack last_email!
     assert.same recipient, user.email
 
-  it "sends reminder email", ->
+  it "sends generic streak email", ->
     -- TODO: this should be moved into a flow so we don't have to duplicate
     -- logic from admin action
 
@@ -34,10 +34,10 @@ describe "emails", ->
       factory.Users!
     }
 
-    template = require "emails.reminder_email"
+    template = require "emails.generic_email"
     t = template {
-      email_body: "<p>Here is your custom reminder email</p>"
-      email_subject: "A test reminder email"
+      email_body: "<p>Here is your custom email</p>"
+      email_subject: "A test email"
       show_tag_unsubscribe: true
     }
 
@@ -47,7 +47,7 @@ describe "emails", ->
     send_email [u.email for u in *users], t\subject!, t\render_to_string!, {
       html: true
       sender: "Streak Club <postmaster@streak.club>"
-      tags: { "reminder_email" }
+      tags: { "test_email" }
       vars: { u.email, { name_for_display: u\name_for_display! } for u in *users }
       track_opens: true
       headers: {
