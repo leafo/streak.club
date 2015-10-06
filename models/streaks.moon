@@ -559,6 +559,9 @@ class Streaks extends Model
   -- TODO: add a lock on this
   -- sends email to the previous unit
   send_late_submit_email: (req) =>
+    unless @late_submit_type == @@late_submit_types.public
+      return nil, "late submit disabled"
+
     prev_unit = @increment_date_by_unit @current_unit!, -1
     streak_users = @find_unsubmitted_users prev_unit
 

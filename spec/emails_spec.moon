@@ -119,11 +119,11 @@ describe "emails", ->
     it "sends late submit email", ->
       emailer = require "emails.late_submit_email"
       emailer\send req, "leafot@gmail.com", {
-        streak: factory.Streaks state: "during"
+        streak: factory.Streaks state: "during", late_submit_type: "public"
       }
 
     it "sends late submit email from streak", ->
-      streak = factory.Streaks state: "during"
+      streak = factory.Streaks state: "during", late_submit_type: "public"
       su = factory.StreakUsers streak_id: streak.id
 
       -- give them a submission in the current unit, should have no effec:
@@ -147,7 +147,7 @@ describe "emails", ->
       }, opts.vars
 
     it "doesn't send emaial to users who have submitted", ->
-      streak = factory.Streaks state: "during"
+      streak = factory.Streaks state: "during", late_submit_type: "public"
       su = factory.StreakUsers streak_id: streak.id
 
       ago = streak\current_unit!\addminutes(-60)
