@@ -1,13 +1,14 @@
 
 date = require "date"
 
+import Streaks from require "models"
+
 class StreakUnits extends require "widgets.base"
   @needs: {"streak", "completed_units", "unit_counts"}
 
   user_id: nil
 
   inner_content: =>
-    day_str = "%Y-%m-%d"
     today = date true
     today_unit = @streak\truncate_date today
 
@@ -25,7 +26,7 @@ class StreakUnits extends require "widgets.base"
     current_date = date start_date
 
     while current_date < end_date
-      formatted_date = current_date\fmt day_str
+      formatted_date = current_date\fmt Streaks.day_format_str
       submission_id = @completed_units and @completed_units[formatted_date]
       count = @unit_counts and @unit_counts[formatted_date] or 0
 
