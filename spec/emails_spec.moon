@@ -128,7 +128,7 @@ describe "emails", ->
 
       -- give them a submission in the current unit, should have no effec:
       future = streak\current_unit!\addminutes(60)
-      su = factory.StreakSubmissions {
+      factory.StreakSubmissions {
         streak_id: streak.id
         user_id: su.user_id
         submit_time: future\fmt(Streaks.timestamp_format_str) .. " UTC"
@@ -146,13 +146,16 @@ describe "emails", ->
         }
       }, opts.vars
 
+      su\refresh!
+      assert.truthy su.late_submit_reminded_at
+
     it "doesn't send emaial to users who have submitted", ->
       streak = factory.Streaks state: "during", late_submit_type: "public"
       su = factory.StreakUsers streak_id: streak.id
 
       ago = streak\current_unit!\addminutes(-60)
 
-      su = factory.StreakSubmissions {
+      factory.StreakSubmissions {
         streak_id: streak.id
         user_id: su.user_id
         submit_time: ago\fmt(Streaks.timestamp_format_str) .. " UTC"

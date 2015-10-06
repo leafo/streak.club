@@ -577,8 +577,16 @@ class Streaks extends Model
     streak_users = @find_unsubmitted_users prev_unit
 
     import StreakUsers from require "models"
+
     emails, vars = StreakUsers\email_vars streak_users
     return nil, "no emails" unless next emails
+
+    db.update StreakUsers\table_name!, {
+      late_submit_reminded_at: db.format_date!
+    }, {
+      user_id: db.list [su.user_id for su in *streak_users]
+      streak_id: @id
+    }
 
     @send_email req, "emails.deadline_email", emails, {
       streak: @
