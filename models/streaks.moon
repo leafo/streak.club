@@ -214,6 +214,11 @@ class Streaks extends Model
   url_params: =>
     "view_streak", id: @id, slug: @slug!
 
+  unit_url_params: (unit_number) =>
+    -- url dates are in local time
+    d = @increment_date_by_unit date(@start_date), unit_number - 1
+    "view_streak_unit", id: @id, date: d\fmt @@day_format_str
+
   unit_noun: =>
     switch @rate
       when @@rates.daily

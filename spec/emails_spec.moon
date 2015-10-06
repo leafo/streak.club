@@ -61,7 +61,7 @@ describe "emails", ->
       [users[1].email]: { name_for_display: users[1]\name_for_display! }
     }
 
-  describe "deadline email #ddd", ->
+  describe "deadline email", ->
     it "sends first deadline email", ->
       s = factory.Streaks state: "first_unit"
 
@@ -112,4 +112,12 @@ describe "emails", ->
 
       assert.same {nil, "email sent by another thread"},
         {streak\send_deadline_email req}
+
+  describe "late submit email #ddd", ->
+    it "sends late submit email", ->
+      emailer = require "emails.late_submit_email"
+      emailer\send req, "leafot@gmail.com", {
+        streak: factory.Streaks state: "during"
+      }
+
 

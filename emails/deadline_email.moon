@@ -8,7 +8,7 @@ class DeadlineEmail extends require "emails.email"
   subject: => "Don't forget to submit to #{@streak.title}"
 
   body: =>
-    h1 "Don't forget to submit to #{@streak.title}"
+    h1 @subject!
 
     p -> raw "Hello %recipient.name_for_display%,"
     p ->
