@@ -556,6 +556,26 @@ class Streaks extends Model
   duration: =>
     date.diff(@end_datetime!, @start_datetime!)\spandays!
 
+  -- TODO: add a lock on this
+  -- sends email to the previous unit
+  send_late_submit_email: (req) =>
+    prev_unit = @increment_date_by_unit @current_unit!, -1
+    streak_users = @find_unsubmitted_users prev_unit
+
+    import StreakUsers from require "models"
+    emails, vars = StreakUsers\email_vars streak_users
+    return nil, "no emails" unless next emails
+
+    @send_email req, "emails.deadline_email", emails, {
+      streak: @
+      show_tag_unsubscribe: true
+    }, {
+      :vars
+      tags: { "late_submit_email" }
+    }
+
+    #emails
+
   send_deadline_email: (req) =>
     now = date true
     if now < @start_datetime!

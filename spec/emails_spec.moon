@@ -7,6 +7,8 @@ import Streaks, StreakUsers, StreakSubmissions, Submissions, Users from require 
 
 db = require "lapis.db"
 
+date = require "date"
+
 factory = require "spec.factory"
 
 describe "emails", ->
@@ -113,11 +115,48 @@ describe "emails", ->
       assert.same {nil, "email sent by another thread"},
         {streak\send_deadline_email req}
 
-  describe "late submit email #ddd", ->
+  describe "late submit email", ->
     it "sends late submit email", ->
       emailer = require "emails.late_submit_email"
       emailer\send req, "leafot@gmail.com", {
         streak: factory.Streaks state: "during"
       }
 
+    it "sends late submit email from streak", ->
+      streak = factory.Streaks state: "during"
+      su = factory.StreakUsers streak_id: streak.id
+
+      -- give them a submission in the current unit, should have no effec:
+      future = streak\current_unit!\addminutes(60)
+      su = factory.StreakSubmissions {
+        streak_id: streak.id
+        user_id: su.user_id
+        submit_time: future\fmt(Streaks.timestamp_format_str) .. " UTC"
+      }
+
+      assert.same 1, streak\send_late_submit_email req
+
+      recipients, title, body, opts = unpack last_email!
+
+      assert.same {su\get_user!.email}, recipients
+      assert.same {"late_submit_email"}, opts.tags
+      assert.same {
+        [su\get_user!.email]: {
+          name_for_display: su\get_user!\name_for_display!
+        }
+      }, opts.vars
+
+    it "doesn't send emaial to users who have submitted", ->
+      streak = factory.Streaks state: "during"
+      su = factory.StreakUsers streak_id: streak.id
+
+      ago = streak\current_unit!\addminutes(-60)
+
+      su = factory.StreakSubmissions {
+        streak_id: streak.id
+        user_id: su.user_id
+        submit_time: ago\fmt(Streaks.timestamp_format_str) .. " UTC"
+      }
+
+      assert.same nil, (streak\send_late_submit_email req)
 

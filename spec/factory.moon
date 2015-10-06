@@ -1,4 +1,3 @@
-
 models = require "models"
 db = require "lapis.db"
 
