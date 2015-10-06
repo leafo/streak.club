@@ -524,7 +524,9 @@ import
   [1443853745]: =>
     add_column "users", "last_timezone", varchar null: true
 
-
+  [1444151912]: =>
+    add_column "streaks", "last_late_submit_email_at", time null: true
+    add_column "streak_users", "late_submit_reminded_at", time null: true
 
 }
 

@@ -562,6 +562,17 @@ class Streaks extends Model
     unless @late_submit_type == @@late_submit_types.public
       return nil, "late submit disabled"
 
+
+    res = db.update @@table_name!, {
+      last_late_submit_email_at: db.format_date!
+    }, {
+      id: @id
+      last_late_submit_email_at: @last_deadline_email_at or db.NULL
+    }
+
+    unless res.affected_rows and res.affected_rows > 0
+      return nil, "email sent by another thread"
+
     prev_unit = @increment_date_by_unit @current_unit!, -1
     streak_users = @find_unsubmitted_users prev_unit
 
