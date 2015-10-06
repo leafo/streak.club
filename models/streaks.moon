@@ -575,32 +575,33 @@ class Streaks extends Model
       return nil, "email sent by another thread"
 
     streak_users = @find_unsubmitted_users!
-
-    vars = {}
-    emails = for su in *streak_users
-      vars[su.user.email] = {
-        name_for_display: su.user\name_for_display!
-      }
-      su.user.email
-
+    import StreakUsers from require "models"
+    emails, vars = StreakUsers\email_vars streak_users
     return nil, "no emails" unless next emails
 
-    emailer = require "emails.deadline_email"
-    emailer\send req, emails, {
+    @send_email req, "emails.deadline_email", emails, {
       streak: @
       show_tag_unsubscribe: true
     }, {
+      :vars
+      tags: { "deadline_email" }
+    }
+
+    #emails
+
+  send_email: (req, email, recipients, params, more_params={}) =>
+    emailer = require email
+    emailer\send req, recipients, params, {
       html: true
       sender: "Streak Club <postmaster@streak.club>"
-      tags: { "deadline_email" }
-      :vars
+      tags: more_params.tags
+      vars: more_params.vars
       track_opens: true
       headers: {
         "Reply-To": require("lapis.config").get!.admin_email
       }
     }
 
-    return #emails
 
   @_time_clause: (state) =>
     switch state

@@ -33,6 +33,16 @@ class StreakUsers extends Model
     {"streak", belongs_to: "Streaks"}
   }
 
+  @email_vars: (streak_users) =>
+    vars = {}
+    emails = for su in *streak_users
+      vars[su.user.email] = {
+        name_for_display: su.user\name_for_display!
+      }
+      su.user.email
+
+    emails, vars
+
   current_unit_submission: =>
     @submission_for_date date true
 
