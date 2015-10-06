@@ -54,3 +54,12 @@ class Email extends Widget
   hr: =>
     hr style: "border: 0; height: 1px; background: #dadada"
 
+  big_button: (text, url) =>
+    p style: "text-align: center;", ->
+      a {
+        href: url
+        style: "background-color: #34a0f2; border-radius: 8px; font-size: larger; color: white; text-decoration: none; font-weight: bold; padding: 8px 20px; display: inline-block;"
+        text
+      }
+
+
