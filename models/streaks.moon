@@ -562,7 +562,6 @@ class Streaks extends Model
     unless @late_submit_type == @@late_submit_types.public
       return nil, "late submit disabled"
 
-
     res = db.update @@table_name!, {
       last_late_submit_email_at: db.format_date!
     }, {
@@ -588,7 +587,7 @@ class Streaks extends Model
       streak_id: @id
     }
 
-    @send_email req, "emails.deadline_email", emails, {
+    @send_email req, "emails.late_submit_email", emails, {
       streak: @
       show_tag_unsubscribe: true
     }, {

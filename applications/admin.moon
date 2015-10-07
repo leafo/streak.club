@@ -201,21 +201,6 @@ class AdminApplication extends lapis.Application
 
   }
 
-  [admin_send_deadline_email: "/email/:streak_id/deadline"]: capture_errors_json respond_to {
-    before: =>
-      import Streaks from require "models"
-      assert_error @params, {
-        {"streak_id", is_integer: true}
-      }
-
-      @streak = assert_error Streaks\find(@params.streak_id), "invalid streak"
-
-    POST: =>
-      assert_csrf @
-
-      json: { @streak\send_late_submit_email @ }
-  }
-
   [admin_email_streak: "/email/:streak_id"]: capture_errors_json respond_to {
     before: =>
       import Streaks from require "models"
