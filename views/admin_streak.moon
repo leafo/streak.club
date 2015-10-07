@@ -50,13 +50,19 @@ class AdminStreak extends require "widgets.page"
         href: @url_for("admin_email_streak", streak_id: @streak.id)
         "Email users..."
       }
-      br!
-      br!
-      form method: "post", action: @url_for("admin_send_deadline_email", streak_id: @streak.id), ->
-        @csrf_input!
-        button class: "button", "Send unit deadline reminder"
+      for email in *{"deadline", "late_submit"}
+        br!
+        br!
+        form method: "post", action: @url_for("admin_send_streak_email", streak_id: @streak.id), ->
+          @csrf_input!
+          input type: "hidden", name: "email", value: email
 
-        text " "
-        a href: @url_for("admin_send_deadline_email", streak_id: @streak.id),
-          "preview recipients"
+          button class: "button", ->
+            text "Send "
+            code email
+            text " email"
+
+          text " "
+          a href: @url_for("admin_send_streak_email", streak_id: @streak.id),
+            "preview recipients"
 
