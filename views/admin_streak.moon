@@ -63,6 +63,6 @@ class AdminStreak extends require "widgets.page"
             text " email"
 
           text " "
-          a href: @url_for("admin_send_streak_email", streak_id: @streak.id),
+          a href: @url_for("admin_send_streak_email", { streak_id: @streak.id }, :email),
             "preview recipients"
 
