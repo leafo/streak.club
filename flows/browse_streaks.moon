@@ -54,6 +54,14 @@ class BrowseStreaksFlow extends Flow
     }
   }
 
+
+  @slug_name: (kind, value) =>
+    slug = @filters[kind][value]
+    slug = value if slug == true
+    name = @filter_names[kind][value] or value
+
+    slug, name
+
   expose_assigns: true
 
   filtered_title: (filters) =>

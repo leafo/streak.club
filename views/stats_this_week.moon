@@ -50,13 +50,9 @@ class StatsThisWeek extends require "widgets.page"
           td @number_format active.count
 
           td ->
-            category_name = Streaks.categories[streak.category]
-            slug = BrowseStreaksFlow.category_slugs[category_name]
-
-            a {
-              href: @url_for("streaks") .. "/#{slug}"
-              BrowseStreaksFlow.category_names[category_name]
-            }
+            category_name = Streaks.categories\to_name streak.category
+            slug, name = BrowseStreaksFlow\slug_name "category", category_name
+            a href: @url_for("streaks") .. "/#{slug}", name
 
   render_popular_submissions: =>
     h3 "Top submissions in the past #{@days} days by likes"
@@ -140,13 +136,9 @@ class StatsThisWeek extends require "widgets.page"
               em class:"sub", "(Hidden)"
 
           td ->
-            category_name = Streaks.categories[streak.category]
-            slug = BrowseStreaksFlow.category_slugs[category_name]
-
-            a {
-              href: @url_for("streaks") .. "/#{slug}"
-              BrowseStreaksFlow.category_names[category_name]
-            }
+            category_name = Streaks.categories\to_name streak.category
+            slug, name = BrowseStreaksFlow\slug_name "category", category_name
+            a href: @url_for("streaks") .. "/#{slug}", name
 
           td ->
             user = streak\get_user!
