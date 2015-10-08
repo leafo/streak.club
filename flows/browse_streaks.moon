@@ -93,8 +93,8 @@ class BrowseStreaksFlow extends Flow
       publish_status: Streaks.publish_statuses.published
     }
 
-    if t = filters.type
-      clause.category = Streaks.categories\for_db t
+    if c = filters.category
+      clause.category = Streaks.categories\for_db c
 
     time_clause = if s = filters.state
       Streaks\_time_clause s
