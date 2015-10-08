@@ -16,7 +16,7 @@ class TwitterCardHelpers
     profile = user\get_user_profile!
 
     meta name: "twitter:card", content: "summary_large_image"
-    meta name: "twitter:site", content: "@itch.io"
+    meta name: "twitter:site", content: "@thestreakclub"
 
     if twitter = profile\twitter_handle!
       meta name: "twitter:creator", content: "@#{twitter}"
