@@ -59,6 +59,6 @@ class Streaks extends require "widgets.page"
     a {
       href: url
       class: classes
-      label_override or BrowseStreaksFlow.filters_names[kind][val]
+      label_override or BrowseStreaksFlow.filter_names[kind][val]
     }
 

@@ -37,7 +37,7 @@ class BrowseStreaksFlow extends Flow
   @filters_flipped: flip_filters @filters
 
   -- enum -> name
-  @filters_names: {
+  @filter_names: {
     category: {
       visual_art: "Visual arts"
       music: "Music & audio"
@@ -57,8 +57,14 @@ class BrowseStreaksFlow extends Flow
   expose_assigns: true
 
   filtered_title: (filters) =>
-    text = "Browse Streaks"
-    text
+    text = "Streaks"
+    if c = filters.category
+      text = "#{@@filter_names.category[c]} #{text}"
+
+    if s = filters.state
+      text = "#{@@filter_names.state[s]} #{text}"
+
+    "Browse #{text}"
 
   parse_filters: =>
     return {} unless @params.splat
