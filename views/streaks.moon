@@ -1,4 +1,5 @@
 
+import BrowseStreaksFlow from require "flows.browse_streaks"
 StreakList = require "widgets.streak_list"
 
 -- convert to url
@@ -38,7 +39,7 @@ class Streaks extends require "widgets.page"
 
   filter_tab: (label, key, val, slug) =>
     base_url = @url_for "streaks"
-    filters = {k,v for k,v in pairs @filters}
+    filters = {k, BrowseStreaksFlow.category_slugs[v] or v for k,v in pairs @filters}
     filters[key] = slug or val
 
     filters_suffix = flatten_filters filters
