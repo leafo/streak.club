@@ -1,6 +1,6 @@
 db = require "lapis.db"
 import Model, enum from require "lapis.db.model"
-import safe_insert from require "helpers.model"
+import safe_insert, transition from require "helpers.model"
 
 date = require "date"
 
@@ -562,15 +562,12 @@ class Streaks extends Model
     unless @late_submit_type == @@late_submit_types.public
       return nil, "late submit disabled"
 
-    res = db.update @@table_name!, {
-      last_late_submit_email_at: db.format_date!
-    }, {
-      id: @id
-      last_late_submit_email_at: @last_deadline_email_at or db.NULL
-    }
+    ready = transition @, "last_late_submit_email_at",
+      @last_late_submit_email_at or db.NULL,
+      db.format_date!
 
-    unless res.affected_rows and res.affected_rows > 0
-      return nil, "email sent by another thread"
+    unless ready
+      return nil, "failed to get lock on late submit email"
 
     prev_unit = @increment_date_by_unit @current_unit!, -1
     streak_users = @find_unsubmitted_users prev_unit
@@ -610,15 +607,12 @@ class Streaks extends Model
       if @current_unit_number! == @unit_number_for_date last
         return nil, "already reminded for this unit"
 
-    res = db.update @@table_name!, {
-      last_deadline_email_at: db.format_date!
-    }, {
-      id: @id
-      last_deadline_email_at: @last_deadline_email_at or db.NULL
-    }
+    ready = transition @, "last_deadline_email_at",
+      @last_deadline_email_at or db.NULL,
+      db.format_date!
 
-    unless res.affected_rows and res.affected_rows > 0
-      return nil, "email sent by another thread"
+    unless ready
+      return nil, "failed to get lock on deadline email"
 
     streak_users = @find_unsubmitted_users!
     import StreakUsers from require "models"

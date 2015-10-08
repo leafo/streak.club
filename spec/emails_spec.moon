@@ -112,7 +112,7 @@ describe "emails", ->
         id: streak.id
       }
 
-      assert.same {nil, "email sent by another thread"},
+      assert.same {nil, "failed to get lock on deadline email"},
         {streak\send_deadline_email req}
 
   describe "late submit email", ->
@@ -149,8 +149,10 @@ describe "emails", ->
       su\refresh!
       assert.truthy su.late_submit_reminded_at
 
-    it "doesn't send emaial to users who have submitted", ->
+    it "doesn't send email to users who have submitted", ->
       streak = factory.Streaks state: "during", late_submit_type: "public"
+      streak\refresh!
+
       su = factory.StreakUsers streak_id: streak.id
 
       ago = streak\current_unit!\addminutes(-60)

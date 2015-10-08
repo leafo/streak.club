@@ -45,4 +45,20 @@ filter_update = (model, update) ->
 
   update
 
-{ :safe_insert, :filter_update }
+update_cond = (update, check) =>
+  primary = @_primary_cond!
+  for k,v in pairs check
+    primary[k] = v
+
+  res = db.update @@table_name!, update, primary
+
+  res.affected_rows and res.affected_rows > 0
+
+transition = (col, before, after) =>
+  assert col, "missing col"
+  assert before, "missing before"
+  assert after, "missing after"
+
+  update_cond @, { [col]: after }, { [col]: before }
+
+{ :safe_insert, :filter_update, :update_cond, :transition }
