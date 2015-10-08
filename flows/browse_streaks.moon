@@ -4,26 +4,79 @@ import Flow from require "lapis.flow"
 
 import assert_page from require "helpers.app"
 
+flip_filters = (filters) ->
+  out = {}
+
+  for kind, values in pairs filters
+    for value, slug in pairs values
+      slug = value unless type(slug) == "string"
+      out[slug] = { [kind]: value }
+
+  out
+
 class BrowseStreaksFlow extends Flow
-  @category_names: {
-    visual_art: "Visual arts"
-    music: "Music & audio"
-    video: "Video"
-    writing: "Writing"
-    interactive: "Interactive"
-    other: "Other"
+  -- maps enum -> slug
+  @filters: {
+    category: {
+      visual_art: "visual-arts"
+      interactive: true
+      music: "music-and-audio"
+      video: true
+      writing: true
+      other: true
+    }
+
+    state: {
+      active: "in-progress"
+      upcoming: true
+      completed: true
+    }
   }
 
-  @category_slugs: {
-    visual_art: "visual-arts"
-    music: "music-and-audio"
-    video: "video"
-    writing: "writing"
-    interactive: "Interactive"
-    other: "other"
+  -- maps slug chunk to tuple
+  @filters_flipped: flip_filters @filters
+
+  -- enum -> name
+  @filters_names: {
+    category: {
+      visual_art: "Visual arts"
+      music: "Music & audio"
+      video: "Video"
+      writing: "Writing"
+      interactive: "Interactive"
+      other: "Other"
+    }
+
+    state: {
+      active: "In progress"
+      upcoming: "Upcoming"
+      completed: "Completed"
+    }
   }
 
   expose_assigns: true
+
+  filtered_title: (filters) =>
+    text = "Browse Streaks"
+    text
+
+  parse_filters: =>
+    return {} unless @params.splat
+
+    has_invalid = false
+    out = {}
+    for slug in @params.splat\gmatch "([%w-]+)"
+      tuple = @@filters_flipped[slug]
+      unless tuple
+        has_invalid = true
+        continue
+
+      for k,v in pairs tuple
+        -- something else already set ij
+        has_invalid = true if out[k]
+        out[k] = v
+
+    out, has_invalid
 
   browse_by_filters: (filters={}) =>
     import Streaks, Users from require "models"
@@ -38,7 +91,6 @@ class BrowseStreaksFlow extends Flow
       clause.category = Streaks.categories\for_db t
 
     time_clause = if s = filters.state
-      s = "active" if s == "in-progress"
       Streaks\_time_clause s
 
     @pager = Streaks\paginated "

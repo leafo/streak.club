@@ -50,23 +50,6 @@ assert_unit_date = =>
   @unit_date = date(@params.date)\addhours -@streak.hour_offset
   assert_error @streak\date_in_streak(@unit_date), "invalid date"
 
-parse_filters = (str, valid_keys) ->
-  has_invalid = false
-  out = {}
-  for slug in str\gmatch "([%w-]+)"
-    local key, value
-    for group, group_valid in pairs valid_keys
-      if v = group_valid[slug]
-        key = group
-        value = v
-        break
-
-    if key
-      out[key] = value == true and slug or value
-    else
-      has_invalid = true
-
-  out, has_invalid
 
 find_streak = =>
   assert_valid @params, {
@@ -93,5 +76,5 @@ ensure_https = (fn) ->
     fn @
 
 { :not_found, :require_login, :require_admin, :assert_timezone,
-  :login_and_return_url, :assert_unit_date, :assert_page, :parse_filters,
-  :find_streak, :ensure_https }
+  :login_and_return_url, :assert_unit_date, :assert_page, :find_streak,
+  :ensure_https }

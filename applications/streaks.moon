@@ -14,7 +14,6 @@ import require_login
   not_found
   assert_unit_date
   assert_page
-  parse_filters
   find_streak
   from require "helpers.app"
 
@@ -31,23 +30,6 @@ EditStreakFlow = require "flows.edit_streak"
 EditSubmissionFlow = require "flows.edit_submission"
 
 SUBMISSION_PER_PAGE = 25
-
-browse_filters = {
-  type: {
-    "visual-arts": "visual_art"
-    interactive: true
-    "music-and-audio": "music"
-    video: true
-    writing: true
-    other: true
-  }
-
-  state: {
-    "in-progress": true
-    upcoming: true
-    completed: true
-  }
-}
 
 check_slug = =>
   assert_error @streak, "missing streak"
@@ -336,16 +318,16 @@ class StreaksApplication extends lapis.Application
   [streaks: "/streaks"]: =>
     @show_welcome_banner = true
 
-    @filters, has_invalid = parse_filters @params.splat, browse_filters  if @params.splat
-    if has_invalid
-      do return redirect_to: @url_for "streaks"
-
-    @filters or= {}
-    @title = "Browse Streaks"
     import BrowseStreaksFlow from require "flows.browse_streaks"
-
     flow = BrowseStreaksFlow @
+    @filters, has_invalid = flow\parse_filters!
+
+    if has_invalid
+      return redirect_to: @url_for "streaks"
+
+    @title = flow\filtered_title @filters
     flow\browse_by_filters @filters
+
     render: true
 
   [streak_embed: "/streak/:id/embed"]: =>
