@@ -165,3 +165,14 @@ describe "emails", ->
 
       assert.same nil, (streak\send_late_submit_email req)
 
+    it "doesn't send late email if another thread sends it sent", ->
+      streak = factory.Streaks state: "first_unit", late_submit_type: "public"
+      db.update Streaks\table_name!, {
+        last_late_submit_email_at: db.format_date!
+      }, {
+        id: streak.id
+      }
+
+      assert.same {nil, "failed to get lock on late submit email"},
+        {streak\send_late_submit_email req}
+
