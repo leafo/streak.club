@@ -46,3 +46,7 @@ config "production", ->
 
   enable_https true
 
+  systemd {
+    user: true
+  }
+
