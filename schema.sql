@@ -328,6 +328,22 @@ CREATE TABLE streak_submissions (
 ALTER TABLE streak_submissions OWNER TO postgres;
 
 --
+-- Name: streak_user_notification_settings; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE streak_user_notification_settings (
+    user_id integer NOT NULL,
+    streak_id integer NOT NULL,
+    email_reminders boolean DEFAULT true NOT NULL,
+    late_submit_reminded_at timestamp without time zone,
+    join_email_at timestamp without time zone,
+    start_email_at timestamp without time zone
+);
+
+
+ALTER TABLE streak_user_notification_settings OWNER TO postgres;
+
+--
 -- Name: streak_users; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -807,6 +823,14 @@ ALTER TABLE ONLY streak_submissions
 
 
 --
+-- Name: streak_user_notification_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY streak_user_notification_settings
+    ADD CONSTRAINT streak_user_notification_settings_pkey PRIMARY KEY (user_id, streak_id);
+
+
+--
 -- Name: streak_users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1222,6 +1246,7 @@ COPY lapis_migrations (name) FROM stdin;
 1443753807
 1443853745
 1444151912
+1445927662
 \.
 
 

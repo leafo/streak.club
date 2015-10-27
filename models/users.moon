@@ -39,7 +39,8 @@ strip_non_ascii = do
 --   likes_count integer DEFAULT 0 NOT NULL,
 --   hidden_submissions_count integer DEFAULT 0 NOT NULL,
 --   hidden_streaks_count integer DEFAULT 0 NOT NULL,
---   last_seen_feed_at timestamp without time zone
+--   last_seen_feed_at timestamp without time zone,
+--   last_timezone character varying(255)
 -- );
 -- ALTER TABLE ONLY users
 --   ADD CONSTRAINT users_pkey PRIMARY KEY (id);
