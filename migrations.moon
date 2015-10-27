@@ -528,5 +528,22 @@ import
     add_column "streaks", "last_late_submit_email_at", time null: true
     add_column "streak_users", "late_submit_reminded_at", time null: true
 
+  [1445927662]: =>
+    create_table "streak_user_notification_settings", {
+      {"user_id", foreign_key}
+      {"streak_id", foreign_key}
+      {"email_reminders", boolean default: true}
+
+      {"late_submit_reminded_at", time null: true}
+      {"join_email_at", time null: true}
+      {"start_email_at", time null: true}
+
+      "PRIMARY KEY (user_id, streak_id)"
+    }
+
+    db.query "
+      insert into streak_user_notification_settings (user_id, streak_id, late_submit_reminded_at)
+      select user_id, streak_id, late_submit_reminded_at from streak_users
+    "
 }
 
