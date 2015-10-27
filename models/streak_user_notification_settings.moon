@@ -16,5 +16,4 @@ import Model from require "lapis.db.model"
 --   ADD CONSTRAINT streak_user_notification_settings_pkey PRIMARY KEY (user_id, streak_id);
 --
 class StreakUserNotificationSettings extends Model
-
-
+  @primary_key: {"user_id", "streak_id"}

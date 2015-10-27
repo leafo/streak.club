@@ -165,3 +165,12 @@ class StreakUsers extends Model
     }, timestamp: false
 
 
+  get_notification_settings: =>
+    unless @notification_settings
+      import StreakUserNotificationSettings from require "models"
+      @notification_settings = StreakUserNotificationSettings\find(streak_id: @streak_id, user_id: @user_id)
+      unless @notification_settings
+        @notification_settings = StreakUserNotificationSettings\create streak_id: @streak_id, user_id: @user_id
+
+    @notification_settings
+
