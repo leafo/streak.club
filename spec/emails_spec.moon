@@ -122,7 +122,7 @@ describe "emails", ->
         streak: factory.Streaks state: "during", late_submit_type: "public"
       }
 
-    it "sends late submit email from streak", ->
+    it "sends late submit email from streak #ddd", ->
       streak = factory.Streaks state: "during", late_submit_type: "public"
       su = factory.StreakUsers streak_id: streak.id
 
@@ -147,7 +147,9 @@ describe "emails", ->
       }, opts.vars
 
       su\refresh!
-      assert.truthy su.late_submit_reminded_at
+      notification_settings = su\get_notification_settings!
+      notification_settings\refresh!
+      assert.truthy notification_settings.late_submit_reminded_at
 
     it "doesn't send email to users who have submitted", ->
       streak = factory.Streaks state: "during", late_submit_type: "public"

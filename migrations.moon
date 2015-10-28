@@ -545,5 +545,7 @@ import
       insert into streak_user_notification_settings (user_id, streak_id, late_submit_reminded_at)
       select user_id, streak_id, late_submit_reminded_at from streak_users
     "
+
+    drop_column "streak_users", "late_submit_reminded_at"
 }
 

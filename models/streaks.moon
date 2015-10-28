@@ -573,12 +573,25 @@ class Streaks extends Model
     prev_unit = @increment_date_by_unit @current_unit!, -1
     streak_users = @find_unsubmitted_users prev_unit
 
-    import StreakUsers from require "models"
+    import StreakUsers, StreakUserNotificationSettings from require "models"
+
+    StreakUserNotificationSettings\include_in streak_users, "user_id", {
+      local_key: "user_id"
+      flip: true
+      as: "notification_settings"
+      where: {
+        streak_id: @id
+      }
+    }
+
+    for su in *streak_users
+      -- create notifications settings for those that don't have it
+      su\get_notification_settings!
 
     emails, vars = StreakUsers\email_vars streak_users
     return nil, "no emails" unless next emails
 
-    db.update StreakUsers\table_name!, {
+    db.update StreakUserNotificationSettings\table_name!, {
       late_submit_reminded_at: db.format_date!
     }, {
       user_id: db.list [su.user_id for su in *streak_users]

@@ -356,8 +356,7 @@ CREATE TABLE streak_users (
     current_streak integer,
     longest_streak integer,
     last_submitted_at timestamp without time zone,
-    pending boolean DEFAULT false NOT NULL,
-    late_submit_reminded_at timestamp without time zone
+    pending boolean DEFAULT false NOT NULL
 );
 
 
