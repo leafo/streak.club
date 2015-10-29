@@ -33,6 +33,30 @@ class StreakUserNotificationSettings extends Model
     opts.frequency = @frequencies\for_db opts.frequency or "sometimes"
     Model.create @, opts
 
+  @preload_and_create: (streak_users) =>
+    for su in *streak_users
+      assert streak_users[1].streak_id == su.streak_id,
+        "expecting all streak users to be in same streak"
+
+    return unless next streak_users
+
+    import StreakUserNotificationSettings from require "models"
+
+    StreakUserNotificationSettings\include_in streak_users, "user_id", {
+      local_key: "user_id"
+      flip: true
+      as: "notification_settings"
+      where: {
+        streak_id: streak_users[1].streak_id
+      }
+    }
+
+    for su in *streak_users
+      -- create notifications settings for those that don't have it
+      su\get_notification_settings!
+
+    true
+
   get_streak_user: =>
     if @streak_user == nil
       import StreakUsers from require "models"

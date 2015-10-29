@@ -575,18 +575,7 @@ class Streaks extends Model
 
     import StreakUsers, StreakUserNotificationSettings from require "models"
 
-    StreakUserNotificationSettings\include_in streak_users, "user_id", {
-      local_key: "user_id"
-      flip: true
-      as: "notification_settings"
-      where: {
-        streak_id: @id
-      }
-    }
-
-    for su in *streak_users
-      -- create notifications settings for those that don't have it
-      su\get_notification_settings!
+    StreakUserNotificationSettings\preload_and_create streak_users
 
     emails, vars = StreakUsers\email_vars streak_users
     return nil, "no emails" unless next emails
