@@ -6,7 +6,7 @@ import
   from schema
 
 {
-  :boolean, :varchar, :integer, :text, :foreign_key, :double, :time, :numeric, :serial
+  :boolean, :varchar, :integer, :text, :foreign_key, :double, :time, :numeric, :serial, :enum
 } = schema.types
 
 {
@@ -532,7 +532,7 @@ import
     create_table "streak_user_notification_settings", {
       {"user_id", foreign_key}
       {"streak_id", foreign_key}
-      {"email_reminders", boolean default: true}
+      {"frequency", enum default: 1}
 
       {"late_submit_reminded_at", time null: true}
       {"join_email_at", time null: true}

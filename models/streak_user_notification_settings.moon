@@ -1,6 +1,6 @@
 
 db = require "lapis.db"
-import Model from require "lapis.db.model"
+import Model, enum from require "lapis.db.model"
 
 -- Generated schema dump: (do not edit)
 --
@@ -17,3 +17,15 @@ import Model from require "lapis.db.model"
 --
 class StreakUserNotificationSettings extends Model
   @primary_key: {"user_id", "streak_id"}
+
+  @relations: {
+    {"user", belongs_to: "Users"}
+    {"streak", belongs_to: "Streaks"}
+  }
+
+  @frequencies: enum {
+    sometimes: 1
+    never: 2
+    aggressive: 3
+  }
+
