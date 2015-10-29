@@ -12,7 +12,15 @@ describe "models.streak_users", ->
   before_each ->
     truncate_tables Users, Streaks, StreakUsers
 
-  it "gets notification settings", ->
-    su = factory.StreakUsers!
-    n = su\get_notification_settings!
-    assert n
+
+  describe "notification settings", ->
+    it "gets notification settings", ->
+      su = factory.StreakUsers!
+      n = su\get_notification_settings!
+      assert n
+
+    it "checks if user can email", ->
+      su = factory.StreakUsers!
+      n = su\get_notification_settings!
+      assert.true n\can_email!
+
