@@ -32,6 +32,8 @@ class StreakHeader extends require "widgets.base"
       div class: "tabs_inner", ->
         url_params = { slug: @streak\slug!, id: @streak.id }
 
+        @insert_tab!  if @insert_tab
+
         @page_tab "Overview", "overview", @url_for(@streak)
         @page_tab "Participants",
           "participants",

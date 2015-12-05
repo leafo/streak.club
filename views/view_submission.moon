@@ -11,7 +11,11 @@ class ViewSubmission extends require "widgets.page"
 
   inner_content: =>
     if #@streak_submissions == 1
-      widget StreakHeader streak: @streak_submissions[1]\get_streak!
+      widget StreakHeader {
+        streak: @streak_submissions[1]\get_streak!
+        insert_tab: =>
+          @page_tab "Submission"
+      }
 
     div class: "responsive_column", ->
       @column_content!
