@@ -35,7 +35,6 @@ R.component "Uploader", {
 
     el.on "s:upload:move_up", (e, pos) =>
       uploads = @state.uploads
-      console.log "up", pos
 
       old = uploads[pos - 1]
       uploads[pos - 1] = uploads[pos]
@@ -44,8 +43,6 @@ R.component "Uploader", {
       @forceUpdate()
 
     el.on "s:upload:move_down", (e, pos) =>
-      console.log "down", pos
-
       uploads = @state.uploads
 
       old = uploads[pos + 1]
@@ -55,9 +52,10 @@ R.component "Uploader", {
       @forceUpdate()
 
   render: ->
-    div className: "upload_component",
-      (R.UploadList { uploads: @state.uploads }),
-      (button className: "new_upload_btn button", onClick: @handle_upload, "Add file(s)")
+    div className: "upload_component", children: [
+      R.UploadList { uploads: @state.uploads }
+      button className: "new_upload_btn button", onClick: @handle_upload, "Add file(s)"
+    ]
 }
 
 R.component "UploadList", {
@@ -65,7 +63,7 @@ R.component "UploadList", {
     div className: "file_upload_list", @render_uploads()
 
   render_uploads: ->
-    for upload, idx in @props.uploads
+    @props.uploads.map (upload, idx) =>
       R.Upload {
         key: upload.data.id
         upload: upload
@@ -94,10 +92,15 @@ R.component "Upload", {
 
   render: ->
     upload_tools = unless @props.upload.uploading
-      (div className: "upload_tools",
-        unless @props.first then (a { href: "# ", onClick: @handle_move_up, className: "move_up_btn" }, "Move up"),
-        unless @props.last then (a { href: "#", onClick: @handle_move_down, className: "move_down_btn" }, "Move Down"),
-        (a { href: "#", className: "delete_btn", onClick: @handle_delete }, "Delete"))
+      div className: "upload_tools", children: [
+        unless @props.first
+          a { href: "# ", onClick: @handle_move_up, className: "move_up_btn" }, "Move up"
+
+        unless @props.last
+          a { href: "#", onClick: @handle_move_down, className: "move_down_btn" }, "Move Down"
+
+        a { href: "#", className: "delete_btn", onClick: @handle_delete }, "Delete"
+      ]
 
     upload_status = if msg = @props.upload.current_error
       div className: "upload_error", msg
@@ -105,16 +108,19 @@ R.component "Upload", {
       div className: "upload_success", "Success"
     else if @props.upload.uploading
       progress = @props.upload.progress_percent || 0
-      div className: "upload_progress", (div className: "upload_progress_inner", style: { width: "#{progress}%" })
+      div className: "upload_progress",
+        div className: "upload_progress_inner", style: { width: "#{progress}%" }
 
-    div className: "file_upload",
-      (input type: "hidden", name: "upload[#{@props.upload.data.id}][position]", value: "#{@props.position}"),
-      upload_tools,
-      (div {},
-        (span className: "filename", @props.upload.data.filename),
-        " ",
-        (span className: "file_size", "(#{_.str.formatBytes(@props.upload.data.size)})"),
-        upload_status)
+    div className: "file_upload", children: [
+      input type: "hidden", name: "upload[#{@props.upload.data.id}][position]", value: "#{@props.position}"
+      upload_tools
+      div children: [
+        span className: "filename", @props.upload.data.filename
+        " "
+        span className: "file_size", "(#{_.str.formatBytes(@props.upload.data.size)})"
+        upload_status
+      ]
+    ]
 }
 
 class Upload
