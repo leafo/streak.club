@@ -15,6 +15,8 @@ class UserProfile extends require "widgets.page"
     "new S.UserProfile(#{@widget_selector!});"
 
   inner_content: =>
+    widget UserHeader page_name: @page_name
+
     div class: "responsive_column", ->
       @column_content!
 
@@ -23,21 +25,29 @@ class UserProfile extends require "widgets.page"
       div class: "header_right", ->
         @follow_button @user, @following
 
-    widget UserHeader page_name: @page_name
-
     div class: "columns", ->
       div class: "submission_column", ->
+        website = @user_profile\format_website!
+        twitter = @user_profile\twitter_handle!
+        if website and twitter
+          div class: "user_links", ->
+            if website
+              span class: "user_website", ->
+                img height: 15, src: "/static/images/link.svg"
+                a rel: "nofollow", href: website,
+                  @truncate @user_profile.website
+
+            text " "
+
+            if twitter
+              span class: "user_twitter", ->
+                img height: 15, src: "/static/images/twitter.svg"
+                a href: "http://twitter.com/#{twitter}", "@" .. twitter
+
+
         if @user_profile.bio and not is_empty_html @user_profile.bio
-          div class: "user_formatted", ->
+          div class: "user_formatted user_bio", ->
             raw sanitize_html @user_profile.bio
-
-        if website = @user_profile\format_website!
-          p class: "user_website", ->
-            a rel: "nofollow", href: website, @truncate @user_profile.website
-
-        if twitter = @user_profile\twitter_handle!
-          p class: "user_twitter", ->
-            a href: "http://twitter.com/#{twitter}", "@" .. twitter
 
         @render_submissions!
 

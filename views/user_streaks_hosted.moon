@@ -9,12 +9,11 @@ class UserStreaksHosted extends require "widgets.page"
   page_name: "streaks_hosted"
 
   inner_content: =>
+    widget UserHeader page_name: @page_name
     div class: "responsive_column", ->
       @column_content!
 
   column_content: =>
-    widget UserHeader page_name: @page_name
-
     div class: "base_widget", ->
       widget StreakList
 

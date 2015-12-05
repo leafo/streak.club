@@ -40,4 +40,28 @@
         }
     }
 
+    .user_links {
+        margin-bottom: 10px;
+
+        img {
+            height: 15px;
+            opacity: 0.5;
+            vertical-align: -2px;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        > span {
+            margin-right: 15px;
+        }
+    }
+
+    .user_bio {
+        background: white;
+        border: 1px solid $border_color;
+        padding: 20px;
+        border-radius: 3px;
+    }
+
+
 }

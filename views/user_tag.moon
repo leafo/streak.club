@@ -11,12 +11,11 @@ class UserFollowers extends require "widgets.page"
   page_name: "tags"
 
   inner_content: =>
+    widget UserHeader page_name: @page_name
     div class: "responsive_column", ->
       @column_content!
 
   column_content: =>
-    widget UserHeader page_name: @page_name
-
     h2 ->
       text "Submissions by #{@user\name_for_display!} tagged "
       span class: "tag", "#{@params.tag_slug}"

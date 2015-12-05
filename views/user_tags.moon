@@ -7,12 +7,11 @@ class UserFollowers extends require "widgets.page"
   page_name: "tags"
 
   inner_content: =>
+    widget UserHeader page_name: @page_name
     div class: "responsive_column", ->
       @column_content!
 
   column_content: =>
-    widget UserHeader page_name: @page_name
-
     div class: "base_widget", ->
       if next @tags_by_frequency
         element "table", class: "nice_table", ->

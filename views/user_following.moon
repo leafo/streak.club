@@ -9,11 +9,11 @@ class UserFollowing extends require "widgets.page"
   page_name: "following"
 
   inner_content: =>
+    widget UserHeader page_name: @page_name
     div class: "responsive_column", ->
       @column_content!
 
   column_content: =>
-    widget UserHeader page_name: @page_name
     div class: "base_widget", ->
       if next @users
         @render_pager!
