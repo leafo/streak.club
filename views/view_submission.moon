@@ -1,12 +1,20 @@
 
 SubmissionList = require "widgets.submission_list"
+StreakHeader = require "widgets.streak_header"
 
 date = require "date"
 
 class ViewSubmission extends require "widgets.page"
-  @needs: {"submission", "streaks"}
+  @needs: {"submission", "streak_submissions"}
   @include "widgets.twitter_card_helpers"
   @include "widgets.streak_helpers"
+
+  inner_content: =>
+    if #@streak_submissions == 1
+      widget StreakHeader streak: @streak_submissions[1]\get_streak!
+
+    div class: "responsive_column", ->
+      @column_content!
 
   column_content: =>
     @content_for "meta_tags", ->
