@@ -27,7 +27,7 @@ R.component "Uploader", {
 
   componentDidMount: ->
     @props.widget.upload_component = @
-    el = $(@getDOMNode())
+    el = $ ReactDOM.findDOMNode(@)
 
     el.on "s:upload:delete", (e, pos) =>
       @state.uploads.splice(pos, 1)
@@ -76,18 +76,21 @@ R.component "UploadList", {
 }
 
 R.component "Upload", {
+  container: ->
+    $ ReactDOM.findDOMNode @
+
   handle_delete: (e) ->
     e.preventDefault()
     if confirm "Are you sure you want to remove this file?"
-      $(@getDOMNode()).trigger "s:upload:delete", [@props.position]
+      @container().trigger "s:upload:delete", [@props.position]
 
   handle_move_up: (e) ->
     e.preventDefault()
-    $(@getDOMNode()).trigger "s:upload:move_up", [@props.position]
+    @container().trigger "s:upload:move_up", [@props.position]
 
   handle_move_down: (e) ->
     e.preventDefault()
-    $(@getDOMNode()).trigger "s:upload:move_down", [@props.position]
+    @container().trigger "s:upload:move_down", [@props.position]
 
   render: ->
     upload_tools = unless @props.upload.uploading
@@ -256,14 +259,14 @@ class S.EditSubmission
 
   setup_uploader: =>
     container = @el.find ".file_uploader"
-    console.log @opts.uploads
-    console.log @opts.uploader_opts
 
-    React.render (R.Uploader {
+    uploader = R.Uploader {
       uploads: @opts.uploads && (new Upload(u) for u in @opts.uploads)
       uploader_opts: @opts.uploader_opts
       widget: @
-    }), container[0]
+    }
+
+    ReactDOM.render uploader, container[0]
 
   setup_tags: ->
     slug_input = @el.find ".tags_input"
