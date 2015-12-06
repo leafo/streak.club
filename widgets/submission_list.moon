@@ -23,8 +23,7 @@ class SubmissionList extends require "widgets.base"
     @content_for "all_js", ->
       @include_redactor not @show_comments
 
-    div class: "submission_list", ->
-      @render_submissions!
+    @render_submissions!
 
     if @has_more
       div class: "submission_loader list_loader", ->

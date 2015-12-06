@@ -12,9 +12,10 @@ class ViewSubmission extends require "widgets.page"
   inner_content: =>
     if #@streak_submissions == 1
       widget StreakHeader {
+        page_name: "submission"
         streak: @streak_submissions[1]\get_streak!
         insert_tab: =>
-          @page_tab "Submission"
+          @page_tab "Submission", "submission", @url_for(@submission)
       }
 
     div class: "responsive_column", ->
@@ -46,11 +47,6 @@ class ViewSubmission extends require "widgets.page"
 
     if next @streak_submissions
       div class: "streaks_column", ->
-        if #@streak_submissions == 1
-          h2 "Streak"
-        else
-          h2 "Streaks"
-
         for submit in *@streak_submissions
           @render_streak_row submit.streak, {
             highlight_date: date(submit.submit_time)

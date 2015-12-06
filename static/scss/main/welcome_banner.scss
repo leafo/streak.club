@@ -3,32 +3,33 @@
     position: relative;
     background: $purple;
     color: white;
+    box-shadow: inset 0 5px 5px -5px rgba(0, 0, 0, 0.21);
 
     .banner_inner {
         max-width: $site_width;
-        padding: 20px 20px 30px 20px;
+        padding: 20px;
         margin: 0 auto;
         position: relative;
     }
 
     p {
-        margin-top: 10px;
-        color: rgba(white, 0.9);
+        margin: 0;
+        color: rgba(white, 0.7);
     }
 
     h2 {
         margin: 0;
-        font-size: 32px;
-        font-weight: normal;
+        font-size: 27px;
+        font-weight: bold;
     }
 
     .button {
-        top: 38px;
+        top: 31px;
         right: 20px;
         position: absolute;
-        font-size: 24px;
-        line-height: 45px - 4px;
-        height: 45px;
+        font-size: 20px;
+        line-height: 41px - 4px;
+        height: 41px;
         padding: 0 40px;
 
         background: transparent;
