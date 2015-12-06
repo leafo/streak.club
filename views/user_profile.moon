@@ -6,7 +6,6 @@ import sanitize_html, is_empty_html from require "helpers.html"
 
 class UserProfile extends require "widgets.page"
   @needs: {"user", "user_profile", "submissions", "active_streaks", "completed_streaks", "upcoming_streaks"}
-  @include "widgets.follow_helpers"
   @include "widgets.streak_helpers"
 
   page_name: "profile"
@@ -21,10 +20,6 @@ class UserProfile extends require "widgets.page"
       @column_content!
 
   column_content: =>
-    if not @current_user or @current_user.id != @user.id
-      div class: "header_right", ->
-        @follow_button @user, @following
-
     div class: "columns", ->
       div class: "submission_column", ->
         website = @user_profile\format_website!

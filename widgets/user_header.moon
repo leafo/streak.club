@@ -2,12 +2,17 @@
 class UserHeader extends require "widgets.base"
   @needs: {"user"}
   @include "widgets.tabs_helpers"
+  @include "widgets.follow_helpers"
 
   widget_classes: =>
     {super!, "tab_header"}
 
   inner_content: =>
     div class: "page_header", ->
+      if not @current_user or @current_user.id != @user.id
+        div class: "header_right", ->
+          @follow_button @user, @following
+
       h2 @user\name_for_display!
       h3 ->
         div class: "user_stat", ->

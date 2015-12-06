@@ -35,7 +35,7 @@ h2 {
         font-size: 22px;
     }
 
-    a {
+    .page_tabs a {
         @include transition(all 0.1s ease);
         text-decoration: none;
         border-bottom: 2px solid $link_color;
