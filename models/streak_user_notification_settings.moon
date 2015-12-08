@@ -7,7 +7,7 @@ import Model, enum from require "lapis.db.model"
 -- CREATE TABLE streak_user_notification_settings (
 --   user_id integer NOT NULL,
 --   streak_id integer NOT NULL,
---   email_reminders boolean DEFAULT true NOT NULL,
+--   frequency smallint DEFAULT 1 NOT NULL,
 --   late_submit_reminded_at timestamp without time zone,
 --   join_email_at timestamp without time zone,
 --   start_email_at timestamp without time zone
