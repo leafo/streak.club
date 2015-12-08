@@ -74,6 +74,25 @@ view_submission = capture_errors {
 
     @show_welcome_banner = true
     @title = @submission\meta_title!
+
+    -- load their other submissions from the streak
+    if #@streak_submissions == 1
+      import StreakSubmissions from require "models"
+      other_submissions = StreakSubmissions\paginated "
+        where user_id = ? and streak_id = ? and submission_id not in (?)
+        order by submit_time desc
+      ", @submission.user_id, @streak_submissions[1].streak_id, @submission.id, {
+        per_page: 20
+        prepare_results: (streak_submissions) ->
+          Submissions\include_in streak_submissions, "submission_id"
+          submissions = [s.submission for s in *streak_submissions when s.submission]
+          Submissions\preload_for_list submissions, {
+            likes_for: @current_user
+          }
+      }
+
+      @other_submissions = other_submissions\get_page!
+
     render: "view_submission"
 }
 

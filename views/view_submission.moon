@@ -5,7 +5,7 @@ StreakHeader = require "widgets.streak_header"
 date = require "date"
 
 class ViewSubmission extends require "widgets.page"
-  @needs: {"submission", "streak_submissions"}
+  @needs: {"submission", "streak_submissions", "other_submissions"}
   @include "widgets.twitter_card_helpers"
   @include "widgets.streak_helpers"
 
@@ -43,7 +43,13 @@ class ViewSubmission extends require "widgets.page"
 
 
     div class: "submission_column", ->
-      widget SubmissionList submissions: { @submission }, show_user: true, show_comments: true
+      widget SubmissionList {
+        submissions: { @submission }
+        show_user: true
+        show_comments: true
+      }
+
+      @render_other_submissions!
 
     if next @streak_submissions
       div class: "streaks_column", ->
@@ -84,3 +90,22 @@ class ViewSubmission extends require "widgets.page"
           text " "
           text table.concat hashes, " "
 
+
+  render_other_submissions: =>
+    return unless @other_submissions and next @other_submissions
+    div class: "other_submissions", ->
+      h2 ->
+        user = @submission\get_user!
+        streak = @streak_submissions[1]\get_streak!
+
+        text "More submissions by "
+        a href: @url_for(user), user\name_for_display!
+        text " for "
+        a href: @url_for(streak), streak.title
+
+
+
+      widget SubmissionList {
+        submissions: @other_submissions
+        show_user: true
+      }
