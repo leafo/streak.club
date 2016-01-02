@@ -131,6 +131,20 @@ window.S = {
         full_date = el.html()
         el.html(moment.utc(full_date).local()[real_method](method_args...))
           .attr "title", full_date
+
+  format_bytes: do ->
+    thresholds = [
+      ["gb", Math.pow 1024, 3]
+      ["mb", Math.pow 1024, 2]
+      ["kb", 1024]
+    ]
+
+    (bytes) ->
+      for [label, min] in thresholds
+        if bytes >= min
+          return "#{s.numberFormat bytes / min}#{label}"
+
+      "#{s.numberFormat bytes} bytes"
 }
 
 $.fn.dispatch = (event_type, selector, table) ->
@@ -262,20 +276,6 @@ $.fn.swap_with = (other) ->
   _.defer =>
     @css { top: "", left: "" }
     other.css { top: "", left: "" }
-
-_.str.formatBytes = do ->
-  thresholds = [
-    ["gb", Math.pow 1024, 3]
-    ["mb", Math.pow 1024, 2]
-    ["kb", 1024]
-  ]
-
-  (bytes) ->
-    for [label, min] in thresholds
-      if bytes >= min
-        return "#{_.str.numberFormat bytes / min}#{label}"
-
-    "#{_.str.numberFormat bytes} bytes"
 
 
 class S.InfiniteScroll

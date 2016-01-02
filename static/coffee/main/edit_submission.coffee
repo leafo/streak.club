@@ -117,7 +117,7 @@ R.component "Upload", {
       div children: [
         span className: "filename", @props.upload.data.filename
         " "
-        span className: "file_size", "(#{_.str.formatBytes(@props.upload.data.size)})"
+        span className: "file_size", "(#{S.format_bytes @props.upload.data.size})"
         upload_status
       ]
     ]
@@ -212,7 +212,7 @@ class UploaderManager
     @input.on "change", =>
       for file in @input[0].files
         if max_size? and file.size > max_size
-          alert "#{file.name} is greater than max size of #{_.str.formatBytes max_size}"
+          alert "#{file.name} is greater than max size of #{S.format_bytes max_size}"
           continue
 
         @prepare_and_start_upload file, on_upload
