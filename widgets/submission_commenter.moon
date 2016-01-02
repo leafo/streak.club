@@ -8,7 +8,7 @@ class SubmissionCommenter extends require "widgets.base"
 
   inner_content: =>
     div class: "comment_form_outer", ->
-      h3 class: "comment_header", "Leave a commment"
+      h3 class: "comment_header", "Post a commment"
       if @current_user
         action = @url_for "submission_new_comment", id: @submission.id
         form class: "form comment_form", method: "POST", :action, ->
@@ -18,10 +18,10 @@ class SubmissionCommenter extends require "widgets.base"
             textarea name: "comment[body]", placeholder: "Your comment"
 
           div class: "button_row", ->
-            button class: "button", "Leave comment"
+            button class: "button", "Post comment"
       else
         div class: "comment_login", ->
-          a href: login_and_return_url(@), class: "button", "Log in to leave a comment"
+          a href: login_and_return_url(@), class: "button", "Log in to post a comment"
 
     div class: "submission_comment_list", ->
       return unless @submission_comments and next @submission_comments
