@@ -18,7 +18,6 @@ P "Uploader", {
       upload.on_update = => @forceUpdate()
 
   componentDidMount: ->
-    @props.widget.upload_component = @
     @dispatch "upload", {
       "delete": (pos) =>
         @state.uploads.splice(pos, 1)
