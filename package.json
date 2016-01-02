@@ -7,7 +7,7 @@
     "url": "git+https://github.com/leafo/streak.club.git"
   },
   "author": "Leaf Corcoran <leafot@gmail.com>",
-  "license": "MIT",
+  "license": "GPLv2",
   "bugs": {
     "url": "https://github.com/leafo/streak.club/issues"
   },

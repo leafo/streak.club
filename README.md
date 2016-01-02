@@ -12,4 +12,4 @@ Powered by:
 
 ## License
 
-GPLv2 - Leaf Corcoran 2015
+GPLv2 - Leaf Corcoran 2016
