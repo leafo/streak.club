@@ -19,29 +19,29 @@ P "Uploader", {
 
   componentDidMount: ->
     @props.widget.upload_component = @
-    el = $ ReactDOM.findDOMNode(@)
+    @dispatch "upload", {
+      "delete": (pos) =>
+        @state.uploads.splice(pos, 1)
+        @forceUpdate()
 
-    el.on "s:upload:delete", (e, pos) =>
-      @state.uploads.splice(pos, 1)
-      @forceUpdate()
+      "move_up": (pos) =>
+        uploads = @state.uploads
 
-    el.on "s:upload:move_up", (e, pos) =>
-      uploads = @state.uploads
+        old = uploads[pos - 1]
+        uploads[pos - 1] = uploads[pos]
+        uploads[pos] = old
 
-      old = uploads[pos - 1]
-      uploads[pos - 1] = uploads[pos]
-      uploads[pos] = old
+        @forceUpdate()
 
-      @forceUpdate()
+      "move_down": (pos) =>
+        uploads = @state.uploads
 
-    el.on "s:upload:move_down", (e, pos) =>
-      uploads = @state.uploads
+        old = uploads[pos + 1]
+        uploads[pos + 1] = uploads[pos]
+        uploads[pos] = old
 
-      old = uploads[pos + 1]
-      uploads[pos + 1] = uploads[pos]
-      uploads[pos] = old
-
-      @forceUpdate()
+        @forceUpdate()
+    }
 
   render: ->
     div className: "upload_component", children: [
@@ -72,15 +72,15 @@ P "Upload", {
   handle_delete: (e) ->
     e.preventDefault()
     if confirm "Are you sure you want to remove this file?"
-      @container().trigger "s:upload:delete", [@props.position]
+      @trigger "upload:delete", @props.position
 
   handle_move_up: (e) ->
     e.preventDefault()
-    @container().trigger "s:upload:move_up", [@props.position]
+    @trigger "upload:move_up", @props.position
 
   handle_move_down: (e) ->
     e.preventDefault()
-    @container().trigger "s:upload:move_down", [@props.position]
+    @trigger "upload:move_down", @props.position
 
   render: ->
     upload_tools = unless @props.upload.uploading
