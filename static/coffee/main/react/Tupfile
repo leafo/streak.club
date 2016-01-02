@@ -1,0 +1,2 @@
+.gitignore
+: foreach *.coffee |> (cat header.coffee.tpl; cat %f) | coffee -s -p > %o |> %B.js
