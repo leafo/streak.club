@@ -1,4 +1,4 @@
-.PHONY: annotate_modes schema.sql init_schema test screenshot test_db prod_db migrate linit checkpoint restore_checkpoint devdb count
+.PHONY: annotate_modes schema.sql init_schema test screenshot test_db prod_db migrate linit checkpoint restore_checkpoint devdb count vendor
 
 test:
 	busted
@@ -46,3 +46,17 @@ annotate_models:
 
 count:
 	wc -l $$(git ls-files | grep 'scss$$\|moon$$\|coffee$$\|md$$\|conf$$') | sort -n | tail
+
+# copy all the node modules
+vendor:
+	npm install
+	cp node_modules/jquery/dist/jquery.min.js static/lib
+	cp node_modules/d3/d3.min.js static/lib
+	cp node_modules/moment/min/moment.min.js static/lib
+	cp node_modules/jstz/dist/jstz.min.js static/lib
+	cp node_modules/underscore/underscore-min.js static/lib
+	cp node_modules/underscore.string/dist/underscore.string.min.js static/lib
+	cp node_modules/react/dist/react.min.js static/lib
+	cp node_modules/react-dom/dist/react-dom.min.js static/lib
+	cp node_modules/sticky-kit/dist/sticky-kit.min.js static/lib
+	cp node_modules/typed.js/dist/typed.min.js static/lib

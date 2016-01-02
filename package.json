@@ -1,0 +1,27 @@
+{
+  "name": "streak.club",
+  "version": "1.0.0",
+  "description": "a place for creative streaks",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leafo/streak.club.git"
+  },
+  "author": "Leaf Corcoran <leafot@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/leafo/streak.club/issues"
+  },
+  "homepage": "https://streak.club",
+  "dependencies": {
+    "d3": "^3.5.12",
+    "jquery": "^2.1.4",
+    "jstz": "^1.0.7",
+    "moment": "^2.10.6",
+    "react": "^0.14.5",
+    "react-dom": "^0.14.5",
+    "sticky-kit": "^1.1.3",
+    "typed.js": "^1.1.1",
+    "underscore": "^1.8.3",
+    "underscore.string": "^3.2.2"
+  }
+}

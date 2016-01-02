@@ -3,3 +3,4 @@ logs/
 dev_backup/
 nginx.conf.compiled
 .tup
+node_modules
