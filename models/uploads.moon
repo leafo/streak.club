@@ -33,6 +33,10 @@ import thumb from require "helpers.images"
 class Uploads extends Model
   @timestamp: true
 
+  @relations: {
+    {"user", belongs_to: "Users"}
+  }
+
   @types: enum {
     image: 1
     file: 2

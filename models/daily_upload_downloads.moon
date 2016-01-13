@@ -16,6 +16,10 @@ import safe_insert from require "helpers.model"
 class DailyUploadDownloads extends Model
   @primary_key: {"upload_id", "date"}
 
+  @relations: {
+    {"upload", belongs_to: "Uploads"}
+  }
+
   @tmz: 0 -- utc
 
   @date: (days=0) =>
