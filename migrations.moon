@@ -547,5 +547,9 @@ import
     "
 
     drop_column "streak_users", "late_submit_reminded_at"
+
+  [1454140126]: =>
+    db.query "alter table streaks alter end_date drop not null"
+
 }
 

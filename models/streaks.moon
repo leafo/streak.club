@@ -200,10 +200,12 @@ class Streaks extends Model
     if check_time
       now = date true
       start_date = @start_datetime!
-      end_date = @end_datetime!
 
       return false if now < start_date
-      return false if end_date < now
+
+      if @end_date
+        end_date = @end_datetime!
+        return false if end_date < now
 
     true
 
@@ -330,18 +332,21 @@ class Streaks extends Model
 
   -- get the ending time in UTC
   end_datetime: =>
+    return nil unless @end_date
     date(@end_date)\addhours -@hour_offset
 
   before_start: =>
     date(true) < @start_datetime!
 
   after_end: =>
+    return false unless @end_date
     @end_datetime! < date(true)
 
   during: =>
     not @before_start! and not @after_end!
 
   progress: =>
+    return unless @end_date
     return if @before_start!
     start = @start_datetime!
     now = date true
@@ -351,7 +356,8 @@ class Streaks extends Model
   -- checks if UTC date is contained in streak
   date_in_streak: (d) =>
     return false if d < @start_datetime!
-    return false if @end_datetime! < d
+    if @end_date
+      return false if @end_datetime! < d
     true
 
   _streak_submit_unit_group_field: =>
@@ -651,7 +657,7 @@ class Streaks extends Model
       when "active"
         [[
           start_date <= now() at time zone 'utc' + (hour_offset || ' hours')::interval and
-          end_date > now() at time zone 'utc' + (hour_offset || ' hours')::interval
+          (end_date is null or end_date > now() at time zone 'utc' + (hour_offset || ' hours')::interval)
         ]]
       when "upcoming"
         [[
@@ -659,7 +665,7 @@ class Streaks extends Model
         ]]
       when "completed"
         [[
-          end_date < now() at time zone 'utc' + (hour_offset || ' hours')::interval
+          (end_date is not null and end_date < now() at time zone 'utc' + (hour_offset || ' hours')::interval)
         ]]
       else
         error "unknown state: #{state}"
