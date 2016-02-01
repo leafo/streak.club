@@ -290,11 +290,15 @@ class Streaks extends Model
 
   -- UTC date to unit number
   unit_number_for_date: (d) =>
+    @unit_span @start_datetime!, d
+
+  -- how many units between two dates
+  unit_span: (start, stop) =>
     switch @rate
       when @@rates.daily
-        math.floor(date.diff(d, @start_datetime!)\spandays!) + 1
+        math.floor(date.diff(stop, start)\spandays!) + 1
       else
-        days = math.floor date.diff(d, @start_datetime!)\spandays!
+        days = math.floor date.diff(stop, start)\spandays!
         weeks = math.floor(days / 7)
         weeks + 1
 

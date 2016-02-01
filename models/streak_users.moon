@@ -163,6 +163,16 @@ class StreakUsers extends Model
       )"
     }, timestamp: false
 
+  current_unit_number: =>
+    joined = date @created_at
+    streak = @get_streak!
+
+    start = if joined < streak\start_datetime!
+      streak\start_datetime!
+    else
+      joined
+
+    streak\unit_span start, date true
 
   get_notification_settings: =>
     unless @notification_settings

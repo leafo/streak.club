@@ -199,8 +199,12 @@ class ViewStreak extends require "widgets.page"
         else
           text "Time left to submit"
 
-        span class: "sub",
-          "#{@streak\interval_noun false} ##{@streak\unit_number_for_date(date true)}"
+        if @streak\has_end!
+          span class: "sub",
+            "#{@streak\interval_noun false} ##{@streak\unit_number_for_date(date true)}"
+        elseif @streak_user
+          span class: "sub",
+            "#{@streak\interval_noun false} ##{@streak_user\current_unit_number!}"
     }
 
   admin_tools: =>
