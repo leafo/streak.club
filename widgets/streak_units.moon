@@ -18,12 +18,16 @@ class StreakUnits extends require "widgets.base"
     current_date = date true
     today_unit = @streak\truncate_date date true
 
+    cutoff_date = @start_date and date @start_date
+
     highlight_unit = if @highlight_date
       @streak\truncate_date(@highlight_date)
     else
       today_unit
 
     while count > 0 and start_date < current_date
+      break if current_date < cutoff_date
+
       unit_date = @streak\truncate_date current_date
       formatted_date = unit_date\fmt Streaks.day_format_str
       submission_id = @completed_units and @completed_units[formatted_date]
@@ -66,6 +70,7 @@ class StreakUnits extends require "widgets.base"
           "data-tooltip": tooltip
           @unit_counts and show_count and tostring(unit_count) or nil
         }
+
 
       count -= 1
       @streak\increment_date_by_unit current_date, -1
