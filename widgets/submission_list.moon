@@ -87,6 +87,10 @@ class SubmissionList extends require "widgets.base"
               h3 class: "submission_title", ->
                 a href: @url_for(submission), submission.title
 
+            submitted_streaks = if @show_streaks and submission.streaks
+              current_streak_id = @streak and @streak.id
+              submission\visible_streaks_for @current_user, current_streak_id
+
             h4 class: "submission_summary", ->
               if @show_user
                 text "A submission by "
@@ -94,18 +98,15 @@ class SubmissionList extends require "widgets.base"
               else
                 text "A submission"
 
-              if @show_streaks and submission.streaks
-                current_streak_id = @streak and @streak.id
-                filtered = submission\visible_streaks_for @current_user, current_streak_id
+              if submitted_streaks and next submitted_streaks
+                text " for "
+                num_streaks = #submitted_streaks
+                for i, streak in ipairs submitted_streaks
+                  text " "
+                  span class: "streak_title_group", ->
+                    a href: @url_for(streak), streak.title
 
-                if next filtered
-                  text " for "
-                  num_streaks = #filtered
-                  for i, streak in ipairs filtered
-                    text " "
-                    span class: "streak_title_group", ->
-                      a href: @url_for(streak), streak.title
-
+                    if streak\has_end!
                       if submit = submission.streak_submissions and submission.streak_submissions[i]
                         text " "
                         span class: "unit_number", submit\unit_number!
