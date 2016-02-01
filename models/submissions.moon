@@ -43,9 +43,9 @@ class Submissions extends Model
   }
 
   @preload_streaks: (submissions) =>
-    import StreakSubmissions, Streaks from require "models"
+    import StreakSubmissions from require "models"
 
-    Submissions\preload_relation submissions, "streak_submissions"
+    @preload_relation submissions, "streak_submissions"
     streak_submits = {}
     for sub in *submissions
       for streak_sub in *sub\get_streak_submissions!
@@ -59,22 +59,8 @@ class Submissions extends Model
     streaks = [s\get_streak! for s in *streak_submits]
     submissions, [s.streak for s in *streak_submits]
 
-  @preload_tags: (submissions) =>
-    import SubmissionTags from require "models"
-    submission_ids = [s.id for s in *submissions]
-    tags = SubmissionTags\find_all submission_ids, key: "submission_id"
-    tags_by_submission_id = {}
-    for t in *tags
-      tags_by_submission_id[t.submission_id] or= {}
-      table.insert tags_by_submission_id[t.submission_id], t
-
-    for s in *submissions
-      s.tags = tags_by_submission_id[s.id] or {}
-
-    submissions
-
   @preload_for_list: (submissions, opts={}) =>
-    import Users, Uploads, SubmissionLikes, FeaturedSubmissions from require "models"
+    import Users, Uploads, SubmissionLikes from require "models"
 
     Uploads\preload_objects submissions
 
@@ -86,13 +72,12 @@ class Submissions extends Model
       for streak in *streaks
         table.insert things_with_users, streak
 
-    @preload_tags submissions
 
     Users\include_in things_with_users, "user_id", {
       fields: "id, username, slug, display_name, email"
     }
 
-    FeaturedSubmissions\include_in submissions, "submission_id", flip: true
+    @preload_relations submissions, "featured_submission", "tags"
 
     if user = opts.likes_for
       SubmissionLikes\include_in submissions, "submission_id", flip: true, where: {
