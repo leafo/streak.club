@@ -342,6 +342,9 @@ class Streaks extends Model
     return false unless @end_date
     @end_datetime! < date(true)
 
+  has_end: =>
+    not not @end_date
+
   during: =>
     not @before_start! and not @after_end!
 

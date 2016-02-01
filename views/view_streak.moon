@@ -21,7 +21,7 @@ class ViewStreak extends require "widgets.page"
 
     opts = {
       start: @streak\start_datetime!\fmt "${iso}Z"
-      end: @streak\end_datetime!\fmt "${iso}Z"
+      end: @streak.end_date and @streak\end_datetime!\fmt "${iso}Z"
       unit_start: current_unit and current_unit\fmt "${iso}Z"
       unit_end: current_unit and @streak\increment_date_by_unit(current_unit)\fmt "${iso}Z"
 
@@ -144,17 +144,19 @@ class ViewStreak extends require "widgets.page"
       text " ("
       @date_format @streak\start_datetime!
       text ")."
-      br!
 
-      if @streak\after_end!
-        text "Ended"
-      else
-        text "Ends"
+      if @streak\has_end!
+        br!
 
-      text " #{@relative_timestamp @streak\end_datetime!} "
-      text " ("
-      @date_format @streak\end_datetime!
-      text ")."
+        if @streak\after_end!
+          text "Ended"
+        else
+          text "Ends"
+
+        text " #{@relative_timestamp @streak\end_datetime!} "
+        text " ("
+        @date_format @streak\end_datetime!
+        text ")."
 
     unless is_empty_html @streak.description
       div class: "user_formatted streak_description", ->
