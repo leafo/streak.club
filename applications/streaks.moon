@@ -82,76 +82,74 @@ class StreaksApplication extends lapis.Application
       redirect_to: @url_for @streak
   }
 
-  [view_streak: "/s/:id/:slug"]: capture_errors {
+  [view_streak: "/s/:id/:slug"]: respond_to {
     on_error: =>
       not_found
 
-    respond_to {
-      before: =>
-        find_streak @
-        check_slug @
+    before: =>
+      find_streak @
+      check_slug @
 
-      GET: =>
-        assert_page @
-        import Submissions from require "models"
-        pager = @streak\find_submissions {
-          per_page: SUBMISSION_PER_PAGE
-          prepare_submissions: (submissions) ->
-            Submissions\preload_for_list submissions, {
-              likes_for: @current_user
-            }
-        }
+    GET: =>
+      assert_page @
+      import Submissions from require "models"
+      pager = @streak\find_submissions {
+        per_page: SUBMISSION_PER_PAGE
+        prepare_submissions: (submissions) ->
+          Submissions\preload_for_list submissions, {
+            likes_for: @current_user
+          }
+      }
 
-        @submissions = pager\get_page @page
+      @submissions = pager\get_page @page
 
-        if @params.format == "json"
-          return render_submissions_page @, SUBMISSION_PER_PAGE
+      if @params.format == "json"
+        return render_submissions_page @, SUBMISSION_PER_PAGE
 
-        @title = @streak.title
-        @show_welcome_banner = true
-        @has_more = @streak.submissions_count > SUBMISSION_PER_PAGE
-        @canonical_url = @build_url @url_for @streak
+      @title = @streak.title
+      @show_welcome_banner = true
+      @has_more = @streak.submissions_count > SUBMISSION_PER_PAGE
+      @canonical_url = @build_url @url_for @streak
 
-        if @page and @page > 1
-          @canonical_url ..= "?page=#{@page}"
+      if @page and @page > 1
+        @canonical_url ..= "?page=#{@page}"
 
-        @mobile_friendly = true
+      @mobile_friendly = true
 
-        @embed_page = not not @params.embed
+      @embed_page = not not @params.embed
 
-        if @streak_user
-          if @current_submit = @streak_user\current_unit_submission!
-            @current_submit\get_submission!
+      if @streak_user
+        if @current_submit = @streak_user\current_unit_submission!
+          @current_submit\get_submission!
 
-          @completed_units = @streak_user\get_completed_units!
+        @completed_units = @streak_user\get_completed_units!
 
-        @unit_counts = @streak\unit_submission_counts!
-        @streak_host = @streak\get_user!
-        @streak_host.following = @streak_host\followed_by @current_user
+      @unit_counts = @streak\unit_submission_counts!
+      @streak_host = @streak\get_user!
+      @streak_host.following = @streak_host\followed_by @current_user
 
-        render: true
+      render: true
 
-      POST: capture_errors_json =>
-        assert_csrf @
-        assert_valid @params, {
-          {"action", one_of: {"join_streak", "leave_streak"}}
-        }
+    POST: capture_errors_json =>
+      assert_csrf @
+      assert_valid @params, {
+        {"action", one_of: {"join_streak", "leave_streak"}}
+      }
 
-        res = switch @params.action
-          when "join_streak"
-            if @streak\join @current_user
-              import Notifications from require "models"
-              Notifications\notify_for @streak\get_user!, @streak, "join", @current_user
-              if @streak\is_members_only!
-                @session.flash = "Requested to join"
-              else
-                @session.flash = "Streak joined"
-          when "leave_streak"
-            if @streak\leave @current_user
-              @session.flash = "Streak left"
+      res = switch @params.action
+        when "join_streak"
+          if @streak\join @current_user
+            import Notifications from require "models"
+            Notifications\notify_for @streak\get_user!, @streak, "join", @current_user
+            if @streak\is_members_only!
+              @session.flash = "Requested to join"
+            else
+              @session.flash = "Streak joined"
+        when "leave_streak"
+          if @streak\leave @current_user
+            @session.flash = "Streak left"
 
-        redirect_to: @url_for @streak
-    }
+      redirect_to: @url_for @streak
   }
 
   [streak_participants: "/s/:id/:slug/participants"]: respond_to {
