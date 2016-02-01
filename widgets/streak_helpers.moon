@@ -11,29 +11,47 @@ class StreakHelpers
 
       h4 streak.short_description
       p class: "streak_sub", ->
-        text "#{streak\interval_noun!} from "
-        nobr streak.start_date
-        if streak\has_end!
-          text " to "
-          nobr streak.end_date
+        if streak.streak_user and not streak\after_end!
+          su = streak.streak_user
+          noun = streak\interval_noun false
+          units = su\current_unit_number!
+          units -= 1
+
+          if units != 1
+            noun ..= "s"
+
+          if units == 0
+            text "joined #{streak\unit_noun!}"
+          else
+            text "joined #{units} #{noun} ago"
+        else
+          text "#{streak\interval_noun!} from "
+          nobr streak.start_date
+          if streak\has_end!
+            text " to "
+            nobr streak.end_date
 
       if streak.completed_units
-        p class: "streak_sub", ->
-          if show_user_streak
-            if streak\after_end!
-              longest = streak.streak_user\get_longest_streak!
-              rate = streak.streak_user\completion_rate!
-              rate = math.floor rate * 100
+        if show_user_streak
+          if streak\after_end!
+            longest = streak.streak_user\get_longest_streak!
+            rate = streak.streak_user\completion_rate!
+            rate = math.floor rate * 100
 
-              text "Best streak: #{longest}, Completion: #{rate}%"
-            else
-              current = streak.streak_user\get_current_streak!
-              longest = streak.streak_user\get_longest_streak!
-              text "Streak: #{current}, Longest: #{longest}"
+            p class: "streak_sub",
+              "Best streak: #{longest}, Completion: #{rate}%"
+          else
+            current = streak.streak_user\get_current_streak!
+            longest = streak.streak_user\get_longest_streak!
+
+            if current and longest
+              p class: "streak_sub",
+                "Streak: #{current}, Longest: #{longest}"
 
         widget StreakUnits {
           :streak, :highlight_date
           completed_units: streak.completed_units
           user_id: user_id
+          start_date: streak.streak_user and streak.streak_user.created_at
         }
 

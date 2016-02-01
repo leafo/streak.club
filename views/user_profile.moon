@@ -52,7 +52,12 @@ class UserProfile extends require "widgets.page"
         @render_streaks "Upcoming streaks", @upcoming_streaks
 
   render_submissions: =>
-    return unless next @submissions
+    unless next @submissions
+      p class: "empty_message", ->
+        text "#{@user\name_for_display!} hasn't submitted anything yet."
+
+      return
+
     h2 ->
       text "All submissions "
       span class: "sub", "(#{@user\submissions_count_for @current_user})"
