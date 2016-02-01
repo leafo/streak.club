@@ -30,7 +30,7 @@ class EditStreakFlow extends Flow
       {"short_description", exists: true, max_length: 1024 * 10}
       {"description", exists: true, max_length: 1024 * 10}
       {"start_date", exists: true, max_length: 1024}
-      {"end_date", exists: true, max_length: 1024}
+      {"end_date", optional: true, max_length: 1024}
       {"hour_offset", exists: true}
       {"publish_status", one_of: Streaks.publish_statuses}
       {"category", one_of: Streaks.categories}
@@ -51,9 +51,12 @@ class EditStreakFlow extends Flow
     streak_params.hour_offset = timezone_offset - hour_offset
 
     start_date = date streak_params.start_date
-    end_date = date streak_params.end_date
 
-    assert_error start_date < end_date, "start date must be before end date"
+    if streak_params.end_date
+      end_date = date streak_params.end_date
+      assert_error start_date < end_date, "start date must be before end date"
+
+    streak_params.end_date or= db.NULL
 
     if h = streak_params.twitter_hash
       h = h\gsub "%s", ""

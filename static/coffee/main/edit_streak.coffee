@@ -16,6 +16,15 @@ class S.EditStreak
       if res.url
         window.location = res.url
 
+    end_input = form.find("input.end_date")
+
+    update_end_input = ->
+      end_input.prop "disabled", toggle_input.is(":checked")
+
+    toggle_input = form.find(".end_date_toggle_input").on "change", (e) ->
+      update_end_input()
+
+    update_end_input()
 
   setup_timezone: =>
     @el.find(".timezone_input").val jstz.determine().name()

@@ -2,5 +2,22 @@
 .edit_streak_page {
     .date_row {
         margin-top: 15px;
+
+        input.end_date:disabled {
+            opacity: 0.5;
+            color: gray;
+            background: $border_color;
+        }
+
+        .date_toggle {
+            margin: 8px 0;
+            font-size: 16px;
+
+            input {
+                vertical-align: -2px;
+                display: inline-block;
+                margin: 0 5px;
+            }
+        }
     }
 }

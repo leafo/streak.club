@@ -78,15 +78,24 @@ class EditStreak extends require "widgets.page"
             }
 
         div class: "date_row", ->
-          label ->
-            div class: "duration_label label", "End date:"
-            input {
-              type: "text"
-              class: "date_picker end_date"
-              name: "streak[end_date]"
-              readonly: "readonly"
-              value: @format_date_for_input streak.end_date
-            }
+          div class: "duration_label label", "End date:"
+
+          div class: "date_toggle", ->
+            label ->
+              input {
+                type: "checkbox"
+                class: "end_date_toggle_input"
+                name: "streak[never_ending]"
+                checked: not streak.end_date
+              }, "Streak never ends"
+
+          input {
+            type: "text"
+            class: "date_picker end_date"
+            name: "streak[end_date]"
+            readonly: "readonly"
+            value: @format_date_for_input streak.end_date
+          }
 
           span class: "duration_summary"
 
