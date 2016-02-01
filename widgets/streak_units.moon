@@ -26,7 +26,7 @@ class StreakUnits extends require "widgets.base"
       today_unit
 
     while count > 0 and start_date < current_date
-      break if current_date < cutoff_date
+      break if cutoff_date and current_date < cutoff_date
 
       unit_date = @streak\truncate_date current_date
       formatted_date = unit_date\fmt Streaks.day_format_str
