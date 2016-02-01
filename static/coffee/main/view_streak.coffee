@@ -6,7 +6,7 @@ class S.ViewStreak
     S.format_dates @el, "format", "MMMM Do YYYY, h a"
 
     @start = moment @streak.start
-    @end = moment @streak.start
+    @end = @streak.end && moment @streak.end
     @unit_start = moment @streak.unit_start
     @unit_end = moment @streak.unit_end
 

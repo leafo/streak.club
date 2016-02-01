@@ -13,8 +13,9 @@ class StreakHelpers
       p class: "streak_sub", ->
         text "#{streak\interval_noun!} from "
         nobr streak.start_date
-        text " to "
-        nobr streak.end_date
+        if streak\has_end!
+          text " to "
+          nobr streak.end_date
 
       if streak.completed_units
         p class: "streak_sub", ->

@@ -25,8 +25,9 @@ class StreakList extends require "widgets.base"
           div class: "date_range", ->
             text "#{streak\interval_noun!} from "
             nobr streak.start_date
-            text " to "
-            nobr streak.end_date
+            if streak\has_end!
+              text " to "
+              nobr streak.end_date
 
           div class: "streak_stats", ->
             div class: "stat_box", ->
