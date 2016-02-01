@@ -45,26 +45,18 @@ class Submissions extends Model
   @preload_streaks: (submissions) =>
     import StreakSubmissions, Streaks from require "models"
 
-    submission_ids = [s.id for s in *submissions]
-    streak_submits = StreakSubmissions\find_all submission_ids, {
-      key: "submission_id"
-    }
+    Submissions\preload_relation submissions, "streak_submissions"
+    streak_submits = {}
+    for sub in *submissions
+      for streak_sub in *sub\get_streak_submissions!
+        table.insert streak_submits, streak_sub
 
-    Streaks\include_in streak_submits, "streak_id"
+    StreakSubmissions\preload_relation streak_submits, "streak"
 
-    streaks_by_submission_id = {}
-    submits_by_submission_id = {}
-    for submit in *streak_submits
-      streaks_by_submission_id[submit.submission_id] or= {}
-      table.insert streaks_by_submission_id[submit.submission_id], submit.streak
+    for sub in *submissions
+      sub.streaks = [s\get_streak! for s in *sub\get_streak_submissions!]
 
-      submits_by_submission_id[submit.submission_id] or= {}
-      table.insert submits_by_submission_id[submit.submission_id], submit
-
-    for submission in *submissions
-      submission.streaks = streaks_by_submission_id[submission.id] or {}
-      submission.streak_submissions = submits_by_submission_id[submission.id] or {}
-
+    streaks = [s\get_streak! for s in *streak_submits]
     submissions, [s.streak for s in *streak_submits]
 
   @preload_tags: (submissions) =>
