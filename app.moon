@@ -59,7 +59,7 @@ class extends lapis.Application
       @completed_streaks = @current_user\find_participating_streaks(state: "completed")\get_page!
       @unseen_feed_count = @current_user\unseen_feed_count!
 
-      render: "index_logged_in"
+      render: "dashboard"
     else
       import FeaturedStreaks, FeaturedSubmissions, Streaks, Users from require "models"
       featured = FeaturedStreaks\select "order by position desc limit 4"
