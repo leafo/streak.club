@@ -76,7 +76,7 @@ class StatsThisWeek extends require "widgets.page"
           td ->
             a href: @url_for(sub), ->
               if sub.title
-                text @truncate sub.title
+                text @truncate sub.title, 60
               else
                 em "untitled"
 
