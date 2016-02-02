@@ -78,11 +78,61 @@ class AdminApplication extends lapis.Application
 
   [streak: "/streak/:id"]: capture_errors_json respond_to {
     before: =>
-      import Streaks from require "models"
+      import Streaks, RelatedStreaks from require "models"
       @streak = assert_error Streaks\find(@params.id), "invalid streak"
+
+      @related = @streak\get_related_streaks!
+      @other_related = @streak\get_other_related_streaks!
+
+      all_related = {unpack @related}
+      for s in *@other_related
+        table.insert all_related, s
+
+      RelatedStreaks\preload_relations all_related, "streak", "other_streak"
 
     GET: =>
       render: true
+
+    POST: =>
+      assert_csrf @
+      assert_valid @params, {
+        {"related", optional: true, type: "table"}
+        {"action", one_of: {"add_related", "remove_related"}}
+      }
+
+      import Streaks, RelatedStreaks from require "models"
+
+      switch @params.action
+        when "remove_related"
+          assert_valid @params, {
+            {"related_streak_id", is_integer: true}
+          }
+
+          rs = RelatedStreaks\find @params.related_streak_id
+          if rs
+            rs\delete!
+            @session.flash = "related streak deleted"
+
+        when "add_related"
+          assert_valid @params.related, {
+            {"type", one_of: {unpack RelatedStreaks.types}}
+            {"streak_id", is_integer: true}
+            {"reason", type: "string", optional: true}
+          }
+
+          other_streak = Streaks\find @params.related.streak_id
+          assert_error other_streak, "invalid other streak"
+
+          RelatedStreaks\create {
+            streak_id: @streak.id
+            type: @params.related.type
+            other_streak_id: other_streak.id
+            reason: @params.related.reason
+          }
+
+          @session.flash = "related streak added"
+
+      redirect_to: @admin_url_for @streak
   }
 
 

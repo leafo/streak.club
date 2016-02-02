@@ -5,6 +5,7 @@ class AdminStreak extends require "widgets.page"
   @needs: {"streak"}
 
   @include "widgets.table_helpers"
+  @include "widgets.form_helpers"
 
   column_content: =>
     div class: "page_header", ->
@@ -42,6 +43,64 @@ class AdminStreak extends require "widgets.page"
       {"", -> a href: @url_for(@streak\get_user!), "Profile"}
       {"", -> a href: @admin_url_for(@streak\get_user!), "Admin"}
     }
+
+    h3 "Related streaks"
+
+    for list in *{@related, @other_related}
+      import RelatedStreaks from require "models"
+      continue unless next list
+      @column_table list, {
+        {"streak", (rs) ->
+          if rs.streak_id == @streak.id
+            em class: "sub", "current"
+          else
+            a href: @url_for(rs\get_streak!),
+              @truncate rs\get_streak!.title
+        }
+
+        {"other_streak", (rs) ->
+          if rs.other_streak_id == @streak.id
+            em class:"sub", "current"
+          else
+            a href: @url_for(rs\get_other_streak!),
+              @truncate rs\get_other_streak!.title
+        }
+
+        {"type", RelatedStreaks.types}
+        "created_at"
+
+        {"remove", (rs) ->
+          form method: "post", ->
+            @csrf_input!
+            input type: "hidden", name: "related_streak_id", value: rs.id
+            button name: "action", value: "remove_related", "remove"
+        }
+      }
+
+    fieldset ->
+      legend "Add related streak"
+      form method: "post", class: "form", ->
+        @csrf_input!
+
+        @input_row "Type", ->
+          @radio_buttons "related[type]", {
+            {"related", "Related"}
+            {"substreak", "Substreak"}
+          }
+
+        @text_input_row {
+          label: "Other streak id"
+          name: "related[streak_id]"
+          required: true
+        }
+
+        @text_input_row {
+          label: "Reason"
+          name: "related[reason]"
+        }
+
+        div class: "button_row", ->
+          button class: "button", name: "action", value: "add_related", "Submit"
 
     h3 "Tools"
     fieldset ->

@@ -11,7 +11,7 @@ describe "applications.admin", ->
   use_test_server!
 
   local current_user
-  
+
   before_each ->
     truncate_tables Users, Streaks, Submissions
     current_user = factory.Users admin: true
