@@ -64,3 +64,20 @@ class TableHelpers
 
       extra_fields! if extra_fields
 
+
+  column_table: (objects, fields) =>
+    element "table", class: "nice_table", ->
+      thead ->
+        tr ->
+          for f in *fields
+            if type(f) == "table"
+              {f, enum} = f
+
+            td f
+
+      for object in *objects
+        tr ->
+          for field in *fields
+            field, val, opts = @_format_table_value object, field
+            td opts, val
+
