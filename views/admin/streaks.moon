@@ -29,7 +29,7 @@ class AdminStreak extends require "widgets.page"
       for streak in *@streaks
         tr ->
           td ->
-            a href: @url_for("admin_streak", id: streak.id), "Admin"
+            a href: @admin_url_for(streak), "Admin"
 
           td streak.id
 

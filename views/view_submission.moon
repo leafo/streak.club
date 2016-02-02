@@ -63,12 +63,12 @@ class ViewSubmission extends require "widgets.page"
   admin_tools: =>
     return unless @current_user and @current_user\is_admin!
     div class: "admin_tools", ->
-      a href: @url_for("admin_submission", id: @submission.id), "Admin"
+      a href: @admin_url_for(@submission), "Admin"
 
       div ->
         strong "Feature"
 
-      form method: "post", action: @url_for("admin_feature_submission", id: @submission.id), ->
+      form method: "post", action: @url_for("admin.feature_submission", id: @submission.id), ->
         feature = @submission\get_featured_submission!
         @csrf_input!
         if feature

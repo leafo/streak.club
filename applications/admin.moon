@@ -12,13 +12,14 @@ import not_found, assert_page from require "helpers.app"
 import assert_csrf from require "helpers.csrf"
 
 class AdminApplication extends lapis.Application
+  @name: "admin."
   @path: "/admin"
 
   @before_filter =>
     unless @current_user and @current_user\is_admin!
       @write not_found
 
-  [admin_feature_submission: "/feature-submission/:id"]: respond_to {
+  [feature_submission: "/feature-submission/:id"]: respond_to {
     POST: capture_errors_json =>
       assert_csrf @
       import Submissions, FeaturedSubmissions from require "models"
@@ -39,7 +40,7 @@ class AdminApplication extends lapis.Application
   }
 
 
-  [admin_featured_streak: "/feature-streak/:id"]: respond_to {
+  [featured_streak: "/feature-streak/:id"]: respond_to {
     POST: capture_errors_json =>
       assert_csrf @
 
@@ -60,7 +61,7 @@ class AdminApplication extends lapis.Application
       json: { success: true, :res }
   }
 
-  [admin_streaks: "/streaks"]: capture_errors_json =>
+  [streaks: "/streaks"]: capture_errors_json =>
     import Streaks, Users from require "models"
 
     @pager = Streaks\paginated "order by id desc", {
@@ -75,7 +76,7 @@ class AdminApplication extends lapis.Application
     render: true
 
 
-  [admin_streak: "/streak/:id"]: capture_errors_json respond_to {
+  [streak: "/streak/:id"]: capture_errors_json respond_to {
     before: =>
       import Streaks from require "models"
       @streak = assert_error Streaks\find(@params.id), "invalid streak"
@@ -85,7 +86,7 @@ class AdminApplication extends lapis.Application
   }
 
 
-  [admin_submission: "/submission/:id"]: capture_errors_json respond_to {
+  [submission: "/submission/:id"]: capture_errors_json respond_to {
     before: =>
       import Submissions from require "models"
       @submission = assert_error Submissions\find(@params.id), "invalid submission"
@@ -135,11 +136,11 @@ class AdminApplication extends lapis.Application
           }
           @session.flash = "Submission updated"
 
-      redirect_to: @url_for "admin_submission", id: @params.id
+      redirect_to: @admin_url_for @submission
   }
 
 
-  [admin_user: "/user/:id"]: capture_errors_json respond_to {
+  [user: "/user/:id"]: capture_errors_json respond_to {
     before: =>
       import Users from require "models"
       @user = assert_error Users\find(@params.id), "invalid user"
@@ -162,10 +163,10 @@ class AdminApplication extends lapis.Application
           @user\set_password @params.password
           @session.flash = "Password updated"
 
-      redirect_to: @url_for "admin_user", id: @user.id
+      redirect_to: @admin_url_for @user
   }
 
-  [admin_send_streak_email: "/email/:streak_id/email"]: capture_errors_json respond_to {
+  [send_streak_email: "/email/:streak_id/email"]: capture_errors_json respond_to {
     before: =>
       import Streaks from require "models"
       assert_error @params, {
@@ -201,7 +202,7 @@ class AdminApplication extends lapis.Application
 
   }
 
-  [admin_email_streak: "/email/:streak_id"]: capture_errors_json respond_to {
+  [email_streak: "/email/:streak_id"]: capture_errors_json respond_to {
     before: =>
       import Streaks from require "models"
       assert_error @params, {

@@ -35,7 +35,7 @@ prepare_submits = (opts) ->
 --   description text NOT NULL,
 --   deleted boolean DEFAULT false NOT NULL,
 --   start_date date NOT NULL,
---   end_date date NOT NULL,
+--   end_date date,
 --   rate integer DEFAULT 0 NOT NULL,
 --   users_count integer DEFAULT 0 NOT NULL,
 --   created_at timestamp without time zone NOT NULL,
@@ -227,6 +227,9 @@ class Streaks extends Model
 
   url_params: =>
     "view_streak", id: @id, slug: @slug!
+
+  admin_url_params: (r, ...) =>
+    "admin.streak", { id: @id }, ...
 
   unit_url_params: (unit_number) =>
     -- url dates are in local time
@@ -669,7 +672,6 @@ class Streaks extends Model
         "Reply-To": require("lapis.config").get!.admin_email
       }
     }
-
 
   @_time_clause: (state) =>
     switch state

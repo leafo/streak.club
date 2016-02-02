@@ -45,7 +45,7 @@ class TableHelpers
 
     if val and field == "ip"
       custom_val = ->
-        a href: @url_for("admin_ip_address", nil, ip: val), val
+        a href: @url_for("admin.ip_address", nil, ip: val), val
 
     field, custom_val or tostring(val), opts
 

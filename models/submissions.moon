@@ -127,6 +127,9 @@ class Submissions extends Model
     else
       "view_submission", id: @id
 
+  admin_url_params: (r, ...) =>
+    "admin.submission", { id: @id }, ...
+
   set_tags: (tags_str) =>
     import SubmissionTags from require "models"
 

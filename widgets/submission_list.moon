@@ -168,11 +168,11 @@ class SubmissionList extends require "widgets.base"
   submission_admin_panel: (submission) =>
     return unless @current_user and @current_user\is_admin!
     div class: "submission_admin", ->
-      a href: @url_for("admin_submission", id: submission.id), "Admin"
+      a href: @admin_url_for(submission), "Admin"
 
       form {
         method: "post"
-        action: @url_for("admin_feature_submission", id: submission.id)
+        action: @url_for("admin.feature_submission", id: submission.id)
         target: "_blank"
       }, ->
         @csrf_input!

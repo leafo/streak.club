@@ -23,6 +23,8 @@ class extends lapis.Application
     expires = date(true)\adddays(365)\fmt "${http}"
     "Expires=#{expires}; Path=/; HttpOnly"
 
+  Request: require "helpers.request"
+
   @enable "exception_tracking"
 
   @include "applications.users"

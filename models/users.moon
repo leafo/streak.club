@@ -138,6 +138,9 @@ class Users extends Model
   url_params: =>
     "user_profile", slug: @slug
 
+  admin_url_params: (r, ...) =>
+    "admin.user", { id: @id }, ...
+
   is_admin: =>
     @admin
 

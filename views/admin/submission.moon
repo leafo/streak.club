@@ -20,7 +20,7 @@ class AdminSubmission extends require "widgets.page"
       {"submitter", ->
         a href: @url_for(user), user\name_for_display!
         text " ("
-        a href: @url_for("admin_user", id: user.id), "Admin"
+        a href: @admin_url_for(user), "Admin"
         text ")"
       }
       {"user_rating", Submissions.user_ratings}
@@ -58,7 +58,7 @@ class AdminSubmission extends require "widgets.page"
           {"streak", ->
             a href: @url_for(streak), streak.title
             text " ("
-            a href: @url_for("admin_streak", id: streak.id), "Admin"
+            a href: @admin_url_for(streak), "Admin"
             text ")"
           }
           "submit_time"

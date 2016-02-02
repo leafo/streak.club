@@ -40,20 +40,20 @@ class AdminStreak extends require "widgets.page"
       "username"
       {"display name", -> text @streak\get_user!\name_for_display! }
       {"", -> a href: @url_for(@streak\get_user!), "Profile"}
-      {"", -> a href: @url_for("admin_user", id: @streak\get_user!.id), "Admin"}
+      {"", -> a href: @admin_url_for(@streak\get_user!), "Admin"}
     }
 
     h3 "Tools"
     fieldset ->
       a {
         class: "button"
-        href: @url_for("admin_email_streak", streak_id: @streak.id)
+        href: @url_for("admin.email_streak", streak_id: @streak.id)
         "Email users..."
       }
       for email in *{"deadline", "late_submit"}
         br!
         br!
-        form method: "post", action: @url_for("admin_send_streak_email", streak_id: @streak.id), ->
+        form method: "post", action: @url_for("admin.send_streak_email", streak_id: @streak.id), ->
           @csrf_input!
           input type: "hidden", name: "email", value: email
 
@@ -63,6 +63,6 @@ class AdminStreak extends require "widgets.page"
             text " email"
 
           text " "
-          a href: @url_for("admin_send_streak_email", { streak_id: @streak.id }, :email),
+          a href: @url_for("admin.send_streak_email", { streak_id: @streak.id }, :email),
             "preview recipients"
 
