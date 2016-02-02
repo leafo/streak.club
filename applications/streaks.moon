@@ -26,9 +26,6 @@ import Streaks, Users from require "models"
 
 date = require "date"
 
-EditStreakFlow = require "flows.edit_streak"
-EditSubmissionFlow = require "flows.edit_submission"
-
 SUBMISSION_PER_PAGE = 25
 
 check_slug = =>
@@ -47,8 +44,7 @@ class StreaksApplication extends lapis.Application
 
     POST: capture_errors_json =>
       assert_csrf @
-      flow = EditStreakFlow @
-      streak = flow\create_streak!
+      streak = @flow("edit_streak")\create_streak!
       streak\join @current_user
       json: { url: @url_for streak }
   }
@@ -68,8 +64,7 @@ class StreaksApplication extends lapis.Application
 
       POST: capture_errors_json =>
         assert_csrf @
-        flow = EditStreakFlow @
-        flow\edit_streak!
+        @flow("edit_streak")\edit_streak!
         @session.flash = "Streak saved"
         json: { url: @url_for @streak }
     }

@@ -1,6 +1,6 @@
 StatsHeader = require "widgets.stats_header"
 import Streaks from require "models"
-import BrowseStreaksFlow from require "flows.browse_streaks"
+BrowseStreaksFlow = require "flows.browse_streaks"
 
 class StatsThisWeek extends require "widgets.page"
   @include "widgets.table_helpers"

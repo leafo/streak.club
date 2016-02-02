@@ -15,9 +15,6 @@ import assert_signed_url from require "helpers.url"
 
 import Submissions, SubmissionComments from require "models"
 
-EditSubmissionFlow = require "flows.edit_submission"
-EditCommentFlow = require "flows.edit_comment"
-
 COMMENTS_PER_PAGE = 25
 
 find_submission = =>
@@ -145,8 +142,7 @@ class SubmissionsApplication extends lapis.Application
 
       POST: capture_errors_json =>
         assert_csrf @
-        flow = EditSubmissionFlow @
-        submission = flow\create_submission!
+        submission = @flow("edit_submission")\create_submission!
         @session.flash = "Submission added"
 
         json: {
@@ -174,8 +170,8 @@ class SubmissionsApplication extends lapis.Application
 
       POST: capture_errors_json =>
         assert_csrf @
-        flow = EditSubmissionFlow @
-        flow\edit_submission!
+        @flow("edit_submission")\edit_submission!
+
         if @params.json
           {
             json: {
@@ -297,9 +293,7 @@ class SubmissionsApplication extends lapis.Application
       POST: capture_errors_json =>
         assert_csrf @
 
-
-        flow = EditCommentFlow @
-        comment = flow\create_comment!
+        comment = @flow("edit_comment")\create_comment!
         comment\get_user!
 
         SubmissionCommentList = require "widgets.submission_comment_list"
@@ -321,8 +315,7 @@ class SubmissionsApplication extends lapis.Application
       find_comment @
       assert_error @comment\allowed_to_edit(@current_user), "invalid comment"
 
-      flow = EditCommentFlow @
-      flow\edit_comment!
+      @flow("edit_comment")\edit_comment!
       @comment\get_user!
 
       SubmissionCommentList = require "widgets.submission_comment_list"
@@ -344,8 +337,7 @@ class SubmissionsApplication extends lapis.Application
       find_comment @
       assert_error @comment\allowed_to_delete(@current_user), "invalid comment"
 
-      flow = EditCommentFlow @
-      deleted = flow\delete_comment!
+      deleted = @flow("edit_comment")\delete_comment!
 
       json: {
         success: true
