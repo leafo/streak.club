@@ -65,6 +65,17 @@ class Streaks extends Model
   @relations: {
     {"featured_streak", has_one: "FeaturedStreaks"}
     {"user", belongs_to: "Users"}
+
+    {"related_streaks",
+      has_many: "RelatedStreaks"
+      order: "position asc"
+    }
+
+    {"other_related_streaks",
+      has_many: "RelatedStreaks"
+      key: "other_streak_id"
+      order: "position asc"
+    }
   }
 
   @rates: enum {

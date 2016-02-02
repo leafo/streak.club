@@ -551,5 +551,21 @@ import
   [1454140126]: =>
     db.query "alter table streaks alter end_date drop not null"
 
+  [1454396365]: =>
+    create_table "related_streaks", {
+      {"streak_id", foreign_key }
+      {"other_streak_id", foreign_key}
+      {"type", enum}
+      {"reason", text null: true}
+      {"position", integer defaut: 0}
+
+      {"created_at", time}
+      {"updated_at", time}
+
+      "PRIMARY KEY (streak_id, type, other_streak_id)"
+    }
+
+    create_index "related_streaks", "other_streak_id", "type"
+
 }
 
