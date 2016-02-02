@@ -568,6 +568,7 @@ class Streaks extends Model
       @users_count
 
   duration: =>
+    return nil unless @end_date
     date.diff(@end_datetime!, @start_datetime!)\spandays!
 
   -- TODO: add a lock on this
