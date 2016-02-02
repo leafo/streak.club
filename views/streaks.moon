@@ -1,5 +1,5 @@
 
-import BrowseStreaksFlow from require "flows.browse_streaks"
+BrowseStreaksFlow = require "flows.browse_streaks"
 StreakList = require "widgets.streak_list"
 
 -- convert to url

@@ -7,10 +7,7 @@ class R extends Request
     unless @[key]
       @[key] = require("flows.#{flow}") @
 
-    if method
-      @[key][method] @[key], ...
-    else
-      @[key]
+    @[key]
 
   admin_url_for: (object, ...) =>
     if object.admin_url_params

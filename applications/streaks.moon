@@ -316,8 +316,8 @@ class StreaksApplication extends lapis.Application
   [streaks: "/streaks"]: =>
     @show_welcome_banner = true
 
-    import BrowseStreaksFlow from require "flows.browse_streaks"
-    flow = BrowseStreaksFlow @
+    flow = @flow "browse_streaks"
+
     @filters, has_invalid = flow\parse_filters!
 
     if has_invalid

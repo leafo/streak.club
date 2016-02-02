@@ -150,9 +150,7 @@ class StreakApi extends lapis.Application
     json: out
 
   "/api/1/streaks": api_request =>
-    import BrowseStreaksFlow from require "flows.browse_streaks"
-    flow = BrowseStreaksFlow @
-    flow\browse_by_filters {}
+    @flow("browse_streaks")\browse_by_filters {}
 
     json: {
       streaks: [format_streak streak for streak in *@streaks]

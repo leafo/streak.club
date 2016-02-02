@@ -55,7 +55,7 @@ class extends lapis.Application
   [index: "/"]: ensure_https =>
 
     if @current_user
-      return @flow "dashboard", "render"
+      return @flow("dashboard")\render!
 
     import FeaturedStreaks, FeaturedSubmissions, Streaks, Users from require "models"
     featured = FeaturedStreaks\select "order by position desc limit 4"

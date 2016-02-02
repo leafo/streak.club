@@ -121,5 +121,3 @@ class BrowseStreaksFlow extends Flow
     @streaks = @pager\get_page @page
     @streaks
 
-
-{:BrowseStreaksFlow}
