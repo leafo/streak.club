@@ -53,36 +53,32 @@ class extends lapis.Application
   handle_404: => not_found
 
   [index: "/"]: ensure_https =>
+
     if @current_user
-      @created_streaks = @current_user\find_hosted_streaks!\get_page!
-      @active_streaks = @current_user\find_participating_streaks(state: "active")\get_page!
-      @completed_streaks = @current_user\find_participating_streaks(state: "completed")\get_page!
-      @unseen_feed_count = @current_user\unseen_feed_count!
+      return @flow "dashboard", "render"
 
-      render: "dashboard"
-    else
-      import FeaturedStreaks, FeaturedSubmissions, Streaks, Users from require "models"
-      featured = FeaturedStreaks\select "order by position desc limit 4"
+    import FeaturedStreaks, FeaturedSubmissions, Streaks, Users from require "models"
+    featured = FeaturedStreaks\select "order by position desc limit 4"
 
-      Streaks\include_in featured, "streak_id"
-      @featured_streaks = [f.streak for f in *featured]
-      Users\include_in @featured_streaks, "user_id"
+    Streaks\include_in featured, "streak_id"
+    @featured_streaks = [f.streak for f in *featured]
+    Users\include_in @featured_streaks, "user_id"
 
-      @mobile_friendly = true
+    @mobile_friendly = true
 
-      @featured_submissions = FeaturedSubmissions\find_submissions!\get_page!
+    @featured_submissions = FeaturedSubmissions\find_submissions!\get_page!
 
-      -- filter out things that don't have image
-      @featured_submissions = for sub in *@featured_submissions
-        has_image = false
-        for upload in *sub.uploads
-          has_image = true if upload\is_image!
-          break if has_image
+    -- filter out things that don't have image
+    @featured_submissions = for sub in *@featured_submissions
+      has_image = false
+      for upload in *sub.uploads
+        has_image = true if upload\is_image!
+        break if has_image
 
-        continue unless has_image
-        sub
+      continue unless has_image
+      sub
 
-      render: "index_logged_out"
+    render: "index_logged_out"
 
   [notifications: "/notifications"]: require_login =>
     import Notifications from require "models"
