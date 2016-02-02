@@ -553,6 +553,7 @@ import
 
   [1454396365]: =>
     create_table "related_streaks", {
+      {"id", serial}
       {"streak_id", foreign_key }
       {"other_streak_id", foreign_key}
       {"type", enum}
@@ -562,9 +563,10 @@ import
       {"created_at", time}
       {"updated_at", time}
 
-      "PRIMARY KEY (streak_id, type, other_streak_id)"
+      "PRIMARY KEY (id)"
     }
 
+    create_index "related_streaks", "streak_id", "type", "other_streak_id", unique: true
     create_index "related_streaks", "other_streak_id", "type"
 
 }

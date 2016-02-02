@@ -16,12 +16,16 @@ import Model, enum from require "lapis.db.model"
 -- CREATE INDEX related_streaks_other_streak_id_type_idx ON related_streaks USING btree (other_streak_id, type);
 --
 class RelatedStreaks extends Model
-  @primary_key: {"streak_id", "type", "other_streak_id"}
   @timestamp: true
 
   @types: enum {
     related: 1
     substreak: 2
+  }
+
+  @relations: {
+    {"streak", belongs_to: "Streaks"}
+    {"other_streak", belongs_to: "Streaks"}
   }
 
   @create: (opts={}, ...) =>
