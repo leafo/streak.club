@@ -1,13 +1,13 @@
 import Request from require "lapis.application"
 
 class R extends Request
-  flow: (flow, method) =>
+  flow: (flow, method, ...) =>
     key = "_flow_#{flow}"
 
     unless @[key]
       @[key] = require("flows.#{flow}") @
 
-    @[key][method] @[key]
+    @[key][method] @[key], ...
 
   admin_url_for: (object, ...) =>
     if object.admin_url_params
