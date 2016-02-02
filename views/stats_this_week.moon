@@ -145,6 +145,11 @@ class StatsThisWeek extends require "widgets.page"
             a href: @url_for(user), user\name_for_display!
 
           td Streaks.rates[streak.rate]
-          td @plural math.floor(streak\duration!), "day", "days"
+          td ->
+            if duration = streak\duration!
+              text @plural math.floor(duration), "day", "days"
+            else
+              em class: "sub", "n/a"
+
           td @plural streak\approved_participants_count!, "participant", "participants"
 
