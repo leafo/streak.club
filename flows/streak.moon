@@ -47,6 +47,8 @@ class StreakFlow extends Flow
     @unit_counts = @streak\unit_submission_counts!
     @streak_host = @streak\get_user!
     @streak_host.following = @streak_host\followed_by @current_user
+
+    @setup_twitter_card!
     render: true
 
   do_streak_action: =>
@@ -71,8 +73,9 @@ class StreakFlow extends Flow
     redirect_to: @url_for @streak
 
   setup_twitter_card: =>
-    -- get the submissions that have been featured in this streak
-    -- get featured submissions for card
+    seen_submissions = {}
+    out_uploads = {}
+
     import Submissions, FeaturedSubmissions from require "models"
     featured_submissions = FeaturedSubmissions\select "
       where submission_id in
@@ -85,7 +88,25 @@ class StreakFlow extends Flow
     subs = [fs\get_submission! for fs in *featured_submissions]
     Submissions\preload_relations subs, "uploads"
 
-    -- don't have enough, fill with submissions from this page...
+    for fs in *featured_submissions
+      break if #out_uploads >= 4
+      s = fs\get_submission!
 
+      for upload in *s\get_uploads!
+        if upload\is_image!
+          seen_submissions[s.id] = true
+          table.insert out_uploads, upload
+          break
 
+    for s in *@submissions
+      break if #out_uploads >= 4
+      continue if seen_submissions[s.id]
+
+      for upload in *s\get_uploads!
+        if upload\is_image!
+          seen_submissions[s.id] = true
+          table.insert out_uploads, upload
+          break
+
+    @card_images = out_uploads
 

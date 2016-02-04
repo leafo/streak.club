@@ -13,6 +13,7 @@ UserList = require "widgets.user_list"
 
 class ViewStreak extends require "widgets.page"
   @needs: {"streak", "streak_host", "unit_counts", "completed_units"}
+  @include "widgets.twitter_card_helpers"
 
   page_name: "overview"
 
@@ -32,6 +33,9 @@ class ViewStreak extends require "widgets.page"
     "new S.ViewStreak(#{@widget_selector!}, #{to_json opts});"
 
   inner_content: =>
+    @content_for "meta_tags", ->
+      @twitter_card_for_streak @streak, @card_images
+
     if not @embed_page and @current_user and @current_user\is_admin!
       @admin_tools!
 
