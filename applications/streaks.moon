@@ -123,6 +123,18 @@ class StreaksApplication extends lapis.Application
       @streak_host = @streak\get_user!
       @streak_host.following = @streak_host\followed_by @current_user
 
+      -- get featured submissions for card
+      import FeaturedSubmissions from require "models"
+      @featured_submissions = FeaturedSubmissions\select "
+        where submission_id in
+          (select submission_id from streak_submissions where streak_id = ?)
+        limit 8
+      ", @streak.id
+
+      FeaturedSubmissions\preload_relations @featured_submissions, "submission"
+      subs = [fs\get_submission! for fs in *@featured_submissions]
+      Submissions\preload_relations subs, "uploads"
+
       render: true
 
     POST: capture_errors_json =>

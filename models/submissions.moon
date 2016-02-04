@@ -34,6 +34,12 @@ class Submissions extends Model
     {"featured_submission", has_one: "FeaturedSubmissions"}
     {"streak_submissions", has_many: "StreakSubmissions"}
     {"tags", has_many: "SubmissionTags"}
+    {"uploads"
+      has_many: "Uploads"
+      key: "object_id"
+      where: { object_type: 1, ready: true }
+      order: "position asc"
+    }
   }
 
   @user_ratings: enum {
