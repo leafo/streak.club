@@ -1,4 +1,7 @@
 
+
+SUBMISSIONS_PER_PAGE = 25
+
 render_submissions_page = (per_page, opts={}) =>
   assert @submissions, "missing submissions"
 
@@ -15,4 +18,4 @@ render_submissions_page = (per_page, opts={}) =>
   }
 
 
-{ :render_submissions_page }
+{ :render_submissions_page, :SUBMISSIONS_PER_PAGE }
