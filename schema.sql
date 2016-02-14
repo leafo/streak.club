@@ -313,6 +313,45 @@ ALTER SEQUENCE notifications_user_id_seq OWNED BY notifications.user_id;
 
 
 --
+-- Name: related_streaks; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE related_streaks (
+    id integer NOT NULL,
+    streak_id integer NOT NULL,
+    other_streak_id integer NOT NULL,
+    type smallint NOT NULL,
+    reason text,
+    "position" integer DEFAULT 0 NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE related_streaks OWNER TO postgres;
+
+--
+-- Name: related_streaks_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE related_streaks_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE related_streaks_id_seq OWNER TO postgres;
+
+--
+-- Name: related_streaks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE related_streaks_id_seq OWNED BY related_streaks.id;
+
+
+--
 -- Name: streak_submissions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -374,7 +413,7 @@ CREATE TABLE streaks (
     description text NOT NULL,
     deleted boolean DEFAULT false NOT NULL,
     start_date date NOT NULL,
-    end_date date NOT NULL,
+    end_date date,
     rate integer DEFAULT 0 NOT NULL,
     users_count integer DEFAULT 0 NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -694,6 +733,13 @@ ALTER TABLE ONLY notifications ALTER COLUMN user_id SET DEFAULT nextval('notific
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
+ALTER TABLE ONLY related_streaks ALTER COLUMN id SET DEFAULT nextval('related_streaks_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
 ALTER TABLE ONLY streaks ALTER COLUMN id SET DEFAULT nextval('streaks_id_seq'::regclass);
 
 
@@ -811,6 +857,14 @@ ALTER TABLE ONLY notification_objects
 
 ALTER TABLE ONLY notifications
     ADD CONSTRAINT notifications_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: related_streaks_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY related_streaks
+    ADD CONSTRAINT related_streaks_pkey PRIMARY KEY (id);
 
 
 --
@@ -976,6 +1030,20 @@ CREATE INDEX notifications_user_id_seen_id_idx ON notifications USING btree (use
 --
 
 CREATE UNIQUE INDEX notifications_user_id_type_object_type_object_id_idx ON notifications USING btree (user_id, type, object_type, object_id) WHERE (NOT seen);
+
+
+--
+-- Name: related_streaks_other_streak_id_type_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX related_streaks_other_streak_id_type_idx ON related_streaks USING btree (other_streak_id, type);
+
+
+--
+-- Name: related_streaks_streak_id_type_other_streak_id_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE UNIQUE INDEX related_streaks_streak_id_type_other_streak_id_idx ON related_streaks USING btree (streak_id, type, other_streak_id);
 
 
 --
@@ -1246,6 +1314,8 @@ COPY lapis_migrations (name) FROM stdin;
 1443853745
 1444151912
 1445927662
+1454140126
+1454396365
 \.
 
 

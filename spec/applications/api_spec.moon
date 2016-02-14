@@ -91,7 +91,6 @@ describe "api", ->
         joined: {}
       }, res
 
-
     it "should get my-streaks with joined streaks", ->
       s1 = factory.Streaks state: "before_start"
       s2 = factory.Streaks state: "after_end"
@@ -111,6 +110,15 @@ describe "api", ->
     it "should get my-streaks with hosted streaks", ->
       s = factory.Streaks state: "before_start", user_id: current_user.id
       status, res = request_with_key "/api/1/my-streaks"
+
+      import types from require "tableshape"
+
+      t = types.shape {
+        hosted: types.table
+        joined: types.table
+      }
+
+      assert t res
 
       assert.same {}, res.joined
       assert.same {s.id}, [s.id for s in *res.hosted.upcoming]
