@@ -26,6 +26,7 @@ class S.SubmissionList
         btn.fadeOut => btn.remove()
         inside.animate maxHeight: inside[0].scrollHeight, =>
           inside.removeClass("truncated")
+          @el.trigger "s:reshape"
 
       play_audio_btn: (btn) =>
         audio_row = btn.closest ".submission_audio"
