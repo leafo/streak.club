@@ -265,9 +265,9 @@ class S.SubmissionList
 
           if res.rendered
             new_items = $ res.rendered
-            console.log @el.append new_items
-            @el.trigger "s:reshape"
 
+            @el.append new_items
+            @el.trigger "s:reshape"
             @setup_truncation new_items
 
             new_items.find(".submission_content img").load =>
