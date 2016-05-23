@@ -21,6 +21,12 @@ class S.SubmissionList
       btn.data "count", new_count
 
     @el.dispatch "click", {
+      unroll_submission: (btn) =>
+        inside = btn.closest(".submission_inside_content")
+        btn.fadeOut => btn.remove()
+        inside.animate maxHeight: inside[0].scrollHeight, =>
+          inside.removeClass("truncated")
+
       play_audio_btn: (btn) =>
         audio_row = btn.closest ".submission_audio"
         return if audio_row.is ".loading"
@@ -227,10 +233,20 @@ class S.SubmissionList
             @el.trigger "s:reshape"
           , 500
 
-  setup_truncation: (content=@el.find ".submission_content")=>
+  setup_truncation: (content=@el.find ".submission_inside_content")=>
+    add_unroll = (el) ->
+      return unless el.is ".truncated"
+      if el[0].scrollHeight > el.height()
+        unroll = el.find ".unroll_submission"
+        return if unroll.length
+        el.append '<div class="unroll_submission">View rest ↓</div>'
+
     for item in content
-      item = $(item)
-      item.css maxHeight: "200px"
+      do (item) ->
+        item = $(item)
+        add_unroll item
+        item.find("img").load =>
+          add_unroll item
 
   setup_paging: =>
     scroller = new S.InfiniteScroll @el, {

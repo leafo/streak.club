@@ -36,6 +36,28 @@
             margin-left: 98px;
         }
 
+        .submission_inside_content {
+            &.truncated {
+                max-height: 650px;
+                overflow: hidden;
+                position: relative;
+
+            }
+
+            .unroll_submission {
+                position: absolute;
+                background: linear-gradient(to bottom, rgba(white, 0), white 50%, white);
+                font-size: 16px;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                text-align: center;
+                padding: 20px 0 5px 0;
+                color: $link_color;
+                cursor: pointer;
+            }
+        }
+
         .submission_header {
             position: relative;
             border-bottom: 1px solid $border_color;

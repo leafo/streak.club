@@ -130,14 +130,14 @@ class SubmissionList extends require "widgets.base"
                 text "This submission is part of a hidden streak but you have
                 permission to see it."
 
-          div class: "submission_content", ->
+          div class: "submission_inside_content truncated", ->
             if submission.description and not is_empty_html submission.description
               div class: "user_formatted", ->
                 raw sanitize_html submission.description
             elseif not (submission.uploads and next submission.uploads)
               p class: "empty_message", "This submission is empty"
 
-          @render_uploads submission
+            @render_uploads submission
 
           div class: "submission_footer", ->
             div class: "footer_inside", ->
