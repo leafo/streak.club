@@ -299,6 +299,8 @@ class S.InfiniteScroll
       if win.scrollTop() + win.height() >= @loading_row.offset().top
         @get_next_page()
 
+    check_scroll_pos = _.throttle check_scroll_pos, 100
+
     win.on "scroll.browse_loader", check_scroll_pos
     _.defer => check_scroll_pos()
 
