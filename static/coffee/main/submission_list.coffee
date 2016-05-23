@@ -7,6 +7,8 @@ class S.SubmissionList
     @setup_comments()
     @setup_paging()
 
+    @setup_truncation()
+
     @el.has_tooltips()
 
     @el.find(".submission_content img").load =>
@@ -225,6 +227,10 @@ class S.SubmissionList
             @el.trigger "s:reshape"
           , 500
 
+  setup_truncation: (content=@el.find ".submission_content")=>
+    for item in content
+      item = $(item)
+      item.css maxHeight: "200px"
 
   setup_paging: =>
     scroller = new S.InfiniteScroll @el, {
