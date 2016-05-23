@@ -2,12 +2,16 @@
 -- PostgreSQL database dump
 --
 
+-- Dumped from database version 9.5.2
+-- Dumped by pg_dump version 9.5.2
+
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
+SET row_security = off;
 
 --
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
@@ -44,7 +48,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: api_keys; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: api_keys; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE api_keys (
@@ -81,7 +85,7 @@ ALTER SEQUENCE api_keys_id_seq OWNED BY api_keys.id;
 
 
 --
--- Name: daily_audio_plays; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: daily_audio_plays; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE daily_audio_plays (
@@ -94,7 +98,7 @@ CREATE TABLE daily_audio_plays (
 ALTER TABLE daily_audio_plays OWNER TO postgres;
 
 --
--- Name: daily_upload_downloads; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: daily_upload_downloads; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE daily_upload_downloads (
@@ -107,7 +111,7 @@ CREATE TABLE daily_upload_downloads (
 ALTER TABLE daily_upload_downloads OWNER TO postgres;
 
 --
--- Name: exception_requests; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: exception_requests; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE exception_requests (
@@ -149,7 +153,7 @@ ALTER SEQUENCE exception_requests_id_seq OWNED BY exception_requests.id;
 
 
 --
--- Name: exception_types; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: exception_types; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE exception_types (
@@ -185,7 +189,7 @@ ALTER SEQUENCE exception_types_id_seq OWNED BY exception_types.id;
 
 
 --
--- Name: featured_streaks; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: featured_streaks; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE featured_streaks (
@@ -199,7 +203,7 @@ CREATE TABLE featured_streaks (
 ALTER TABLE featured_streaks OWNER TO postgres;
 
 --
--- Name: featured_submissions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: featured_submissions; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE featured_submissions (
@@ -212,7 +216,7 @@ CREATE TABLE featured_submissions (
 ALTER TABLE featured_submissions OWNER TO postgres;
 
 --
--- Name: followings; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: followings; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE followings (
@@ -226,7 +230,7 @@ CREATE TABLE followings (
 ALTER TABLE followings OWNER TO postgres;
 
 --
--- Name: lapis_migrations; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: lapis_migrations; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE lapis_migrations (
@@ -237,7 +241,7 @@ CREATE TABLE lapis_migrations (
 ALTER TABLE lapis_migrations OWNER TO postgres;
 
 --
--- Name: notification_objects; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: notification_objects; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE notification_objects (
@@ -252,7 +256,7 @@ CREATE TABLE notification_objects (
 ALTER TABLE notification_objects OWNER TO postgres;
 
 --
--- Name: notifications; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: notifications; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE notifications (
@@ -313,7 +317,7 @@ ALTER SEQUENCE notifications_user_id_seq OWNED BY notifications.user_id;
 
 
 --
--- Name: related_streaks; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: related_streaks; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE related_streaks (
@@ -352,7 +356,7 @@ ALTER SEQUENCE related_streaks_id_seq OWNED BY related_streaks.id;
 
 
 --
--- Name: streak_submissions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: streak_submissions; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE streak_submissions (
@@ -367,7 +371,7 @@ CREATE TABLE streak_submissions (
 ALTER TABLE streak_submissions OWNER TO postgres;
 
 --
--- Name: streak_user_notification_settings; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: streak_user_notification_settings; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE streak_user_notification_settings (
@@ -383,7 +387,7 @@ CREATE TABLE streak_user_notification_settings (
 ALTER TABLE streak_user_notification_settings OWNER TO postgres;
 
 --
--- Name: streak_users; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: streak_users; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE streak_users (
@@ -402,7 +406,7 @@ CREATE TABLE streak_users (
 ALTER TABLE streak_users OWNER TO postgres;
 
 --
--- Name: streaks; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: streaks; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE streaks (
@@ -455,7 +459,7 @@ ALTER SEQUENCE streaks_id_seq OWNED BY streaks.id;
 
 
 --
--- Name: submission_comments; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: submission_comments; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE submission_comments (
@@ -494,7 +498,7 @@ ALTER SEQUENCE submission_comments_id_seq OWNED BY submission_comments.id;
 
 
 --
--- Name: submission_likes; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: submission_likes; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE submission_likes (
@@ -508,7 +512,7 @@ CREATE TABLE submission_likes (
 ALTER TABLE submission_likes OWNER TO postgres;
 
 --
--- Name: submission_tags; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: submission_tags; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE submission_tags (
@@ -521,7 +525,7 @@ CREATE TABLE submission_tags (
 ALTER TABLE submission_tags OWNER TO postgres;
 
 --
--- Name: submissions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: submissions; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE submissions (
@@ -565,7 +569,7 @@ ALTER SEQUENCE submissions_id_seq OWNED BY submissions.id;
 
 
 --
--- Name: uploads; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: uploads; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE uploads (
@@ -612,7 +616,7 @@ ALTER SEQUENCE uploads_id_seq OWNED BY uploads.id;
 
 
 --
--- Name: user_ip_addresses; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: user_ip_addresses; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE user_ip_addresses (
@@ -626,7 +630,7 @@ CREATE TABLE user_ip_addresses (
 ALTER TABLE user_ip_addresses OWNER TO postgres;
 
 --
--- Name: user_profiles; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: user_profiles; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE user_profiles (
@@ -643,7 +647,7 @@ CREATE TABLE user_profiles (
 ALTER TABLE user_profiles OWNER TO postgres;
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE users (
@@ -772,7 +776,7 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 
 
 --
--- Name: api_keys_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: api_keys_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY api_keys
@@ -780,7 +784,7 @@ ALTER TABLE ONLY api_keys
 
 
 --
--- Name: daily_audio_plays_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: daily_audio_plays_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY daily_audio_plays
@@ -788,7 +792,7 @@ ALTER TABLE ONLY daily_audio_plays
 
 
 --
--- Name: daily_upload_downloads_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: daily_upload_downloads_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY daily_upload_downloads
@@ -796,7 +800,7 @@ ALTER TABLE ONLY daily_upload_downloads
 
 
 --
--- Name: exception_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: exception_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY exception_requests
@@ -804,7 +808,7 @@ ALTER TABLE ONLY exception_requests
 
 
 --
--- Name: exception_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: exception_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY exception_types
@@ -812,7 +816,7 @@ ALTER TABLE ONLY exception_types
 
 
 --
--- Name: featured_streaks_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: featured_streaks_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY featured_streaks
@@ -820,7 +824,7 @@ ALTER TABLE ONLY featured_streaks
 
 
 --
--- Name: featured_submissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: featured_submissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY featured_submissions
@@ -828,7 +832,7 @@ ALTER TABLE ONLY featured_submissions
 
 
 --
--- Name: followings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: followings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY followings
@@ -836,7 +840,7 @@ ALTER TABLE ONLY followings
 
 
 --
--- Name: lapis_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: lapis_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY lapis_migrations
@@ -844,7 +848,7 @@ ALTER TABLE ONLY lapis_migrations
 
 
 --
--- Name: notification_objects_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: notification_objects_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY notification_objects
@@ -852,7 +856,7 @@ ALTER TABLE ONLY notification_objects
 
 
 --
--- Name: notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY notifications
@@ -860,7 +864,7 @@ ALTER TABLE ONLY notifications
 
 
 --
--- Name: related_streaks_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: related_streaks_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY related_streaks
@@ -868,7 +872,7 @@ ALTER TABLE ONLY related_streaks
 
 
 --
--- Name: streak_submissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: streak_submissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY streak_submissions
@@ -876,7 +880,7 @@ ALTER TABLE ONLY streak_submissions
 
 
 --
--- Name: streak_user_notification_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: streak_user_notification_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY streak_user_notification_settings
@@ -884,7 +888,7 @@ ALTER TABLE ONLY streak_user_notification_settings
 
 
 --
--- Name: streak_users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: streak_users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY streak_users
@@ -892,7 +896,7 @@ ALTER TABLE ONLY streak_users
 
 
 --
--- Name: streaks_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: streaks_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY streaks
@@ -900,7 +904,7 @@ ALTER TABLE ONLY streaks
 
 
 --
--- Name: submission_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: submission_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY submission_comments
@@ -908,7 +912,7 @@ ALTER TABLE ONLY submission_comments
 
 
 --
--- Name: submission_likes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: submission_likes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY submission_likes
@@ -916,7 +920,7 @@ ALTER TABLE ONLY submission_likes
 
 
 --
--- Name: submission_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: submission_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY submission_tags
@@ -924,7 +928,7 @@ ALTER TABLE ONLY submission_tags
 
 
 --
--- Name: submissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: submissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY submissions
@@ -932,7 +936,7 @@ ALTER TABLE ONLY submissions
 
 
 --
--- Name: uploads_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: uploads_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY uploads
@@ -940,7 +944,7 @@ ALTER TABLE ONLY uploads
 
 
 --
--- Name: user_ip_addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: user_ip_addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY user_ip_addresses
@@ -948,7 +952,7 @@ ALTER TABLE ONLY user_ip_addresses
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY users
@@ -956,266 +960,266 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: api_keys_key_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: api_keys_key_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE UNIQUE INDEX api_keys_key_idx ON api_keys USING btree (key);
 
 
 --
--- Name: api_keys_user_id_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: api_keys_user_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX api_keys_user_id_idx ON api_keys USING btree (user_id);
 
 
 --
--- Name: exception_requests_exception_type_id_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: exception_requests_exception_type_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX exception_requests_exception_type_id_idx ON exception_requests USING btree (exception_type_id);
 
 
 --
--- Name: exception_types_label_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: exception_types_label_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX exception_types_label_idx ON exception_types USING btree (label);
 
 
 --
--- Name: featured_streaks_created_at_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: featured_streaks_created_at_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX featured_streaks_created_at_idx ON featured_streaks USING btree (created_at);
 
 
 --
--- Name: featured_streaks_position_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: featured_streaks_position_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE UNIQUE INDEX featured_streaks_position_idx ON featured_streaks USING btree ("position");
 
 
 --
--- Name: followings_dest_user_id_created_at_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: followings_dest_user_id_created_at_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX followings_dest_user_id_created_at_idx ON followings USING btree (dest_user_id, created_at);
 
 
 --
--- Name: followings_dest_user_id_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: followings_dest_user_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX followings_dest_user_id_idx ON followings USING btree (dest_user_id);
 
 
 --
--- Name: followings_source_user_id_created_at_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: followings_source_user_id_created_at_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX followings_source_user_id_created_at_idx ON followings USING btree (source_user_id, created_at);
 
 
 --
--- Name: notifications_user_id_seen_id_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: notifications_user_id_seen_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX notifications_user_id_seen_id_idx ON notifications USING btree (user_id, seen, id);
 
 
 --
--- Name: notifications_user_id_type_object_type_object_id_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: notifications_user_id_type_object_type_object_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE UNIQUE INDEX notifications_user_id_type_object_type_object_id_idx ON notifications USING btree (user_id, type, object_type, object_id) WHERE (NOT seen);
 
 
 --
--- Name: related_streaks_other_streak_id_type_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: related_streaks_other_streak_id_type_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX related_streaks_other_streak_id_type_idx ON related_streaks USING btree (other_streak_id, type);
 
 
 --
--- Name: related_streaks_streak_id_type_other_streak_id_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: related_streaks_streak_id_type_other_streak_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE UNIQUE INDEX related_streaks_streak_id_type_other_streak_id_idx ON related_streaks USING btree (streak_id, type, other_streak_id);
 
 
 --
--- Name: steaks_title_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: steaks_title_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX steaks_title_idx ON streaks USING gin (title gin_trgm_ops) WHERE ((NOT deleted) AND (publish_status = 2));
 
 
 --
--- Name: streak_submissions_streak_id_submit_time_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: streak_submissions_streak_id_submit_time_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX streak_submissions_streak_id_submit_time_idx ON streak_submissions USING btree (streak_id, submit_time);
 
 
 --
--- Name: streak_submissions_streak_id_user_id_submit_time_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: streak_submissions_streak_id_user_id_submit_time_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX streak_submissions_streak_id_user_id_submit_time_idx ON streak_submissions USING btree (streak_id, user_id, submit_time);
 
 
 --
--- Name: streak_submissions_submission_id_streak_id_submit_time_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: streak_submissions_submission_id_streak_id_submit_time_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX streak_submissions_submission_id_streak_id_submit_time_idx ON streak_submissions USING btree (submission_id, streak_id, submit_time);
 
 
 --
--- Name: streak_users_streak_id_created_at_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: streak_users_streak_id_created_at_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX streak_users_streak_id_created_at_idx ON streak_users USING btree (streak_id, created_at);
 
 
 --
--- Name: streak_users_streak_id_pending_created_at_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: streak_users_streak_id_pending_created_at_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX streak_users_streak_id_pending_created_at_idx ON streak_users USING btree (streak_id, pending, created_at);
 
 
 --
--- Name: streak_users_user_id_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: streak_users_user_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX streak_users_user_id_idx ON streak_users USING btree (user_id);
 
 
 --
--- Name: streaks_publish_status_users_count_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: streaks_publish_status_users_count_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX streaks_publish_status_users_count_idx ON streaks USING btree (publish_status, users_count);
 
 
 --
--- Name: streaks_user_id_publish_status_created_at_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: streaks_user_id_publish_status_created_at_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX streaks_user_id_publish_status_created_at_idx ON streaks USING btree (user_id, publish_status, created_at);
 
 
 --
--- Name: submission_comments_submission_id_id_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: submission_comments_submission_id_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX submission_comments_submission_id_id_idx ON submission_comments USING btree (submission_id, id) WHERE (NOT deleted);
 
 
 --
--- Name: submission_comments_user_id_id_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: submission_comments_user_id_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX submission_comments_user_id_id_idx ON submission_comments USING btree (user_id, id) WHERE (NOT deleted);
 
 
 --
--- Name: submission_likes_user_id_created_at_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: submission_likes_user_id_created_at_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX submission_likes_user_id_created_at_idx ON submission_likes USING btree (user_id, created_at);
 
 
 --
--- Name: submission_tags_slug_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: submission_tags_slug_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX submission_tags_slug_idx ON submission_tags USING btree (slug);
 
 
 --
--- Name: submission_tags_user_id_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: submission_tags_user_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX submission_tags_user_id_idx ON submission_tags USING btree (user_id);
 
 
 --
--- Name: submissions_user_id_id_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: submissions_user_id_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX submissions_user_id_id_idx ON submissions USING btree (user_id, id);
 
 
 --
--- Name: submissions_user_id_id_not_hidden_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: submissions_user_id_id_not_hidden_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX submissions_user_id_id_not_hidden_idx ON submissions USING btree (user_id, id) WHERE (NOT hidden);
 
 
 --
--- Name: submissions_user_id_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: submissions_user_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX submissions_user_id_idx ON submissions USING btree (user_id);
 
 
 --
--- Name: uploads_object_type_object_id_position_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: uploads_object_type_object_id_position_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX uploads_object_type_object_id_position_idx ON uploads USING btree (object_type, object_id, "position") WHERE ready;
 
 
 --
--- Name: uploads_user_id_type_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: uploads_user_id_type_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX uploads_user_id_type_idx ON uploads USING btree (user_id, type);
 
 
 --
--- Name: user_ip_addresses_ip_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: user_ip_addresses_ip_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX user_ip_addresses_ip_idx ON user_ip_addresses USING btree (ip);
 
 
 --
--- Name: user_profiles_password_reset_token_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: user_profiles_password_reset_token_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX user_profiles_password_reset_token_idx ON user_profiles USING btree (password_reset_token) WHERE (password_reset_token IS NOT NULL);
 
 
 --
--- Name: users_lower_email_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: users_lower_email_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE UNIQUE INDEX users_lower_email_idx ON users USING btree (lower((email)::text));
 
 
 --
--- Name: users_lower_username_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: users_lower_username_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE UNIQUE INDEX users_lower_username_idx ON users USING btree (lower((username)::text));
 
 
 --
--- Name: users_slug_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: users_slug_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE UNIQUE INDEX users_slug_idx ON users USING btree (slug);
 
 
 --
--- Name: users_username_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: users_username_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX users_username_idx ON users USING gin (username gin_trgm_ops);
@@ -1239,12 +1243,16 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 -- PostgreSQL database dump
 --
 
+-- Dumped from database version 9.5.2
+-- Dumped by pg_dump version 9.5.2
+
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
+SET row_security = off;
 
 SET search_path = public, pg_catalog;
 
