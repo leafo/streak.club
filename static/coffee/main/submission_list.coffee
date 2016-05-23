@@ -234,7 +234,9 @@ class S.SubmissionList
             @el.trigger "s:reshape"
           , 500
 
-  setup_truncation: (content=@el.find ".submission_inside_content")=>
+  setup_truncation: (container=@el) ->
+    items = container.find ".submission_inside_content"
+
     add_unroll = (el) ->
       return unless el.is ".truncated"
       if el[0].scrollHeight > el.height()
@@ -242,7 +244,7 @@ class S.SubmissionList
         return if unroll.length
         el.append '<div class="unroll_submission">View rest ↓</div>'
 
-    for item in content
+    for item in items
       do (item) ->
         item = $(item)
         add_unroll item
@@ -263,8 +265,12 @@ class S.SubmissionList
 
           if res.rendered
             new_items = $ res.rendered
-            @el.find(".submission_list").append new_items
+            console.log @el.append new_items
             @el.trigger "s:reshape"
-            new_items.find(".submission_content img").load => @el.trigger "s:reshape"
+
+            @setup_truncation new_items
+
+            new_items.find(".submission_content img").load =>
+              @el.trigger "s:reshape"
     }
 
