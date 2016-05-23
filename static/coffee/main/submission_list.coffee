@@ -260,17 +260,18 @@ class S.SubmissionList
         $.get "", { page: @opts.page, format: "json" }, (res) =>
           load_els.removeClass "loading"
 
-          unless res.has_more
-            scroller.remove_loader()
-
           if res.rendered
             new_items = $ res.rendered
 
-            @el.append new_items
+            scroller.loading_row.before new_items
             @el.trigger "s:reshape"
             @setup_truncation new_items
 
             new_items.find(".submission_content img").load =>
               @el.trigger "s:reshape"
+
+          unless res.has_more
+            scroller.remove_loader()
+
     }
 
