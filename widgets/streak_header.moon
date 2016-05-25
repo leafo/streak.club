@@ -1,6 +1,11 @@
 
+import Streaks from require "models"
+BrowseStreaksFlow = require "flows.browse_streaks"
+
 class StreakHeader extends require "widgets.base"
   @include "widgets.tabs_helpers"
+
+  show_breadcrumbs: true
 
   widget_classes: =>
     super! .. " tab_header"
@@ -20,6 +25,23 @@ class StreakHeader extends require "widgets.base"
       }
 
     div class: "page_header", ->
+      if @show_breadcrumbs
+        div class: "breadcrumbs", ->
+          a href: @url_for("streaks"), "Streaks"
+          text " › "
+          category = Streaks.categories\to_name @streak.category
+          cat_url = @flow("browse_streaks")\filtered_url { :category }
+          cat_name = BrowseStreaksFlow.filter_names.category[category]
+
+
+          a href: cat_url, cat_name
+          text " › "
+
+          state = @streak\state_name!
+          state_url = @flow("browse_streaks")\filtered_url { :state }
+          state_name = BrowseStreaksFlow.filter_names.state[state]
+          a href: state_url, state_name
+
       h2 ->
         a href: @url_for(@streak), @streak.title
 

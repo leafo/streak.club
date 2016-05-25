@@ -673,6 +673,14 @@ class Streaks extends Model
       }
     }
 
+  state_name: =>
+    if @during!
+      "active"
+    elseif @before_start!
+      "upcoming"
+    else
+      "completed"
+
   @_time_clause: (state) =>
     switch state
       when "active"

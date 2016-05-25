@@ -1,8 +1,15 @@
 db = require "lapis.db"
 
 import Flow from require "lapis.flow"
-
 import assert_page from require "helpers.app"
+
+-- convert to url
+flatten_filters = (filters) ->
+  slugs = [val for k, val in pairs filters]
+  table.sort slugs
+  path = table.concat slugs, "/"
+  path = "/" .. path if path != ""
+  path
 
 flip_filters = (filters) ->
   out = {}
@@ -63,6 +70,18 @@ class BrowseStreaksFlow extends Flow
     slug, name
 
   expose_assigns: true
+
+  filtered_url: (filters) =>
+    base_url = @url_for("streaks")
+
+    filters = {k,v for k,v in pairs filters}
+    for k,v in pairs filters
+      slug = @@filters[k][v]
+      slug = v if slug == true
+      filters[k] = slug
+
+    filters_suffix = flatten_filters filters
+    "#{base_url}#{filters_suffix}"
 
   filtered_title: (filters) =>
     text = "Streaks"

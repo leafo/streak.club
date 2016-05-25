@@ -2,6 +2,19 @@
 .streak_header {
     margin-bottom: 25px;
 
+    .breadcrumbs {
+        margin-bottom: 15px;
+        font-size: 16px;
+        color: $body_color_light;
+
+        a {
+            text-decoration: none;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
     .draft_banner, .hidden_banner {
         display: block;
         background: lighten($error_color, 10%);
