@@ -33,7 +33,7 @@ class Streaks extends require "widgets.page"
     filters = {k,v for k,v in pairs @filters}
     filters[kind] = val
 
-    url = @flow("browse")\filtered_url filters
+    url = @flow("browse_streaks")\filtered_url filters
 
     classes = "tab"
     if @filters[kind] == val
