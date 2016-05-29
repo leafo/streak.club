@@ -1,8 +1,8 @@
 
 config = require("lapis.config").get!
 
-import MailGun from require "mailgun"
-mailgun = MailGun config.mailgun
+import Mailgun from require "mailgun"
+mailgun = Mailgun config.mailgun
 
 send_email = (to, subject, body, opts={}) ->
   if config.dump_email
