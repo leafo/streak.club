@@ -28,11 +28,12 @@ class StreakHeader extends require "widgets.base"
       if @show_breadcrumbs
         div class: "breadcrumbs", ->
           a href: @url_for("streaks"), "Streaks"
-          text " › "
-          category = Streaks.categories\to_name @streak.category
-          cat_url = @flow("browse_streaks")\filtered_url { :category }
-          cat_name = BrowseStreaksFlow.filter_names.category[category]
 
+          if @streak.category > 0
+            text " › "
+            category = Streaks.categories\to_name @streak.category
+            cat_url = @flow("browse_streaks")\filtered_url { :category }
+            cat_name = BrowseStreaksFlow.filter_names.category[category]
 
           a href: cat_url, cat_name
           text " › "
