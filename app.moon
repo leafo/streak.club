@@ -71,6 +71,7 @@ class extends lapis.Application
     -- filter out things that don't have image
     @featured_submissions = for sub in *@featured_submissions
       has_image = false
+      continue unless sub.uploads
       for upload in *sub.uploads
         has_image = true if upload\is_image!
         break if has_image
