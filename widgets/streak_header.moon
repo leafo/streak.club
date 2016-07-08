@@ -35,8 +35,8 @@ class StreakHeader extends require "widgets.base"
             cat_url = @flow("browse_streaks")\filtered_url { :category }
             cat_name = BrowseStreaksFlow.filter_names.category[category]
 
-          a href: cat_url, cat_name
-          text " › "
+            a href: cat_url, cat_name
+            text " › "
 
           state = @streak\state_name!
           state_url = @flow("browse_streaks")\filtered_url { :state }
