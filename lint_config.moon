@@ -1,4 +1,4 @@
-html_builer = {
+html_builder = {
   "text"
   "raw"
   "widget"
@@ -171,9 +171,9 @@ rss_builder = {
       "it", "describe", "before_each", "after_each", "setup", "teardown", "pending"
     }
 
-    ["views/"]: html_builer
-    ["widgets/"]: html_builer
-    ["emails/"]: html_builer
+    ["views/"]: html_builder
+    ["widgets/"]: html_builder
+    ["emails/"]: html_builder
   }
 }
 
