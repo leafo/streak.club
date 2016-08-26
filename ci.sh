@@ -28,4 +28,4 @@ make init_schema
 make test_db
 make migrate
 
-./busted
+./busted -o utfTerminal
