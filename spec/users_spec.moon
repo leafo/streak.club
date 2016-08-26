@@ -21,9 +21,6 @@ describe "users", ->
   before_each ->
     truncate_tables Users, Followings
 
-  it "breaks the build", ->
-    error "hello"
-
   it "should create a user", ->
     factory.Users!
 
