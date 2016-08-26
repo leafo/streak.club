@@ -4,7 +4,10 @@ sudo: required
 services:
   - docker
 
-script:
+install:
   - docker build -t streakclub-test .
+
+script:
+  - docker run streakclub-test
 
 
