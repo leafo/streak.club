@@ -29,11 +29,18 @@ class StreakFlow extends Flow
         assert_error @req.cmd_mth == "GET", "invalid slug"
         ps = {k, v for k,v in pairs @params}
         ps.slug = @streak\slug!
+
+        url = if @route_name
+          @url_for @route_name, ps, @GET
+        else
+          @url_for @streak
+
         @write {
           status: 301
-          redirect_to: @url_for @route_name, ps, @GET
+          redirect_to: url
         }
-        false
+
+        return nil, "invalid slug"
 
     @streak
 

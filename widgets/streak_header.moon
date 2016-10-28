@@ -55,13 +55,15 @@ class StreakHeader extends require "widgets.base"
       div class: "tabs_inner", ->
         url_params = { slug: @streak\slug!, id: @streak.id }
 
-        @insert_tab!  if @insert_tab
+        @insert_tab! if @insert_tab
 
         @page_tab "Overview", "overview", @url_for(@streak)
         @page_tab "Participants",
           "participants",
           @url_for("streak_participants", url_params),
           "(#{@streak\approved_participants_count!})"
+
+        @page_tab "Discussion", "discussion", @url_for "streak_community", url_params
 
         @page_tab "Leaderboard", "top_participants", @url_for "streak_top_participants", url_params
         @page_tab "Top submissions", "top_submissions", @url_for "streak_top_submissions", url_params
