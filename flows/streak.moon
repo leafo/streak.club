@@ -4,11 +4,38 @@ import Flow from require "lapis.flow"
 import assert_page from require "helpers.app"
 import assert_csrf from require "helpers.csrf"
 import assert_valid from require "lapis.validate"
+import assert_error from require "lapis.application"
 
 import SUBMISSIONS_PER_PAGE, render_submissions_page from require "helpers.submissions"
 
 class StreakFlow extends Flow
   expose_assigns: true
+
+  load_streak: (check_slug=true) =>
+    assert_valid @params, {
+      {"id", is_integer: true}
+      {"stug", type: "string", optional: true}
+    }
+
+    import Streaks from require "models"
+
+    @streak = assert_error Streaks\find(@params.id), "invalid streak"
+
+    assert_error @streak\allowed_to_view @current_user
+    @streak_user = @streak\has_user @current_user
+
+    if check_slug
+      if @params.slug != @streak\slug!
+        assert_error @req.cmd_mth == "GET", "invalid slug"
+        ps = {k, v for k,v in pairs @params}
+        ps.slug = @streak\slug!
+        @write {
+          status: 301
+          redirect_to: @url_for @route_name, ps, @GET
+        }
+        false
+
+    @streak
 
   render: =>
     assert_page @
