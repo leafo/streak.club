@@ -63,7 +63,8 @@ class StreakHeader extends require "widgets.base"
           @url_for("streak_participants", url_params),
           "(#{@streak\approved_participants_count!})"
 
-        @page_tab "Discussion", "discussion", @url_for "streak_community", url_params
+        if @streak.community_category_id
+          @page_tab "Discussion", "community", @url_for "streak_community", url_params
 
         @page_tab "Leaderboard", "top_participants", @url_for "streak_top_participants", url_params
         @page_tab "Top submissions", "top_submissions", @url_for "streak_top_submissions", url_params

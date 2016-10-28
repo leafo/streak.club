@@ -13,7 +13,13 @@ class CommunityApplication extends lapis.Application
 
     =>
       @flow("streak")\load_streak!
-      "cool"
+
+      unless @streak.community_category_id
+        @streak\create_default_category!
+        @streak\refresh!
+
+      @community_category = @streak\get_community_category!
+      render: true
   }
 
 
