@@ -5,6 +5,7 @@ $narrow_width: 600px;
 $header_height: 50px;
 
 $body_size: 18px;
+$body_size_small: 14px;
 $body_color: #333;
 $body_color_light: #666;
 $body_color_lighter: #999;
@@ -162,6 +163,11 @@ $like_color: #FF5E5E;
     -webkit-flex: 1;
     -ms-flex: 1;
     flex: 1;
+}
+
+@mixin flex_wrap {
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
 }
 
 @mixin align_items($value: center) {
