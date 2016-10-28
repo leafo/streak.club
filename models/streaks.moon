@@ -76,6 +76,8 @@ class Streaks extends Model
       key: "other_streak_id"
       order: "position asc"
     }
+
+    {"community_category", belongs_to: "Categories"}
   }
 
   @rates: enum {
@@ -680,6 +682,24 @@ class Streaks extends Model
       "upcoming"
     else
       "completed"
+
+  create_default_category: =>
+    import Categories from require "community.models"
+
+    unless @community_category_id
+      category = Categories\create {
+        user_id: @user_id
+      }
+
+      import transition from require "helpers.model"
+      if transition @, "community_category_id", db.NULL, category.id
+        return category
+
+      category\delete!
+
+    nil, "default category already exists"
+
+
 
   @_time_clause: (state) =>
     switch state

@@ -569,5 +569,9 @@ import
     create_index "related_streaks", "streak_id", "type", "other_streak_id", unique: true
     create_index "related_streaks", "other_streak_id", "type"
 
+  -- add lapis community
+  [1477634820]: =>
+    add_column "streaks", "community_category_id", foreign_key null: true
+    require("community.schema").run_migrations!
 }
 
