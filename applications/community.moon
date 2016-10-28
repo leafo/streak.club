@@ -61,4 +61,8 @@ class CommunityApplication extends lapis.Application
   [post: "/post/:post_id"]: =>
     "post"
 
+  [post_in_topic: "/post-in-topic/:post_id"]: =>
+    "in topic..."
+
+
 
