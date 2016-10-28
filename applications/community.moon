@@ -55,8 +55,36 @@ class CommunityApplication extends lapis.Application
 
   }
 
-  [topic: "/t/:topic_id(/:topic_slug)"]: =>
-    "topic"
+  [topic: "/t/:topic_id(/:topic_slug)"]: respond_to {
+    on_error: =>
+      not_found
+
+    before: =>
+      TopicsFlow = require "community.flows.topics"
+      TopicsFlow(@)\load_topic!
+
+    GET: =>
+      if @topic.slug != "" and @params.topic_slug != @topic.slug
+        return redirect_to: @url_for @topic
+
+      BrowsingFlow = require "community.flows.browsing"
+      @flow = BrowsingFlow(@)
+
+      per_page = 50
+
+      @flow\topic_posts(:per_page)
+
+      -- fix bad pagination
+      if (@params.before or @params.after) and not next @posts
+        return redirect_to: @url_for @topic
+
+      render: true
+
+    POST: =>
+      assert_csrf @
+      "ok"
+
+  }
 
   [post: "/post/:post_id"]: =>
     "post"
