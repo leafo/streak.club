@@ -80,6 +80,10 @@ class Streaks extends Model
     {"community_category", belongs_to: "Categories"}
   }
 
+  @get_relation_model: (name) =>
+    -- allow community relations to be referenced
+    require("models")[name] or require("community.models")[name]
+
   @rates: enum {
     daily: 1
     weekly: 2
