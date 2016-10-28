@@ -9,7 +9,8 @@ import
 
 class CommunityApplication extends lapis.Application
   [streak_community: "/s/:id/:slug/discussion"]: capture_errors {
-    on_error: => not_found
+    on_error: =>
+      not_found
 
     =>
       @flow("streak")\load_streak!
@@ -18,7 +19,8 @@ class CommunityApplication extends lapis.Application
         @streak\create_default_category!
         @streak\refresh!
 
-      @community_category = @streak\get_community_category!
+      @category = @streak\get_community_category!
+      @flow("community")\show_category!
       render: true
   }
 
