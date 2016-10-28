@@ -53,7 +53,7 @@ class FormHelpers
   --   {"p_windows", "Windows"}
   --   {"p_linux", "Linux"}
   -- }, @game
-  checkboxes: (prefix, options, object) =>
+  checkboxes: (prefix, options, object={}) =>
     empty = {}
     ul class: "check_list", ->
       for {opt_value, opt_label, opt_sub, opts} in *options

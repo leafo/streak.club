@@ -1,4 +1,3 @@
-
 StreakHeader = require "widgets.streak_header"
 
 class StreakCommunity extends require "widgets.page"
@@ -10,6 +9,6 @@ class StreakCommunity extends require "widgets.page"
       @column_content!
 
   column_content: =>
-    text "here it is"
-
+    p ->
+      a href: @url_for("community.new_topic", category_id: @category.id), "New topic"
 
