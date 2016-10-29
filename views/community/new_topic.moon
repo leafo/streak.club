@@ -1,4 +1,4 @@
-import Topics, Posts from require "community.models"
+StreakHeader = require "widgets.streak_header"
 
 import to_json from require "lapis.util"
 
@@ -6,8 +6,22 @@ class CommunityNewTopic extends require "widgets.page"
   @include "widgets.form_helpers"
   @needs: {"category"}
 
+  page_name: "community"
+
+  js_init: =>
+    "new S.CommunityNewTopic(#{@widget_selector!})"
+
+  inner_content: =>
+    widget StreakHeader page_name: @page_name
+    div class: "base_widget", ->
+      @column_content!
+
   column_content: =>
-    @include_redactor!
+    h2 "New topic"
+
+    @content_for "all_js", ->
+      @include_redactor!
+
     @render_errors!
 
     form method: "post", class: "form", ->
@@ -28,11 +42,9 @@ class CommunityNewTopic extends require "widgets.page"
         placeholder: "Required"
       }
 
-
-
       if @category\allowed_to_moderate @current_user
         fieldset ->
-          legend "Moderator tools"
+          legend "Moderator"
 
           @input_row "Options", ->
             @checkboxes "topic", {

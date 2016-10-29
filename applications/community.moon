@@ -41,11 +41,13 @@ class CommunityApplication extends lapis.Application
       CategoriesFlow(@)\load_category!
       assert_error @category\allowed_to_post_topic(@current_user), "not allowed to post"
       @title = "New topic"
+      @streak = @category\get_streak!
+      assert_error @streak\allowed_to_view!, "invalid streak"
 
     GET: =>
       render: true
 
-    POST: =>
+    POST: capture_errors_json =>
       assert_csrf @
 
       TopicsFlow = require "community.flows.topics"
