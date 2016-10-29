@@ -104,7 +104,13 @@ class CommunityApplication extends lapis.Application
       TopicsFlow(@)\load_topic!
 
     GET: =>
-      "new post"
+      BrowsingFlow = require "community.flows.browsing"
+
+      post = @topic\get_topic_post!
+      @parent_posts = {post}
+      BrowsingFlow(@)\preload_posts @parent_posts
+
+      render: true
 
     POST: =>
       assert_csrf @

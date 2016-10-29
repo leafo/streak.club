@@ -6,11 +6,7 @@ class CommunityNewTopic extends require "widgets.page"
   @include "widgets.form_helpers"
   @needs: {"category"}
 
-  inner_content: =>
-    div class: "padded", ->
-      @padded_content!
-
-  padded_content: =>
+  column_content: =>
     @include_redactor!
     @render_errors!
 
