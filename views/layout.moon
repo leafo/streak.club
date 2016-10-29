@@ -74,7 +74,10 @@ class Layout extends Widget
               @icon "bell", 18
 
           a class: "header_button #{@route_name == "index" and "current" or ""}", href: @url_for("index"), "Dashboard"
-          a class: "header_button", href: @url_for("user_logout"), "Log out"
+          button class: "menu_button", ->
+            @icon "menu", 18
+
+          -- a class: "header_button", href: @url_for("user_logout"), "Log out"
         else
           a class: "header_button", href: @url_for("user_login"), "Log in"
           a class: "header_button", href: @url_for("user_register"), "Register"
