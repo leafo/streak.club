@@ -10,6 +10,7 @@ import
 
 import require_login from require "helpers.app"
 import assert_csrf from require "helpers.csrf"
+import assert_valid from require "lapis.validate"
 
 import not_found from require "helpers.app"
 
@@ -206,10 +207,51 @@ class CommunityApplication extends lapis.Application
   }
 
   [delete_post: "/post/:post_id/delete"]: respond_to {
-    GET: =>
+    on_error: => not_found
 
-    POST: =>
-      "delete"
+    before: =>
+      PostsFlow = require "community.flows.posts"
+      @flow = PostsFlow @
+      @flow\load_post!
+
+      @topic = @post\get_topic!
+      assert_error @post\allowed_to_edit(@current_user, "delete"),
+        "invalid post (not allowed to edit)"
+
+      BrowsingFlow = require "community.flows.browsing"
+      BrowsingFlow(@)\post_single!
+
+      @post.children = nil -- don't show children
+
+      if @post\is_topic_post!
+        @noun = "topic"
+      else
+        @noun = "post"
+
+      @title = "Delete #{@noun} by #{@post\get_user!\name_for_display!} in #{@topic\name_for_display!}"
+
+    GET: =>
+      render: true
+
+    POST: capture_errors_json =>
+      assert_csrf @
+      assert_valid @params, {
+        {"action", one_of: {"delete"}}
+      }
+
+      @flow\delete_post!
+      @session.flash = "Deleted #{@noun}"
+
+      target = if @post\is_topic_post!
+        @post\get_topic!\get_category!
+      else
+        @post\get_topic!
+
+      json: {
+        success: true
+        redirect_to: @url_for target
+      }
+
   }
 
   [post_in_topic: "/post/:post_id/view-in-topic"]: capture_errors {
