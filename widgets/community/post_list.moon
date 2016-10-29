@@ -53,12 +53,9 @@ class CommunityPostList extends require "widgets.base"
           div class: "deleted_tools", ->
             a {
               class: "delete_post_btn post_action"
-              href: "#"
+              href: @url_for "community.delete_post", { post_id: post.id }
               title: "Remove all evidence of this post"
-              "data-href": @url_for "community.delete_post", { post_id: post.id }, hard: "true"
-              "data-confirm": "Are you sure you want to remove all history of this post?"
-              "data-remote": "true"
-              "Purge"
+              "Purge..."
             }
 
         em class: "deleted_message", "Deleted post"
@@ -104,10 +101,7 @@ class CommunityPostList extends require "widgets.base"
 
             a {
               class: "delete_post_btn post_action"
-              href: "#"
-              "data-href": @url_for("community.delete_post", post_id: post.id)
-              "data-confirm": "Are you sure you want to delete this post?"
-              "data-remote": "true"
+              href: @url_for("community.delete_post", post_id: post.id)
               "Delete"
             }
 

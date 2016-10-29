@@ -88,8 +88,27 @@ class CommunityApplication extends lapis.Application
 
   }
 
-  [post: "/post/:post_id"]: =>
-    "post"
+  [post: "/post/:post_id"]: capture_errors {
+    on_error: => not_foundj
+
+    =>
+      BrowsingFlow = require "community.flows.browsing"
+      BrowsingFlow(@)\post_single!
+
+      @title = "Post by #{@post\get_user!\name_for_display!} in #{@topic\name_for_display!}"
+      import extract_text from require "web_sanitize"
+      @meta_description = extract_text(@post.body)\sub 1, 200
+
+      -- -- TODO this should be aware of community_post notification objects and
+      -- -- clear that out
+      -- import Notifications from require "models"
+      -- Notifications\clear_notifications_for_object_view { @post }, @current_user, {
+      --   "community_reply"
+      -- }
+
+      render: true
+  }
+
 
   [edit_post: "/post/:post_id/edit"]: respond_to {
     on_error: => not_found
@@ -187,6 +206,8 @@ class CommunityApplication extends lapis.Application
   }
 
   [delete_post: "/post/:post_id/delete"]: respond_to {
+    GET: =>
+
     POST: =>
       "delete"
   }
