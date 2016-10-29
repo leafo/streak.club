@@ -93,7 +93,7 @@ class CommunityApplication extends lapis.Application
   }
 
   [post: "/post/:post_id"]: capture_errors {
-    on_error: => not_foundj
+    on_error: => not_found
 
     =>
       BrowsingFlow = require "community.flows.browsing"

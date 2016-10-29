@@ -107,5 +107,18 @@ ApiKeys = (opts={}) ->
   models.ApiKeys\create opts
 
 
+community_models = require "community.models"
+community_factory = require "community.spec.factory"
+
+community = { }
+community.Categories = (opts={}) ->
+  streak = opts.streak or Streaks!
+  category = community_factory.Categories user_id: streak.user_id
+  streak\update community_category_id: category.id
+  category
+
+community.Topics = community_factory.Topics
+community.Posts = community_factory.Posts
+
 { :Users, :Streaks, :Submissions, :StreakUsers, :StreakSubmissions,
-  :SubmissionComments, :Followings, :ApiKeys }
+  :SubmissionComments, :Followings, :ApiKeys, :community }

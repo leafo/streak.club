@@ -1,8 +1,6 @@
 import use_test_server from require "lapis.spec"
 
 import request_as from require "spec.helpers"
-import truncate_tables from require "lapis.spec.db"
-import Streaks, Users, StreakUsers from require "models"
 
 factory = require "spec.factory"
 
