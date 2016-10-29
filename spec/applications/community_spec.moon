@@ -95,3 +95,20 @@ describe "applications.community", ->
       assert.same 404, status
 
 
+    it "views reply post", ->
+      some_user = factory.Users!
+      status = request_as some_user, "/post/#{post.id}/reply"
+      assert.same 200, status
+
+      status = request_as nil, "/post/#{post.id}/reply"
+      assert.same 404, status
+
+    it "views new post", ->
+      some_user = factory.Users!
+      status = request_as some_user, "/topic/#{topic.id}/new-post"
+      assert.same 200, status
+
+      status = request_as nil, "/topic/#{topic.id}/new-post"
+      assert.same 404, status
+
+

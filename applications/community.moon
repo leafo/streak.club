@@ -184,6 +184,7 @@ class CommunityApplication extends lapis.Application
     before: =>
       TopicsFlow = require "community.flows.topics"
       TopicsFlow(@)\load_topic!
+      assert_error @topic\allowed_to_post(@current_user), "not allowed to post"
 
     GET: =>
       BrowsingFlow = require "community.flows.browsing"

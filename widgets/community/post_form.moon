@@ -85,18 +85,6 @@ class CommunityPostForm extends require "widgets.base"
         value: @post and @post.body
       }
 
-      if @editing and @post\is_topic_post! and not @topic.permanent
-        available_tags = @topic\get_category!\get_tags!
-
-        if next available_tags
-          tags = @topic\get_tags!
-          current_tag = tags and tags[1] and tags[1].slug
-          tags = [{tag.slug, tag\name_for_display!} for tag in *available_tags]
-          if current_tag
-            table.insert tags, {"", -> em "Remove tag"}
-
-          @input_row "Tag", ->
-            @radio_buttons "post[tags]", tags, current_tag
 
       if @show_subscribe_checkbox!
         @input_row "Subscribe", ->
