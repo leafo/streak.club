@@ -1,6 +1,16 @@
 
 TopicPosts = require "widgets.community.topic_posts"
+StreakHeader = require "widgets.streak_header"
 
 class CommunityTopic extends require "widgets.page"
+  page_name: "community"
+
+  js_init: =>
+
+  inner_content: =>
+    widget StreakHeader page_name: @page_name
+    div class: "base_widget", ->
+      @column_content!
+
   column_content: =>
     widget TopicPosts {}

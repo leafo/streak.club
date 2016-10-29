@@ -68,27 +68,28 @@ class CommunityApplication extends lapis.Application
       TopicsFlow = require "community.flows.topics"
       TopicsFlow(@)\load_topic!
 
+      @title = "#{@topic\name_for_display!} by #{@topic\get_user!\name_for_display!}"
+
+      @category = @topic\get_category!
+      @streak = @category\get_streak!
+      assert_error @streak\allowed_to_view!, "invalid streak"
+
     GET: =>
       if @topic.slug != "" and @params.topic_slug != @topic.slug
         return redirect_to: @url_for @topic
 
       BrowsingFlow = require "community.flows.browsing"
-      @flow = BrowsingFlow(@)
+      flow = BrowsingFlow(@)
 
       per_page = 50
 
-      @flow\topic_posts(:per_page)
+      flow\topic_posts(:per_page)
 
       -- fix bad pagination
       if (@params.before or @params.after) and not next @posts
         return redirect_to: @url_for @topic
 
       render: true
-
-    POST: =>
-      assert_csrf @
-      "ok"
-
   }
 
   [post: "/post/:post_id"]: capture_errors {

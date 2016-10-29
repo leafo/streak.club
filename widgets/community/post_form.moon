@@ -24,7 +24,7 @@ class CommunityPostForm extends require "widgets.base"
       :redactor_opts
     }
 
-    nil
+    "new S.CommunityPostForm(#{@widget_selector!}, #{to_json opts})"
 
   show_subscribe_checkbox: =>
     return false if @editing
@@ -34,6 +34,9 @@ class CommunityPostForm extends require "widgets.base"
     true
 
   inner_content: =>
+    @content_for "all_js", ->
+      @include_redactor!
+
     if @show_author and @current_user
       div class: "reply_form_columns", ->
         div class: "author_column", ->
