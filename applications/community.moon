@@ -191,8 +191,12 @@ class CommunityApplication extends lapis.Application
       "delete"
   }
 
-  [post_in_topic: "/post-in-topic/:post_id"]: =>
-    "in topic..."
-
-
+  [post_in_topic: "/post/:post_id/view-in-topic"]: capture_errors {
+    on_error: => not_found
+    =>
+      PostsFlow = require "community.flows.posts"
+      @post = PostsFlow(@)\load_post!
+      assert_error @post\allowed_to_view @current_user
+      redirect_to: @url_for @post\in_topic_url_params @
+  }
 
