@@ -300,6 +300,7 @@ a {
         line-height: 30px;
         vertical-align: top;
         margin-left: 5px;
+        cursor: pointer;
 
         &:hover {
             opacity: 0.9;
@@ -307,7 +308,6 @@ a {
 
         svg {
             fill: white;
-            cursor: pointer;
             display: inline-block;
             vertical-align: -3px;
         }

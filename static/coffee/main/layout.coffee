@@ -38,6 +38,14 @@ class S.Flasher
 class S.Header
   constructor: (el, @opts) ->
     @setup_flash()
+    el = $(el).dispatch "click", {
+      menu_button: (el) =>
+        el.closest(".menu_wrapper").toggleClass "open"
+    }
+
+    $(document.body).click (e) =>
+      return if $(e.target).closest(".menu_wrapper").length
+      el.find(".menu_wrapper").removeClass "open"
 
   setup_flash: =>
     return unless @opts.flash
