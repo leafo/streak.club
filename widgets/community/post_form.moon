@@ -85,7 +85,6 @@ class CommunityPostForm extends require "widgets.base"
         value: @post and @post.body
       }
 
-
       if @show_subscribe_checkbox!
         @input_row "Subscribe", ->
           @checkboxes {

@@ -54,13 +54,21 @@ class FormHelpers
   --   {"p_linux", "Linux"}
   -- }, @game
   checkboxes: (prefix, options, object={}) =>
+    if type(prefix) == "table"
+      object = options or object
+      options = prefix
+      prefix = nil
+
     empty = {}
     ul class: "check_list", ->
       for {opt_value, opt_label, opt_sub, opts} in *options
         li opts or empty, ->
           label ->
             checked = object[opt_value] and "checked" or nil
-            name = "#{prefix}[#{opt_value}]"
+            name = if prefix
+              "#{prefix}[#{opt_value}]"
+            else
+              opt_value
 
             input type: "checkbox", :name, :checked
             text opt_label
