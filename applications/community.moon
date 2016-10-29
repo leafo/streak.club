@@ -11,6 +11,8 @@ import
 import require_login from require "helpers.app"
 import assert_csrf from require "helpers.csrf"
 
+import not_found from require "helpers.app"
+
 class CommunityApplication extends lapis.Application
   @name: "community."
 
@@ -89,8 +91,32 @@ class CommunityApplication extends lapis.Application
   [post: "/post/:post_id"]: =>
     "post"
 
-  [edit_post: "/post/:post_id/edit"]: =>
-    "edit post"
+  [edit_post: "/post/:post_id/edit"]: respond_to {
+    on_error: => not_found
+
+    before: =>
+      @editing = true
+
+      PostsFlow = require "community.flows.posts"
+      @flow = PostsFlow @
+      @flow\load_post!
+
+      @topic = @post\get_topic!
+
+      assert_error @post\allowed_to_edit(@current_user), "invalid post"
+      @title = "Edit post"
+
+
+    GET: =>
+      render: true
+
+    POST: =>
+      @flow\edit_post!
+
+      json: {
+        redirect_to: @url_for @post\in_topic_url_params @
+      }
+  }
 
   [reply_post: "/post/:post_id/reply"]: respond_to {
     on_error: => not_found
