@@ -247,6 +247,49 @@ a {
         text-decoration: none;
     }
 
+    .menu_wrapper {
+        display: inline-block;
+        position: relative;
+        vertical-align: top;
+
+        &.open {
+            .menu_popup {
+                display: block;
+            }
+
+            .menu_button {
+                background: rgba(white, 0.2);
+                border-radius: 3px;
+            }
+        }
+
+        .menu_popup {
+            display: none;
+            margin-top: 5px;
+            position: absolute;
+            top: 100%;
+            width: 150px;
+            right: 0px;
+            background: white;
+            line-height: 1.7;
+
+            * {
+                outline-color: $purple;
+            }
+
+            > a {
+                padding: 2px 10px;
+                display: block;
+                &:hover {
+                    background: #f0f0f0;
+                }
+            }
+
+            border-radius: 3px;
+            box-shadow: 0 0 0 1px #dadada, 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+    }
+
     .menu_button {
         background: transparent;
         border: 0;
