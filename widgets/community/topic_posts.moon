@@ -30,8 +30,7 @@ class CommunityTopicPosts extends require "widgets.base"
     classes
 
   inner_content: =>
-    div class: "padded", ->
-      widget PostList!
+    widget PostList!
 
     @topic_posts_pager "bottom_pager"
     @topic_reply_footer!
@@ -56,7 +55,4 @@ class CommunityTopicPosts extends require "widgets.base"
               href: login_and_return_url(@, nil, "community")
             }, "Log in to reply"
 
-            text "Join the discussion. Log in or create a free itch.io account to continue."
-            text " "
-
-
+            text "Log in to your streak.club account to participate."
