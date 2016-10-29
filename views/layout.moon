@@ -8,6 +8,7 @@ WelcomeBanner = require "widgets.welcome_banner"
 
 class Layout extends Widget
   @include "widgets.asset_helpers"
+  @include "widgets.icons"
 
   head: =>
     meta charset: "UTF-8"
@@ -64,6 +65,13 @@ class Layout extends Widget
 
           if available > 0
             a href: @url_for("notifications"), class: "notification_bubble", available
+          else
+            a {
+              href: @url_for("notifications")
+              class: "notifications_bell"
+              title: "Notifications"
+            }, ->
+              @icon "bell", 18
 
           a class: "header_button #{@route_name == "index" and "current" or ""}", href: @url_for("index"), "Dashboard"
           a class: "header_button", href: @url_for("user_logout"), "Log out"

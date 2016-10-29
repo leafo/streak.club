@@ -9,6 +9,7 @@ date = require "date"
 
 class Base extends Widget
   @include "widgets.asset_helpers"
+  @include "widgets.icons"
 
   @widget_name: => underscore @__name or "some_widget"
 

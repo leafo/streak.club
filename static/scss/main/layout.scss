@@ -242,6 +242,23 @@ a {
         text-decoration: none;
     }
 
+    .notifications_bell {
+        opacity: 0.6;
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 10px;
+        margin-right: 5px;
+
+        &:hover {
+            opacity: 0.8;
+
+        }
+
+        svg path {
+            fill: white;
+        }
+    }
+
     .notification_bubble {
         $size: 22px;
         width: $size;
