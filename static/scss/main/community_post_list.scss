@@ -45,17 +45,6 @@
         }
 
         &.is_reply {
-            .post_body {
-                font-size: 16px;
-                line-height: 1.5;
-            }
-
-            .post_header {
-                .post_author a {
-                    font-size: 16px;
-                }
-            }
-
             .post_content {
                 margin-left: 0;
             }
@@ -139,7 +128,7 @@
 
         .post_footer {
             margin-top: 10px;
-            font-size: 16px;
+            font-size: $body_size_small;
 
             .post_action {
                 color: $body_color_lighter;
@@ -152,10 +141,6 @@
             line-height: 1.6;
             max-width: 800px;
             word-wrap: break-word;
-
-            @include slighly_narrow {
-                font-size: 16px;
-            }
 
 
             blockquote {
