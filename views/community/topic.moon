@@ -1,4 +1,7 @@
 
+TopicPosts = require "widgets.community.topic_posts"
+
 class CommunityTopic extends require "widgets.page"
   inner_content: =>
-    text "todo"
+    div class: "responsive_column", ->
+      widget TopicPosts {}

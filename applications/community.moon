@@ -89,6 +89,17 @@ class CommunityApplication extends lapis.Application
   [post: "/post/:post_id"]: =>
     "post"
 
+  [edit_post: "/post/:post_id/edit"]: =>
+    "edit post"
+
+  [new_post: "/topic/:topic_id/new-post"]: =>
+    "post"
+
+  [delete_post: "/post/:post_id/delete"]: respond_to {
+    POST: =>
+      "delete"
+  }
+
   [post_in_topic: "/post-in-topic/:post_id"]: =>
     "in topic..."
 
