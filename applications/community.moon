@@ -92,8 +92,41 @@ class CommunityApplication extends lapis.Application
   [edit_post: "/post/:post_id/edit"]: =>
     "edit post"
 
-  [reply_post: "/post/:post_id/reply"]: =>
-    "reply post"
+  [reply_post: "/post/:post_id/reply"]: respond_to {
+    on_error: => not_found
+
+    before: =>
+      PostsFlow = require "community.flows.posts"
+      BrowsingFlow = require "community.flows.browsing"
+
+      @flow = PostsFlow @
+      @flow\load_post!
+      @topic = @post\get_topic!
+
+      ancestors = @post\get_ancestors!
+      @parent_post = @post
+      @parent_posts = {@post, unpack ancestors}
+      BrowsingFlow(@)\preload_posts @parent_posts
+
+      -- the parent post is not the current post
+      @post = nil
+
+      assert_error @parent_post\allowed_to_reply(@current_user), "invalid post"
+      @title = "Reply to post"
+
+    GET: =>
+      render: true
+
+    POST: capture_errors_json =>
+      @flow\new_post!
+      -- @post\send_notifications!
+
+      @session.flash = "Your reply has been posted"
+
+      json: {
+        redirect_to: @url_for(@post\in_topic_url_params @)
+      }
+  }
 
   [new_post: "/topic/:topic_id/new-post"]: respond_to {
     on_error: =>
@@ -112,7 +145,7 @@ class CommunityApplication extends lapis.Application
 
       render: true
 
-    POST: =>
+    POST: capture_errors_json =>
       assert_csrf @
 
       PostsFlow = require "community.flows.posts"

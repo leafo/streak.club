@@ -1,6 +1,5 @@
 
 import to_json from require "lapis.util"
-config = require("lapis.config").get!
 
 class CommunityTopicList extends require "widgets.base"
   @needs: {
