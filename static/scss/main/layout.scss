@@ -246,7 +246,7 @@ a {
         opacity: 0.6;
         display: inline-block;
         vertical-align: middle;
-        margin-left: 10px;
+        margin-left: 15px;
         margin-right: 5px;
 
         &:hover {
@@ -272,7 +272,7 @@ a {
         text-align: center;
         font-size: 14px;
         font-weight: bold;
-        margin-left: 10px;
+        margin-left: 15px;
         margin-top: 4px;
         text-decoration: none;
     }
@@ -284,22 +284,26 @@ a {
 
     display: inline-block;
     height: 30px;
-    line-height: 30px - 4px;
+    line-height: 30px;
     color: white;
     padding: 0 15px;
-    border: 2px solid rgba(white, 0.5);
+    background: rgba(white, 0.2);
     text-decoration: none;
 
     border-radius: 3px;
     margin-left: 10px;
 
     &:hover, &.current {
-        background: rgba(white, 0.8);
-        color: $header_color;
+        background: rgba(white, 0.3);
+        color: white;
+    }
+
+    &.current {
+        font-weight: bold;
     }
 
     &:active {
-        background: rgba(white, 0.4);
+        background: rgba(black, 0.1);
     }
 }
 
