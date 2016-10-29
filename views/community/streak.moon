@@ -2,7 +2,7 @@ StreakHeader = require "widgets.streak_header"
 
 TopicList = require "widgets.community.topic_list"
 
-class StreakCommunity extends require "widgets.page"
+class CommunityStreak extends require "widgets.page"
   page_name: "community"
 
   inner_content: =>
@@ -11,8 +11,14 @@ class StreakCommunity extends require "widgets.page"
       @column_content!
 
   column_content: =>
-    widget TopicList
+    if next @topics
+      widget TopicList {}
+    else
+      p class: "empty_message", "No topics yet"
 
-    p ->
-      a href: @url_for("community.new_topic", category_id: @category.id), "New topic"
+    div class: "post_buttons", ->
+      a {
+        href: @url_for("community.new_topic", category_id: @category.id)
+        class: "button"
+      }, "New topic"
 
