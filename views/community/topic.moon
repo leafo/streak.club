@@ -13,4 +13,7 @@ class CommunityTopic extends require "widgets.page"
       @column_content!
 
   column_content: =>
+    div class: "topic_header", ->
+      h2 @topic.title
+
     widget TopicPosts {}

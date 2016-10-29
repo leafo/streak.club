@@ -1,0 +1,29 @@
+
+.community_topic_page {
+    .base_widget {
+        padding: 0;
+    }
+
+    .community_post_list {
+        margin: 20px 40px;
+    }
+
+    .topic_posts_footer {
+        border-top: 1px solid $border_color;
+        padding: 20px 40px;
+
+        h2 {
+            margin-top: 0;
+        }
+    }
+
+    .topic_header {
+        border-bottom: 1px solid $border_color;
+        margin-bottom: 30px;
+
+        h2 {
+            margin: 0;
+            padding: 25px 40px;
+        }
+    }
+}
