@@ -21,3 +21,10 @@ class Topics extends require "community.models.topics"
       query.before = @root_posts_count + 1
 
     route, params, query
+
+  latest_post_url_params: (r, ...) =>
+    route, params, get = @url_params r, ...
+    get or= {}
+    get.before = @find_latest_root_post!.post_number + 1
+    get.after = nil
+    route, params, get

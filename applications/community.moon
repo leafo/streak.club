@@ -92,8 +92,34 @@ class CommunityApplication extends lapis.Application
   [edit_post: "/post/:post_id/edit"]: =>
     "edit post"
 
-  [new_post: "/topic/:topic_id/new-post"]: =>
-    "post"
+  [reply_post: "/post/:post_id/reply"]: =>
+    "reply post"
+
+  [new_post: "/topic/:topic_id/new-post"]: respond_to {
+    on_error: =>
+      not_found
+
+    before: =>
+      TopicsFlow = require "community.flows.topics"
+      TopicsFlow(@)\load_topic!
+
+    GET: =>
+      "new post"
+
+    POST: =>
+      assert_csrf @
+
+      PostsFlow = require "community.flows.posts"
+      PostsFlow(@)\new_post!
+
+      -- @post\send_notifications!
+      -- if @params.subscribe
+      --   @topic\subscribe @current_user
+
+      json: {
+        redirect_to: @url_for(@topic\latest_post_url_params @) .. "#post-#{@post.id}"
+      }
+  }
 
   [delete_post: "/post/:post_id/delete"]: respond_to {
     POST: =>
