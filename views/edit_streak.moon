@@ -138,6 +138,12 @@ class EditStreak extends require "widgets.page"
           {"members_only", "Members only", "You must approve someone before they can submit to the streak"}
         }, Streaks.membership_types[streak.membership_type]
 
+      @input_row "Discussion", ->
+        @radio_buttons "streak[community_type]", {
+          {"discussion", "Message board", "People can chat about the strek in a message board"}
+          {"none", "None"}
+        }, Streaks.community_types[streak.community_type or 2]
+
       div id: "publish_status"
       @input_row "Publish", ->
         @radio_buttons "streak[publish_status]", {

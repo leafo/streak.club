@@ -573,5 +573,10 @@ import
   [1477634820]: =>
     add_column "streaks", "community_category_id", foreign_key null: true
     require("community.schema").run_migrations!
+
+  [1477809405]: =>
+    add_column "streaks", "community_type", enum default: 1
+
+
 }
 

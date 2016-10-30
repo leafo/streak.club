@@ -114,6 +114,11 @@ class Streaks extends Model
     members_only: 2
   }
 
+  @community_types: enum {
+    none: 1
+    discussion: 2
+  }
+
   @create: (opts={}) =>
     assert opts.user_id, "missing user_id"
     opts.rate = @rates\for_db opts.rate
@@ -686,6 +691,9 @@ class Streaks extends Model
       "upcoming"
     else
       "completed"
+
+  has_community: =>
+    @community_type == @@community_types.discussion
 
   create_default_category: =>
     import Categories from require "community.models"

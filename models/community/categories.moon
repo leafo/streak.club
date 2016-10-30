@@ -14,6 +14,14 @@ class Categories extends require "community.models.categories"
     streak = @get_streak!
     "community.streak", id: @streak.id, slug: @streak\slug!
 
+  allowed_to_view: (user, ...) =>
+    streak = @get_streak!
+
+    unless @streak\allowed_to_view(user) and @streak\has_community!
+      return false
+
+    super user, ...
+
   name_for_display: =>
     return @title if @title
     streak = @get_streak!
