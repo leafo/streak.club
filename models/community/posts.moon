@@ -23,3 +23,14 @@ class Posts extends require "community.models.posts"
     nil, r\build_url r\url_for(route, url_params, params), {
       fragment: "post-#{@id}"
     }
+
+  send_notifications: =>
+    import Notifications from require "models"
+
+
+    for {kind, user, object, related_object} in *@notification_targets!
+      notification_type = "community_#{kind}"
+      continue unless Notifications.types[notification_type]
+      target = object or @
+      associated = related_object or object and @ or nil
+      Notifications\notify_for user, target, notification_type, associated

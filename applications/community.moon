@@ -52,7 +52,7 @@ class CommunityApplication extends lapis.Application
 
       TopicsFlow = require "community.flows.topics"
       TopicsFlow(@)\new_topic!
-      -- @post\send_notifications!
+      @post\send_notifications!
 
       json: {
         redirect_to: @url_for @topic
@@ -168,7 +168,7 @@ class CommunityApplication extends lapis.Application
 
     POST: capture_errors_json =>
       @flow\new_post!
-      -- @post\send_notifications!
+      @post\send_notifications!
 
       @session.flash = "Your reply has been posted"
 
@@ -201,9 +201,10 @@ class CommunityApplication extends lapis.Application
       PostsFlow = require "community.flows.posts"
       PostsFlow(@)\new_post!
 
-      -- @post\send_notifications!
-      -- if @params.subscribe
-      --   @topic\subscribe @current_user
+      if @params.subscribe
+        @topic\subscribe @current_user
+
+      @post\send_notifications!
 
       json: {
         redirect_to: @url_for(@topic\latest_post_url_params @) .. "#post-#{@post.id}"

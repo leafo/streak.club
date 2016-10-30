@@ -32,6 +32,8 @@ class Notifications extends Model
       [2]: {"submission_comment", "SubmissionComments"}
       [3]: {"user", "Users"}
       [4]: {"streak", "Streaks"}
+      [5]: {"category", "Categories"}
+      [6]: {"topic", "Topics"}
     }}
   }
 
@@ -46,13 +48,6 @@ class Notifications extends Model
     community_topic: 100 -- new topic in community you watch
     community_reply: 101 -- your post got a reply
     community_post: 102 -- new post in your topic
-  }
-
-  @object_types: enum {
-    submission: 1
-    submission_comment: 2
-    user: 3
-    streak: 4
   }
 
   @get_relation_model: (name) =>
@@ -88,19 +83,6 @@ class Notifications extends Model
     import NotificationObjects from require "models"
     NotificationObjects\preload_objects notification_objects
     notifications
-
-  @object_type_for_object: (object) =>
-    switch object.__class.__name
-      when "Submissions"
-        @@object_types.submission
-      when "SubmissionComments"
-        @@object_types.submission_comment
-      when "Users"
-        @@object_types.user
-      when "Streaks"
-        @@object_types.streak
-      else
-        error "unknown object"
 
   @notify_for: (user, object, notify_type, target_object) =>
     return unless user

@@ -23,8 +23,14 @@ class NotificationObjects extends Model
     {"object", polymorphic_belongs_to: {
       [1]: {"submission_comment", "SubmissionComments"}
       [2]: {"user", "Users"}
+      [3]: {"category", "Categories"}
+      [4]: {"topic", "Topics"}
     }}
   }
+
+  @get_relation_model: (name) =>
+    -- allow community relations to be referenced
+    require("models")[name] or require("community.models")[name]
 
   @create_for_object: (notification_id, object) =>
     @create {
