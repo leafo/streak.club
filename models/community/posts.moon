@@ -24,9 +24,33 @@ class Posts extends require "community.models.posts"
       fragment: "post-#{@id}"
     }
 
+  notification_targets: =>
+    -- if the editor of the community is creating a new topic the generate a
+    -- notification for everyone in the streak.
+    poster = @get_user!
+
+    extra = if @is_topic_post!
+      topic = @get_topic!
+      category = topic\get_category!
+      streak = category\get_streak!
+
+      if streak\is_owner poster
+        out = {}
+        for page in streak\find_participants(pending: false)\each_page!
+          for suser in *page
+            table.insert out, {
+              "topic"
+              suser\get_user!
+              category
+              topic
+            }
+
+        out
+
+    super extra
+
   send_notifications: =>
     import Notifications from require "models"
-
 
     for {kind, user, object, related_object} in *@notification_targets!
       notification_type = "community_#{kind}"

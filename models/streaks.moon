@@ -202,6 +202,10 @@ class Streaks extends Model
 
     StreakSubmissions\load (unpack res)
 
+  -- for when we add additional owners
+  is_owner: (user) =>
+    user and user.id == @user_id
+
   allowed_to_view: (user) =>
     if @publish_status == @@publish_statuses.draft
       return @allowed_to_edit user
@@ -520,8 +524,9 @@ class Streaks extends Model
 
   find_participants: (opts={}) =>
     import StreakUsers, Users from require "models"
+
     opts.prepare_results or= (s_users) ->
-      Users\include_in s_users, "user_id"
+      StreakUsers\preload_relation s_users, "user"
       s_users
 
     clause = db.encode_clause {
