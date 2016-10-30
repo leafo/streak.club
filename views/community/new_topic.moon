@@ -42,15 +42,15 @@ class CommunityNewTopic extends require "widgets.page"
         placeholder: "Required"
       }
 
-      if @category\allowed_to_moderate @current_user
-        fieldset ->
-          legend "Moderator"
+      -- if @category\allowed_to_moderate @current_user
+      --   fieldset ->
+      --     legend "Moderator"
 
-          @input_row "Options", ->
-            @checkboxes "topic", {
-              {"sticky", "Sticky"}
-              {"locked", "Locked"}
-            }
+      --     @input_row "Options", ->
+      --       @checkboxes "topic", {
+      --         {"sticky", "Sticky"}
+      --         {"locked", "Locked"}
+      --       }
 
       div class: "buttons", ->
         button class: "button", "New topic"
