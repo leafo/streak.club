@@ -17,16 +17,6 @@ import not_found from require "helpers.app"
 class CommunityApplication extends lapis.Application
   @name: "community."
 
-  "/job/flush-counters": =>
-    BrowsingFlow = require "community.flows.browsing"
-    counter = BrowsingFlow(@)\view_counter!
-
-    json: {
-      community: {
-        counter\sync!
-      }
-    }
-
   [streak: "/s/:id/:slug/discussion"]: capture_errors {
     on_error: =>
       not_found
