@@ -228,9 +228,10 @@
         }
 
         .topic_tag {
-            @include mobile_width {
-                margin-bottom: 8px;
-            }
+            font-size: $body_size_small;
+            font-weight: bold;
+            border-radius: 3px;
+            padding: 2px 6px;
 
             &.new_flag {
                 background: #24BDE0;

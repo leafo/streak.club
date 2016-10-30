@@ -1,5 +1,6 @@
 
 import to_json from require "lapis.util"
+import time_ago_in_words from require "lapis.util"
 
 class CommunityTopicList extends require "widgets.base"
   @needs: {
@@ -55,8 +56,8 @@ class CommunityTopicList extends require "widgets.base"
             text "started by "
             a class: "topic_author", href: @url_for(user), user\name_for_display!
             text " "
-            span class: "topic_date", ->
-              @date_format topic.created_at
+            span class: "topic_date", title: topic.created_at, ->
+              text time_ago_in_words topic.created_at
 
             unless topic\is_single_page!
               text " "
