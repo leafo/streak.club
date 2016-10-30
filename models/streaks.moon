@@ -703,6 +703,8 @@ class Streaks extends Model
 
   has_unread_community_topics: (user) =>
     category = @get_community_category!
+    return unless category
+
     last_seen = category\find_last_seen_for_user user
     return unless last_seen
     category.user_category_last_seen = last_seen
