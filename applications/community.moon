@@ -68,10 +68,12 @@ class CommunityApplication extends lapis.Application
       TopicsFlow = require "community.flows.topics"
       TopicsFlow(@)\load_topic!
 
-      @title = "#{@topic\name_for_display!} by #{@topic\get_user!\name_for_display!}"
 
       @category = @topic\get_category!
       @streak = @category\get_streak!
+
+      @title = "#{@topic\name_for_display!} by #{@topic\get_user!\name_for_display!} | #{@streak.title}"
+
       assert_error @streak\allowed_to_view!, "invalid streak"
 
     GET: =>
