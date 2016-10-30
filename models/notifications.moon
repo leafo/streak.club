@@ -32,8 +32,10 @@ class Notifications extends Model
       [2]: {"submission_comment", "SubmissionComments"}
       [3]: {"user", "Users"}
       [4]: {"streak", "Streaks"}
+
       [5]: {"category", "Categories"}
       [6]: {"topic", "Topics"}
+      [7]: {"post", "Posts"}
     }}
   }
 
@@ -56,8 +58,16 @@ class Notifications extends Model
 
   preloaders = {
     submission_comment: (notes) ->
-      import Submissions from require "models"
-      Submissions\include_in [n.object for n in *notes], "submission_id"
+      import SubmissionComments from require "models"
+      SubmissionComments\preload_relation [n.object for n in *notes], "submission"
+
+    category: (notes) ->
+      import Categories from require "community.models"
+      Categories\preload_relation [n.object for n in *notes], "streak"
+
+    post: (notes) ->
+      import Posts from require "community.models"
+      Posts\preload_relation [n.object for n in *notes], "topic"
   }
 
   @preload_objects: (notifications) =>
@@ -180,8 +190,20 @@ class Notifications extends Model
           "#{@count} people joined "
       when @@types.approve_join
         "You can now post in "
+      when @@types.community_topic
+        if @count == 1
+          "A new topic was created in "
+        else
+          "#{@count} new topics were created in "
+      when @@types.community_post
+        if @count == 1
+          "A new post was created in "
+        else
+          "#{@count} new posts were created in "
+      when @@types.community_reply
+        "You got a reply to "
       else
-        error "unknown notification type"
+        error "unknown notification type (#{@type})"
 
   object_title: =>
     switch @object_type
@@ -191,8 +213,13 @@ class Notifications extends Model
         "a comment"
       when @@object_types.user
         @object\name_for_display!
+      when @@object_types.category
+        @object\name_for_display!
+      when @@object_types.post
+        topic = @object\get_topic!
+        "your post in #{topic\name_for_display!}"
       else
-        @object.title
+        @object.title or error "missing object title (#{@object_type})"
 
   mark_seen: =>
     @update seen: true

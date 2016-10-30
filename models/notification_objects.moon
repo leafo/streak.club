@@ -25,6 +25,7 @@ class NotificationObjects extends Model
       [2]: {"user", "Users"}
       [3]: {"category", "Categories"}
       [4]: {"topic", "Topics"}
+      [5]: {"post", "Posts"}
     }}
   }
 

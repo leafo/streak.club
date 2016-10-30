@@ -14,3 +14,14 @@ class Categories extends require "community.models.categories"
     streak = @get_streak!
     "community.streak", id: @streak.id, slug: @streak\slug!
 
+  name_for_display: =>
+    return @title if @title
+    streak = @get_streak!
+    if streak
+      @streak.title .. " discussion"
+    else
+      "unnamed community"
+
+
+
+
