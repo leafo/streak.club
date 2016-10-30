@@ -73,9 +73,12 @@ class CommunityPostList extends require "widgets.base"
             span class: "post_author", ->
               a href: @url_for(user), user\name_for_display!
 
-            if user\is_admin!
+            if @streak and @streak\is_host user
+              span class: "author_flag host", "Host"
+            elseif user\is_admin!
               span class: "author_flag admin",
                 user.community_user and user.community_user.flair or "Admin"
+
             elseif f = @flair_by_user_id and @flair_by_user_id[user.id]
               span class: "author_flag owner", f
 

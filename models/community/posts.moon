@@ -34,7 +34,7 @@ class Posts extends require "community.models.posts"
       category = topic\get_category!
       streak = category\get_streak!
 
-      if streak\is_owner poster
+      if streak\is_host poster
         out = {}
         for page in streak\find_participants(pending: false)\each_page!
           for suser in *page

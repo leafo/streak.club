@@ -96,16 +96,21 @@
             }
 
             .author_flag {
+                font-size: $body_size_small;
+                font-weight: bold;
+                border-radius: 3px;
+                padding: 2px 6px;
+
                 vertical-align: 1px;
                 margin-left: 10px;
 
                 &.admin {
-                    background: lighten($blue, 10%);
+                    background: lighten($orange, 10%);
                     color: rgba(white, 0.8);
                 }
 
-                &.owner {
-                    background: lighten($blue, 10%);
+                &.host {
+                    background: lighten($purple, 10%);
                     color: rgba(white, 0.8);
                 }
             }

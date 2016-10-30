@@ -190,6 +190,9 @@ class CommunityApplication extends lapis.Application
       TopicsFlow(@)\load_topic!
       assert_error @topic\allowed_to_post(@current_user), "not allowed to post"
 
+      @category = @topic\get_category!
+      @streak = @category\get_streak!
+
     GET: =>
       BrowsingFlow = require "community.flows.browsing"
 

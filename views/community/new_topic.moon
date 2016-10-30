@@ -42,7 +42,7 @@ class CommunityNewTopic extends require "widgets.page"
         placeholder: "Required"
       }
 
-      if @streak\is_owner @current_user
+      if @streak\is_host @current_user
         p "All participants will be notified of this topic since you are an
         owner of this streak."
 

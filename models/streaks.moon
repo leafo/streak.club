@@ -203,7 +203,7 @@ class Streaks extends Model
     StreakSubmissions\load (unpack res)
 
   -- for when we add additional owners
-  is_owner: (user) =>
+  is_host: (user) =>
     user and user.id == @user_id
 
   allowed_to_view: (user) =>
