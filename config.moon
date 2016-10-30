@@ -26,6 +26,10 @@ config {"development", "test", "production"}, ->
     database: "streakclub"
   }
 
+  community {
+    view_counter_dict: "community_view_counters"
+  }
+
 config "test", ->
   postgres {
     backend: "pgmoon"

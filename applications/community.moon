@@ -17,6 +17,16 @@ import not_found from require "helpers.app"
 class CommunityApplication extends lapis.Application
   @name: "community."
 
+  "/job/flush-counters": =>
+    BrowsingFlow = require "community.flows.browsing"
+    counter = BrowsingFlow(@)\view_counter!
+
+    json: {
+      community: {
+        counter\sync!
+      }
+    }
+
   [streak: "/s/:id/:slug/discussion"]: capture_errors {
     on_error: =>
       not_found
@@ -27,6 +37,8 @@ class CommunityApplication extends lapis.Application
       unless @streak.community_category_id
         @streak\create_default_category!
         @streak\refresh!
+
+      @title = "Discussion | #{@streak.title}"
 
       @category = @streak\get_community_category!
       @flow("community")\show_category!
