@@ -26,6 +26,13 @@ class Notifications extends Model
 
   @relations: {
     {"user", belongs_to: "Users"}
+    {"notification_objects", has_many: "NotificationObjects"}
+    {"object", polymorphic_belongs_to: {
+      [1]: {"submission", "Submissions"}
+      [2]: {"submission_comment", "SubmissionComments"}
+      [3]: {"user", "Users"}
+      [4]: {"streak", "Streaks"}
+    }}
   }
 
   @types: enum {
@@ -35,6 +42,10 @@ class Notifications extends Model
     like: 4
     join: 5
     approve_join: 6
+
+    community_topic: 100 -- new topic in community you watch
+    community_reply: 101 -- your post got a reply
+    community_post: 102 -- new post in your topic
   }
 
   @object_types: enum {
@@ -44,28 +55,29 @@ class Notifications extends Model
     streak: 4
   }
 
+  @get_relation_model: (name) =>
+    -- allow community relations to be referenced
+    require("models")[name] or require("community.models")[name]
+
   preloaders = {
-    submission: {"Submissions"}
-    submission_comment: {
-      "SubmissionComments"
-      (notes) ->
-        import Submissions from require "models"
-        Submissions\include_in [n.object for n in *notes], "submission_id"
-    }
-    user: {"Users"}
-    streak: {"Streaks"}
+    submission_comment: (notes) ->
+      import Submissions from require "models"
+      Submissions\include_in [n.object for n in *notes], "submission_id"
   }
 
   @preload_objects: (notifications) =>
-    models = require "models"
+    @preload_relations notifications, "object", "notification_objects"
 
-    for otype, {cls, post} in pairs preloaders
-      filtered = [n for n in *notifications when n.object_type == @object_types[otype]]
-      models[cls]\include_in filtered, "object_id", as: "object"
-      post filtered if post
+    -- additional preloads
+    by_object_type = {}
+    for n in *notifications
+      name = @object_types\to_name n.object_type
+      by_object_type[name] or= {}
+      table.insert by_object_type[name], n
 
-    import NotificationObjects from require "models"
-    NotificationObjects\include_in notifications, "notification_id", flip: true, many: true
+    for object_type, notes in pairs by_object_type
+      if pl = preloaders[object_type]
+        pl notes
 
     notification_objects = {}
     for n in *notifications
@@ -73,6 +85,7 @@ class Notifications extends Model
         for no in *objs
           table.insert notification_objects, no
 
+    import NotificationObjects from require "models"
     NotificationObjects\preload_objects notification_objects
     notifications
 
