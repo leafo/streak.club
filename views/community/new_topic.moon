@@ -42,6 +42,10 @@ class CommunityNewTopic extends require "widgets.page"
         placeholder: "Required"
       }
 
+      if @streak\is_owner @current_user
+        p "All participants will be notified of this topic since you are an
+        owner of this streak."
+
       -- if @category\allowed_to_moderate @current_user
       --   fieldset ->
       --     legend "Moderator"
