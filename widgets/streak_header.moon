@@ -65,9 +65,18 @@ class StreakHeader extends require "widgets.base"
 
         if @streak\has_community!
           category = @streak\get_community_category!
+          has_unread = if @route_name != "community.streak"
+            @streak\has_unread_community_topics @current_user
+
+          has_count = category and category.topics_count > 0
+
           @page_tab "Discussion", "community",
             @url_for("community.streak", url_params),
-            category and category.topics_count > 0 and "(#{category.topics_count})"
+            has_count and ->
+              if has_unread
+                strong "(#{category.topics_count})"
+              else
+                text "(#{category.topics_count})"
 
         @page_tab "Leaderboard", "top_participants", @url_for "streak_top_participants", url_params
         @page_tab "Top submissions", "top_submissions", @url_for "streak_top_submissions", url_params

@@ -137,6 +137,7 @@ class Notifications extends Model
     "update"
 
   -- TODO: make this decrement, then delete
+  -- this blasts all unseen notifications for object on user
   @undo_notify: (user, object, notify_type) =>
     return unless user
 

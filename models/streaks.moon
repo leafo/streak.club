@@ -701,6 +701,13 @@ class Streaks extends Model
   has_community: =>
     @community_type == @@community_types.discussion
 
+  has_unread_community_topics: (user) =>
+    category = @get_community_category!
+    last_seen = category\find_last_seen_for_user user
+    return unless last_seen
+    category.user_category_last_seen = last_seen
+    category\has_unread user
+
   create_default_category: =>
     import Categories from require "community.models"
 
