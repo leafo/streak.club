@@ -127,6 +127,7 @@ class Streaks extends Model
     opts.category = @categories\for_db opts.category or "other"
     opts.late_submit_type = @late_submit_types\for_db opts.late_submit_type or "admins_only"
     opts.membership_type = @membership_types\for_db opts.membership_type or "public"
+    opts.community_type = @community_types\for_db opts.community_type or "discussion"
 
     Model.create @, opts
 

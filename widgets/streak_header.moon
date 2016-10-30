@@ -67,7 +67,7 @@ class StreakHeader extends require "widgets.base"
           category = @streak\get_community_category!
           @page_tab "Discussion", "community",
             @url_for("community.streak", url_params),
-            category.topics_count > 0 and "(#{category.topics_count})"
+            category and category.topics_count > 0 and "(#{category.topics_count})"
 
         @page_tab "Leaderboard", "top_participants", @url_for "streak_top_participants", url_params
         @page_tab "Top submissions", "top_submissions", @url_for "streak_top_submissions", url_params

@@ -40,6 +40,7 @@ describe "streaks", ->
         "streak[category]": "other"
         "streak[late_submit_type]": "public"
         "streak[membership_type]": "public"
+        "streak[community_type]": "discussion"
         "timezone": "America/Los_Angeles"
       }
 
