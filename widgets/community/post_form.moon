@@ -89,6 +89,8 @@ class CommunityPostForm extends require "widgets.base"
         @input_row "Subscribe", ->
           @checkboxes {
             {"subscribe", "Subscribe to this topic", "Get notifications of new replies to the topic"}
+          }, {
+            subscribe: true
           }
 
       div class: "buttons", ->
