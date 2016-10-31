@@ -140,7 +140,7 @@ class EditStreak extends require "widgets.page"
 
       @input_row "Discussion", ->
         @radio_buttons "streak[community_type]", {
-          {"discussion", "Message board", "People can chat about the strek in a message board"}
+          {"discussion", "Message board", "People can chat about the streak in a message board"}
           {"none", "None"}
         }, Streaks.community_types[streak.community_type or 2]
 
