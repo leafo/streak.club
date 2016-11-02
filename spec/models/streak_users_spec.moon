@@ -1,16 +1,13 @@
 import use_test_env from require "lapis.spec"
-import truncate_tables from require "lapis.spec.db"
 
-import Streaks, Users, StreakUsers, StreakSubmissions,
-  StreakUserNotificationSettings from require "models"
 
 factory = require "spec.factory"
 
 describe "models.streak_users", ->
   use_test_env!
 
-  before_each ->
-    truncate_tables Users, Streaks, StreakUsers
+  import Streaks, Users, StreakUsers,
+    StreakUserNotificationSettings from require "spec.models"
 
   describe "notification settings", ->
     it "gets notification settings", ->

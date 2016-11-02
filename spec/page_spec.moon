@@ -1,24 +1,13 @@
-import
-  load_test_server
-  close_test_server
-  from require "lapis.spec.server"
-
+import use_test_server from require "lapis.spec"
 import request, request_as from require "spec.helpers"
 
 import truncate_tables from require "lapis.spec.db"
-import Users, UserProfiles, Streaks, Submissions from require "models"
 
 factory = require "spec.factory"
 
 describe "page", ->
-  setup ->
-    load_test_server!
-
-  teardown ->
-    close_test_server!
-
-  before_each ->
-    truncate_tables Users, UserProfiles, Streaks, Submissions
+  use_test_server!
+  import Users, UserProfiles, Streaks, Submissions from require "spec.models"
 
   should_load = (path) ->
     it "should load #{path}", ->

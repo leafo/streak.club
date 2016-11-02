@@ -1,8 +1,4 @@
 import use_test_env from require "lapis.spec"
-import truncate_tables from require "lapis.spec.db"
-
-import Streaks, Users, Submissions,
-  StreakUsers, StreakSubmissions from require "models"
 
 date = require "date"
 factory = require "spec.factory"
@@ -10,8 +6,7 @@ factory = require "spec.factory"
 describe "models.streaks", ->
   use_test_env!
 
-  before_each ->
-    truncate_tables Streaks, Users, Submissions, StreakUsers, StreakSubmissions
+  import Streaks, Users, Submissions, StreakUsers, StreakSubmissions from require "spec.models"
 
   it "should create a streak from factory", ->
     streak = factory.Streaks!
