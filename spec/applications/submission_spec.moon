@@ -1,19 +1,17 @@
 import use_test_server from require "lapis.spec"
-import truncate_tables from require "lapis.spec.db"
 
 import request, request_as from require "spec.helpers"
 
 factory = require "spec.factory"
-
-import Users, Submissions, SubmissionLikes, SubmissionTags from require "models"
 
 describe "applications.submission", ->
   use_test_server!
 
   local submission
 
+  import Users, Submissions, SubmissionLikes, SubmissionTags from require "spec.models"
+
   before_each ->
-    truncate_tables Users, Submissions, SubmissionLikes, SubmissionTags
     submission = factory.Submissions!
 
   it "renders delete submission page", ->

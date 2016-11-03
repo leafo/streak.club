@@ -1,26 +1,14 @@
-import
-  load_test_server
-  close_test_server
-  from require "lapis.spec.server"
-
+import use_test_server from require "lapis.spec"
 import request from require "spec.helpers"
-
 import truncate_tables from require "lapis.spec.db"
-import ApiKeys, Users, Streaks, StreakUsers, Submissions, StreakSubmissions,
-  Uploads, SubmissionLikes from require "models"
 
 factory = require "spec.factory"
 
 describe "api", ->
-  setup ->
-    load_test_server!
+  use_test_server!
 
-  teardown ->
-    close_test_server!
-
-  before_each ->
-    truncate_tables Users, ApiKeys, Streaks, StreakUsers, Submissions,
-      StreakSubmissions, Uploads, SubmissionLikes
+  import Users, ApiKeys, Streaks, StreakUsers, Submissions,
+    StreakSubmissions, Uploads, SubmissionLikes from require "spec.models"
 
   it "it should create api key", ->
     assert factory.ApiKeys!

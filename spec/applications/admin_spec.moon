@@ -1,9 +1,5 @@
 import use_test_server from require "lapis.spec"
-import truncate_tables from require "lapis.spec.db"
-
-import request, request_as from require "spec.helpers"
-
-import Users, Streaks, Submissions from require "models"
+import request_as from require "spec.helpers"
 
 factory = require "spec.factory"
 
@@ -12,8 +8,9 @@ describe "applications.admin", ->
 
   local current_user
 
+  import Users, Streaks, Submissions from require "spec.models"
+
   before_each ->
-    truncate_tables Users, Streaks, Submissions
     current_user = factory.Users admin: true
 
   it "doesn't let non-admin load admin page", ->
