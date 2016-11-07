@@ -54,13 +54,23 @@ class StreakUnits extends require "widgets.base"
       table.insert by_group[group_name], unit
 
     for group in *by_group
+      group_units = by_group[group]
+      group_units = [group_units[i] for i=#group_units,1,-1]
+
+      first_unit = group_units[1]
+      continue unless first_unit
+
       section class: "unit_group", ->
         div class: "unit_group_header", group
 
         div class: "unit_group_units", ->
-          group_units = by_group[group]
-          for i=#group_units,1,-1
-            @render_unit group_units[i], highlight_unit
+          dow = first_unit.date\getisoweekday()
+          dow = dow % 7
+          for i=1,dow
+            div class: "streak_unit spacer"
+
+          for unit in *group_units
+            @render_unit unit, highlight_unit
 
   render_all_units: =>
     highlight_unit = if @highlight_date
@@ -123,6 +133,9 @@ class StreakUnits extends require "widgets.base"
 
     if submission_id
       tooltip ..= " - Submitted"
+
+    dow = unit.date\getisoweekday()
+    dow = dow % 7
 
     a href: unit_url, ->
       div {
