@@ -13,7 +13,11 @@ class StreakUnits extends require "widgets.base"
     else
       @render_recent_units!
 
-  render_recent_units: (count=154) =>
+  render_recent_units: =>
+    y,m,d = date(true)\getdate!
+    bottom = @streak\truncate_date date y, m - 4, 1
+    bottom\adddays 1
+
     start_date = @streak\start_datetime!
     current_date = date true
 
@@ -25,7 +29,7 @@ class StreakUnits extends require "widgets.base"
       @streak\truncate_date date true
 
     current_group = nil
-    units = while count > 0 and start_date < current_date
+    units = while bottom < current_date and start_date < current_date
       break if cutoff_date and current_date < cutoff_date
 
       unit_date = @streak\truncate_date current_date
@@ -39,7 +43,6 @@ class StreakUnits extends require "widgets.base"
       }
 
       with unit_data
-        count -= 1
         @streak\increment_date_by_unit current_date, -1
 
     unit_group = (unit) -> unit.date\fmt "%Y-%m"
