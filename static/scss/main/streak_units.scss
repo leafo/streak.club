@@ -1,5 +1,18 @@
 
 .streak_units {
+    .unit_group_header {
+        font-size: 14px;
+        letter-spacing: 0.05em;
+        color: $body_color_lighter;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .unit_group {
+        margin-bottom: 20px;
+    }
+
+
     .streak_unit {
         background: $border_color;
         display: inline-block;
@@ -10,12 +23,26 @@
         font-weight: bold;
         text-align: center;
 
+        width: 30px;
+        height: 20px;
+        line-height: 20px;
+        font-size: 13px;
+
+        a {
+            &:nth-child(7n) {
+                .streak_unit {
+                    margin-right: 0;
+                }
+            }
+        }
+
+
         &.before_current_unit {
             background: darken($border_color, 8%);
         }
 
         &.current_unit {
-            box-shadow: 0 0 0 2px lighten($blue, 20%);
+            box-shadow: 0 0 0 3px $blue, inset 0 0 0 1px rgba(white, 0.5);
         }
 
         &.submitted {

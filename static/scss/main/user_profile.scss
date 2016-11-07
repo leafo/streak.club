@@ -1,16 +1,5 @@
 
 .user_profile_page {
-    .sidebar_streak_list {
-        .streak_units a {
-            &:nth-child(11n) {
-                .streak_unit {
-                    margin-right: 0;
-                }
-            }
-        }
-
-    }
-
     .columns {
         font-size: 0;
     }
