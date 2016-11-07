@@ -61,14 +61,27 @@
     .streak_units {
         margin-top: 20px;
 
+        .unit_group_header {
+            font-size: 14px;
+            letter-spacing: 0.05em;
+            color: $body_color_lighter;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .unit_group {
+            margin-bottom: 20px;
+        }
+
         .streak_unit {
-            width: 18px;
-            height: 18px;
-            line-height: 18px;
+            width: 30px;
+            height: 20px;
+            line-height: 20px;
+            font-size: 13px;
         }
 
         a {
-            &:nth-child(11n) {
+            &:nth-child(7n) {
                 .streak_unit {
                     margin-right: 0;
                 }

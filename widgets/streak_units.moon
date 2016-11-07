@@ -54,8 +54,13 @@ class StreakUnits extends require "widgets.base"
       table.insert by_group[group_name], unit
 
     for group in *by_group
-      for unit in *by_group[group]
-        @render_unit unit, highlight_unit
+      section class: "unit_group", ->
+        div class: "unit_group_header", group
+
+        div class: "unit_group_units", ->
+          group_units = by_group[group]
+          for i=#group_units,1,-1
+            @render_unit group_units[i], highlight_unit
 
   render_all_units: =>
     highlight_unit = if @highlight_date

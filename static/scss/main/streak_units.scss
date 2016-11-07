@@ -5,15 +5,13 @@
         display: inline-block;
         vertical-align: top;
         margin: 0 4px 4px 0;
-        color: white;
-        color: #888;
+        color: #777;
         font-size: 10px;
         font-weight: bold;
         text-align: center;
 
         &.before_current_unit {
             background: darken($border_color, 8%);
-            color: #eee;
         }
 
         &.current_unit {
@@ -22,7 +20,7 @@
 
         &.submitted {
             background: $green;
-            color: white;
+            color: darken($green, 30%);
         }
     }
 }
