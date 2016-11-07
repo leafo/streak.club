@@ -14,9 +14,17 @@ class StreakUnits extends require "widgets.base"
       @render_recent_units!
 
   render_recent_units: =>
+    is_daily = @streak.rate == Streaks.rates.daily
+
     y,m,d = date(true)\getdate!
-    bottom = @streak\truncate_date date y, m - 4, 1
-    bottom\adddays 1
+
+    local bottom
+    if is_daily
+      bottom = @streak\truncate_date date y, m - 4, 1
+      bottom\adddays 1
+    else
+      bottom = @streak\truncate_date y - 1, 1, 1
+      bottom\adddays 1
 
     start_date = @streak\start_datetime!
     current_date = date true
@@ -45,7 +53,11 @@ class StreakUnits extends require "widgets.base"
       with unit_data
         @streak\increment_date_by_unit current_date, -1
 
-    unit_group = (unit) -> unit.date\fmt "%Y-%m"
+    unit_group = if is_daily
+      (unit) -> unit.date\fmt "%Y-%m"
+    else
+      (unit) -> unit.date\fmt "%Y"
+
     by_group = {}
 
     for unit in *units
@@ -67,10 +79,11 @@ class StreakUnits extends require "widgets.base"
         div class: "unit_group_header", group
 
         div class: "unit_group_units", ->
-          dow = first_unit.date\getisoweekday()
-          dow = dow % 7
-          for i=1,dow
-            div class: "streak_unit spacer"
+          if is_daily
+            dow = first_unit.date\getisoweekday()
+            dow = dow % 7
+            for i=1,dow
+              div class: "streak_unit spacer"
 
           for unit in *group_units
             @render_unit unit, highlight_unit
