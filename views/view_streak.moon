@@ -161,6 +161,8 @@ class ViewStreak extends require "widgets.page"
         text " ("
         @date_format @streak\end_datetime!
         text ")."
+      else
+        text " Goes forever."
 
     unless is_empty_html @streak.description
       div class: "user_formatted streak_description", ->
