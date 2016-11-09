@@ -91,6 +91,17 @@ class StreaksApplication extends lapis.Application
       @flow("streak")\do_streak_action!
   }
 
+  ["streak.calendar": "/s/:id/:slug(/:year)"]: capture_errors {
+    on_error: => not_found
+
+    =>
+      @flow("streak")\load_streak!
+      -- get the year
+
+      render: true
+
+  }
+
   [streak_participants: "/s/:id/:slug/participants"]: respond_to {
     on_error: => not_found
 
