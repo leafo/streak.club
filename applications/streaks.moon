@@ -91,15 +91,28 @@ class StreaksApplication extends lapis.Application
       @flow("streak")\do_streak_action!
   }
 
-  ["streak.calendar": "/s/:id/:slug(/:year)"]: capture_errors {
+  ["streak.calendar": "/s/:id/:slug/calendar(/:year[%d])"]: capture_errors {
     on_error: => not_found
 
     =>
       @flow("streak")\load_streak!
-      -- get the year
+      start = @streak\start_datetime!
+      stop = @streak\start_datetime!
 
+      assert_valid @params, {
+        {"year", is_integer: true, optional: true}
+      }
+
+      year = tonumber @params.year
+
+      unless year
+        year = stop\getdate!
+
+      assert_error year >= start\getdate!, "invlaid year"
+      assert_error year <= stop\getdate!, "invlaid year"
+
+      @year = year
       render: true
-
   }
 
   [streak_participants: "/s/:id/:slug/participants"]: respond_to {

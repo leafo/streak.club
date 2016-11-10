@@ -11,5 +11,5 @@ class StreakCalendar extends require "widgets.page"
       @column_content!
 
   column_content: =>
-    h3 "Caldenar"
+    h3 "Caldenar #{@year}"
 
