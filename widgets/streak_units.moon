@@ -103,7 +103,12 @@ class StreakUnits extends require "widgets.base"
 
     while current_date < end_date
       formatted_date = current_date\fmt Streaks.day_format_str
-      unit_count = @unit_counts and @unit_counts[formatted_date] or 0
+
+      -- counts  are indexed in streak local time date
+      unit_count_date = current_date\copy!
+      unit_count_date\addhours(@streak.hour_offset)
+      count_fmt = unit_count_date\fmt Streaks.day_format_str
+      unit_count = @unit_counts and @unit_counts[count_fmt] or 0
 
       @render_unit {
         count: @unit_counts and unit_count or nil
