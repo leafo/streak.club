@@ -42,7 +42,11 @@ class StreakUnits extends require "widgets.base"
 
       -- unit date in utc
       unit_date = @streak\truncate_date current_date
-      formatted_date = unit_date\fmt Streaks.day_format_str
+
+      -- counts are indexed in streak local time date
+      unit_count_date = current_date\copy!
+      unit_count_date\addhours(@streak.hour_offset)
+      formatted_date = unit_count_date\fmt Streaks.day_format_str
       unit_count = @unit_counts and @unit_counts[formatted_date] or 0
 
       unit_data = {
