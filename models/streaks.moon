@@ -71,6 +71,10 @@ class Streaks extends Model
       order: "position asc"
     }
 
+    {"streak_submissions",
+      has_many: "StreakSubmissions",
+      order: "submit_time asc"}
+
     {"other_related_streaks",
       has_many: "RelatedStreaks"
       key: "other_streak_id"
