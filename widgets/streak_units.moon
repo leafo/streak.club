@@ -40,6 +40,7 @@ class StreakUnits extends require "widgets.base"
     units = while bottom < current_date and start_date < current_date
       break if cutoff_date and current_date < cutoff_date
 
+      -- unit date in utc
       unit_date = @streak\truncate_date current_date
       formatted_date = unit_date\fmt Streaks.day_format_str
       unit_count = @unit_counts and @unit_counts[formatted_date] or 0
@@ -102,13 +103,11 @@ class StreakUnits extends require "widgets.base"
     current_date = start_date\copy!
 
     while current_date < end_date
-      formatted_date = current_date\fmt Streaks.day_format_str
-
-      -- counts  are indexed in streak local time date
+      -- counts are indexed in streak local time date
       unit_count_date = current_date\copy!
       unit_count_date\addhours(@streak.hour_offset)
-      count_fmt = unit_count_date\fmt Streaks.day_format_str
-      unit_count = @unit_counts and @unit_counts[count_fmt] or 0
+      formatted_date = unit_count_date\fmt Streaks.day_format_str
+      unit_count = @unit_counts and @unit_counts[formatted_date] or 0
 
       @render_unit {
         count: @unit_counts and unit_count or nil
