@@ -96,8 +96,9 @@ class StreaksApplication extends lapis.Application
 
     =>
       @flow("streak")\load_streak!
+
       start = @streak\start_datetime!
-      stop = @streak\start_datetime!
+      stop = @streak\end_datetime!
 
       assert_valid @params, {
         {"year", is_integer: true, optional: true}
@@ -106,10 +107,10 @@ class StreaksApplication extends lapis.Application
       year = tonumber @params.year
 
       unless year
-        year = stop\getdate!
+        year = stop and stop\getdate! or date(true)\getdate!
 
       assert_error year >= start\getdate!, "invlaid year"
-      assert_error year <= stop\getdate!, "invlaid year"
+      assert_error year <= (stop and stop\getdate! or date(true)\getdate!), "invlaid year"
 
       @year = year
       render: true
