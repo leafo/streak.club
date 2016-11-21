@@ -9,55 +9,64 @@ class StreakUnits extends require "widgets.base"
 
   inner_content: =>
     if @streak\has_end!
-      @render_all_units!
+      @render_units @all_units!
     else
-      @render_recent_units!
+      @render_grouped @recent_units!
 
-  render_recent_units: =>
-    is_daily = @streak.rate == Streaks.rates.daily
+  all_units: =>
+    coroutine.wrap ->
+      start_date = @streak\start_datetime!
+      end_date = @streak\end_datetime!
 
-    y,m,d = date(true)\getdate!
+      assert start_date < end_date
+      current_date = start_date\copy!
+      while current_date < end_date
+        coroutine.yield current_date\copy!
+        @streak\increment_date_by_unit current_date
 
-    local bottom
-    if is_daily
-      bottom = @streak\truncate_date date y, m - 4, 1
-      bottom\adddays 1
-    else
-      bottom = @streak\truncate_date y - 1, 1, 1
-      bottom\adddays 1
+  recent_units: =>
+    coroutine.wrap ->
+      is_daily = @streak.rate == Streaks.rates.daily
 
-    start_date = @streak\start_datetime!
-    current_date = date true
+      y,m,d = date(true)\getdate!
 
-    cutoff_date = @start_date and date @start_date
+      local bottom
+      if is_daily
+        bottom = @streak\truncate_date date y, m - 4, 1
+        bottom\adddays 1
+      else
+        bottom = @streak\truncate_date y - 1, 1, 1
+        bottom\adddays 1
 
+      start_date = @streak\start_datetime!
+      current_date = date true
+
+      cutoff_date = @start_date and date @start_date
+
+      while bottom < current_date and start_date < current_date
+        break if cutoff_date and current_date < cutoff_date
+        coroutine.yield @streak\truncate_date current_date
+        @streak\increment_date_by_unit current_date, -1
+
+  render_grouped: (each_unit) =>
     highlight_unit = if @highlight_date
-      @streak\truncate_date(@highlight_date)
+      @streak\truncate_date @highlight_date
     else
-      @streak\truncate_date date true
+      @streak\truncate_date(date(true))\addhours @streak.hour_offset
 
-    current_group = nil
-    units = while bottom < current_date and start_date < current_date
-      break if cutoff_date and current_date < cutoff_date
-
-      -- unit date in utc
-      unit_date = @streak\truncate_date current_date
-
-      -- counts are indexed in streak local time date
-      unit_count_date = current_date\copy!
-      unit_count_date\addhours(@streak.hour_offset)
-      formatted_date = unit_count_date\fmt Streaks.day_format_str
+    units = for unit_date_utc in each_unit
+      unit_date = unit_date_utc\copy!
+      unit_date\addhours(@streak.hour_offset)
+      formatted_date = unit_date\fmt Streaks.day_format_str
       unit_count = @unit_counts and @unit_counts[formatted_date] or 0
 
-      unit_data = {
+      {
         count: @unit_counts and unit_count or nil
         date: unit_date\copy!
         :formatted_date
       }
 
-      with unit_data
-        @streak\increment_date_by_unit current_date, -1
-
+    is_daily = @streak.rate == Streaks.rates.daily
     unit_group = if is_daily
       (unit) -> unit.date\fmt "%Y-%m"
     else
@@ -93,33 +102,23 @@ class StreakUnits extends require "widgets.base"
           for unit in *group_units
             @render_unit unit, highlight_unit
 
-  render_all_units: =>
+  render_units: (each_unit) =>
     highlight_unit = if @highlight_date
       @streak\truncate_date(@highlight_date)
     else
-      @streak\truncate_date date true
+      @streak\truncate_date(date(true))\addhours @streak.hour_offset
 
-    start_date = @streak\start_datetime!
-    end_date = @streak\end_datetime!
-
-    assert start_date < end_date
-
-    current_date = start_date\copy!
-
-    while current_date < end_date
-      -- counts are indexed in streak local time date
-      unit_count_date = current_date\copy!
-      unit_count_date\addhours(@streak.hour_offset)
-      formatted_date = unit_count_date\fmt Streaks.day_format_str
+    for unit_date_utc in each_unit
+      unit_date = unit_date_utc\copy!
+      unit_date\addhours(@streak.hour_offset)
+      formatted_date = unit_date\fmt Streaks.day_format_str
       unit_count = @unit_counts and @unit_counts[formatted_date] or 0
 
       @render_unit {
         count: @unit_counts and unit_count or nil
-        date: current_date\copy!
+        date: unit_date\copy!
         :formatted_date
       }, highlight_unit
-
-      @streak\increment_date_by_unit current_date
 
   render_unit: (unit, highlight_unit_date) =>
     formatted_date = unit.formatted_date
