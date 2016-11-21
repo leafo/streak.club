@@ -96,6 +96,7 @@ class StreaksApplication extends lapis.Application
 
     =>
       @flow("streak")\load_streak!
+      @unit_counts = @streak\unit_submission_counts!
 
       start = @streak\start_datetime!
       stop = @streak\end_datetime!

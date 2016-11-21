@@ -1,5 +1,6 @@
 
 StreakHeader = require "widgets.streak_header"
+StreakUnits = require "widgets.streak_units"
 
 class StreakCalendar extends require "widgets.page"
   page_name: "calendar"
@@ -11,5 +12,8 @@ class StreakCalendar extends require "widgets.page"
       @column_content!
 
   column_content: =>
-    h3 "Caldenar #{@year}"
+    h3 "Calendar #{@year}"
+    widget StreakUnits
+
+
 
