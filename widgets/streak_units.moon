@@ -13,46 +13,50 @@ class StreakUnits extends require "widgets.base"
     else
       @render_grouped @recent_units!
 
-  all_units: =>
-    coroutine.wrap ->
-      start_date = @streak\start_datetime!
-      end_date = @streak\end_datetime!
+  get_highlight_date: =>
+    if @highlight_date
+      @streak\truncate_date @highlight_date
+    else
+      @streak\truncate_date(date(true))\addhours @streak.hour_offset
 
-      assert start_date < end_date
-      current_date = start_date\copy!
+  all_units: =>
+    start_date = @streak\start_datetime!
+    end_date = @streak\end_datetime!
+
+    assert start_date < end_date
+    current_date = start_date\copy!
+
+    coroutine.wrap ->
       while current_date < end_date
         coroutine.yield current_date\copy!
         @streak\increment_date_by_unit current_date
 
   recent_units: =>
+    is_daily = @streak.rate == Streaks.rates.daily
+
+    y,m,d = date(true)\getdate!
+
+    local bottom
+    if is_daily
+      bottom = @streak\truncate_date date y, m - 4, 1
+      bottom\adddays 1
+    else
+      bottom = @streak\truncate_date y - 1, 1, 1
+      bottom\adddays 1
+
+    start_date = @streak\start_datetime!
+    current_date = date true
+
+    cutoff_date = @start_date and date @start_date
+
     coroutine.wrap ->
-      is_daily = @streak.rate == Streaks.rates.daily
-
-      y,m,d = date(true)\getdate!
-
-      local bottom
-      if is_daily
-        bottom = @streak\truncate_date date y, m - 4, 1
-        bottom\adddays 1
-      else
-        bottom = @streak\truncate_date y - 1, 1, 1
-        bottom\adddays 1
-
-      start_date = @streak\start_datetime!
-      current_date = date true
-
-      cutoff_date = @start_date and date @start_date
-
       while bottom < current_date and start_date < current_date
         break if cutoff_date and current_date < cutoff_date
         coroutine.yield @streak\truncate_date current_date
         @streak\increment_date_by_unit current_date, -1
 
   render_grouped: (each_unit) =>
-    highlight_unit = if @highlight_date
-      @streak\truncate_date @highlight_date
-    else
-      @streak\truncate_date(date(true))\addhours @streak.hour_offset
+    highlight_unit = @get_highlight_date!
 
     units = for unit_date_utc in each_unit
       unit_date = unit_date_utc\copy!
@@ -103,10 +107,7 @@ class StreakUnits extends require "widgets.base"
             @render_unit unit, highlight_unit
 
   render_units: (each_unit) =>
-    highlight_unit = if @highlight_date
-      @streak\truncate_date(@highlight_date)
-    else
-      @streak\truncate_date(date(true))\addhours @streak.hour_offset
+    highlight_unit = @get_highlight_date!
 
     for unit_date_utc in each_unit
       unit_date = unit_date_utc\copy!
