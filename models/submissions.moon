@@ -116,15 +116,8 @@ class Submissions extends Model
 
     @streaks
 
-  get_uploads: =>
-    unless @uploads
-      import Uploads from require "models"
-      @uploads = Uploads\select "
-        where object_type = ? and object_id = ? and ready
-        order by position
-      ", Uploads.object_types.submission, @id
-
-    @uploads
+  get_images: =>
+    [u for u in *@get_uploads! when u\is_image!]
 
   url_params: =>
     slug = @slug!
