@@ -1,4 +1,3 @@
-
 lapis = require "lapis.init"
 config = require"lapis.config".get!
 
@@ -18,7 +17,7 @@ time = ->
 fmt_time = (t) ->
   "%0.2f"\format t
 
-lapis.serve class extends lapis.Application
+class extends lapis.Application
   layout: false
 
   "/*": =>
