@@ -90,6 +90,11 @@ view_submission = capture_errors {
 
       @other_submissions = other_submissions\get_page!
 
+
+    -- if there's an image in it, make it the page's image
+    if image = unpack @submission\get_images!
+      @meta_image = image\image_url!
+
     render: "view_submission"
 }
 
