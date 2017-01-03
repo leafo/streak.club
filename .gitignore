@@ -5,3 +5,4 @@ nginx.conf.compiled
 .tup
 node_modules
 *.service
+image_cache/
