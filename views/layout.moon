@@ -24,7 +24,7 @@ class Layout extends Widget
 
     meta name: "csrf_token", value: @csrf_token
 
-    page_image = @meta_image or "/static/images/logo-banner.png"
+    page_image = @build_url @meta_image or "/static/images/logo-banner.png"
     meta property: "og:site_name", content: "Streak Club"
     meta property: "og:image", content: page_image
 
