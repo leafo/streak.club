@@ -577,6 +577,9 @@ import
   [1477809405]: =>
     add_column "streaks", "community_type", enum default: 1
 
+  [1483430549]: =>
+    -- community updates
+    require("community.schema").run_migrations!
 
 }
 
