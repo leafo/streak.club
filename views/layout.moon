@@ -25,7 +25,12 @@ class Layout extends Widget
     meta name: "csrf_token", value: @csrf_token
 
     meta property: "og:site_name", content: "Streak Club"
-    meta property: "og:image", content: "static/images/logo-banner.png"
+    meta property: "og:image", content: "/static/images/logo-banner.png"
+
+    meta {
+      property: "twitter:image"
+      content: "/static/images/logo-banner.png"
+    }
 
     if @canonical_url
       link rel: "canonical", href: @canonical_url
