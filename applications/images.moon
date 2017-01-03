@@ -71,22 +71,14 @@ class extends lapis.Application
       image_log "not found (dl: #{load_time})"
       return status: 404, "not found (#{load_err})"
 
-    cache_name = ngx.md5(@params.splat) .. "." .. ext
-
     if size != "original" and ext != "gif"
       start = time!
       import thumb, load_image_from_blob from require "magick"
       image_blob = thumb load_image_from_blob(image_blob), (unescape size)
       resize_time = fmt_time time! - start
-      image_log "resize #{key} -> #{cache_name} (load: #{load_time}) (res: #{resize_time})"
+      image_log "resize #{key} (load: #{load_time}) (res: #{resize_time})"
     else
-      image_log "skip #{key} -> #{cache_name} (load: #{load_time})"
+      image_log "skip #{key} (load: #{load_time})"
 
-    file = assert io.open "cache/#{cache_name}", "w"
-    pcall -> file\write image_blob
-    file\close!
-
-    ngx.header["x-image-cache"] = "miss"
-    ngx.header["x-image-cache-name"] = cache_name
     content_type: Uploads.content_types[ext], image_blob
 
