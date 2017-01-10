@@ -84,9 +84,9 @@ class StreakFlow extends Flow
 
     @setup_twitter_card!
 
-    @category = @streak\get_community_category!
-    flow = require("community.flows.browsing")
-    @category_topics = flow(@)\preview_category_topics @category
+    if @category = @streak\get_community_category!
+      flow = require("community.flows.browsing")
+      @category_topics = flow(@)\preview_category_topics @category
 
     render: true
 
