@@ -27,7 +27,7 @@ test_db:
 prod_db:
 	-dropdb -U postgres streakclub_prod
 	createdb -U postgres streakclub_prod
-	pg_restore -U postgres -d streakclub_prod $$(find /home/leafo/bin/backups/ | grep streakclub | sort -V | tail -n 1)
+	pg_restore -U postgres -d streakclub_prod $$(find /mnt/drive/site-backups/ | grep streakclub | sort -V | tail -n 1)
 
 lint:
 	git ls-files | grep '\.moon$$' | grep -v config.moon | xargs -n 100 moonc -l
