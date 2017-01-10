@@ -83,6 +83,11 @@ class StreakFlow extends Flow
     @streak_host.following = @streak_host\followed_by @current_user
 
     @setup_twitter_card!
+
+    @category = @streak\get_community_category!
+    flow = require("community.flows.browsing")
+    @category_topics = flow(@)\preview_category_topics @category
+
     render: true
 
   do_streak_action: =>
