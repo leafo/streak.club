@@ -581,5 +581,8 @@ import
     -- community updates
     require("community.schema").run_migrations!
 
+  [1484032396]: =>
+    require("community.schema").run_migrations!
+
 }
 
