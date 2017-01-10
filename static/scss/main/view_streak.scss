@@ -183,4 +183,29 @@
             color: #999;
         }
     }
+
+    .streak_side_column .community_preview {
+        .topic_title {
+            font-size: $body_size;
+            margin-bottom: 2px;
+        }
+
+        .topic_sub {
+            font-size: $body_size_small;
+            color: $body_color_light;
+            a {
+                color: inherit;
+            }
+        }
+        .topic_row {
+            margin-bottom: 10px;
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        .discuss_links {
+            margin: 1em 0 0 0;
+        }
+    }
 }

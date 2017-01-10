@@ -130,6 +130,8 @@ class ViewStreak extends require "widgets.page"
           "Leave streak"
         }
 
+    @render_community_preview!
+
     h3 "Hosted by"
     widget UserList users: { @streak_host }, narrow: true
 
@@ -228,4 +230,37 @@ class ViewStreak extends require "widgets.page"
         else
           input type: "hidden", name: "action", value: "create"
           button "Feature"
+
+  render_community_preview: =>
+    return unless @category
+    return unless @category_topics and next @category_topics
+    section class: "community_preview", ->
+      h3 "Discuss"
+
+      div class: "topic_list", ->
+        for topic in *@category_topics
+          has_unread = topic\has_unread @current_user
+          last_post = topic\get_last_post!
+
+          div class: "topic_row", ->
+            div class: "topic_title", ->
+              (has_unread and strong or text) ->
+                a href: @url_for(topic), topic\name_for_display!
+
+            div class: "topic_sub", ->
+              topic_date = last_post and last_post.created_at or topic.created_at
+
+              import format_date from require "helpers.datetime"
+              abs, rel = format_date topic_date
+              span title: abs, rel
+
+              if user = last_post and last_post\get_user!
+                text " by "
+                a href: @url_for(user), user\name_for_display!
+
+      p class: "discuss_links", ->
+        a {
+          href: @url_for("community.new_topic", category_id: @category.id)
+          class: "button"
+        }, "New topic"
 
