@@ -14,6 +14,7 @@ class UserLogin extends require "widgets.page"
         name: "username"
         required: true
         mobile: true
+        value: @params.username
       }
 
       @text_input_row {
