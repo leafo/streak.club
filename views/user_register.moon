@@ -15,13 +15,14 @@ class UserRegister extends require "widgets.page"
         name: "username"
         required: true
         mobile: true
-
+        value: @params.username
       }
 
       @text_input_row {
         label: "Email"
         name: "email"
         required: true
+        value: @params.email
       }
 
       @text_input_row {
@@ -36,7 +37,6 @@ class UserRegister extends require "widgets.page"
         name: "password_repeat"
         required: true
         type: "password"
-
       }
 
       div class: "input_row terms_row", ->
