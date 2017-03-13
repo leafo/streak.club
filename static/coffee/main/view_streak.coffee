@@ -12,6 +12,7 @@ class S.ViewStreak
 
     @setup_countdown()
     @setup_sticky()
+    @setup_leave()
 
     @el.on "s:reshape", _.throttle =>
       $(document.body).trigger "sticky_kit:recalc"
@@ -47,3 +48,7 @@ class S.ViewStreak
 
     new S.Countdown countdown, countdown_time
 
+  setup_leave: ->
+    leave_form = @el.find ".leave_form"
+    leave_form.on "submit", =>
+      confirm('Are you sure you want to leave this streak?')
