@@ -163,6 +163,7 @@ class Submissions extends Model
       StreakUsers
       Streaks
       Uploads
+      Notifications
       from require "models"
 
     db.update Streaks\table_name!, {
@@ -176,6 +177,11 @@ class Submissions extends Model
 
     for u in *streak_users
       u\update_streaks!
+
+    db.delete Notifications\table_name!, {
+      object_type: Notifications.object_types.submission
+      object_id: @id
+    }
 
     for model in *{SubmissionLikes, SubmissionTags, StreakSubmissions}
       db.delete model\table_name!, submission_id: @id
