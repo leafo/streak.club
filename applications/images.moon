@@ -73,8 +73,13 @@ class extends lapis.Application
 
     if size != "original" and ext != "gif"
       start = time!
-      import thumb, load_image_from_blob from require "magick"
-      image_blob = thumb load_image_from_blob(image_blob), (unescape size)
+      import load_image_from_blob from require "magick"
+      image = assert load_image_from_blob image_blob
+
+      image\auto_orient!
+      image\thumb (unescape size)
+
+      image_blob = image\get_blob!
       resize_time = fmt_time time! - start
       image_log "resize #{key} (load: #{load_time}) (res: #{resize_time})"
     else
