@@ -1,5 +1,16 @@
 
 .edit_submission_page {
+    .page_header{
+        @include mobile_width {
+            margin-bottom: 20px;
+
+            h2 {
+                font-size: 24px;
+            }
+        }
+    }
+
+
     .file_uploader {
         margin-bottom: 10px;
     }

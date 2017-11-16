@@ -9,6 +9,8 @@ class EditSubmission extends require "widgets.page"
 
   @include "widgets.form_helpers"
 
+  responsive: true
+
   js_init: =>
     data = {
       uploads: @uploads and [{
