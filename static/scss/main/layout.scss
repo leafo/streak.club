@@ -391,16 +391,14 @@ a {
     }
 
     @media (max-width: $site_width + 80px) {
-        border-left: 0;
-        border-right: 0;
+        border: 0;
+        margin: 0;
     }
 
     .responsive & {
         @media (max-width: $site_width) {
-            max-width: $site_width;
             min-width: 0;
-            width: auto;
-            margin: 20px;
+            padding: 20px;
         }
     }
 }
