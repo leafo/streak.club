@@ -139,30 +139,6 @@ html_builder = {
   'video'
 }
 
-rss_builder = {
-  "rss"
-  "description"
-  "item"
-  "pubDate"
-  "channel"
-
-  -- custom tags
-  "windows"
-  "osx"
-  "linux"
-  "android"
-  "platforms"
-  "updateDate"
-  "createDate"
-  "saleends"
-  "fullPrice"
-  "discountpercent"
-  "price"
-  "imageurl"
-  "plainTitle"
-  "currency"
-}
-
 {
   whitelist_globals: {
     ["."]: { "ngx" }
