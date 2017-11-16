@@ -158,7 +158,10 @@ class IndexLoggedOut extends require "widgets.page"
                 a href: @url_for(sub.user), sub.user\name_for_display!
 
   filter_tab: (label, key, val, slug) =>
-    base_url = @url_for "streaks"
-    url = base_url .. "/#{slug or val }"
+    url = @url_for "streaks"
+
+    if slug or val
+      url ..= "/#{slug or val}"
+
     a href: url, class: "tab", label
 
