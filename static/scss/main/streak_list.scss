@@ -6,15 +6,22 @@
     align-items: start;
 
     .streak_box {
-        height: 225px;
+        min-height: 225px;
+        min-width: 0;
         background: white;
         border: 1px solid $border_color;
         position: relative;
         font-size: $body_size;
 
+        .upper_content {
+            border-bottom: 1px solid $border_color;
+            padding: 10px 20px;
+            box-sizing: border-box;
+        }
+
         .streak_tag {
             position: absolute;
-            top: 0px;
+            top: 10px;
             right: 10px;
             font-size: 12px;
             text-transform: uppercase;
@@ -29,19 +36,12 @@
             }
         }
 
-        .box_content {
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-        }
-
         h3 {
             font-size: 28px;
             font-weight: normal;
-            margin: 0 20px;
             overflow: hidden;
             line-height: 36px;
+            margin: 0;
             @include single_line;
 
             @include mobile_width {
@@ -64,7 +64,6 @@
 
         .streak_host {
             color: #999;
-            margin: 0 20px;
             margin-top: 9px;
             @include single_line;
             padding-bottom: 6px;
@@ -85,18 +84,16 @@
             @include single_line;
             color: #666;
             font-size: 15px;
-            margin: 0 20px;
         }
 
         .streak_stats {
-            margin-top: 12px;
             text-align: center;
-            border-top: 1px solid $border_color;
             padding-top: 10px;
 
             .stat_box {
                 display: inline-block;
                 margin-right: 20px;
+                min-width: 50px;
 
                 &:last-child {
                     margin-right: 0;
@@ -104,7 +101,7 @@
             }
 
             .stat_value {
-                font-size: 28px;
+                font-size: 24px;
             }
 
             .stat_label {
@@ -113,11 +110,17 @@
             }
         }
 
+        .submit_btn {
+            display: block;
+            margin: 10px 20px;
+        }
+
         .status_message {
             color: #999;
             text-align: center;
-            margin: 9px 20px;
-            line-height: 22px;
+            margin: 10px 20px;
+            height: 35px;
+            line-height: 35px;
         }
 
         .progress_row {

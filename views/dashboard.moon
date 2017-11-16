@@ -20,7 +20,9 @@ class Dashboard extends require "widgets.page"
         h2 "Active streaks you're in"
 
         if next @active_streaks
-          @render_streaks @active_streaks
+          @render_streaks @active_streaks, {
+            show_submit_button: true
+          }
         else
           p class: "empty_message", "You aren't part of any"
 
@@ -45,5 +47,8 @@ class Dashboard extends require "widgets.page"
           text " on Twitter for site updates and interesting streaks and
           submissions."
 
-  render_streaks: (streaks) =>
-    widget StreakList(:streaks)
+  render_streaks: (streaks, opts={}) =>
+    widget StreakList {
+      :streaks
+      show_submit_button: opts.show_submit_button
+    }
