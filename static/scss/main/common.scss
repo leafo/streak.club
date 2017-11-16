@@ -39,13 +39,9 @@ $like_color: #FF5E5E;
 
 @mixin border_box {
     box-sizing: border-box;
-    -moz-box-sizing: border-box;
 }
 
 @mixin transition($args...) {
-    -webkit-transition: $args;
-    -moz-transition: $args;
-    -ms-transition: $args;
     transition: $args;
 }
 
@@ -73,11 +69,6 @@ $like_color: #FF5E5E;
 
 @mixin opacity($opacity) {
     opacity: $opacity;
-    .ie & {
-        $percent: round($opacity * 100);;
-        filter: unquote("alpha(opacity=#{$percent})");
-        -ms-filter: unquote('"progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$percent})"');
-    }
 }
 
 @mixin single_line {
@@ -191,3 +182,19 @@ $like_color: #FF5E5E;
     -ms-flex-direction: column;
     flex-direction: column;
 }
+
+@mixin mobile_width {
+    @media(max-width: 650px) {
+        @content;
+    }
+}
+
+
+@mixin not_mobile_width {
+    @media(min-width: 650px) {
+        @content;
+    }
+}
+
+
+
