@@ -274,11 +274,7 @@ class StreaksApplication extends lapis.Application
 
   }
 
-  "/streaks/*": (...) =>
-    @route_name = "streaks"
-    @app.__class\find_action(@route_name) @, ...
-
-  [streaks: "/streaks"]: =>
+  [streaks: "/streaks(/*)"]: =>
     @show_welcome_banner = true
 
     flow = @flow "browse_streaks"
