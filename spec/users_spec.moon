@@ -67,7 +67,7 @@ describe "users", ->
 
     assert.same 1, #Users\select!
     assert.same 302, status
-    assert.same "http://127.0.0.1/", headers.location
+    assert.same "http://localhost/", headers.location
 
   it "should log in user", ->
     user = factory.Users password: "hello world"
@@ -80,8 +80,7 @@ describe "users", ->
     }
 
     assert.same 302, status
-    assert.same "http://127.0.0.1/", headers.location
-
+    assert.same "http://localhost/", headers.location
 
   describe "with streaks", ->
     local current_user

@@ -31,6 +31,10 @@ config {"development", "test", "production"}, ->
   }
 
 config "test", ->
+  port 80 -- to generate portless URLs
+  code_cache "on"
+  disable_email true
+
   postgres {
     backend: "pgmoon"
     database: "streakclub_test"

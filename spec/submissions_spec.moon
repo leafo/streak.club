@@ -283,12 +283,12 @@ describe "submissions", ->
     it "should redirect to correct slug with missing slug", ->
       status, _, headers = request_as nil, "/submission/#{submission.id}"
       assert.same 302, status
-      assert.same "http://127.0.0.1/p/#{submission.id}/#{submission\slug!}", headers.location
+      assert.same "http://localhost/p/#{submission.id}/#{submission\slug!}", headers.location
 
     it "should redirect to correct slug with invalid slug", ->
       status, _, headers = request_as nil, "/p/#{submission.id}/#{submission\slug!}-fake"
       assert.same 302, status
-      assert.same "http://127.0.0.1/p/#{submission.id}/#{submission\slug!}", headers.location
+      assert.same "http://localhost/p/#{submission.id}/#{submission\slug!}", headers.location
 
     it "should show submission as anon", ->
       status = request_as nil, "/p/#{submission.id}/#{submission\slug!}"
@@ -311,7 +311,7 @@ describe "submissions", ->
       submission\update title: db.NULL
       status, _, headers = request_as nil, "/p/#{submission.id}/blguahgegfefe"
       assert.same 302, status
-      assert.same "http://127.0.0.1/submission/#{submission.id}", headers.location
+      assert.same "http://localhost/submission/#{submission.id}", headers.location
 
 
   describe "submission likes", ->
