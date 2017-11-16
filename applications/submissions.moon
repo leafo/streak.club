@@ -43,7 +43,6 @@ view_submission = capture_errors {
       return redirect_to: @url_for @submission
 
     @canonical_url = @build_url @url_for(@submission)
-    @mobile_friendly = true
 
     Submissions\preload_for_list { @submission }, {
       likes_for: @current_user

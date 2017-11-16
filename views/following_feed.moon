@@ -5,6 +5,8 @@ HomeHeader = require "widgets.home_header"
 class FollowingFeed extends require "widgets.page"
   @needs: {"submission"}
 
+  responsive: true
+
   js_init: =>
     "S.FollowingFeed(#{@widget_selector!});"
 

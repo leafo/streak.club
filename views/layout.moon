@@ -45,7 +45,7 @@ class Layout extends Widget
       meta property: "og:description", content: @meta_description
       meta name: "description", content: @meta_description
 
-    if @mobile_friendly
+    if @view_widget and @view_widget.responsive
       meta name: "viewport", content: "width=device-width, initial-scale=1"
 
     @include_fonts!
@@ -148,7 +148,7 @@ class Layout extends Widget
       class_name or= ""
       class_name ..= " embed_page"
 
-    if @mobile_friendly
+    if @view_widget and @view_widget.responsive
       class_name or= ""
       class_name ..= " responsive"
 

@@ -5,6 +5,8 @@ SubmissionList = require "widgets.submission_list"
 class StreakTopSubmissions extends require "widgets.page"
   page_name: "top_submissions"
 
+  responsive: true
+
   inner_content:  =>
     widget StreakHeader page_name: @page_name
 

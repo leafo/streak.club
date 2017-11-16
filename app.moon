@@ -65,8 +65,6 @@ class extends lapis.Application
     @featured_streaks = [f.streak for f in *featured]
     Users\include_in @featured_streaks, "user_id"
 
-    @mobile_friendly = true
-
     @featured_submissions = FeaturedSubmissions\find_submissions!\get_page!
 
     -- filter out things that don't have image
@@ -108,7 +106,6 @@ class extends lapis.Application
 
   [following_feed: "/feed"]: require_login =>
     import Submissions from require "models"
-    @mobile_friendly = true
 
     @pager = @current_user\find_follower_submissions {
       per_page: 25

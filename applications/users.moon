@@ -181,7 +181,6 @@ class UsersApplication extends lapis.Application
 
   [user_register: "/register"]: ensure_https respond_to {
     before: =>
-      @mobile_friendly = true
       if @current_user
         @write redirect_to: @url_for "index"
 
@@ -215,8 +214,6 @@ class UsersApplication extends lapis.Application
 
   [user_login: "/login"]: ensure_https respond_to {
     before: =>
-      @mobile_friendly = true
-
       if @current_user
         @write redirect_to: @url_for "index"
 

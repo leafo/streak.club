@@ -68,8 +68,6 @@ class StreakFlow extends Flow
     if @page and @page > 1
       @canonical_url ..= "?page=#{@page}"
 
-    @mobile_friendly = true
-
     @embed_page = not not @params.embed
 
     if @streak_user

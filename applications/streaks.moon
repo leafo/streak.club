@@ -343,8 +343,6 @@ class StreaksApplication extends lapis.Application
       find_streak @
       check_slug @
 
-      @mobile_friendly = true
-
       import Submissions from require "models"
       pager = @streak\find_top_submissions {
         per_page: SUBMISSIONS_PER_PAGE

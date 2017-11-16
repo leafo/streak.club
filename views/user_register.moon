@@ -2,6 +2,8 @@
 class UserRegister extends require "widgets.page"
   @include "widgets.form_helpers"
 
+  responsive: true
+
   column_content: =>
     div class: "page_header", ->
       h2 "Sign up"

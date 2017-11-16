@@ -9,6 +9,8 @@ class ViewSubmission extends require "widgets.page"
   @include "widgets.twitter_card_helpers"
   @include "widgets.streak_helpers"
 
+  responsive: true
+
   inner_content: =>
     if #@streak_submissions == 1
       widget StreakHeader {

@@ -15,6 +15,7 @@ class ViewStreak extends require "widgets.page"
   @needs: {"streak", "streak_host", "unit_counts", "completed_units"}
   @include "widgets.twitter_card_helpers"
 
+  responsive: true
   page_name: "overview"
 
   js_init: =>

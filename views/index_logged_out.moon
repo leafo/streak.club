@@ -5,6 +5,8 @@ StreakList = require "widgets.streak_list"
 class IndexLoggedOut extends require "widgets.page"
   @needs: {"featured_streaks"}
 
+  responsive: true
+
   js_init: =>
     "new S.IndexLoggedOut(#{@widget_selector!});"
 
