@@ -95,7 +95,7 @@ class Layout extends Widget
 
   footer: =>
     div class: "footer", ->
-      div class: "inner_column", ->
+      div class: "inner_footer", ->
         div class: "footer_right", ->
           text "streak.club is "
           a href: "https://github.com/leafo/streak.club", "open source"
