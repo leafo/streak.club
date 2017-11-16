@@ -12,11 +12,18 @@
         margin-bottom: 20px;
     }
 
+    .unit_group_units {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
+        grid-gap: 5px;
+        align-items: start;
+        > a {
+            text-decoration: none;
+        }
+    }
+
     .streak_unit {
         background: $border_color;
-        display: inline-block;
-        vertical-align: top;
-        margin: 0 4px 4px 0;
         color: #777;
         font-size: 10px;
         font-weight: bold;
@@ -24,22 +31,14 @@
 
         width: 30px;
         height: 20px;
+
         line-height: 20px;
         font-size: 13px;
-
-        a {
-            &:nth-child(7n) {
-                .streak_unit {
-                    margin-right: 0;
-                }
-            }
-        }
 
         &.spacer {
             background: transparent;
             box-shadow: inset 0 0 0 2px rgba($border_color, 0.5);
         }
-
 
         &.before_current_unit {
             background: darken($border_color, 8%);

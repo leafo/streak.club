@@ -9,7 +9,8 @@ class StreakUnits extends require "widgets.base"
 
   inner_content: =>
     if @streak\has_end!
-      @render_units @all_units!
+      div class: "unit_group_units", ->
+        @render_units @all_units!
     else
       @render_grouped @recent_units!
 
