@@ -46,6 +46,8 @@ config "production", ->
   logging false
   num_workers 3
 
+  host "streak.club"
+
   storage_bucket "streakclub"
 
   enable_https true

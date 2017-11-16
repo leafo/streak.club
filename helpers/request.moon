@@ -14,6 +14,7 @@ class R extends Request
       else
         {
           host: config.host
+          port: config.port
           scheme: "http"
         }
   }
