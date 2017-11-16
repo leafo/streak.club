@@ -1,7 +1,22 @@
 
-.stats_this_week {
+.stats_this_week_page {
     .nice_table {
         min-width: 60%;
         margin-bottom: 60px;
+
+        @include mobile_width {
+            font-size: $body_size_small;
+        }
     }
+
+    .page_tabs {
+        @include mobile_width {
+            .tab {
+                font-size: $body_size_small;
+                margin-right: 20px;
+                margin-bottom: 5px;
+            }
+        }
+    }
+
 }

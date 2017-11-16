@@ -3,4 +3,24 @@
     .streak_list {
         margin-top: 20px;
     }
+
+    .page_header{
+        @include mobile_width {
+            margin-bottom: 20px;
+
+            h2 {
+                font-size: 24px;
+            }
+        }
+    }
+
+    .page_tabs {
+        @include mobile_width {
+            .tab {
+                font-size: $body_size_small;
+                margin-right: 20px;
+                margin-bottom: 5px;
+            }
+        }
+    }
 }

@@ -12,6 +12,8 @@ class StatsThisWeek extends require "widgets.page"
     "days"
   }
 
+  responsive: true
+
   inner_content: =>
     widget StatsHeader page_name: "this_week"
 

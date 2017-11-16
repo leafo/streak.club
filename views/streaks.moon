@@ -5,6 +5,8 @@ StreakList = require "widgets.streak_list"
 class Streaks extends require "widgets.page"
   @needs: {"facets"}
 
+  responsive: true
+
   column_content: =>
     div class: "page_header", ->
       h2 "Streaks"
