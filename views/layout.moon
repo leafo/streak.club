@@ -15,6 +15,7 @@ class Layout extends Widget
     meta name: "robots", content: "noindex" if @noindex
 
     link rel: "icon", type: "image/png", href: "/static/images/favicon.png"
+    link rel: "manifest", href: @asset_url "manifest.json", cache_buster: false
 
     title ->
       if @title

@@ -4,7 +4,10 @@ cache_buster = require "cache_buster"
 
 class AssetsHelpers
   asset_url: (src, opts) =>
-    "/static/" .. src .. "?" .. cache_buster
+    unless opts and opts.cache_buster == false
+      src = "#{src}?#{cache_buster}"
+
+    "/static/" .. src
 
   include_js: (...) =>
     script type: "text/javascript", src: @asset_url ...
