@@ -2,6 +2,26 @@
 .streak_header {
     margin-bottom: 25px;
 
+    .page_tabs {
+        @include mobile_width {
+            .tabs_inner {
+                white-space: nowrap;
+                overflow-x: auto;
+                overflow-y: hidden;
+            }
+
+            .tab {
+                font-size: $body_size_small;
+                margin-right: 20px;
+            }
+
+            .tab_sub {
+                font-size: $body_size_small;
+            }
+        }
+    }
+
+
     .breadcrumbs {
         margin-bottom: 15px;
         font-size: 16px;
@@ -27,6 +47,14 @@
     .page_header {
         padding-top: 25px;
         margin-bottom: 25px;
+
+        @include mobile_width {
+            margin-bottom: 15px;
+
+            h2 {
+                font-size: 24px;
+            }
+        }
     }
 
     .page_tabs {

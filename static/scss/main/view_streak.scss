@@ -13,35 +13,6 @@
         }
     }
 
-    .page_header{
-        @include mobile_width {
-            margin-bottom: 20px;
-
-            h2 {
-                font-size: 24px;
-            }
-        }
-    }
-
-    .page_tabs {
-        @include mobile_width {
-            .tabs_inner {
-                white-space: nowrap;
-                overflow-x: auto;
-                overflow-y: hidden;
-            }
-
-            .tab {
-                font-size: $body_size_small;
-                margin-right: 20px;
-            }
-
-            .tab_sub {
-                font-size: $body_size_small;
-            }
-        }
-    }
-
     .submission_list_title {
         color: $body_color_light;
         margin-top: 40px;

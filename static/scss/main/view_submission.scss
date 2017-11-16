@@ -1,6 +1,8 @@
 .view_submission_page {
-    .owner_tools {
-        margin-top: 40px;
+    .admin_tools {
+        @include mobile_width {
+            display: none;
+        }
     }
 
     .submission_list {
@@ -9,6 +11,10 @@
 
     .responsive_column {
         margin-top: 40px;
+
+        @include mobile_width {
+            margin-top: 20px;
+        }
     }
 
     .submission_column, .streaks_column {
