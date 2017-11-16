@@ -44,6 +44,13 @@
             line-height: 36px;
             @include single_line;
 
+            @include mobile_width {
+                .responsive & {
+                    font-size: 20px;
+                    line-height: normal;
+                }
+            }
+
             a {
                 color: #333;
                 text-decoration: none;

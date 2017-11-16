@@ -6,6 +6,20 @@
         padding-bottom: 8px
     }
 
+    @include mobile_width {
+        .tabs_inner {
+            white-space: nowrap;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+
+        .tab {
+            font-size: $body_size_small;
+            margin-right: 20px;
+        }
+    }
+
+
     .tab_wrapper {
         position: relative;
 
