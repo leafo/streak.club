@@ -10,7 +10,7 @@ class UserSettings extends require "widgets.page"
   inner_content: =>
     widget HomeHeader page_name: "settings"
 
-    div class: "base_widget", ->
+    div class: "inner_column", ->
       @column_content!
 
   column_content: =>

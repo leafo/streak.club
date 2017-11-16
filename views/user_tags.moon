@@ -12,7 +12,7 @@ class UserFollowers extends require "widgets.page"
       @column_content!
 
   column_content: =>
-    div class: "base_widget", ->
+    div class: "inner_column", ->
       if next @tags_by_frequency
         element "table", class: "nice_table", ->
           thead ->

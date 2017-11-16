@@ -9,5 +9,5 @@ class Page extends require "widgets.base"
 
   inner_content: =>
     if @column_content
-      div class: "base_widget", ->
+      div class: "inner_column", ->
         @column_content!

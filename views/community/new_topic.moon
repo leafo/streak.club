@@ -13,7 +13,7 @@ class CommunityNewTopic extends require "widgets.page"
 
   inner_content: =>
     widget StreakHeader page_name: @page_name
-    div class: "base_widget", ->
+    div class: "inner_column", ->
       @column_content!
 
   column_content: =>
