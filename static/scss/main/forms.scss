@@ -1,13 +1,13 @@
 
+:focus {
+    outline-color: $blue;
+}
+
+
 .form {
     // takes up majority of page
     &.primary_form {
         margin: 40px 0 0 0;
-
-        input[type='text'], input[type='password'], input[type='email'], textarea {
-            width: 50%;
-            display: block;
-        }
     }
 
     .input_row {
@@ -39,17 +39,21 @@
 
     input[type='text'], input[type='password'], input[type='email'], textarea {
         @include default_font;
-        @include border_box;
+        box-sizing: border-box;
 
         background: white;
         border: 2px solid lighten($border_color, 5%);
-        outline: none;
         padding: 5px 10px 4px 10px;
-        width: 300px;
+        width: 100%;
+        max-width: 400px;
 
         &:focus {
             border: 2px solid $border_color;
         }
+    }
+
+    textarea {
+        max-width: 600px;
     }
 
     .tagit-hidden-field {
@@ -151,8 +155,6 @@
     display: inline-block;
     text-decoration: none;
     white-space: nowrap;
-
-    outline: none;
 
     &:hover {
         background: lighten($button_color, 5%);
