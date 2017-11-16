@@ -22,4 +22,3 @@ class HomeHeader extends require "widgets.base"
 
         @page_tab "Your profile", "profile", @url_for @current_user
         @page_tab "Top this week", "weekly", @url_for "stats_this_week"
-        @page_tab "Account settings", "settings", @url_for "user_settings"

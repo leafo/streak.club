@@ -1,17 +1,9 @@
-HomeHeader = require "widgets.home_header"
-
 class UserSettings extends require "widgets.page"
   @needs: {"user", "user_profile"}
   @include "widgets.form_helpers"
 
   js_init: =>
     "new S.UserSettings(#{@widget_selector!})"
-
-  inner_content: =>
-    widget HomeHeader page_name: "settings"
-
-    div class: "inner_column", ->
-      @column_content!
 
   column_content: =>
     @content_for "all_js", ->
