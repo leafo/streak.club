@@ -85,6 +85,10 @@ h2 {
     border-bottom: 1px solid $border_color;
     margin-bottom: 40px;
 
+    @include mobile_width {
+        margin-bottom: 20px;
+    }
+
     .tab, .tab_sub {
         font-size: 20px;
         padding-bottom: 5px;

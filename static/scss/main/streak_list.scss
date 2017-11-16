@@ -1,16 +1,16 @@
 
 .streak_list {
-    font-size: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 20px;
+    align-items: start;
 
     .streak_box {
-        width: 256px;
         height: 225px;
         background: white;
         border: 1px solid $border_color;
         position: relative;
-        display: inline-block;
         font-size: $body_size;
-        margin: 30px;
 
         .streak_tag {
             position: absolute;

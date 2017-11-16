@@ -6,6 +6,8 @@ class Dashboard extends require "widgets.page"
   @include "widgets.tabs_helpers"
   @needs: {"active_streaks", "current_streaks", "notifications"}
 
+  responsive: true
+
   inner_content: =>
     widget HomeHeader page_name: "index"
 

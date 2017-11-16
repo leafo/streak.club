@@ -1,28 +1,40 @@
 
 .dashboard_page {
-    h2:first-child {
-        margin-top: 0;
-    }
-
     .columns {
-        font-size: 0;
+        @include display_flex;
+
+        @include mobile_width {
+            flex-direction: column;
+        }
     }
 
-    .primary_column, .side_column {
-        display: inline-block;
-        vertical-align: top;
-        font-size: $body_size;
-        padding-bottom: 20px;
+    h2 {
+        @include mobile_width {
+            font-size: $body_size;
+        }
     }
 
     .primary_column {
-        width: 700px;
+        @include flex;
+
+        > :first-child {
+            margin-top: 0
+        }
+
+        @include mobile_width {
+            order: 2;
+        }
     }
 
     .side_column {
-        @include border_box;
-        width: $site_width - 700px;
-        padding-left: 20px;
+        width: 260px;
+        margin-left: 20px;
+
+        @include mobile_width {
+            order: 1;
+            margin: 0 0 20px 0;
+            width: auto;
+        }
     }
 
     .sidebar_buttons {
@@ -30,10 +42,6 @@
             display: block;
             margin-bottom: 10px;
         }
-    }
-
-    .streak_list {
-        margin-top: 20px;
     }
 
     .side_notification {
@@ -44,5 +52,9 @@
         border-radius: 4px;
         font-size: 16px;
         margin-top: 20px;
+
+        @include mobile_width {
+            display: none;
+        }
     }
 }

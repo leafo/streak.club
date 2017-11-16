@@ -118,17 +118,15 @@ $like_color: #FF5E5E;
 }
 
 @mixin responsive_column {
-    width: $site_width;
+    max-width: $site_width;
     margin-left: auto;
     margin-right: auto;
 
     .responsive & {
-        width: auto;
-        max-width: $site_width;
         padding-left: 40px;
         padding-right: 40px;
 
-        @media (max-width: 600px) {
+        @include mobile_width {
             padding-left: 20px;
             padding-right: 20px;
         }
