@@ -13,6 +13,21 @@ class Base extends Widget
 
   @widget_name: => underscore @__name or "some_widget"
 
+  -- classes chained from inheritance hierarchy
+  @css_classes: =>
+    return if @ == Base
+
+    unless rawget @, "_css_classes"
+      classes = @widget_name!
+      if @__parent and @__parent.css_classes
+        if parent_classes = @__parent\css_classes!
+          classes ..= " #{parent_classes}"
+
+      @_css_classes = classes
+
+    @_css_classes
+
+
   inner_content: =>
 
   content: (fn=@inner_content) =>
@@ -29,7 +44,7 @@ class Base extends Widget
     element @elm_type or "div", @_opts
 
   widget_classes: =>
-    @css_class or @@widget_name!
+    @css_class or @@css_classes!
 
   widget_id: =>
     unless @_widget_id
