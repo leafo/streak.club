@@ -143,18 +143,16 @@ class Layout extends Widget
 
     link href: @asset_url("fonts/streakclub/style.css"), rel: "stylesheet", type: "text/css"
 
-  body_attributes: (class_name) =>
-    if @embed_page
-      class_name or= ""
-      class_name ..= " embed_page"
-
-    if @view_widget and @view_widget.responsive
-      class_name or= ""
-      class_name ..= " responsive"
-
+  body_attributes: (...) =>
     {
       "data-page_name": @route_name
-      class: class_name
+      class: {
+        responsive: @view_widget and @view_widget.responsive
+        embed_page: @embed_page
+        logged_in: @current_user
+        logged_out: not @current_user
+        ...
+      }
     }
 
   content: =>

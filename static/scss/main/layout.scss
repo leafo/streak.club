@@ -175,7 +175,7 @@ a {
         height: $header_height;
         color: white;
 
-        @media (max-width: 600px) {
+        @include mobile_width {
             text-align: center;
         }
     }
@@ -184,24 +184,40 @@ a {
         position: absolute;
         top: 0;
         right: $inset_margin;
-        margin-top: 10px;
+        height: $header_height;
+        @include display_flex;
+        @include align_items;
 
-        @media (max-width: 600px) {
+        @include mobile_width {
             @include border_box;
-            height: $header_height;
             position: static;
             background: darken($header_color, 10%);
-            margin: 0;
-            text-align: center;
-            padding-top: 10px;
+            padding-left: 20px;
+            padding-right: 5px;
 
-            :first-child {
+            .logged_out & {
+                padding-right: 20px;
+                .header_button {
+                    @include flex;
+                }
+            }
+
+
+            > :first-child {
                 margin-left: 0;
             }
+
+            .user_name {
+                @include flex;
+                @include single_line;
+                min-width: 0;
+            }
+
+
         }
     }
 
-    @media (min-width: 600px) {
+    @include not_mobile_width {
         height: $header_height;
 
         .primary_header {
@@ -237,7 +253,7 @@ a {
             margin-top: 14px;
         }
 
-        @media (max-width: 600px) {
+        @include mobile_width {
             margin-left: 0;
         }
     }
@@ -276,6 +292,7 @@ a {
             right: 0px;
             background: white;
             line-height: 1.7;
+            z-index: 10;
 
             * {
                 outline-color: $purple;
@@ -363,6 +380,7 @@ a {
     padding: 0 15px;
     background: rgba(white, 0.2);
     text-decoration: none;
+    text-align: center;
 
     border-radius: 3px;
     margin-left: 10px;
@@ -477,7 +495,7 @@ a {
 
     .footer_right {
         float: right;
-        @media (max-width: 600px) {
+        @include mobile_width {
             float: none;
             margin-bottom: 10px;
         }
