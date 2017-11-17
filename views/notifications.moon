@@ -4,6 +4,8 @@ import time_ago_in_words from require "lapis.util"
 class Notifications extends require "widgets.page"
   @needs: {"global_notifications", "old_notifications"}
 
+  responsive: true
+
   column_content: =>
     div class: "page_header", ->
       h2 ->
