@@ -2,6 +2,8 @@ class UserSettings extends require "widgets.page"
   @needs: {"user", "user_profile"}
   @include "widgets.form_helpers"
 
+  responsive: true
+
   js_init: =>
     "new S.UserSettings(#{@widget_selector!})"
 
