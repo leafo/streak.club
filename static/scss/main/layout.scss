@@ -23,6 +23,7 @@ h2 {
         color: #222;
     }
 
+
     h2 {
         font-size: 48px;
     }
@@ -33,6 +34,14 @@ h2 {
         color: #666;
         font-weight: normal;
         font-size: 22px;
+    }
+
+    @include mobile_width {
+        margin-bottom: 20px;
+
+        h2 {
+            font-size: 24px;
+        }
     }
 
     .page_tabs a {
@@ -85,9 +94,6 @@ h2 {
     border-bottom: 1px solid $border_color;
     margin-bottom: 40px;
 
-    @include mobile_width {
-        margin-bottom: 20px;
-    }
 
     .tab, .tab_sub {
         font-size: 20px;
@@ -117,6 +123,16 @@ h2 {
         &.active, &:hover {
             color: $link_color;
             border-bottom: 1px solid rgba($link_color, 1);
+        }
+    }
+
+    @include mobile_width {
+        margin-bottom: 20px;
+
+        .tab {
+            font-size: $body_size_small;
+            margin-right: 20px;
+            margin-bottom: 5px;
         }
     }
 }
