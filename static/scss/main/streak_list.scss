@@ -13,11 +13,30 @@
         position: relative;
         font-size: $body_size;
 
+        @include display_flex;
+        @include flex_direction_column;
+
         .upper_content {
             border-bottom: 1px solid $border_color;
             padding: 10px 20px;
             box-sizing: border-box;
         }
+
+        .lower_content {
+            @include flex;
+            min-height: 0;
+            @include display_flex;
+            @include flex_direction_column;
+            @include justify_content;
+            padding: 10px 20px;
+            > * {
+                margin-bottom: 10px;
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+
 
         .streak_tag {
             position: absolute;
@@ -88,7 +107,6 @@
 
         .streak_stats {
             text-align: center;
-            padding-top: 10px;
 
             .stat_box {
                 display: inline-block;
@@ -112,19 +130,11 @@
 
         .submit_btn {
             display: block;
-            margin: 10px 20px;
         }
 
         .status_message {
             color: #999;
             text-align: center;
-            margin: 10px 20px;
-            height: 35px;
-            line-height: 35px;
-        }
-
-        .progress_row {
-            margin: 15px 20px;
         }
 
         .progress_outer {

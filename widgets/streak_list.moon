@@ -31,48 +31,49 @@ class StreakList extends require "widgets.base"
               text " to "
               nobr streak.end_date
 
-        div class: "streak_stats", ->
-          div class: "stat_box", ->
-            div class: "stat_value", streak\approved_participants_count!
-            div class: "stat_label", "participants"
-
-          div class: "stat_box", ->
-            div class: "stat_value", streak.submissions_count
-            div class: "stat_label", "submissions"
-
-          if @show_submit_button and streak\during!
-            streak_user = streak\has_user @current_user
+        div class: "lower_content", ->
+          div class: "streak_stats", ->
             div class: "stat_box", ->
-              div class: "stat_value", streak_user\current_unit_number!
-              div class: "stat_label", streak\interval_noun false
+              div class: "stat_value", streak\approved_participants_count!
+              div class: "stat_label", "participants"
 
-        if streak\has_end!
-          p = streak\progress!
-          if p == 1
-            div class: "status_message", ->
-              text "Completed"
-          elseif not p
-            div class: "status_message", "Hasn't started yet"
+            div class: "stat_box", ->
+              div class: "stat_value", streak.submissions_count
+              div class: "stat_label", "submissions"
 
-        if @show_submit_button and not streak\after_end! and not streak\before_start!
-          -- TODO: n + 1 query
-          streak_user = streak\has_user @current_user
-          current_submit = if streak_user
-            streak_user\current_unit_submission!
-
-          if current_submit
-            div class: "status_message", "You already submitted"
-          elseif streak\allowed_to_submit @current_user
-            a {
-              href: @url_for("new_submission") .. "?streak_id=#{streak.id}"
-              class: "button submit_btn outline"
-              "Submit #{streak\unit_noun!}"
-            }
+            if @show_submit_button and streak\during!
+              streak_user = streak\has_user @current_user
+              div class: "stat_box", ->
+                div class: "stat_value", streak_user\current_unit_number!
+                div class: "stat_label", streak\interval_noun false
 
           if streak\has_end!
             p = streak\progress!
-            if p and p > 0 and p < 1
-              div class: "progress_row", ->
-                div class: "progress_outer", ->
-                  div class: "progress_inner", style: "width: #{p * 100}%"
+            if p == 1
+              div class: "status_message", ->
+                text "Completed"
+            elseif not p
+              div class: "status_message", "Hasn't started yet"
+
+          if @show_submit_button and not streak\after_end! and not streak\before_start!
+            -- TODO: n + 1 query
+            streak_user = streak\has_user @current_user
+            current_submit = if streak_user
+              streak_user\current_unit_submission!
+
+            if current_submit
+              div class: "status_message", "You already submitted"
+            elseif streak\allowed_to_submit @current_user
+              a {
+                href: @url_for("new_submission") .. "?streak_id=#{streak.id}"
+                class: "button submit_btn outline"
+                "Submit #{streak\unit_noun!}"
+              }
+
+            if streak\has_end!
+              p = streak\progress!
+              if p and p > 0 and p < 1
+                div class: "progress_row", ->
+                  div class: "progress_outer", ->
+                    div class: "progress_inner", style: "width: #{p * 100}%"
 
