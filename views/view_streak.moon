@@ -18,6 +18,12 @@ class ViewStreak extends require "widgets.page"
   responsive: true
   page_name: "overview"
 
+  widget_classes: =>
+    {
+      super!
+      current_user_joined: @streak_user
+    }
+
   js_init: =>
     current_unit = @streak\current_unit!
 
@@ -133,8 +139,9 @@ class ViewStreak extends require "widgets.page"
 
     @render_community_preview!
 
-    h3 "Hosted by"
-    widget UserList users: { @streak_host }, narrow: true
+    section class: "streak_host", ->
+      h3 "Hosted by"
+      widget UserList users: { @streak_host }, narrow: true
 
     ul class: "misc_links", ->
       li ->

@@ -1,5 +1,13 @@
 
 .view_streak_page {
+    &:not(.current_user_joined) {
+        .countdown {
+            @include mobile_width {
+                display: none;
+            }
+        }
+    }
+
     .streak_description {
         background: white;
         border: 1px solid $border_color;
@@ -66,20 +74,18 @@
 
     .streak_units {
         margin-top: 20px;
+
+        @include mobile_width {
+            display: none;
+        }
     }
 
     .columns {
-        font-size: 0;
-    }
-
-    .streak_feed_column, .streak_side_column {
-        display: inline-block;
-        vertical-align: top;
-        font-size: $body_size;
+        @include display_flex;
     }
 
     .streak_feed_column {
-        width: 700px;
+        @include flex;
     }
 
     .streak_side_column {
@@ -87,6 +93,11 @@
         width: $site_width - 700px;
         padding-left: 20px;
         padding-bottom: 60px;
+
+        @include mobile_width {
+            padding-bottom: 0;
+            margin-bottom: 20px;
+        }
 
         .button {
             display: block;
@@ -182,6 +193,12 @@
             color: #999;
         }
 
+        @include mobile_width {
+            display: none;
+        }
+    }
+
+    .streak_host {
         @include mobile_width {
             display: none;
         }
