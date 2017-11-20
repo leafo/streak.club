@@ -18,6 +18,9 @@ class S.ViewStreak
       $(document.body).trigger "sticky_kit:recalc"
     , 50
 
+    @el.on "click", ".streak_description .click_to_open_overlay", =>
+      @el.find(".streak_description").addClass "description_unrolled"
+
   setup_sticky: =>
     to_stick = @el.find(".streak_side_column")
 

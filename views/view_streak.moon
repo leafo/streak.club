@@ -176,6 +176,7 @@ class ViewStreak extends require "widgets.page"
 
     unless is_empty_html @streak.description
       div class: "user_formatted streak_description", ->
+        div class: "click_to_open_overlay"
         raw sanitize_html @streak.description
 
   render_submissions: =>

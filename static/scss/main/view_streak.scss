@@ -13,6 +13,52 @@
         border: 1px solid $border_color;
         padding: 20px;
         border-radius: 3px;
+
+        .click_to_open_overlay {
+            display: none;
+        }
+
+        @include mobile_width {
+            &:not(.description_unrolled) {
+                max-height: 120px;
+                overflow: hidden;
+                position: relative;
+
+                .click_to_open_overlay {
+                    display: block;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    cursor: pointer;
+
+                    &:before {
+                        content: "View more";
+                        font-size: $body_size_small;
+                        font-weight: bold;
+                        text-align: center;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: flex-end;
+                        color: $body_color_light;
+                        padding-bottom: 10px;
+                        box-sizing: border-box;
+                        text-shadow: 1px 1px 0 white, -1px -1px 0 white, -1px 1px 0 white, 1px -1px 0 white;
+
+                        height: 100%;
+                        max-height: 60px;
+
+                        position: absolute;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+
+                        background: linear-gradient(to bottom, rgba(white, 0), white 80%, white);
+                    }
+                }
+            }
+        }
     }
 
     .admin_tools {
