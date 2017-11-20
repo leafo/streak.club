@@ -2,7 +2,7 @@
 	"short_name": "Streak Club",
 	"name": "Streak Club",
 	"theme_color": "#34a0f2",
-	"background_color": "#34a0f2",
+	"background_color": "#0D7ACC",
 	"icons": [
 		{
 			"src": "/static/images/logo-144.png",
