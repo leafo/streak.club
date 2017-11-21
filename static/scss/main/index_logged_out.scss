@@ -348,13 +348,10 @@ $gray: darken(#F5F5F5, 3%);
     }
 
     .featured_streaks {
-        .streak_box {
-            text-align: left;
-
-            @media (max-width: 500px) {
-                margin-left: 0;
-                margin-right: 0;
-            }
+        .streak_list {
+            margin: 40px auto;
+            padding: 0 20px;
+            max-width: 800px;
         }
     }
 
