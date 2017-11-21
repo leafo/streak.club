@@ -10,6 +10,16 @@
         padding: 20px;
         margin: 0 auto;
         position: relative;
+
+        @include display_flex;
+
+        > .banner_text {
+            @include flex;
+        }
+
+        @include mobile_width {
+            @include flex_direction_column;
+        }
     }
 
     p {
@@ -21,14 +31,15 @@
         margin: 0;
         font-size: 27px;
         font-weight: bold;
+        @include mobile_width {
+            font-size: 20px;
+        }
     }
 
     .button {
-        top: 31px;
-        right: 20px;
-        position: absolute;
         font-size: 20px;
         line-height: 41px - 4px;
+
         height: 41px;
         padding: 0 40px;
 
@@ -41,13 +52,11 @@
             color: $link_color;
             border-color: white;
         }
-    }
 
-    @media (max-width: 700px) {
-        .button {
-            position: static;
-            display: inline-block;
+        @include mobile_width {
             margin-top: 20px;
+            height: 35px;
+            line-height: 30px;
         }
     }
 }
