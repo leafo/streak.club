@@ -18,8 +18,6 @@ class Layout extends Widget
     link rel: "manifest", href: @asset_url "manifest.json", cache_buster: false
     link rel: "apple-touch-icon", href: "/static/images/logo-144.png"
     meta name: "apple-mobile-web-app-title", content: "Streak Club"
-    meta name: "apple-mobile-web-app-capable", content: "yes"
-    meta name: "apple-mobile-web-app-status-bar-style", content: "#34a0f2"
 
     title ->
       if @title
