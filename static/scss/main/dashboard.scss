@@ -8,6 +8,13 @@
         }
     }
 
+    .home_header {
+        padding-top: 0;
+        .tabs_inner {
+            padding-top: 12px;
+        }
+    }
+
     h2 {
         @include mobile_width {
             font-size: $body_size;
