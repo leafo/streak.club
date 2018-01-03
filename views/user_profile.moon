@@ -9,6 +9,7 @@ class UserProfile extends require "widgets.page"
   @include "widgets.streak_helpers"
 
   page_name: "profile"
+  responsive: true
 
   js_init: =>
     "new S.UserProfile(#{@widget_selector!});"

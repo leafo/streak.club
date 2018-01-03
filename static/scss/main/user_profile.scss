@@ -1,17 +1,13 @@
 
 .user_profile_page {
     .columns {
-        font-size: 0;
+        max-width: $site_width;
+        @include display_flex;
     }
 
-    .streak_column, .submission_column {
-        display: inline-block;
-        vertical-align: top;
-        font-size: $body_size;
-    }
 
     .submission_column {
-        width: 700px;
+        @include flex;
     }
 
     .streak_column {
