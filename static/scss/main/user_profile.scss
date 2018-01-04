@@ -18,6 +18,10 @@
         h2 {
             margin-bottom: 35px;
         }
+
+        @media (max-width: 900px) {
+            display: none;
+        }
     }
 
     .user_links {

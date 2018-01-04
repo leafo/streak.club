@@ -27,6 +27,11 @@
             top: 0;
             right: 100%;
             margin-right: 10px;
+
+            @include mobile_width {
+                right: 0;
+                z-index: 100;
+            }
         }
 
         .submission_content {
@@ -143,6 +148,9 @@
 
             button {
                 margin-right: 20px;
+                @include mobile_width {
+                    font-size: 16px;
+                }
             }
 
             .upload_stats {
