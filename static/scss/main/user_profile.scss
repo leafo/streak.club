@@ -3,6 +3,9 @@
     .columns {
         max-width: $site_width;
         @include display_flex;
+        @include mobile_width {
+            display: block;
+        }
     }
 
 

@@ -130,6 +130,11 @@ $like_color: #FF5E5E;
             padding-left: 20px;
             padding-right: 20px;
         }
+
+        @media (max-width: 400px) {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
     }
 }
 
