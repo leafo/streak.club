@@ -42,6 +42,10 @@ h2 {
         h2 {
             font-size: 24px;
         }
+
+        h3 {
+            font-size: 18px;
+        }
     }
 
     .page_tabs a {
@@ -86,6 +90,23 @@ h2 {
             font-size: 16px;
             font-weight: bold;
             text-decoration: none;
+        }
+
+        @include mobile_width {
+            .tabs_inner {
+                white-space: nowrap;
+                overflow-x: auto;
+                overflow-y: hidden;
+            }
+
+            .tab {
+                font-size: $body_size_small;
+                margin-right: 20px;
+            }
+
+            .tab_sub {
+                font-size: $body_size_small;
+            }
         }
     }
 }
