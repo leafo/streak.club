@@ -1,8 +1,20 @@
 
 .user_header {
-    .header_right {
-        float: right;
-        margin-top: 15px;
+    .header_split {
+        @include display_flex;
+
+        > :first-child {
+            @include flex;
+        }
+
+        @include mobile_width {
+            display: block;
+            .toggle_follow_btn {
+                display: block;
+                margin: 20px 0;
+            }
+        }
+
     }
 
     .user_stat {

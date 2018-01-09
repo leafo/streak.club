@@ -8,23 +8,26 @@ class UserHeader extends require "widgets.base"
     {super!, "tab_header"}
 
   inner_content: =>
-    div class: "page_header", ->
-      if not @current_user or @current_user.id != @user.id
-        div class: "header_right", ->
+    section class: "page_header", ->
+      div class: "header_split", ->
+        div ->
+          h2 @user\name_for_display!
+
+          h3 ->
+            div class: "user_stat", ->
+              text "A member registered #{@relative_timestamp @user.created_at}"
+
+            if @user.comments_count > 0
+              div class: "user_stat",
+                @plural @user.comments_count, "comment", "comments"
+
+            if @user.likes_count > 0
+              div class: "user_stat",
+                @plural @user.likes_count, "like", "likes"
+
+        if not @current_user or @current_user.id != @user.id
           @follow_button @user, @following
 
-      h2 @user\name_for_display!
-      h3 ->
-        div class: "user_stat", ->
-          text "A member registered #{@relative_timestamp @user.created_at}"
-
-        if @user.comments_count > 0
-          div class: "user_stat",
-            @plural @user.comments_count, "comment", "comments"
-
-        if @user.likes_count > 0
-          div class: "user_stat",
-            @plural @user.likes_count, "like", "likes"
 
     div class: "page_tabs", ->
       div class: "tabs_inner", ->
