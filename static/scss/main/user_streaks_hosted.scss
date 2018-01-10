@@ -1,19 +1,8 @@
 
 .user_streaks_hosted_page {
-    .streak_list {
-        display: -webkit-flex;
-        display: flex;
+    margin-bottom: 40px;
 
-        -webkit-flex-wrap: wrap;
-        flex-wrap: wrap;
-
-        -webkit-justify-content: space-between;
-        justify-content: space-between;
-
-        .streak_box {
-            display: block;
-            margin: 0;
-            margin-bottom: 40px;
-        }
+    @include mobile_width  {
+        margin-bottom: 20px;
     }
 }

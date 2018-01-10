@@ -7,6 +7,7 @@ class UserStreaksHosted extends require "widgets.page"
   @include "widgets.pagination_helpers"
 
   page_name: "streaks_hosted"
+  responsive: true
 
   inner_content: =>
     widget UserHeader page_name: @page_name
@@ -14,6 +15,5 @@ class UserStreaksHosted extends require "widgets.page"
       @column_content!
 
   column_content: =>
-    div class: "inner_column", ->
-      widget StreakList
+    widget StreakList
 
