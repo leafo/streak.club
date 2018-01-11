@@ -7,6 +7,7 @@ class UserFollowers extends require "widgets.page"
   @include "widgets.pagination_helpers"
 
   page_name: "followers"
+  responsive: true
 
   inner_content: =>
     widget UserHeader page_name: @page_name
@@ -14,12 +15,12 @@ class UserFollowers extends require "widgets.page"
       @column_content!
 
   column_content: =>
-    div class: "inner_column", ->
-      if next @users
-        @render_pager!
-        widget UserList users: @users
-        @render_pager!
-      else
+    if next @users
+      @render_pager!
+      widget UserList users: @users
+      @render_pager!
+    else
+      div class: "inner_column", ->
         p class: "empty_message", "#{@user\name_for_display!} does not have any followers"
 
 

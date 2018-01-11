@@ -47,14 +47,15 @@ class UserList extends require "widgets.base"
         a href: @user_link(user), ->
           img src: user\gravatar!, class: "user_avatar"
 
-        div class: "user_data", ->
-          div ->
-            a class: "user_name", href: @user_link(user), user\name_for_display!
+        div class: "data_action_split", ->
+          div class: "user_data", ->
+            div ->
+              a class: "user_name", href: @user_link(user), user\name_for_display!
 
-          div class: "user_stats", ->
-            @user_stats user
+            div class: "user_stats", ->
+              @user_stats user
 
-        @action_area user
+          @action_area user
 
   action_area: (user) =>
     unless @current_user and user.id == @current_user.id

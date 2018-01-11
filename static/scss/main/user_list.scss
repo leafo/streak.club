@@ -10,6 +10,7 @@
             font-size: 24px;
             font-weight: bold;
             @include single_line;
+
         }
     }
 
@@ -17,36 +18,64 @@
         @include transition(all 0.2s ease);
         position: relative;
         margin-bottom: 20px;
+        @include display_flex;
+        @include align_items;
+
+        @include mobile_width {
+            @include align_items(flex-start);
+        }
+
 
         &:last-child {
             margin-bottom: 0;
         }
+    }
 
-        &:hover {
-            background: #f5f5f5;
-            box-shadow: 0 0 0 10px #f5f5f5;
+
+    .data_action_split {
+        margin-left: 30px;
+        @include flex;
+        @include display_flex;
+
+        @include mobile_width {
+            display: block;
+            margin-left: 10px;
+
+            > .button {
+                display: block;
+                margin-top: 10px;
+            }
         }
     }
 
     .user_avatar {
         border-radius: 80px;
-        display: inline-block;
-        vertical-align: top;
         width: 80px;
         height: 80px;
-        background: #f5f5f5;
+        background: $gray_back;
+
+        @include mobile_width {
+            margin-top: 5px;
+            width: 40px;
+            height: 40px;
+        }
     }
 
     .user_data {
         @include has_sub_link;
-        display: inline-block;
-        vertical-align: top;
-        margin-left: 30px;
-        margin-top: 6px;
+        @include flex;
+
+        @include mobile_width {
+            font-size: 16px;
+        }
 
         .user_name {
             font-size: 24px;
             font-weight: bold;
+
+            @include mobile_width {
+                font-size: 18px;
+            }
         }
 
         .user_stats {
@@ -54,11 +83,23 @@
         }
 
         .user_stat {
-            color: #666;
+            color: $body_color_light;
+            display: inline-block;
+
+            @include mobile_width {
+                margin-right: 15px;
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
 
             &:before {
                 content: " · ";
-                color: #999;
+                color: $body_color_lighter;
+
+                @include mobile_width {
+                    display: none;
+                }
             }
 
             &:first-child {
@@ -70,8 +111,5 @@
     }
 
     .toggle_follow_btn, .user_action_btn {
-        position: absolute;
-        top: 20px;
-        right: 0;
     }
 }

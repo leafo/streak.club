@@ -1,0 +1,17 @@
+
+.user_followers_page {
+    margin-bottom: 40px;
+    @include mobile_width {
+        margin-bottom: 20px;
+    }
+
+    .user_list {
+        .user_row {
+            background: white;
+            padding: 20px;
+            @include mobile_width {
+                padding: 10px;
+            }
+        }
+    }
+}
