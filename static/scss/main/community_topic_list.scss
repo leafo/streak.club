@@ -12,12 +12,6 @@
     }
 }
 
-@mixin mobile_width {
-    .never {
-        @content;
-    }
-}
-
 .community_topic_list {
     background: white;
     border: 1px solid $border_color;

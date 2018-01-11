@@ -5,12 +5,19 @@
 @import "main/tooltips";
 
 
+@import "main/community_new_topic";
+@import "main/community_post";
+@import "main/community_post_list";
+@import "main/community_streak";
+@import "main/community_topic";
+@import "main/community_topic_list";
+@import "main/community_topic_posts";
 @import "main/countdown";
+@import "main/dashboard";
 @import "main/edit_streak";
 @import "main/edit_submission";
 @import "main/graphs";
 @import "main/home_header";
-@import "main/dashboard";
 @import "main/index_logged_out";
 @import "main/notifications";
 @import "main/search";
@@ -19,14 +26,15 @@
 @import "main/streak_header";
 @import "main/streak_list";
 @import "main/streak_participants";
-@import "main/streak_top_participants";
 @import "main/streak_rows";
+@import "main/streak_top_participants";
 @import "main/streak_units";
 @import "main/streaks";
 @import "main/submission_comment_list";
 @import "main/submission_commenter";
 @import "main/submission_list";
 @import "main/submission_streaks";
+@import "main/user_followers";
 @import "main/user_header";
 @import "main/user_list";
 @import "main/user_login";
@@ -38,10 +46,3 @@
 @import "main/view_streak_unit";
 @import "main/view_submission";
 @import "main/welcome_banner";
-@import "main/community_topic_list";
-@import "main/community_post_list";
-@import "main/community_streak";
-@import "main/community_new_topic";
-@import "main/community_topic_posts";
-@import "main/community_topic";
-@import "main/community_post";
