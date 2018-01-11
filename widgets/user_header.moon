@@ -15,7 +15,8 @@ class UserHeader extends require "widgets.base"
 
           h3 ->
             div class: "user_stat", ->
-              text "A member registered #{@relative_timestamp @user.created_at}"
+              text "A member registered "
+              span title: @user.created_at, @relative_timestamp @user.created_at
 
             if @user.comments_count > 0
               div class: "user_stat",
