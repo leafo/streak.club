@@ -1,5 +1,5 @@
 
-.user_followers_page {
+.user_followers_page, .user_following_page {
     margin-bottom: 40px;
     @include mobile_width {
         margin-bottom: 20px;

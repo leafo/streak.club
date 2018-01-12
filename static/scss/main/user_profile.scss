@@ -11,6 +11,17 @@
 
     .submission_column {
         @include flex;
+
+        @include mobile_width {
+            h2 {
+                font-size: 18px;
+                margin: 20px 0;
+            }
+
+            .submission_list {
+                margin-top: 20px;
+            }
+        }
     }
 
     .streak_column {
