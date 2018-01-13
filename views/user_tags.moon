@@ -1,10 +1,11 @@
 
 UserHeader = require "widgets.user_header"
 
-class UserFollowers extends require "widgets.page"
+class UserTags extends require "widgets.page"
   @needs: {"user", "tags_by_frequency"}
 
   page_name: "tags"
+  responsive: true
 
   inner_content: =>
     widget UserHeader page_name: @page_name
@@ -12,20 +13,16 @@ class UserFollowers extends require "widgets.page"
       @column_content!
 
   column_content: =>
-    div class: "inner_column", ->
-      if next @tags_by_frequency
-        element "table", class: "nice_table", ->
-          thead ->
-            tr ->
-              td "Tag"
-              td "Frequency"
+    if next @tags_by_frequency
+      h3 "Most frequent tags used on #{@user\name_for_display!}'s submissions"
+      ul class: "tag_list", ->
+        for {:slug, :count} in *@tags_by_frequency
+          li class: "tag", ->
+            a href: @url_for("user_tag", slug: @user.slug, tag_slug: slug), ->
+              span class: "tag_name", slug
+              span class: "tag_count", @number_format count
 
-          for {:slug, :count} in *@tags_by_frequency
-            tr ->
-              td ->
-                a href: @url_for("user_tag", slug: @user.slug, tag_slug: slug), slug
-              td @number_format count
-
-      else
+    else
+      div class: "inner_column", ->
         p class: "empty_message", "This person hasn't tagged any of their submissions yet"
 

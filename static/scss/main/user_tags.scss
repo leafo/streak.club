@@ -1,0 +1,43 @@
+
+.user_tags_page {
+    .tag_list {
+        list-style: none;
+        margin: 20px 0;
+        padding: 0;
+
+        > li {
+            display: inline-block;
+            margin: 0 8px 10px 0px;
+            background: white;
+            border: 1px solid $border_color;
+            border-radius: 2px;
+
+            &:hover {
+                background: mix(white, $gray_back, 50%);
+                border-color: $button_color;
+                box-shadow: 0 0 0 1px $button_color;
+            }
+
+
+            > a {
+                text-decoration: none;
+                color: inherit;
+                display: block;
+                > span {
+                    display: inline-block;
+                }
+
+            }
+
+            .tag_name {
+                padding: 5px 15px;
+            }
+
+            .tag_count {
+                padding: 5px 15px;
+                border-left: 1px solid $border_color;
+                color: $body_color_lighter;
+            }
+        }
+    }
+}
