@@ -31,6 +31,9 @@ class StreakHelpers
             text " to "
             nobr streak.end_date
 
+      if opts.hide_units_if_not_submitted
+        return unless streak.completed_units and next streak.completed_units
+
       if streak.completed_units
         if show_user_streak
           if streak\after_end!

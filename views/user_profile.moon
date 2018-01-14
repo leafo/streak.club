@@ -49,7 +49,12 @@ class UserProfile extends require "widgets.page"
 
       div class: "streak_column", ->
         @render_streaks "Active streaks", @active_streaks
-        @render_streaks "Completed streaks", @completed_streaks
+        completed_streaks = if @completed_streaks
+          for streak in *@completed_streaks
+            continue unless streak.completed_units and next streak.completed_units
+            streak
+
+        @render_streaks "Completed streaks", completed_streaks
         @render_streaks "Upcoming streaks", @upcoming_streaks
 
   render_submissions: =>
@@ -72,4 +77,4 @@ class UserProfile extends require "widgets.page"
     h2 title
     div class: "sidebar_streak_list", ->
       for streak in *streaks
-        @render_streak_row streak
+        @render_streak_row streak, hide_units_if_not_submitted: true
