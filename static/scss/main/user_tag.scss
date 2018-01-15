@@ -1,0 +1,15 @@
+
+.user_tag_page {
+    @include mobile_width {
+        .responsive_column {
+            h2 {
+                font-size: 18px;
+                margin: 20px 0;
+            }
+
+            .submission_list {
+                margin-top: 20px;
+            }
+        }
+    }
+}

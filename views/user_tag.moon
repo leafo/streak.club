@@ -1,14 +1,14 @@
 UserHeader = require "widgets.user_header"
 SubmissionList = require "widgets.submission_list"
 
-
-class UserFollowers extends require "widgets.page"
+class UserTag extends require "widgets.page"
   @needs: {"user", "submissions"}
 
   @include "widgets.follow_helpers"
   @include "widgets.streak_helpers"
 
   page_name: "tags"
+  responsive: true
 
   inner_content: =>
     widget UserHeader page_name: @page_name
