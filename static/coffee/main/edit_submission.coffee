@@ -89,8 +89,6 @@ class S.EditSubmission
     @setup_uploader()
     @setup_tags()
 
-    S.redactor @el.find "textarea"
-
   setup_uploader: =>
     container = @el.find ".file_uploader"
 

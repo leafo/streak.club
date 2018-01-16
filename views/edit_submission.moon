@@ -1,6 +1,7 @@
 
 import to_json from require "lapis.util"
 import Streaks, Submissions from require "models"
+MarkdownEditor = require "widgets.markdown_editor"
 
 date = require "date"
 
@@ -34,7 +35,6 @@ class EditSubmission extends require "widgets.page"
     @content_for "all_js", ->
       @include_jquery_ui!
       @include_tagit!
-      @include_redactor!
 
     div class: "page_header", ->
       if @submission
@@ -71,13 +71,12 @@ class EditSubmission extends require "widgets.page"
         placeholder: "Optional"
       }
 
-      @text_input_row {
-        label: "Description"
-        name: "submission[description]"
-        type: "textarea"
-        value: submission.description
-        placeholder: "Optional"
-      }
+      @input_row "Description",->
+        widget MarkdownEditor {
+          value: submission.description
+          placeholder: "Optional"
+          name: "submission[description]"
+        }
 
       @input_row "How do you feel about this submission", ->
         @radio_buttons "submission[user_rating]", {

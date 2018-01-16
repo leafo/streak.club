@@ -5,6 +5,8 @@ import underscore, time_ago_in_words from require "lapis.util"
 import random from math
 import concat from table
 
+import to_json from require "lapis.util"
+
 date = require "date"
 
 class Base extends Widget
@@ -139,3 +141,10 @@ class Base extends Widget
       str\sub(1, len) .. tail
     else
       str
+
+  react_render: (component, props={}, selector) =>
+    target = "$(#{@widget_selector!})"
+    if selector
+      target ..= ".find(#{to_json selector})"
+
+    "ReactDOM.render(R.#{component}(#{to_json props}),#{target}[0]);"

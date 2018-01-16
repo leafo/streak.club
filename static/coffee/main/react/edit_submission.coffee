@@ -3,6 +3,49 @@ P = R.package "EditSubmission"
 
 {PropTypes: types} = React
 
+P "Editor", {
+  getInitialState: ->
+    initial_html = @props.value
+
+    initial_markdown = if initial_html
+      turndownService = new TurndownService {
+        hr: "---"
+      }
+
+      turndownService.turndown initial_html
+
+    {
+      html: initial_html or ""
+      markdown: initial_markdown or ""
+    }
+
+  compile_markdown: (md) ->
+    @parser ||= new commonmark.Parser()
+    @writer ||= new commonmark.HtmlRenderer {
+      smart: true
+      softbreak: "<br />"
+    }
+
+    document = @parser.parse(md)
+    @writer.render(document)
+
+  render: ->
+    div className: "markdown_editor",
+      textarea {
+        value: @state.markdown
+        placeholder: @props.placeholder
+        required: @props.required
+        onChange: (e) =>
+          @setState {
+            markdown: e.target.value
+            html: @compile_markdown e.target.value
+          }
+      }
+
+      input type: "hidden", name: @props.name, value: @state.html
+
+}
+
 P "Uploader", {
   getInitialState: ->
     {
