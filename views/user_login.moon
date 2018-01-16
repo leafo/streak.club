@@ -14,6 +14,8 @@ class UserLogin extends require "widgets.page"
         "create a new discussion"
       when "view_streak"
         "join a streak"
+      when "submission_comments"
+        "leave a comment"
 
     if register_message
       p ->
