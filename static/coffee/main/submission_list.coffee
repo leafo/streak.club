@@ -11,7 +11,7 @@ class S.SubmissionList
 
     @el.has_tooltips()
 
-    @el.find(".submission_content img").load =>
+    @el.find(".submission_content img").on "load", =>
       @el.trigger "s:reshape"
 
     @el.on "s:increment_comments", ".submission_row", (e, amount=1) =>
@@ -248,7 +248,7 @@ class S.SubmissionList
       do (item) ->
         item = $(item)
         add_unroll item
-        item.find("img").load =>
+        item.find("img").on "load", =>
           add_unroll item
 
   setup_paging: =>
@@ -267,7 +267,7 @@ class S.SubmissionList
             @el.trigger "s:reshape"
             @setup_truncation new_items
 
-            new_items.find(".submission_content img").load =>
+            new_items.find(".submission_content img").on "load", =>
               @el.trigger "s:reshape"
 
           unless res.has_more
