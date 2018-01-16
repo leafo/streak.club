@@ -11,7 +11,7 @@ window.R = (name, data, p=R, prefix="") ->
     $.extend {}, @props, more...
 
   data.displayName = "R.#{prefix}#{name}"
-  cl = React.createClass(data)
+  cl = createReactClass(data)
   p[name] = React.createFactory(cl)
   p[name]._class = cl
 

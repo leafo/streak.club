@@ -49,14 +49,16 @@ count:
 
 # copy all the node modules
 vendor:
-	npm install
+	yarn
 	cp node_modules/jquery/dist/jquery.min.js static/lib
-	cp node_modules/d3/d3.min.js static/lib
+	cp node_modules/d3/build/d3.min.js static/lib
 	cp node_modules/moment/min/moment.min.js static/lib
 	cp node_modules/jstz/dist/jstz.min.js static/lib
 	cp node_modules/underscore/underscore-min.js static/lib
 	cp node_modules/underscore.string/dist/underscore.string.min.js static/lib
-	cp node_modules/react/dist/react.min.js static/lib
-	cp node_modules/react-dom/dist/react-dom.min.js static/lib
+	cp node_modules/react/umd/react.production.min.js static/lib/react.min.js
+	cp node_modules/react-dom/umd/react-dom.production.min.js static/lib/react-dom.min.js
+	cp node_modules/react-dom-factories/index.js static/lib/react-dom-factories.js
+	cp node_modules/create-react-class/create-react-class.min.js static/lib
 	cp node_modules/sticky-kit/dist/sticky-kit.min.js static/lib
-	cp node_modules/typed.js/dist/typed.min.js static/lib
+	cp node_modules/typed.js/lib/typed.min.js static/lib
