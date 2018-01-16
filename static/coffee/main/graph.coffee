@@ -97,7 +97,8 @@ class S.Grapher
   draw: ->
     @w = @el.width()
     @h = @el.height()
-    @time_format = d3.time.format "%Y-%m-%d"
+    @time_format = d3.timeFormat "%Y-%m-%d"
+    @time_parse = d3.timeParse "%Y-%m-%d"
 
     @svg = d3.select(@el[0]).append("svg")
       .attr("class", "chart")
@@ -130,7 +131,7 @@ class S.Grapher
           .attr("y2", y.range()[1])
 
     # area
-    area = d3.svg.area()
+    area = d3.area()
       .x(@get_x_scaled)
       .y1(@get_y_scaled)
       .y0(@h - @margin_bottom)
@@ -141,8 +142,7 @@ class S.Grapher
         .attr("d", area data)
 
     # y axis
-    y_axis = d3.svg.axis().scale(y)
-      .orient("left")
+    y_axis = d3.axisLeft().scale(y)
       .tickFormat(@format_y_axis)
       .ticks(@y_ticks())
 
@@ -152,8 +152,7 @@ class S.Grapher
       .call y_axis
 
     # y axis
-    x_axis = d3.svg.axis().scale(x)
-      .orient("bottom")
+    x_axis = d3.axisBottom().scale(x)
       .ticks(@x_ticks())
 
     @svg.append("g")
@@ -233,7 +232,7 @@ class S.Grapher
   popup_label: (d) ->
     "#{@opts.label}: #{d.count}"
 
-  get_x: (d) => @time_format.parse d.date
+  get_x: (d) => @time_parse d.date
   get_y: (d) => d.count
 
   get_x_scaled: => @_x_scale @get_x arguments...
@@ -245,11 +244,11 @@ class S.Grapher
   y_ticks: -> Math.min 5, @opts.min_y
 
   get_range: =>
-    today = d3.time.day new Date
+    today = d3.timeDay new Date
     offset = @opts.day_offset || 0
 
-    left = d3.time.day.offset today, -(@opts.num_days + offset - 1)
-    right = d3.time.day.offset today, -(offset)
+    left = d3.timeDay.offset today, -(@opts.num_days + offset - 1)
+    right = d3.timeDay.offset today, -(offset)
 
     [left, right]
 
@@ -260,7 +259,7 @@ class S.Grapher
     t = left
     while t <= right
       val = fn t
-      t = d3.time.day.offset t, 1
+      t = d3.timeDay.offset t, 1
       val
 
   format_data: ->
@@ -278,31 +277,31 @@ class S.Grapher
   x_scale: (data) ->
     [left, right] = @get_range()
 
-    d3.time.scale()
+    d3.scaleTime()
       .domain([left, right])
       .rangeRound([@margin_left + @axis_graph_padding, @w - @margin_right])
 
   y_scale: (data) ->
     max = d3.max data, @get_y
 
-    d3.scale.linear()
+    d3.scaleLinear()
       .domain([0, Math.max Math.floor(max*1.3) || 0, @opts.min_y])
       .rangeRound([@h - @margin_bottom, @margin_top])
 
 class S.RangeGrapher extends S.Grapher
   # get the range from the dates provided
   get_range: =>
-    format = d3.time.format "%Y-%m-%d"
+    parse = d3.timeParse "%Y-%m-%d"
 
     first = @data[0]
     last = @data[@data.length - 1]
 
-    first = format.parse first.date
-    last = format.parse last.date
+    first = parse first.date
+    last = parse last.date
 
     min_range = @opts.min_range || 7
 
-    range_ago = d3.time.day.offset last, -min_range
+    range_ago = d3.timeDay.offset last, -min_range
 
     if range_ago < first
       first = range_ago
