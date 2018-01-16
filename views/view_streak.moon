@@ -192,6 +192,15 @@ class ViewStreak extends require "widgets.page"
 
       return
 
+    if @category
+      section class: "discussion_nag", ->
+        img src: "/static/images/help.svg", width: 24, height: 24
+        span "Have a question for this streak?"
+        a {
+          href: @url_for("community.new_topic", category_id: @category.id)
+          class: "button"
+        }, "Ask a question..."
+
     h4 class: "submission_list_title", ->
       text "Recent submissions"
       text " "
