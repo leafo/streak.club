@@ -197,7 +197,7 @@ class ViewStreak extends require "widgets.page"
         img src: "/static/images/help.svg", width: 24, height: 24
         span "Have a question for this streak?"
         a {
-          href: @url_for("community.new_topic", category_id: @category.id)
+          href: login_and_return_url @, @url_for("community.new_topic", category_id: @category.id)
           class: "button"
         }, "Ask a question..."
 

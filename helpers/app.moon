@@ -40,9 +40,12 @@ assert_page = =>
 
 login_and_return_url = (url=ngx.var.request_uri) =>
   import encode_query_string from require "lapis.util"
-  @url_for("user_login") .. "?" .. encode_query_string {
-    return_to: @build_url url
-  }
+  if @current_user
+    url
+  else
+    @url_for("user_login") .. "?" .. encode_query_string {
+      return_to: url
+    }
 
 -- unit_date is in UTC
 assert_unit_date = =>

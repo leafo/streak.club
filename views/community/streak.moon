@@ -20,5 +20,5 @@ class CommunityStreak extends require "widgets.page"
       a {
         href: @url_for("community.new_topic", category_id: @category.id)
         class: "button"
-      }, "New topic"
+      }, "New discussion"
 

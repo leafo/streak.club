@@ -18,7 +18,7 @@ class CommunityNewTopic extends require "widgets.page"
       @column_content!
 
   column_content: =>
-    h2 "New topic"
+    h2 "Start a new discussion"
 
     @render_errors!
 

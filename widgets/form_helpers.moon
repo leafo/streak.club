@@ -10,6 +10,7 @@ class FormHelpers
           required: opts.required and "required"
           placeholder: opts.placeholder
           name: opts.name
+          autofocus: opts.autofocus
           autocorrect: opts.mobile and "off" or nil
           autocapitalize: opts.mobile and "off" or nil
         }, opts.value
@@ -22,6 +23,7 @@ class FormHelpers
           name: opts.name
           value: opts.value
           class: opts.class
+          autofocus: opts.autofocus
 
           autocorrect: opts.mobile and "off" or nil
           autocapitalize: opts.mobile and "off" or nil
