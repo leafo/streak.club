@@ -15,9 +15,9 @@ class S.IndexLoggedOut
     @el.find(".slide_up").removeClass "slide_up"
 
     setTimeout =>
-      @el.find(".typed_drop").typed {
-        typeSpeed: 20
-        backDelay: 1000
+      new Typed ".typed_drop", {
+        typeSpeed: 40
+        backDelay: 2000
         strings: [
           "staying motivated"
           "making art"
@@ -26,7 +26,7 @@ class S.IndexLoggedOut
           "creative streaks"
         ]
       }
-    , 200
+    , 500
 
   fill_grid: ->
     grid = @el.find ".streak_grid"
