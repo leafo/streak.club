@@ -73,7 +73,7 @@ class extends lapis.Application
 
     if size != "original" and ext != "gif"
       start = time!
-      import load_image_from_blob from require "magick"
+      import load_image_from_blob from require "magick.gmwand"
       image = assert load_image_from_blob image_blob
 
       image\auto_orient!
