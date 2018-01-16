@@ -40,6 +40,15 @@ P "Editor", {
 
   render: ->
     [
+      div className: "markdown_label",
+        img {
+          height: 16
+          width: 26
+          src: "/static/images/markdown-mark-solid.svg"
+          alt: "Markdown Enabled"
+        }
+        "Format with Markdown"
+
       textarea {
         value: @state.markdown
         placeholder: @props.placeholder

@@ -3,6 +3,21 @@
     outline-color: $blue;
 }
 
+.markdown_editor {
+    .markdown_label {
+        margin: 10px 0;
+        @include display_flex;
+        @include align_items;
+        font-size: 14px;
+        color: $body_color_light;
+
+        img {
+            margin-right: 5px;
+            opacity: 0.5;
+        }
+    }
+}
+
 
 .form {
     // takes up majority of page
