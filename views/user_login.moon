@@ -4,8 +4,22 @@ class UserLogin extends require "widgets.page"
   responsive: true
 
   column_content: =>
+    register_url = @url_for "user_register", nil, return_to: @return_to
+
     div class: "page_header", ->
       h2 "Log in"
+
+    register_message = switch @return_to_route_name
+      when "community.new_topic"
+        "create a new discussion"
+      when "view_streak"
+        "join a streak"
+
+    if register_message
+      p ->
+        text "Log into your Streak.club account to #{register_message}, or "
+        a href: register_url, "create an account"
+        text "."
 
     form method: "POST", class: "form primary_form", ->
       @render_errors!
@@ -30,7 +44,7 @@ class UserLogin extends require "widgets.page"
       div class: "button_row", ->
         input class: "button", type: "submit", value: "Log in"
         text " or "
-        a href: @url_for("user_register"), "Create new account"
+        a href: register_url, "Create new account"
         raw " &middot; "
         a href: @url_for("user_forgot_password"), "Forgot password"
 

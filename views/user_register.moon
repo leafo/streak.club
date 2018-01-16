@@ -50,7 +50,7 @@ class UserRegister extends require "widgets.page"
       div class: "button_row", ->
         input class: "button", type: "submit", value: "Create account"
         text " or "
-        a href: @url_for("user_login"), "Log in to existing account"
+        a href: @url_for("user_login", nil, return_to: @return_to), "Log in to existing account"
         raw " &middot; "
         a href: @url_for("user_forgot_password"), "Forgot password"
 

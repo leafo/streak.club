@@ -184,6 +184,8 @@ class UsersApplication extends lapis.Application
       if @current_user
         @write redirect_to: @url_for "index"
 
+      @flow("user")\load_return_to!
+
     GET: => render: true
 
     POST: capture_errors =>
@@ -216,6 +218,8 @@ class UsersApplication extends lapis.Application
     before: =>
       if @current_user
         @write redirect_to: @url_for "index"
+
+      @flow("user")\load_return_to!
 
     GET: => render: true
     POST: capture_errors =>
