@@ -127,7 +127,11 @@ class Layout extends Widget
 
   all_js: =>
     @include_js "lib.js"
-    @include_js "main.js"
+    if config._name == "production"
+      @include_js "main.min.js"
+    else
+      @include_js "main.js"
+
     @content_for "all_js"
 
     script type: "text/javascript", ->
