@@ -120,17 +120,10 @@ class S.SubmissionList
           btn.closest(".submission_row")
             .find(".submission_footer").after commenter
 
-          S.with_redactor =>
-            S.redactor commenter.find("textarea"), minHeight: 100
-
           @el.trigger "s:reshape"
     }
 
   setup_comments: =>
-    textareas = @el.find("textarea")
-    if textareas.length
-      S.redactor textareas, minHeight: 100
-
     @el.dispatch "click", ".submission_comment_list", {
       delete_btn: (btn) =>
         return unless confirm "Are you sure you want to delete this comment?"
@@ -157,7 +150,17 @@ class S.SubmissionList
 
         body.replaceWith editor
         @el.trigger "s:reshape"
-        S.redactor editor.find("textarea"), minHeight: 100
+
+        markdown_editor = editor.find(".markdown_editor")
+        value = markdown_editor.find("textarea").val()
+        console.log value
+
+        ReactDOM.render R.EditSubmission.Editor({
+          required: true
+          placeholder: "Your comment"
+          name: "comment[body]"
+          value
+        }), markdown_editor[0]
 
         editor.dispatch "click", {
           cancel_edit_btn: (btn) =>
@@ -168,12 +171,15 @@ class S.SubmissionList
 
       reply_btn: (btn) =>
         username = btn.closest(".submission_comment").data "author"
-        editor = btn.closest(".submission_commenter").find ".comment_form_outer textarea"
-        editor.redactor "insert.html", "@#{username}&nbsp;"
+        editor = btn.closest(".submission_commenter").find ".comment_form_outer .markdown_editor"
+        editor_component = editor.data "react_component"
+        console.log editor_component
+
+        editor_component.set_markdown "#{editor_component.state.markdown}@#{username} "
+        editor_component.focus()
 
         outer = editor.closest ".comment_form_outer"
         outer[0].scrollIntoView?()
-
     }
 
     @el.dispatch "click", ".submission_commenter", {
@@ -213,10 +219,7 @@ class S.SubmissionList
         form.set_form_errors res.errors
         return
 
-      if $.fn.redactor?
-        form.find("textarea").redactor "code.set", ""
-      else
-        form.find("textarea").val("")
+      form.find(".markdown_editor").data("react_component").set_markdown("")
 
       if res.rendered
         form.trigger "s:increment_comments", [1]

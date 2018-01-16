@@ -19,6 +19,15 @@ P "Editor", {
       markdown: initial_markdown or ""
     }
 
+  focus: ->
+    @textarea.focus()
+
+  set_markdown: (md) ->
+    @setState {
+      markdown: md
+      html: @compile_markdown md
+    }
+
   compile_markdown: (md) ->
     @parser ||= new commonmark.Parser()
     @writer ||= new commonmark.HtmlRenderer {
@@ -30,10 +39,11 @@ P "Editor", {
     @writer.render(document)
 
   render: ->
-    div className: "markdown_editor",
+    [
       textarea {
         value: @state.markdown
         placeholder: @props.placeholder
+        ref: (textarea) => @textarea = textarea
         required: @props.required
         onChange: (e) =>
           @setState {
@@ -43,6 +53,7 @@ P "Editor", {
       }
 
       input type: "hidden", name: @props.name, value: @state.html
+    ]
 
 }
 

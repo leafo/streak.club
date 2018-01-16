@@ -1,4 +1,8 @@
 .submission_commenter {
+    .markdown_editor > textarea {
+        min-height: 100px;
+    }
+
     .comment_form_outer {
         border-top: 1px solid $border_color;
 

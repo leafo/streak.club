@@ -16,11 +16,6 @@ config {"development", "test", "production"}, ->
 
   storage_bucket "streakclub_dev"
 
-  -- my Redactor license doesn't let me bundle it with opensource so you'll
-  -- have to disable it here if you don't have it. Otherwise place in
-  -- static/lib/redactor/
-  enable_redactor true
-
   postgres {
     backend: "pgmoon"
     database: "streakclub"

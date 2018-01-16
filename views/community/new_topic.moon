@@ -1,4 +1,5 @@
 StreakHeader = require "widgets.streak_header"
+MarkdownEditor = require "widgets.markdown_editor"
 
 import to_json from require "lapis.util"
 
@@ -19,9 +20,6 @@ class CommunityNewTopic extends require "widgets.page"
   column_content: =>
     h2 "New topic"
 
-    @content_for "all_js", ->
-      @include_redactor!
-
     @render_errors!
 
     form method: "post", class: "form", ->
@@ -30,17 +28,17 @@ class CommunityNewTopic extends require "widgets.page"
       @text_input_row {
         label: "Title"
         name: "topic[title]"
+        required: true
         placeholder: "Required"
         autofocus: true
       }
 
-
-      @text_input_row {
-        label: "Body"
-        name: "topic[body]"
-        type: "textarea"
-        placeholder: "Required"
-      }
+      @input_row "Body", ->
+        widget MarkdownEditor {
+          required: true
+          name: "topic[body]"
+          placeholder: "Required"
+        }
 
       if @streak\is_host @current_user
         p "All participants will be notified of this topic since you are an

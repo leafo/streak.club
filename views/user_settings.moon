@@ -1,3 +1,5 @@
+MarkdownEditor = require "widgets.markdown_editor"
+
 class UserSettings extends require "widgets.page"
   @needs: {"user", "user_profile"}
   @include "widgets.form_helpers"
@@ -5,12 +7,9 @@ class UserSettings extends require "widgets.page"
   responsive: true
 
   js_init: =>
-    "new S.UserSettings(#{@widget_selector!})"
+    "new S.UserSettings(#{@widget_selector!});"
 
   column_content: =>
-    @content_for "all_js", ->
-      @include_redactor!
-
     h2 "Account & profile settings"
 
     @render_errors!
@@ -42,14 +41,12 @@ class UserSettings extends require "widgets.page"
         value: profile.twitter
       }
 
-      @text_input_row {
-        type: "textarea"
-        label: "Bio"
-        sub: "A little about you and your interests, publicly visible"
-        name: "user_profile[bio]"
-        placeholder: "Optional"
-        value: profile.bio
-      }
+      @input_row "Bio", "A little about you and your interests, publicly visible", ->
+        widget MarkdownEditor {
+          name: "user_profile[bio]"
+          placeholder: "Optional"
+          value: profile.bio
+        }
 
       div class: "button_row", ->
         input class: "button", type: "submit", value: "Submit"

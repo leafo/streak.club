@@ -3,6 +3,7 @@ import login_and_return_url from require "helpers.app"
 import to_json from require "lapis.util"
 
 SubmissionCommenter = require "widgets.submission_commenter"
+MarkdownEditor = require "widgets.markdown_editor"
 
 class SubmissionList extends require "widgets.base"
   @needs: {"submissions", "has_more"}
@@ -20,9 +21,6 @@ class SubmissionList extends require "widgets.base"
     "new S.SubmissionList(#{@widget_selector!}, #{to_json opts});"
 
   inner_content: =>
-    @content_for "all_js", ->
-      @include_redactor not @show_comments
-
     @render_submissions!
 
     if @has_more
@@ -189,14 +187,19 @@ class SubmissionList extends require "widgets.base"
         form class: "form edit_comment_form", method: "POST", :action, ->
           @csrf_input!
           div class: "input_wrapper", ->
-            textarea name: "comment[body]", placeholder: "Your comment", ->
-              raw "{{& body }}"
+            widget MarkdownEditor {
+              name: "comment[body]"
+              placeholder: "Your comment"
+              required: true
+              js_init: false
+              value: ->
+                raw "{{& body }}"
+            }
 
           div class: "button_row", ->
             button class: "button", "Update comment"
             text " or "
             a class: "cancel_edit_btn", href: "", "Cancel"
-
 
   render_uploads: (submission) =>
     return unless submission.uploads and next submission.uploads

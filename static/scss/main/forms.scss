@@ -84,33 +84,6 @@
         }
     }
 
-    .redactor-box {
-        border: 2px solid lighten($border_color, 5%);
-        overflow: hidden;
-        margin-bottom: 0;
-    }
-
-    .redactor-editor {
-        border: 0;
-    }
-
-    .redactor-toolbar {
-        z-index: 9 !important;
-
-        li a {
-            color: #666;
-
-            &:hover {
-                background: $button_color;
-            }
-
-            &:active, &.redactor-act {
-                background: #ddd;
-                color: #666;
-            }
-        }
-    }
-
     .label {
         font-size: 14px;
         font-weight: bold;

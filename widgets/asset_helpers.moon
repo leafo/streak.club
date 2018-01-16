@@ -21,18 +21,6 @@ class AssetsHelpers
     @include_css "lib/jquery-ui/css/jquery-ui.structure.css"
     @include_css "lib/jquery-ui/css/jquery-ui.theme.css"
 
-  include_redactor: (lazy=false) =>
-    return unless config.enable_redactor
-    if lazy
-      script {
-        class: "redactor_loader"
-        type: "lazyscript"
-        "data-script": capture -> @include_redactor!
-      }
-    else
-      @include_js "lib/redactor/redactor.js"
-      @include_css "lib/redactor/redactor.css"
-
   include_tagit: =>
     @include_js "lib/tag-it/js/tag-it.js"
     @include_css "lib/tag-it/css/jquery.tagit.css"

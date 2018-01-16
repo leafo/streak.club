@@ -1,3 +1,5 @@
+MarkdownEditor = require "widgets.markdown_editor"
+
 
 class AdminEmailStreak extends require "widgets.page"
   @needs: {"streak"}
@@ -8,7 +10,6 @@ class AdminEmailStreak extends require "widgets.page"
 
   column_content: =>
     @content_for "all_js", ->
-      @include_redactor!
       @include_js "admin.js"
 
     div class: "page_header", ->
@@ -26,11 +27,11 @@ class AdminEmailStreak extends require "widgets.page"
         name: "email[subject]"
       }
 
-      @text_input_row {
-        type: "textarea"
-        label: "Body"
-        name: "email[body]"
-      }
+      @input_row "Body", ->
+        widget MarkdownEditor {
+          label: "Body"
+          name: "email[body]"
+        }
 
       @input_row "Options", ->
         @radio_buttons "action", {

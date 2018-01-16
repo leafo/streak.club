@@ -1,4 +1,5 @@
 import to_json from require "lapis.util"
+MarkdownEditor = require "widgets.markdown_editor"
 
 class CommunityPostForm extends require "widgets.base"
   @include "widgets.form_helpers"
@@ -6,7 +7,6 @@ class CommunityPostForm extends require "widgets.base"
 
   post_label: "Post"
   save_label: "Save"
-  redactor_opts: nil
   subscribe_checkbox: true
   show_author: false
 
@@ -14,14 +14,8 @@ class CommunityPostForm extends require "widgets.base"
     { super!, show_authow: @show_author }
 
   js_init: =>
-    redactor_opts = @redactor_opts
-
-    if cat = not redactor_opts and @topic\get_category!
-      redactor_opts = cat\edit_options!.redactor_opts
-
     opts = {
       focus: @focus
-      :redactor_opts
     }
 
     "new S.CommunityPostForm(#{@widget_selector!}, #{to_json opts})"
@@ -34,9 +28,6 @@ class CommunityPostForm extends require "widgets.base"
     true
 
   inner_content: =>
-    @content_for "all_js", ->
-      @include_redactor!
-
     if @show_author and @current_user
       div class: "reply_form_columns", ->
         div class: "author_column", ->
@@ -77,13 +68,13 @@ class CommunityPostForm extends require "widgets.base"
           value: @post\get_topic!.title
         }
 
-      @text_input_row {
-        label: "Body"
-        name: "post[body]"
-        type: "textarea"
-        placeholder: "Required"
-        value: @post and @post.body
-      }
+      @input_row "Body", ->
+        widget MarkdownEditor {
+          required: true
+          name: "post[body]"
+          placeholder: "Required"
+          value: @post and @post.body
+        }
 
       if @show_subscribe_checkbox!
         @input_row "Subscribe", ->

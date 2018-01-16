@@ -51,58 +51,6 @@ window.S = {
     else
       $.extend thing, token
 
-  # wait for it to be loaded
-  with_redactor: (fn) =>
-    t = 1
-    add = 10
-
-    unless $.fn.redactor
-      html = $(document.body).find(".redactor_loader").remove().data "script"
-      if html?
-        $("head").append html
-
-    tick = ->
-      return fn?() if $.fn.redactor
-      t += add
-      t = Math.min 500, t
-      setTimeout tick, t
-
-    tick()
-
-  redactor: (el, opts={}) =>
-    return if window.location.href.match /\bredactor=0\b/
-    return unless $.fn.redactor
-
-    opts = $.extend {}, S.default_redactor_opts, opts
-    try
-      el.redactor opts
-    catch e
-      S.event "error", "redactor", "invalid_content"
-      # attempt to save the page
-      el.parent().replaceWith(el).end().val("").redactor opts
-
-  default_redactor_opts: {
-    toolbarFixed: false
-    buttonSource: true
-    buttons: [
-      'html'
-      'formatting'
-      'bold'
-      'italic'
-      'deleted'
-      'unorderedlist'
-      'orderedlist'
-      'outdent'
-      'indent'
-      'image'
-      'table'
-      'link'
-      'alignment'
-      'horizontalrule'
-    ]
-    minHeight: 250
-  }
-
   has_follow_buttons: (el) ->
     el.dispatch "click", {
       toggle_follow_btn: (btn) =>

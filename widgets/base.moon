@@ -38,12 +38,25 @@ class Base extends Widget
     local inner
     @_opts = { class: classes, -> raw inner }
 
-    if @js_init
+    append_js = if @js_init
       @widget_id!
-      @content_for "js_init", -> raw @js_init!
+      if js = @js_init!
+        if @layout_opts
+          @content_for "js_init", ->
+            raw js
+            unless js\match ";%s$"
+              raw ";"
+          nil
+        else
+          js
+
 
     inner = capture -> fn @
     element @elm_type or "div", @_opts
+
+    if append_js
+      script type: "text/javascript", ->
+        raw append_js
 
   widget_classes: =>
     @css_class or @@css_classes!
@@ -147,4 +160,4 @@ class Base extends Widget
     if selector
       target ..= ".find(#{to_json selector})"
 
-    "ReactDOM.render(R.#{component}(#{to_json props}),#{target}[0]);"
+    "#{target}.data('react_component', ReactDOM.render(R.#{component}(#{to_json props}),#{target}[0]));"

@@ -1,5 +1,6 @@
 
 SubmissionCommentList = require "widgets.submission_comment_list"
+MarkdownEditor = require "widgets.markdown_editor"
 
 import login_and_return_url from require "helpers.app"
 
@@ -8,14 +9,18 @@ class SubmissionCommenter extends require "widgets.base"
 
   inner_content: =>
     div class: "comment_form_outer", ->
-      h3 class: "comment_header", "Post a commment"
+      h3 class: "comment_header", "Post a comment"
       if @current_user
         action = @url_for "submission_new_comment", id: @submission.id
         form class: "form comment_form", method: "POST", :action, ->
           @csrf_input!
 
           div class: "input_wrapper", ->
-            textarea name: "comment[body]", placeholder: "Your comment"
+            widget MarkdownEditor {
+              name: "comment[body]"
+              placeholder: "Your comment"
+              required: true
+            }
 
           div class: "button_row", ->
             button class: "button", "Post comment"
