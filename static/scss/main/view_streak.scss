@@ -83,7 +83,7 @@
         }
 
         .submission_list {
-            margin-top: 0;
+            margin-top: 10px;
         }
     }
 
@@ -148,18 +148,6 @@
         .button {
             display: block;
             width: 100%;
-        }
-
-        .user_list {
-            .user_data {
-                margin-left: 20px;
-                margin-top: 13px;
-                width: 140px;
-            }
-
-            .user_name {
-                font-size: $body_size;
-            }
         }
     }
 

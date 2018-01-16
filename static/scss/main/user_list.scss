@@ -1,16 +1,24 @@
 
 .user_list {
     &.narrow {
-        .toggle_follow_btn {
-            position: static;
-            margin-top: 20px;
+        .user_data {
+            margin-left: 0;
+
+            .user_name {
+                font-size: $body_size;
+                font-weight: bold;
+                @include single_line;
+            }
         }
 
-        .user_name {
-            font-size: 24px;
-            font-weight: bold;
-            @include single_line;
+        .data_action_split {
+            display: block;
+            margin-left: 10px;
 
+            > .button {
+                display: block;
+                margin-top: 10px;
+            }
         }
     }
 
@@ -108,8 +116,5 @@
                 }
             }
         }
-    }
-
-    .toggle_follow_btn, .user_action_btn {
     }
 }
