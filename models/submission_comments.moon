@@ -88,3 +88,9 @@ class SubmissionComments extends Model
   url_params: =>
     submission = @get_submission!
     "view_submission", id: submission.id
+
+  extract_text: =>
+    import extract_text from require "web_sanitize"
+    import decode_html_entities from require "helpers.html"
+    decode_html_entities extract_text @body
+

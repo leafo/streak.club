@@ -1,5 +1,5 @@
 
-import extract_text, sanitize_html, sanitize_style from require "web_sanitize"
+import sanitize_html, sanitize_style from require "web_sanitize"
 
 whitelist = require "web_sanitize.whitelist"
 whitelist.tags.iframe = {
@@ -23,4 +23,35 @@ is_empty_html =  (str) ->
   out = (str\gsub("%<.-%>", "")\gsub("&nbsp;", ""))
   not not out\find "^%s*$"
 
-{ :sanitize_style, :sanitize_html, :is_empty_html }
+decode_html_entities = do
+  entities = {
+    amp: '&'
+    nbsp: " "
+    gt: '>'
+    lt: '<'
+    quot: '"'
+    apos: "'"
+    mdash: "—"
+    rsquo: '’'
+    trade: '™'
+    "#x27": "'"
+  }
+
+  (str) ->
+    (str\gsub '&(.-);', (tag) ->
+      if entities[tag]
+        entities[tag]
+      elseif chr = tag\match "#(%d+)"
+        chr = tonumber chr
+        if chr >= 32 and chr <= 127
+          string.char chr
+        else
+          "" -- nothing for now
+      -- elseif chr = tag\match "#[xX]([%da-fA-F]+)"
+      --   utf8.char tonumber chr, 16
+      -- ^ this is super crappy because we don't have unicode library
+      else
+        '&'..tag..';')
+
+
+{ :sanitize_style, :sanitize_html, :is_empty_html, :decode_html_entities }

@@ -25,7 +25,15 @@ class TableHelpers
       enum = nil
 
     local style
-    val = object[field]
+
+    val = if real_field = type(field) == "string" and field\match "^:(.*)"
+      field = real_field
+      method = object[field]
+      unless method == nil
+        assert type(method) == "function", "expected method for #{field}"
+        method object
+    else
+      object[field]
 
     if enum
       val = "#{enum[val]} (#{val})"
@@ -39,7 +47,7 @@ class TableHelpers
         unless custom_val
           opts.style = "color: gray; font-style: italic"
 
-    if val and (field\match("_at$") or field\match("_date_utc$"))
+    if val and (field\match("_at$") or field\match("_date_utc$")) and not custom_val
       opts.title = val
       custom_val = -> @date_format val
 

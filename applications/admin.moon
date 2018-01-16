@@ -2,6 +2,8 @@
 lapis = require "lapis"
 db = require "lapis.db"
 
+import preload from require "lapis.db.model"
+
 config = require("lapis.config").get!
 
 import respond_to, capture_errors_json, assert_error from require "lapis.application"
@@ -72,7 +74,7 @@ class AdminApplication extends lapis.Application
     }
 
     assert_page @
-    @streaks = @pager\get_page @
+    @streaks = @pager\get_page @page
     render: true
 
 
@@ -321,4 +323,18 @@ class AdminApplication extends lapis.Application
       json: { success: true, :res }
 
   }
+
+  [comments: "/comments"]: =>
+    import SubmissionComments from require "models"
+
+    @pager = SubmissionComments\paginated "order by id desc", {
+      per_page: 50
+      prepare_results: (comments) ->
+        preload comments, "user", submission: { "user", streak_submissions: "streak"}
+        comments
+    }
+
+    assert_page @
+    @comments = @pager\get_page @page
+    render: true
 
