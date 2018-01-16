@@ -17,6 +17,7 @@ class UserRegister extends require "widgets.page"
         name: "username"
         required: true
         mobile: true
+        autofocus: true
         value: @params.username
       }
 
