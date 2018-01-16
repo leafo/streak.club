@@ -5,8 +5,6 @@ class S.EditStreak
     @el.find(".date_picker").datepicker()
     @setup_timezone()
 
-    S.redactor @el.find "textarea"
-
     form = @el.find("form")
     form.remote_submit (res) =>
       if res.errors

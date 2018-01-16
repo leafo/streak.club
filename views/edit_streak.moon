@@ -3,6 +3,7 @@ import to_json from require "lapis.util"
 date = require "date"
 
 import Streaks from require "models"
+MarkdownEditor = require "widgets.markdown_editor"
 
 class EditStreak extends require "widgets.page"
   @include "widgets.form_helpers"
@@ -18,7 +19,6 @@ class EditStreak extends require "widgets.page"
   column_content: =>
     @content_for "all_js", ->
       @include_jquery_ui!
-      @include_redactor!
 
     div class: "page_header", ->
       if @streak
@@ -47,12 +47,12 @@ class EditStreak extends require "widgets.page"
         value: streak.short_description
       }
 
-      @text_input_row {
-        type: "textarea"
-        label: "Description"
-        name: "streak[description]"
-        value: streak.description
-      }
+      @input_row "Description",->
+        widget MarkdownEditor {
+          value: streak.description
+          placeholder: "Optional"
+          name: "streak[description]"
+        }
 
       @input_row "Interval", ->
         @radio_buttons "streak[rate]", {
