@@ -93,6 +93,9 @@ window.S = {
           return "#{s.numberFormat bytes / min}#{label}"
 
       "#{s.numberFormat bytes} bytes"
+
+  is_mobile: =>
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test navigator.userAgent
 }
 
 $.fn.dispatch = (event_type, selector, table) ->
