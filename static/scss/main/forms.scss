@@ -156,6 +156,10 @@
         cursor: normal
     }
 
+    &.small {
+        font-size: 16px;
+    }
+
     &.outline_button {
         background: white;
         border: 2px solid rgba($button_color, 0.6);

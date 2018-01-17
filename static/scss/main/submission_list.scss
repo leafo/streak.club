@@ -288,15 +288,15 @@
 
             .user_link {
                 text-decoration: none;
-            }
+                > img {
+                    width: 80px;
+                    height: 80px;
+                    display: block;
+                    border-radius: 40px;
+                    margin-bottom: 10px;
+                    border: 0;
 
-            img {
-                width: 80px;
-                height: 80px;
-                display: block;
-                border-radius: 40px;
-                margin-bottom: 10px;
-                border: 0;
+                }
             }
 
             .user_name {
@@ -311,50 +311,6 @@
             }
 
         }
-
-        .submission_liker {
-            margin-top: 20px;
-            @include display_flex;
-            @include justify_content;
-            @include align_items;
-
-            > button {
-                text-decoration: none;
-                font-size: 18px;
-                color: #999;
-                display: inline-block;
-                vertical-align: top;
-                line-height: 18px;
-                background: none;
-                border: 0;
-                display: block;
-                cursor: pointer;
-                font-size: inherit;
-
-                > * {
-                    display: block;
-                }
-
-                &.liked {
-                    color: $like_color;
-                }
-            }
-
-            .likes_count {
-                @include transition(all 0.2s ease);
-                color: #666;
-                border-radius: 4px;
-                padding: 0 4px;
-                margin-left: 3px;
-                line-height: 18px;
-                text-decoration: none;
-
-                &:hover {
-                    color: $like_color;
-                }
-            }
-        }
-
 
         h3, h4 {
             margin: 0;
@@ -448,8 +404,83 @@
                 text-decoration: none;
             }
         }
+    }
 
+    .submission_liker {
+        margin-top: 20px;
+        position: relative;
 
+        @include display_flex;
+        @include justify_content;
+        @include align_items;
+
+        > button {
+            text-decoration: none;
+            font-size: 18px;
+            color: #999;
+            display: inline-block;
+            vertical-align: top;
+            line-height: 18px;
+            background: none;
+            border: 0;
+            display: block;
+            cursor: pointer;
+            font-size: inherit;
+
+            > * {
+                display: block;
+            }
+
+            &.liked {
+                color: $like_color;
+            }
+        }
+
+        .likes_count {
+            @include transition(all 0.2s ease);
+            color: #666;
+            border-radius: 4px;
+            padding: 0 4px;
+            margin-left: 3px;
+            line-height: 18px;
+            text-decoration: none;
+
+            &:hover {
+                color: $like_color;
+            }
+        }
+    }
+
+    .quick_comment_widget {
+        position: absolute;
+        background: white;
+        border: 1px solid $border_color;
+        padding: 10px;
+        top: 100%;
+        left: 0;
+        margin-top: 10px;
+        z-index: 100;
+        box-shadow: 0 0 10px rgba(black, 0.1);
+        border-radius: 2px;
+        width: 100vw;
+        text-align: left;
+        max-width: 300px;
+
+        h3 {
+            font-size: 18px;
+        }
+
+        .markdown_editor {
+            textarea {
+                min-height: 60px;
+                font-size: 14px;
+            }
+        }
+
+        p {
+            font-size: $body_size_small;
+            color: $body_color_light;
+        }
     }
 
     .list_loader {
@@ -510,13 +541,13 @@
                         @include display_flex;
                         @include align_items;
                         @include flex;
-                    }
+                        > img {
+                            vertical-align: top;
+                            width: 30px;
+                            height: 30px;
+                            margin: 0;
 
-                    img {
-                        vertical-align: top;
-                        width: 30px;
-                        height: 30px;
-                        margin: 0;
+                        }
                     }
 
                     .user_name {

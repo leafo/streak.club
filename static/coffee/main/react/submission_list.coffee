@@ -1,6 +1,20 @@
 
 P = R.package "SubmissionList"
 
+P "QuickComment", {
+  render: ->
+    div class: "quick_comment_widget",
+      h3 {}, "Like it? Leave a comment"
+      p {}, "Give some additional motivation with some words of encouragement or maybe some critical feedback."
+      form class: "form",
+        div class: "markdown_editor",
+          R.EditSubmission.Editor {
+            show_format_help: false
+            autofocus: true
+          }
+        button class: "button small", "Submit comment"
+}
+
 P "LikeButton", {
   # propTypes: {
   #   like_url: types.string
@@ -31,10 +45,13 @@ P "LikeButton", {
     $.post url, S.with_csrf(), (res) =>
       @setState loading: false
       if res.success
+        current_like = !@state.current_like
+
         @setState {
           loading: false
           likes_count: res.count
-          current_like: !@state.current_like
+          show_quick_comment: current_like
+          current_like
         }, ->
           $(btn).trigger "i:refresh_tooltip"
 
@@ -58,6 +75,10 @@ P "LikeButton", {
           class: "likes_count"
           "data-tooltip": "See likes"
         }, @state.likes_count || 0
+      
+      if @state.show_quick_comment
+        P.QuickComment {
+        }
     ]
 }
 
