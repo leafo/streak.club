@@ -1,8 +1,6 @@
 
 P = R.package "EditSubmission"
 
-{PropTypes: types} = React
-
 P "TagInput", {
   getInitialState: ->
     {

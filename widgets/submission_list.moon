@@ -5,6 +5,13 @@ import to_json from require "lapis.util"
 SubmissionCommenter = require "widgets.submission_commenter"
 MarkdownEditor = require "widgets.markdown_editor"
 
+class SubmissionLiker extends require "widgets.base"
+  new: (@props) =>
+
+  js_init: =>
+    @react_render "SubmissionList.LikeButton", @props
+
+
 class SubmissionList extends require "widgets.base"
   @needs: {"submissions", "has_more"}
 
@@ -27,6 +34,7 @@ class SubmissionList extends require "widgets.base"
       div class: "submission_loader list_loader", ->
         text "Loading more"
 
+    div class: "comment_nag_drop"
     @templates!
 
   render_submissions: =>
@@ -55,29 +63,17 @@ class SubmissionList extends require "widgets.base"
 
           has_likes = submission.likes_count > 0
 
-          div class: "like_row #{has_likes and "has_likes" or ""}", ->
-            classes = "toggle_like_btn"
-            classes ..= " liked" if submission.submission_like
+          widget SubmissionLiker {
+            likes_count: submission.likes_count
+            likes_url: @url_for "submission_likes", id: submission.id
+            like_url: @url_for "submission_like", id: submission.id
+            unlike_url: @url_for("submission_unlike", id: submission.id)
+            current_like: not not submission.submission_like
+            login_url: unless current_user
+              login_and_return_url @
+          }
 
-            a {
-              "data-like_url": @url_for("submission_like", id: submission.id)
-              "data-unlike_url": @url_for("submission_unlike", id: submission.id)
-              href: @current_user and "#" or login_and_return_url @
-              class: classes
-            }, ->
-              span class: "on_like icon-heart", ["data-tooltip"]: "Unlike submission"
-
-              span class: "on_no_like icon-heart", ["data-tooltip"]: "Like submission"
-
-            text " "
-            a {
-              href: @url_for("submission_likes", id: submission.id)
-              class: "like_count"
-              "data-tooltip": "View who liked"
-              submission.likes_count
-            }
-
-            @submission_admin_panel submission
+          @submission_admin_panel submission
 
         div class: "submission_content", ->
           div class: "submission_header", ->
