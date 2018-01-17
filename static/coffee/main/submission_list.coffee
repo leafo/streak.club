@@ -161,7 +161,6 @@ class S.SubmissionList
 
         markdown_editor = editor.find(".markdown_editor")
         value = markdown_editor.find("textarea").val()
-        console.log value
 
         ReactDOM.render R.EditSubmission.Editor({
           required: true
@@ -182,7 +181,6 @@ class S.SubmissionList
         username = btn.closest(".submission_comment").data "author"
         editor = btn.closest(".submission_commenter").find ".comment_form_outer .markdown_editor"
         editor_component = editor.data "react_component"
-        console.log editor_component
 
         editor_component.set_markdown "#{editor_component.state.markdown}@#{username} "
         editor_component.focus()

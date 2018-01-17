@@ -28,7 +28,6 @@ class S.EditStreak
     @el.find(".timezone_input").val jstz.determine().name()
 
     tz_offset = new Date().getTimezoneOffset()/60
-    console.log @opts.streak.hour_offset, tz_offset
 
     offset = if @opts.streak.hour_offset?
       -@opts.streak.hour_offset - tz_offset
