@@ -1,5 +1,7 @@
 
 $.fn.has_tooltips = ->
+  return if S.is_mobile()
+
   tooltip_drop = ->
     drop = $(document.body).find ".tooltip_drop"
     unless drop.length
@@ -16,7 +18,7 @@ $.fn.has_tooltips = ->
   show_tooltip = (tooltip_target, instant=false) ->
     el = tooltip_target.data "tooltip_el"
     unless el
-      el = $ tooltip_template label: tooltip_target.data "tooltip"
+      el = $ tooltip_template label: tooltip_target.attr "data-tooltip"
       tooltip_target.data "tooltip_el", el
 
     el.removeClass "visible"
@@ -38,8 +40,9 @@ $.fn.has_tooltips = ->
       setTimeout (=> el.addClass "visible"), 10
 
   @on "i:refresh_tooltip", "[data-tooltip]", (e) =>
-    return if e.originalEvent.tooltip_handled
-    e.originalEvent.tooltip_handled = true
+    if e.originalEvent
+      return if e.originalEvent.tooltip_handled
+      e.originalEvent.tooltip_handled = true
 
     tooltip_target = $(e.currentTarget)
     el = tooltip_target.data "tooltip_el"
