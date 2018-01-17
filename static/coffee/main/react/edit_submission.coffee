@@ -106,6 +106,7 @@ P "Editor", {
         placeholder: @props.placeholder
         ref: (textarea) => @textarea = textarea
         required: @props.required
+        onKeyDown: @props.on_key_down
         onChange: (e) =>
           @setState {
             markdown: e.target.value

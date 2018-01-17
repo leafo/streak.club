@@ -30,10 +30,17 @@ P "QuickComment", {
       h3 {}, "Like it? Leave a comment"
       p {}, "Help keep their streak going with some words of encouragement or some critical feedback."
       form class: "form",
+        input type: "hidden", name: "csrf_token", value: S.get_csrf()
         div class: "markdown_editor",
           R.EditSubmission.Editor {
             ref: (@comment_editor) =>
             show_format_help: false
+            on_key_down: (e) =>
+              if e.keyCode == 27
+                @props.close()
+
+              return
+
             autofocus: true
           }
         button class: "button small", "Submit comment"
