@@ -427,6 +427,11 @@
             cursor: pointer;
             font-size: inherit;
 
+            &.loading {
+                opacity: 0.5;
+                cursor: default;
+            }
+
             > * {
                 display: block;
             }

@@ -40,7 +40,7 @@ P "QuickComment", {
       }, "×"
 
       h3 {}, "Like it? Leave a comment"
-      p {}, "Help keep their streak going with some words of encouragement or some critical feedback."
+      p {}, "Help keep their streak going with some words of encouragement or some feedback."
 
       form class: "form quick_comment_form", method: "post", action: @props.comment_url,
         if @state.errors
@@ -110,6 +110,7 @@ P "LikeButton", {
         type: "button"
         disabled: @state.loading || false
         class: classNames "like_button", {
+          loading: @state.loading
           has_likes: @state.likes_count > 0
           liked: @state.current_like
         }
