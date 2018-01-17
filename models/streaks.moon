@@ -487,6 +487,9 @@ class Streaks extends Model
   is_hidden: =>
     @publish_status == @@publish_statuses.hidden
 
+  is_public_membership: =>
+    @membership_type == @@membership_types.public
+
   is_members_only: =>
     @membership_type == @@membership_types.members_only
 

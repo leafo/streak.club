@@ -30,6 +30,9 @@ class StreakList extends require "widgets.base"
           div class: "date_range", ->
             if not streak\has_end! and streak\during!
               text "Submit #{streak\interval_noun!}"
+
+              if streak\is_public_membership!
+                text ", open membership"
             else
               text "#{streak\interval_noun!} from "
               nobr streak.start_date
@@ -40,17 +43,17 @@ class StreakList extends require "widgets.base"
         div class: "lower_content", ->
           div class: "streak_stats", ->
             div class: "stat_box", ->
-              div class: "stat_value", streak\approved_participants_count!
+              div class: "stat_value", @number_format streak\approved_participants_count!
               div class: "stat_label", "participants"
 
             div class: "stat_box", ->
-              div class: "stat_value", streak.submissions_count
+              div class: "stat_value", @number_format streak.submissions_count
               div class: "stat_label", "submissions"
 
             if @show_submit_button and streak\during!
               streak_user = streak\has_user @current_user
               div class: "stat_box", ->
-                div class: "stat_value", streak_user\current_unit_number!
+                div class: "stat_value", @number_format streak_user\current_unit_number!
                 div class: "stat_label", streak\interval_noun false
 
           if streak\has_end!
