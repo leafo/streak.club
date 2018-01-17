@@ -2,6 +2,7 @@
 import to_json from require "lapis.util"
 import Streaks, Submissions from require "models"
 MarkdownEditor = require "widgets.markdown_editor"
+TagInput = require "widgets.tag_input"
 
 date = require "date"
 
@@ -34,7 +35,6 @@ class EditSubmission extends require "widgets.page"
   column_content: =>
     @content_for "all_js", ->
       @include_jquery_ui!
-      @include_tagit!
 
     div class: "page_header", ->
       if @submission
@@ -53,8 +53,8 @@ class EditSubmission extends require "widgets.page"
           h3 "Submiting for #{@unit_date\fmt Streaks.day_format_str}"
 
     submission = @params.submission or @submission or {}
-    tags_str = if @submission
-      table.concat [tag.slug for tag in *@submission\get_tags!], ","
+    tags = if @submission
+      [tag.slug for tag in *@submission\get_tags!]
 
     @render_errors!
 
@@ -85,16 +85,12 @@ class EditSubmission extends require "widgets.page"
           {"bad", "I'm not proud of it"}
         }, @submission and Submissions.user_ratings\to_name(@submission.user_rating) or "neutral"
 
-      @text_input_row {
-        label: "Tags"
-        class: "tags_input"
-
-        placeholder: "Optional"
-
-        sub: "Classify your submission for easy browsing later (10 max). Press enter to add"
-        name: "submission[tags]"
-        value: tags_str
-      }
+      @input_row "Tags", "Classify your submission for easy browsing later (10 max). Press enter to add", ->
+        widget TagInput {
+          placeholder: "Optional"
+          name: "submission[tags]"
+          :tags
+        }
 
       div class: "label", "Files"
       div class: "file_uploader" -- rendered via react

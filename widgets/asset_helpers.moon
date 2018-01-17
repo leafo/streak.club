@@ -20,7 +20,3 @@ class AssetsHelpers
     @include_css "lib/jquery-ui/css/jquery-ui.css"
     @include_css "lib/jquery-ui/css/jquery-ui.structure.css"
     @include_css "lib/jquery-ui/css/jquery-ui.theme.css"
-
-  include_tagit: =>
-    @include_js "lib/tag-it/js/tag-it.js"
-    @include_css "lib/tag-it/css/jquery.tagit.css"

@@ -87,7 +87,6 @@ class S.EditSubmission
         window.location = res.url
 
     @setup_uploader()
-    @setup_tags()
 
   setup_uploader: =>
     container = @el.find ".file_uploader"
@@ -99,14 +98,4 @@ class S.EditSubmission
     }
 
     ReactDOM.render uploader, container[0]
-
-  setup_tags: ->
-    slug_input = @el.find ".tags_input"
-
-    slug_input.tagit {
-      availableTags: @opts.suggested_tags
-      autocomplete: { delay: 0, minLength: 2 }
-      allowSpaces: true
-    }
-
 

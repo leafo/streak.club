@@ -72,24 +72,6 @@
         min-height: 200px;
     }
 
-    .tagit-hidden-field {
-        display: none !important;
-    }
-
-    .tagit {
-        margin: 0;
-        border: 2px solid lighten($border_color, 5%);
-        border-radius: 0;
-
-        input[type='text'] {
-            width: inherit;
-            border: 0;
-            &:active {
-                border: 0;
-            }
-        }
-    }
-
     .form_errors {
         color: $error_color;
         margin-bottom: 20px;

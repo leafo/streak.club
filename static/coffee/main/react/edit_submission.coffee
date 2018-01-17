@@ -3,6 +3,55 @@ P = R.package "EditSubmission"
 
 {PropTypes: types} = React
 
+P "TagInput", {
+  getInitialState: ->
+    {
+      tags: @props.tags || []
+    }
+
+  componentDidMount: ->
+    suggested_tags = _.toArray @props.suggested_tags
+    tags_input = $ @input
+    default_tags = _.toArray @props.tags
+
+    tags_input.selectize {
+      maxItems: 10
+      delimiter: ','
+      plugins: ['remove_button']
+      persist: false
+      placeholder: tags_input.attr("placeholder")
+      valueField: 'slug'
+      labelField: 'slug'
+      searchField: ['slug']
+      closeAfterSelect: true
+      options: suggested_tags.concat(default_tags).map (x) -> { slug: x }
+      create: (tag) -> { slug: tag }
+      onChange: =>
+        tags = @input.selectize.items || []
+        @setState tags: tags
+        @props.on_change_tags? tags
+    }
+
+  render: ->
+    [
+      input {
+        key: "selectize_wrapper"
+        type: "text"
+        placeholder: @props.placeholder
+        value: @state.tags.join ","
+        ref: (@input) =>
+      }
+
+      input {
+        key: "value_input"
+        type: "hidden"
+        name: @props.name
+        value: @state.tags.join ","
+      }
+    ]
+
+}
+
 P "Editor", {
   getInitialState: ->
     initial_html = @props.value
@@ -108,7 +157,11 @@ P "Uploader", {
   render: ->
     div className: "upload_component", children: [
       P.UploadList { uploads: @state.uploads }
-      button className: "new_upload_btn button", onClick: @handle_upload, "Add file(s)"
+      button {
+        className: "new_upload_btn button"
+        onClick: @handle_upload
+        type: "button"
+      }, "Add file(s)"
     ]
 }
 

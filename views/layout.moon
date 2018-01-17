@@ -168,6 +168,7 @@ class Layout extends Widget
       head ->
         @head!
         @include_css "main.css"
+        @include_css "lib/selectize.css"
         @google_analytics!
 
       body @body_attributes(@body_class), ->
