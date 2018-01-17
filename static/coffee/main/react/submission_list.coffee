@@ -8,6 +8,9 @@ P "QuickComment", {
 
       @autoclose = (e) =>
         return if $(e.target).closest(el).length
+        # partial comment typed
+        return if @comment_editor?.state.markdown.length
+
         @props.close?()
 
       $(document.body).on "click", @autoclose
@@ -25,16 +28,13 @@ P "QuickComment", {
       }, "×"
 
       h3 {}, "Like it? Leave a comment"
-      p {}, "Give some additional motivation with some words of encouragement or some critical feedback."
+      p {}, "Help keep their streak going with some words of encouragement or some critical feedback."
       form class: "form",
         div class: "markdown_editor",
           R.EditSubmission.Editor {
+            ref: (@comment_editor) =>
             show_format_help: false
             autofocus: true
-            on_change: (val) =>
-              @setState {
-                comment_text: val
-              }
           }
         button class: "button small", "Submit comment"
 }
