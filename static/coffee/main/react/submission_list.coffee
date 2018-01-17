@@ -25,7 +25,7 @@ P "QuickComment", {
         return
 
       @props.close?()
-      @props.show_comments?()
+      @props.on_comment_added?(res)
 
   componentWillUnmount: ->
     if @autoclose
@@ -99,7 +99,7 @@ P "LikeButton", {
         @setState {
           loading: false
           likes_count: res.count
-          show_quick_comment: current_like
+          show_quick_comment: !S.is_mobile() && current_like
           current_like
         }, ->
           $(btn).trigger "i:refresh_tooltip"
@@ -130,8 +130,15 @@ P "LikeButton", {
           comment_url: @props.comment_url
           close: =>
             @setState show_quick_comment: false
-          show_comments: =>
-            console.log "not yet!"
+
+          on_comment_added: (res) =>
+            submission_row = $(".submission_row[data-submission_id=#{@props.submission_id}]")
+            submission_row.trigger "s:increment_comments"
+            submission_row.trigger "s:refresh_comments", [
+              (comment_list) =>
+                comment = comment_list.find(".submission_comment[data-id=#{res.comment_id}]")
+                comment[0]?.scrollIntoView?()
+            ]
         }
     ]
 }

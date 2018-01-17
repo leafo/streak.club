@@ -20,6 +20,26 @@ class S.SubmissionList
       btn.text _.template(btn.data("template")) { count: new_count }
       btn.data "count", new_count
 
+    @el.on "s:refresh_comments", ".submission_row", (e, callback) =>
+      btn = $(e.currentTarget).find ".comments_toggle_btn"
+
+      btn.addClass "loading"
+      $.get btn.data("comments_url"), (res) =>
+        btn.removeClass("loading").addClass "open"
+
+        if res.errors
+          alert res.errors.join ","
+          return
+
+        commenter = $ res.rendered
+        btn.closest(".submission_row")
+          .find(".submission_footer").after commenter
+
+        @el.trigger "s:reshape"
+
+        if callback
+          callback commenter
+
     @el.dispatch "click", {
       unroll_submission: (btn) =>
         inside = btn.closest(".submission_inside_content")
@@ -108,19 +128,7 @@ class S.SubmissionList
           btn.removeClass "open"
           return
 
-        btn.addClass "loading"
-        $.get btn.data("comments_url"), (res) =>
-          btn.removeClass("loading").addClass "open"
-
-          if res.errors
-            alert res.errors.join ","
-            return
-
-          commenter = $ res.rendered
-          btn.closest(".submission_row")
-            .find(".submission_footer").after commenter
-
-          @el.trigger "s:reshape"
+        btn.trigger "s:refresh_comments"
     }
 
   setup_comments: =>
