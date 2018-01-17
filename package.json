@@ -13,6 +13,7 @@
   },
   "homepage": "https://streak.club",
   "dependencies": {
+    "classnames": "^2.2.5",
     "commonmark": "^0.28.1",
     "create-react-class": "^15.6.2",
     "d3": "^4.12.2",

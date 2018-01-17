@@ -66,3 +66,4 @@ vendor:
 	cp node_modules/turndown/dist/turndown.js static/lib
 	cp node_modules/selectize/dist/js/standalone/selectize.min.js static/lib
 	cp node_modules/selectize/dist/css/selectize.css static/lib
+	cp node_modules/classnames/index.js static/lib/classnames.js
