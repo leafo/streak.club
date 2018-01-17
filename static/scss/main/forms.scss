@@ -52,7 +52,7 @@
     }
 
 
-    input[type='text'], input[type='password'], input[type='email'], textarea {
+    input[type='text'], input[type='password'], input[type='email'], textarea, .selectize-input {
         @include default_font;
         box-sizing: border-box;
 
@@ -64,6 +64,14 @@
 
         &:focus {
             border: 2px solid $border_color;
+        }
+    }
+
+    .selectize-input {
+        box-shadow: none;
+        border-radius: 0;
+        &.focus {
+            box-shadow: none;
         }
     }
 
