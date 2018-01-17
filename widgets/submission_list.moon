@@ -64,6 +64,7 @@ class SubmissionList extends require "widgets.base"
           has_likes = submission.likes_count > 0
 
           widget SubmissionLiker {
+            comment_url: @current_user and @url_for "submission_new_comment", id: submission.id
             likes_count: submission.likes_count
             likes_url: @url_for "submission_likes", id: submission.id
             like_url: @current_user and @url_for "submission_like", id: submission.id

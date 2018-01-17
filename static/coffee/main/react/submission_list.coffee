@@ -2,18 +2,30 @@
 P = R.package "SubmissionList"
 
 P "QuickComment", {
-  componentDidMount: ->
-    if @props.close
-      el = $ ReactDOM.findDOMNode @
+  getInitialState: -> { }
 
+  componentDidMount: ->
+    el = $ ReactDOM.findDOMNode @
+
+    if @props.close
       @autoclose = (e) =>
         return if $(e.target).closest(el).length
         # partial comment typed
         return if @comment_editor?.state.markdown.length
 
-        @props.close?()
+        @props.close()
 
       $(document.body).on "click", @autoclose
+
+    el.remote_submit ".quick_comment_form", (res, form) =>
+      if res.errors
+        @setState {
+          errors: res.errors
+        }
+        return
+
+      @props.close?()
+      @props.show_comments?()
 
   componentWillUnmount: ->
     if @autoclose
@@ -29,10 +41,16 @@ P "QuickComment", {
 
       h3 {}, "Like it? Leave a comment"
       p {}, "Help keep their streak going with some words of encouragement or some critical feedback."
-      form class: "form",
+
+      form class: "form quick_comment_form", method: "post", action: @props.comment_url,
+        if @state.errors
+          ul class: "form_errors",
+            @state.errors.map (e) => li key: e, e
         input type: "hidden", name: "csrf_token", value: S.get_csrf()
         div class: "markdown_editor",
           R.EditSubmission.Editor {
+            name: "comment[body]"
+            requried: true
             ref: (@comment_editor) =>
             show_format_help: false
             on_key_down: (e) =>
@@ -107,10 +125,13 @@ P "LikeButton", {
           "data-tooltip": "See likes"
         }, @state.likes_count || 0
       
-      if @state.show_quick_comment
+      if @state.show_quick_comment and @props.comment_url
         P.QuickComment {
+          comment_url: @props.comment_url
           close: =>
             @setState show_quick_comment: false
+          show_comments: =>
+            console.log "not yet!"
         }
     ]
 }
