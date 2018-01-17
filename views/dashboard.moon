@@ -24,7 +24,10 @@ class Dashboard extends require "widgets.page"
             show_submit_button: true
           }
         else
-          p class: "empty_message", "You aren't part of any"
+          p class: "empty_message", ->
+            text "You aren't part of any yet, "
+            a href: @url_for("streaks"), "go find some"
+            text "."
 
         if next @created_streaks
           h2 "Streaks you've created"
@@ -33,6 +36,10 @@ class Dashboard extends require "widgets.page"
         if next @completed_streaks
           h2 "Streaks you've completed"
           @render_streaks @completed_streaks
+
+        if @featured_streaks and next @featured_streaks
+          h2 "Featured streaks"
+          @render_streaks @featured_streaks, show_short_description: true
 
       div class: "side_column", ->
         div class: "sidebar_buttons", ->
@@ -51,4 +58,5 @@ class Dashboard extends require "widgets.page"
     widget StreakList {
       :streaks
       show_submit_button: opts.show_submit_button
+      show_short_description: opts.show_short_description
     }

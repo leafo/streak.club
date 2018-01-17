@@ -20,16 +20,22 @@ class StreakList extends require "widgets.base"
           h3 ->
             a href: @url_for(streak), streak.title
 
+          if @show_short_description and streak.short_description
+            p class: "short_description", streak.short_description
+
           div class: "streak_host", ->
             text " by "
             a href: @url_for(streak.user), streak.user\name_for_display!
 
           div class: "date_range", ->
-            text "#{streak\interval_noun!} from "
-            nobr streak.start_date
-            if streak\has_end!
-              text " to "
-              nobr streak.end_date
+            if not streak\has_end! and streak\during!
+              text "Submit #{streak\interval_noun!}"
+            else
+              text "#{streak\interval_noun!} from "
+              nobr streak.start_date
+              if streak\has_end!
+                text " to "
+                nobr streak.end_date
 
         div class: "lower_content", ->
           div class: "streak_stats", ->
