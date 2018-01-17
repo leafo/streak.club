@@ -58,3 +58,8 @@ class Posts extends require "community.models.posts"
       target = object or @
       associated = related_object or object and @ or nil
       Notifications\notify_for user, target, notification_type, associated
+
+  extract_text: =>
+    import extract_text from require "web_sanitize"
+    import decode_html_entities from require "helpers.html"
+    decode_html_entities extract_text @body

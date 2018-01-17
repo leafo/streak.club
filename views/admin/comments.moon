@@ -1,8 +1,6 @@
 
-import Submissions from require "models"
-
-class AdminSubmission extends require "widgets.page"
-  @needs: {"comments", "uploads"}
+class AdminComments extends require "widgets.page"
+  @needs: {"comments"}
   @include "widgets.table_helpers"
   @include "widgets.pagination_helpers"
 
@@ -28,4 +26,6 @@ class AdminSubmission extends require "widgets.page"
       }
       ":extract_text"
     }
+
+    @render_pager @pager
 

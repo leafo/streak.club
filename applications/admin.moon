@@ -338,3 +338,16 @@ class AdminApplication extends lapis.Application
     @comments = @pager\get_page @page
     render: true
 
+  [community_posts: "/community-posts"]: =>
+    import Posts from require "community.models"
+
+    @pager = Posts\paginated "order by id desc", {
+      per_page: 50
+      prepare_results: (posts) ->
+        preload posts, "user", topic: { category: "streak" }
+        posts
+    }
+
+    assert_page @
+    @posts = @pager\get_page @page
+    render: true
