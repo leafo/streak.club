@@ -165,6 +165,7 @@ class S.SubmissionList
 
         ReactDOM.render R.EditSubmission.Editor({
           required: true
+          autofocus: true
           placeholder: "Your comment"
           name: "comment[body]"
           value
