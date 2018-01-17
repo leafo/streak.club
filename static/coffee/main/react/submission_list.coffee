@@ -2,15 +2,39 @@
 P = R.package "SubmissionList"
 
 P "QuickComment", {
+  componentDidMount: ->
+    if @props.close
+      el = $ ReactDOM.findDOMNode @
+
+      @autoclose = (e) =>
+        return if $(e.target).closest(el).length
+        @props.close?()
+
+      $(document.body).on "click", @autoclose
+
+  componentWillUnmount: ->
+    if @autoclose
+      $(document.body).off "click", @autoclose
+
   render: ->
     div class: "quick_comment_widget",
+      button {
+        class: "close_button"
+        onClick: (e) =>
+          @props.close?()
+      }, "×"
+
       h3 {}, "Like it? Leave a comment"
-      p {}, "Give some additional motivation with some words of encouragement or maybe some critical feedback."
+      p {}, "Give some additional motivation with some words of encouragement or some critical feedback."
       form class: "form",
         div class: "markdown_editor",
           R.EditSubmission.Editor {
             show_format_help: false
             autofocus: true
+            on_change: (val) =>
+              @setState {
+                comment_text: val
+              }
           }
         button class: "button small", "Submit comment"
 }
@@ -78,6 +102,8 @@ P "LikeButton", {
       
       if @state.show_quick_comment
         P.QuickComment {
+          close: =>
+            @setState show_quick_comment: false
         }
     ]
 }

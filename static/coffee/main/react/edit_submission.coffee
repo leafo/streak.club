@@ -111,6 +111,8 @@ P "Editor", {
             markdown: e.target.value
             html: @compile_markdown e.target.value
           }
+
+          @pros.on_change? e.target.value
       }
 
       input type: "hidden", name: @props.name, value: @state.html
