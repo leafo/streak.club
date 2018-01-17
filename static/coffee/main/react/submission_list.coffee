@@ -47,6 +47,7 @@ P "QuickComment", {
           ul class: "form_errors",
             @state.errors.map (e) => li key: e, e
         input type: "hidden", name: "csrf_token", value: S.get_csrf()
+        input type: "hidden", name: "comment[source]", value: "quick"
         div class: "markdown_editor",
           R.EditSubmission.Editor {
             name: "comment[body]"

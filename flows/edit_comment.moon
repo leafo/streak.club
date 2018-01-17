@@ -18,10 +18,11 @@ class EditCommentFlow extends Flow
     }
 
     comment_params = @params.comment
-    trim_filter comment_params, { "body" }
+    trim_filter comment_params, { "body", "source" }
 
     assert_valid comment_params, {
       {"body", optional: true, max_length: 1024 * 10}
+      {"source", optional: true, one_of: SubmissionComments.sources}
     }
 
     assert_error comment_params.body and not is_empty_html(comment_params.body),

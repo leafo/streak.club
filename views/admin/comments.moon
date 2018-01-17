@@ -1,4 +1,6 @@
 
+import SubmissionComments from require "models"
+
 class AdminComments extends require "widgets.page"
   @needs: {"comments"}
   @include "widgets.table_helpers"
@@ -24,6 +26,7 @@ class AdminComments extends require "widgets.page"
         if user = c\get_user!
           a href: @url_for(user), user\name_for_display!
       }
+      {"source", SubmissionComments.sources}
       ":extract_text"
     }
 

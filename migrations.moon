@@ -587,5 +587,7 @@ import
   [1510810389]: =>
     require("community.schema").run_migrations 23
 
+  [1516221126]: =>
+    add_column "submission_comments", "source", enum default: 1
 }
 

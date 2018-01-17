@@ -1,5 +1,5 @@
 b = require "lapis.db"
-import Model from require "lapis.db.model"
+import Model, enum from require "lapis.db.model"
 
 -- Generated schema dump: (do not edit)
 --
@@ -25,6 +25,17 @@ class SubmissionComments extends Model
     {"user", belongs_to: "Users"}
     {"submission", belongs_to: "Submissions"}
   }
+
+  @sources: enum {
+    defaut: 1
+    quick: 2
+  }
+
+  @create: (opts) =>
+    if opts.source
+      opts.source = @sources\for_db opts.source
+
+    super opts
 
   @load_mentioned_users: (comments) =>
     import Users from require "models"
