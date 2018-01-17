@@ -66,11 +66,11 @@ class SubmissionList extends require "widgets.base"
           widget SubmissionLiker {
             likes_count: submission.likes_count
             likes_url: @url_for "submission_likes", id: submission.id
-            like_url: @url_for "submission_like", id: submission.id
-            unlike_url: @url_for("submission_unlike", id: submission.id)
+            like_url: @current_user and @url_for "submission_like", id: submission.id
+            unlike_url: @current_user and @url_for("submission_unlike", id: submission.id)
             current_like: not not submission.submission_like
-            login_url: unless current_user
-              login_and_return_url @
+            login_url: unless @current_user
+              login_and_return_url @, @url_for submission
           }
 
           @submission_admin_panel submission

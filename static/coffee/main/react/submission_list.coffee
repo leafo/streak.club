@@ -13,6 +13,10 @@ P "LikeButton", {
     _.pick @props, "likes_count", "current_like"
 
   toggle_like: (e) ->
+    unless S.current_user?
+      window.location = @props.login_url
+      return
+
     return if @state.loading
 
     url = if @state.current_like

@@ -16,12 +16,14 @@ class UserLogin extends require "widgets.page"
         "join a streak"
       when "submission_comments"
         "leave a comment"
+      when "view_submission_slug"
+        "comment on or like a submission"
 
     if register_message
       p ->
-        text "Log into your Streak.club account to #{register_message}, or "
-        a href: register_url, "create an account"
-        text "."
+        text "Log into your Streak.club account to #{register_message}. Don't have one? "
+        a href: register_url, "Create a free account"
+        text ", it only takes a moment."
 
     form method: "POST", class: "form primary_form", ->
       @render_errors!
