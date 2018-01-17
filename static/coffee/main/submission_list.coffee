@@ -242,7 +242,7 @@ class S.SubmissionList
 
     add_unroll = (el) ->
       return unless el.is ".truncated"
-      if el[0].scrollHeight > el.height()
+      if el[0].scrollHeight > Math.ceil(el.height())
         unroll = el.find ".unroll_submission"
         return if unroll.length
         el.append '<div class="unroll_submission">View rest ↓</div>'
