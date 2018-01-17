@@ -48,7 +48,7 @@ $.fn.has_tooltips = ->
     el = tooltip_target.data "tooltip_el"
     tooltip_target.removeData "tooltip_el"
 
-    if el.is ":visible"
+    if el?.is ":visible"
       show_tooltip tooltip_target, true
 
   @on "mouseenter", "[data-tooltip]", (e) =>
