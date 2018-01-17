@@ -1,4 +1,4 @@
-import sanitize_html, is_empty_html from require "helpers.html"
+import sanitize_html, is_empty_html, convert_links from require "helpers.html"
 import login_and_return_url from require "helpers.app"
 import to_json from require "lapis.util"
 
@@ -131,7 +131,7 @@ class SubmissionList extends require "widgets.base"
           div class: "submission_inside_content truncated", ->
             if submission.description and not is_empty_html submission.description
               div class: "user_formatted", ->
-                raw sanitize_html submission.description
+                raw sanitize_html convert_links submission.description
             elseif not (submission.uploads and next submission.uploads)
               p class: "empty_message", "This submission is empty"
 

@@ -1,5 +1,3 @@
-import sanitize_html, is_empty_html from require "helpers.html"
-
 class StreakList extends require "widgets.base"
   @needs: {"streaks"}
 

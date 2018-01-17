@@ -1,5 +1,5 @@
 
-import sanitize_html from require "helpers.html"
+import sanitize_html, convert_links from require "helpers.html"
 import time_ago_in_words from require "lapis.util"
 
 class SubmissionCommentList extends require "widgets.base"
@@ -44,5 +44,5 @@ class SubmissionCommentList extends require "widgets.base"
             span class: "comment_time", title: comment.created_at, time_ago_in_words comment.created_at
 
           div class: "comment_body user_formatted", ->
-            raw sanitize_html filled
+            raw sanitize_html convert_links filled
 

@@ -1,4 +1,4 @@
-import sanitize_html from require "helpers.html"
+import sanitize_html, convert_links from require "helpers.html"
 import time_ago_in_words from require "lapis.util"
 import to_json from require "lapis.util"
 
@@ -92,7 +92,7 @@ class CommunityPostList extends require "widgets.base"
               text " "
 
         div class: "post_body", ->
-          raw sanitize_html post.body
+          raw sanitize_html convert_links post.body
 
         div class: "post_footer", ->
           if post\allowed_to_edit @current_user

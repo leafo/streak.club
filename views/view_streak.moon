@@ -1,6 +1,6 @@
 
 import login_and_return_url from require "helpers.app"
-import sanitize_html, is_empty_html from require "helpers.html"
+import sanitize_html, is_empty_html, convert_links from require "helpers.html"
 import time_ago_in_words, to_json from require "lapis.util"
 
 date = require "date"
@@ -177,7 +177,7 @@ class ViewStreak extends require "widgets.page"
     unless is_empty_html @streak.description
       div class: "user_formatted streak_description", ->
         div class: "click_to_open_overlay"
-        raw sanitize_html @streak.description
+        raw sanitize_html convert_links @streak.description
 
   render_submissions: =>
     unless next @submissions

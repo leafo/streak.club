@@ -1,4 +1,3 @@
-import is_empty_html, sanitize_html from require "helpers.html"
 import to_json from require "lapis.util"
 import login_and_return_url from require "helpers.app"
 

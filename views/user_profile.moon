@@ -2,7 +2,7 @@
 SubmissionList = require "widgets.submission_list"
 UserHeader = require "widgets.user_header"
 
-import sanitize_html, is_empty_html from require "helpers.html"
+import sanitize_html, is_empty_html, convert_links from require "helpers.html"
 
 class UserProfile extends require "widgets.page"
   @needs: {"user", "user_profile", "submissions", "active_streaks", "completed_streaks", "upcoming_streaks"}
@@ -43,7 +43,7 @@ class UserProfile extends require "widgets.page"
 
         if @user_profile.bio and not is_empty_html @user_profile.bio
           div class: "user_formatted user_bio", ->
-            raw sanitize_html @user_profile.bio
+            raw sanitize_html convert_links @user_profile.bio
 
         @render_submissions!
 

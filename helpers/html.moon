@@ -53,5 +53,15 @@ decode_html_entities = do
       else
         '&'..tag..';')
 
+convert_links = (html) ->
+  import replace_html from require "web_sanitize.query.scan_html"
+  replace_html(
+    html
+    (stack) ->
+      node = stack\current!
+      if node.type == "text_node" and not stack\is("a *, a")
+        node\replace_outer_html node\outer_html!\gsub "(https?://[^ <\"']+)", "<a href=\"%1\">%1</a>"
+    text_nodes: true
+  )
 
-{ :sanitize_style, :sanitize_html, :is_empty_html, :decode_html_entities }
+{ :sanitize_style, :sanitize_html, :is_empty_html, :decode_html_entities, :convert_links }
