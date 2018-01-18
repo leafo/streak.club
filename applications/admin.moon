@@ -282,7 +282,7 @@ class AdminApplication extends lapis.Application
 
       users = Users\select "
         where id in
-          (select user_id from streak_users where streak_id = ? and submissions_count = 0)
+          (select user_id from streak_users where streak_id = ?)
       ", @streak.id, fields: "id, username, email, display_name"
 
       if @params.action == "dry_run"
