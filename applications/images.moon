@@ -73,11 +73,21 @@ class extends lapis.Application
 
     if size != "original" and ext != "gif"
       start = time!
+      import parse_size_str from require "magick.thumb"
       import load_image_from_blob from require "magick.gmwand"
+      size = (unescape size)
+      parsed_size = parse_size_str size
+
       image = assert load_image_from_blob image_blob
 
       image\auto_orient!
-      image\thumb (unescape size)
+      w = image\get_width!
+
+      if parsed_size.w and image\get_width! < parsed_size.w
+        s = math.ceil (parsed_size.w / w)
+        image\scale image\get_width!*s, image\get_height!*s
+
+      image\thumb size
 
       image_blob = image\get_blob!
       resize_time = fmt_time time! - start
