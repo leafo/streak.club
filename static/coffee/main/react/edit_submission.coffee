@@ -4,7 +4,7 @@ P = R.package "EditSubmission"
 P "TagInput", {
   getInitialState: ->
     {
-      tags: @props.tags || []
+      tags: _.toArray @props.tags
     }
 
   componentDidMount: ->
