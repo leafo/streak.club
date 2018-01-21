@@ -137,9 +137,10 @@ P "Uploader", {
 
   componentDidMount: ->
     @dispatch "upload", {
-      "delete": (pos) =>
-        @state.uploads.splice(pos, 1)
-        @forceUpdate()
+      "delete": (e, pos) =>
+        @setState {
+          uploads: (u for u, idx in @state.uploads when idx != pos)
+        }
 
       "move_up": (pos) =>
         uploads = @state.uploads
@@ -207,12 +208,12 @@ P "Upload", {
     upload_tools = unless @props.upload.uploading
       div className: "upload_tools", children: [
         unless @props.first
-          a { href: "# ", onClick: @handle_move_up, className: "move_up_btn" }, "Move up"
+          button { type: "button", onClick: @handle_move_up, className: "move_up_btn" }, "Move up"
 
         unless @props.last
-          a { href: "#", onClick: @handle_move_down, className: "move_down_btn" }, "Move Down"
+          button { type: "button", onClick: @handle_move_down, className: "move_down_btn" }, "Move Down"
 
-        a { href: "#", className: "delete_btn", onClick: @handle_delete }, "Delete"
+        button { type: "button", className: "delete_btn", onClick: @handle_delete }, "Delete"
       ]
 
     upload_status = if msg = @props.upload.current_error
