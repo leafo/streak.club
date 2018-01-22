@@ -136,29 +136,34 @@ P "Uploader", {
       upload.on_update = => @forceUpdate()
 
   componentDidMount: ->
+    move = (item, dir) =>
+      current_idx = null
+      items = for other, idx in @state.uploads
+        if other == item
+          current_idx = idx
+          continue
+
+        other
+
+      items.splice current_idx + dir, 0, item
+      items
+
+
     @dispatch "upload", {
       "delete": (e, pos) =>
         @setState {
           uploads: (u for u, idx in @state.uploads when idx != pos)
         }
 
-      "move_up": (pos) =>
-        uploads = @state.uploads
+      "move_up": (e, pos) =>
+        @setState {
+          uploads: move @state.uploads[pos], -1
+        }
 
-        old = uploads[pos - 1]
-        uploads[pos - 1] = uploads[pos]
-        uploads[pos] = old
-
-        @forceUpdate()
-
-      "move_down": (pos) =>
-        uploads = @state.uploads
-
-        old = uploads[pos + 1]
-        uploads[pos + 1] = uploads[pos]
-        uploads[pos] = old
-
-        @forceUpdate()
+      "move_down": (e, pos) =>
+        @setState {
+          uploads: move @state.uploads[pos], 1
+        }
     }
 
   render: ->
