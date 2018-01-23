@@ -4,6 +4,7 @@ UserList = require "widgets.user_list"
 
 class StreakTopParticipants extends require "widgets.page"
   @needs: {"active_top_streak_users", "top_streak_users"}
+  responsive: true
 
   page_name: "top_participants"
 

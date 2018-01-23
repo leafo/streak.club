@@ -1,4 +1,5 @@
 
+
 .user_list {
     &.narrow {
         .user_data {
@@ -115,6 +116,16 @@
                     content: none;
                 }
             }
+        }
+    }
+}
+
+.responsive_column > .user_list {
+    .user_row {
+        background: white;
+        padding: 20px;
+        @include mobile_width {
+            padding: 10px;
         }
     }
 }
