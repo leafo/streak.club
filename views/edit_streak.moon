@@ -7,6 +7,7 @@ MarkdownEditor = require "widgets.markdown_editor"
 
 class EditStreak extends require "widgets.page"
   @include "widgets.form_helpers"
+  responsive: true
 
   js_init: =>
     opts = {
