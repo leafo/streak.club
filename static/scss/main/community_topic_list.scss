@@ -16,6 +16,10 @@
     background: white;
     border: 1px solid $border_color;
     margin: 20px 0;
+    @include mobile_width {
+        margin: 0;
+        border: 0;
+    }
 
     .topic_table {
         .topic_table_header {

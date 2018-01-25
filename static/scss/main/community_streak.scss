@@ -2,5 +2,29 @@
 .community_streak_page {
     .post_buttons {
         margin: 20px 0;
+        @include mobile_width {
+            padding: 10px;
+            margin: 0;
+            border-top: 1px solid $border_color;
+
+            &.top {
+                border-top: 0;
+                border-bottom: 1px solid $border_color;
+            }
+
+            .button {
+                display: block;
+            }
+        }
+    }
+
+    @include mobile_width {
+        .tab_header {
+            margin-bottom: 0;
+        }
+
+        .responsive_column {
+            padding: 0;
+        }
     }
 }
