@@ -8,6 +8,7 @@ class CommunityNewTopic extends require "widgets.page"
   @needs: {"category"}
 
   page_name: "community"
+  responsive: true
 
   js_init: =>
     "new S.CommunityNewTopic(#{@widget_selector!})"

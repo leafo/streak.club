@@ -1,6 +1,9 @@
 
 .streak_header {
     margin-bottom: 25px;
+    @include mobile_width {
+        margin-bottom: 0;
+    }
 
     .breadcrumbs {
         margin-bottom: 15px;

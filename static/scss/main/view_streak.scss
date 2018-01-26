@@ -8,6 +8,12 @@
         }
     }
 
+    .responsive_column {
+        @include mobile_width {
+            margin-top: 20px;
+        }
+    }
+
     .streak_description {
         background: white;
         border: 1px solid $border_color;

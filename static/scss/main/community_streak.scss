@@ -19,10 +19,6 @@
     }
 
     @include mobile_width {
-        .tab_header {
-            margin-bottom: 0;
-        }
-
         .responsive_column {
             padding: 0;
         }
