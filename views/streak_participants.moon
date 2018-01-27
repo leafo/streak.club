@@ -6,6 +6,7 @@ class StreakParticipants extends require "widgets.page"
   @needs: {"streak"}
   @include "widgets.pagination_helpers"
 
+  responsive: true
   page_name: "participants"
 
   inner_content: =>
