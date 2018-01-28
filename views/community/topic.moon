@@ -4,6 +4,7 @@ StreakHeader = require "widgets.streak_header"
 
 class CommunityTopic extends require "widgets.page"
   page_name: "community"
+  responsive: true
 
   js_init: =>
 

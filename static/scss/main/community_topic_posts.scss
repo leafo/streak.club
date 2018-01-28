@@ -2,6 +2,9 @@
 .community_topic_posts {
     .topic_posts_footer {
         margin-top: 40px;
+        @include mobile_width {
+            margin-top: 20px;
+        }
     }
 
     .create_account_banner {
