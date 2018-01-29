@@ -6,6 +6,8 @@ PostForm = require "widgets.community.post_form"
 PostList = require "widgets.community.post_list"
 
 class CommunityEditPost extends require "widgets.page"
+  responsive: true
+
   column_content: =>
     h2 ->
       if @editing
