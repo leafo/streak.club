@@ -24,11 +24,12 @@ log_in_user_session = (user) ->
   stub = { session: {} }
 
   user\write_session stub
-  val = escape encode_session stub.session
+  config.session_name, encode_session stub.session
 
-  "#{config.session_name}=#{val}"
+append_cookie = (opts, name, val) ->
+  import escape from require "lapis.util"
+  cookie = "#{escape name}=#{escape val}"
 
-append_cookie = (opts, cookie) ->
   opts.headers or= {}
   if opts.headers.Cookie
     opts.headers.Cookie ..= "; #{cookie}"
@@ -36,9 +37,13 @@ append_cookie = (opts, cookie) ->
     opts.headers.Cookie = cookie
 
 add_csrf = (opts) ->
-  import cookie_name from require "helpers.csrf"
-  opts.post.csrf_token = csrf.generate_token nil, "helloworld"
-  append_cookie opts, "#{cookie_name}=helloworld"
+  r = { cookies: {} }
+  opts.post.csrf_token = csrf.generate_token r
+  append_cookie(
+    opts
+    assert next(r.cookies), "missing csrf cookie"
+    r.cookies[next(r.cookies)]
+  )
   opts
 
 request_as = (user, url, opts={}) ->
