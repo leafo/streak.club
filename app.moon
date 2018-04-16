@@ -38,7 +38,7 @@ class extends lapis.Application
 
   @before_filter =>
     @current_user = Users\read_session @
-    generate_csrf @
+    @csrf_token = generate_csrf @
     UserIpAddresses\register_ip @
 
     if @current_user
