@@ -592,7 +592,8 @@ class Streaks extends Model
     @late_submit_type == @@late_submit_types.public
 
   is_hidden_from: (user) =>
-    return false unless @is_hidden!
+    return false unless @is_hidden! or @is_draft!
+
     return true unless user
 
     return false if user\is_admin!
