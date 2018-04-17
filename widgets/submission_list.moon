@@ -28,9 +28,11 @@ class SubmissionList extends require "widgets.base"
     "new S.SubmissionList(#{@widget_selector!}, #{to_json opts});"
 
   inner_content: =>
-    @render_submissions!
+    total = @render_submissions!
+    if total == 0
+      p class: "empty_message", "Nothing to show"
 
-    if @has_more
+    if total > 0 and @has_more
       div class: "submission_loader list_loader", ->
         text "Loading more"
 
@@ -38,11 +40,13 @@ class SubmissionList extends require "widgets.base"
     @templates!
 
   render_submissions: =>
+    count = 0
     for submission in *@submissions
       hidden, would_hide = if @hide_hidden
         submission\is_hidden_from @current_user
 
       continue if hidden
+      count += 1
 
       has_title = submission.title
       classes = "submission_row"
@@ -161,6 +165,7 @@ class SubmissionList extends require "widgets.base"
           if @show_comments
             @render_comments submission
 
+    count
 
   submission_admin_panel: (submission) =>
     return unless @current_user and @current_user\is_admin!
