@@ -35,15 +35,14 @@ class Uploads extends Model
 
   @relations: {
     {"user", belongs_to: "Users"}
+    {"object", polymorphic_belongs_to: {
+      [1]: {"submission", "Submissions"}
+    }}
   }
 
   @types: enum {
     image: 1
     file: 2
-  }
-
-  @object_types: enum {
-    submission: 1
   }
 
   @storage_types: enum {

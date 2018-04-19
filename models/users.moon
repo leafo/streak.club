@@ -66,6 +66,12 @@ class Users extends Model
         "Email already taken"
   }
 
+  @relations: {
+    {"streak_users", has_many: "StreakUsers"}
+    {"user_profile", has_one: "UserProfiles"}
+    {"api_keys", has_many: "ApiKeys"}
+  }
+
   @login: (username, password) =>
     username = username\lower!
 
