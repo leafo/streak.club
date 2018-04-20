@@ -1,5 +1,5 @@
 db = require "lapis.db"
-import Model, enum from require "lapis.db.model"
+import Model, enum, preload from require "lapis.db.model"
 
 import slugify from require "lapis.util"
 
@@ -83,7 +83,7 @@ class Submissions extends Model
       fields: "id, username, slug, display_name, email"
     }
 
-    @preload_relations submissions, "featured_submission", "tags"
+    preload submissions, "featured_submission", "tags"
 
     if user = opts.likes_for
       SubmissionLikes\include_in submissions, "submission_id", flip: true, where: {
