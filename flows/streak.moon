@@ -6,6 +6,8 @@ import assert_csrf from require "helpers.csrf"
 import assert_valid from require "lapis.validate"
 import assert_error from require "lapis.application"
 
+import preload from require "lapis.db.model"
+
 import SUBMISSIONS_PER_PAGE, render_submissions_page from require "helpers.submissions"
 
 class StreakFlow extends Flow
@@ -121,9 +123,7 @@ class StreakFlow extends Flow
       limit 8
     ", @streak.id
 
-    FeaturedSubmissions\preload_relations featured_submissions, "submission"
-    subs = [fs\get_submission! for fs in *featured_submissions]
-    Submissions\preload_relations subs, "uploads"
+    preload featured_submissions, submission: "uploads"
 
     for fs in *featured_submissions
       break if #out_uploads >= 4

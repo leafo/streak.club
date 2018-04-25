@@ -90,7 +90,7 @@ class AdminApplication extends lapis.Application
       for s in *@other_related
         table.insert all_related, s
 
-      RelatedStreaks\preload_relations all_related, "streak", "other_streak"
+      preload all_related, "streak", "other_streak"
 
     GET: =>
       render: true

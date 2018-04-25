@@ -1,5 +1,5 @@
 db = require "lapis.db"
-import Model, enum from require "lapis.db.model"
+import Model, enum, preload from require "lapis.db.model"
 
 import safe_insert from require "helpers.model"
 
@@ -58,20 +58,17 @@ class Notifications extends Model
 
   preloaders = {
     submission_comment: (notes) ->
-      import SubmissionComments from require "models"
-      SubmissionComments\preload_relation [n.object for n in *notes], "submission"
+      preload [n.object for n in *notes], "submission"
 
     category: (notes) ->
-      import Categories from require "community.models"
-      Categories\preload_relation [n.object for n in *notes], "streak"
+      preload [n.object for n in *notes]
 
     post: (notes) ->
-      import Posts from require "community.models"
-      Posts\preload_relation [n.object for n in *notes], "topic"
+      preload [n.object for n in *notes], "topic"
   }
 
   @preload_objects: (notifications) =>
-    @preload_relations notifications, "object", "notification_objects"
+    preload notifications, "object", "notification_objects"
 
     -- additional preloads
     by_object_type = {}

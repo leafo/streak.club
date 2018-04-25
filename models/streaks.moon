@@ -1,5 +1,5 @@
 db = require "lapis.db"
-import Model, enum from require "lapis.db.model"
+import Model, enum, preload from require "lapis.db.model"
 import safe_insert, transition from require "helpers.model"
 
 date = require "date"
@@ -533,7 +533,7 @@ class Streaks extends Model
     import StreakUsers, Users from require "models"
 
     opts.prepare_results or= (s_users) ->
-      StreakUsers\preload_relation s_users, "user"
+      preload s_users, "user"
       s_users
 
     clause = db.encode_clause {

@@ -51,13 +51,11 @@ class Submissions extends Model
   @preload_streaks: (submissions) =>
     import StreakSubmissions from require "models"
 
-    @preload_relation submissions, "streak_submissions"
+    preload submissions, streak_submissions: "streak"
     streak_submits = {}
     for sub in *submissions
       for streak_sub in *sub\get_streak_submissions!
         table.insert streak_submits, streak_sub
-
-    StreakSubmissions\preload_relation streak_submits, "streak"
 
     for sub in *submissions
       sub.streaks = [s\get_streak! for s in *sub\get_streak_submissions!]
