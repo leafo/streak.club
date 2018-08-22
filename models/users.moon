@@ -83,8 +83,8 @@ class Users extends Model
 
   @create: (opts={}) =>
     assert opts.password, "missing password for user"
-
-    opts.encrypted_password = bcrypt.digest opts.password, bcrypt.salt 5
+    rounds = 5
+    opts.encrypted_password = bcrypt.digest opts.password, rounds
     opts.password = nil
     stripped = strip_non_ascii(opts.username)
     return nil, "username must be ASCII only" unless stripped == opts.username
