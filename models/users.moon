@@ -6,6 +6,8 @@ import slugify from require "lapis.util"
 
 date = require "date"
 
+log_rounds = 5
+
 strip_non_ascii = do
   filter_chars = (c, ...) ->
     return unless c
@@ -16,6 +18,7 @@ strip_non_ascii = do
 
   (str) ->
     string.char filter_chars str\byte 1, -1
+
 
 -- Generated schema dump: (do not edit)
 --
@@ -84,7 +87,7 @@ class Users extends Model
   @create: (opts={}) =>
     assert opts.password, "missing password for user"
 
-    opts.encrypted_password = bcrypt.digest opts.password, bcrypt.salt 5
+    opts.encrypted_password = bcrypt.digest opts.password, log_rounds
     opts.password = nil
     stripped = strip_non_ascii(opts.username)
     return nil, "username must be ASCII only" unless stripped == opts.username
@@ -102,7 +105,7 @@ class Users extends Model
           user
 
   set_password: (new_pass) =>
-    @update encrypted_password: bcrypt.digest new_pass, bcrypt.salt 5
+    @update encrypted_password: bcrypt.digest new_pass, log_rounds
 
   write_session: (r) =>
     r.session.user = {
@@ -411,4 +414,3 @@ class Users extends Model
       group by slug
       order by count desc
     ", @id, fields: "slug, count(*)", load: false
-
