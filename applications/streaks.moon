@@ -110,8 +110,8 @@ class StreaksApplication extends lapis.Application
       unless year
         year = stop and stop\getdate! or date(true)\getdate!
 
-      assert_error year >= start\getdate!, "invlaid year"
-      assert_error year <= (stop and stop\getdate! or date(true)\getdate!), "invlaid year"
+      assert_error year >= start\getdate!, "invalid year"
+      assert_error year <= (stop and stop\getdate! or date(true)\getdate!), "invalid year"
 
       @year = year
       render: true
