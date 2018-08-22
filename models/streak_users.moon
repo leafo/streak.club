@@ -94,9 +94,8 @@ class StreakUsers extends Model
 
   get_current_streak: =>
     streak = @get_streak!
-
     ago = streak\increment_date_by_unit date(true), -1
-    if date(@last_submitted_at) > ago
+    if @last_submitted_at and date(@last_submitted_at) > ago
       @current_streak
     else
       0
@@ -182,4 +181,3 @@ class StreakUsers extends Model
         @notification_settings = StreakUserNotificationSettings\create streak_id: @streak_id, user_id: @user_id
 
     @notification_settings
-
