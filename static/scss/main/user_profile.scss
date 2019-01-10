@@ -40,6 +40,21 @@
 
     .user_links {
         margin-bottom: 10px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        &:empty {
+            display: none;
+        }
+
+        > * {
+            display: inline-block;
+            margin-right: 10px;
+            &:last-child {
+                margin-right: 0;
+            }
+        }
 
         img {
             height: 15px;
