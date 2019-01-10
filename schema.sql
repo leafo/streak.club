@@ -2,14 +2,15 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 10.1
--- Dumped by pg_dump version 10.1
+-- Dumped from database version 10.4
+-- Dumped by pg_dump version 10.4
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
 SET client_min_messages = warning;
 SET row_security = off;
@@ -42,8 +43,6 @@ CREATE EXTENSION IF NOT EXISTS pg_trgm WITH SCHEMA public;
 COMMENT ON EXTENSION pg_trgm IS 'text similarity measurement and index searching based on trigrams';
 
 
-SET search_path = public, pg_catalog;
-
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -52,7 +51,7 @@ SET default_with_oids = false;
 -- Name: api_keys; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE api_keys (
+CREATE TABLE public.api_keys (
     id integer NOT NULL,
     key character varying(255) NOT NULL,
     source integer DEFAULT 0 NOT NULL,
@@ -62,13 +61,13 @@ CREATE TABLE api_keys (
 );
 
 
-ALTER TABLE api_keys OWNER TO postgres;
+ALTER TABLE public.api_keys OWNER TO postgres;
 
 --
 -- Name: api_keys_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE api_keys_id_seq
+CREATE SEQUENCE public.api_keys_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -76,20 +75,20 @@ CREATE SEQUENCE api_keys_id_seq
     CACHE 1;
 
 
-ALTER TABLE api_keys_id_seq OWNER TO postgres;
+ALTER TABLE public.api_keys_id_seq OWNER TO postgres;
 
 --
 -- Name: api_keys_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE api_keys_id_seq OWNED BY api_keys.id;
+ALTER SEQUENCE public.api_keys_id_seq OWNED BY public.api_keys.id;
 
 
 --
 -- Name: community_activity_logs; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE community_activity_logs (
+CREATE TABLE public.community_activity_logs (
     id integer NOT NULL,
     user_id integer NOT NULL,
     object_type integer DEFAULT 0 NOT NULL,
@@ -102,13 +101,13 @@ CREATE TABLE community_activity_logs (
 );
 
 
-ALTER TABLE community_activity_logs OWNER TO postgres;
+ALTER TABLE public.community_activity_logs OWNER TO postgres;
 
 --
 -- Name: community_activity_logs_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE community_activity_logs_id_seq
+CREATE SEQUENCE public.community_activity_logs_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -116,20 +115,20 @@ CREATE SEQUENCE community_activity_logs_id_seq
     CACHE 1;
 
 
-ALTER TABLE community_activity_logs_id_seq OWNER TO postgres;
+ALTER TABLE public.community_activity_logs_id_seq OWNER TO postgres;
 
 --
 -- Name: community_activity_logs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE community_activity_logs_id_seq OWNED BY community_activity_logs.id;
+ALTER SEQUENCE public.community_activity_logs_id_seq OWNED BY public.community_activity_logs.id;
 
 
 --
 -- Name: community_bans; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE community_bans (
+CREATE TABLE public.community_bans (
     object_type integer DEFAULT 0 NOT NULL,
     object_id integer NOT NULL,
     banned_user_id integer NOT NULL,
@@ -140,13 +139,13 @@ CREATE TABLE community_bans (
 );
 
 
-ALTER TABLE community_bans OWNER TO postgres;
+ALTER TABLE public.community_bans OWNER TO postgres;
 
 --
 -- Name: community_blocks; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE community_blocks (
+CREATE TABLE public.community_blocks (
     blocking_user_id integer NOT NULL,
     blocked_user_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -154,13 +153,13 @@ CREATE TABLE community_blocks (
 );
 
 
-ALTER TABLE community_blocks OWNER TO postgres;
+ALTER TABLE public.community_blocks OWNER TO postgres;
 
 --
 -- Name: community_bookmarks; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE community_bookmarks (
+CREATE TABLE public.community_bookmarks (
     user_id integer NOT NULL,
     object_type integer DEFAULT 0 NOT NULL,
     object_id integer NOT NULL,
@@ -169,13 +168,13 @@ CREATE TABLE community_bookmarks (
 );
 
 
-ALTER TABLE community_bookmarks OWNER TO postgres;
+ALTER TABLE public.community_bookmarks OWNER TO postgres;
 
 --
 -- Name: community_categories; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE community_categories (
+CREATE TABLE public.community_categories (
     id integer NOT NULL,
     title character varying(255),
     slug character varying(255),
@@ -203,13 +202,13 @@ CREATE TABLE community_categories (
 );
 
 
-ALTER TABLE community_categories OWNER TO postgres;
+ALTER TABLE public.community_categories OWNER TO postgres;
 
 --
 -- Name: community_categories_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE community_categories_id_seq
+CREATE SEQUENCE public.community_categories_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -217,20 +216,20 @@ CREATE SEQUENCE community_categories_id_seq
     CACHE 1;
 
 
-ALTER TABLE community_categories_id_seq OWNER TO postgres;
+ALTER TABLE public.community_categories_id_seq OWNER TO postgres;
 
 --
 -- Name: community_categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE community_categories_id_seq OWNED BY community_categories.id;
+ALTER SEQUENCE public.community_categories_id_seq OWNED BY public.community_categories.id;
 
 
 --
 -- Name: community_category_group_categories; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE community_category_group_categories (
+CREATE TABLE public.community_category_group_categories (
     category_group_id integer NOT NULL,
     category_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -238,13 +237,13 @@ CREATE TABLE community_category_group_categories (
 );
 
 
-ALTER TABLE community_category_group_categories OWNER TO postgres;
+ALTER TABLE public.community_category_group_categories OWNER TO postgres;
 
 --
 -- Name: community_category_groups; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE community_category_groups (
+CREATE TABLE public.community_category_groups (
     id integer NOT NULL,
     title character varying(255),
     user_id integer,
@@ -256,13 +255,13 @@ CREATE TABLE community_category_groups (
 );
 
 
-ALTER TABLE community_category_groups OWNER TO postgres;
+ALTER TABLE public.community_category_groups OWNER TO postgres;
 
 --
 -- Name: community_category_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE community_category_groups_id_seq
+CREATE SEQUENCE public.community_category_groups_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -270,20 +269,20 @@ CREATE SEQUENCE community_category_groups_id_seq
     CACHE 1;
 
 
-ALTER TABLE community_category_groups_id_seq OWNER TO postgres;
+ALTER TABLE public.community_category_groups_id_seq OWNER TO postgres;
 
 --
 -- Name: community_category_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE community_category_groups_id_seq OWNED BY community_category_groups.id;
+ALTER SEQUENCE public.community_category_groups_id_seq OWNED BY public.community_category_groups.id;
 
 
 --
 -- Name: community_category_members; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE community_category_members (
+CREATE TABLE public.community_category_members (
     user_id integer NOT NULL,
     category_id integer NOT NULL,
     accepted boolean DEFAULT false NOT NULL,
@@ -292,25 +291,25 @@ CREATE TABLE community_category_members (
 );
 
 
-ALTER TABLE community_category_members OWNER TO postgres;
+ALTER TABLE public.community_category_members OWNER TO postgres;
 
 --
 -- Name: community_category_post_logs; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE community_category_post_logs (
+CREATE TABLE public.community_category_post_logs (
     category_id integer NOT NULL,
     post_id integer NOT NULL
 );
 
 
-ALTER TABLE community_category_post_logs OWNER TO postgres;
+ALTER TABLE public.community_category_post_logs OWNER TO postgres;
 
 --
 -- Name: community_category_tags; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE community_category_tags (
+CREATE TABLE public.community_category_tags (
     id integer NOT NULL,
     category_id integer NOT NULL,
     slug character varying(255) NOT NULL,
@@ -323,13 +322,13 @@ CREATE TABLE community_category_tags (
 );
 
 
-ALTER TABLE community_category_tags OWNER TO postgres;
+ALTER TABLE public.community_category_tags OWNER TO postgres;
 
 --
 -- Name: community_category_tags_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE community_category_tags_id_seq
+CREATE SEQUENCE public.community_category_tags_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -337,20 +336,20 @@ CREATE SEQUENCE community_category_tags_id_seq
     CACHE 1;
 
 
-ALTER TABLE community_category_tags_id_seq OWNER TO postgres;
+ALTER TABLE public.community_category_tags_id_seq OWNER TO postgres;
 
 --
 -- Name: community_category_tags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE community_category_tags_id_seq OWNED BY community_category_tags.id;
+ALTER SEQUENCE public.community_category_tags_id_seq OWNED BY public.community_category_tags.id;
 
 
 --
 -- Name: community_moderation_log_objects; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE community_moderation_log_objects (
+CREATE TABLE public.community_moderation_log_objects (
     moderation_log_id integer NOT NULL,
     object_type integer DEFAULT 0 NOT NULL,
     object_id integer NOT NULL,
@@ -359,13 +358,13 @@ CREATE TABLE community_moderation_log_objects (
 );
 
 
-ALTER TABLE community_moderation_log_objects OWNER TO postgres;
+ALTER TABLE public.community_moderation_log_objects OWNER TO postgres;
 
 --
 -- Name: community_moderation_logs; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE community_moderation_logs (
+CREATE TABLE public.community_moderation_logs (
     id integer NOT NULL,
     category_id integer,
     object_type integer DEFAULT 0 NOT NULL,
@@ -379,13 +378,13 @@ CREATE TABLE community_moderation_logs (
 );
 
 
-ALTER TABLE community_moderation_logs OWNER TO postgres;
+ALTER TABLE public.community_moderation_logs OWNER TO postgres;
 
 --
 -- Name: community_moderation_logs_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE community_moderation_logs_id_seq
+CREATE SEQUENCE public.community_moderation_logs_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -393,20 +392,20 @@ CREATE SEQUENCE community_moderation_logs_id_seq
     CACHE 1;
 
 
-ALTER TABLE community_moderation_logs_id_seq OWNER TO postgres;
+ALTER TABLE public.community_moderation_logs_id_seq OWNER TO postgres;
 
 --
 -- Name: community_moderation_logs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE community_moderation_logs_id_seq OWNED BY community_moderation_logs.id;
+ALTER SEQUENCE public.community_moderation_logs_id_seq OWNED BY public.community_moderation_logs.id;
 
 
 --
 -- Name: community_moderators; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE community_moderators (
+CREATE TABLE public.community_moderators (
     user_id integer NOT NULL,
     object_type integer NOT NULL,
     object_id integer NOT NULL,
@@ -417,13 +416,13 @@ CREATE TABLE community_moderators (
 );
 
 
-ALTER TABLE community_moderators OWNER TO postgres;
+ALTER TABLE public.community_moderators OWNER TO postgres;
 
 --
 -- Name: community_pending_posts; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE community_pending_posts (
+CREATE TABLE public.community_pending_posts (
     id integer NOT NULL,
     category_id integer,
     topic_id integer,
@@ -438,13 +437,13 @@ CREATE TABLE community_pending_posts (
 );
 
 
-ALTER TABLE community_pending_posts OWNER TO postgres;
+ALTER TABLE public.community_pending_posts OWNER TO postgres;
 
 --
 -- Name: community_pending_posts_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE community_pending_posts_id_seq
+CREATE SEQUENCE public.community_pending_posts_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -452,20 +451,20 @@ CREATE SEQUENCE community_pending_posts_id_seq
     CACHE 1;
 
 
-ALTER TABLE community_pending_posts_id_seq OWNER TO postgres;
+ALTER TABLE public.community_pending_posts_id_seq OWNER TO postgres;
 
 --
 -- Name: community_pending_posts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE community_pending_posts_id_seq OWNED BY community_pending_posts.id;
+ALTER SEQUENCE public.community_pending_posts_id_seq OWNED BY public.community_pending_posts.id;
 
 
 --
 -- Name: community_post_edits; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE community_post_edits (
+CREATE TABLE public.community_post_edits (
     id integer NOT NULL,
     post_id integer NOT NULL,
     user_id integer NOT NULL,
@@ -477,13 +476,13 @@ CREATE TABLE community_post_edits (
 );
 
 
-ALTER TABLE community_post_edits OWNER TO postgres;
+ALTER TABLE public.community_post_edits OWNER TO postgres;
 
 --
 -- Name: community_post_edits_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE community_post_edits_id_seq
+CREATE SEQUENCE public.community_post_edits_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -491,20 +490,20 @@ CREATE SEQUENCE community_post_edits_id_seq
     CACHE 1;
 
 
-ALTER TABLE community_post_edits_id_seq OWNER TO postgres;
+ALTER TABLE public.community_post_edits_id_seq OWNER TO postgres;
 
 --
 -- Name: community_post_edits_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE community_post_edits_id_seq OWNED BY community_post_edits.id;
+ALTER SEQUENCE public.community_post_edits_id_seq OWNED BY public.community_post_edits.id;
 
 
 --
 -- Name: community_post_reports; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE community_post_reports (
+CREATE TABLE public.community_post_reports (
     id integer NOT NULL,
     category_id integer,
     post_id integer NOT NULL,
@@ -520,13 +519,13 @@ CREATE TABLE community_post_reports (
 );
 
 
-ALTER TABLE community_post_reports OWNER TO postgres;
+ALTER TABLE public.community_post_reports OWNER TO postgres;
 
 --
 -- Name: community_post_reports_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE community_post_reports_id_seq
+CREATE SEQUENCE public.community_post_reports_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -534,20 +533,20 @@ CREATE SEQUENCE community_post_reports_id_seq
     CACHE 1;
 
 
-ALTER TABLE community_post_reports_id_seq OWNER TO postgres;
+ALTER TABLE public.community_post_reports_id_seq OWNER TO postgres;
 
 --
 -- Name: community_post_reports_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE community_post_reports_id_seq OWNED BY community_post_reports.id;
+ALTER SEQUENCE public.community_post_reports_id_seq OWNED BY public.community_post_reports.id;
 
 
 --
 -- Name: community_posts; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE community_posts (
+CREATE TABLE public.community_posts (
     id integer NOT NULL,
     topic_id integer NOT NULL,
     user_id integer NOT NULL,
@@ -569,13 +568,13 @@ CREATE TABLE community_posts (
 );
 
 
-ALTER TABLE community_posts OWNER TO postgres;
+ALTER TABLE public.community_posts OWNER TO postgres;
 
 --
 -- Name: community_posts_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE community_posts_id_seq
+CREATE SEQUENCE public.community_posts_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -583,20 +582,20 @@ CREATE SEQUENCE community_posts_id_seq
     CACHE 1;
 
 
-ALTER TABLE community_posts_id_seq OWNER TO postgres;
+ALTER TABLE public.community_posts_id_seq OWNER TO postgres;
 
 --
 -- Name: community_posts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE community_posts_id_seq OWNED BY community_posts.id;
+ALTER SEQUENCE public.community_posts_id_seq OWNED BY public.community_posts.id;
 
 
 --
 -- Name: community_subscriptions; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE community_subscriptions (
+CREATE TABLE public.community_subscriptions (
     object_type smallint NOT NULL,
     object_id integer NOT NULL,
     user_id integer NOT NULL,
@@ -606,13 +605,13 @@ CREATE TABLE community_subscriptions (
 );
 
 
-ALTER TABLE community_subscriptions OWNER TO postgres;
+ALTER TABLE public.community_subscriptions OWNER TO postgres;
 
 --
 -- Name: community_topic_participants; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE community_topic_participants (
+CREATE TABLE public.community_topic_participants (
     topic_id integer NOT NULL,
     user_id integer NOT NULL,
     posts_count integer DEFAULT 0 NOT NULL,
@@ -621,13 +620,13 @@ CREATE TABLE community_topic_participants (
 );
 
 
-ALTER TABLE community_topic_participants OWNER TO postgres;
+ALTER TABLE public.community_topic_participants OWNER TO postgres;
 
 --
 -- Name: community_topics; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE community_topics (
+CREATE TABLE public.community_topics (
     id integer NOT NULL,
     category_id integer,
     user_id integer,
@@ -653,13 +652,13 @@ CREATE TABLE community_topics (
 );
 
 
-ALTER TABLE community_topics OWNER TO postgres;
+ALTER TABLE public.community_topics OWNER TO postgres;
 
 --
 -- Name: community_topics_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE community_topics_id_seq
+CREATE SEQUENCE public.community_topics_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -667,20 +666,20 @@ CREATE SEQUENCE community_topics_id_seq
     CACHE 1;
 
 
-ALTER TABLE community_topics_id_seq OWNER TO postgres;
+ALTER TABLE public.community_topics_id_seq OWNER TO postgres;
 
 --
 -- Name: community_topics_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE community_topics_id_seq OWNED BY community_topics.id;
+ALTER SEQUENCE public.community_topics_id_seq OWNED BY public.community_topics.id;
 
 
 --
 -- Name: community_user_category_last_seens; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE community_user_category_last_seens (
+CREATE TABLE public.community_user_category_last_seens (
     user_id integer NOT NULL,
     category_id integer NOT NULL,
     category_order integer DEFAULT 0 NOT NULL,
@@ -688,26 +687,26 @@ CREATE TABLE community_user_category_last_seens (
 );
 
 
-ALTER TABLE community_user_category_last_seens OWNER TO postgres;
+ALTER TABLE public.community_user_category_last_seens OWNER TO postgres;
 
 --
 -- Name: community_user_topic_last_seens; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE community_user_topic_last_seens (
+CREATE TABLE public.community_user_topic_last_seens (
     user_id integer NOT NULL,
     topic_id integer NOT NULL,
     post_id integer NOT NULL
 );
 
 
-ALTER TABLE community_user_topic_last_seens OWNER TO postgres;
+ALTER TABLE public.community_user_topic_last_seens OWNER TO postgres;
 
 --
 -- Name: community_users; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE community_users (
+CREATE TABLE public.community_users (
     user_id integer NOT NULL,
     posts_count integer DEFAULT 0 NOT NULL,
     topics_count integer DEFAULT 0 NOT NULL,
@@ -718,13 +717,13 @@ CREATE TABLE community_users (
 );
 
 
-ALTER TABLE community_users OWNER TO postgres;
+ALTER TABLE public.community_users OWNER TO postgres;
 
 --
 -- Name: community_votes; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE community_votes (
+CREATE TABLE public.community_votes (
     user_id integer NOT NULL,
     object_type integer NOT NULL,
     object_id integer NOT NULL,
@@ -737,39 +736,39 @@ CREATE TABLE community_votes (
 );
 
 
-ALTER TABLE community_votes OWNER TO postgres;
+ALTER TABLE public.community_votes OWNER TO postgres;
 
 --
 -- Name: daily_audio_plays; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE daily_audio_plays (
+CREATE TABLE public.daily_audio_plays (
     upload_id integer NOT NULL,
     date date NOT NULL,
     count integer DEFAULT 0 NOT NULL
 );
 
 
-ALTER TABLE daily_audio_plays OWNER TO postgres;
+ALTER TABLE public.daily_audio_plays OWNER TO postgres;
 
 --
 -- Name: daily_upload_downloads; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE daily_upload_downloads (
+CREATE TABLE public.daily_upload_downloads (
     upload_id integer NOT NULL,
     date date NOT NULL,
     count integer DEFAULT 0 NOT NULL
 );
 
 
-ALTER TABLE daily_upload_downloads OWNER TO postgres;
+ALTER TABLE public.daily_upload_downloads OWNER TO postgres;
 
 --
 -- Name: exception_requests; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE exception_requests (
+CREATE TABLE public.exception_requests (
     id integer NOT NULL,
     exception_type_id integer NOT NULL,
     path text NOT NULL,
@@ -784,13 +783,13 @@ CREATE TABLE exception_requests (
 );
 
 
-ALTER TABLE exception_requests OWNER TO postgres;
+ALTER TABLE public.exception_requests OWNER TO postgres;
 
 --
 -- Name: exception_requests_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE exception_requests_id_seq
+CREATE SEQUENCE public.exception_requests_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -798,20 +797,20 @@ CREATE SEQUENCE exception_requests_id_seq
     CACHE 1;
 
 
-ALTER TABLE exception_requests_id_seq OWNER TO postgres;
+ALTER TABLE public.exception_requests_id_seq OWNER TO postgres;
 
 --
 -- Name: exception_requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE exception_requests_id_seq OWNED BY exception_requests.id;
+ALTER SEQUENCE public.exception_requests_id_seq OWNED BY public.exception_requests.id;
 
 
 --
 -- Name: exception_types; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE exception_types (
+CREATE TABLE public.exception_types (
     id integer NOT NULL,
     label text NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -820,13 +819,13 @@ CREATE TABLE exception_types (
 );
 
 
-ALTER TABLE exception_types OWNER TO postgres;
+ALTER TABLE public.exception_types OWNER TO postgres;
 
 --
 -- Name: exception_types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE exception_types_id_seq
+CREATE SEQUENCE public.exception_types_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -834,20 +833,20 @@ CREATE SEQUENCE exception_types_id_seq
     CACHE 1;
 
 
-ALTER TABLE exception_types_id_seq OWNER TO postgres;
+ALTER TABLE public.exception_types_id_seq OWNER TO postgres;
 
 --
 -- Name: exception_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE exception_types_id_seq OWNED BY exception_types.id;
+ALTER SEQUENCE public.exception_types_id_seq OWNED BY public.exception_types.id;
 
 
 --
 -- Name: featured_streaks; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE featured_streaks (
+CREATE TABLE public.featured_streaks (
     streak_id integer NOT NULL,
     "position" integer DEFAULT 0 NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -855,26 +854,26 @@ CREATE TABLE featured_streaks (
 );
 
 
-ALTER TABLE featured_streaks OWNER TO postgres;
+ALTER TABLE public.featured_streaks OWNER TO postgres;
 
 --
 -- Name: featured_submissions; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE featured_submissions (
+CREATE TABLE public.featured_submissions (
     submission_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
 
 
-ALTER TABLE featured_submissions OWNER TO postgres;
+ALTER TABLE public.featured_submissions OWNER TO postgres;
 
 --
 -- Name: followings; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE followings (
+CREATE TABLE public.followings (
     source_user_id integer NOT NULL,
     dest_user_id integer DEFAULT 0 NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -882,24 +881,24 @@ CREATE TABLE followings (
 );
 
 
-ALTER TABLE followings OWNER TO postgres;
+ALTER TABLE public.followings OWNER TO postgres;
 
 --
 -- Name: lapis_migrations; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE lapis_migrations (
+CREATE TABLE public.lapis_migrations (
     name character varying(255) NOT NULL
 );
 
 
-ALTER TABLE lapis_migrations OWNER TO postgres;
+ALTER TABLE public.lapis_migrations OWNER TO postgres;
 
 --
 -- Name: notification_objects; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE notification_objects (
+CREATE TABLE public.notification_objects (
     notification_id integer NOT NULL,
     object_type integer DEFAULT 0 NOT NULL,
     object_id integer DEFAULT 0 NOT NULL,
@@ -908,13 +907,13 @@ CREATE TABLE notification_objects (
 );
 
 
-ALTER TABLE notification_objects OWNER TO postgres;
+ALTER TABLE public.notification_objects OWNER TO postgres;
 
 --
 -- Name: notifications; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE notifications (
+CREATE TABLE public.notifications (
     id integer NOT NULL,
     user_id integer NOT NULL,
     type integer DEFAULT 0 NOT NULL,
@@ -927,13 +926,13 @@ CREATE TABLE notifications (
 );
 
 
-ALTER TABLE notifications OWNER TO postgres;
+ALTER TABLE public.notifications OWNER TO postgres;
 
 --
 -- Name: notifications_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE notifications_id_seq
+CREATE SEQUENCE public.notifications_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -941,20 +940,20 @@ CREATE SEQUENCE notifications_id_seq
     CACHE 1;
 
 
-ALTER TABLE notifications_id_seq OWNER TO postgres;
+ALTER TABLE public.notifications_id_seq OWNER TO postgres;
 
 --
 -- Name: notifications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE notifications_id_seq OWNED BY notifications.id;
+ALTER SEQUENCE public.notifications_id_seq OWNED BY public.notifications.id;
 
 
 --
 -- Name: notifications_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE notifications_user_id_seq
+CREATE SEQUENCE public.notifications_user_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -962,20 +961,20 @@ CREATE SEQUENCE notifications_user_id_seq
     CACHE 1;
 
 
-ALTER TABLE notifications_user_id_seq OWNER TO postgres;
+ALTER TABLE public.notifications_user_id_seq OWNER TO postgres;
 
 --
 -- Name: notifications_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE notifications_user_id_seq OWNED BY notifications.user_id;
+ALTER SEQUENCE public.notifications_user_id_seq OWNED BY public.notifications.user_id;
 
 
 --
 -- Name: related_streaks; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE related_streaks (
+CREATE TABLE public.related_streaks (
     id integer NOT NULL,
     streak_id integer NOT NULL,
     other_streak_id integer NOT NULL,
@@ -987,13 +986,13 @@ CREATE TABLE related_streaks (
 );
 
 
-ALTER TABLE related_streaks OWNER TO postgres;
+ALTER TABLE public.related_streaks OWNER TO postgres;
 
 --
 -- Name: related_streaks_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE related_streaks_id_seq
+CREATE SEQUENCE public.related_streaks_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1001,20 +1000,20 @@ CREATE SEQUENCE related_streaks_id_seq
     CACHE 1;
 
 
-ALTER TABLE related_streaks_id_seq OWNER TO postgres;
+ALTER TABLE public.related_streaks_id_seq OWNER TO postgres;
 
 --
 -- Name: related_streaks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE related_streaks_id_seq OWNED BY related_streaks.id;
+ALTER SEQUENCE public.related_streaks_id_seq OWNED BY public.related_streaks.id;
 
 
 --
 -- Name: streak_submissions; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE streak_submissions (
+CREATE TABLE public.streak_submissions (
     streak_id integer NOT NULL,
     submission_id integer NOT NULL,
     submit_time timestamp without time zone NOT NULL,
@@ -1023,13 +1022,13 @@ CREATE TABLE streak_submissions (
 );
 
 
-ALTER TABLE streak_submissions OWNER TO postgres;
+ALTER TABLE public.streak_submissions OWNER TO postgres;
 
 --
 -- Name: streak_user_notification_settings; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE streak_user_notification_settings (
+CREATE TABLE public.streak_user_notification_settings (
     user_id integer NOT NULL,
     streak_id integer NOT NULL,
     frequency smallint DEFAULT 1 NOT NULL,
@@ -1039,13 +1038,13 @@ CREATE TABLE streak_user_notification_settings (
 );
 
 
-ALTER TABLE streak_user_notification_settings OWNER TO postgres;
+ALTER TABLE public.streak_user_notification_settings OWNER TO postgres;
 
 --
 -- Name: streak_users; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE streak_users (
+CREATE TABLE public.streak_users (
     streak_id integer NOT NULL,
     user_id integer NOT NULL,
     submissions_count integer DEFAULT 0 NOT NULL,
@@ -1058,13 +1057,13 @@ CREATE TABLE streak_users (
 );
 
 
-ALTER TABLE streak_users OWNER TO postgres;
+ALTER TABLE public.streak_users OWNER TO postgres;
 
 --
 -- Name: streaks; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE streaks (
+CREATE TABLE public.streaks (
     id integer NOT NULL,
     user_id integer NOT NULL,
     title character varying(255) NOT NULL,
@@ -1092,13 +1091,13 @@ CREATE TABLE streaks (
 );
 
 
-ALTER TABLE streaks OWNER TO postgres;
+ALTER TABLE public.streaks OWNER TO postgres;
 
 --
 -- Name: streaks_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE streaks_id_seq
+CREATE SEQUENCE public.streaks_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1106,20 +1105,20 @@ CREATE SEQUENCE streaks_id_seq
     CACHE 1;
 
 
-ALTER TABLE streaks_id_seq OWNER TO postgres;
+ALTER TABLE public.streaks_id_seq OWNER TO postgres;
 
 --
 -- Name: streaks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE streaks_id_seq OWNED BY streaks.id;
+ALTER SEQUENCE public.streaks_id_seq OWNED BY public.streaks.id;
 
 
 --
 -- Name: submission_comments; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE submission_comments (
+CREATE TABLE public.submission_comments (
     id integer NOT NULL,
     submission_id integer NOT NULL,
     user_id integer NOT NULL,
@@ -1132,13 +1131,13 @@ CREATE TABLE submission_comments (
 );
 
 
-ALTER TABLE submission_comments OWNER TO postgres;
+ALTER TABLE public.submission_comments OWNER TO postgres;
 
 --
 -- Name: submission_comments_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE submission_comments_id_seq
+CREATE SEQUENCE public.submission_comments_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1146,20 +1145,20 @@ CREATE SEQUENCE submission_comments_id_seq
     CACHE 1;
 
 
-ALTER TABLE submission_comments_id_seq OWNER TO postgres;
+ALTER TABLE public.submission_comments_id_seq OWNER TO postgres;
 
 --
 -- Name: submission_comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE submission_comments_id_seq OWNED BY submission_comments.id;
+ALTER SEQUENCE public.submission_comments_id_seq OWNED BY public.submission_comments.id;
 
 
 --
 -- Name: submission_likes; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE submission_likes (
+CREATE TABLE public.submission_likes (
     submission_id integer NOT NULL,
     user_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -1167,26 +1166,26 @@ CREATE TABLE submission_likes (
 );
 
 
-ALTER TABLE submission_likes OWNER TO postgres;
+ALTER TABLE public.submission_likes OWNER TO postgres;
 
 --
 -- Name: submission_tags; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE submission_tags (
+CREATE TABLE public.submission_tags (
     submission_id integer NOT NULL,
     slug character varying(255) NOT NULL,
     user_id integer
 );
 
 
-ALTER TABLE submission_tags OWNER TO postgres;
+ALTER TABLE public.submission_tags OWNER TO postgres;
 
 --
 -- Name: submissions; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE submissions (
+CREATE TABLE public.submissions (
     id integer NOT NULL,
     user_id integer NOT NULL,
     title character varying(255),
@@ -1203,13 +1202,13 @@ CREATE TABLE submissions (
 );
 
 
-ALTER TABLE submissions OWNER TO postgres;
+ALTER TABLE public.submissions OWNER TO postgres;
 
 --
 -- Name: submissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE submissions_id_seq
+CREATE SEQUENCE public.submissions_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1217,20 +1216,20 @@ CREATE SEQUENCE submissions_id_seq
     CACHE 1;
 
 
-ALTER TABLE submissions_id_seq OWNER TO postgres;
+ALTER TABLE public.submissions_id_seq OWNER TO postgres;
 
 --
 -- Name: submissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE submissions_id_seq OWNED BY submissions.id;
+ALTER SEQUENCE public.submissions_id_seq OWNED BY public.submissions.id;
 
 
 --
 -- Name: uploads; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE uploads (
+CREATE TABLE public.uploads (
     id integer NOT NULL,
     user_id integer NOT NULL,
     type integer DEFAULT 0 NOT NULL,
@@ -1250,13 +1249,13 @@ CREATE TABLE uploads (
 );
 
 
-ALTER TABLE uploads OWNER TO postgres;
+ALTER TABLE public.uploads OWNER TO postgres;
 
 --
 -- Name: uploads_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE uploads_id_seq
+CREATE SEQUENCE public.uploads_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1264,20 +1263,20 @@ CREATE SEQUENCE uploads_id_seq
     CACHE 1;
 
 
-ALTER TABLE uploads_id_seq OWNER TO postgres;
+ALTER TABLE public.uploads_id_seq OWNER TO postgres;
 
 --
 -- Name: uploads_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE uploads_id_seq OWNED BY uploads.id;
+ALTER SEQUENCE public.uploads_id_seq OWNED BY public.uploads.id;
 
 
 --
 -- Name: user_ip_addresses; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE user_ip_addresses (
+CREATE TABLE public.user_ip_addresses (
     user_id integer NOT NULL,
     ip character varying(255) NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -1285,13 +1284,13 @@ CREATE TABLE user_ip_addresses (
 );
 
 
-ALTER TABLE user_ip_addresses OWNER TO postgres;
+ALTER TABLE public.user_ip_addresses OWNER TO postgres;
 
 --
 -- Name: user_profiles; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE user_profiles (
+CREATE TABLE public.user_profiles (
     user_id integer NOT NULL,
     bio text,
     website text,
@@ -1302,13 +1301,13 @@ CREATE TABLE user_profiles (
 );
 
 
-ALTER TABLE user_profiles OWNER TO postgres;
+ALTER TABLE public.user_profiles OWNER TO postgres;
 
 --
 -- Name: users; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE users (
+CREATE TABLE public.users (
     id integer NOT NULL,
     username character varying(255) NOT NULL,
     encrypted_password character varying(255) NOT NULL,
@@ -1333,13 +1332,13 @@ CREATE TABLE users (
 );
 
 
-ALTER TABLE users OWNER TO postgres;
+ALTER TABLE public.users OWNER TO postgres;
 
 --
 -- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE users_id_seq
+CREATE SEQUENCE public.users_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1347,167 +1346,167 @@ CREATE SEQUENCE users_id_seq
     CACHE 1;
 
 
-ALTER TABLE users_id_seq OWNER TO postgres;
+ALTER TABLE public.users_id_seq OWNER TO postgres;
 
 --
 -- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE users_id_seq OWNED BY users.id;
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
 -- Name: api_keys id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY api_keys ALTER COLUMN id SET DEFAULT nextval('api_keys_id_seq'::regclass);
+ALTER TABLE ONLY public.api_keys ALTER COLUMN id SET DEFAULT nextval('public.api_keys_id_seq'::regclass);
 
 
 --
 -- Name: community_activity_logs id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_activity_logs ALTER COLUMN id SET DEFAULT nextval('community_activity_logs_id_seq'::regclass);
+ALTER TABLE ONLY public.community_activity_logs ALTER COLUMN id SET DEFAULT nextval('public.community_activity_logs_id_seq'::regclass);
 
 
 --
 -- Name: community_categories id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_categories ALTER COLUMN id SET DEFAULT nextval('community_categories_id_seq'::regclass);
+ALTER TABLE ONLY public.community_categories ALTER COLUMN id SET DEFAULT nextval('public.community_categories_id_seq'::regclass);
 
 
 --
 -- Name: community_category_groups id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_category_groups ALTER COLUMN id SET DEFAULT nextval('community_category_groups_id_seq'::regclass);
+ALTER TABLE ONLY public.community_category_groups ALTER COLUMN id SET DEFAULT nextval('public.community_category_groups_id_seq'::regclass);
 
 
 --
 -- Name: community_category_tags id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_category_tags ALTER COLUMN id SET DEFAULT nextval('community_category_tags_id_seq'::regclass);
+ALTER TABLE ONLY public.community_category_tags ALTER COLUMN id SET DEFAULT nextval('public.community_category_tags_id_seq'::regclass);
 
 
 --
 -- Name: community_moderation_logs id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_moderation_logs ALTER COLUMN id SET DEFAULT nextval('community_moderation_logs_id_seq'::regclass);
+ALTER TABLE ONLY public.community_moderation_logs ALTER COLUMN id SET DEFAULT nextval('public.community_moderation_logs_id_seq'::regclass);
 
 
 --
 -- Name: community_pending_posts id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_pending_posts ALTER COLUMN id SET DEFAULT nextval('community_pending_posts_id_seq'::regclass);
+ALTER TABLE ONLY public.community_pending_posts ALTER COLUMN id SET DEFAULT nextval('public.community_pending_posts_id_seq'::regclass);
 
 
 --
 -- Name: community_post_edits id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_post_edits ALTER COLUMN id SET DEFAULT nextval('community_post_edits_id_seq'::regclass);
+ALTER TABLE ONLY public.community_post_edits ALTER COLUMN id SET DEFAULT nextval('public.community_post_edits_id_seq'::regclass);
 
 
 --
 -- Name: community_post_reports id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_post_reports ALTER COLUMN id SET DEFAULT nextval('community_post_reports_id_seq'::regclass);
+ALTER TABLE ONLY public.community_post_reports ALTER COLUMN id SET DEFAULT nextval('public.community_post_reports_id_seq'::regclass);
 
 
 --
 -- Name: community_posts id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_posts ALTER COLUMN id SET DEFAULT nextval('community_posts_id_seq'::regclass);
+ALTER TABLE ONLY public.community_posts ALTER COLUMN id SET DEFAULT nextval('public.community_posts_id_seq'::regclass);
 
 
 --
 -- Name: community_topics id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_topics ALTER COLUMN id SET DEFAULT nextval('community_topics_id_seq'::regclass);
+ALTER TABLE ONLY public.community_topics ALTER COLUMN id SET DEFAULT nextval('public.community_topics_id_seq'::regclass);
 
 
 --
 -- Name: exception_requests id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY exception_requests ALTER COLUMN id SET DEFAULT nextval('exception_requests_id_seq'::regclass);
+ALTER TABLE ONLY public.exception_requests ALTER COLUMN id SET DEFAULT nextval('public.exception_requests_id_seq'::regclass);
 
 
 --
 -- Name: exception_types id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY exception_types ALTER COLUMN id SET DEFAULT nextval('exception_types_id_seq'::regclass);
+ALTER TABLE ONLY public.exception_types ALTER COLUMN id SET DEFAULT nextval('public.exception_types_id_seq'::regclass);
 
 
 --
 -- Name: notifications id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY notifications ALTER COLUMN id SET DEFAULT nextval('notifications_id_seq'::regclass);
+ALTER TABLE ONLY public.notifications ALTER COLUMN id SET DEFAULT nextval('public.notifications_id_seq'::regclass);
 
 
 --
 -- Name: notifications user_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY notifications ALTER COLUMN user_id SET DEFAULT nextval('notifications_user_id_seq'::regclass);
+ALTER TABLE ONLY public.notifications ALTER COLUMN user_id SET DEFAULT nextval('public.notifications_user_id_seq'::regclass);
 
 
 --
 -- Name: related_streaks id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY related_streaks ALTER COLUMN id SET DEFAULT nextval('related_streaks_id_seq'::regclass);
+ALTER TABLE ONLY public.related_streaks ALTER COLUMN id SET DEFAULT nextval('public.related_streaks_id_seq'::regclass);
 
 
 --
 -- Name: streaks id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY streaks ALTER COLUMN id SET DEFAULT nextval('streaks_id_seq'::regclass);
+ALTER TABLE ONLY public.streaks ALTER COLUMN id SET DEFAULT nextval('public.streaks_id_seq'::regclass);
 
 
 --
 -- Name: submission_comments id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY submission_comments ALTER COLUMN id SET DEFAULT nextval('submission_comments_id_seq'::regclass);
+ALTER TABLE ONLY public.submission_comments ALTER COLUMN id SET DEFAULT nextval('public.submission_comments_id_seq'::regclass);
 
 
 --
 -- Name: submissions id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY submissions ALTER COLUMN id SET DEFAULT nextval('submissions_id_seq'::regclass);
+ALTER TABLE ONLY public.submissions ALTER COLUMN id SET DEFAULT nextval('public.submissions_id_seq'::regclass);
 
 
 --
 -- Name: uploads id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY uploads ALTER COLUMN id SET DEFAULT nextval('uploads_id_seq'::regclass);
+ALTER TABLE ONLY public.uploads ALTER COLUMN id SET DEFAULT nextval('public.uploads_id_seq'::regclass);
 
 
 --
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 
 
 --
 -- Name: api_keys api_keys_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY api_keys
+ALTER TABLE ONLY public.api_keys
     ADD CONSTRAINT api_keys_pkey PRIMARY KEY (id);
 
 
@@ -1515,7 +1514,7 @@ ALTER TABLE ONLY api_keys
 -- Name: community_activity_logs community_activity_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_activity_logs
+ALTER TABLE ONLY public.community_activity_logs
     ADD CONSTRAINT community_activity_logs_pkey PRIMARY KEY (id);
 
 
@@ -1523,7 +1522,7 @@ ALTER TABLE ONLY community_activity_logs
 -- Name: community_bans community_bans_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_bans
+ALTER TABLE ONLY public.community_bans
     ADD CONSTRAINT community_bans_pkey PRIMARY KEY (object_type, object_id, banned_user_id);
 
 
@@ -1531,7 +1530,7 @@ ALTER TABLE ONLY community_bans
 -- Name: community_blocks community_blocks_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_blocks
+ALTER TABLE ONLY public.community_blocks
     ADD CONSTRAINT community_blocks_pkey PRIMARY KEY (blocking_user_id, blocked_user_id);
 
 
@@ -1539,7 +1538,7 @@ ALTER TABLE ONLY community_blocks
 -- Name: community_bookmarks community_bookmarks_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_bookmarks
+ALTER TABLE ONLY public.community_bookmarks
     ADD CONSTRAINT community_bookmarks_pkey PRIMARY KEY (user_id, object_type, object_id);
 
 
@@ -1547,7 +1546,7 @@ ALTER TABLE ONLY community_bookmarks
 -- Name: community_categories community_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_categories
+ALTER TABLE ONLY public.community_categories
     ADD CONSTRAINT community_categories_pkey PRIMARY KEY (id);
 
 
@@ -1555,7 +1554,7 @@ ALTER TABLE ONLY community_categories
 -- Name: community_category_group_categories community_category_group_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_category_group_categories
+ALTER TABLE ONLY public.community_category_group_categories
     ADD CONSTRAINT community_category_group_categories_pkey PRIMARY KEY (category_group_id, category_id);
 
 
@@ -1563,7 +1562,7 @@ ALTER TABLE ONLY community_category_group_categories
 -- Name: community_category_groups community_category_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_category_groups
+ALTER TABLE ONLY public.community_category_groups
     ADD CONSTRAINT community_category_groups_pkey PRIMARY KEY (id);
 
 
@@ -1571,7 +1570,7 @@ ALTER TABLE ONLY community_category_groups
 -- Name: community_category_members community_category_members_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_category_members
+ALTER TABLE ONLY public.community_category_members
     ADD CONSTRAINT community_category_members_pkey PRIMARY KEY (user_id, category_id);
 
 
@@ -1579,7 +1578,7 @@ ALTER TABLE ONLY community_category_members
 -- Name: community_category_post_logs community_category_post_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_category_post_logs
+ALTER TABLE ONLY public.community_category_post_logs
     ADD CONSTRAINT community_category_post_logs_pkey PRIMARY KEY (category_id, post_id);
 
 
@@ -1587,7 +1586,7 @@ ALTER TABLE ONLY community_category_post_logs
 -- Name: community_category_tags community_category_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_category_tags
+ALTER TABLE ONLY public.community_category_tags
     ADD CONSTRAINT community_category_tags_pkey PRIMARY KEY (id);
 
 
@@ -1595,7 +1594,7 @@ ALTER TABLE ONLY community_category_tags
 -- Name: community_moderation_log_objects community_moderation_log_objects_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_moderation_log_objects
+ALTER TABLE ONLY public.community_moderation_log_objects
     ADD CONSTRAINT community_moderation_log_objects_pkey PRIMARY KEY (moderation_log_id, object_type, object_id);
 
 
@@ -1603,7 +1602,7 @@ ALTER TABLE ONLY community_moderation_log_objects
 -- Name: community_moderation_logs community_moderation_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_moderation_logs
+ALTER TABLE ONLY public.community_moderation_logs
     ADD CONSTRAINT community_moderation_logs_pkey PRIMARY KEY (id);
 
 
@@ -1611,7 +1610,7 @@ ALTER TABLE ONLY community_moderation_logs
 -- Name: community_moderators community_moderators_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_moderators
+ALTER TABLE ONLY public.community_moderators
     ADD CONSTRAINT community_moderators_pkey PRIMARY KEY (user_id, object_type, object_id);
 
 
@@ -1619,7 +1618,7 @@ ALTER TABLE ONLY community_moderators
 -- Name: community_pending_posts community_pending_posts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_pending_posts
+ALTER TABLE ONLY public.community_pending_posts
     ADD CONSTRAINT community_pending_posts_pkey PRIMARY KEY (id);
 
 
@@ -1627,7 +1626,7 @@ ALTER TABLE ONLY community_pending_posts
 -- Name: community_post_edits community_post_edits_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_post_edits
+ALTER TABLE ONLY public.community_post_edits
     ADD CONSTRAINT community_post_edits_pkey PRIMARY KEY (id);
 
 
@@ -1635,7 +1634,7 @@ ALTER TABLE ONLY community_post_edits
 -- Name: community_post_reports community_post_reports_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_post_reports
+ALTER TABLE ONLY public.community_post_reports
     ADD CONSTRAINT community_post_reports_pkey PRIMARY KEY (id);
 
 
@@ -1643,7 +1642,7 @@ ALTER TABLE ONLY community_post_reports
 -- Name: community_posts community_posts_moderation_log_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_posts
+ALTER TABLE ONLY public.community_posts
     ADD CONSTRAINT community_posts_moderation_log_id_key UNIQUE (moderation_log_id);
 
 
@@ -1651,7 +1650,7 @@ ALTER TABLE ONLY community_posts
 -- Name: community_posts community_posts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_posts
+ALTER TABLE ONLY public.community_posts
     ADD CONSTRAINT community_posts_pkey PRIMARY KEY (id);
 
 
@@ -1659,7 +1658,7 @@ ALTER TABLE ONLY community_posts
 -- Name: community_subscriptions community_subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_subscriptions
+ALTER TABLE ONLY public.community_subscriptions
     ADD CONSTRAINT community_subscriptions_pkey PRIMARY KEY (object_type, object_id, user_id);
 
 
@@ -1667,7 +1666,7 @@ ALTER TABLE ONLY community_subscriptions
 -- Name: community_topic_participants community_topic_participants_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_topic_participants
+ALTER TABLE ONLY public.community_topic_participants
     ADD CONSTRAINT community_topic_participants_pkey PRIMARY KEY (topic_id, user_id);
 
 
@@ -1675,7 +1674,7 @@ ALTER TABLE ONLY community_topic_participants
 -- Name: community_topics community_topics_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_topics
+ALTER TABLE ONLY public.community_topics
     ADD CONSTRAINT community_topics_pkey PRIMARY KEY (id);
 
 
@@ -1683,7 +1682,7 @@ ALTER TABLE ONLY community_topics
 -- Name: community_user_category_last_seens community_user_category_last_seens_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_user_category_last_seens
+ALTER TABLE ONLY public.community_user_category_last_seens
     ADD CONSTRAINT community_user_category_last_seens_pkey PRIMARY KEY (user_id, category_id);
 
 
@@ -1691,7 +1690,7 @@ ALTER TABLE ONLY community_user_category_last_seens
 -- Name: community_user_topic_last_seens community_user_topic_last_seens_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_user_topic_last_seens
+ALTER TABLE ONLY public.community_user_topic_last_seens
     ADD CONSTRAINT community_user_topic_last_seens_pkey PRIMARY KEY (user_id, topic_id);
 
 
@@ -1699,7 +1698,7 @@ ALTER TABLE ONLY community_user_topic_last_seens
 -- Name: community_users community_users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_users
+ALTER TABLE ONLY public.community_users
     ADD CONSTRAINT community_users_pkey PRIMARY KEY (user_id);
 
 
@@ -1707,7 +1706,7 @@ ALTER TABLE ONLY community_users
 -- Name: community_votes community_votes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY community_votes
+ALTER TABLE ONLY public.community_votes
     ADD CONSTRAINT community_votes_pkey PRIMARY KEY (user_id, object_type, object_id);
 
 
@@ -1715,7 +1714,7 @@ ALTER TABLE ONLY community_votes
 -- Name: daily_audio_plays daily_audio_plays_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY daily_audio_plays
+ALTER TABLE ONLY public.daily_audio_plays
     ADD CONSTRAINT daily_audio_plays_pkey PRIMARY KEY (upload_id, date);
 
 
@@ -1723,7 +1722,7 @@ ALTER TABLE ONLY daily_audio_plays
 -- Name: daily_upload_downloads daily_upload_downloads_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY daily_upload_downloads
+ALTER TABLE ONLY public.daily_upload_downloads
     ADD CONSTRAINT daily_upload_downloads_pkey PRIMARY KEY (upload_id, date);
 
 
@@ -1731,7 +1730,7 @@ ALTER TABLE ONLY daily_upload_downloads
 -- Name: exception_requests exception_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY exception_requests
+ALTER TABLE ONLY public.exception_requests
     ADD CONSTRAINT exception_requests_pkey PRIMARY KEY (id);
 
 
@@ -1739,7 +1738,7 @@ ALTER TABLE ONLY exception_requests
 -- Name: exception_types exception_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY exception_types
+ALTER TABLE ONLY public.exception_types
     ADD CONSTRAINT exception_types_pkey PRIMARY KEY (id);
 
 
@@ -1747,7 +1746,7 @@ ALTER TABLE ONLY exception_types
 -- Name: featured_streaks featured_streaks_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY featured_streaks
+ALTER TABLE ONLY public.featured_streaks
     ADD CONSTRAINT featured_streaks_pkey PRIMARY KEY (streak_id);
 
 
@@ -1755,7 +1754,7 @@ ALTER TABLE ONLY featured_streaks
 -- Name: featured_submissions featured_submissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY featured_submissions
+ALTER TABLE ONLY public.featured_submissions
     ADD CONSTRAINT featured_submissions_pkey PRIMARY KEY (submission_id);
 
 
@@ -1763,7 +1762,7 @@ ALTER TABLE ONLY featured_submissions
 -- Name: followings followings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY followings
+ALTER TABLE ONLY public.followings
     ADD CONSTRAINT followings_pkey PRIMARY KEY (source_user_id, dest_user_id);
 
 
@@ -1771,7 +1770,7 @@ ALTER TABLE ONLY followings
 -- Name: lapis_migrations lapis_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY lapis_migrations
+ALTER TABLE ONLY public.lapis_migrations
     ADD CONSTRAINT lapis_migrations_pkey PRIMARY KEY (name);
 
 
@@ -1779,7 +1778,7 @@ ALTER TABLE ONLY lapis_migrations
 -- Name: notification_objects notification_objects_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY notification_objects
+ALTER TABLE ONLY public.notification_objects
     ADD CONSTRAINT notification_objects_pkey PRIMARY KEY (notification_id, object_type, object_id);
 
 
@@ -1787,7 +1786,7 @@ ALTER TABLE ONLY notification_objects
 -- Name: notifications notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY notifications
+ALTER TABLE ONLY public.notifications
     ADD CONSTRAINT notifications_pkey PRIMARY KEY (id);
 
 
@@ -1795,7 +1794,7 @@ ALTER TABLE ONLY notifications
 -- Name: related_streaks related_streaks_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY related_streaks
+ALTER TABLE ONLY public.related_streaks
     ADD CONSTRAINT related_streaks_pkey PRIMARY KEY (id);
 
 
@@ -1803,7 +1802,7 @@ ALTER TABLE ONLY related_streaks
 -- Name: streak_submissions streak_submissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY streak_submissions
+ALTER TABLE ONLY public.streak_submissions
     ADD CONSTRAINT streak_submissions_pkey PRIMARY KEY (streak_id, submission_id);
 
 
@@ -1811,7 +1810,7 @@ ALTER TABLE ONLY streak_submissions
 -- Name: streak_user_notification_settings streak_user_notification_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY streak_user_notification_settings
+ALTER TABLE ONLY public.streak_user_notification_settings
     ADD CONSTRAINT streak_user_notification_settings_pkey PRIMARY KEY (user_id, streak_id);
 
 
@@ -1819,7 +1818,7 @@ ALTER TABLE ONLY streak_user_notification_settings
 -- Name: streak_users streak_users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY streak_users
+ALTER TABLE ONLY public.streak_users
     ADD CONSTRAINT streak_users_pkey PRIMARY KEY (streak_id, user_id);
 
 
@@ -1827,7 +1826,7 @@ ALTER TABLE ONLY streak_users
 -- Name: streaks streaks_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY streaks
+ALTER TABLE ONLY public.streaks
     ADD CONSTRAINT streaks_pkey PRIMARY KEY (id);
 
 
@@ -1835,7 +1834,7 @@ ALTER TABLE ONLY streaks
 -- Name: submission_comments submission_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY submission_comments
+ALTER TABLE ONLY public.submission_comments
     ADD CONSTRAINT submission_comments_pkey PRIMARY KEY (id);
 
 
@@ -1843,7 +1842,7 @@ ALTER TABLE ONLY submission_comments
 -- Name: submission_likes submission_likes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY submission_likes
+ALTER TABLE ONLY public.submission_likes
     ADD CONSTRAINT submission_likes_pkey PRIMARY KEY (submission_id, user_id);
 
 
@@ -1851,7 +1850,7 @@ ALTER TABLE ONLY submission_likes
 -- Name: submission_tags submission_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY submission_tags
+ALTER TABLE ONLY public.submission_tags
     ADD CONSTRAINT submission_tags_pkey PRIMARY KEY (submission_id, slug);
 
 
@@ -1859,7 +1858,7 @@ ALTER TABLE ONLY submission_tags
 -- Name: submissions submissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY submissions
+ALTER TABLE ONLY public.submissions
     ADD CONSTRAINT submissions_pkey PRIMARY KEY (id);
 
 
@@ -1867,7 +1866,7 @@ ALTER TABLE ONLY submissions
 -- Name: uploads uploads_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY uploads
+ALTER TABLE ONLY public.uploads
     ADD CONSTRAINT uploads_pkey PRIMARY KEY (id);
 
 
@@ -1875,7 +1874,7 @@ ALTER TABLE ONLY uploads
 -- Name: user_ip_addresses user_ip_addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY user_ip_addresses
+ALTER TABLE ONLY public.user_ip_addresses
     ADD CONSTRAINT user_ip_addresses_pkey PRIMARY KEY (user_id, ip);
 
 
@@ -1883,7 +1882,7 @@ ALTER TABLE ONLY user_ip_addresses
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY users
+ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
 
 
@@ -1891,462 +1890,462 @@ ALTER TABLE ONLY users
 -- Name: api_keys_key_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE UNIQUE INDEX api_keys_key_idx ON api_keys USING btree (key);
+CREATE UNIQUE INDEX api_keys_key_idx ON public.api_keys USING btree (key);
 
 
 --
 -- Name: api_keys_user_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX api_keys_user_id_idx ON api_keys USING btree (user_id);
+CREATE INDEX api_keys_user_id_idx ON public.api_keys USING btree (user_id);
 
 
 --
 -- Name: community_activity_logs_user_id_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX community_activity_logs_user_id_id_idx ON community_activity_logs USING btree (user_id, id);
+CREATE INDEX community_activity_logs_user_id_id_idx ON public.community_activity_logs USING btree (user_id, id);
 
 
 --
 -- Name: community_bans_banned_user_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX community_bans_banned_user_id_idx ON community_bans USING btree (banned_user_id);
+CREATE INDEX community_bans_banned_user_id_idx ON public.community_bans USING btree (banned_user_id);
 
 
 --
 -- Name: community_bans_banning_user_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX community_bans_banning_user_id_idx ON community_bans USING btree (banning_user_id);
+CREATE INDEX community_bans_banning_user_id_idx ON public.community_bans USING btree (banning_user_id);
 
 
 --
 -- Name: community_bans_object_type_object_id_created_at_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX community_bans_object_type_object_id_created_at_idx ON community_bans USING btree (object_type, object_id, created_at);
+CREATE INDEX community_bans_object_type_object_id_created_at_idx ON public.community_bans USING btree (object_type, object_id, created_at);
 
 
 --
 -- Name: community_bookmarks_user_id_created_at_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX community_bookmarks_user_id_created_at_idx ON community_bookmarks USING btree (user_id, created_at);
+CREATE INDEX community_bookmarks_user_id_created_at_idx ON public.community_bookmarks USING btree (user_id, created_at);
 
 
 --
 -- Name: community_categories_parent_category_id_position_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX community_categories_parent_category_id_position_idx ON community_categories USING btree (parent_category_id, "position") WHERE (parent_category_id IS NOT NULL);
+CREATE INDEX community_categories_parent_category_id_position_idx ON public.community_categories USING btree (parent_category_id, "position") WHERE (parent_category_id IS NOT NULL);
 
 
 --
 -- Name: community_category_group_categories_category_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE UNIQUE INDEX community_category_group_categories_category_id_idx ON community_category_group_categories USING btree (category_id);
+CREATE UNIQUE INDEX community_category_group_categories_category_id_idx ON public.community_category_group_categories USING btree (category_id);
 
 
 --
 -- Name: community_category_members_category_id_user_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX community_category_members_category_id_user_id_idx ON community_category_members USING btree (category_id, user_id) WHERE accepted;
+CREATE INDEX community_category_members_category_id_user_id_idx ON public.community_category_members USING btree (category_id, user_id) WHERE accepted;
 
 
 --
 -- Name: community_category_post_logs_post_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX community_category_post_logs_post_id_idx ON community_category_post_logs USING btree (post_id);
+CREATE INDEX community_category_post_logs_post_id_idx ON public.community_category_post_logs USING btree (post_id);
 
 
 --
 -- Name: community_category_tags_category_id_slug_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE UNIQUE INDEX community_category_tags_category_id_slug_idx ON community_category_tags USING btree (category_id, slug);
+CREATE UNIQUE INDEX community_category_tags_category_id_slug_idx ON public.community_category_tags USING btree (category_id, slug);
 
 
 --
 -- Name: community_moderation_logs_category_id_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX community_moderation_logs_category_id_id_idx ON community_moderation_logs USING btree (category_id, id) WHERE (category_id IS NOT NULL);
+CREATE INDEX community_moderation_logs_category_id_id_idx ON public.community_moderation_logs USING btree (category_id, id) WHERE (category_id IS NOT NULL);
 
 
 --
 -- Name: community_moderation_logs_object_type_object_id_action_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX community_moderation_logs_object_type_object_id_action_id_idx ON community_moderation_logs USING btree (object_type, object_id, action, id);
+CREATE INDEX community_moderation_logs_object_type_object_id_action_id_idx ON public.community_moderation_logs USING btree (object_type, object_id, action, id);
 
 
 --
 -- Name: community_moderation_logs_user_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX community_moderation_logs_user_id_idx ON community_moderation_logs USING btree (user_id);
+CREATE INDEX community_moderation_logs_user_id_idx ON public.community_moderation_logs USING btree (user_id);
 
 
 --
 -- Name: community_moderators_object_type_object_id_created_at_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX community_moderators_object_type_object_id_created_at_idx ON community_moderators USING btree (object_type, object_id, created_at);
+CREATE INDEX community_moderators_object_type_object_id_created_at_idx ON public.community_moderators USING btree (object_type, object_id, created_at);
 
 
 --
 -- Name: community_pending_posts_category_id_status_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX community_pending_posts_category_id_status_id_idx ON community_pending_posts USING btree (category_id, status, id) WHERE (category_id IS NOT NULL);
+CREATE INDEX community_pending_posts_category_id_status_id_idx ON public.community_pending_posts USING btree (category_id, status, id) WHERE (category_id IS NOT NULL);
 
 
 --
 -- Name: community_pending_posts_topic_id_status_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX community_pending_posts_topic_id_status_id_idx ON community_pending_posts USING btree (topic_id, status, id) WHERE (topic_id IS NOT NULL);
+CREATE INDEX community_pending_posts_topic_id_status_id_idx ON public.community_pending_posts USING btree (topic_id, status, id) WHERE (topic_id IS NOT NULL);
 
 
 --
 -- Name: community_post_edits_post_id_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE UNIQUE INDEX community_post_edits_post_id_id_idx ON community_post_edits USING btree (post_id, id);
+CREATE UNIQUE INDEX community_post_edits_post_id_id_idx ON public.community_post_edits USING btree (post_id, id);
 
 
 --
 -- Name: community_post_reports_category_id_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX community_post_reports_category_id_id_idx ON community_post_reports USING btree (category_id, id) WHERE (category_id IS NOT NULL);
+CREATE INDEX community_post_reports_category_id_id_idx ON public.community_post_reports USING btree (category_id, id) WHERE (category_id IS NOT NULL);
 
 
 --
 -- Name: community_post_reports_post_id_id_status_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX community_post_reports_post_id_id_status_idx ON community_post_reports USING btree (post_id, id, status);
+CREATE INDEX community_post_reports_post_id_id_status_idx ON public.community_post_reports USING btree (post_id, id, status);
 
 
 --
 -- Name: community_posts_parent_post_id_post_number_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE UNIQUE INDEX community_posts_parent_post_id_post_number_idx ON community_posts USING btree (parent_post_id, post_number);
+CREATE UNIQUE INDEX community_posts_parent_post_id_post_number_idx ON public.community_posts USING btree (parent_post_id, post_number);
 
 
 --
 -- Name: community_posts_parent_post_id_status_post_number_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX community_posts_parent_post_id_status_post_number_idx ON community_posts USING btree (parent_post_id, status, post_number);
+CREATE INDEX community_posts_parent_post_id_status_post_number_idx ON public.community_posts USING btree (parent_post_id, status, post_number);
 
 
 --
 -- Name: community_posts_topic_id_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX community_posts_topic_id_id_idx ON community_posts USING btree (topic_id, id) WHERE (NOT deleted);
+CREATE INDEX community_posts_topic_id_id_idx ON public.community_posts USING btree (topic_id, id) WHERE (NOT deleted);
 
 
 --
 -- Name: community_posts_topic_id_parent_post_id_depth_post_number_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE UNIQUE INDEX community_posts_topic_id_parent_post_id_depth_post_number_idx ON community_posts USING btree (topic_id, parent_post_id, depth, post_number);
+CREATE UNIQUE INDEX community_posts_topic_id_parent_post_id_depth_post_number_idx ON public.community_posts USING btree (topic_id, parent_post_id, depth, post_number);
 
 
 --
 -- Name: community_posts_topic_id_parent_post_id_depth_status_post_numbe; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX community_posts_topic_id_parent_post_id_depth_status_post_numbe ON community_posts USING btree (topic_id, parent_post_id, depth, status, post_number);
+CREATE INDEX community_posts_topic_id_parent_post_id_depth_status_post_numbe ON public.community_posts USING btree (topic_id, parent_post_id, depth, status, post_number);
 
 
 --
 -- Name: community_posts_user_id_status_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX community_posts_user_id_status_id_idx ON community_posts USING btree (user_id, status, id) WHERE (NOT deleted);
+CREATE INDEX community_posts_user_id_status_id_idx ON public.community_posts USING btree (user_id, status, id) WHERE (NOT deleted);
 
 
 --
 -- Name: community_subscriptions_user_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX community_subscriptions_user_id_idx ON community_subscriptions USING btree (user_id);
+CREATE INDEX community_subscriptions_user_id_idx ON public.community_subscriptions USING btree (user_id);
 
 
 --
 -- Name: community_topics_category_id_sticky_status_category_order_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX community_topics_category_id_sticky_status_category_order_idx ON community_topics USING btree (category_id, sticky, status, category_order) WHERE ((NOT deleted) AND (category_id IS NOT NULL));
+CREATE INDEX community_topics_category_id_sticky_status_category_order_idx ON public.community_topics USING btree (category_id, sticky, status, category_order) WHERE ((NOT deleted) AND (category_id IS NOT NULL));
 
 
 --
 -- Name: community_votes_object_type_object_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX community_votes_object_type_object_id_idx ON community_votes USING btree (object_type, object_id);
+CREATE INDEX community_votes_object_type_object_id_idx ON public.community_votes USING btree (object_type, object_id);
 
 
 --
 -- Name: exception_requests_exception_type_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX exception_requests_exception_type_id_idx ON exception_requests USING btree (exception_type_id);
+CREATE INDEX exception_requests_exception_type_id_idx ON public.exception_requests USING btree (exception_type_id);
 
 
 --
 -- Name: exception_types_label_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX exception_types_label_idx ON exception_types USING btree (label);
+CREATE INDEX exception_types_label_idx ON public.exception_types USING btree (label);
 
 
 --
 -- Name: featured_streaks_created_at_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX featured_streaks_created_at_idx ON featured_streaks USING btree (created_at);
+CREATE INDEX featured_streaks_created_at_idx ON public.featured_streaks USING btree (created_at);
 
 
 --
 -- Name: featured_streaks_position_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE UNIQUE INDEX featured_streaks_position_idx ON featured_streaks USING btree ("position");
+CREATE UNIQUE INDEX featured_streaks_position_idx ON public.featured_streaks USING btree ("position");
 
 
 --
 -- Name: followings_dest_user_id_created_at_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX followings_dest_user_id_created_at_idx ON followings USING btree (dest_user_id, created_at);
+CREATE INDEX followings_dest_user_id_created_at_idx ON public.followings USING btree (dest_user_id, created_at);
 
 
 --
 -- Name: followings_dest_user_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX followings_dest_user_id_idx ON followings USING btree (dest_user_id);
+CREATE INDEX followings_dest_user_id_idx ON public.followings USING btree (dest_user_id);
 
 
 --
 -- Name: followings_source_user_id_created_at_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX followings_source_user_id_created_at_idx ON followings USING btree (source_user_id, created_at);
+CREATE INDEX followings_source_user_id_created_at_idx ON public.followings USING btree (source_user_id, created_at);
 
 
 --
 -- Name: notifications_user_id_seen_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX notifications_user_id_seen_id_idx ON notifications USING btree (user_id, seen, id);
+CREATE INDEX notifications_user_id_seen_id_idx ON public.notifications USING btree (user_id, seen, id);
 
 
 --
 -- Name: notifications_user_id_type_object_type_object_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE UNIQUE INDEX notifications_user_id_type_object_type_object_id_idx ON notifications USING btree (user_id, type, object_type, object_id) WHERE (NOT seen);
+CREATE UNIQUE INDEX notifications_user_id_type_object_type_object_id_idx ON public.notifications USING btree (user_id, type, object_type, object_id) WHERE (NOT seen);
 
 
 --
 -- Name: related_streaks_other_streak_id_type_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX related_streaks_other_streak_id_type_idx ON related_streaks USING btree (other_streak_id, type);
+CREATE INDEX related_streaks_other_streak_id_type_idx ON public.related_streaks USING btree (other_streak_id, type);
 
 
 --
 -- Name: related_streaks_streak_id_type_other_streak_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE UNIQUE INDEX related_streaks_streak_id_type_other_streak_id_idx ON related_streaks USING btree (streak_id, type, other_streak_id);
+CREATE UNIQUE INDEX related_streaks_streak_id_type_other_streak_id_idx ON public.related_streaks USING btree (streak_id, type, other_streak_id);
 
 
 --
 -- Name: steaks_title_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX steaks_title_idx ON streaks USING gin (title gin_trgm_ops) WHERE ((NOT deleted) AND (publish_status = 2));
+CREATE INDEX steaks_title_idx ON public.streaks USING gin (title public.gin_trgm_ops) WHERE ((NOT deleted) AND (publish_status = 2));
 
 
 --
 -- Name: streak_submissions_streak_id_submit_time_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX streak_submissions_streak_id_submit_time_idx ON streak_submissions USING btree (streak_id, submit_time);
+CREATE INDEX streak_submissions_streak_id_submit_time_idx ON public.streak_submissions USING btree (streak_id, submit_time);
 
 
 --
 -- Name: streak_submissions_streak_id_user_id_submit_time_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX streak_submissions_streak_id_user_id_submit_time_idx ON streak_submissions USING btree (streak_id, user_id, submit_time);
+CREATE INDEX streak_submissions_streak_id_user_id_submit_time_idx ON public.streak_submissions USING btree (streak_id, user_id, submit_time);
 
 
 --
 -- Name: streak_submissions_submission_id_streak_id_submit_time_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX streak_submissions_submission_id_streak_id_submit_time_idx ON streak_submissions USING btree (submission_id, streak_id, submit_time);
+CREATE INDEX streak_submissions_submission_id_streak_id_submit_time_idx ON public.streak_submissions USING btree (submission_id, streak_id, submit_time);
 
 
 --
 -- Name: streak_users_streak_id_created_at_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX streak_users_streak_id_created_at_idx ON streak_users USING btree (streak_id, created_at);
+CREATE INDEX streak_users_streak_id_created_at_idx ON public.streak_users USING btree (streak_id, created_at);
 
 
 --
 -- Name: streak_users_streak_id_pending_created_at_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX streak_users_streak_id_pending_created_at_idx ON streak_users USING btree (streak_id, pending, created_at);
+CREATE INDEX streak_users_streak_id_pending_created_at_idx ON public.streak_users USING btree (streak_id, pending, created_at);
 
 
 --
 -- Name: streak_users_user_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX streak_users_user_id_idx ON streak_users USING btree (user_id);
+CREATE INDEX streak_users_user_id_idx ON public.streak_users USING btree (user_id);
 
 
 --
 -- Name: streaks_publish_status_users_count_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX streaks_publish_status_users_count_idx ON streaks USING btree (publish_status, users_count);
+CREATE INDEX streaks_publish_status_users_count_idx ON public.streaks USING btree (publish_status, users_count);
 
 
 --
 -- Name: streaks_user_id_publish_status_created_at_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX streaks_user_id_publish_status_created_at_idx ON streaks USING btree (user_id, publish_status, created_at);
+CREATE INDEX streaks_user_id_publish_status_created_at_idx ON public.streaks USING btree (user_id, publish_status, created_at);
 
 
 --
 -- Name: submission_comments_submission_id_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX submission_comments_submission_id_id_idx ON submission_comments USING btree (submission_id, id) WHERE (NOT deleted);
+CREATE INDEX submission_comments_submission_id_id_idx ON public.submission_comments USING btree (submission_id, id) WHERE (NOT deleted);
 
 
 --
 -- Name: submission_comments_user_id_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX submission_comments_user_id_id_idx ON submission_comments USING btree (user_id, id) WHERE (NOT deleted);
+CREATE INDEX submission_comments_user_id_id_idx ON public.submission_comments USING btree (user_id, id) WHERE (NOT deleted);
 
 
 --
 -- Name: submission_likes_user_id_created_at_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX submission_likes_user_id_created_at_idx ON submission_likes USING btree (user_id, created_at);
+CREATE INDEX submission_likes_user_id_created_at_idx ON public.submission_likes USING btree (user_id, created_at);
 
 
 --
 -- Name: submission_tags_slug_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX submission_tags_slug_idx ON submission_tags USING btree (slug);
+CREATE INDEX submission_tags_slug_idx ON public.submission_tags USING btree (slug);
 
 
 --
 -- Name: submission_tags_user_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX submission_tags_user_id_idx ON submission_tags USING btree (user_id);
+CREATE INDEX submission_tags_user_id_idx ON public.submission_tags USING btree (user_id);
 
 
 --
 -- Name: submissions_user_id_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX submissions_user_id_id_idx ON submissions USING btree (user_id, id);
+CREATE INDEX submissions_user_id_id_idx ON public.submissions USING btree (user_id, id);
 
 
 --
 -- Name: submissions_user_id_id_not_hidden_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX submissions_user_id_id_not_hidden_idx ON submissions USING btree (user_id, id) WHERE (NOT hidden);
+CREATE INDEX submissions_user_id_id_not_hidden_idx ON public.submissions USING btree (user_id, id) WHERE (NOT hidden);
 
 
 --
 -- Name: submissions_user_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX submissions_user_id_idx ON submissions USING btree (user_id);
+CREATE INDEX submissions_user_id_idx ON public.submissions USING btree (user_id);
 
 
 --
 -- Name: uploads_object_type_object_id_position_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX uploads_object_type_object_id_position_idx ON uploads USING btree (object_type, object_id, "position") WHERE ready;
+CREATE INDEX uploads_object_type_object_id_position_idx ON public.uploads USING btree (object_type, object_id, "position") WHERE ready;
 
 
 --
 -- Name: uploads_user_id_type_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX uploads_user_id_type_idx ON uploads USING btree (user_id, type);
+CREATE INDEX uploads_user_id_type_idx ON public.uploads USING btree (user_id, type);
 
 
 --
 -- Name: user_ip_addresses_ip_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX user_ip_addresses_ip_idx ON user_ip_addresses USING btree (ip);
+CREATE INDEX user_ip_addresses_ip_idx ON public.user_ip_addresses USING btree (ip);
 
 
 --
 -- Name: user_profiles_password_reset_token_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX user_profiles_password_reset_token_idx ON user_profiles USING btree (password_reset_token) WHERE (password_reset_token IS NOT NULL);
+CREATE INDEX user_profiles_password_reset_token_idx ON public.user_profiles USING btree (password_reset_token) WHERE (password_reset_token IS NOT NULL);
 
 
 --
 -- Name: users_lower_email_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE UNIQUE INDEX users_lower_email_idx ON users USING btree (lower((email)::text));
+CREATE UNIQUE INDEX users_lower_email_idx ON public.users USING btree (lower((email)::text));
 
 
 --
 -- Name: users_lower_username_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE UNIQUE INDEX users_lower_username_idx ON users USING btree (lower((username)::text));
+CREATE UNIQUE INDEX users_lower_username_idx ON public.users USING btree (lower((username)::text));
 
 
 --
 -- Name: users_slug_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE UNIQUE INDEX users_slug_idx ON users USING btree (slug);
+CREATE UNIQUE INDEX users_slug_idx ON public.users USING btree (slug);
 
 
 --
 -- Name: users_username_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX users_username_idx ON users USING gin (username gin_trgm_ops);
+CREATE INDEX users_username_idx ON public.users USING gin (username public.gin_trgm_ops);
 
 
 --
@@ -2357,25 +2356,24 @@ CREATE INDEX users_username_idx ON users USING gin (username gin_trgm_ops);
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 10.1
--- Dumped by pg_dump version 10.1
+-- Dumped from database version 10.4
+-- Dumped by pg_dump version 10.4
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
 SET client_min_messages = warning;
 SET row_security = off;
-
-SET search_path = public, pg_catalog;
 
 --
 -- Data for Name: lapis_migrations; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY lapis_migrations (name) FROM stdin;
+COPY public.lapis_migrations (name) FROM stdin;
 1418544084
 1419494897
 1419752545
