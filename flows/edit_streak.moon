@@ -57,6 +57,10 @@ class EditStreakFlow extends Flow
       end_date = date streak_params.end_date
       assert_error start_date < end_date, "start date must be before end date"
 
+    if streak_params.rate == "monthly"
+      assert_error start_date\getday! <= 28,
+        "Monthly streaks must have a start date before the 29th day of the month, sorry!"
+
     streak_params.end_date or= db.NULL
 
     if h = streak_params.twitter_hash

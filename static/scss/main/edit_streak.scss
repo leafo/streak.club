@@ -1,5 +1,11 @@
 
 .edit_streak_page {
+
+    .form_errors {
+        padding-top: $header_height;
+        margin-top: -$header_height;
+    }
+
     .date_row {
         margin-top: 15px;
 
