@@ -33,7 +33,7 @@ Streaks = (opts={}) ->
   opts.title or= "streak-#{counter}"
   opts.short_description or= "short description for #{counter}"
   opts.description or= "<p>streak description #{counter}</p>"
-  opts.rate = "daily"
+  opts.rate or= "daily"
   opts.hour_offset or= 0
   opts.publish_status or= "published"
 
