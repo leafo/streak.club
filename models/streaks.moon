@@ -91,6 +91,7 @@ class Streaks extends Model
   @rates: enum {
     daily: 1
     weekly: 2
+    monthly: 3
   }
 
   @categories: enum {
@@ -262,6 +263,8 @@ class Streaks extends Model
         "today"
       when @@rates.weekly
         "this week"
+      when @@rates.monthly
+        "this month"
 
   interval_noun: (ly=true) =>
     switch @rate
@@ -275,6 +278,11 @@ class Streaks extends Model
           "weekly"
         else
           "week"
+      when @@rates.monthly
+        if ly
+          "monthly"
+        else
+          "month"
 
   increment_date_by_unit: (date, mul=1) =>
     switch @rate
@@ -282,6 +290,9 @@ class Streaks extends Model
         date\adddays 1 * mul
       when @@rates.weekly
         date\adddays 7 * mul
+      when @@rates.monthly
+        -- TODO: this fails if the day is above 28
+        date\addmonths 1 * mul
       else
         error "don't know how to increment rate"
 
@@ -293,6 +304,8 @@ class Streaks extends Model
       when @@rates.weekly
         tail = date(d)\adddays 6
         "#{d\fmt "%b %d"} to #{tail\fmt "%d"}"
+      when @@rates.monthly
+        d\fmt "%B %Y"
       else
         error "don't know how to format date for rate"
 
@@ -308,6 +321,17 @@ class Streaks extends Model
         days = math.floor date.diff(d, start)\spandays!
         weeks = math.floor(days / 7)
         date(start)\adddays weeks * 7
+      when @@rates.monthly
+        -- convert to local
+        local_d = date(d)\addhours @hour_offset
+        ly, lm, ld = date(local_d)\getdate!
+
+        cutoff_day = date(@start_date)\getday!
+
+        if ld < cutoff_day
+          lm -= 1
+
+        date(ly, lm, cutoff_day)\addhours -@hour_offset
       else
         error "don't know how to truncate date for rate"
 
@@ -326,15 +350,37 @@ class Streaks extends Model
   unit_number_for_date: (d) =>
     @unit_span @start_datetime!, d
 
-  -- how many units between two dates
+  -- how many units two dates cover (UTC dates)
+  -- note that dates in the same unit will return 1
   unit_span: (start, stop) =>
     switch @rate
       when @@rates.daily
         math.floor(date.diff(stop, start)\spandays!) + 1
-      else
+      when @@rates.weekly
         days = math.floor date.diff(stop, start)\spandays!
         weeks = math.floor(days / 7)
         weeks + 1
+      when @@rates.monthly
+        -- convert dates to local
+        local_start = date(start)\addhours @hour_offset
+        local_stop = date(stop)\addhours @hour_offset
+
+        -- find units
+        start_unit = local_start\getyear! * 12 + local_start\getmonth!
+        end_unit = local_stop\getyear! * 12 + local_stop\getmonth!
+
+        cutoff_day = date(@start_date)\getday!
+
+        -- move back if they're before the right day
+        if local_start\getday! < cutoff_day
+          start_unit -= 1
+
+        if local_stop\getday! < cutoff_day
+          end_unit -= 1
+
+        end_unit - start_unit + 1
+      else
+        error "don't know how to calculate unit span for rate"
 
   -- find all streak users who have not submitted to the unit
   find_unsubmitted_users: (d=date(true)) =>
@@ -420,8 +466,21 @@ class Streaks extends Model
             ) at time zone 'UTC' + ?::interval
           )::date submit_day
         ]], unix_start, one_week, one_week, unix_start, "#{@hour_offset} hours"
+
+      when @@rates.monthly
+        interval = "#{@hour_offset} hours"
+        submit_local = db.interpolate_query "(submit_time + ?::interval)", interval
+        cutoff_day = date(@start_date)\getday!
+
+        db.interpolate_query "
+          make_date(
+            extract(year from #{submit_local})::int,
+            (extract(month from #{submit_local}) + (case when extract(day from #{submit_local}) < ? then -1 else 0 end))::int,
+            ?
+          ) as submit_day
+        ", cutoff_day, cutoff_day
       else
-        error "don't know how to "
+        error "don't know how to group units for rate"
 
   unit_submission_counts: =>
     import StreakSubmissions from require "models"
@@ -496,12 +555,13 @@ class Streaks extends Model
   -- each unit in utc
   each_unit: =>
     current = date @start_datetime!
-    stop = date @end_datetime!
+    stop = @end_datetime!
+
     coroutine.wrap ->
       while true
         coroutine.yield current
         @increment_date_by_unit current
-        break if stop <= current
+        break if stop and stop <= current
 
   -- each unit in local time stamp
   each_unit_local: =>
