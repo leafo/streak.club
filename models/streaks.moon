@@ -754,3 +754,8 @@ class Streaks extends Model
       else
         error "unknown state: #{state}"
 
+  utc_to_local: (d) =>
+    date(d)\addhours @hour_offset
+
+  local_to_utc: (d) =>
+    date(d)\addhours -@hour_offset
