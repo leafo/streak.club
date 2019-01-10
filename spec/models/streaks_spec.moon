@@ -224,4 +224,117 @@ describe "models.streaks", ->
       assert.same {k, true for k in *u2_completed},
         {k, true for k in pairs user2\get_completed_units!}
 
+  describe "time functions", ->
+    describe "daily", ->
+      local streak
+
+      before_each ->
+        db = require "lapis.db"
+        streak = factory.Streaks {
+          start_date: "2019-1-10"
+          end_date: db.NULL
+          hour_offset: -8
+          rate: "daily"
+        }
+
+      it "unit number for start date is 1", ->
+        start = streak\start_datetime!
+        assert.same 1, streak\unit_number_for_date start
+
+      it "range between same date is 1", ->
+        some_date = streak\start_datetime!\addhours 2922
+        assert.same 1, streak\unit_span some_date, some_date
+
+    describe "weekly", ->
+      local streak
+
+      before_each ->
+        db = require "lapis.db"
+        streak = factory.Streaks {
+          start_date: "2019-1-10"
+          end_date: db.NULL
+          hour_offset: -8
+          rate: "weekly"
+        }
+
+      it "unit number for start date is 1", ->
+        start = streak\start_datetime!
+        assert.same 1, streak\unit_number_for_date start
+
+      it "range between same date is 1", ->
+        some_date = streak\start_datetime!\addhours 2922
+        assert.same 1, streak\unit_span some_date, some_date
+
+    describe "monthly", ->
+      local streak
+
+      before_each ->
+        db = require "lapis.db"
+        streak = factory.Streaks {
+          start_date: "2019-1-10"
+          end_date: db.NULL
+          hour_offset: -8
+          rate: "monthly"
+        }
+
+      it "unit_number_for_date", ->
+        start = streak\start_datetime!
+        assert.same 1, streak\unit_number_for_date start
+
+      it "range between same date is 1", ->
+        some_date = streak\start_datetime!\addhours 2922
+        assert.same 1, streak\unit_span some_date, some_date
+
+      it "gets range across boundary", ->
+        left = streak\local_to_utc "2019-4-9"
+        right = streak\local_to_utc "2019-4-10"
+        right2 = streak\local_to_utc "2019-4-11"
+
+        assert.same 2, streak\unit_span left, right
+        assert.same 2, streak\unit_span left, right2
+
+      it "gets range within unit", ->
+        left = streak\local_to_utc "2019-4-8"
+        right = streak\local_to_utc "2019-4-9"
+        right2 = streak\local_to_utc "2019-4-10"
+
+        assert.same 1, streak\unit_span left, right
+        assert.same 2, streak\unit_span left, right2
+        assert.same 1, streak\unit_span left, right2\addseconds -1
+
+      it "gets range over many unit", ->
+        left = streak\local_to_utc "2019-1-11"
+        right = streak\local_to_utc "2019-7-9"
+
+        assert.same 6, streak\unit_span left, right
+        assert.same 7, streak\unit_span left, date(right)\adddays 3
+
+      it "gets each unit in utc", ->
+        k = 0
+        dates = for unit in streak\each_unit!
+          k += 1
+          if k > 5
+            break
+          else
+            unit\fmt "%Y-%m-%d %H:%M:%S"
+
+        assert.same dates, {
+          "2019-01-10 08:00:00"
+          "2019-02-10 08:00:00"
+          "2019-03-10 08:00:00"
+          "2019-04-10 08:00:00"
+          "2019-05-10 08:00:00"
+        }
+
+      it "truncate_date", ->
+        d = streak\local_to_utc "2019-4-9"
+
+        assert.same "2019-03-10 08:00:00",
+          tostring streak\truncate_date(d)\fmt "%Y-%m-%d %H:%M:%S"
+
+        d = streak\local_to_utc("2019-4-10")\addhours 5
+
+        assert.same "2019-04-10 08:00:00",
+          tostring streak\truncate_date(d)\fmt "%Y-%m-%d %H:%M:%S"
+
 
