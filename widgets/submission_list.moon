@@ -11,6 +11,18 @@ class SubmissionLiker extends require "widgets.base"
   js_init: =>
     @react_render "SubmissionList.LikeButton", @props
 
+class SubmissionListAudioFile extends require "widgets.base"
+  new: (@props) =>
+
+  inner_content: =>
+    div class: "submission_audio", ->
+      button class: "play_audio_btn"
+
+      div class: "download_form", ->
+        button class: "upload_download button", style: "color: rgba(0,0,0,0)", "Download"
+
+  js_init: =>
+    @react_render "SubmissionList.AudioFile", @props
 
 class SubmissionList extends require "widgets.base"
   @needs: {"submissions", "has_more"}
@@ -213,29 +225,15 @@ class SubmissionList extends require "widgets.base"
             a href: @url_for(upload), target: "_blank", ->
               img src: @url_for upload, "600x"
         elseif upload\is_audio!
-          div class: "submission_audio", ->
-            div {
-              class: "play_audio_btn"
-              ["data-audio_url"]: @url_for "prepare_play_audio", id: upload.id
-            }, ->
-              img class: "play_icon", src: "/static/images/audio_play.svg"
-              img class: "pause_icon", src: "/static/images/audio_pause.svg"
-
-            form {
-              class: "download_form"
-              action: @url_for "prepare_download", id: upload.id
-              method: "post"
-            }, ->
-              @csrf_input!
-              button class: "upload_download button", "Download"
-
-            div class: "truncate_content", ->
-              span class: "upload_name", upload.filename
-              span class: "upload_size", @filesize_format upload.size
-
-              div class: "audio_progress_outer", ->
-                div class: "audio_progress_inner"
-
+          widget SubmissionListAudioFile {
+            audio_url: @url_for "prepare_play_audio", id: upload.id
+            download_url: @url_for "prepare_download", id: upload.id
+            upload: {
+              id: upload.id
+              filename: upload.filename
+              size:  upload.size
+            }
+          }
         else
           form {
             class: "submission_upload"

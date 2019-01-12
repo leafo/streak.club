@@ -90,9 +90,9 @@ window.S = {
     (bytes) ->
       for [label, min] in thresholds
         if bytes >= min
-          return "#{s.numberFormat bytes / min}#{label}"
+          return "#{s.numberFormat bytes / min, 1}#{label}"
 
-      "#{s.numberFormat bytes} bytes"
+      "#{s.numberFormat bytes, 1} bytes"
 
   is_mobile: =>
     /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test navigator.userAgent

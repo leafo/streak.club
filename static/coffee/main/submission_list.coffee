@@ -48,58 +48,6 @@ class S.SubmissionList
           inside.removeClass("truncated")
           @el.trigger "s:reshape"
 
-      play_audio_btn: (btn) =>
-        audio_row = btn.closest ".submission_audio"
-        return if audio_row.is ".loading"
-        url = btn.data "audio_url"
-
-        if audio_row.is ".playing"
-          audio_row.data("audio").pause()
-          audio_row.removeClass "playing"
-          return
-
-        if audio_row.is ".loaded"
-          audio_row.data("audio").play()
-          btn.trigger "s:play_audio", [btn]
-          audio_row.addClass "playing"
-          return
-
-
-        unless btn.is ".listener_bound"
-          btn.addClass "listener_bound"
-
-          $(document).on "s:play_audio", (e, el) =>
-            return if el.is btn
-            audio_row.data("audio")?.pause()
-
-        audio_row.addClass "loading"
-        $.post url, S.with_csrf(), (res) =>
-          progress_bar = audio_row.find ".audio_progress_inner"
-          progress_bar.width "0%"
-
-          audio = document.createElement "audio"
-
-          unless audio.canPlayType "audio/mpeg"
-            alert "Yikes, doesn't look like your browser supports playing MP3s"
-            return
-
-          audio.setAttribute "src", res.url
-          audio.play()
-          btn.trigger "s:play_audio", [btn]
-          audio_row.data "audio", audio
-
-          audio.addEventListener "loadstart", =>
-
-          audio.addEventListener "pause", =>
-            audio_row.removeClass "playing"
-
-          audio.addEventListener "timeupdate", =>
-            audio_row.removeClass("loading").addClass "playing loaded"
-            progress_bar.width "#{audio.currentTime / audio.duration * 100}%"
-
-          audio.addEventListener "ended", =>
-            audio_row.removeClass "loaded playing"
-
       comments_toggle_btn: (btn) =>
         return if btn.is ".locked"
         return if btn.is ".loading"

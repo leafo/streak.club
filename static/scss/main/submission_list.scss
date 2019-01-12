@@ -178,30 +178,12 @@
 
             &.loading {
                 .play_audio_btn {
-                    @include opacity(0.5);
+                    opacity: 0.5;
                 }
             }
 
-            &.loaded {
-                .audio_progress_outer {
-                    @include opacity(1);
-                }
-            }
-
-            &.playing {
-                .play_audio_btn {
-                    .pause_icon {
-                        @include opacity(1);
-                    }
-
-                    .play_icon {
-                        @include opacity(0);
-                    }
-                }
-
-                .audio_progress_inner {
-                    @include transition(all 0.3s linear);
-                }
+            .audio_progress_inner {
+                transition: transition(all 0.3s linear);
             }
 
             .download_form {
@@ -220,8 +202,6 @@
             }
 
             .audio_progress_outer {
-                @include transition(opacity 0.2s ease);
-                @include opacity(0);
                 position: absolute;
                 bottom: 0;
                 left: 0;
@@ -242,32 +222,32 @@
             .play_audio_btn {
                 background: $blue;
                 height: 35px;
+                border: 0;
                 width: 35px;
                 border-radius: 35px;
                 color: white;
                 cursor: pointer;
                 float: left;
                 position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                > img {
+                    margin: 0;
+                }
 
                 .play_icon, .pause_icon {
-                    @include transition(opacity 0.2s ease);
+                    transition: opacity 0.2s ease;
                 }
 
                 .play_icon {
-                    @include opacity(1);
-                    position: absolute;
-                    left: 11px;
-                    top: 7px;
                     height: 20px;
                     width: 17px;
+                    margin-left: 5px;
                 }
 
                 .pause_icon {
-                    @include opacity(0);
-                    position: absolute;
-
-                    top: 8px;
-                    left: 10px;
                     width: 15px;
                     height: 19px;
                 }
