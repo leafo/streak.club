@@ -128,12 +128,15 @@ P "Uploader", {
       upload_manager: new UploaderManager @props.uploader_opts
     }
 
+  push_upload: (upload) ->
+    @state.uploads.push upload
+    @forceUpdate()
+    upload.on_update = => @forceUpdate()
+
+
   handle_upload: (e) ->
     e.preventDefault()
-    @state.upload_manager.pick_files (upload) =>
-      @state.uploads.push upload
-      @forceUpdate()
-      upload.on_update = => @forceUpdate()
+    @state.upload_manager.pick_files @push_upload
 
   componentDidMount: ->
     move = (item, dir) =>
@@ -167,14 +170,52 @@ P "Uploader", {
     }
 
   render: ->
-    div className: "upload_component", children: [
+    div {
+      className: classNames "upload_component", {
+        dragging: @state.dragging_over
+      }
+
+      onDragEnter: (e) =>
+        @drag_counter ||= 0
+        @drag_counter += 1
+
+        if @drag_counter == 1
+          @setState dragging_over: true
+
+      onDragLeave: (e) =>
+        @drag_counter ||= 0
+        @drag_counter -= 1
+
+        if @drag_counter == 0
+          @setState dragging_over: false
+
+      onDragOver: (e) =>
+        e.stopPropagation()
+        e.preventDefault()
+
+      onDrop: (e) =>
+        e.preventDefault()
+
+        @drag_counter = 0
+        @setState dragging_over: false
+
+        for file in e.dataTransfer?.files
+          @state.upload_manager.push_file file, @push_upload
+    },
       P.UploadList { uploads: @state.uploads }
-      button {
-        className: "new_upload_btn button"
-        onClick: @handle_upload
-        type: "button"
-      }, "Add file(s)"
-    ]
+
+      if @state.dragging_over
+        div className: "dragging_target" , "Drop to upload..."
+
+      div className: "upload_actions",
+        button {
+          className: "new_upload_btn button"
+          onClick: @handle_upload
+          type: "button"
+        }, "Add file(s)"
+
+        unless S.is_mobile()
+          p className: "upload_tip", "TIP: you can also drag and drop a file(s) here to upload"
 }
 
 P "UploadList", {
@@ -252,16 +293,19 @@ class UploaderManager
     if @opts.accept
       @input.attr "accept", @opts.accept
 
-    max_size = @opts.max_size
     @input.on "change", =>
       for file in @input[0].files
-        if max_size? and file.size > max_size
-          alert "#{file.name} is greater than max size of #{S.format_bytes max_size}"
-          continue
-
-        @prepare_and_start_upload file, on_upload
+        @push_file file, on_upload
 
     @input.click()
+
+  push_file: (file, on_upload) =>
+    max_size = @opts.max_size
+    if max_size? and file.size > max_size
+      alert "#{file.name} is greater than max size of #{S.format_bytes max_size}"
+      return
+
+    @prepare_and_start_upload file, on_upload
 
   prepare_and_start_upload: (file, callback) ->
     throw "missing prepare url" unless @opts.prepare_url

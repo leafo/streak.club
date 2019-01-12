@@ -10,6 +10,47 @@
         }
     }
 
+    .upload_component {
+        position: relative;
+
+        &.dragging {
+            * {
+                pointer-events: none;
+            }
+        }
+
+        .dragging_target {
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba($green, 0.8);
+            font-weight: bold;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    .upload_tip {
+        font-size: $body_size_small;
+        color: $body_color_light;
+        margin: 0;
+    }
+
+    .upload_actions {
+        display: flex;
+        align-items: center;
+        > * {
+            margin-right: 10px;
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
 
     .file_uploader {
         margin-bottom: 10px;
