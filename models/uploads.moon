@@ -205,7 +205,10 @@ class Uploads extends Model
           when @@storage_types.google_cloud_storage
             storage = require "secret.storage"
             bucket = require("lapis.config").get!.storage_bucket
-            nil, storage\signed_url bucket, @bucket_key!, expire
+            url = storage\signed_url bucket, @bucket_key!, expire
+            -- TODO: workaround for cloud storage hardcoded http
+            url = url\gsub "http://", "https://"
+            nil, url
 
   delete: =>
     with super!
