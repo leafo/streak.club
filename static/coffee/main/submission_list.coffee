@@ -78,34 +78,27 @@ class S.SubmissionList
       edit_btn: (btn) =>
         comment = btn.closest(".submission_comment").addClass "editing"
 
-        id = comment.data "id"
         body = comment.find(".user_formatted")
+        drop = comment.find ".comment_editor_drop"
 
-        editor = $ @comment_editor_template {
-          id: id
+        unless drop.length
+          drop = $('<div class="comment_editor_drop"></div>').insertAfter body
+
+        editor = R.SubmissionList.CommentEditor {
+          edit_url: btn.data "edit_url"
           body: comment.data("body") || body.html()
-        }
+          on_save: (res) =>
+            ReactDOM.unmountComponentAtNode drop[0]
+            comment.replaceWith res.rendered
 
-        body.replaceWith editor
-        @el.trigger "s:reshape"
-
-        markdown_editor = editor.find(".markdown_editor")
-        value = markdown_editor.find("textarea").val()
-
-        ReactDOM.render R.EditSubmission.Editor({
-          required: true
-          autofocus: true
-          placeholder: "Your comment"
-          name: "comment[body]"
-          value
-        }), markdown_editor[0]
-
-        editor.dispatch "click", {
-          cancel_edit_btn: (btn) =>
-            editor.replaceWith body
+          on_cancel: =>
             comment.removeClass "editing"
+            ReactDOM.unmountComponentAtNode drop[0]
             @el.trigger "s:reshape"
         }
+
+        ReactDOM.render editor, drop[0]
+        @el.trigger "s:reshape"
 
       reply_btn: (btn) =>
         username = btn.closest(".submission_comment").data "author"
@@ -141,15 +134,6 @@ class S.SubmissionList
 
           @el.trigger "s:reshape"
     }
-
-    @el.remote_submit ".edit_comment_form", (res, form) =>
-      if res.errors
-        form.set_form_errors res.errors
-        return
-
-      if res.rendered
-        form.closest(".submission_comment").replaceWith $ res.rendered
-        @el.trigger "s:reshape"
 
     @el.remote_submit ".comment_form", (res, form) =>
       if res.errors

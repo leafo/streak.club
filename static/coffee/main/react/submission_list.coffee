@@ -1,6 +1,66 @@
 
 P = R.package "SubmissionList"
 
+P "CommentEditor", {
+  getInitialState: -> {}
+
+  componentDidMount: ->
+    $(@refs.form).remote_submit (res) =>
+      @setState loading: false
+
+      if res.errors
+        @setState errors: res.errors
+      else
+        @props.on_save? res
+
+  render: ->
+    div className: "comment_editor",
+      form {
+        ref: "form"
+        action: @props.edit_url
+        className: "form edit_comment_form"
+        method: "post"
+
+        onSubmit: (e) =>
+          if @state.loading
+            e.preventDefault()
+            e.stopPropagation()
+            return
+
+          @setState loading: true, errors: null
+      },
+        if @state.errors
+          ul className: "form_errors",
+            @state.errors.map (error) =>
+              li key: error, error
+
+        input type: "hidden", name: "csrf_token", value: S.get_csrf()
+        div className: "input_wrapper",
+          div className: "markdown_editor",
+            R.EditSubmission.Editor {
+              required: true
+              autofocus: true
+              placeholder: "Your comment"
+              name: "comment[body]"
+              value: @props.body || ""
+            }
+
+        div className: "button_row",
+          button {
+            className: classNames "button", disabled: @state.loading
+            disabled: @state.loading
+          }, "Update comment"
+          " or "
+          a {
+            className: "cancel_edit_btn"
+            href: "javascript:void(0)"
+            onClick: (e) =>
+              e.preventDefault()
+              @props.on_cancel?()
+          }, "Cancel"
+}
+
+
 P "QuickComment", {
   getInitialState: -> { }
 

@@ -51,7 +51,7 @@
         }
 
         &.editing {
-            .edit_tool {
+            .edit_tool, .comment_body {
                 display: none;
             }
         }

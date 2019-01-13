@@ -33,7 +33,12 @@ class SubmissionCommentList extends require "widgets.base"
                 if can_edit
                   span class: "edit_tool", ->
                     raw " &middot; "
-                    a href: "#", class: "edit_btn", "Edit"
+                    a {
+                      href: "#"
+                      class: "edit_btn"
+                      "data-edit_url": @url_for "edit_comment", id: comment.id
+                      "Edit"
+                    }
 
                 if can_delete or can_edit
                   raw " &middot; "

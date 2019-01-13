@@ -49,7 +49,6 @@ class SubmissionList extends require "widgets.base"
         text "Loading more"
 
     div class: "comment_nag_drop"
-    @templates!
 
   render_submissions: =>
     count = 0
@@ -194,27 +193,6 @@ class SubmissionList extends require "widgets.base"
           button name:"action", value: "delete", "Unfeature"
         else
           button name:"action", value: "create", "Feature"
-
-  templates: =>
-    @js_template "comment_editor", ->
-      div class: "comment_editor", ->
-        action = @url_for("edit_comment", id: "XXX")\gsub "XXX", "{{ id }}"
-        form class: "form edit_comment_form", method: "POST", :action, ->
-          @csrf_input!
-          div class: "input_wrapper", ->
-            widget MarkdownEditor {
-              name: "comment[body]"
-              placeholder: "Your comment"
-              required: true
-              js_init: false
-              value: ->
-                raw "{{& body }}"
-            }
-
-          div class: "button_row", ->
-            button class: "button", "Update comment"
-            text " or "
-            a class: "cancel_edit_btn", href: "", "Cancel"
 
   render_uploads: (submission) =>
     return unless submission.uploads and next submission.uploads
