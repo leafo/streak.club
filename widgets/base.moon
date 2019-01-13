@@ -9,6 +9,11 @@ import to_json from require "lapis.util"
 
 date = require "date"
 
+if ngx and ngx.worker
+  math.randomseed ngx.time! + ngx.worker.pid!
+else
+  math.randomseed os.time!
+
 class Base extends Widget
   @include "widgets.asset_helpers"
   @include "widgets.icons"
@@ -63,7 +68,7 @@ class Base extends Widget
 
   widget_id: =>
     unless @_widget_id
-      @_widget_id = "#{@@widget_name!}_#{random 0, 100000}"
+      @_widget_id = "#{@@widget_name!}_#{random 0, 10000000}"
       @_opts.id or= @_widget_id if @_opts
     @_widget_id
 
