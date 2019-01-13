@@ -182,6 +182,11 @@
                 }
             }
 
+            .playback_error {
+                color: $error_color;
+                font-weight: bold;
+            }
+
             .audio_progress_inner {
                 transition: transition(all 0.3s linear);
             }

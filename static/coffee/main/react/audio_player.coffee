@@ -32,10 +32,18 @@ P "AudioFile", {
     @pause_others()
 
     if @state.audio
-      @state.audio.play()
+      @state.audio.play()?.catch? (e) =>
+        # audio url probably expired, just clear it so they can load it again
+        # on next play. TODO: better fix
+        @setState audio: false
+
       @setState playing: true
     else
-      @setState loading: true, played: false
+      @setState {
+        loading: true
+        played: false
+        error: null
+      }
 
       $.post @props.audio_url, S.with_csrf(), (res) =>
         if res.url
@@ -51,7 +59,9 @@ P "AudioFile", {
       return false
 
     audio.setAttribute "src", url
-    audio.play()
+    audio.play()?.catch? (e) =>
+      message = e.message
+      @setState error: message, loading: false, audio: null
 
     audio.addEventListener "canplay", =>
       @setState loading: false
@@ -96,8 +106,15 @@ P "AudioFile", {
         button className: "upload_download button", "Download"
 
       div className: "truncate_content",
-        span className: "upload_name", @props.upload.filename
-        span className: "upload_size", S.format_bytes @props.upload.size
+        if @state.error
+          span {
+            className: "playback_error"
+            title: @state.error
+          }, "Failed to load audio"
+        else
+          React.createElement React.Fragment, {},
+            span className: "upload_name", @props.upload.filename
+            span className: "upload_size", S.format_bytes @props.upload.size
 
         if @state.played
           div className: "audio_progress_outer",
