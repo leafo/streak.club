@@ -1,6 +1,98 @@
 P = R.package "SubmissionList"
 
+
 all_files = []
+
+P "AudioTrackList", {
+  getDefaultProps: ->
+    { audio_files: [] }
+
+  getInitialState: ->
+    {
+      show_list: true
+      closed: false
+    }
+
+  current_playing: ->
+    for file in @props.audio_files
+      if file.state.playing
+        return file
+
+  render: ->
+    if @state.closed
+      return null
+
+    playing_file = @current_playing()
+
+    div className: "audio_sticky_player",
+      button {
+        type: "button"
+      }, "Play"
+
+      div className: "track_selector",
+        if @state.show_list
+          @render_track_list()
+        div className: "current_playing",
+          if playing_file
+            strong {
+              className: "track_title",
+              onClick: (e) =>
+                e.preventDefault()
+                el = ReactDOM.findDOMNode(current_playing)
+                el.scrollIntoView?()
+            },
+              playing_file.props.upload.filename
+          else
+            div className: "empty_track", "No track"
+
+      button {
+        type: "button"
+        onClick: =>
+          @setState (s) -> show_list: !s.show_list
+      }, if @state.show_list then "Hide" else "Tracks"
+
+      button {
+        type: "button"
+      }, "Next"
+
+      button {
+        type: "button"
+        onClick: =>
+          @setState closed: true
+      }, "Close"
+
+
+  render_track_list: ->
+    div className: "track_list_popup",
+      ul className: "file_list",
+        @props.audio_files.map (file, idx) =>
+          upload = file.props.upload
+          li {
+            key: upload.id,
+            className: classNames {
+              playing: file.state.playing
+            }
+          },
+            button {
+              type: "button"
+              className: "play_file_btn"
+              onClick: (e) =>
+                e.preventDefault()
+                file.play_audio()
+            }, upload.filename
+}
+
+track_list_drop = null
+track_list_props = {}
+
+render_track_list = (props) ->
+  unless track_list_drop
+    track_list_drop = $('<div class="audio_track_list_drop"></div>').appendTo document.body
+
+  track_list_props = Object.assign {}, track_list_props, props
+  track_list = P.AudioTrackList track_list_props
+
+  ReactDOM.render track_list, track_list_drop[0]
 
 P "AudioFile", {
   getInitialState: ->
@@ -8,12 +100,25 @@ P "AudioFile", {
 
   componentDidMount: ->
     all_files = all_files.concat([@])
+    render_track_list {
+      audio_files: all_files
+    }
+
+  componentDidUpdate: (prev_props, prev_state) ->
+    console.log "audio player updated, update the sticky player.."
+    props = {}
+
+    render_track_list props
+
 
   componentWillUnmount: ->
     if @state.audio && !@state.audio.paused
       @state.audio.pause()
 
     all_files = (o for o in all_files when o != this)
+    render_track_list {
+      audio_files: all_files
+    }
 
   pause_others: ->
     for file in all_files
