@@ -13,16 +13,11 @@ P "AudioTrackList", {
       closed: false
     }
 
-  current_playing: ->
-    for file in @props.audio_files
-      if file.state.playing
-        return file
-
   render: ->
     if @state.closed
       return null
 
-    playing_file = @current_playing()
+    active_file = @props.active_file
 
     div className: "audio_sticky_player",
       button {
@@ -33,15 +28,15 @@ P "AudioTrackList", {
         if @state.show_list
           @render_track_list()
         div className: "current_playing",
-          if playing_file
+          if active_file
             strong {
               className: "track_title",
               onClick: (e) =>
                 e.preventDefault()
-                el = ReactDOM.findDOMNode(current_playing)
+                el = ReactDOM.findDOMNode(active_file)
                 el.scrollIntoView?()
             },
-              playing_file.props.upload.filename
+              active_file.props.upload.filename
           else
             div className: "empty_track", "No track"
 
@@ -70,7 +65,8 @@ P "AudioTrackList", {
           li {
             key: upload.id,
             className: classNames {
-              playing: file.state.playing
+              active: @props.active_file == file
+              loading: file.state.loading
             }
           },
             button {
@@ -108,8 +104,10 @@ P "AudioFile", {
     console.log "audio player updated, update the sticky player.."
     props = {}
 
-    render_track_list props
+    if @state.playing
+      props.active_file = @
 
+    render_track_list props
 
   componentWillUnmount: ->
     if @state.audio && !@state.audio.paused
