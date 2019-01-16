@@ -1,7 +1,10 @@
 P = R.package "SubmissionList"
 
 
-all_files = []
+# passed to props to the audio track list
+PLAYER_STATE = {
+  audio_files: []
+}
 
 P "AudioTrackList", {
   getDefaultProps: ->
@@ -22,11 +25,18 @@ P "AudioTrackList", {
     div className: "audio_sticky_player",
       button {
         type: "button"
-      }, "Play"
+        disabled: !@props.active_file || @props.active_file_loading
+        className: classNames {
+          "toggle_play_button"
+          disabled: !@props.active_file || @props.active_file_loading
+          loading: @props.active_file_loading
+        }
+      }, if @props.active_file_playing then R.Icons.PauseIcon() else R.Icons.PlayIcon()
 
-      div className: "track_selector",
+      div className: "track_area",
         if @state.show_list
           @render_track_list()
+
         div className: "current_playing",
           if active_file
             strong {
@@ -40,11 +50,18 @@ P "AudioTrackList", {
           else
             div className: "empty_track", "No track"
 
+        div className: "audio_progress_outer",
+          div className: "audio_progress_inner", style: { width: "#{@props.active_file_progress || 0}%" }
+
       button {
         type: "button"
+        title: if @state.show_list then "Hide" else "Tracks"
+        className: classNames {
+          active: @state.show_list
+        }
         onClick: =>
           @setState (s) -> show_list: !s.show_list
-      }, if @state.show_list then "Hide" else "Tracks"
+      }, R.Icons.MenuIcon()
 
       button {
         type: "button"
@@ -75,18 +92,20 @@ P "AudioTrackList", {
               onClick: (e) =>
                 e.preventDefault()
                 file.play_audio()
-            }, upload.filename
+            },
+              span className: "filename", upload.filename
+              " — "
+              span className: "user", ""
 }
 
 track_list_drop = null
-track_list_props = {}
 
 render_track_list = (props) ->
   unless track_list_drop
     track_list_drop = $('<div class="audio_track_list_drop"></div>').appendTo document.body
 
-  track_list_props = Object.assign {}, track_list_props, props
-  track_list = P.AudioTrackList track_list_props
+  PLAYER_STATE = Object.assign {}, PLAYER_STATE, props
+  track_list = P.AudioTrackList PLAYER_STATE
 
   ReactDOM.render track_list, track_list_drop[0]
 
@@ -94,32 +113,33 @@ P "AudioFile", {
   getInitialState: ->
     { playing: false, loading: false }
 
-  componentDidMount: ->
-    all_files = all_files.concat([@])
-    render_track_list {
-      audio_files: all_files
-    }
-
   componentDidUpdate: (prev_props, prev_state) ->
-    console.log "audio player updated, update the sticky player.."
-    props = {}
+    if PLAYER_STATE.active_file == @
+      render_track_list {
+        active_file_playing: @state.playing
+        active_file_loading: @state.loading
+        active_file_progress: @state.progress
+      }
 
-    if @state.playing
-      props.active_file = @
-
-    render_track_list props
+  componentDidMount: ->
+    render_track_list {
+      audio_files: PLAYER_STATE.audio_files.concat([@])
+    }
 
   componentWillUnmount: ->
     if @state.audio && !@state.audio.paused
       @state.audio.pause()
 
-    all_files = (o for o in all_files when o != this)
     render_track_list {
-      audio_files: all_files
+      audio_files: (o for o in PLAYER_STATE.audio_files when o != this)
+      active_file: if PLAYER_STATE.active_file == @
+        null
+      else
+        PLAYER_STATE.active_file
     }
 
   pause_others: ->
-    for file in all_files
+    for file in PLAYER_STATE.audio_files
       continue if file == @
       file.pause_audio()
 
@@ -133,6 +153,10 @@ P "AudioFile", {
     return if @state.loading
 
     @pause_others()
+
+    render_track_list {
+      active_file: @
+    }
 
     if @state.audio
       @state.audio.play()?.catch? (e) =>
@@ -149,6 +173,11 @@ P "AudioFile", {
       }
 
       $.post @props.audio_url, S.with_csrf(), (res) =>
+        # switched songs while loading
+        if PLAYER_STATE.active_file != @
+          @setState loading: false
+          return
+
         if res.url
           @play_url res.url
         else

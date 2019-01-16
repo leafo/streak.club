@@ -10,6 +10,7 @@
     box-sizing: border-box;
     height: $header_height;
     background: white;
+    justify-content: center;
 
     > * {
         margin-right: 10px;
@@ -21,19 +22,67 @@
     display: flex;
     align-items: center;
 
-    .track_selector {
+    .toggle_play_button {
+        width: 35px;
+        height: 35px;
+        border: 0;
+        border-radius: 35px;
+        background: $blue;
+        color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &[disabled] {
+            opacity: 0.5;
+            cursor: default;
+        }
+
+        .play_icon {
+            margin-left: 5px;
+        }
+
+        &.loading {
+            opacity: 0.5;
+        }
+    }
+
+    .audio_progress_outer {
+        height: 8px;
+        width: 100%;
+        background: lighten($border_color, 8%);
+        position: relative;
+        margin: 0 10px;
+        margin-top: 5px;
+        border-radius: 5px;
+
+        .audio_progress_inner {
+            position: absolute;
+            border-radius: 5px;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 50%;
+            background: $blue;
+        }
+    }
+
+    .track_area {
         min-width: 0;
         position: relative;
         height: 100%;
         box-sizing: border-box;
         flex: 1;
+        flex-direction: column;
+        max-width: 750px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
         .current_playing {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            text-align: center;
 
             .empty_track {
                 font-style: italic;
@@ -65,8 +114,12 @@
 
             > li.active {
                 .play_file_btn {
-                    font-weight: bold;
+                    .filename {
+                        font-weight: bold;
+                    }
+                    background: rgba($blue, 0.2);
                 }
+
             }
 
             .play_file_btn {
@@ -79,10 +132,16 @@
                 font-size: inherit;
                 border: 0;
                 text-align: left;
+                color: $body_color_lighter;
+
+                > span {
+                    color: $body_color;
+                }
 
                 &:hover {
                     background: rgba($blue, 0.1);
                 }
+
             }
         }
     }
