@@ -206,6 +206,10 @@ class SubmissionList extends require "widgets.base"
           widget SubmissionListAudioFile {
             audio_url: @url_for "prepare_play_audio", id: upload.id
             download_url: @url_for "prepare_download", id: upload.id
+            submission: {
+              id: submission.id
+              user_name: submission\get_user!\name_for_display!
+            }
             upload: {
               id: upload.id
               filename: upload.filename

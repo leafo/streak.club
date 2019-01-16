@@ -12,7 +12,7 @@ P "AudioTrackList", {
 
   getInitialState: ->
     {
-      show_list: true
+      show_list: false
       closed: false
     }
 
@@ -31,7 +31,14 @@ P "AudioTrackList", {
           disabled: !@props.active_file || @props.active_file_loading
           loading: @props.active_file_loading
         }
-      }, if @props.active_file_playing then R.Icons.PauseIcon() else R.Icons.PlayIcon()
+      }, if @props.active_file_playing
+          R.Icons.PauseIcon width: 30, height: 30
+        else
+          R.Icons.PlayIcon width: 30, height: 30
+
+      button {
+        type: "button"
+      }, R.Icons.NextTrackIcon()
 
       div className: "track_area",
         if @state.show_list
@@ -39,40 +46,45 @@ P "AudioTrackList", {
 
         div className: "current_playing",
           if active_file
-            strong {
-              className: "track_title",
-              onClick: (e) =>
-                e.preventDefault()
-                el = ReactDOM.findDOMNode(active_file)
-                el.scrollIntoView?()
-            },
-              active_file.props.upload.filename
+            React.createElement React.Fragment, {},
+              strong {
+                className: "track_title",
+                onClick: (e) =>
+                  e.preventDefault()
+                  el = ReactDOM.findDOMNode(active_file)
+                  el.scrollIntoView?()
+              },
+                active_file.props.upload.filename
+              " — "
+              span className: "user", active_file.props.submission.user_name
           else
             div className: "empty_track", "No track"
 
-        div className: "audio_progress_outer",
-          div className: "audio_progress_inner", style: { width: "#{@props.active_file_progress || 0}%" }
+        R.Forms.Slider {
+          min: 0
+          max: 500
+          value: (@props.active_file_progress || 0) * 500 / 100
+          disabled: !@props.active_file
+          onChange: (val) =>
+            console.log "val": val
+        }
 
       button {
         type: "button"
         title: if @state.show_list then "Hide" else "Tracks"
         className: classNames {
+          "toggle_tracklist_button"
           active: @state.show_list
         }
         onClick: =>
           @setState (s) -> show_list: !s.show_list
-      }, R.Icons.MenuIcon()
-
-      button {
-        type: "button"
-      }, "Next"
+      }, R.Icons.PlaylistIcon width: 16, height: 16
 
       button {
         type: "button"
         onClick: =>
           @setState closed: true
-      }, "Close"
-
+      }, R.Icons.CloseIcon width: 14, height: 14
 
   render_track_list: ->
     div className: "track_list_popup",
@@ -95,7 +107,7 @@ P "AudioTrackList", {
             },
               span className: "filename", upload.filename
               " — "
-              span className: "user", ""
+              span className: "user", file.props.submission.user_name
 }
 
 track_list_drop = null

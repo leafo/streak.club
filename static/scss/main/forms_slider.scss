@@ -1,0 +1,71 @@
+
+.slider_input {
+    display: inline-block;
+    box-sizing: border-box;
+    min-width: 100px;
+    position: relative;
+    padding: 5px 10px;
+
+    &.disabled {
+        opacity: 0.5;
+        .slider_nub {
+            cursor: default;
+        }
+    }
+
+    .slider_fill {
+        height: 100%;
+        background: rgba(black, 0.08);
+        border-radius: 16px;
+    }
+
+    .slider_track {
+        box-shadow: 0 0 0 1px rgba(black, 0.15);
+
+        height: 8px;
+        border-radius: 4px;
+        position: relative;
+    }
+
+    .slider_nub {
+        position: absolute;
+        padding: 0;
+        width: 18px;
+        height: 18px;
+        border-radius: 18px;
+
+        margin-top: -9px;
+        margin-left: -9px;
+
+        border: 0;
+        background: $button_color;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: inset 0 0 1px rgba(255, 255, 255, 0.21), 0 0 0 1px rgba(white, 0.5);
+
+        top: 50%;
+        left: 50%;
+
+        &:hover {
+            background: lighten($button_color, 2%);
+        }
+
+        &:active {
+            background-color: darken(desaturate($button_color, 20%), 8%);
+        }
+    }
+
+    .value_tooltip {
+        pointer-events: none;
+        box-sizing: border-box;
+        position: absolute;
+        background: black;
+        color: white;
+        font-family: monospace;
+        padding: 2px 4px;
+        top: 0;
+        font-size: 12px;
+        transform: translate(-50%, -140%);
+        margin-bottom: 4px;
+        border-radius: 2px;
+    }
+}

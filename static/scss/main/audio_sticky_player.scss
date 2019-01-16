@@ -13,7 +13,7 @@
     justify-content: center;
 
     > * {
-        margin-right: 10px;
+        margin-right: 5px;
         &:last-child {
             margin-right: 0;
         }
@@ -22,54 +22,54 @@
     display: flex;
     align-items: center;
 
-    .toggle_play_button {
-        width: 35px;
-        height: 35px;
+    > button {
         border: 0;
-        border-radius: 35px;
-        background: $blue;
         color: white;
-        cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
-
-        &[disabled] {
-            opacity: 0.5;
-            cursor: default;
-        }
-
-        .play_icon {
-            margin-left: 5px;
-        }
-
-        &.loading {
-            opacity: 0.5;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        background: none;
+        color: $body_color_light;
+        cursor: pointer;
+        &:not([disabled]):hover {
+            color: $body_color;
         }
     }
 
-    .audio_progress_outer {
-        height: 8px;
-        width: 100%;
-        background: lighten($border_color, 8%);
-        position: relative;
-        margin: 0 10px;
-        margin-top: 5px;
-        border-radius: 5px;
+    .toggle_play_button {
+        &[disabled], &.loading {
+            opacity: 0.3;
+            cursor: default;
+        }
+    }
 
-        .audio_progress_inner {
-            position: absolute;
-            border-radius: 5px;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            width: 50%;
-            background: $blue;
+    .toggle_tracklist_button {
+        &.active {
+            background: $button_color;
+            border-radius: 2px;
+            color: white;
+            &:hover {
+                color: white;
+            }
+        }
+    }
+
+    .slider_input {
+        width: 100%;
+
+        &.disabled {
+            .slider_nub {
+                display: none;
+            }
         }
     }
 
     .track_area {
         min-width: 0;
+        margin: 0 10px 0 5px;
         position: relative;
         height: 100%;
         box-sizing: border-box;
@@ -83,6 +83,16 @@
 
         .current_playing {
             text-align: center;
+            font-size: 17px;
+            color: $body_color_lighter;
+
+            strong {
+                color: $body_color;
+            }
+
+            .user {
+                color: $body_color_light;
+            }
 
             .empty_track {
                 font-style: italic;
@@ -95,7 +105,7 @@
         z-index: 11;
         position: absolute;
         bottom: 100%;
-        margin-bottom: -5px;
+        margin-bottom: -3px;
         left: 0;
         right: 0;
         background: white;
