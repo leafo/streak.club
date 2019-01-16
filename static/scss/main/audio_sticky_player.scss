@@ -86,12 +86,20 @@
             font-size: 17px;
             color: $body_color_lighter;
 
-            strong {
+            .track_title {
                 color: $body_color;
+                text-decoration: none;
+                font-weight: bold;
+                padding: 0;
             }
 
             .user {
                 color: $body_color_light;
+                text-decoration: none;
+
+                &:hover {
+                    text-decoration: underline;
+                }
             }
 
             .empty_track {

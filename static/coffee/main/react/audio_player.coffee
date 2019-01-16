@@ -47,16 +47,21 @@ P "AudioTrackList", {
         div className: "current_playing",
           if active_file
             React.createElement React.Fragment, {},
-              strong {
+              a {
+                role: "button"
                 className: "track_title",
+                href: "javascript:void(0)"
                 onClick: (e) =>
                   e.preventDefault()
                   el = ReactDOM.findDOMNode(active_file)
                   el.scrollIntoView?()
-              },
-                active_file.props.upload.filename
+              }, active_file.props.upload.filename
               " — "
-              span className: "user", active_file.props.submission.user_name
+              a {
+                className: "user"
+                href: active_file.props.submission.user_url
+                target: "blank"
+              }, active_file.props.submission.user_name
           else
             div className: "empty_track", "No track"
 
@@ -86,6 +91,7 @@ P "AudioTrackList", {
           @setState closed: true
       }, R.Icons.CloseIcon width: 14, height: 14
 
+  # TODO: make this a pure widget
   render_track_list: ->
     div className: "track_list_popup",
       ul className: "file_list",

@@ -209,6 +209,7 @@ class SubmissionList extends require "widgets.base"
             submission: {
               id: submission.id
               user_name: submission\get_user!\name_for_display!
+              user_url: @url_for submission\get_user!
             }
             upload: {
               id: upload.id
