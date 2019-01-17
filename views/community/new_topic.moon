@@ -56,4 +56,4 @@ class CommunityNewTopic extends require "widgets.page"
       --       }
 
       div class: "buttons", ->
-        button class: "button", "New topic"
+        button class: "button", "Post topic"
