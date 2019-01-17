@@ -96,7 +96,10 @@ class UploadsApplication extends lapis.Application
 
         @upload\increment_audio!
 
-        json: { url: @url_for @upload, 60*60 }
+        json: {
+          url: @url_for @upload, 60*60
+          expires: os.time! + 60*60
+        }
     }
   }
 
