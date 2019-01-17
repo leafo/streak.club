@@ -1,3 +1,14 @@
+
+EMPTY = {}
+is_different = (a, b) ->
+  for own key of a
+    return true if a[key] != b[key]
+
+  for own key of b
+    return true unless key of a
+
+  false
+
 window.R = (name, data, p=R, prefix="") ->
   data.trigger = ->
     R.trigger @, arguments...
@@ -9,6 +20,10 @@ window.R = (name, data, p=R, prefix="") ->
 
   data.extend_props = (more...) ->
     $.extend {}, @props, more...
+
+  if data.pure
+    data.shouldComponentUpdate = (nextProps, nextState) ->
+      is_different(@props || EMPTY, nextProps) || is_different(@state || EMPTY , nextState)
 
   data.displayName = "R.#{prefix}#{name}"
   cl = createReactClass(data)
