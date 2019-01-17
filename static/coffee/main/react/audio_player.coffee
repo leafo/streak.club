@@ -6,7 +6,35 @@ PLAYER_STATE = {
   audio_files: []
 }
 
-P "AudioTrackList", {
+P "TrackListPopup", {
+  pure: true
+  render: ->
+    div className: "track_list_popup",
+      ul className: "file_list",
+        @props.audio_files.map (file, idx) =>
+          upload = file.props.upload
+          li {
+            key: upload.id,
+            className: classNames {
+              active: @props.active_file == file
+              # TODO: this won't work 
+              loading: file.state.loading
+            }
+          },
+            button {
+              type: "button"
+              className: "play_file_btn"
+              onClick: (e) =>
+                e.preventDefault()
+                file.play_audio()
+            },
+              span className: "filename", upload.filename
+              " — "
+              span className: "user", file.props.submission.user_name
+
+}
+
+P "StickyAudioPlayer", {
   getDefaultProps: ->
     { audio_files: [] }
 
@@ -91,29 +119,11 @@ P "AudioTrackList", {
           @setState closed: true
       }, R.Icons.CloseIcon width: 14, height: 14
 
-  # TODO: make this a pure widget
   render_track_list: ->
-    div className: "track_list_popup",
-      ul className: "file_list",
-        @props.audio_files.map (file, idx) =>
-          upload = file.props.upload
-          li {
-            key: upload.id,
-            className: classNames {
-              active: @props.active_file == file
-              loading: file.state.loading
-            }
-          },
-            button {
-              type: "button"
-              className: "play_file_btn"
-              onClick: (e) =>
-                e.preventDefault()
-                file.play_audio()
-            },
-              span className: "filename", upload.filename
-              " — "
-              span className: "user", file.props.submission.user_name
+    P.TrackListPopup {
+      audio_files: @props.audio_files
+      active_file: @props.active_file
+    }
 }
 
 track_list_drop = null
@@ -123,7 +133,7 @@ render_track_list = (props) ->
     track_list_drop = $('<div class="audio_track_list_drop"></div>').appendTo document.body
 
   PLAYER_STATE = Object.assign {}, PLAYER_STATE, props
-  track_list = P.AudioTrackList PLAYER_STATE
+  track_list = P.StickyAudioPlayer PLAYER_STATE
 
   ReactDOM.render track_list, track_list_drop[0]
 
