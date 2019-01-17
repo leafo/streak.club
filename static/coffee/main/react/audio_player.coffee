@@ -8,16 +8,23 @@ PLAYER_STATE = {
 
 P "TrackListPopup", {
   pure: true
+
+  componentDidMount: ->
+    @refs.active_row?.scrollIntoView?()
+
   render: ->
     div className: "track_list_popup",
       ul className: "file_list",
         @props.audio_files.map (file, idx) =>
           upload = file.props.upload
+          is_active = @props.active_file == file
+
           li {
             key: upload.id,
+            ref: if is_active then "active_row"
             className: classNames {
-              active: @props.active_file == file
-              # TODO: this won't work 
+              active: is_active
+              # TODO: this needs to be communicated with state
               loading: file.state.loading
             }
           },
