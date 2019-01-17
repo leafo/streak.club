@@ -4,6 +4,7 @@ P = R.package "SubmissionList"
 # passed to props to the audio track list
 PLAYER_STATE = {
   audio_files: []
+  closed: false
 }
 
 P "TrackListPopup", {
@@ -11,6 +12,17 @@ P "TrackListPopup", {
 
   componentDidMount: ->
     @refs.active_row?.scrollIntoView?()
+
+    $(document.body).on "click", @body_click
+
+  componentWillUnmount: ->
+    $(document.body).off "click", @body_click
+
+  body_click: (e) ->
+    el = ReactDOM.findDOMNode @props.parent
+    found = $(e.target).closest el
+    unless found.length
+      @props.parent.setState show_list: false
 
   render: ->
     div className: "track_list_popup",
@@ -52,7 +64,7 @@ P "StickyAudioPlayer", {
     }
 
   render: ->
-    if @state.closed
+    if @props.closed
       return null
 
     active_file = @props.active_file
@@ -66,6 +78,13 @@ P "StickyAudioPlayer", {
           disabled: !@props.active_file || @props.active_file_loading
           loading: @props.active_file_loading
         }
+        onClick: (e) =>
+          e.preventDefault()
+          if @props.active_file_playing
+            active_file.pause_audio()
+          else
+            active_file.play_audio()
+
       }, if @props.active_file_playing
           R.Icons.PauseIcon width: 30, height: 30
         else
@@ -73,6 +92,11 @@ P "StickyAudioPlayer", {
 
       button {
         type: "button"
+        onClick: (e) =>
+          e.preventDefault()
+          idx = @props.audio_files.indexOf(@props.active_file)
+          next = @props.audio_files[idx + 1] || @props.audio_files[0]
+          next?.play_audio()
       }, R.Icons.NextTrackIcon()
 
       div className: "track_area",
@@ -123,11 +147,13 @@ P "StickyAudioPlayer", {
       button {
         type: "button"
         onClick: =>
-          @setState closed: true
+          render_track_list closed: true
+          @props.active_file?.pause_audio()
       }, R.Icons.CloseIcon width: 14, height: 14
 
   render_track_list: ->
     P.TrackListPopup {
+      parent: @
       audio_files: @props.audio_files
       active_file: @props.active_file
     }
@@ -191,6 +217,7 @@ P "AudioFile", {
 
     render_track_list {
       active_file: @
+      closed: false
     }
 
     if @state.audio
