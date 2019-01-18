@@ -13,8 +13,11 @@ date = require "date"
 
 class EditSubmissionFlow extends Flow
   get_submitting_streaks: =>
-    @submittable_streaks or= @current_user\get_submittable_streaks!
+    @submittable_streaks or= @current_user\find_submittable_streaks!
     submittable_by_id = {s.id, s for s in *@submittable_streaks}
+
+    unless next submittable_by_id
+      yield_error "you aren't in any streaks you can currently submit to"
 
     unless @params.submit_to
       yield_error "you must choose a streak to submit to"
