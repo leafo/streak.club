@@ -1,6 +1,8 @@
 import use_test_env from require "lapis.spec"
 import in_request from require "spec.helpers.flow"
 
+db = require "lapis.db"
+
 import types from require "tableshape"
 
 factory = require "spec.factory"
@@ -20,7 +22,7 @@ describe "EditSubmissionFlow", ->
       it "submits to #{rate} streak #{has_end}", ->
         streak = factory.Streaks {
           :rate
-          end_date: if has_en == "without end" then db.NULL
+          end_date: if has_end == "without end" then db.NULL
         }
         streak\join current_user
 
