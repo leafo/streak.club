@@ -557,8 +557,14 @@ class Streaks extends Model
     current = date @start_datetime!
     stop = @end_datetime!
 
+    limit = 100000
+
     coroutine.wrap ->
       while true
+        limit -= 1
+        if limit == 0
+          error "each unit infinite loop detected"
+
         coroutine.yield current
         @increment_date_by_unit current
         break if stop and stop <= current
