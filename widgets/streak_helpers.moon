@@ -39,10 +39,12 @@ class StreakHelpers
           if streak\after_end!
             longest = streak.streak_user\get_longest_streak!
             rate = streak.streak_user\completion_rate!
-            rate = math.floor rate * 100
 
-            p class: "streak_sub",
-              "Best streak: #{longest}, Completion: #{rate}%"
+            p class: "streak_sub", ->
+              "Best streak: #{longest}"
+              if rate
+                rate = math.floor rate * 100
+                text ", Completion: #{rate}%"
           else
             current = streak.streak_user\get_current_streak!
             longest = streak.streak_user\get_longest_streak!

@@ -124,13 +124,43 @@ class StreakUsers extends Model
 
     current
 
+  -- TODO: this should probably compare unit numbers instead of iterating
+  -- through every unit
   count_longest_streak: =>
     import Streaks from require "models"
     streak = @get_streak!
     completed = @get_completed_units!
+
+    min_date = nil
+    max_date = nil
+
+    for d in pairs completed
+      dd = streak\local_to_utc d
+
+      if min_date == nil
+        min_date = dd
+      elseif dd < min_date
+        min_date = dd
+
+      if max_date == nil
+        max_date = dd
+      elseif dd > max_date
+        max_date = dd
+
+    unless max_date and min_date
+      return 0
+
     longest = 0
     current = nil
     for unit in streak\each_unit!
+      unit_date = date unit
+
+      if unit_date < min_date
+        continue
+
+      if unit_date > max_date
+        break
+
       stamp = date(unit)\addhours(streak.hour_offset)\fmt Streaks.day_format_str
       if completed[stamp]
         current or= 0
@@ -143,6 +173,8 @@ class StreakUsers extends Model
 
   completion_rate: =>
     streak = @get_streak!
+    return nil unless streak.end_date
+
     completed = @get_completed_units!
     count = 0
     total = 0

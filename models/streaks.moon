@@ -553,6 +553,7 @@ class Streaks extends Model
     @membership_type == @@membership_types.members_only
 
   -- each unit in utc
+  -- TODO: have a starting date
   each_unit: =>
     current = date @start_datetime!
     stop = @end_datetime!
