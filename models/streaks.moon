@@ -475,9 +475,10 @@ class Streaks extends Model
         db.interpolate_query "
           make_date(
             extract(year from #{submit_local})::int,
-            (extract(month from #{submit_local}) + (case when extract(day from #{submit_local}) < ? then -1 else 0 end))::int,
+            extract(month from #{submit_local})::int,
             ?
-          ) as submit_day
+          ) - (case when extract(day from #{submit_local}) < ? then '1 day'::interval else '0 days'::interval end)
+          as submit_day
         ", cutoff_day, cutoff_day
       else
         error "don't know how to group units for rate"
