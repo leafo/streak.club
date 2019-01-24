@@ -2,6 +2,8 @@ import Flow from require "lapis.flow"
 
 import preload from require "lapis.db.model"
 
+import login_and_return_url from require "helpers.app"
+
 class StreakFlow extends Flow
   like_props: (submission, like) =>
     {
