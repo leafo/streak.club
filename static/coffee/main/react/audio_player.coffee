@@ -63,11 +63,28 @@ P "StickyAudioPlayer", {
       closed: false
     }
 
+  render_like_button: (props) ->
+    if props
+      R.SubmissionList.LikeButton Object.assign {
+        quick_comment: false
+        show_count: false
+        icon: R.Icons.Heart width: 18, height: 18
+      }, props
+    else
+      button {
+        type: "button"
+        "data-tooltip": "Like submission"
+        className: "toggle_like_button"
+        disabled: true
+      }, R.Icons.Heart width: 18, height: 18
+
+
   render: ->
     if @props.closed
       return null
 
     active_file = @props.active_file
+    submission_id = active_file?.props?.submission?.id
 
     div className: "audio_sticky_player",
       button {
@@ -98,6 +115,12 @@ P "StickyAudioPlayer", {
           next = @props.audio_files[idx + 1] || @props.audio_files[0]
           next?.play_audio()
       }, R.Icons.NextTrackIcon()
+
+      R.SubmissionList.LikeButtonProvider {
+        key: "s#{submission_id}"
+        submission_id: submission_id
+        render_with_props: @render_like_button
+      }
 
       div className: "track_area",
         if @state.show_list

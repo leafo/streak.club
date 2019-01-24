@@ -76,19 +76,9 @@ class SubmissionList extends require "widgets.base"
             img src: submission.user\gravatar!
             span class: "user_name", submission.user\name_for_display!
 
-          has_likes = submission.likes_count > 0
-
-          widget SubmissionLiker {
-            submission_id: submission.id
-            comment_url: @current_user and @url_for "submission_new_comment", id: submission.id
-            likes_count: submission.likes_count
-            likes_url: @url_for "submission_likes", id: submission.id
-            like_url: @current_user and @url_for "submission_like", id: submission.id
-            unlike_url: @current_user and @url_for("submission_unlike", id: submission.id)
-            current_like: not not submission.submission_like
-            login_url: unless @current_user
-              login_and_return_url @, @url_for submission
-          }
+          widget SubmissionLiker @flow("submission")\like_props(
+            submission, submission.submission_like
+          )
 
           @submission_admin_panel submission
 

@@ -34,6 +34,7 @@
         background: none;
         color: $body_color_light;
         cursor: pointer;
+
         &:not([disabled]):hover {
             color: $body_color;
         }
@@ -44,13 +45,12 @@
                 transform: scale(0.9, 0.9);
             }
         }
-    }
 
-    .toggle_play_button {
         &[disabled], &.loading {
             opacity: 0.3;
             cursor: default;
         }
+
     }
 
     .toggle_tracklist_button {

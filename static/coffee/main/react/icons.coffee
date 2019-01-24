@@ -89,3 +89,20 @@ P.PrevTrackIcon = (props={}) ->
     React.createElement "path", {
       d: "M4 5h3v10H4V5zm12 0v10l-9-5 9-5z"
     }
+
+
+P.Heart = (props={}) ->
+  React.createElement "svg", {
+    className: "icon svgicon prev_track_icon"
+    xmlns: "http://www.w3.org/2000/svg"
+    width: props.width ? "20"
+    height: props.height ? "20"
+    viewBox: "0 0 20 20"
+    fill: "currentColor"
+    stroke: "none"
+    "aria-hidden": true
+  },
+    React.createElement "path", {
+      d: "M10 3.22l-.61-.6a5.5 5.5 0 0 0-7.78 7.77L10 18.78l8.39-8.4a5.5 5.5 0 0 0-7.78-7.77l-.61.61z"
+    }
+

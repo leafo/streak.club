@@ -125,6 +125,22 @@ P "QuickComment", {
         button class: "button small", "Submit comment"
 }
 
+P "LikeButtonProvider", {
+  pure: true
+  # propTypes: {
+  #   submission_id: types.number
+  #   render_with_props: types.function
+  # }
+
+  componentDidMount: ->
+    return unless @props.submission_id
+    $.get "/submission/#{@props.submission_id}/like", (res) =>
+      @setState props: res
+
+  render: ->
+    @props.render_with_props(@state?.props)
+}
+
 P "LikeButton", {
   # propTypes: {
   #   like_url: types.string
@@ -132,7 +148,13 @@ P "LikeButton", {
   #   like_count: types.number
   #   current_like: types.object
   # }
-  
+
+  getDefaultProps: ->
+    {
+      quick_comment: true
+      show_count: true
+    }
+
   getInitialState: ->
     _.pick @props, "likes_count", "current_like"
 
@@ -160,7 +182,7 @@ P "LikeButton", {
         @setState {
           loading: false
           likes_count: res.count
-          show_quick_comment: !S.is_mobile() && current_like
+          show_quick_comment: @props.quick_comment && !S.is_mobile() && current_like
           current_like
         }, ->
           $(btn).trigger "i:refresh_tooltip"
@@ -178,16 +200,16 @@ P "LikeButton", {
         "data-tooltip": if @state.current_like then "Unlike submission" else "Like submission"
         onClick: @toggle_like
       },
-        span class: "icon-heart"
+        @props.icon || span class: "icon-heart"
 
-      if @state.likes_count
+      if @props.show_count and @state.likes_count
         a {
           href: @props.likes_url
           class: "likes_count"
           "data-tooltip": "See likes"
         }, @state.likes_count || 0
-      
-      if @state.show_quick_comment and @props.comment_url
+
+      if @props.quick_comment and @state.show_quick_comment and @props.comment_url
         P.QuickComment {
           comment_url: @props.comment_url
           close: =>
