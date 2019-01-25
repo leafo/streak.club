@@ -253,8 +253,8 @@ P "AudioFile", {
 
   pause_audio: (e) ->
     e?.preventDefault()
-    return if @state.loading
-    @state.audio?.pause()
+    if @state.audio
+      @state.audio?.pause()
 
   seek_audio: (time) ->
     @state.audio?.currentTime = time
@@ -286,7 +286,6 @@ P "AudioFile", {
       }
 
       $.post @props.audio_url, S.with_csrf(), (res) =>
-        # switched songs while loading
         if PLAYER_STATE.active_file != @
           @setState loading: false
           return
