@@ -82,7 +82,7 @@ class SubmissionList extends require "widgets.base"
 
           @submission_admin_panel submission
 
-        div class: "submission_content", ->
+        div class: "submission_content", tabindex: "-1", ->
           div class: "submission_header", ->
             if submission.title
               h3 class: "submission_title", ->

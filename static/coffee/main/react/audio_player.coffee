@@ -138,8 +138,11 @@ P "StickyAudioPlayer", {
                 href: "javascript:void(0)"
                 onClick: (e) =>
                   e.preventDefault()
-                  el = ReactDOM.findDOMNode(active_file)
-                  el.scrollIntoView?()
+                  if submission_id = active_file.props.submission?.id
+                    $("[data-submission_id=#{submission_id}]").find(".submission_content").focus()
+                  else
+                    el = ReactDOM.findDOMNode(active_file)
+                    el.scrollIntoView?()
               }, active_file.props.upload.filename
               " — "
               a {
