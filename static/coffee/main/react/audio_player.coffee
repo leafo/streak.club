@@ -87,7 +87,7 @@ P "StickyAudioPlayer", {
       }, R.Icons.Heart width: 18, height: 18
 
   on_change_slider: (val) ->
-    console.log "val": val
+    @props.active_file?.seek_audio val
 
   render: ->
     if @props.closed
@@ -255,6 +255,10 @@ P "AudioFile", {
     e?.preventDefault()
     return if @state.loading
     @state.audio?.pause()
+
+  seek_audio: (time) ->
+    @state.audio?.currentTime = time
+    @setState current_time: time
 
   play_audio: (e) ->
     e?.preventDefault()
