@@ -63,6 +63,10 @@ P "StickyAudioPlayer", {
       closed: false
     }
 
+  componentDidMount: ->
+    el = ReactDOM.findDOMNode @
+    $(el).has_tooltips()
+
   render_like_button: (props) ->
     if props
       R.SubmissionList.LikeButton Object.assign {
@@ -73,7 +77,6 @@ P "StickyAudioPlayer", {
     else
       button {
         type: "button"
-        "data-tooltip": "Like submission"
         className: "toggle_like_button"
         disabled: true
       }, R.Icons.Heart width: 18, height: 18
@@ -158,7 +161,7 @@ P "StickyAudioPlayer", {
 
       button {
         type: "button"
-        title: if @state.show_list then "Hide" else "Tracks"
+        title: if @state.show_list then "Hide" else "Track list"
         className: classNames {
           "toggle_tracklist_button"
           active: @state.show_list
@@ -169,6 +172,7 @@ P "StickyAudioPlayer", {
 
       button {
         type: "button"
+        title: "Stop & close"
         onClick: =>
           render_track_list closed: true
           @props.active_file?.pause_audio()
