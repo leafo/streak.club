@@ -53,6 +53,16 @@
 
     }
 
+    .like_button {
+        transition: opacity 0.2s ease;
+        &.liked {
+            color: $like_color;
+            &:hover {
+                color: $like_color;
+            }
+        }
+    }
+
     .toggle_tracklist_button {
         &.active {
             background: $button_color;

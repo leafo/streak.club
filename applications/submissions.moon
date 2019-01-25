@@ -247,14 +247,21 @@ class SubmissionsApplication extends lapis.Application
   }
 
 
-  [submission_like: "/submission/:id/like"]: require_login capture_errors_json respond_to {
+  [submission_like: "/submission/:id/like"]: capture_errors_json respond_to {
     before: =>
       find_submission @
 
     GET: =>
-      json: @flow("submission")\like_props @submission
+      import SubmissionLikes from require "models"
+      like = if @current_user
+        SubmissionLikes\find {
+          user_id: @current_user.id
+          submission_id: @submission.id
+        }
 
-    POST: =>
+      json: @flow("submission")\like_props @submission, like
+
+    POST: require_login =>
       assert_csrf @
 
       import SubmissionLikes, Notifications from require "models"
