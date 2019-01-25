@@ -4,7 +4,7 @@ P = R.package "SubmissionList"
 # passed to props to the audio track list
 PLAYER_STATE = {
   audio_files: []
-  closed: false
+  closed: true
 }
 
 P "TrackListPopup", {

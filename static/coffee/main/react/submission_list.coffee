@@ -143,6 +143,7 @@ P "LikeButtonProvider", {
 
 P "LikeButton", {
   # propTypes: {
+  #   submission_id: types.number
   #   like_url: types.string
   #   unlike_url: types.string
   #   like_count: types.number
@@ -157,6 +158,18 @@ P "LikeButton", {
 
   getInitialState: ->
     _.pick @props, "likes_count", "current_like"
+
+  on_update_like: (e, component, submission_id, update) ->
+    return if component == @
+    return unless @props.submission_id == submission_id
+    @setState update
+
+  componentDidMount: ->
+    el = ReactDOM.findDOMNode @
+    $(document.body).on "s:update_like", @on_update_like
+
+  componentWillUnmount: ->
+    $(document.body).off "s:update_like", @on_update_like
 
   toggle_like: (e) ->
     unless S.current_user?
@@ -185,6 +198,11 @@ P "LikeButton", {
           show_quick_comment: @props.quick_comment && !S.is_mobile() && current_like
           current_like
         }, ->
+          $(document.body).trigger "s:update_like", [@, @props.submission_id, {
+            likes_count: @state.likes_count
+            current_like: @state.current_like
+          }]
+
           $(btn).trigger "i:refresh_tooltip"
 
   render: ->
