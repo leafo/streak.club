@@ -1,5 +1,10 @@
 P = R.package "SubmissionList"
 
+format_seconds = (n) ->
+  minutes = Math.floor n / 60
+  secs = Math.floor(n) % 60
+
+  "#{minutes}:#{("00" + secs).substr -2}"
 
 # passed to props to the audio track list
 PLAYER_STATE = {
@@ -81,6 +86,8 @@ P "StickyAudioPlayer", {
         disabled: true
       }, R.Icons.Heart width: 18, height: 18
 
+  on_change_slider: (val) ->
+    console.log "val": val
 
   render: ->
     if @props.closed
@@ -132,34 +139,42 @@ P "StickyAudioPlayer", {
         div className: "current_playing",
           if active_file
             React.createElement React.Fragment, {},
-              a {
-                role: "button"
-                className: "track_title",
-                href: "javascript:void(0)"
-                onClick: (e) =>
-                  e.preventDefault()
-                  if submission_id = active_file.props.submission?.id
-                    $("[data-submission_id=#{submission_id}]").find(".submission_content").focus()
-                  else
-                    el = ReactDOM.findDOMNode(active_file)
-                    el.scrollIntoView?()
-              }, active_file.props.upload.filename
-              " — "
-              a {
-                className: "user"
-                href: active_file.props.submission.user_url
-                target: "blank"
-              }, active_file.props.submission.user_name
+              if @props.active_file_current_time
+                span className: "current_time",
+                  format_seconds @props.active_file_current_time
+
+              span {},
+                a {
+                  role: "button"
+                  className: "track_title",
+                  href: "javascript:void(0)"
+                  onClick: (e) =>
+                    e.preventDefault()
+                    if submission_id = active_file.props.submission?.id
+                      $("[data-submission_id=#{submission_id}]").find(".submission_content").focus()
+                    else
+                      el = ReactDOM.findDOMNode(active_file)
+                      el.scrollIntoView?()
+                }, active_file.props.upload.filename
+                " — "
+                a {
+                  className: "user"
+                  href: active_file.props.submission.user_url
+                  target: "blank"
+                }, active_file.props.submission.user_name
+
+              if @props.active_file_duration
+                span className: "duration",
+                  format_seconds @props.active_file_duration
           else
             div className: "empty_track", "No track"
 
         R.Forms.Slider {
           min: 0
-          max: 500
-          value: (@props.active_file_progress || 0) * 500 / 100
+          max: @props.active_file_duration || 1
+          value: @props.active_file_current_time || 0
           disabled: !@props.active_file
-          onChange: (val) =>
-            console.log "val": val
+          onChange: @on_change_slider
         }
 
       button {
@@ -209,7 +224,9 @@ P "AudioFile", {
       render_track_list {
         active_file_playing: @state.playing
         active_file_loading: @state.loading
-        active_file_progress: @state.progress
+
+        active_file_duration: @state.duration
+        active_file_current_time: @state.current_time
       }
 
   componentDidMount: ->
@@ -299,6 +316,9 @@ P "AudioFile", {
         played: true
         playing: true
         progress: audio.currentTime / audio.duration * 100
+
+        duration: audio.duration
+        current_time: audio.currentTime
       }
 
     audio.addEventListener "ended", =>

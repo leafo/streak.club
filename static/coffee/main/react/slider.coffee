@@ -1,6 +1,7 @@
 P = R.package "Forms"
 
 P "Slider", {
+  pure: true
   # propTypes: {
   #   min: types.number
   #   max: types.number

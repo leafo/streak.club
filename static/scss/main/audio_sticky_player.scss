@@ -99,9 +99,29 @@
         justify-content: center;
 
         .current_playing {
-            text-align: center;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
             font-size: 17px;
             color: $body_color_lighter;
+
+            .duration, .current_time {
+                font-size: 15px;
+                min-width: 40px;
+            }
+
+            .duration {
+                margin-left: auto;
+                margin-right: 9px;
+                text-align: right;
+            }
+
+            .current_time{
+                margin-right: auto;
+                margin-left: 9px;
+            }
 
             .track_title {
                 color: $body_color;
