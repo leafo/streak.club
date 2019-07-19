@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 10.4
--- Dumped by pg_dump version 10.4
+-- Dumped from database version 10.5
+-- Dumped by pg_dump version 10.5
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -564,7 +564,8 @@ CREATE TABLE public.community_posts (
     updated_at timestamp without time zone NOT NULL,
     status smallint DEFAULT 1 NOT NULL,
     moderation_log_id integer,
-    body_format smallint DEFAULT 1 NOT NULL
+    body_format smallint DEFAULT 1 NOT NULL,
+    pin_position integer
 );
 
 
@@ -590,6 +591,21 @@ ALTER TABLE public.community_posts_id_seq OWNER TO postgres;
 
 ALTER SEQUENCE public.community_posts_id_seq OWNED BY public.community_posts.id;
 
+
+--
+-- Name: community_posts_search; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.community_posts_search (
+    post_id integer NOT NULL,
+    topic_id integer NOT NULL,
+    category_id integer,
+    posted_at timestamp without time zone NOT NULL,
+    words tsvector
+);
+
+
+ALTER TABLE public.community_posts_search OWNER TO postgres;
 
 --
 -- Name: community_subscriptions; Type: TABLE; Schema: public; Owner: postgres
@@ -1655,6 +1671,14 @@ ALTER TABLE ONLY public.community_posts
 
 
 --
+-- Name: community_posts_search community_posts_search_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.community_posts_search
+    ADD CONSTRAINT community_posts_search_pkey PRIMARY KEY (post_id);
+
+
+--
 -- Name: community_subscriptions community_subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1901,6 +1925,13 @@ CREATE INDEX api_keys_user_id_idx ON public.api_keys USING btree (user_id);
 
 
 --
+-- Name: community_activity_logs_object_type_object_id_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX community_activity_logs_object_type_object_id_idx ON public.community_activity_logs USING btree (object_type, object_id);
+
+
+--
 -- Name: community_activity_logs_user_id_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2045,6 +2076,20 @@ CREATE UNIQUE INDEX community_posts_parent_post_id_post_number_idx ON public.com
 --
 
 CREATE INDEX community_posts_parent_post_id_status_post_number_idx ON public.community_posts USING btree (parent_post_id, status, post_number);
+
+
+--
+-- Name: community_posts_search_post_id_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX community_posts_search_post_id_idx ON public.community_posts_search USING btree (post_id);
+
+
+--
+-- Name: community_posts_search_words_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX community_posts_search_words_idx ON public.community_posts_search USING gin (words);
 
 
 --
@@ -2356,8 +2401,8 @@ CREATE INDEX users_username_idx ON public.users USING gin (username public.gin_t
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 10.4
--- Dumped by pg_dump version 10.4
+-- Dumped from database version 10.5
+-- Dumped by pg_dump version 10.5
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -2466,6 +2511,11 @@ community_22
 community_23
 1510810389
 1516221126
+1524276008
+community_24
+community_25
+community_26
+1524276009
 \.
 
 
