@@ -16,6 +16,8 @@ config {"development", "test", "production"}, ->
 
   storage_bucket "streakclub_dev"
 
+  resolver "8.8.8.8"
+
   postgres {
     backend: "pgmoon"
     database: "streakclub"
@@ -48,6 +50,8 @@ config "production", ->
   host "streak.club"
 
   storage_bucket "streakclub"
+
+  resolver "127.0.0.1 ipv6=off"
 
   enable_https true
 
