@@ -51,11 +51,12 @@ class S.Upload
           return @set_error "#{res.errors.join ", "}"
 
       if @save_url
-        $.post @save_url, S.with_csrf(), (res) =>
-          if res.errors
-            return @set_error "#{res.errors.join ", "}"
+        $.when(@save_url).done (url, params) =>
+          $.post url, S.with_csrf(params), (res) =>
+            if res.errors
+              return @set_error "#{res.errors.join ", "}"
 
-          @save_upload res
+            @save_upload res
       else
         @save_upload res
 

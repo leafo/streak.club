@@ -315,6 +315,13 @@ class UploaderManager
       "upload[size]": file.size
     }
 
+    d = $.Deferred()
+
+    if window.createImageBitmap
+      createImageBitmap(file).then (bitmap) =>
+        d.resolve(bitmap.width, bitmap.height)
+      , => d.resolve null
+
     $.post @opts.prepare_url, data, (res) =>
       if res.errors
         return alert res.errors.join ", "
@@ -329,7 +336,9 @@ class UploaderManager
 
       upload.set_upload_params res.post_params
 
-      upload.set_save_url res.save_url
+      upload.set_save_url d.then (width, height) =>
+        $.when res.save_url, { width, height }
+
       upload.start_upload res.url
 
       callback? upload, file
