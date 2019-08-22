@@ -63,7 +63,16 @@ class UploadsApplication extends lapis.Application
     assert_error upload\allowed_to_edit(@current_user), "invalid upload"
     import assert_file_uploaded from require "helpers.upload"
     assert_file_uploaded upload
-    upload\update ready: true
+
+    width = @params.width and tonumber @params.width
+    height = @params.height and tonumber @params.height
+
+    upload\update {
+      ready: true
+      :width
+      :height
+    }
+
     json: { success: true }
 
   [prepare_download: "/uploads/download/:id"]: capture_errors {

@@ -592,5 +592,9 @@ import
 
   [1524276008]: =>
     require("community.schema").run_migrations 23
+
+  [1566456125]: =>
+    add_column "uploads", "width", integer null: true
+    add_column "uploads", "height", integer null: true
 }
 
