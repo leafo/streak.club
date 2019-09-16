@@ -6,6 +6,8 @@ A site for doing creative streaks of any kind. See it live: <http://streak.club>
 
 Still in early development!
 
+[![Twitch Link](http://leafo.net/dump/twitch-banner.svg)](https://www.twitch.tv/moonscript)
+
 Powered by:
 
 * <http://leafo.net/lapis/>
