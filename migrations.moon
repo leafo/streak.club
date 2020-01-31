@@ -596,5 +596,9 @@ import
   [1566456125]: =>
     add_column "uploads", "width", integer null: true
     add_column "uploads", "height", integer null: true
+
+  [1580505725]: =>
+    db.query "alter table uploads alter column size type bigint"
+
 }
 

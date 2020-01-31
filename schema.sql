@@ -1241,7 +1241,7 @@ CREATE TABLE public.uploads (
     object_id integer,
     extension character varying(255) NOT NULL,
     filename character varying(255) NOT NULL,
-    size integer DEFAULT 0 NOT NULL,
+    size bigint DEFAULT 0 NOT NULL,
     ready boolean DEFAULT false NOT NULL,
     deleted boolean DEFAULT false NOT NULL,
     data text,
@@ -2506,6 +2506,7 @@ community_25
 community_26
 1524276008
 1566456125
+1580505725
 \.
 
 
