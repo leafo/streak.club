@@ -11,7 +11,8 @@ import Model, enum from require "lapis.db.model"
 --   edited_at timestamp without time zone,
 --   deleted boolean DEFAULT false NOT NULL,
 --   created_at timestamp without time zone NOT NULL,
---   updated_at timestamp without time zone NOT NULL
+--   updated_at timestamp without time zone NOT NULL,
+--   source smallint DEFAULT 1 NOT NULL
 -- );
 -- ALTER TABLE ONLY submission_comments
 --   ADD CONSTRAINT submission_comments_pkey PRIMARY KEY (id);

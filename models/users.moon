@@ -50,7 +50,7 @@ strip_non_ascii = do
 -- CREATE UNIQUE INDEX users_lower_email_idx ON users USING btree (lower((email)::text));
 -- CREATE UNIQUE INDEX users_lower_username_idx ON users USING btree (lower((username)::text));
 -- CREATE UNIQUE INDEX users_slug_idx ON users USING btree (slug);
--- CREATE INDEX users_username_idx ON users USING gin (username gin_trgm_ops);
+-- CREATE INDEX users_username_idx ON users USING gin (username public.gin_trgm_ops);
 --
 class Users extends Model
   @timestamp: true

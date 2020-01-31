@@ -49,11 +49,13 @@ prepare_submits = (opts) ->
 --   membership_type integer DEFAULT 1 NOT NULL,
 --   pending_users_count integer DEFAULT 0 NOT NULL,
 --   last_deadline_email_at timestamp without time zone,
---   last_late_submit_email_at timestamp without time zone
+--   last_late_submit_email_at timestamp without time zone,
+--   community_category_id integer,
+--   community_type smallint DEFAULT 1 NOT NULL
 -- );
 -- ALTER TABLE ONLY streaks
 --   ADD CONSTRAINT streaks_pkey PRIMARY KEY (id);
--- CREATE INDEX steaks_title_idx ON streaks USING gin (title gin_trgm_ops) WHERE ((NOT deleted) AND (publish_status = 2));
+-- CREATE INDEX steaks_title_idx ON streaks USING gin (title public.gin_trgm_ops) WHERE ((NOT deleted) AND (publish_status = 2));
 -- CREATE INDEX streaks_publish_status_users_count_idx ON streaks USING btree (publish_status, users_count);
 -- CREATE INDEX streaks_user_id_publish_status_created_at_idx ON streaks USING btree (user_id, publish_status, created_at);
 --

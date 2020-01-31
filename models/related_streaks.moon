@@ -4,16 +4,19 @@ import Model, enum from require "lapis.db.model"
 -- Generated schema dump: (do not edit)
 --
 -- CREATE TABLE related_streaks (
+--   id integer NOT NULL,
 --   streak_id integer NOT NULL,
 --   other_streak_id integer NOT NULL,
 --   type smallint NOT NULL,
 --   reason text,
+--   "position" integer DEFAULT 0 NOT NULL,
 --   created_at timestamp without time zone NOT NULL,
 --   updated_at timestamp without time zone NOT NULL
 -- );
 -- ALTER TABLE ONLY related_streaks
---   ADD CONSTRAINT related_streaks_pkey PRIMARY KEY (streak_id, type, other_streak_id);
+--   ADD CONSTRAINT related_streaks_pkey PRIMARY KEY (id);
 -- CREATE INDEX related_streaks_other_streak_id_type_idx ON related_streaks USING btree (other_streak_id, type);
+-- CREATE UNIQUE INDEX related_streaks_streak_id_type_other_streak_id_idx ON related_streaks USING btree (streak_id, type, other_streak_id);
 --
 class RelatedStreaks extends Model
   @timestamp: true
