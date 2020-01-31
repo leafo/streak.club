@@ -1,6 +1,9 @@
 
 import sanitize_html, sanitize_style from require "web_sanitize"
 
+url_value = (value) ->
+  value and (value\match("^https?://") or value\match("^//")) and true
+
 whitelist = require "web_sanitize.whitelist"
 whitelist.tags.iframe = {
   width: true
@@ -8,7 +11,7 @@ whitelist.tags.iframe = {
   frameborder: true
   allowfullscreen: true
   scrolling: true
-  src: true
+  src: url_value
 }
 
 whitelist.tags.del = true

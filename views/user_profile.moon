@@ -30,7 +30,7 @@ class UserProfile extends require "widgets.page"
           if website
             li class: "user_website", ->
               img height: 15, src: "/static/images/link.svg"
-              a rel: "nofollow", href: website,
+              a rel: "nofollow noopener", href: website,
                 @truncate @user_profile.website
 
           if twitter
