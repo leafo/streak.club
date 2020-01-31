@@ -600,5 +600,7 @@ import
   [1580505725]: =>
     db.query "alter table uploads alter column size type bigint"
 
+  [1580506174]: =>
+    require("community.schema").run_migrations 28
 }
 

@@ -716,7 +716,9 @@ CREATE TABLE public.community_users (
     votes_count integer DEFAULT 0 NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    flair character varying(255)
+    flair character varying(255),
+    recent_posts_count integer DEFAULT 0 NOT NULL,
+    last_post_at timestamp without time zone
 );
 
 
@@ -2124,6 +2126,13 @@ CREATE INDEX community_topics_category_id_sticky_status_category_order_idx ON pu
 
 
 --
+-- Name: community_user_topic_last_seens_topic_id_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX community_user_topic_last_seens_topic_id_idx ON public.community_user_topic_last_seens USING btree (topic_id);
+
+
+--
 -- Name: community_votes_object_type_object_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2507,6 +2516,9 @@ community_26
 1524276008
 1566456125
 1580505725
+community_27
+community_28
+1580506174
 \.
 
 
