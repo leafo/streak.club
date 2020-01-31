@@ -5,7 +5,7 @@ P "CommentEditor", {
   getInitialState: -> {}
 
   componentDidMount: ->
-    $(@refs.form).remote_submit (res) =>
+    $(@form_ref.current).remote_submit (res) =>
       @setState loading: false
 
       if res.errors
@@ -16,7 +16,7 @@ P "CommentEditor", {
   render: ->
     div className: "comment_editor",
       form {
-        ref: "form"
+        ref: @form_ref ||= React.createRef()
         action: @props.edit_url
         className: "form edit_comment_form"
         method: "post"
@@ -53,7 +53,7 @@ P "CommentEditor", {
           " or "
           a {
             className: "cancel_edit_btn"
-            href: "javascript:void(0)"
+            href: "#"
             onClick: (e) =>
               e.preventDefault()
               @props.on_cancel?()
@@ -92,9 +92,9 @@ P "QuickComment", {
       $(document.body).off "click", @autoclose
 
   render: ->
-    div class: "quick_comment_widget",
+    div className: "quick_comment_widget",
       button {
-        class: "close_button"
+        className: "close_button"
         onClick: (e) =>
           @props.close?()
       }, "×"
@@ -102,13 +102,13 @@ P "QuickComment", {
       h3 {}, "Like it? Leave a comment"
       p {}, "Help keep their streak going with some words of encouragement or some feedback."
 
-      form class: "form quick_comment_form", method: "post", action: @props.comment_url,
+      form className: "form quick_comment_form", method: "post", action: @props.comment_url,
         if @state.errors
-          ul class: "form_errors",
+          ul className: "form_errors",
             @state.errors.map (e) => li key: e, e
         input type: "hidden", name: "csrf_token", value: S.get_csrf()
         input type: "hidden", name: "comment[source]", value: "quick"
-        div class: "markdown_editor",
+        div className: "markdown_editor",
           R.EditSubmission.Editor {
             name: "comment[body]"
             requried: true
@@ -122,7 +122,7 @@ P "QuickComment", {
 
             autofocus: true
           }
-        button class: "button small", "Submit comment"
+        button className: "button small", "Submit comment"
 }
 
 P "LikeButtonProvider", {
@@ -206,11 +206,11 @@ P "LikeButton", {
           $(btn).trigger "i:refresh_tooltip"
 
   render: ->
-    [
+    fragment {},
       button {
         type: "button"
         disabled: @state.loading || false
-        class: classNames "like_button", {
+        className: classNames "like_button", {
           loading: @state.loading
           has_likes: @state.likes_count > 0
           liked: @state.current_like
@@ -218,12 +218,12 @@ P "LikeButton", {
         "data-tooltip": if @state.current_like then "Unlike submission" else "Like submission"
         onClick: @toggle_like
       },
-        @props.icon || span class: "icon-heart"
+        @props.icon || span className: "icon-heart"
 
       if @props.show_count and @state.likes_count
         a {
           href: @props.likes_url
-          class: "likes_count"
+          className: "likes_count"
           "data-tooltip": "See likes"
         }, @state.likes_count || 0
 
@@ -242,6 +242,5 @@ P "LikeButton", {
                 comment[0]?.scrollIntoView?()
             ]
         }
-    ]
 }
 

@@ -31,12 +31,12 @@ P "TagInput", {
     }
 
   render: ->
-    [
+    fragment {},
       input {
         key: "selectize_wrapper"
         type: "text"
         placeholder: @props.placeholder
-        value: @state.tags.join ","
+        defaultValue: @state.tags.join ","
         ref: (@input) =>
       }
 
@@ -46,8 +46,6 @@ P "TagInput", {
         name: @props.name
         value: @state.tags.join ","
       }
-    ]
-
 }
 
 P "Editor", {
@@ -90,7 +88,7 @@ P "Editor", {
     @writer.render(document)
 
   render: ->
-    [
+    fragment {},
       unless @props.show_format_help == false
         div className: "markdown_label",
           img {
@@ -117,7 +115,6 @@ P "Editor", {
       }
 
       input type: "hidden", name: @props.name, value: @state.html
-    ]
 
 }
 
@@ -252,7 +249,7 @@ P "Upload", {
 
   render: ->
     upload_tools = unless @props.upload.uploading
-      div className: "upload_tools", children: [
+      div className: "upload_tools",
         unless @props.first
           button { type: "button", onClick: @handle_move_up, className: "move_up_btn" }, "Move up"
 
@@ -260,7 +257,6 @@ P "Upload", {
           button { type: "button", onClick: @handle_move_down, className: "move_down_btn" }, "Move Down"
 
         button { type: "button", className: "delete_btn", onClick: @handle_delete }, "Delete"
-      ]
 
     upload_status = if msg = @props.upload.current_error
       div className: "upload_error", msg
@@ -271,16 +267,14 @@ P "Upload", {
       div className: "upload_progress",
         div className: "upload_progress_inner", style: { width: "#{progress}%" }
 
-    div className: "file_upload", children: [
+    div className: "file_upload",
       input type: "hidden", name: "upload[#{@props.upload.data.id}][position]", value: "#{@props.position}"
       upload_tools
-      div children: [
+      div {},
         span className: "filename", @props.upload.data.filename
         " "
         span className: "file_size", "(#{S.format_bytes @props.upload.data.size})"
         upload_status
-      ]
-    ]
 }
 
 class UploaderManager

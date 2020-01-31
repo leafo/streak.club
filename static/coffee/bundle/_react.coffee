@@ -18,15 +18,18 @@ window.R = (name, data, p=R, prefix="") ->
     R.dispatch @, arguments...
     undefined
 
-  data.extend_props = (more...) ->
-    $.extend {}, @props, more...
-
   if data.pure
     data.shouldComponentUpdate = (nextProps, nextState) ->
       is_different(@props || EMPTY, nextProps) || is_different(@state || EMPTY , nextState)
 
   data.displayName = "R.#{prefix}#{name}"
+
+  default_props = data.getDefaultProps
+  delete data.getDefaultProps
+
   cl = createReactClass(data)
+  cl.defaultProps = default_props
+
   p[name] = React.createFactory(cl)
   p[name]._class = cl
 

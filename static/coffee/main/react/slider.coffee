@@ -24,7 +24,7 @@ P "Slider", {
 
   start_drag: (start_x, start_y) ->
     return if @props.disabled
-    width = @refs.track.clientWidth
+    width = @track_ref.current?.clientWidth ? 0
     start_value = @current_value()
     @setState dragging: true
 
@@ -78,9 +78,11 @@ P "Slider", {
     div {
       className: classNames "slider_input", disabled: @props.disabled
       onClick: (e) =>
-        return if e.target == @refs.slider_nub
+        return if e.target == @slider_nub_ref.current
 
-        rect = @refs.track.getBoundingClientRect()
+        rect = @track_ref.current?.getBoundingClientRect()
+        return unless rect
+
         p = Math.min(rect.width, Math.max(0, e.pageX - rect.left)) / rect.width
 
         new_value = @props.min + p * (@props.max - @props.min)
@@ -92,7 +94,10 @@ P "Slider", {
       if @props.name
         input type: "hidden", name: @props.name, value: @current_value()
 
-      div { ref: "track", className: "slider_track" },
+      div {
+        ref: @track_ref ||= React.createRef()
+        className: "slider_track"
+      },
         div className: "slider_fill", style: { width: @percent() * 100 + "%" }
 
         if @state.focused && @props.show_tooltip
@@ -100,7 +105,7 @@ P "Slider", {
 
         button {
           type: "button"
-          ref: "slider_nub"
+          ref: @slider_nub_ref ||= React.createRef()
           className: "slider_nub"
           onFocus: =>
             @setState focused: true

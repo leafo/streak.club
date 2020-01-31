@@ -16,8 +16,7 @@ P "TrackListPopup", {
   pure: true
 
   componentDidMount: ->
-    @refs.active_row?.scrollIntoView?()
-
+    @active_row_ref.current?.scrollIntoView?()
     $(document.body).on "click", @body_click
 
   componentWillUnmount: ->
@@ -38,7 +37,8 @@ P "TrackListPopup", {
 
           li {
             key: upload.id,
-            ref: if is_active then "active_row"
+            ref: if is_active
+              @active_row_ref ||= React.createRef()
             className: classNames {
               active: is_active
               # TODO: this needs to be communicated with state
@@ -138,7 +138,7 @@ P "StickyAudioPlayer", {
 
         div className: "current_playing",
           if active_file
-            React.createElement React.Fragment, {},
+            fragment {},
               if @props.active_file_current_time
                 span className: "current_time",
                   format_seconds @props.active_file_current_time
@@ -147,7 +147,7 @@ P "StickyAudioPlayer", {
                 a {
                   role: "button"
                   className: "track_title",
-                  href: "javascript:void(0)"
+                  href: "#"
                   onClick: (e) =>
                     e.preventDefault()
                     if submission_id = active_file.props.submission?.id
@@ -359,7 +359,7 @@ P "AudioFile", {
             title: @state.error
           }, "Failed to load audio"
         else
-          React.createElement React.Fragment, {},
+          fragment {},
             span className: "upload_name", @props.upload.filename
             span className: "upload_size", S.format_bytes @props.upload.size
 
