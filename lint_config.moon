@@ -137,6 +137,9 @@ html_builder = {
 
   'var'
   'video'
+
+  "svg"
+  "summary"
 }
 
 {
