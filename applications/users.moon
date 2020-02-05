@@ -27,6 +27,7 @@ find_user = =>
     Users\find slug: slugify @params.slug
 
   assert_error @user, "invalid user"
+  assert_error @user\allowed_to_view(@current_user), "invalid user"
 
 class UsersApplication extends lapis.Application
   [user_profile: "/u/:slug"]: capture_errors {

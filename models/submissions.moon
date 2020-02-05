@@ -78,7 +78,7 @@ class Submissions extends Model
 
 
     Users\include_in things_with_users, "user_id", {
-      fields: "id, username, slug, display_name, email"
+      fields: "id, username, slug, display_name, email, flags"
     }
 
     preload submissions, "featured_submission", "tags"
