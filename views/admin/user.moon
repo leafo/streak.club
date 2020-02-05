@@ -24,6 +24,23 @@ class AdminUser extends require "widgets.admin.page"
       ":is_spam"
     }
 
+    @render_update_forms!
+
+    h3 "Joined streaks"
+    @column_table @user\get_streak_users!, {
+      {"streak", (su) ->
+        streak = su\get_streak!
+        a href: @url_for(streak), streak.title
+      }
+      "submissions_count"
+      "current_streak"
+      "longest_streak"
+      "last_submitted_at"
+      "created_at"
+      "pending"
+    }
+
+  render_update_forms: =>
     details class: "toggle_form", ->
       summary "Update Flags"
       form class: "form", method: "post", ->
@@ -63,6 +80,5 @@ class AdminUser extends require "widgets.admin.page"
         label ->
           input type: "checkbox", name: "confirm", required: true
           text " confirm"
-
 
 

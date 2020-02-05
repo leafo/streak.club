@@ -21,6 +21,10 @@ class UserProfile extends require "widgets.page"
       @column_content!
 
   column_content: =>
+    if @current_user and @current_user\is_admin!
+      div class: "admin_tools", ->
+        a href: @admin_url_for(@user), "Admin"
+
     div class: "columns", ->
       div class: "submission_column", ->
         website = @user_profile\format_website!

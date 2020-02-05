@@ -29,4 +29,3 @@ class AdminUsers extends require "widgets.admin.page"
     }
     @render_pager @pager
 
-
