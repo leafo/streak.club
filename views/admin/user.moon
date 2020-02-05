@@ -40,6 +40,21 @@ class AdminUser extends require "widgets.admin.page"
       "pending"
     }
 
+    h3 "Created streaks"
+    @column_table @user\get_created_streaks!, {
+      {"", (streak) ->
+        a href: @admin_url_for(streak), "Admin"
+      }
+      "id"
+      {"streak", (streak) ->
+        a href: @url_for(streak), streak.title
+      }
+      {"submissions_count", label: "submits"}
+      {"users_count", labels: "joined"}
+      "deleted"
+      "created_at"
+    }
+
   render_update_forms: =>
     details class: "toggle_form", ->
       summary "Update Flags"

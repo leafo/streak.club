@@ -80,6 +80,7 @@ class Users extends Model
 
   @relations: {
     {"streak_users", has_many: "StreakUsers"}
+    {"created_streaks", has_many: "Streaks"}
     {"user_profile", has_one: "UserProfiles"}
     {"api_keys", has_many: "ApiKeys"}
   }
@@ -121,6 +122,16 @@ class Users extends Model
   is_suspended: => @has_flag @@flags.suspended
   is_spam: => @has_flag @@flags.spam
 
+  display_as_suspended: (viewing_user) =>
+    if viewing_user
+      if viewing_user\is_admin!
+        return false
+
+      if viewing_user.id = @id
+        return false
+
+    @is_suspended!
+
   set_password: (new_pass) =>
     @update encrypted_password: bcrypt.digest new_pass, log_rounds
 
@@ -129,6 +140,12 @@ class Users extends Model
       id: @id
       key: @salt!
     }
+
+  allowed_to_view: (user) =>
+    if @display_as_suspended user
+      return false
+
+    true
 
   allowed_to_edit: (user) =>
     return false unless user
@@ -267,8 +284,13 @@ class Users extends Model
         continue
       streak
 
-  gravatar: (size) =>
-    url = "https://www.gravatar.com/avatar/#{ngx.md5 @email\lower!}?d=identicon"
+  gravatar: (size, hide_if_supended=false) =>
+    token = if hide_if_supended and @is_suspended!
+      ngx.md5 "suspended-#{@id}"
+    else
+      ngx.md5 @email\lower!
+
+    url = "https://www.gravatar.com/avatar/#{token}?d=identicon"
     url = url .. "&s=#{size}" if size
     url
 
