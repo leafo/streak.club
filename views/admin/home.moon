@@ -6,6 +6,9 @@ class AdminStreaks extends require "widgets.admin.page"
     p ->
       ul ->
         li ->
+          a href: @url_for("admin.streaks"), "Users"
+
+        li ->
           a href: @url_for("admin.streaks"), "Streaks"
           
         li ->

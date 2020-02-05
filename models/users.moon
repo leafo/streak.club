@@ -61,7 +61,7 @@ class Users extends Model
   @flags: enum {
     "admin": 1
     "suspended": 2
-    "spammer": 4
+    "spam": 4
   }
 
   @constraints: {

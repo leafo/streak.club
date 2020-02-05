@@ -21,6 +21,9 @@ class AdminApplication extends lapis.Application
     unless @current_user and @current_user\is_admin!
       @write not_found
 
+  [home: ""]: =>
+    render: true
+
   [feature_submission: "/feature-submission/:id"]: respond_to {
     POST: capture_errors_json =>
       assert_csrf @
@@ -191,6 +194,17 @@ class AdminApplication extends lapis.Application
       redirect_to: @admin_url_for @submission
   }
 
+  [users: "/users"]: capture_errors_json =>
+    import Users from require "models"
+    @pager = Users\paginated "order by id desc", {
+      per_page: 50
+      -- prepare_results: (users) -> users
+    }
+
+    assert_page @
+    @users = @pager\get_page @page
+
+    render: true
 
   [user: "/user/:id"]: capture_errors_json respond_to {
     before: =>
