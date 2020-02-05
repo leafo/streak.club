@@ -218,7 +218,7 @@ class AdminApplication extends lapis.Application
       assert_csrf @
 
       assert_valid @params, {
-        {"action", one_of: {"set_password"}}
+        {"action", one_of: {"set_password", "update_flags"}}
       }
 
       switch @params.action
@@ -228,6 +228,24 @@ class AdminApplication extends lapis.Application
           }
           @user\set_password @params.password
           @session.flash = "Password updated"
+
+        when "update_flags"
+          bit = require "bit"
+          import Users from require "models"
+          flags = @user.flags
+          for flag_name in *{"spam", "suspended"}
+            val = Users.flags\for_db flag_name
+            if @params[flag_name] == "on"
+              flags = bit.bor flags, val
+            else
+              flags = bit.band flags, bit.bnot(val)
+
+          if @user.flags != flags
+            @user\update {
+              :flags
+            }
+
+            @session.flash = "updated flags to: #{flags}"
 
       redirect_to: @admin_url_for @user
   }

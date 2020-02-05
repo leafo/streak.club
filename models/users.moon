@@ -104,7 +104,7 @@ class Users extends Model
     opts.slug = slugify opts.username
     assert opts.slug != "", "slug is empty"
 
-    Model.create @, opts
+    super opts
 
   @read_session: (r) =>
     if user_session = r.session.user

@@ -25,6 +25,30 @@ class AdminUser extends require "widgets.admin.page"
     }
 
     details class: "toggle_form", ->
+      summary "Update Flags"
+      form class: "form", method: "post", ->
+        @csrf_input!
+
+        div class: "input_row", ->
+          div class: "label", "Flags"
+
+          @checkboxes {
+            {"suspended", "suspended"}
+            {"spam", "spam"}
+          }, {
+            suspended: @user\is_suspended!
+            spam: @user\is_spam!
+          }
+
+        button class: "button", name: "action", value: "update_flags", "Update flags"
+
+        text " "
+        label ->
+          input type: "checkbox", name: "confirm", required: true
+          text " confirm"
+
+
+    details class: "toggle_form", ->
       summary "Set password"
       form class: "form", method: "post", ->
         @csrf_input!
