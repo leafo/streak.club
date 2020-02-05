@@ -8,6 +8,8 @@ date = require "date"
 class ViewStreakUnit extends require "widgets.page"
   @needs: {"streak", "submissions"}
 
+  responsive: true
+
   js_init: =>
     "new S.ViewStreakUnit(#{@widget_selector!});"
 
