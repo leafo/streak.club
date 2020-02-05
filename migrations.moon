@@ -608,5 +608,10 @@ import
     -- add admin flag
     db.query "update users set flags = 1 where admin"
     drop_column "users", "admin"
+
+  [1580932859]: =>
+    db.query "alter table streaks alter column category drop not null"
+    db.query "alter table streaks alter column category drop default"
+    db.query "update streaks set category = null where category = 0"
 }
 

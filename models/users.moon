@@ -38,14 +38,14 @@ strip_non_ascii = do
 --   submissions_count integer DEFAULT 0 NOT NULL,
 --   following_count integer DEFAULT 0 NOT NULL,
 --   followers_count integer DEFAULT 0 NOT NULL,
---   admin boolean DEFAULT false NOT NULL,
 --   streaks_count integer DEFAULT 0 NOT NULL,
 --   comments_count integer DEFAULT 0 NOT NULL,
 --   likes_count integer DEFAULT 0 NOT NULL,
 --   hidden_submissions_count integer DEFAULT 0 NOT NULL,
 --   hidden_streaks_count integer DEFAULT 0 NOT NULL,
 --   last_seen_feed_at timestamp without time zone,
---   last_timezone character varying(255)
+--   last_timezone character varying(255),
+--   flags integer DEFAULT 0 NOT NULL
 -- );
 -- ALTER TABLE ONLY users
 --   ADD CONSTRAINT users_pkey PRIMARY KEY (id);
