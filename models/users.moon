@@ -127,7 +127,7 @@ class Users extends Model
       if viewing_user\is_admin!
         return false
 
-      if viewing_user.id = @id
+      if viewing_user.id == @id
         return false
 
     @is_suspended!

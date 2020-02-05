@@ -284,6 +284,7 @@ class UsersApplication extends lapis.Application
     find_user @
     assert_csrf @
     assert_error @current_user.id != @user.id, "invalid user"
+    assert_error not @current_user\is_suspended!, "can't follow"
 
     import Followings, Notifications from require "models"
     following = Followings\create {

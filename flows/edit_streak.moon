@@ -77,6 +77,8 @@ class EditStreakFlow extends Flow
     params = @validate_params!
     params.user_id = @current_user.id
 
+    assert_error not @current_user\is_suspended!, "Could not create your streak, contact admin"
+
     streak = Streaks\create params
 
     @current_user\update {

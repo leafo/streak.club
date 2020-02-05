@@ -72,5 +72,5 @@ class UserList extends require "widgets.base"
               @action_area user
 
   action_area: (user) =>
-    unless @current_user and user.id == @current_user.id
-      @follow_button user, user.following
+    return if @current_user and user.id == @current_user.id
+    @follow_button user, user.following

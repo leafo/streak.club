@@ -264,6 +264,12 @@ class SubmissionsApplication extends lapis.Application
     POST: require_login =>
       assert_csrf @
 
+      if @current_user\is_suspended!
+        return json: {
+          success: false
+          count: @submission.likes_count
+        }
+
       import SubmissionLikes, Notifications from require "models"
       like = SubmissionLikes\create {
         submission_id: @submission.id
@@ -310,6 +316,8 @@ class SubmissionsApplication extends lapis.Application
 
       POST: capture_errors_json =>
         assert_csrf @
+
+        assert_error not @current_user\is_suspended!, "Could not post your comment, contact admin"
 
         comment = @flow("edit_comment")\create_comment!
         comment\get_user!
