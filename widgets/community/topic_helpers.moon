@@ -52,7 +52,7 @@ class CommunityTopicHelpers
       text "This topic was locked by "
       a href: @community_url_for(locking_user), locking_user\name_for_display!
       text " "
-      @render_date lock_log.created_at
+      @date_format lock_log.created_at
     else
       text "This topic is locked"
 
