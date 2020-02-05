@@ -94,7 +94,30 @@ class StreakUnits extends require "widgets.base"
       first_unit = group_units[1]
       continue unless first_unit
 
-      section class: "unit_group", ->
+      all_empty = true
+      if @unit_counts
+        for unit in *group_units
+          count = @unit_counts and @unit_counts[unit.formatted_date] or 0
+          if count > 0
+            all_empty = false
+            break
+      else
+        all_empty = false
+
+      if all_empty
+        -- if it's a recent group then still show it
+        back = date(true)\adddays -30
+        if back < first_unit.date
+          all_empty = false
+
+        last_unit = group_units[#group_units]
+        if back < last_unit.date
+          all_empty = false
+
+      if all_empty
+        continue
+
+      section class: {"unit_group", :all_empty}, ->
         div class: "unit_group_header", group
 
         div class: "unit_group_units", ->
@@ -134,6 +157,7 @@ class StreakUnits extends require "widgets.base"
 
     classes = "streak_unit"
     classes ..= " submitted" if submission_id
+    classes ..= " empty" if unit_count == 0
 
     before_unit = unit.date < today_unit
     if before_unit
@@ -162,11 +186,16 @@ class StreakUnits extends require "widgets.base"
     dow = unit.date\getisoweekday()
     dow = dow % 7
 
-    a href: unit_url, ->
+    grid_cell = ->
       div {
         class: classes
         "data-date": tostring unit.date
         "data-tooltip": tooltip
         @unit_counts and show_count and unit.count or nil
       }
+
+    if not @current_user and unit_count == 0
+      grid_cell!
+    else
+      a href: unit_url, grid_cell
 

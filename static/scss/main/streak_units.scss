@@ -42,6 +42,9 @@
 
         &.before_current_unit {
             background: darken($border_color, 8%);
+            &.empty:not(.current_unit) {
+                opacity: 0.5;
+            }
         }
 
         &.current_unit {
