@@ -61,8 +61,8 @@ find_streak = =>
 
   import Streaks from require "models"
 
-  @streak = assert_error Streaks\find(@params.id), "invalid streak"
-  assert_error @streak\allowed_to_view @current_user
+  @streak = assert_error Streaks\find(@params.id), "failed to find streak"
+  assert_error @streak\allowed_to_view(@current_user), "not allowed to view streak"
   @streak_user = @streak\has_user @current_user
   true
 

@@ -217,6 +217,10 @@ class Streaks extends Model
     if @publish_status == @@publish_statuses.draft
       return @allowed_to_edit user
 
+    owner = @get_user!
+    if owner\display_as_suspended user
+      return false
+
     true
 
   allowed_to_edit: (user) =>
