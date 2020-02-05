@@ -1,4 +1,4 @@
-class AdminUser extends require "widgets.page"
+class AdminUser extends require "widgets.admin.page"
   @needs: {"user"}
   @include "widgets.form_helpers"
   @include "widgets.table_helpers"

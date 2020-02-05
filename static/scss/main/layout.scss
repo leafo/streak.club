@@ -438,6 +438,15 @@ a {
     }
 }
 
+.admin_page_page {
+    > .inner_column {
+        max-width: none;
+        margin: 0;
+        border: 0;
+        border-bottom: 1px solid $border_color;
+    }
+}
+
 .inner_column {
     max-width: $site_width;
     min-width: $site_width - 80px;

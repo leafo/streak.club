@@ -1,7 +1,7 @@
 
 import Streaks from require "models"
 
-class AdminStreak extends require "widgets.page"
+class AdminStreaks extends require "widgets.admin.page"
   @include "widgets.pagination_helpers"
   @needs: {"streaks", "pager"}
 
