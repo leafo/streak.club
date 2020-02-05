@@ -41,10 +41,10 @@ class CommunityApplication extends lapis.Application
     before: =>
       CategoriesFlow = require "community.flows.categories"
       CategoriesFlow(@)\load_category!
-      assert_error @category\allowed_to_post_topic(@current_user), "not allowed to post"
+      assert_error @category\allowed_to_post_topic(@current_user, @), "not allowed to post"
       @title = "New topic"
       @streak = @category\get_streak!
-      assert_error @streak\allowed_to_view!, "invalid streak"
+      assert_error @streak\allowed_to_view(@current_user), "invalid streak"
 
     GET: =>
       render: true
@@ -76,7 +76,7 @@ class CommunityApplication extends lapis.Application
 
       @title = "#{@topic\name_for_display!} by #{@topic\get_user!\name_for_display!} | #{@streak.title}"
 
-      assert_error @streak\allowed_to_view!, "invalid streak"
+      assert_error @streak\allowed_to_view(@current_user), "invalid streak"
 
     GET: =>
       if @topic.slug != "" and @params.topic_slug != @topic.slug
@@ -164,7 +164,7 @@ class CommunityApplication extends lapis.Application
       -- the parent post is not the current post
       @post = nil
 
-      assert_error @parent_post\allowed_to_reply(@current_user), "invalid post"
+      assert_error @parent_post\allowed_to_reply(@current_user, @), "invalid post"
       @title = "Reply to post"
 
     GET: =>
@@ -188,7 +188,7 @@ class CommunityApplication extends lapis.Application
     before: =>
       TopicsFlow = require "community.flows.topics"
       TopicsFlow(@)\load_topic!
-      assert_error @topic\allowed_to_post(@current_user), "not allowed to post"
+      assert_error @topic\allowed_to_post(@current_user, @), "not allowed to post"
 
       @category = @topic\get_category!
       @streak = @category\get_streak!

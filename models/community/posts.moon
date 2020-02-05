@@ -97,3 +97,11 @@ class Posts extends require "community.models.posts"
     import extract_text from require "web_sanitize"
     import decode_html_entities from require "helpers.html"
     decode_html_entities extract_text @body
+
+  allowed_to_reply: (user, ...) =>
+    if user\is_suspended!
+      return false
+
+    super user, ...
+
+

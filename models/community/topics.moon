@@ -58,3 +58,10 @@ class Topics extends require "community.models.topics"
     get.before = @find_latest_root_post!.post_number + 1
     get.after = nil
     route, params, get
+
+  allowed_to_post: (user, ...) =>
+    if user\is_suspended!
+      return false
+
+    super user, ...
+
