@@ -109,7 +109,7 @@ make it look something like this: (it must return a table of options)
 
 ## License
 
-GPLv2 - Leaf Corcoran 2016
+GPLv2 - Leaf Corcoran 2020
 
 [Busted]: http://olivinelabs.com/busted/
 [coffeescript]: http://coffeescript.org/#installation
