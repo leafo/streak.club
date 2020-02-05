@@ -1328,14 +1328,14 @@ CREATE TABLE public.users (
     submissions_count integer DEFAULT 0 NOT NULL,
     following_count integer DEFAULT 0 NOT NULL,
     followers_count integer DEFAULT 0 NOT NULL,
-    admin boolean DEFAULT false NOT NULL,
     streaks_count integer DEFAULT 0 NOT NULL,
     comments_count integer DEFAULT 0 NOT NULL,
     likes_count integer DEFAULT 0 NOT NULL,
     hidden_submissions_count integer DEFAULT 0 NOT NULL,
     hidden_streaks_count integer DEFAULT 0 NOT NULL,
     last_seen_feed_at timestamp without time zone,
-    last_timezone character varying(255)
+    last_timezone character varying(255),
+    flags integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2519,6 +2519,8 @@ community_26
 community_27
 community_28
 1580506174
+1580928124
+1580928125
 \.
 
 

@@ -1,10 +1,12 @@
 db = require "lapis.db"
-import Model from require "lapis.db.model"
+import Model, enum from require "lapis.db.model"
 
 bcrypt = require "bcrypt"
 import slugify from require "lapis.util"
 
 date = require "date"
+
+bit = require "bit"
 
 log_rounds = 5
 
@@ -55,6 +57,13 @@ strip_non_ascii = do
 class Users extends Model
   @timestamp: true
 
+  -- this is for a bitset, so only bit values should be used
+  @flags: enum {
+    "admin": 1
+    "suspended": 2
+    "spammer": 4
+  }
+
   @constraints: {
     slug: (value) =>
       if @check_unique_constraint "slug", value
@@ -104,6 +113,14 @@ class Users extends Model
         if user and user\salt! == user_session.key
           user
 
+  has_flag: (flag) =>
+    0 != bit.band @flags or 0, flag
+
+
+  is_admin: => @has_flag @@flags.admin
+  is_suspended: => @has_flag @@flags.suspended
+  is_spam: => @has_flag @@flags.spam
+
   set_password: (new_pass) =>
     @update encrypted_password: bcrypt.digest new_pass, log_rounds
 
@@ -149,9 +166,6 @@ class Users extends Model
 
   admin_url_params: (r, ...) =>
     "admin.user", { id: @id }, ...
-
-  is_admin: =>
-    @admin
 
   find_submissions: (extra_opts={}) =>
     import Submissions from require "models"

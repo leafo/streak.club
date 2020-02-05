@@ -602,5 +602,11 @@ import
 
   [1580506174]: =>
     require("community.schema").run_migrations 28
+
+  [1580928124]: =>
+    add_column "users", "flags", integer null: false, default: 0
+    -- add admin flag
+    db.query "update users set flags = 1 where admin"
+    drop_column "users", "admin"
 }
 
