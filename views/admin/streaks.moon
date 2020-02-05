@@ -3,60 +3,38 @@ import Streaks from require "models"
 
 class AdminStreaks extends require "widgets.admin.page"
   @include "widgets.pagination_helpers"
+  @include "widgets.table_helpers"
+
   @needs: {"streaks", "pager"}
 
   column_content: =>
     h2 "Streaks"
 
     @render_pager @pager
-    element "table", class: "nice_table", ->
-      thead ->
-        tr ->
-          td ""
-          td "ID"
-          td "Streak"
-          td "Host"
-          td "Rate"
-          td "Category"
-          td "Publish"
-          td "Late submit"
-          td "Membership"
-          td "Deleted"
 
-          td "Submits"
-          td "Joined"
+    @column_table @streaks, {
+      {"", (streak) ->
+        a href: @admin_url_for(streak), "Admin"
+      }
+      "id"
+      {"streak", (streak) ->
+        a href: @url_for(streak), streak.title
+      }
+      {"user", (streak) ->
+        a href: @url_for(streak\get_user!), streak\get_user!\name_for_display!
+      }
 
-      for streak in *@streaks
-        tr ->
-          td ->
-            a href: @admin_url_for(streak), "Admin"
+      {"rate", Streaks.rates}
+      {"category", Streaks.categories}
+      {"publish_status", Streaks.publish_statuses}
+      {"late_submit_type", Streaks.late_submit_types}
+      {"membership_type", Streaks.membership_types}
 
-          td streak.id
-
-          td ->
-            a href: @url_for(streak), streak.title
-
-          td ->
-            a href: @url_for(streak\get_user!), streak\get_user!\name_for_display!
-
-          td Streaks.rates[streak.rate]
-          td Streaks.categories[streak.category]
-          td Streaks.publish_statuses[streak.publish_status]
-          td Streaks.late_submit_types[streak.late_submit_type]
-          td Streaks.membership_types[streak.membership_type]
-
-          td ->
-            if streak.deleted
-              text "Yes"
-
-          td streak.submissions_count
-
-          td ->
-            text streak.users_count
-            if streak.pending_users_count > 0
-              text " (#{streak.pending_users_count})"
-
-
+      "deleted"
+      {"submissions_count", label: "submits"}
+      {"users_count", labels: "joined"}
+      {"pending_users_count", label: "pending joins"}
+    }
     @render_pager @pager
 
 

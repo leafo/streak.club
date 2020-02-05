@@ -1,5 +1,6 @@
 
 import time_ago_in_words from require "lapis.util"
+import Enum from require "lapis.db.model"
 
 class TableHelpers
   _extract_table_fields: (object) =>
@@ -13,50 +14,72 @@ class TableHelpers
       k
 
   _format_table_value: (object, field) =>
-    local enum, custom_val
-    opts = {}
+    if type(field) == "string"
+      field = {field}
 
-    if type(field) == "table"
-      {field, enum} = field
+    field_name = field[1]
 
-    if type(enum) == "function"
-      func = enum
-      custom_val = -> func object
-      enum = nil
+    if type(field[2]) == "function"
+      -- custom renderer
+      return field_name, (-> field[2] object)
 
-    local style
-
-    val = if real_field = type(field) == "string" and field\match "^:(.*)"
-      field = real_field
-      method = object[field]
+    value = if method_name = field_name\match "^:(.*)"
+      method = object[method_name]
       unless method == nil
         assert type(method) == "function", "expected method for #{field}"
         method object
     else
-      object[field]
+      object[field_name]
 
-    if enum
-      val = "#{enum[val]} (#{val})"
+    local opts, enum
 
-    switch type(val)
-      when "boolean"
-        opts.style = "color: #{val and "green" or "red"}"
-      when "number"
-        val = @number_format val
+    value_type = if value == nil
+      "nil"
+    elseif field.type
+      field.type
+    elseif type(field[2]) == "table" and field[2].__class == Enum
+      enum = field[2]
+      "enum"
+    elseif field_name\match "_count$"
+      "integer"
+    elseif field_name\match("_at$") or field_name\match("_date_utc$")
+      "date"
+    else
+      type value
+
+
+    rendered_value, field_opts = switch value_type
+      when "string"
+        value
+      when "integer", "number"
+        if value == 0
+          "0", { style: "color: gray" }
+        else
+          @number_format(value), {
+            class: "integer_value"
+          }
       when "nil"
-        unless custom_val
-          opts.style = "color: gray; font-style: italic"
+        "nil", {
+          class: "nil_value"
+          style: "font-style: italic; color: gray"
+        }
+      when "boolean"
+        "#{value}", {
+          class: "bool_value"
+          style: "color: #{value and "green" or "red"}"
+        }
+      when "date"
+        @relative_timestamp(value), class: "date_value", title: value
+      when "enum"
+        assert enum, "tried to render field #{field_name} with no enum"
+        if enum[value]
+          enum\to_name(value), title: value, class: "enum_value"
+        else
+          -> strong "Invalid enum value: #{value}"
+      else
+        error "Don't know how to render type: #{value_type}"
 
-    if val and (field\match("_at$") or field\match("_date_utc$")) and not custom_val
-      opts.title = val
-      custom_val = -> @date_format val
-
-    if val and field == "ip"
-      custom_val = ->
-        a href: @url_for("admin.ip_address", nil, ip: val), val
-
-    field, custom_val or tostring(val), opts
-
+    field_name, rendered_value, field_opts
 
   field_table: (object, fields, extra_fields) =>
     unless fields
@@ -79,7 +102,7 @@ class TableHelpers
         tr ->
           for f in *fields
             if type(f) == "table"
-              {f, enum} = f
+              f = f.label or f[1]
 
             td f
 
