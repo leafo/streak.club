@@ -59,9 +59,8 @@ class SubmissionList extends require "widgets.base"
       continue if hidden
       count += 1
 
-      has_title = submission.title
-      classes = "submission_row"
-      classes ..= " no_title" unless has_title
+      user = submission\get_user!
+      suspended = user\display_as_suspended @current_user
 
       late_submit = false
       if submits = submission.streak_submissions
@@ -70,21 +69,36 @@ class SubmissionList extends require "widgets.base"
             late_submit = true
             break
 
-      div class: classes, ["data-submission_id"]: submission.id, ->
+      div {
+        class: "submission_row"
+        ["data-submission_id"]: submission.id
+      }, ->
         div class: "user_column", ->
-          a class: "user_link", href: @url_for(submission.user), ->
-            img src: submission.user\gravatar!
-            span class: "user_name", submission.user\name_for_display!
 
-          widget SubmissionLiker @flow("submission")\like_props(
-            submission, submission.submission_like
-          )
+          if suspended
+            div class: "user_link", ->
+              img src: user\gravatar nil, true
+              em "Suspended account"
+          else
+            a {
+              class: "user_link"
+              href: @url_for user
+            }, ->
+              img src: user\gravatar!
+              span class: "user_name", user\name_for_display!
+
+            if user\is_suspended! and @current_user and @current_user\is_admin!
+              strong " suspended"
+
+            widget SubmissionLiker @flow("submission")\like_props(
+              submission, submission.submission_like
+            )
 
           @submission_admin_panel submission
 
         div class: "submission_content", tabindex: "-1", ->
           div class: "submission_header", ->
-            if submission.title
+            if submission.title and not suspended
               h3 class: "submission_title", ->
                 a href: @url_for(submission), submission.title
 
@@ -131,14 +145,18 @@ class SubmissionList extends require "widgets.base"
                 text "This submission is part of a hidden streak but you have
                 permission to see it."
 
-          div class: "submission_inside_content truncated", ->
-            if submission.description and not is_empty_html submission.description
-              div class: "user_formatted", ->
-                raw sanitize_html convert_links submission.description
-            elseif not (submission.uploads and next submission.uploads)
-              p class: "empty_message", "This submission is empty"
+          if suspended
+            div class: "submission_inside_content truncated", ->
+              p class: "empty_message", "This account has been suspended for violating our terms of service or spamming"
+          else
+            div class: "submission_inside_content truncated", ->
+              if submission.description and not is_empty_html submission.description
+                div class: "user_formatted", ->
+                  raw sanitize_html convert_links submission.description
+              elseif not (submission.uploads and next submission.uploads)
+                p class: "empty_message", "This submission is empty"
 
-            @render_uploads submission
+              @render_uploads submission
 
           div class: "submission_footer", ->
             div class: "footer_inside", ->

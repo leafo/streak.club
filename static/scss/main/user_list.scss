@@ -7,8 +7,11 @@
 
             .user_name {
                 font-size: $body_size;
-                font-weight: bold;
                 @include single_line;
+
+                a {
+                    font-weight: bold;
+                }
             }
         }
 
@@ -80,7 +83,9 @@
 
         .user_name {
             font-size: 24px;
-            font-weight: bold;
+            a {
+                font-weight: bold;
+            }
 
             @include mobile_width {
                 font-size: 18px;

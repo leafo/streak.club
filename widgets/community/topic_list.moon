@@ -54,7 +54,11 @@ class CommunityTopicList extends require "widgets.base"
           div class: "topic_poster", ->
             user = topic\get_user!
             text "started by "
-            a class: "topic_author", href: @url_for(user), user\name_for_display!
+            if user\display_as_suspended @current_user
+              em class: "topic_author", "Suspended account"
+            else
+              a class: "topic_author", href: @url_for(user), user\name_for_display!
+
             text " "
             span class: "topic_date", title: topic.created_at, ->
               text time_ago_in_words topic.created_at
@@ -91,17 +95,29 @@ class CommunityTopicList extends require "widgets.base"
             return
 
           user = last_post\get_user!
+          suspended = user\display_as_suspended @current_user
 
-          a href: @url_for(user), class: "avatar_container", ->
-            av_url = user\gravatar 25
-            div {
-              class: "last_post_avatar"
-              style: "background-image: url(#{av_url})"
-            }
+          if suspended
+            div class: "avatar_container", ->
+              av_url = user\gravatar 25, true
+              div {
+                class: "last_post_avatar"
+                style: "background-image: url(#{av_url})"
+              }
+          else
+            a href: @url_for(user), class: "avatar_container", ->
+              av_url = user\gravatar 25
+              div {
+                class: "last_post_avatar"
+                style: "background-image: url(#{av_url})"
+              }
 
           div class: "last_poster_group", ->
             div class: "last_post_author", ->
-              a href: @url_for(user), user\name_for_display!
+              if suspended
+                em "Suspended account"
+              else
+                a href: @url_for(user), user\name_for_display!
 
             div class: "last_post_date", ->
               import format_date from require "helpers.datetime"

@@ -23,7 +23,11 @@ class UserProfile extends require "widgets.page"
   column_content: =>
     if @current_user and @current_user\is_admin!
       div class: "admin_tools", ->
-        a href: @admin_url_for(@user), "Admin"
+        div -> a href: @admin_url_for(@user), "Admin"
+        if @user\is_suspended!
+          div -> strong "suspended"
+        if @user\is_spam!
+          div -> strong "spam"
 
     div class: "columns", ->
       div class: "submission_column", ->

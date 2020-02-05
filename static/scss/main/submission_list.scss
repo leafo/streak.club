@@ -9,15 +9,6 @@
         position: relative;
         margin-bottom: 40px;
 
-        &.no_title {
-            .submission_header {
-                .submission_summary {
-                    margin-top: 0;
-                    margin-right: $meta_margin;
-                }
-            }
-        }
-
         .submission_admin {
             margin-top: 10px;
             background: white;
@@ -117,6 +108,13 @@
                 @include has_sub_link(#666);
                 margin-top: 15px;
                 color: #666;
+
+                // when there is no title
+                &:first-child {
+                    margin-top: 0;
+                    // make space for the timestamp
+                    margin-right: $meta_margin;
+                }
             }
 
             .hidden_notice {

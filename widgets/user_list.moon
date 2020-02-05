@@ -43,19 +43,33 @@ class UserList extends require "widgets.base"
 
   inner_content: =>
     for user in *@users
+      suspended = user\display_as_suspended @current_user
+
       div class: "user_row", ->
-        a href: @user_link(user), ->
-          img src: user\gravatar!, class: "user_avatar"
+        if suspended
+          img src: user\gravatar(nil, true), class: "user_avatar"
+        else
+          a href: @user_link(user), ->
+            img src: user\gravatar!, class: "user_avatar"
 
         div class: "data_action_split", ->
           div class: "user_data", ->
             div ->
-              a class: "user_name", href: @user_link(user), user\name_for_display!
+              if suspended
+                span class: "user_name", ->
+                  em "Suspended account"
+              else
+                a class: "user_name", href: @user_link(user), user\name_for_display!
 
-            div class: "user_stats", ->
-              @user_stats user
+            unless suspended
+              div class: "user_stats", ->
+                @user_stats user
 
-          @action_area user
+          unless suspended
+            if user\is_suspended! and @current_user and @current_user\is_admin!
+              strong " suspended"
+            else
+              @action_area user
 
   action_area: (user) =>
     unless @current_user and user.id == @current_user.id

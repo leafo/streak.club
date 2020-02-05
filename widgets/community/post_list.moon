@@ -25,6 +25,7 @@ class CommunityPostList extends require "widgets.base"
   render_post: (post, opts) =>
     return if post.deleted and not (post.children and post.children[1])
     user = post\get_user!
+    suspended = user\display_as_suspended @current_user
 
     sidebar_avatar = not post.deleted and @sidebar_avatar and opts.depth == 1
 
@@ -63,15 +64,25 @@ class CommunityPostList extends require "widgets.base"
 
       div class: "post_content", ->
         div class: "post_header", ->
-          a href: @url_for(user), class: "avatar_container", ->
-            div {
-              class: "post_avatar"
-              style: "background-image: url(#{user\gravatar 80})"
-            }
+          if suspended
+            div class: "avatar_container", ->
+              div {
+                class: "post_avatar"
+                style: "background-image: url(#{user\gravatar 80, true})"
+              }
+          else
+            a href: @url_for(user), class: "avatar_container", ->
+              div {
+                class: "post_avatar"
+                style: "background-image: url(#{user\gravatar 80})"
+              }
 
           div class: "post_header_content", ->
             span class: "post_author", ->
-              a href: @url_for(user), user\name_for_display!
+              if suspended
+                em "Suspended account"
+              else
+                a href: @url_for(user), user\name_for_display!
 
             if @streak and @streak\is_host user
               span class: "author_flag host", "Host"
@@ -92,7 +103,11 @@ class CommunityPostList extends require "widgets.base"
               text " "
 
         div class: "post_body", ->
-          raw sanitize_html convert_links post.body
+          if suspended
+            p class: "suspended_message", ->
+              em "This account has been suspended for violating our terms of service or spamming"
+          else
+            raw sanitize_html convert_links post.body
 
         div class: "post_footer", ->
           if post\allowed_to_edit @current_user

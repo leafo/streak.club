@@ -94,6 +94,10 @@
             padding: 0;
         }
 
+        .suspended_message {
+            color: #999;
+        }
+
         .comment_editor {
             border: 1px solid $border_color;
             box-shadow: 0 0 4px rgba(0, 0, 0, 0.11);

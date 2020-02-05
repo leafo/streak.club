@@ -8,6 +8,8 @@ class SubmissionCommentList extends require "widgets.base"
   content: =>
     for comment in *@comments
       user = comment.user
+      suspended = user\display_as_suspended @current_user
+
       user_url = @url_for user
       filled = comment\filled_body @
 
@@ -19,8 +21,11 @@ class SubmissionCommentList extends require "widgets.base"
         "data-body": filled != comment.body and comment.body or nil
       }, ->
         div class: "comment_avatar", ->
-          a href: user_url, ->
-            img src: comment.user\gravatar!
+          if suspended
+            img src: comment.user\gravatar nil, true
+          else
+            a href: user_url, ->
+              img src: comment.user\gravatar!
 
         div class: "comment_content", ->
           div class: "comment_head", ->
@@ -44,10 +49,18 @@ class SubmissionCommentList extends require "widgets.base"
                   raw " &middot; "
                   a href: "#", class: "delete_btn", "Delete"
 
-            a href: user_url, comment.user\name_for_display!
+            if suspended
+              em "Suspended account"
+            else
+              a href: user_url, comment.user\name_for_display!
+
             raw " &middot; "
             span class: "comment_time", title: comment.created_at, time_ago_in_words comment.created_at
 
           div class: "comment_body user_formatted", ->
-            raw sanitize_html convert_links filled
+            if suspended
+              p class: "suspended_message", ->
+                em "This account has been suspended for violating our terms of service or spamming"
+            else
+              raw sanitize_html convert_links filled
 
