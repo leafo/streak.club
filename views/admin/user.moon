@@ -17,12 +17,15 @@ class AdminUser extends require "widgets.admin.page"
       "streaks_count"
       "submissions_count"
       "hidden_submissions_count"
-      "last_active"
+      {"last_active", type: "date"}
       "last_seen_feed_at"
+      ":is_admin"
+      ":is_suspended"
+      ":is_spam"
     }
 
-    fieldset ->
-      legend "Set password"
+    details class: "toggle_form", ->
+      summary "Set password"
       form class: "form", method: "post", ->
         @csrf_input!
         @text_input_row {
@@ -31,5 +34,11 @@ class AdminUser extends require "widgets.admin.page"
         }
 
         button class: "button", name: "action", value: "set_password", "Set password"
+
+        text " "
+        label ->
+          input type: "checkbox", name: "confirm", required: true
+          text " confirm"
+
 
 
