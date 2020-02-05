@@ -1,7 +1,7 @@
 MarkdownEditor = require "widgets.markdown_editor"
 
 
-class AdminEmailStreak extends require "widgets.page"
+class AdminEmailStreak extends require "widgets.admin.page"
   @needs: {"streak"}
   @include "widgets.form_helpers"
 

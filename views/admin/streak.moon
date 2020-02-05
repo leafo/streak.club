@@ -1,7 +1,7 @@
 
 import Streaks from require "models"
 
-class AdminStreak extends require "widgets.page"
+class AdminStreak extends require "widgets.admin.page"
   @needs: {"streak"}
 
   @include "widgets.table_helpers"

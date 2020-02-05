@@ -1,4 +1,4 @@
-class AdminCommunityPosts extends require "widgets.page"
+class AdminCommunityPosts extends require "widgets.admin.page"
   @needs: {"posts"}
 
   @include "widgets.table_helpers"

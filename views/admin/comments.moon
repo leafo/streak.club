@@ -1,7 +1,7 @@
 
 import SubmissionComments from require "models"
 
-class AdminComments extends require "widgets.page"
+class AdminComments extends require "widgets.admin.page"
   @needs: {"comments"}
   @include "widgets.table_helpers"
   @include "widgets.pagination_helpers"

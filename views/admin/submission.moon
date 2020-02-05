@@ -1,7 +1,7 @@
 
 import Submissions from require "models"
 
-class AdminSubmission extends require "widgets.page"
+class AdminSubmission extends require "widgets.admin.page"
   @needs: {"submission", "uploads"}
   @include "widgets.table_helpers"
   @include "widgets.form_helpers"
