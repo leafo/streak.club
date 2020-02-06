@@ -17,6 +17,8 @@ class Dashboard extends require "widgets.page"
   column_content: =>
     div class: "columns", ->
       div class: "primary_column", ->
+        @render_account_stats!
+
         h2 "Active streaks you're in"
 
         if next @active_streaks
@@ -46,13 +48,17 @@ class Dashboard extends require "widgets.page"
           a class: "button", href: @url_for("streaks"), "Browse streaks"
           a class: "button outline_button", href: @url_for("new_streak"), "Create a new streak"
 
-        p class: "side_notification", ->
+        div class: "side_notification", ->
           strong "Hey!"
-          br!
-          text " Follow "
-          a href: "https://twitter.com/thestreakclub", "@thestreakclub"
-          text " on Twitter for site updates and interesting streaks and
-          submissions."
+
+          ul ->
+            li ->
+              a href: "https://discord.gg/f9P9Grt", "Join Streak Club on Discord"
+
+            li ->
+              text " Follow "
+              a href: "https://twitter.com/thestreakclub", "@thestreakclub"
+              text " on Twitter"
 
   render_streaks: (streaks, opts={}) =>
     widget StreakList {
@@ -60,3 +66,26 @@ class Dashboard extends require "widgets.page"
       show_submit_button: opts.show_submit_button
       show_short_description: opts.show_short_description
     }
+
+  render_account_stats: =>
+    h2 "Account stats"
+    section class: "account_stats", ->
+      div class: "stats_block", ->
+        div class: "value", @number_format @current_user\submissions_count_for @current_user
+        div class: "label", "Posts"
+
+      likes = @current_user\get_likes_received!
+      div class: "stats_block", ->
+        div class: "value", @number_format likes
+        div class: "label", "Likes"
+
+
+      comments = @current_user\get_comments_received!
+      div class: "stats_block", ->
+        div class: "value", @number_format comments
+        div class: "label", "Comments"
+
+      div class: "stats_block", ->
+        div class: "value", @number_format @current_user.followers_count
+        div class: "label", "Followers"
+

@@ -83,6 +83,15 @@ class Users extends Model
     {"created_streaks", has_many: "Streaks"}
     {"user_profile", has_one: "UserProfiles"}
     {"api_keys", has_many: "ApiKeys"}
+    {"likes_received", fetch: =>
+      res = unpack db.query "select sum(likes_count) from submissions where user_id = ? and not deleted", @id
+      res and res.sum or 0
+    }
+
+    {"comments_received", fetch: =>
+      res = unpack db.query "select sum(comments_count) from submissions where user_id = ? and not deleted", @id
+      res and res.sum or 0
+    }
   }
 
   @login: (username, password) =>
