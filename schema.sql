@@ -1251,8 +1251,8 @@ CREATE TABLE public.uploads (
     updated_at timestamp without time zone NOT NULL,
     downloads_count integer DEFAULT 0 NOT NULL,
     storage_type integer DEFAULT 1 NOT NULL,
-    width integer DEFAULT 0,
-    height integer DEFAULT 0
+    width integer,
+    height integer
 );
 
 
@@ -2522,6 +2522,7 @@ community_28
 1580928124
 1580928125
 1580932859
+1581023628
 \.
 
 

@@ -613,5 +613,10 @@ import
     db.query "alter table streaks alter column category drop not null"
     db.query "alter table streaks alter column category drop default"
     db.query "update streaks set category = null where category = 0"
+
+  [1581023628]: =>
+    db.query "alter table uploads alter column width set default null"
+    db.query "alter table uploads alter column height set default null"
+    db.query "update uploads set width = null, height = null where width = 0 and height = 0"
 }
 

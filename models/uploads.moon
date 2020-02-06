@@ -24,8 +24,8 @@ import thumb from require "helpers.images"
 --   updated_at timestamp without time zone NOT NULL,
 --   downloads_count integer DEFAULT 0 NOT NULL,
 --   storage_type integer DEFAULT 1 NOT NULL,
---   width integer DEFAULT 0,
---   height integer DEFAULT 0
+--   width integer,
+--   height integer
 -- );
 -- ALTER TABLE ONLY uploads
 --   ADD CONSTRAINT uploads_pkey PRIMARY KEY (id);
