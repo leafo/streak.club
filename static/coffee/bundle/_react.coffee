@@ -28,7 +28,8 @@ window.R = (name, data, p=R, prefix="") ->
   delete data.getDefaultProps
 
   cl = createReactClass(data)
-  cl.defaultProps = default_props
+  if default_props
+    cl.defaultProps = default_props()
 
   p[name] = React.createFactory(cl)
   p[name]._class = cl
