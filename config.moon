@@ -37,6 +37,12 @@ config "test", ->
     database: "streakclub_test"
   }
 
+  logging {
+    requests: true
+    queries: false
+    server: true
+  }
+
 config "production", ->
   track_exceptions true
   admin_email "leafot@gmail.com"
