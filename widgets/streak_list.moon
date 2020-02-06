@@ -21,9 +21,10 @@ class StreakList extends require "widgets.base"
           if @show_short_description and streak.short_description
             p class: "short_description", streak.short_description
 
-          div class: "streak_host", ->
-            text " by "
-            a href: @url_for(streak.user), streak.user\name_for_display!
+          unless @as_participant
+            div class: "streak_host", ->
+              text " by "
+              a href: @url_for(streak.user), streak.user\name_for_display!
 
           div class: "date_range", ->
             if not streak\has_end! and streak\during!
@@ -40,19 +41,36 @@ class StreakList extends require "widgets.base"
 
         div class: "lower_content", ->
           div class: "streak_stats", ->
-            div class: "stat_box", ->
-              div class: "stat_value", @number_format streak\approved_participants_count!
-              div class: "stat_label", "participants"
-
-            div class: "stat_box", ->
-              div class: "stat_value", @number_format streak.submissions_count
-              div class: "stat_label", "submissions"
-
-            if @show_submit_button and streak\during!
+            if @as_participant
               streak_user = streak\has_user @current_user
               div class: "stat_box", ->
-                div class: "stat_value", @number_format streak_user\current_unit_number!
-                div class: "stat_label", streak\interval_noun false
+                div class: "stat_value", @number_format streak_user.submissions_count
+                div class: "stat_label", "submissions"
+
+              if streak_user.current_streak == 0 and streak_user.submissions_count > 0
+                div class: "stat_box", ->
+                  div class: "stat_value", @number_format streak_user.longest_streak
+                  div class: "stat_label", "longest streak"
+              else
+                div class: "stat_box", ->
+                  div class: "stat_value", @number_format streak_user.current_streak
+                  div class: "stat_label", "current streak"
+
+              if streak\during! and streak\has_end!
+                streak_user = streak\has_user @current_user
+                div class: "stat_box", ->
+                  div class: "stat_value", @number_format streak_user\current_unit_number!
+                  div class: "stat_label", streak\interval_noun false
+            else
+              div class: "stat_box", ->
+                div class: "stat_value", @number_format streak\approved_participants_count!
+                div class: "stat_label", "participants"
+
+              div class: "stat_box", ->
+                div class: "stat_value", @number_format streak.submissions_count
+                div class: "stat_label", "submissions"
+
+
 
           if streak\has_end!
             p = streak\progress!

@@ -24,6 +24,7 @@ class Dashboard extends require "widgets.page"
         if next @active_streaks
           @render_streaks @active_streaks, {
             show_submit_button: true
+            as_participant: true
           }
         else
           p class: "empty_message", ->
@@ -37,7 +38,9 @@ class Dashboard extends require "widgets.page"
 
         if next @completed_streaks
           h2 "Streaks you've completed"
-          @render_streaks @completed_streaks
+          @render_streaks @completed_streaks, {
+            as_participant: true
+          }
 
         if @featured_streaks and next @featured_streaks
           h2 "Featured streaks"
@@ -65,6 +68,7 @@ class Dashboard extends require "widgets.page"
       :streaks
       show_submit_button: opts.show_submit_button
       show_short_description: opts.show_short_description
+      as_participant: opts.as_participant
     }
 
   render_account_stats: =>
