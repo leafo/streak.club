@@ -34,6 +34,7 @@ class AdminStreaks extends require "widgets.admin.page"
       {"submissions_count", label: "submits"}
       {"users_count", labels: "joined"}
       {"pending_users_count", label: "pending joins"}
+      "created_at"
     }
     @render_pager @pager
 

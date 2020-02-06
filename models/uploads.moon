@@ -12,7 +12,7 @@ import thumb from require "helpers.images"
 --   user_id integer NOT NULL,
 --   type integer DEFAULT 0 NOT NULL,
 --   "position" integer DEFAULT 0 NOT NULL,
---   object_type integer DEFAULT 0,
+--   object_type integer,
 --   object_id integer,
 --   extension character varying(255) NOT NULL,
 --   filename character varying(255) NOT NULL,

@@ -385,3 +385,21 @@ class AdminApplication extends lapis.Application
     assert_page @
     @posts = @pager\get_page @page
     render: true
+
+  [uploads: "/uploads"]: =>
+    import Uploads from require "models"
+
+    @pager = Uploads\paginated "order by id desc", {
+      per_page: 50
+      prepare_results: (uploads) ->
+        preload uploads, "user", "object"
+        uploads
+    }
+
+    assert_page @
+    @uploads = @pager\get_page @page
+    render: true
+
+
+
+

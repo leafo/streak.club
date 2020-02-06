@@ -76,6 +76,8 @@ class TableHelpers
           enum\to_name(value), title: value, class: "enum_value"
         else
           -> strong "Invalid enum value: #{value}"
+      when "filesize"
+        @filesize_format value
       else
         error "Don't know how to render type: #{value_type}"
 

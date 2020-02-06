@@ -618,5 +618,9 @@ import
     db.query "alter table uploads alter column width set default null"
     db.query "alter table uploads alter column height set default null"
     db.query "update uploads set width = null, height = null where width = 0 and height = 0"
+
+  [1581024649]: =>
+    db.query "alter table uploads alter column object_type set default null"
+    db.query "update uploads set object_type = null where object_type = 0"
 }
 

@@ -1239,7 +1239,7 @@ CREATE TABLE public.uploads (
     user_id integer NOT NULL,
     type integer DEFAULT 0 NOT NULL,
     "position" integer DEFAULT 0 NOT NULL,
-    object_type integer DEFAULT 0,
+    object_type integer,
     object_id integer,
     extension character varying(255) NOT NULL,
     filename character varying(255) NOT NULL,
@@ -2523,6 +2523,7 @@ community_28
 1580928125
 1580932859
 1581023628
+1581024649
 \.
 
 
