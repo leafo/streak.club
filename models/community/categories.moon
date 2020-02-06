@@ -63,7 +63,7 @@ class Categories extends require "community.models.categories"
       "unnamed community"
 
   allowed_to_post_topic: (user, ...) =>
-    if user\is_suspended!
+    if user and user\is_suspended!
       return false
 
     super user, ...

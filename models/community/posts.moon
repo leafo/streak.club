@@ -99,7 +99,7 @@ class Posts extends require "community.models.posts"
     decode_html_entities extract_text @body
 
   allowed_to_reply: (user, ...) =>
-    if user\is_suspended!
+    if user and user\is_suspended!
       return false
 
     super user, ...

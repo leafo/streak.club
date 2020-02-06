@@ -60,7 +60,7 @@ class Topics extends require "community.models.topics"
     route, params, get
 
   allowed_to_post: (user, ...) =>
-    if user\is_suspended!
+    if user and user\is_suspended!
       return false
 
     super user, ...

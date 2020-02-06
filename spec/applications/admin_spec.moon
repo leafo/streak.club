@@ -11,7 +11,8 @@ describe "applications.admin", ->
   import Users, Streaks, Submissions from require "spec.models"
 
   before_each ->
-    current_user = factory.Users admin: true
+    current_user = factory.Users flags: Users.flags.admin
+    assert current_user\is_admin!, "expected user to be admin"
 
   it "doesn't let non-admin load admin page", ->
     user = factory.Users!
