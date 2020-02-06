@@ -26,6 +26,13 @@ class AdminUsers extends require "widgets.admin.page"
       ":is_spam"
       "created_at"
       {"last_active", type: "date"}
+      {"ips", (user) ->
+        for idx, ip in ipairs user\get_ip_addresses!
+          if idx > 1
+            text ", "
+          code ip.ip
+
+      }
     }
     @render_pager @pager
 

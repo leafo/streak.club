@@ -198,7 +198,9 @@ class AdminApplication extends lapis.Application
     import Users from require "models"
     @pager = Users\paginated "order by id desc", {
       per_page: 50
-      -- prepare_results: (users) -> users
+      prepare_results: (users) ->
+        preload users, "ip_addresses"
+        users
     }
 
     assert_page @

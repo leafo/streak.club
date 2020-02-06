@@ -92,6 +92,8 @@ class Users extends Model
       res = unpack db.query "select sum(comments_count) from submissions where user_id = ? and not deleted", @id
       res and res.sum or 0
     }
+
+    {"ip_addresses", has_many: "UserIpAddresses"}
   }
 
   @login: (username, password) =>
