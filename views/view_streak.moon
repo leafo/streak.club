@@ -204,7 +204,7 @@ class ViewStreak extends require "widgets.page"
     h3 class: "submission_list_title", ->
       text "Recent submissions"
       text " "
-      span class: "sub", "(#{@streak.submissions_count} total)"
+      span class: "sub", "(#{@number_format @streak.submissions_count} total)"
 
     widget SubmissionList
 
