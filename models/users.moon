@@ -267,7 +267,9 @@ class Users extends Model
     if state
       query ..= " and #{Streaks\_time_clause state}"
 
-    Streaks\paginated "#{query} order by created_at desc", opts
+    order_clause = db.interpolate_query "select coalesce(last_submitted_at, created_at) from streak_users where streak_users.streak_id = streaks.id and user_id = ?", @id
+
+    Streaks\paginated "#{query} order by (#{order_clause}) desc nulls last", opts
 
   find_submittable_streaks: (unit_date=date true) =>
     import StreakUsers from require "models"
