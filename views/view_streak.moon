@@ -100,8 +100,9 @@ class ViewStreak extends require "widgets.page"
       longest = @streak_user\get_longest_streak! or 0
 
       div class: "streak_summary", ->
-        span class: "stat", "Streak: #{current}"
-        span class: "stat", "Longest: #{longest}"
+        span class: "stat", "Submissions: #{@number_format @streak_user.submissions_count}"
+        span class: "stat", "Streak: #{@number_format current}"
+        span class: "stat", "Longest: #{@number_format longest}"
 
     if not @streak_user and not @streak\after_end!
       form action: "", method: "post", class: "form", ->
