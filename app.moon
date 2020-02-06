@@ -54,7 +54,6 @@ class extends lapis.Application
   handle_404: => not_found
 
   [index: "/"]: ensure_https =>
-
     if @current_user
       return @flow("dashboard")\render!
 

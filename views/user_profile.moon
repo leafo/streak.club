@@ -70,7 +70,7 @@ class UserProfile extends require "widgets.page"
 
       return
 
-    h2 ->
+    h3 ->
       text "All submissions "
       span class: "sub", "(#{@user\submissions_count_for @current_user})"
 

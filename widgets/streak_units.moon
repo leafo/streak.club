@@ -157,7 +157,7 @@ class StreakUnits extends require "widgets.base"
 
     classes = "streak_unit"
     classes ..= " submitted" if submission_id
-    classes ..= " empty" if unit_count == 0
+    classes ..= " empty" if @unit_counts and unit_count == 0
 
     before_unit = unit.date < today_unit
     if before_unit

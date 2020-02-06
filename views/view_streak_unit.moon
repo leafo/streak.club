@@ -25,7 +25,7 @@ class ViewStreakUnit extends require "widgets.page"
         a href: @url_for("streak_unit_submit_url", id: @streak.id, date: @params.date),
           "Generate late submit URL for participant"
 
-    h4 class: "submission_list_title", ->
+    h3 class: "submission_list_title", ->
       text "Submissions from #{@start_time\fmt Streaks.day_format_str} to #{@end_time\fmt Streaks.day_format_str}"
       text " "
       span class: "sub", "(#{@pager\total_items!} total)"

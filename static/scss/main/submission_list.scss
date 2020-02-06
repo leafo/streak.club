@@ -1,6 +1,6 @@
 
 .submission_list {
-    margin: 40px 0;
+    margin: 20px 0;
     width: 700px;
 
     $meta_margin: 140px;
@@ -284,6 +284,7 @@
 
             .user_name {
                 @include transition(all 0.1s ease);
+                font-size: 16px;
                 color: #666;
                 text-decoration: none;
                 border-bottom: 2px solid $link_color;
@@ -488,7 +489,6 @@
     }
 
     .list_loader {
-        background: red;
         text-align: center;
         background: #f5f5f5;
         padding: 10px 20px;

@@ -201,7 +201,7 @@ class ViewStreak extends require "widgets.page"
           class: "button"
         }, "Ask a question..."
 
-    h4 class: "submission_list_title", ->
+    h3 class: "submission_list_title", ->
       text "Recent submissions"
       text " "
       span class: "sub", "(#{@streak.submissions_count} total)"

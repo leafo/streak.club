@@ -13,11 +13,11 @@ class CommunityTopicHelpers
         if first and last
           text "Viewing #{@noun} "
 
-          span @format_number first.post_number
+          span @number_format first.post_number
           text " to "
-          span @format_number last.post_number
+          span @number_format last.post_number
           if @next_page or @prev_page
-            text " of #{@format_number @topic.root_posts_count}"
+            text " of #{@number_format @topic.root_posts_count}"
 
       if @next_page
         raw " &middot; "

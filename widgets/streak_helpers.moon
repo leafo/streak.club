@@ -23,7 +23,7 @@ class StreakHelpers
           if units == 0
             text "joined #{streak\unit_noun!}"
           else
-            text "joined #{units} #{noun} ago"
+            text "joined #{@number_format units} #{noun} ago"
         else
           text "#{streak\interval_noun!} from "
           nobr streak.start_date
@@ -41,7 +41,7 @@ class StreakHelpers
             rate = streak.streak_user\completion_rate!
 
             p class: "streak_sub", ->
-              "Best streak: #{longest}"
+              text "Best streak: #{longest}"
               if rate
                 rate = math.floor rate * 100
                 text ", Completion: #{rate}%"

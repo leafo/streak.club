@@ -7,10 +7,10 @@ body {
     padding: 0;
 }
 
-h2 {
+h2, h3 {
     .sub {
         font-weight: normal;
-        color: #999;
+        color: $body_color_light;
     }
 }
 
@@ -114,8 +114,7 @@ h2 {
 
 .page_tabs {
     border-bottom: 1px solid $border_color;
-    margin-bottom: 40px;
-
+    margin-bottom: 20px;
 
     .tab, .tab_sub {
         font-size: 20px;
