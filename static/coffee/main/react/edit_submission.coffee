@@ -315,6 +315,9 @@ class UploaderManager
       createImageBitmap(file).then (bitmap) =>
         d.resolve(bitmap.width, bitmap.height)
       , => d.resolve null
+    else
+      # no createImageBitmap, fallback to nothing
+      d.resolve null
 
     $.post @opts.prepare_url, data, (res) =>
       if res.errors
