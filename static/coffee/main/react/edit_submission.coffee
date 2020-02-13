@@ -1,6 +1,25 @@
 
 P = R.package "EditSubmission"
 
+# NOTE: all files pass through here, so we should return nothing for non-images
+get_image_dimensions = (file) ->
+  $.Deferred (d) ->
+    if URL?.createObjectURL?
+      src = URL.createObjectURL file
+
+      image = new Image
+      image.src = src
+
+      image.onload = -> d.resolve image.width, image.height
+      image.onerror = -> d.resolve null
+    else if window.createImageBitmap
+      createImageBitmap(file).then (bitmap) =>
+        d.resolve(bitmap.width, bitmap.height)
+      , => d.resolve null
+    else
+      # no way to detect image size
+      d.resolve null
+
 P "TagInput", {
   getInitialState: ->
     {
@@ -309,15 +328,7 @@ class UploaderManager
       "upload[size]": file.size
     }
 
-    d = $.Deferred()
-
-    if window.createImageBitmap
-      createImageBitmap(file).then (bitmap) =>
-        d.resolve(bitmap.width, bitmap.height)
-      , => d.resolve null
-    else
-      # no createImageBitmap, fallback to nothing
-      d.resolve null
+    find_image_demensions = get_image_dimensions file
 
     $.post @opts.prepare_url, data, (res) =>
       if res.errors
@@ -333,7 +344,7 @@ class UploaderManager
 
       upload.set_upload_params res.post_params
 
-      upload.set_save_url d.then (width, height) =>
+      upload.set_save_url find_image_demensions.then (width, height) =>
         $.when res.save_url, { width, height }
 
       upload.start_upload res.url
