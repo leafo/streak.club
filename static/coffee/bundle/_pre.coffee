@@ -193,41 +193,6 @@ $.fn.set_form_errors = (errors, scroll_to=true) ->
 
   @
 
-$.fn.swap_with = (other) ->
-  other = $ other
-  return unless @length && other.length
-
-  offset = @offset()
-  other_offset = other.offset()
-
-  tag_name = @prop "tagName"
-  other_tag_name = other.prop "tagName"
-
-  placeholder = $("<#{tag_name}></#{tag_name}>").insertAfter @
-  other_placeholder = $("<#{other_tag_name}></#{other_tag_name}>").insertAfter other
-
-  placeholder.after other
-  other_placeholder.after @
-
-  new_offset = @offset()
-  other_new_offset = other.offset()
-
-  other_placeholder.replaceWith @detach().css({
-    position: "relative"
-    top: "#{offset.top - new_offset.top}px"
-    left: "#{offset.left - new_offset.left}px"
-  })
-
-  placeholder.replaceWith other.detach().css {
-    position: "relative"
-    top: "#{other_offset.top - other_new_offset.top}px"
-    left: "#{other_offset.left - other_new_offset.left}px"
-  }
-
-  _.defer =>
-    @css { top: "", left: "" }
-    other.css { top: "", left: "" }
-
 
 class S.InfiniteScroll
   loading_element: ".list_loader"
