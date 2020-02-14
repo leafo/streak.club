@@ -4,21 +4,31 @@ P = R.package "EditSubmission"
 # NOTE: all files pass through here, so we should return nothing for non-images
 get_image_dimensions = (file) ->
   $.Deferred (d) ->
-    if URL?.createObjectURL?
-      src = URL.createObjectURL file
+    switch file.type
+      when "video/mp4"
+        if URL?.createObjectURL?
+          src = URL.createObjectURL file
+          el = document.createElement "video"
 
-      image = new Image
-      image.src = src
+          el.src = src
+          el.onloadedmetadata = -> d.resolve el.videoWidth, el.videoHeight
+          el.onerror = -> d.resolve null
+      else
+        if URL?.createObjectURL?
+          src = URL.createObjectURL file
 
-      image.onload = -> d.resolve image.width, image.height
-      image.onerror = -> d.resolve null
-    else if window.createImageBitmap
-      createImageBitmap(file).then (bitmap) =>
-        d.resolve(bitmap.width, bitmap.height)
-      , => d.resolve null
-    else
-      # no way to detect image size
-      d.resolve null
+          image = new Image
+          image.src = src
+
+          image.onload = -> d.resolve image.width, image.height
+          image.onerror = -> d.resolve null
+        else if window.createImageBitmap
+          createImageBitmap(file).then (bitmap) =>
+            d.resolve(bitmap.width, bitmap.height)
+          , => d.resolve null
+        else
+          # no way to detect image size
+          d.resolve null
 
 P "TagInput", {
   getInitialState: ->
