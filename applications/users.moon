@@ -202,11 +202,11 @@ class UsersApplication extends lapis.Application
         { "email", exists: true, min_length: 3 }
         { "accept_terms", equals: "yes", "You must accept the Terms of Service" }
 
-        if config.recaptcha3
+        if config.enable_recaptcha
           { "recaptcha_token", exists: "true", "Please allow Google reCAPTCHA to load in order to register (sorry!)" }
       }
 
-      recaptcha_result = if config.recaptcha3
+      recaptcha_result = if config.enable_recaptcha
         import verify_recaptcha from require "helpers.recaptcha"
         ip = require("helpers.remote_addr")!
         response = verify_recaptcha @params.recaptcha_token, ip
