@@ -35,6 +35,7 @@ class UserLogin extends require "widgets.page"
         required: true
         mobile: true
         autofocus: true
+        autocomplete: "username"
         value: @params.username
       }
 
@@ -43,6 +44,7 @@ class UserLogin extends require "widgets.page"
         name: "password"
         required: true
         type: "password"
+        autocomplete: "current-password"
         mobile: true
       }
 
