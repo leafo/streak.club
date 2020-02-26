@@ -24,6 +24,7 @@ class FormHelpers
           value: opts.value
           class: opts.class
           autofocus: opts.autofocus
+          autocomplete: opts.autocomplete
 
           autocorrect: opts.mobile and "off" or nil
           autocapitalize: opts.mobile and "off" or nil

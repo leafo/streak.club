@@ -18,6 +18,7 @@ class UserRegister extends require "widgets.page"
         required: true
         mobile: true
         autofocus: true
+        autocomplete: "username"
         value: @params.username
       }
 
@@ -31,6 +32,7 @@ class UserRegister extends require "widgets.page"
       @text_input_row {
         label: "Password"
         name: "password"
+        autocomplete: "new-password"
         required: true
         type: "password"
       }
@@ -38,6 +40,7 @@ class UserRegister extends require "widgets.page"
       @text_input_row {
         label: "Password again"
         name: "password_repeat"
+        autocomplete: "new-password"
         required: true
         type: "password"
       }
