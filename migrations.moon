@@ -622,5 +622,24 @@ import
   [1581024649]: =>
     db.query "alter table uploads alter column object_type set default null"
     db.query "update uploads set object_type = null where object_type = 0"
+
+
+  [1582693016]: =>
+    create_table "recaptcha_results", {
+      {"id", serial}
+
+      {"object_type", enum}
+      {"object_id", foreign_key}
+      {"action", enum}
+
+      {"data", "json not null"}
+
+      {"created_at", time}
+      {"updated_at", time}
+
+      "PRIMARY KEY (id)"
+    }
+
+    create_index "recaptcha_results", "object_type", "object_id", "action", unique: true
 }
 

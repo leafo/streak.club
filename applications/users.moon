@@ -15,6 +15,8 @@ import not_found, require_login, assert_page, ensure_https from require "helpers
 import assert_csrf from require "helpers.csrf"
 import render_submissions_page from require "helpers.submissions"
 
+config = require("lapis.config").get!
+
 SUBMISSION_PER_PAGE = 25
 
 find_user = =>
@@ -199,7 +201,17 @@ class UsersApplication extends lapis.Application
         { "password_repeat", equals: @params.password }
         { "email", exists: true, min_length: 3 }
         { "accept_terms", equals: "yes", "You must accept the Terms of Service" }
+
+        if config.recaptcha3
+          { "recaptcha_token", exists: "true", "Please allow Google reCAPTCHA to load in order to register (sorry!)" }
       }
+
+      recaptcha_result = if config.recaptcha3
+        import verify_recaptcha from require "helpers.recaptcha"
+        ip = require("helpers.remote_addr")!
+        response = verify_recaptcha @params.recaptcha_token, ip
+        assert_error response and response.success, "reCAPTCHA response invalid, please try again"
+        response
 
       assert_error @params.email\match(".@."), "invalid email address"
 
@@ -210,6 +222,16 @@ class UsersApplication extends lapis.Application
       }
 
       user\write_session @
+
+      if recaptcha_result
+        import RecaptchaResults from require "models"
+
+        RecaptchaResults\create {
+          object_type: "user"
+          object_id: user.id
+          action: "register"
+          data: recaptcha_result
+        }
 
       @session.flash = "Welcome to streak.club!"
       redirect_to: @url_for "index"
