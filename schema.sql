@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.1
--- Dumped by pg_dump version 12.1
+-- Dumped from database version 12.2
+-- Dumped by pg_dump version 12.2
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -976,6 +976,45 @@ ALTER SEQUENCE public.notifications_user_id_seq OWNED BY public.notifications.us
 
 
 --
+-- Name: recaptcha_results; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.recaptcha_results (
+    id integer NOT NULL,
+    object_type smallint NOT NULL,
+    object_id integer NOT NULL,
+    action smallint NOT NULL,
+    data json NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.recaptcha_results OWNER TO postgres;
+
+--
+-- Name: recaptcha_results_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.recaptcha_results_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.recaptcha_results_id_seq OWNER TO postgres;
+
+--
+-- Name: recaptcha_results_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.recaptcha_results_id_seq OWNED BY public.recaptcha_results.id;
+
+
+--
 -- Name: related_streaks; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1468,6 +1507,13 @@ ALTER TABLE ONLY public.notifications ALTER COLUMN user_id SET DEFAULT nextval('
 
 
 --
+-- Name: recaptcha_results id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.recaptcha_results ALTER COLUMN id SET DEFAULT nextval('public.recaptcha_results_id_seq'::regclass);
+
+
+--
 -- Name: related_streaks id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1803,6 +1849,14 @@ ALTER TABLE ONLY public.notification_objects
 
 ALTER TABLE ONLY public.notifications
     ADD CONSTRAINT notifications_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: recaptcha_results recaptcha_results_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.recaptcha_results
+    ADD CONSTRAINT recaptcha_results_pkey PRIMARY KEY (id);
 
 
 --
@@ -2203,6 +2257,13 @@ CREATE UNIQUE INDEX notifications_user_id_type_object_type_object_id_idx ON publ
 
 
 --
+-- Name: recaptcha_results_object_type_object_id_action_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX recaptcha_results_object_type_object_id_action_idx ON public.recaptcha_results USING btree (object_type, object_id, action);
+
+
+--
 -- Name: related_streaks_other_streak_id_type_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2399,8 +2460,8 @@ CREATE INDEX users_username_idx ON public.users USING gin (username public.gin_t
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.1
--- Dumped by pg_dump version 12.1
+-- Dumped from database version 12.2
+-- Dumped by pg_dump version 12.2
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -2524,6 +2585,8 @@ community_28
 1580932859
 1581023628
 1581024649
+1582693015
+1582693016
 \.
 
 
