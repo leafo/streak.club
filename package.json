@@ -17,7 +17,7 @@
     "commonmark": "^0.29.1",
     "create-react-class": "^15.6.3",
     "d3": "^4.12.2",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "jstz": "^2.1.1",
     "moment": "^2.24.0",
     "prop-types": "^15.7.2",
