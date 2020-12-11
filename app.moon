@@ -217,3 +217,11 @@ class extends lapis.Application
 
     json: { success: true }
 
+
+  -- only to create the named route
+  [image_viewer_ws: "/image-viewer/ws"]: => error "handled in nginx"
+
+  [image_viewer: "/image-viewer"]: =>
+    render: true
+
+
