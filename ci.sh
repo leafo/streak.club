@@ -5,6 +5,7 @@ set -o xtrace
 
 # setup lua
 luarocks --lua-version=5.1 --local remove --force lapis
+luarocks --lua-version=5.1 --local remove --force moonscript
 luarocks --lua-version=5.1 --local install https://luarocks.org/manifests/leafo/lapis-dev-1.rockspec
 luarocks --lua-version=5.1 --local install https://luarocks.org/manifests/leafo/lapis-community-dev-1.rockspec
 luarocks --lua-version=5.1 --local install moonscript
