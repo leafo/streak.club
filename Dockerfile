@@ -1,4 +1,4 @@
-FROM docker pull ghcr.io/leafo/lapis-archlinux-itchio:2019-3-8
+FROM ghcr.io/leafo/lapis-archlinux-itchio:2019-3-8
 MAINTAINER leaf corcoran <leafot@gmail.com>
 
 WORKDIR /site/streak.club
