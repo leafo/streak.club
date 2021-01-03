@@ -24,8 +24,9 @@ describe "api", ->
       expect: "json"
     }
 
-    assert.same 200, status
-    key = assert res.key
+    assert.same 200, status, "status status"
+    assert.nil res.errors, "expect no errors"
+    key = assert res.key, "api key"
     assert.same ApiKeys.sources.ios, key.source
     assert.same user.id, key.user_id
 
