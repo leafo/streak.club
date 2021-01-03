@@ -8,7 +8,7 @@ date = require "date"
 
 bit = require "bit"
 
-log_rounds = 5
+log_rounds = 9
 
 strip_non_ascii = do
   filter_chars = (c, ...) ->
