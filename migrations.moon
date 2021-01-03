@@ -151,7 +151,7 @@ import
     }
 
     create_index "uploads", "user_id", "type"
-    create_index "uploads", "object_type", "object_id", "position", when: "ready" -- 'when' fixed later
+    create_index "uploads", "object_type", "object_id", "position"
 
   [1420363626]: =>
     create_index "streak_submissions", "streak_id", "submit_time"
@@ -213,8 +213,7 @@ import
   [1420449446]: =>
     db.query "alter table users rename column submission_count to submissions_count"
 
-  [1420710737]: =>
-    require("lapis.exceptions.models").make_schema!
+  [1420710737]: require("lapis.exceptions.schema").run_migrations
 
   [1420712611]: =>
     add_column "streaks", "publish_status", integer default: 2
