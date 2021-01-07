@@ -19,7 +19,7 @@ echo "user root;" >> nginx.conf
 
 # build
 tup init && tup generate build.sh && ./build.sh
-cat $(which busted) | sed 's/\/usr\/bin\/lua5\.1/\/usr\/bin\/luajit/' > busted
+cat $(which busted) | sed 's/\/usr\/bin\/lua5\.1/\/usr\/local\/openresty\/luajit\/bin\/luajit/' > busted
 chmod +x busted
 
 # start postgres
