@@ -3,7 +3,7 @@
 
     h3, h4 {
         margin: 0;
-        @include has_sub_link(#444);
+        @include has_sub_link();
     }
 
     h4 {

@@ -15,11 +15,33 @@ body {
     --sc-border_color: #{$border_color};
     --sc-white_back: white;
     --sc-gray_back: #{$gray_back};
+    --sc-gray_back50: #{rgba($gray_back, 0.5)};
     --sc-button_color: #{$button_color};
     --sc-link_color: #{$link_color};
     --sc-header_color: #{$header_color};
     --sc-error_color: #{$error_color};
     --sc-like_color: #{$like_color};
+    --sc-purple: #{$purple};
+
+    @include dark_theme {
+        --sc-body_color: #E6EAED;
+        --sc-body_color_light: #9BABB9;
+        --sc-body_color_lighter: #999;
+
+        --sc-white_back: #{$dark_white_back};
+        --sc-gray_back: #{$dark_gray_back};
+        --sc-gray_back50: #{rgba($dark_gray_back, 0.5)};
+        --sc-border_color: #{$dark_border_color};
+
+        --sc-button_color: #0F3F75;
+        --sc-button_fg_color: #fff;
+        --sc-link_color: #{$dark_link_color};
+
+        --sc-header_color: #0F3F75;
+
+        --sc-purple: #7A6DBE;
+        --sc-green: #84D17C;
+    }
 }
 
 h2, h3 {
@@ -100,7 +122,7 @@ h2, h3 {
         .tab_button {
             display: inline-block;
             color: white;
-            background: $purple;
+            background: purple();
             padding: 4px 14px;
             border-radius: 16px;
             font-size: 16px;
@@ -194,6 +216,9 @@ a {
 
     * {
         outline-color: white;
+        @include dark_theme {
+            outline-color: rgba(white, 0.5);
+        }
     }
 
     .header_search {
@@ -215,6 +240,7 @@ a {
             width: 250px;
             padding: 0 10px;
             height: 30px;
+            color: body_color()
 
             &:focus {
                 outline: none;
@@ -347,7 +373,7 @@ a {
             z-index: 10;
 
             * {
-                outline-color: $purple;
+                outline-color: purple();
             }
 
             > a {
@@ -361,7 +387,7 @@ a {
             }
 
             border-radius: 3px;
-            box-shadow: 0 0 0 1px #dadada, 0 2px 4px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 0 1px border_color(), 0 2px 4px rgba(0, 0, 0, 0.2);
         }
     }
 
@@ -517,7 +543,7 @@ a {
 
 
 .owner_tools, .moderator_tools {
-    background: $purple;
+    background: purple();
     margin-bottom: 20px;
     padding: 15px 20px;
     color: white;

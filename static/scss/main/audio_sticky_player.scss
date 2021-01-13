@@ -56,9 +56,9 @@
     .like_button {
         transition: opacity 0.2s ease;
         &.liked {
-            color: $like_color;
+            color: like_color();
             &:hover {
-                color: $like_color;
+                color: like_color();
             }
         }
     }

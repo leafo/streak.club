@@ -54,22 +54,20 @@
 
     input[type='text'], input[type='password'], input[type='email'], textarea, .selectize-input {
         @include default_font;
+        color: body_color();
         box-sizing: border-box;
 
         background: white_back();
-        border: 2px solid lighten($border_color, 5%);
+        border: 2px solid border_color();
         padding: 8px;
         width: 100%;
         max-width: 400px;
-
-        &:focus {
-            border: 2px solid border_color();
-        }
     }
 
     .selectize-input {
         box-shadow: none;
         border-radius: 0;
+
         &.focus {
             box-shadow: none;
         }
@@ -92,11 +90,11 @@
     .label {
         font-size: 14px;
         font-weight: bold;
-        color: mix(#666, $button_color, 90%);
+        color: body_color_light();
         margin-bottom: 4px;
 
         .sub {
-            color: lighten(mix(#666, $button_color, 90%), 15%);
+            color: body_color_lighter();
         }
     }
 

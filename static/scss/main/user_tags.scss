@@ -13,9 +13,9 @@
             border-radius: 2px;
 
             &:hover {
-                background: mix(white, $gray_back, 50%);
+                background: var(--sc-gray_back50);
                 border-color: button_color();
-                box-shadow: 0 0 0 1px $button_color;
+                box-shadow: 0 0 0 1px button_color();
             }
 
 

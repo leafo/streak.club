@@ -52,7 +52,7 @@
         }
 
         &.submitted {
-            background: $green;
+            background: var(--sc-green);
             color: darken($green, 30%);
         }
     }

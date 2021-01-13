@@ -5,7 +5,7 @@
         background: button_color();
         padding: 5px 8px;
         border-radius: 4px;
-        box-shadow: 0 0 0 2px white;
+        box-shadow: 0 0 0 2px white_back();
         font-size: 14px;
         white-space: nowrap;
         @include opacity(0);

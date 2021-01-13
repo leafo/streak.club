@@ -1,16 +1,23 @@
 
-$border_color: #dadada;
 $site_width: 960px;
 $narrow_width: 600px;
 $header_height: 50px;
 
 $body_size: 18px;
 $body_size_small: 15px;
+
+$white_back: #fff;
+$gray_back: #f5f5f5;
+$border_color: #dadada;
 $body_color: #333;
 $body_color_light: #666;
 $body_color_lighter: #999;
 
-$gray_back: #f5f5f5;
+$dark_white_back: #11171C;
+$dark_gray_back: #090D10;
+$dark_border_color: #2B3542;
+$dark_link_color: mix(white, #0F3F75, 50%);
+
 
 $teal: #7ED6D7;
 $red: #fe4e50;
@@ -46,6 +53,10 @@ $like_color: #FF5E5E;
     @return var(--sc-link_color);
 }
 
+@function like_color {
+    @return var(--sc-like_color);
+}
+
 @function header_color {
     @return var(--sc-header_color);
 }
@@ -61,6 +72,19 @@ $like_color: #FF5E5E;
 @function border_color {
     @return var(--sc-border_color);
 }
+
+@function purple {
+    @return var(--sc-purple);
+}
+
+@mixin dark_theme {
+    @media (prefers-color-scheme: dark) {
+        & {
+            @content;
+        }
+    }
+}
+
 
 @mixin default_font {
     font-family: "Dosis", sans-serif;
@@ -113,13 +137,13 @@ $like_color: #FF5E5E;
     text-overflow: ellipsis;
 }
 
-@mixin has_sub_link($default_color: #444) {
+@mixin has_sub_link($default_color: body_color_light()) {
     a {
         @include transition(all 0.1s ease);
         color: $default_color;
 
         text-decoration: none;
-        border-bottom: 2px solid $link_color;
+        border-bottom: 2px solid button_color();
 
         &:hover {
             color: link_color();

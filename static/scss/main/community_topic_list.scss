@@ -237,7 +237,7 @@
             }
 
             &.sticky_flag {
-                background: $purple;
+                background: purple();
                 color: rgba(white, 0.9);
             }
         }

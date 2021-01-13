@@ -1,7 +1,7 @@
 
 .streak_embed_page {
     iframe {
-        border: 2px solid #dadada;
+        border: 2px solid border_color();
     }
 
     .columns {
