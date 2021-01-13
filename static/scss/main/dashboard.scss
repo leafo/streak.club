@@ -55,7 +55,7 @@
     .side_notification {
         color: #666;
         background: white;
-        border: 1px solid $border_color;
+        border: 1px solid border_color();
         padding: 10px;
         border-radius: 3px;
         font-size: 16px;
@@ -95,7 +95,7 @@
             }
 
             background: white;
-            border: 1px solid $border_color;
+            border: 1px solid border_color();
             border-radius: 3px;
             padding: 15px;
             text-align: center;

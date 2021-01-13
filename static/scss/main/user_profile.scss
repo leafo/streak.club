@@ -71,7 +71,7 @@
 
     .user_bio {
         background: white;
-        border: 1px solid $border_color;
+        border: 1px solid border_color();
         padding: 20px;
         border-radius: 3px;
     }

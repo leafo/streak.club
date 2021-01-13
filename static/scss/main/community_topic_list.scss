@@ -14,7 +14,7 @@
 
 .community_topic_list {
     background: white;
-    border: 1px solid $border_color;
+    border: 1px solid border_color();
     margin: 20px 0;
     @include mobile_width {
         margin: 0;
@@ -29,7 +29,7 @@
             text-transform: uppercase;
             font-size: 12px;
             font-weight: bold;
-            border-bottom: 1px solid $border_color;
+            border-bottom: 1px solid border_color();
 
             > :first-child {
                 @include flex;
@@ -44,7 +44,7 @@
 
             > div  {
                 padding: 8px 15px;
-                border-left: 1px solid $border_color;
+                border-left: 1px solid border_color();
 
                 &:first-child {
                     border-left: 0;

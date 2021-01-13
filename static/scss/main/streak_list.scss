@@ -9,7 +9,7 @@
         min-height: 225px;
         min-width: 0;
         background: white;
-        border: 1px solid $border_color;
+        border: 1px solid border_color();
         position: relative;
         font-size: $body_size;
 
@@ -17,7 +17,7 @@
         @include flex_direction_column;
 
         .upper_content {
-            border-bottom: 1px solid $border_color;
+            border-bottom: 1px solid border_color();
             padding: 10px 20px;
             box-sizing: border-box;
         }
@@ -143,7 +143,7 @@
 
         .progress_outer {
             height: 10px;
-            background: $border_color;
+            background: border_color();
             border-radius: 10px;
 
             .progress_inner {

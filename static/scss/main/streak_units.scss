@@ -24,7 +24,7 @@
     }
 
     .streak_unit {
-        background: $border_color;
+        background: border_color();
         color: #777;
         font-size: 10px;
         font-weight: bold;

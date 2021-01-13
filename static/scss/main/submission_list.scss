@@ -27,7 +27,7 @@
 
         .submission_content {
             background: white;
-            border: 1px solid $border_color;
+            border: 1px solid border_color();
             border-radius: 4px;
             margin-left: 98px;
         }
@@ -57,7 +57,7 @@
 
         .submission_header {
             position: relative;
-            border-bottom: 1px solid $border_color;
+            border-bottom: 1px solid border_color();
             padding: 12px 20px 15px 20px;
             background: mix($gray_back, white, 50%);
             border-radius: 4px 4px 0 0;
@@ -218,7 +218,7 @@
                     left: 0;
                     bottom: 0;
                     width: 50%;
-                    background: $border_color;
+                    background: border_color();
                 }
             }
 
@@ -317,7 +317,7 @@
             display: inline-block;
             vertical-align: middle;
             font-weight: normal;
-            background: $border_color;
+            background: border_color();
             padding: 1px 6px;
             border-radius: 12px;
             margin-left: 2px;
@@ -334,7 +334,7 @@
         }
 
         .submission_footer {
-            border-top: 1px solid $border_color;
+            border-top: 1px solid border_color();
             position: relative;
             overflow: hidden;
 
@@ -443,7 +443,7 @@
     .quick_comment_widget {
         position: absolute;
         background: white;
-        border: 1px solid $border_color;
+        border: 1px solid border_color();
         padding: 10px;
         top: 100%;
         left: 0;
@@ -492,7 +492,7 @@
         text-align: center;
         background: #f5f5f5;
         padding: 10px 20px;
-        border: 1px solid $border_color;
+        border: 1px solid border_color();
         color: darken(#F5F5F5, 20%);
         cursor: default;
     }

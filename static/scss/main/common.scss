@@ -46,6 +46,18 @@ $like_color: #FF5E5E;
     @return var(--sc-link_color);
 }
 
+@function header_color {
+    @return var(--sc-header_color);
+}
+
+@function gray_back {
+    @return var(--sc-header_color);
+}
+
+@function border_color {
+    @return var(--sc-border_color);
+}
+
 @mixin default_font {
     font-family: "Dosis", sans-serif;
     font-size: 18px;

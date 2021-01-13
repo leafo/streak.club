@@ -63,7 +63,7 @@
         max-width: 400px;
 
         &:focus {
-            border: 2px solid $border_color;
+            border: 2px solid border_color();
         }
     }
 

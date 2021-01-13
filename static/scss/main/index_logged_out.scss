@@ -361,7 +361,7 @@ $gray: darken(#F5F5F5, 3%);
 
     .featured_submissions {
         margin-top: 40px;
-        border-top: 1px solid $border_color;
+        border-top: 1px solid border_color();
         @include border_box;
         background: gray_back();
 
@@ -408,13 +408,13 @@ $gray: darken(#F5F5F5, 3%);
                 width: 100%;
                 .featured_submission {
                     border: 0;
-                    border-bottom: 1px solid $border_color;
+                    border-bottom: 1px solid border_color();
                 }
             }
         }
 
         .featured_submission {
-            border: 1px solid $border_color;
+            border: 1px solid border_color();
             padding: 10px;
             margin-bottom: 30px;
             text-align: left;

@@ -9,7 +9,7 @@
             display: inline-block;
             margin: 0 8px 10px 0px;
             background: white;
-            border: 1px solid $border_color;
+            border: 1px solid border_color();
             border-radius: 2px;
 
             &:hover {
@@ -35,7 +35,7 @@
 
             .tag_count {
                 padding: 5px 15px;
-                border-left: 1px solid $border_color;
+                border-left: 1px solid border_color();
                 color: body_color_lighter();
             }
         }

@@ -155,7 +155,7 @@
         right: 0;
         background: white;
 
-        border: 1px solid $border_color;
+        border: 1px solid border_color();
         box-shadow: 0 0 10px rgba(black, 0.1);
         border-radius: 2px;
         font-size: $body_size_small;

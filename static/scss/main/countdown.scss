@@ -17,8 +17,8 @@
     }
 
     .countdown_units {
-        border-top: 1px solid $border_color;
-        border-bottom: 1px solid $border_color;
+        border-top: 1px solid border_color();
+        border-bottom: 1px solid border_color();
 
         margin: 5px 0 3px 0;
         padding: 10px 0;

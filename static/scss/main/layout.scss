@@ -12,6 +12,7 @@ body {
     --sc-body_color: #{$body_color};
     --sc-body_color_light: #{$body_color_light};
     --sc-body_color_lighter: #{$body_color_lighter};
+    --sc-border_color: #{$border_color};
     --sc-gray_back: #{$gray_back};
     --sc-button_color: #{$button_color};
     --sc-link_color: #{$link_color};
@@ -126,7 +127,7 @@ h2, h3 {
 }
 
 .page_tabs {
-    border-bottom: 1px solid $border_color;
+    border-bottom: 1px solid border_color();
     margin-bottom: 20px;
 
     .tab, .tab_sub {
@@ -456,7 +457,7 @@ a {
         max-width: none;
         margin: 0;
         border: 0;
-        border-bottom: 1px solid $border_color;
+        border-bottom: 1px solid border_color();
     }
 }
 
@@ -466,7 +467,7 @@ a {
 
     margin: 40px auto;
     background: white;
-    border: 1px solid $border_color;
+    border: 1px solid border_color();
     padding: 40px;
 
     > h2:first-child, > h3:first-child {
@@ -543,7 +544,7 @@ a {
     top: 60px;
     right: 10px;
     background: white;
-    border: 1px solid $border_color;
+    border: 1px solid border_color();
     padding: 10px;
 }
 
@@ -564,7 +565,7 @@ a {
     }
 
     .inner_footer {
-        border-top: 1px solid $border_color;
+        border-top: 1px solid border_color();
         max-width: $site_width;
         margin: 0 auto;
         padding: 0 20px;
@@ -598,7 +599,7 @@ a {
     hr {
         border: 0;
         height: 1px;
-        background: $border_color;
+        background: border_color();
     }
 
     img {
@@ -682,7 +683,7 @@ a {
 
 
 fieldset {
-    border: 1px solid $border_color;
+    border: 1px solid border_color();
 }
 
 details.toggle_form {
@@ -705,12 +706,12 @@ details.toggle_form {
 
     &[open] {
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        border: 1px solid $border_color;
+        border: 1px solid border_color();
         border-radius: 3px;
 
         > summary {
             border-radius: 3px 3px 0 0;
-            border-bottom: 1px solid $border_color;
+            border-bottom: 1px solid border_color();
             box-sizing: border-box;
             display: flex;
             align-items: center;
