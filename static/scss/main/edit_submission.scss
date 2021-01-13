@@ -129,7 +129,7 @@
                 background: none;
                 border: none;
                 font-family: inherit;
-                color: $link_color;
+                color: link_color();
                 text-decoration: underline;
                 cursor: pointer;
             }

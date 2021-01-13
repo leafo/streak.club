@@ -128,7 +128,7 @@
     line-height: 35px;
     color: white;
     padding: 0 20px;
-    background: $button_color;
+    background: button_color();
     border: 0;
     cursor: pointer;
     display: inline-block;
@@ -163,7 +163,7 @@
     &.outline_button {
         background: white;
         border: 2px solid rgba($button_color, 0.6);
-        color: $link_color;
+        color: link_color();
         line-height: 35px - 4px;
 
         &:hover {

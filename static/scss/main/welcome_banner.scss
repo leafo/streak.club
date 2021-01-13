@@ -49,7 +49,7 @@
 
         &:hover {
             background-color: white;
-            color: $link_color;
+            color: link_color();
             border-color: white;
         }
 

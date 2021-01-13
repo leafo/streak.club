@@ -50,7 +50,7 @@
                 right: 0;
                 text-align: center;
                 padding: 20px 0 5px 0;
-                color: $link_color;
+                color: link_color();
                 cursor: pointer;
             }
         }
@@ -87,7 +87,7 @@
                     top: 2px;
 
                     &:hover {
-                        color: $link_color;
+                        color: link_color();
                         text-decoration: none;
                     }
                 }
@@ -290,7 +290,7 @@
                 border-bottom: 2px solid $link_color;
 
                 &:hover {
-                    color: $link_color;
+                    color: link_color();
                 }
             }
 
@@ -364,7 +364,7 @@
                     color: #666;
 
                     &:hover {
-                        color: $link_color;
+                        color: link_color();
                     }
 
                     &:before {

@@ -38,6 +38,14 @@ $like_color: #FF5E5E;
     @return var(--sc-body_color_lighter);
 }
 
+@function button_color {
+    @return var(--sc-button_color);
+}
+
+@function link_color {
+    @return var(--sc-link_color);
+}
+
 @mixin default_font {
     font-family: "Dosis", sans-serif;
     font-size: 18px;
@@ -98,7 +106,7 @@ $like_color: #FF5E5E;
         border-bottom: 2px solid $link_color;
 
         &:hover {
-            color: $link_color;
+            color: link_color();
         }
     }
 }

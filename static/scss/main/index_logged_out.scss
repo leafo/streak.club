@@ -323,7 +323,7 @@ $gray: darken(#F5F5F5, 3%);
 
             &:hover {
                 background-color: white;
-                color: $link_color;
+                color: link_color();
             }
         }
 

@@ -91,7 +91,7 @@
         &.unread_posts {
             .topic_title {
                 > a {
-                    color: $link_color;
+                    color: link_color();
                 }
             }
         }

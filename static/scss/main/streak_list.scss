@@ -76,7 +76,7 @@
                 @include transition(color 0.2s ease);
 
                 &:hover {
-                    color: $link_color;
+                    color: link_color();
                 }
             }
         }
@@ -98,7 +98,7 @@
                 @include transition(color 0.2s ease);
 
                 &:hover {
-                    color: $link_color;
+                    color: link_color();
                 }
             }
         }

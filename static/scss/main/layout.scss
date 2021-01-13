@@ -70,7 +70,7 @@ h2, h3 {
         color: #666;
 
         &:hover {
-            color: $link_color
+            color: link_color()
         }
 
         &:active {
@@ -155,7 +155,7 @@ h2, h3 {
         }
 
         &.active, &:hover {
-            color: $link_color;
+            color: link_color();
             border-bottom: 1px solid rgba($link_color, 1);
         }
     }
@@ -177,7 +177,7 @@ p {
 }
 
 a {
-    color: $link_color;
+    color: link_color();
 
     &:hover {
         color: lighten($link_color, 5%);
@@ -496,7 +496,7 @@ a {
     top: 0px;
     left: 50%;
     background: white;
-    color: $link_color;
+    color: link_color();
     border-radius: 0 0 5px 5px;
     padding: 8px 16px;
     padding-top: 15px;

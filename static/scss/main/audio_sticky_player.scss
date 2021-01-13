@@ -65,7 +65,7 @@
 
     .toggle_tracklist_button {
         &.active {
-            background: $button_color;
+            background: button_color();
             border-radius: 2px;
             color: white;
             &:hover {

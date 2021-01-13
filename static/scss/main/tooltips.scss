@@ -2,7 +2,7 @@
     .tooltip {
         position: absolute;
         color: white;
-        background: $button_color;
+        background: button_color();
         padding: 5px 8px;
         border-radius: 4px;
         box-shadow: 0 0 0 2px white;

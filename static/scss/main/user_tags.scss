@@ -14,7 +14,7 @@
 
             &:hover {
                 background: mix(white, $gray_back, 50%);
-                border-color: $button_color;
+                border-color: button_color();
                 box-shadow: 0 0 0 1px $button_color;
             }
 
