@@ -51,7 +51,11 @@ $like_color: #FF5E5E;
 }
 
 @function gray_back {
-    @return var(--sc-header_color);
+    @return var(--sc-gray_back);
+}
+
+@function white_back {
+    @return var(--sc-white_back);
 }
 
 @function border_color {

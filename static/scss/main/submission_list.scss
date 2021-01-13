@@ -11,7 +11,7 @@
 
         .submission_admin {
             margin-top: 10px;
-            background: white;
+            background: white_back();
             border: 1px solid #dadada;
             padding: 10px;
             position: absolute;
@@ -26,7 +26,7 @@
         }
 
         .submission_content {
-            background: white;
+            background: white_back();
             border: 1px solid border_color();
             border-radius: 4px;
             margin-left: 98px;
@@ -442,7 +442,7 @@
 
     .quick_comment_widget {
         position: absolute;
-        background: white;
+        background: white_back();
         border: 1px solid border_color();
         padding: 10px;
         top: 100%;

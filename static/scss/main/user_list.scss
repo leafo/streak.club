@@ -127,7 +127,7 @@
 
 .responsive_column > .user_list {
     .user_row {
-        background: white;
+        background: white_back();
         padding: 20px;
         @include mobile_width {
             padding: 10px;

@@ -8,7 +8,7 @@
     .streak_box {
         min-height: 225px;
         min-width: 0;
-        background: white;
+        background: white_back();
         border: 1px solid border_color();
         position: relative;
         font-size: $body_size;

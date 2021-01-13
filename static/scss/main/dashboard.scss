@@ -54,7 +54,7 @@
 
     .side_notification {
         color: body_color_light();
-        background: white;
+        background: white_back();
         border: 1px solid border_color();
         padding: 10px;
         border-radius: 3px;
@@ -94,7 +94,7 @@
                 margin-right: 0;
             }
 
-            background: white;
+            background: white_back();
             border: 1px solid border_color();
             border-radius: 3px;
             padding: 15px;

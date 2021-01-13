@@ -13,6 +13,7 @@ body {
     --sc-body_color_light: #{$body_color_light};
     --sc-body_color_lighter: #{$body_color_lighter};
     --sc-border_color: #{$border_color};
+    --sc-white_back: white;
     --sc-gray_back: #{$gray_back};
     --sc-button_color: #{$button_color};
     --sc-link_color: #{$link_color};
@@ -81,7 +82,7 @@ h2, h3 {
 }
 
 .tab_header {
-    background: white;
+    background: white_back();
 
     .page_header {
         padding-top: 40px;
@@ -208,7 +209,7 @@ a {
             @include default_font;
             @include border_box;
             margin-top: 10px;
-            background: white;
+            background: white_back();
             border: 0;
             border-radius: 4px;
             width: 250px;
@@ -341,7 +342,7 @@ a {
             top: 100%;
             width: 150px;
             right: 0px;
-            background: white;
+            background: white_back();
             line-height: 1.7;
             z-index: 10;
 
@@ -466,7 +467,7 @@ a {
     min-width: $site_width - 80px;
 
     margin: 40px auto;
-    background: white;
+    background: white_back();
     border: 1px solid border_color();
     padding: 40px;
 
@@ -496,7 +497,7 @@ a {
     z-index: 100;
     top: 0px;
     left: 50%;
-    background: white;
+    background: white_back();
     color: link_color();
     border-radius: 0 0 5px 5px;
     padding: 8px 16px;
@@ -543,7 +544,7 @@ a {
     position: fixed;
     top: 60px;
     right: 10px;
-    background: white;
+    background: white_back();
     border: 1px solid border_color();
     padding: 10px;
 }

@@ -13,7 +13,7 @@
 }
 
 .community_topic_list {
-    background: white;
+    background: white_back();
     border: 1px solid border_color();
     margin: 20px 0;
     @include mobile_width {
