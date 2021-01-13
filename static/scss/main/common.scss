@@ -26,13 +26,16 @@ $header_color: $blue;
 $error_color: $red;
 $like_color: #FF5E5E;
 
-
-@function body_color_lighter() {
-    @return var(--sc-body_color_lighter);
+@function body_color {
+    @return var(--sc-body_color);
 }
 
-@function body_color_light() {
+@function body_color_light {
     @return var(--sc-body_color_light);
+}
+
+@function body_color_lighter {
+    @return var(--sc-body_color_lighter);
 }
 
 @mixin default_font {

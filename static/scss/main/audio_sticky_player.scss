@@ -36,7 +36,7 @@
         cursor: pointer;
 
         &:not([disabled]):hover {
-            color: $body_color;
+            color: body_color();
         }
 
         &:active {
@@ -124,7 +124,7 @@
             }
 
             .track_title {
-                color: $body_color;
+                color: body_color();
                 text-decoration: none;
                 font-weight: bold;
                 padding: 0;
@@ -190,7 +190,7 @@
                 color: body_color_lighter();
 
                 > span {
-                    color: $body_color;
+                    color: body_color();
                 }
 
                 &:hover {

@@ -145,7 +145,7 @@ h2, h3 {
 
     .tab {
         @include transition(all 0.2s ease);
-        color: $body_color;
+        color: body_color();
         text-decoration: none;
         border-bottom: 1px solid rgba($link_color, 0);
         margin-right: 40px;
