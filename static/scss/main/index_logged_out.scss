@@ -55,7 +55,7 @@ $gray: darken(#F5F5F5, 3%);
         overflow-y: hidden;
         padding: 0 20px;
         padding-top: 10px;
-        background: $gray_back;
+        background: gray_back();
 
 
         .tab {
@@ -151,7 +151,7 @@ $gray: darken(#F5F5F5, 3%);
         text-align: center;
         padding: 0 10px;
         padding: 40px 0;
-        background: $gray_back;
+        background: gray_back();
         background: linear-gradient(to bottom, $gray, lighten($gray, 2%));
 
         .grid_wrapper {
@@ -255,7 +255,7 @@ $gray: darken(#F5F5F5, 3%);
         text-align: center;
         padding: 0 10px;
         padding: 40px 0;
-        background: $gray_back;
+        background: gray_back();
         background: linear-gradient(to bottom, $gray, lighten($gray, 2%));
 
         .countdown_note {
@@ -363,7 +363,7 @@ $gray: darken(#F5F5F5, 3%);
         margin-top: 40px;
         border-top: 1px solid $border_color;
         @include border_box;
-        background: $gray_back;
+        background: gray_back();
 
         .submission_columns {
             margin-top: 30px;

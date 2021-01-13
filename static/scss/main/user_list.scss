@@ -64,7 +64,7 @@
         border-radius: 80px;
         width: 80px;
         height: 80px;
-        background: $gray_back;
+        background: gray_back();
 
         @include mobile_width {
             margin-top: 5px;

@@ -27,7 +27,7 @@
         }
 
         &.deleted {
-            background: $gray_back;
+            background: gray_back();
             padding: 20px;
             max-width: 600px;
             color: body_color_light();
@@ -168,7 +168,7 @@
             }
 
             pre {
-                background: $gray_back;
+                background: gray_back();
                 border: 1px solid $border_color;
                 word-wrap: normal;
                 overflow: auto;
@@ -195,7 +195,7 @@
             margin-bottom: $post_spacing;
             padding-right: 20px;
             margin-left: $big_avatar_size/2;
-            background: $gray_back;
+            background: gray_back();
 
             @include mobile_width {
                 margin-left: 0;

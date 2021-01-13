@@ -23,7 +23,7 @@
 
     .topic_table {
         .topic_table_header {
-            background: $gray_back;
+            background: gray_back();
             @include display_flex;
             color: body_color_light();
             text-transform: uppercase;
