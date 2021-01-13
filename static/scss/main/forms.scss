@@ -47,7 +47,7 @@
         }
 
         .sub {
-            color: #666;
+            color: body_color_light();
         }
     }
 
@@ -105,12 +105,12 @@
         color: #999;
 
         a {
-            color: #666;
+            color: body_color_light();
         }
     }
 
     .input_full_directions {
-        color: #666;
+        color: body_color_light();
         font-size: 16px;
         max-width: 480px;
         margin: 15px 0;

@@ -71,7 +71,7 @@
             }
 
             a {
-                color: #333;
+                color: body_color();
                 text-decoration: none;
                 @include transition(color 0.2s ease);
 
@@ -87,12 +87,12 @@
         }
 
         .streak_host {
-            color: #999;
+            color: body_color_lighter();
             @include single_line;
             padding-bottom: 6px;
 
             a {
-                color: #666;
+                color: body_color_light();
                 text-decoration: none;
                 border-bottom: 2px solid $link_color;
                 @include transition(color 0.2s ease);
@@ -105,7 +105,7 @@
 
         .date_range {
             @include single_line;
-            color: #666;
+            color: body_color_light();
             font-size: 15px;
         }
 
@@ -128,7 +128,7 @@
 
             .stat_label {
                 font-size: 16px;
-                color: #666;
+                color: body_color_light();
             }
         }
 
@@ -137,7 +137,7 @@
         }
 
         .status_message {
-            color: #999;
+            color: body_color_lighter();
             text-align: center;
         }
 

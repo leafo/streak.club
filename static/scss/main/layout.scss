@@ -46,7 +46,7 @@ h2, h3 {
     h3 {
         margin: 0;
         margin-top: 3px;
-        color: #666;
+        color: body_color_light();
         font-weight: normal;
         font-size: 22px;
     }
@@ -68,7 +68,7 @@ h2, h3 {
         text-decoration: none;
         border-bottom: 2px solid $link_color;
         color: mix(#666, $link_color, 70%);
-        color: #666;
+        color: body_color_light();
 
         &:hover {
             color: link_color()
@@ -575,13 +575,13 @@ a {
     }
 
     a {
-        color: #666;
+        color: body_color_light();
     }
 }
 
 .empty_message {
     margin: 20px 0;
-    color: #666;
+    color: body_color_light();
 }
 
 
@@ -627,7 +627,7 @@ a {
 
 .pager {
     margin: 20px 0;
-    color: #666;
+    color: body_color_light();
 
     .button {
         margin-right: 10px;
@@ -658,7 +658,7 @@ a {
     }
 
     .empty_row {
-        color: #666;
+        color: body_color_light();
         font-style: italic;
     }
 
@@ -667,7 +667,7 @@ a {
     }
 
     .sub {
-        color: #666;
+        color: body_color_light();
         font-style: italic;
     }
 
@@ -677,7 +677,7 @@ a {
     }
 
     a {
-        color: #666;
+        color: body_color_light();
     }
 }
 

@@ -40,7 +40,7 @@ $gray: darken(#F5F5F5, 3%);
             font-weight: normal;
             margin: 0;
             font-size: 18px;
-            color: #666;
+            color: body_color_light();
             margin-top: 5px;
             color: white;
         }
@@ -73,7 +73,7 @@ $gray: darken(#F5F5F5, 3%);
     }
 
     h3 {
-        color: #666;
+        color: body_color_light();
         margin: 20px 0;
         font-size: 28px;
     }
@@ -164,7 +164,7 @@ $gray: darken(#F5F5F5, 3%);
 
         .grid_note {
             max-width: 300px;
-            color: #666;
+            color: body_color_light();
             padding: 0 20px;
             line-height: 1.5;
 
@@ -185,7 +185,7 @@ $gray: darken(#F5F5F5, 3%);
             }
 
             .stat_label {
-                color: #666;
+                color: body_color_light();
                 font-size: 16px;
             }
         }
@@ -260,7 +260,7 @@ $gray: darken(#F5F5F5, 3%);
 
         .countdown_note {
             max-width: 300px;
-            color: #666;
+            color: body_color_light();
             padding: 0 20px;
             line-height: 1.5;
 

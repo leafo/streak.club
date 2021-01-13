@@ -5,7 +5,7 @@
         font-size: 14px;
         font-weight: bold;
         text-align: center;
-        color: #666;
+        color: body_color_light();
 
         .sub {
             display: inline-block;
@@ -46,7 +46,7 @@
 
         .block_label {
             font-size: 16px;
-            color: #666;
+            color: body_color_light();
         }
     }
 
