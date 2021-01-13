@@ -283,7 +283,7 @@ $gray: darken(#F5F5F5, 3%);
         padding: 40px 0 60px;
         text-align: center;
         color: white;
-        background: $header_color;
+        background: header_color();
         background: linear-gradient(45deg, $link_color, mix($link_color, orange, 70%));
 
         h3 {

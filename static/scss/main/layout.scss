@@ -221,7 +221,7 @@ a {
     }
 
     .primary_header {
-        background: $header_color;
+        background: header_color();
         height: $header_height;
         color: white;
 
