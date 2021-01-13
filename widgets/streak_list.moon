@@ -51,7 +51,7 @@ class StreakList extends require "widgets.base"
                 div class: "stat_box", ->
                   div class: "stat_value", @number_format streak_user.longest_streak
                   div class: "stat_label", "longest streak"
-              else
+              elseif streak_user.current_streak
                 div class: "stat_box", ->
                   div class: "stat_value", @number_format streak_user.current_streak
                   div class: "stat_label", "current streak"
