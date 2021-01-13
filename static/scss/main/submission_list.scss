@@ -463,7 +463,7 @@
             cursor: pointer;
             margin-top: -5px;
             margin-right: -5px;
-            color: $body_color_lighter;
+            color: body_color_lighter();
             &:hover {
                 color: $body_color_light;
             }

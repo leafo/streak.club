@@ -105,7 +105,7 @@
             justify-content: center;
 
             font-size: 17px;
-            color: $body_color_lighter;
+            color: body_color_lighter();
 
             .duration, .current_time {
                 font-size: 15px;
@@ -187,7 +187,7 @@
                 font-size: inherit;
                 border: 0;
                 text-align: left;
-                color: $body_color_lighter;
+                color: body_color_lighter();
 
                 > span {
                     color: $body_color;

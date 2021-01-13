@@ -443,11 +443,11 @@ $gray: darken(#F5F5F5, 3%);
             }
 
             .submission_author {
-                color: $body_color_lighter;
+                color: body_color_lighter();
 
                 a {
                     color: $body_color_light;
-                    border-color: $body_color_lighter;
+                    border-color: body_color_lighter();
                 }
             }
 

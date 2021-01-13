@@ -26,6 +26,12 @@ $header_color: $blue;
 $error_color: $red;
 $like_color: #FF5E5E;
 
+
+@function body_color_lighter() {
+    @return var(--sc-body_color_lighter);
+}
+
+
 @mixin default_font {
     font-family: "Dosis", sans-serif;
     font-size: 18px;
@@ -107,13 +113,13 @@ $like_color: #FF5E5E;
     &:before {
         content: "“";
         font-weight: normal;
-        color: $body_color_lighter;
+        color: var(--sc-body_color_lighter);
     }
 
     &:after {
         content: "”";
         font-weight: normal;
-        color: $body_color_lighter;
+        color: var(--sc-body_color_lighter);
     }
 }
 

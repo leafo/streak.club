@@ -3,7 +3,7 @@
     .unit_group_header {
         font-size: 14px;
         letter-spacing: 0.05em;
-        color: $body_color_lighter;
+        color: body_color_lighter();
         font-weight: bold;
         margin-bottom: 5px;
     }

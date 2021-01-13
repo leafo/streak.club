@@ -82,7 +82,7 @@
         .post_header {
             font-size: $body_size;
             margin-bottom: 10px;
-            color: $body_color_lighter;
+            color: body_color_lighter();
             @include display_flex;
             @include align_items;
 
@@ -136,7 +136,7 @@
             font-size: $body_size_small;
 
             .post_action {
-                color: $body_color_lighter;
+                color: body_color_lighter();
                 margin-right: 10px;
             }
         }

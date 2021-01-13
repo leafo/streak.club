@@ -36,7 +36,7 @@
             .tag_count {
                 padding: 5px 15px;
                 border-left: 1px solid $border_color;
-                color: $body_color_lighter;
+                color: body_color_lighter();
             }
         }
     }

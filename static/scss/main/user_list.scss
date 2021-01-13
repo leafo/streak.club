@@ -109,7 +109,7 @@
 
             &:before {
                 content: " · ";
-                color: $body_color_lighter;
+                color: body_color_lighter();
 
                 @include mobile_width {
                     display: none;

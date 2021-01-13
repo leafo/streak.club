@@ -137,7 +137,7 @@
         .topic_stats {
             text-align: right;
             font-size: $body_size_small;
-            color: $body_color_lighter;
+            color: body_color_lighter();
             min-width: 60px;
             white-space: nowrap;
             line-height: 1.5;
@@ -170,7 +170,7 @@
         }
 
         .topic_poster {
-            color: $body_color_lighter;
+            color: body_color_lighter();
             font-size: 14px;
             white-space: nowrap;
             margin-top: $sub_row_spacing;
@@ -181,7 +181,7 @@
         }
 
         .no_last_post {
-            color: $body_color_lighter;
+            color: body_color_lighter();
             font-style: italic;
         }
 
@@ -189,14 +189,14 @@
             display: inline-block;
             vertical-align: middle;
             font-size: $body_size_small;
-            color: $body_color_lighter;
+            color: body_color_lighter();
 
             .last_post_author {
             }
 
             .last_post_date {
                 a {
-                    color: $body_color_lighter;
+                    color: body_color_lighter();
                 }
             }
 
