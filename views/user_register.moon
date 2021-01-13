@@ -30,6 +30,7 @@ class UserRegister extends require "widgets.page"
         label: "Email"
         name: "email"
         required: true
+        type: "email"
         value: @params.email
       }
 

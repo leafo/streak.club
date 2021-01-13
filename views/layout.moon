@@ -59,7 +59,7 @@ class Layout extends Widget
     div class: "header", id: "global_header", ->
       div class: "primary_header", ->
         a href: @url_for("index"), class: "logo", ->
-          img class: "logo_image", src: "/static/images/rainbow-sm.png"
+          img class: "logo_image", width: 64, height: 40, src: "/static/images/rainbow-sm.png"
           span class: "logo_text", "Streak Club"
 
 
