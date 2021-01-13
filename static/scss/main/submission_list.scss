@@ -67,10 +67,10 @@
                 top: 12px;
                 right: 20px;
                 font-size: 16px;
-                color: #999;
+                color: body_color_lighter();
 
                 a {
-                    color: #999;
+                    color: body_color_lighter();
                     text-decoration: none;
 
                     &:hover {
@@ -152,7 +152,7 @@
 
             .upload_stats {
                 float: right;
-                color: #999;
+                color: body_color_lighter();
                 font-size: 16px;
             }
 
@@ -330,7 +330,7 @@
         .empty_message {
             padding: 15px 20px;
             margin: 0;
-            color: #999;
+            color: body_color_lighter();
         }
 
         .submission_footer {
@@ -401,7 +401,7 @@
         > button {
             text-decoration: none;
             font-size: 18px;
-            color: #999;
+            color: body_color_lighter();
             display: inline-block;
             vertical-align: top;
             line-height: 18px;

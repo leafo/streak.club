@@ -73,7 +73,7 @@
             float: right;
 
             a {
-                color: #999;
+                color: body_color_lighter();
             }
         }
 
@@ -83,7 +83,7 @@
         }
 
         .comment_time {
-            color: #999;
+            color: body_color_lighter();
         }
 
         .comment_head {
@@ -95,7 +95,7 @@
         }
 
         .suspended_message {
-            color: #999;
+            color: body_color_lighter();
         }
 
         .comment_editor {

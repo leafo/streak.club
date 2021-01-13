@@ -140,7 +140,7 @@ h2, h3 {
     }
 
     .tab_sub {
-        color: #999;
+        color: body_color_lighter();
         margin-right: 40px;
     }
 
@@ -570,7 +570,7 @@ a {
         margin: 0 auto;
         padding: 0 20px;
         padding-top: 10px;
-        color: #999;
+        color: body_color_lighter();
         font-size: 14px;
     }
 

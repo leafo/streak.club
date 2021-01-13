@@ -65,7 +65,7 @@
         &:empty {
             &:before {
                 content: "No files have been added yet";
-                color: #999;
+                color: body_color_lighter();
             }
         }
     }
@@ -98,7 +98,7 @@
         .upload_success {
             display: inline-block;
             margin-left: 10px;
-            color: #999;
+            color: body_color_lighter();
         }
 
         .upload_progress {
