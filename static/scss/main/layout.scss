@@ -1,10 +1,23 @@
 
 body {
     @include default_font;
-    color: $body_color;
-    background: $gray_back;
+    color: var(--sc-body_color);
+    background: var(--sc-gray_back);
     margin: 0;
     padding: 0;
+
+    --sc-body_size: #{$body_size};
+    --sc-body_size_small: #{$body_size_small};
+
+    --sc-body_color: #{$body_color};
+    --sc-body_color_light: #{$body_color_light};
+    --sc-body_color_lighter: #{$body_color_lighter};
+    --sc-gray_back: #{$gray_back};
+    --sc-button_color: #{$button_color};
+    --sc-link_color: #{$link_color};
+    --sc-header_color: #{$header_color};
+    --sc-error_color: #{$error_color};
+    --sc-like_color: #{$like_color};
 }
 
 h2, h3 {
