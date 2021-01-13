@@ -34,7 +34,7 @@ h2, h3 {
     h1, h2 {
         font-weight: normal;
         margin: 0;
-        color: #222;
+        color: body_color();
     }
 
 
@@ -651,9 +651,9 @@ a {
 
     thead {
         td {
-            background: #eee;
+            background: gray_back;
             font-weight: bold;
-            color: #444;
+            color: body_color_light();
         }
     }
 

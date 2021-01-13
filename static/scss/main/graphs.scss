@@ -19,17 +19,17 @@
     .axis {
         path, line {
             fill: none;
-            stroke: #888;
+            stroke: body_color_lighter();
             shape-rendering: crispEdges;
         }
 
         text {
-            fill: #333;
+            fill: body_color();
         }
     }
 
     .x_guides, .y_guides {
-        stroke: #ddd;
+        stroke: border_color();
         fill: none;
         shape-rendering: crispEdges;
     }
@@ -51,7 +51,7 @@
 
         circle {
             fill: white;
-            stroke: $link_color;
+            stroke: link_color();
         }
 
         .hitbox {
@@ -63,11 +63,11 @@
     .label {
         circle {
             fill: white;
-            stroke: $link_color;
+            stroke: link_color();
         }
 
         text {
-            color: #444;
+            color: body_color_light();
         }
     }
 }
