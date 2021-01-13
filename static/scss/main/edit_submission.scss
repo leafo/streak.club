@@ -37,7 +37,7 @@
 
     .upload_tip {
         font-size: $body_size_small;
-        color: $body_color_light;
+        color: body_color_light();
         margin: 0;
     }
 

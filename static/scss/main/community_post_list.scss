@@ -30,12 +30,12 @@
             background: $gray_back;
             padding: 20px;
             max-width: 600px;
-            color: $body_color_light;
+            color: body_color_light();
 
             .deleted_tools {
                 float: right;
                 a {
-                    color: $body_color_light;
+                    color: body_color_light();
                 }
             }
         }
@@ -87,7 +87,7 @@
             @include align_items;
 
             .post_author a {
-                color: $body_color_light;
+                color: body_color_light();
                 font-size: 18px;
 
                 @include slighly_narrow {
@@ -151,7 +151,7 @@
             }
 
             blockquote {
-                color: $body_color_light;
+                color: body_color_light();
                 font-style: italic;
                 border-left: 4px solid #dadada;
                 padding-left: 15px;

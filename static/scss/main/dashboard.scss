@@ -107,7 +107,7 @@
 
             .label {
                 font-size: 16px;
-                color: $body_color_light;
+                color: body_color_light();
             }
         }
     }

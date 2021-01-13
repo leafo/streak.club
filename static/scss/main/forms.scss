@@ -9,7 +9,7 @@
         @include display_flex;
         @include align_items;
         font-size: 14px;
-        color: $body_color_light;
+        color: body_color_light();
 
         img {
             margin-right: 5px;

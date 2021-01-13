@@ -97,7 +97,7 @@
         }
 
         .user_stat {
-            color: $body_color_light;
+            color: body_color_light();
             display: inline-block;
 
             @include mobile_width {

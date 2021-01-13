@@ -23,7 +23,7 @@ body {
 h2, h3 {
     .sub {
         font-weight: normal;
-        color: $body_color_light;
+        color: body_color_light();
     }
 }
 

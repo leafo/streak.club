@@ -32,7 +32,7 @@
         width: 30px;
         height: 30px;
         background: none;
-        color: $body_color_light;
+        color: body_color_light();
         cursor: pointer;
 
         &:not([disabled]):hover {
@@ -131,7 +131,7 @@
             }
 
             .user {
-                color: $body_color_light;
+                color: body_color_light();
                 text-decoration: none;
 
                 &:hover {
@@ -141,7 +141,7 @@
 
             .empty_track {
                 font-style: italic;
-                color: $body_color_light;
+                color: body_color_light();
             }
         }
     }

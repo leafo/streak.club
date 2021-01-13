@@ -465,7 +465,7 @@
             margin-right: -5px;
             color: body_color_lighter();
             &:hover {
-                color: $body_color_light;
+                color: body_color_light();
             }
         }
 
@@ -482,7 +482,7 @@
 
         p {
             font-size: $body_size_small;
-            color: $body_color_light;
+            color: body_color_light();
             line-height: 1.2;
             margin: 5px 0;
         }

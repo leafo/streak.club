@@ -83,7 +83,7 @@
 
         .short_description {
             font-size: $body_size;
-            color: $body_color_light;
+            color: body_color_light();
         }
 
         .streak_host {

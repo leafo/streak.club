@@ -55,7 +55,7 @@
 
     .other_submissions {
         h2 {
-            color: $body_color_light;
+            color: body_color_light();
             font-weight: normal;
             @include has_sub_link;
             margin: 80px 0 40px 0;

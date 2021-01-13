@@ -446,7 +446,7 @@ $gray: darken(#F5F5F5, 3%);
                 color: body_color_lighter();
 
                 a {
-                    color: $body_color_light;
+                    color: body_color_light();
                     border-color: body_color_lighter();
                 }
             }

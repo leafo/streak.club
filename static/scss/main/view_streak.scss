@@ -47,7 +47,7 @@
                         display: flex;
                         flex-direction: column;
                         justify-content: flex-end;
-                        color: $body_color_light;
+                        color: body_color_light();
                         padding-bottom: 10px;
                         box-sizing: border-box;
                         text-shadow: 1px 1px 0 white, -1px -1px 0 white, -1px 1px 0 white, 1px -1px 0 white;
@@ -191,7 +191,7 @@
     }
 
     .members_only_message {
-        color: $body_color_light;
+        color: body_color_light();
         margin-top: 10px;
     }
 
@@ -246,7 +246,7 @@
 
         .topic_sub {
             font-size: $body_size_small;
-            color: $body_color_light;
+            color: body_color_light();
             a {
                 color: inherit;
             }
@@ -280,7 +280,7 @@
         > span {
             @include flex;
             font-size: 18px;
-            color: $body_color_light;
+            color: body_color_light();
             font-weight: bold;
         }
     }

@@ -25,7 +25,7 @@
         .topic_table_header {
             background: $gray_back;
             @include display_flex;
-            color: $body_color_light;
+            color: body_color_light();
             text-transform: uppercase;
             font-size: 12px;
             font-weight: bold;
@@ -144,7 +144,7 @@
             padding-right: 20px;
 
             .number_value {
-                color: $body_color_light;
+                color: body_color_light();
                 font-size: $body_size;
             }
 
@@ -176,7 +176,7 @@
             margin-top: $sub_row_spacing;
 
             a {
-                color: $body_color_light;
+                color: body_color_light();
             }
         }
 
@@ -201,7 +201,7 @@
             }
 
             a {
-                color: $body_color_light;
+                color: body_color_light();
             }
         }
 

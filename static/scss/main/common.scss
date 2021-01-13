@@ -31,6 +31,9 @@ $like_color: #FF5E5E;
     @return var(--sc-body_color_lighter);
 }
 
+@function body_color_light() {
+    @return var(--sc-body_color_light);
+}
 
 @mixin default_font {
     font-family: "Dosis", sans-serif;
