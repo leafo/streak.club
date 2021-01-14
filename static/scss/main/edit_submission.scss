@@ -32,6 +32,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            @include dark_theme {
+                background: rgba($dark_green, 0.8);
+            }
         }
     }
 
@@ -108,13 +111,13 @@
 
             height: 20px;
             width: 200px;
-            background: lighten($border_color, 5%);
+            background: border_color();
 
             .upload_progress_inner {
                 @include transition(all 0.1s ease);
                 height: 100%;
                 width: 0%;
-                background: $link_color;
+                background: body_color_lighter();
             }
         }
 

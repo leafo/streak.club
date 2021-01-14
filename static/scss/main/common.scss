@@ -17,6 +17,12 @@ $dark_white_back: #11171C;
 $dark_gray_back: #090D10;
 $dark_border_color: #2B3542;
 $dark_link_color: mix(white, #0F3F75, 50%);
+$dark_green: #84D17C;
+
+$dark_button_color: #0F3F75;
+$dark_button_fg_color: white;
+$dark_button_hover_color: lighten($dark_button_color, 5%);
+$dark_button_active_color: darken($dark_button_color, 5%);
 
 
 $teal: #7ED6D7;
@@ -28,6 +34,10 @@ $yellow: #FDBF6C;
 $purple: #A287C0;
 
 $button_color: $blue;
+$button_fg_color: white;
+$button_hover_color: lighten($button_color, 5%);
+$button_active_color: darken($button_color, 5%);
+
 $link_color: $blue;
 $header_color: $blue;
 $error_color: $red;
@@ -47,6 +57,18 @@ $like_color: #FF5E5E;
 
 @function button_color {
     @return var(--sc-button_color);
+}
+
+@function button_fg_color {
+    @return var(--sc-button_fg_color);
+}
+
+@function button_active_color {
+    @return var(--sc-button_active_color);
+}
+
+@function button_hover_color {
+    @return var(--sc-button_hover_color);
 }
 
 @function link_color {

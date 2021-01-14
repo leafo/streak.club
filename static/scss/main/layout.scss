@@ -13,34 +13,48 @@ body {
     --sc-body_color_light: #{$body_color_light};
     --sc-body_color_lighter: #{$body_color_lighter};
     --sc-border_color: #{$border_color};
+    --sc-border_color50: #{rgba($border_color, 0.5)};
     --sc-white_back: white;
     --sc-gray_back: #{$gray_back};
     --sc-gray_back50: #{rgba($gray_back, 0.5)};
+
     --sc-button_color: #{$button_color};
+    --sc-button_fg_color: #{$button_fg_color};
+    --sc-button_active_color: #{$button_active_color};
+    --sc-button_hover_color: #{$button_hover_color};
+
     --sc-link_color: #{$link_color};
     --sc-header_color: #{$header_color};
     --sc-error_color: #{$error_color};
     --sc-like_color: #{$like_color};
     --sc-purple: #{$purple};
+    --sc-green: #{$green};
+    --sc-blue: #{$blue};
 
     @include dark_theme {
         --sc-body_color: #E6EAED;
         --sc-body_color_light: #9BABB9;
-        --sc-body_color_lighter: #999;
+        --sc-body_color_lighter: #495B71;
 
         --sc-white_back: #{$dark_white_back};
         --sc-gray_back: #{$dark_gray_back};
         --sc-gray_back50: #{rgba($dark_gray_back, 0.5)};
         --sc-border_color: #{$dark_border_color};
+        --sc-border_color50: #{rgba($dark_border_color, 0.5)};
 
-        --sc-button_color: #0F3F75;
-        --sc-button_fg_color: #fff;
+        --sc-button_color: #{$dark_button_color};
+        --sc-button_fg_color: #{$dark_button_fg_color};
+        --sc-button_active_color: #{$dark_button_active_color};
+        --sc-button_hover_color: #{$dark_button_hover_color};
+
         --sc-link_color: #{$dark_link_color};
 
-        --sc-header_color: #0F3F75;
+        // --sc-header_color: #0F3F75;
+        --sc-header_color: #13365f;
 
         --sc-purple: #7A6DBE;
-        --sc-green: #84D17C;
+        --sc-green: #{$dark_green};
+        --sc-blue: #208bf2;
     }
 }
 
@@ -89,8 +103,7 @@ h2, h3 {
     .page_tabs a {
         @include transition(all 0.1s ease);
         text-decoration: none;
-        border-bottom: 2px solid $link_color;
-        color: mix(#666, $link_color, 70%);
+        border-bottom: 2px solid button_color();
         color: body_color_light();
 
         &:hover {
@@ -98,7 +111,7 @@ h2, h3 {
         }
 
         &:active {
-            color: darken($link_color, 10%);
+            color: button_active_color();
         }
     }
 }
@@ -663,12 +676,12 @@ a {
 
 
 .nice_table {
-    border: 1px solid gray;
+    border: 1px solid body_color_lighter();
     margin-bottom: 20px;
 
     &.field_table {
         tr:nth-child(2n) {
-            background: #eee;
+            background: var(--sc-border_color50);
         }
 
         td:first-child {
@@ -678,7 +691,7 @@ a {
 
     thead {
         td {
-            background: gray_back;
+            background: gray_back();
             font-weight: bold;
             color: body_color_light();
         }
@@ -747,4 +760,10 @@ details.toggle_form {
         }
     }
 
+}
+
+img.svg_icon {
+    @include dark_theme {
+        filter: invert(1);
+    }
 }

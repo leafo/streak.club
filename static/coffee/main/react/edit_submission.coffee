@@ -123,6 +123,7 @@ P "Editor", {
           img {
             height: 16
             width: 26
+            class: "svg_icon"
             src: "/static/images/markdown-mark-solid.svg"
             alt: "Markdown Enabled"
           }

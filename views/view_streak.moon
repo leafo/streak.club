@@ -195,7 +195,7 @@ class ViewStreak extends require "widgets.page"
 
     if @category
       section class: "discussion_nag", ->
-        img src: "/static/images/help.svg", width: 24, height: 24
+        img class: "svg_icon", src: "/static/images/help.svg", width: 24, height: 24
         span "Have a question for this streak?"
         a {
           href: login_and_return_url @, @url_for("community.new_topic", category_id: @category.id)

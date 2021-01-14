@@ -189,25 +189,14 @@
     }
 
     .community_post_replies {
-        @include clearfix;
-
-        &.top_level_replies {
-            margin-bottom: $post_spacing;
-            padding-right: 20px;
-            margin-left: $big_avatar_size/2;
-            background: gray_back();
-
-            @include mobile_width {
-                margin-left: 0;
-            }
-        }
+        border-left: 2px solid var(--sc-border_color50);
 
         &.last_root_post {
             margin-bottom: 0
         }
 
-        margin: 20px 0 0 0;
-        padding: 0 0 0 40px;
+        margin: 20px 0 0 20px;
+        padding: 0 0 0 20px;
 
         @include mobile_width {
             padding-left: 10px;

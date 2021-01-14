@@ -37,23 +37,26 @@
 
         &.spacer {
             background: transparent;
-            box-shadow: inset 0 0 0 2px rgba($border_color, 0.5);
+            box-shadow: inset 0 0 0 2px var(--sc-border_color50);
         }
 
         &.before_current_unit {
-            background: darken($border_color, 8%);
+            background: border_color();
             &.empty:not(.current_unit) {
                 opacity: 0.5;
             }
         }
 
         &.current_unit {
-            box-shadow: 0 0 0 4px $blue, inset 0 0 0 2px rgba(white, 0.5);
+            box-shadow: 0 0 0 4px var(--sc-blue), inset 0 0 0 2px gray_back();
         }
 
         &.submitted {
             background: var(--sc-green);
             color: darken($green, 30%);
+            @include dark_theme {
+                color: darken($dark_green, 30%);
+            }
         }
     }
 }

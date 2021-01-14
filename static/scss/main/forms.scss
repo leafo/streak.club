@@ -124,7 +124,7 @@
     font-weight: bold;
     height: 35px;
     line-height: 35px;
-    color: white;
+    color: button_fg_color();
     padding: 0 20px;
     background: button_color();
     border: 0;
@@ -134,17 +134,13 @@
     white-space: nowrap;
 
     &:hover {
-        background: lighten($button_color, 5%);
-        color: white;
+        background: button_hover_color();
+        color: button_fg_color();
     }
 
     &:active {
-        background: darken($button_color, 5%);
-        color: white;
-    }
-
-    &:focus {
-        box-shadow: 0 0 0 2px lighten($button_color, 20%);
+        background: button_active_color();
+        color: button_fg_color();
     }
 
     &:disabled, &.disabled {
@@ -165,8 +161,15 @@
         line-height: 35px - 4px;
 
         &:hover {
-            border: 2px solid $button_color;
-            background: mix($button_color, white, 10%);
+            border: 2px solid button_color();
+            background: mix($button_color, $white_back, 10%);
+        }
+
+        @include dark_theme {
+            border-color: rgba($dark_button_color, 0.6);
+            &:hover {
+                background: mix($dark_button_color, $dark_white_back, 10%);
+            }
         }
     }
 }
