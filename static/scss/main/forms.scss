@@ -148,7 +148,15 @@
         @include opacity(0.8);
         background: gray;
         color: lighten(gray, 20%);
-        cursor: normal
+        cursor: default;
+    }
+
+    &.green {
+        background: var(--sc-green);
+    }
+
+    &.red {
+        background: var(--sc-red);
     }
 
     &.small {
