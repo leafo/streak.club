@@ -220,10 +220,35 @@ class AdminApplication extends lapis.Application
       assert_csrf @
 
       assert_valid @params, {
-        {"action", one_of: {"set_password", "update_flags"}}
+        {"action", one_of: {
+          "set_password"
+          "update_flags"
+          "refresh_spam_scan"
+          "train_spam_scan"
+        }}
       }
 
       switch @params.action
+        when "train_spam_scan"
+          import SpamScans from require "models"
+          scan = SpamScans\refresh_for_user @user
+          assert_error scan, "scan not available for train"
+
+          assert_valid @params, {
+            {"train", one_of: {
+              "ham"
+              "spam"
+            }}
+          }
+
+          error "not yet: train: #{@params.train}"
+
+        when "refresh_spam_scan"
+          import SpamScans from require "models"
+          scan = SpamScans\refresh_for_user @user
+          if scan
+            @session.flash = "refreshed spam scan: score: #{scan.score}"
+
         when "set_password"
           assert_valid @params, {
             {"password", exists: true}

@@ -642,7 +642,7 @@ import
     create_index "recaptcha_results", "object_type", "object_id", "action", unique: true
 
 
-  [1610587002]: =>
+  [1610587003]: =>
     create_table "spam_scans", {
       {"id", serial}
 
@@ -653,7 +653,7 @@ import
 
       {"user_tokens", text array: true, null: true}
       {"text_tokens", text array: true, null: true}
-      {"score", numeric null: true}
+      {"score", numeric null: true, default: db.NULL}
 
       {"created_at", time}
       {"updated_at", time}

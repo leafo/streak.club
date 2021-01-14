@@ -1,3 +1,5 @@
+import SpamScans from require "models"
+
 class AdminUser extends require "widgets.admin.page"
   @needs: {"user"}
   @include "widgets.form_helpers"
@@ -13,7 +15,11 @@ class AdminUser extends require "widgets.admin.page"
         a href: @url_for(@user), @user\name_for_display!
 
     @field_table @user, {
-      "id", "created_at", "updated_at",
+      "id"
+      "username"
+      "slug"
+      "display_name"
+      "email"
       "streaks_count"
       "submissions_count"
       "hidden_submissions_count"
@@ -22,9 +28,96 @@ class AdminUser extends require "widgets.admin.page"
       ":is_admin"
       ":is_suspended"
       ":is_spam"
+
+      "created_at"
+      "updated_at",
     }
 
     @render_update_forms!
+
+    section ->
+      h3 "Spam"
+
+      scan = @user\get_spam_scan!
+
+      if scan
+        @field_table scan, {
+          "score"
+          {"review_status", SpamScans.review_statuses}
+          {"train_status", SpamScans.train_statuses}
+          "created_at", "updated_at"
+        }
+      else
+        p ->
+          em "This user has no spam scan"
+
+      if scan and scan\needs_review!
+        form method: "post", class: "form", ->
+          @csrf_input!
+          input type: "hidden", name: "action", value: "dismiss_spam_scan"
+          button  {
+            class: "button"
+          }, "Dismiss scan"
+
+      unless scan and scan\is_trained!
+        form method: "post", class: "form", ->
+          @csrf_input!
+          input type: "hidden", name: "action", value: "refresh_spam_scan"
+          button  {
+            class: "button"
+          }, "Refresh spam scan"
+
+      form method: "post", class: "form", ->
+        @csrf_input!
+        input type: "hidden", name: "action", value: "train_spam_scan"
+        fieldset ->
+          legend "Train spam"
+
+          button {
+            name: "train"
+            class: "button green"
+            value: "ham"
+          }, "Ham"
+          text " "
+
+          label ->
+            input type: "checkbox", name: "confirm", required: true
+            text " Confirm"
+
+          text " "
+
+          button {
+            name: "train"
+            class: "button red"
+            value: "spam"
+          }, "Spam"
+
+      fieldset ->
+        legend "Spam tokens"
+
+        details class: "toggle_form", ->
+          summary "Texts"
+          texts = SpamScans\user_texts @user
+          @column_table [{:text} for text in *texts], {
+            "text"
+          }
+
+        details class: "toggle_form", ->
+          summary "User tokens"
+
+          tokens = SpamScans\tokenize_user @user
+          @column_table [{:token} for token in *tokens], {
+            "token"
+          }
+
+
+        details class: "toggle_form", ->
+          summary "Text tokens"
+
+          tokens = SpamScans\tokenize_user_text @user
+          @column_table [{:token} for token in *tokens], {
+            "token"
+          }
 
     h3 "Joined streaks"
     @column_table @user\get_streak_users!, {

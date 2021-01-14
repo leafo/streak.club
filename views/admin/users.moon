@@ -1,6 +1,8 @@
 
 import Users from require "models"
 
+import ip_to_asnum from require "helpers.geo"
+
 class AdminUsers extends require "widgets.admin.page"
   @include "widgets.pagination_helpers"
   @include "widgets.table_helpers"
@@ -19,11 +21,12 @@ class AdminUsers extends require "widgets.admin.page"
       {"name", (user) ->
         a href: @url_for(user), user\name_for_display!
       }
-      "streaks_count"
-      "submissions_count"
-      ":is_admin"
-      ":is_suspended"
-      ":is_spam"
+      {":get_spam_scan", label: "spam_scan"}
+      {"streaks_count", label: "streaks"}
+      {"submissions_count", label: "submissions"}
+      {":is_admin", label: "admin"}
+      {":is_suspended", label: "suspended"}
+      {":is_spam", label: "spam"}
       "created_at"
       {"last_active", type: "date"}
       {"ips", (user) ->
@@ -31,7 +34,6 @@ class AdminUsers extends require "widgets.admin.page"
           if idx > 1
             text ", "
           code ip.ip
-
       }
     }
     @render_pager @pager

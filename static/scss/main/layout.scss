@@ -30,6 +30,7 @@ body {
     --sc-purple: #{$purple};
     --sc-green: #{$green};
     --sc-blue: #{$blue};
+    --sc-red: #{$red};
 
     @include dark_theme {
         --sc-body_color: #E6EAED;
@@ -55,6 +56,7 @@ body {
         --sc-purple: #7A6DBE;
         --sc-green: #{$dark_green};
         --sc-blue: #208bf2;
+        --sc-red: #FD3D4D;
     }
 }
 

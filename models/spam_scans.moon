@@ -89,8 +89,8 @@ class SpamScans extends Model
 
   @train_statuses: enum {
     untrained: 1
-    spam: 1
-    ham: 2
+    spam: 2
+    ham: 3
   }
 
   @review_statuses: enum {
@@ -100,7 +100,7 @@ class SpamScans extends Model
   }
 
   @status_for_score: (score) =>
-    if socre and score > 0.6
+    if score and score > 0.6
       "needs_review"
     else
       "default"
@@ -206,7 +206,7 @@ class SpamScans extends Model
       C = require "lapis.bayes.classifiers.bayes"
       classifier = C { max_words: 1000 }
       res, err = classifier\text_probabilities {"text.spam", "text.ham"}, text_tokens
-      if res and res > score or 0
+      if res and res > (score or 0)
         score = res
 
     scan = @create {
@@ -255,5 +255,10 @@ class SpamScans extends Model
   rescan: =>
     error "not yet"
 
+  needs_review: =>
+    not @is_trained! and @review_status == @@review_statuses.needs_review
+
+  is_trained: =>
+    @train_status != @@train_statuses.untrained
 
 
