@@ -3,6 +3,21 @@ import Model, enum from require "lapis.db.model"
 
 import insert_on_conflict_update, db_json from require "helpers.model"
 
+-- Generated schema dump: (do not edit)
+--
+-- CREATE TABLE recaptcha_results (
+--   id integer NOT NULL,
+--   object_type smallint NOT NULL,
+--   object_id integer NOT NULL,
+--   action smallint NOT NULL,
+--   data json NOT NULL,
+--   created_at timestamp without time zone NOT NULL,
+--   updated_at timestamp without time zone NOT NULL
+-- );
+-- ALTER TABLE ONLY recaptcha_results
+--   ADD CONSTRAINT recaptcha_results_pkey PRIMARY KEY (id);
+-- CREATE UNIQUE INDEX recaptcha_results_object_type_object_id_action_idx ON recaptcha_results USING btree (object_type, object_id, action);
+--
 class RecaptchaResults extends Model
   @timestamp: true
 

@@ -71,6 +71,23 @@ domain_tokenizer = UrlDomainsTokenizer {
 
 text_tokenizer = PostgresTextTokenizer {}
 
+-- Generated schema dump: (do not edit)
+--
+-- CREATE TABLE spam_scans (
+--   id integer NOT NULL,
+--   user_id integer NOT NULL,
+--   train_status smallint DEFAULT 1 NOT NULL,
+--   review_status smallint DEFAULT 1 NOT NULL,
+--   user_tokens text[],
+--   text_tokens text[],
+--   score numeric DEFAULT 0,
+--   created_at timestamp without time zone NOT NULL,
+--   updated_at timestamp without time zone NOT NULL
+-- );
+-- ALTER TABLE ONLY spam_scans
+--   ADD CONSTRAINT spam_scans_pkey PRIMARY KEY (id);
+-- CREATE UNIQUE INDEX spam_scans_user_id_idx ON spam_scans USING btree (user_id);
+--
 class SpamScans extends Model
   @timestamp: true
 
