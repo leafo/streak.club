@@ -120,6 +120,7 @@
     @include transition(background 0.1s ease);
     @include border_box;
     text-align: center;
+    border-radius: $button_radius;
 
     font-weight: bold;
     height: 35px;

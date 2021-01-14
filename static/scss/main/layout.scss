@@ -137,7 +137,7 @@ h2, h3 {
             color: white;
             background: purple();
             padding: 4px 14px;
-            border-radius: 16px;
+            border-radius: $button_radius;
             font-size: 16px;
             font-weight: bold;
             text-decoration: none;
@@ -249,9 +249,9 @@ a {
             margin-top: 10px;
             background: white_back();
             border: 0;
-            border-radius: 4px;
+            border-radius: $button_radius;
             width: 250px;
-            padding: 0 10px;
+            padding: 0 18px;
             height: 30px;
             color: body_color()
 
@@ -470,12 +470,12 @@ a {
     height: 30px;
     line-height: 30px;
     color: white;
-    padding: 0 15px;
+    padding: 0 18px;
     background: rgba(white, 0.2);
     text-decoration: none;
     text-align: center;
 
-    border-radius: 3px;
+    border-radius: $button_radius;
     margin-left: 10px;
 
     &:hover, &.current {
