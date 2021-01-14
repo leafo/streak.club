@@ -94,6 +94,7 @@ class Users extends Model
     }
 
     {"ip_addresses", has_many: "UserIpAddresses"}
+    {"spam_scan", has_one: "SpamScans"}
   }
 
   @login: (username, password) =>

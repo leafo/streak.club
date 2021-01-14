@@ -199,7 +199,7 @@ class AdminApplication extends lapis.Application
     @pager = Users\paginated "order by id desc", {
       per_page: 50
       prepare_results: (users) ->
-        preload users, "ip_addresses"
+        preload users, "ip_addresses", "spam_scan"
         users
     }
 
