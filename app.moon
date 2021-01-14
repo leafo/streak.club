@@ -37,7 +37,10 @@ class extends lapis.Application
   @include "applications.community"
 
   @before_filter =>
-    @current_user = Users\read_session @
+    if config.force_login_user
+      @current_user = Users\find slug: config.force_login_user
+    else
+      @current_user = Users\read_session @
     @csrf_token = generate_csrf @
     UserIpAddresses\register_ip @
 
