@@ -640,5 +640,31 @@ import
     }
 
     create_index "recaptcha_results", "object_type", "object_id", "action", unique: true
+
+
+  [1610587002]: =>
+    create_table "spam_scans", {
+      {"id", serial}
+
+      {"user_id", serial}
+
+      {"train_status", enum default: 1}
+      {"review_status", enum default: 1}
+
+      {"user_tokens", text array: true, null: true}
+      {"text_tokens", text array: true, null: true}
+      {"score", numeric null: true}
+
+      {"created_at", time}
+      {"updated_at", time}
+
+      "PRIMARY KEY (id)"
+    }
+
+    create_index "spam_scans", "user_id", unique: true
+
+
+  [1610588129]: =>
+    require("lapis.bayes.schema").run_migrations!
 }
 
