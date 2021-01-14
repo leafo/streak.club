@@ -21,7 +21,17 @@ class AdminUsers extends require "widgets.admin.page"
       {"name", (user) ->
         a href: @url_for(user), user\name_for_display!
       }
-      {":get_spam_scan", label: "spam_scan"}
+      {"spam", (user) ->
+        if scan = user\get_spam_scan!
+          if scan.score
+            code "%.2f"\format scan.score
+          else
+            code class: "sub", "∅"
+        else
+          raw "&bullet;"
+
+
+      }
       {"streaks_count", label: "streaks"}
       {"submissions_count", label: "submissions"}
       {":is_admin", label: "admin"}
