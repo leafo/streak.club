@@ -33,6 +33,13 @@ class AdminUser extends require "widgets.admin.page"
       "updated_at",
     }
 
+    if rr = @user\get_register_captcha_result!
+      h3 "Recaptcha result"
+      @field_table rr.data, {
+        "hostname"
+        "score"
+      }
+
     @render_update_forms!
 
     section ->
