@@ -23,10 +23,14 @@ class AdminUsers extends require "widgets.admin.page"
       }
       {"spam", (user) ->
         if scan = user\get_spam_scan!
-          if scan.score
-            code "%.2f"\format scan.score
+          if scan\is_trained!
+            import SpamScans from require "models"
+            strong SpamScans.train_statuses[scan.train_status]
           else
-            code class: "sub", "∅"
+            if scan.score
+              code "%.2f"\format scan.score
+            else
+              code class: "sub", "∅"
         else
           raw "&bullet;"
 
