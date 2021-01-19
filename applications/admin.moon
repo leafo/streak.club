@@ -299,7 +299,7 @@ class AdminApplication extends lapis.Application
           update = { flag_name, @params[flag_name] == "on" for flag_name in *{"spam", "suspended"} }
 
           if @user\update_flags update
-            @session.flash = "updated flags to: #{flags}"
+            @session.flash = "updated flags to: #{@user.flags}"
 
       redirect_to: @admin_url_for @user
   }
