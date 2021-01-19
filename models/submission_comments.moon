@@ -102,7 +102,6 @@ class SubmissionComments extends Model
     "view_submission", id: submission.id
 
   extract_text: =>
-    import extract_text from require "web_sanitize"
-    import decode_html_entities from require "helpers.html"
-    decode_html_entities extract_text @body
+    import extract_text from require "helpers.html"
+    extract_text @body
 

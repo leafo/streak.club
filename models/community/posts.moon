@@ -94,9 +94,8 @@ class Posts extends require "community.models.posts"
       Notifications\notify_for user, target, notification_type, associated
 
   extract_text: =>
-    import extract_text from require "web_sanitize"
-    import decode_html_entities from require "helpers.html"
-    decode_html_entities extract_text @body
+    import extract_text from require "helpers.html"
+    extract_text @body
 
   allowed_to_reply: (user, ...) =>
     if user and user\is_suspended!

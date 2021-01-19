@@ -26,36 +26,6 @@ is_empty_html =  (str) ->
   out = (str\gsub("%<.-%>", "")\gsub("&nbsp;", ""))
   not not out\find "^%s*$"
 
-decode_html_entities = do
-  entities = {
-    amp: '&'
-    nbsp: " "
-    gt: '>'
-    lt: '<'
-    quot: '"'
-    apos: "'"
-    mdash: "—"
-    rsquo: '’'
-    trade: '™'
-    "#x27": "'"
-  }
-
-  (str) ->
-    (str\gsub '&(.-);', (tag) ->
-      if entities[tag]
-        entities[tag]
-      elseif chr = tag\match "#(%d+)"
-        chr = tonumber chr
-        if chr >= 32 and chr <= 127
-          string.char chr
-        else
-          "" -- nothing for now
-      -- elseif chr = tag\match "#[xX]([%da-fA-F]+)"
-      --   utf8.char tonumber chr, 16
-      -- ^ this is super crappy because we don't have unicode library
-      else
-        '&'..tag..';')
-
 convert_links = (html) ->
   import replace_html from require "web_sanitize.query.scan_html"
   replace_html(
@@ -71,4 +41,4 @@ import Extractor from require "web_sanitize.html"
 
 extract_text = Extractor { printable: true }
 
-{ :sanitize_style, :sanitize_html, :is_empty_html, :decode_html_entities, :convert_links, :extract_text }
+{ :sanitize_style, :sanitize_html, :is_empty_html, :convert_links, :extract_text }
