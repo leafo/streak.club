@@ -50,7 +50,10 @@ class AdminUser extends require "widgets.admin.page"
       if scan
         @field_table scan, {
           {"score", (scan) ->
-            code title: scan.score, "%0.4f"\format scan.score
+            if scan.score
+              code title: scan.score, "%0.4f"\format scan.score
+            else
+              code class: "sub", "∅"
           }
           {"review_status", SpamScans.review_statuses}
           {"train_status", SpamScans.train_statuses}
@@ -125,22 +128,16 @@ class AdminUser extends require "widgets.admin.page"
             "text"
           }
 
-        details class: "toggle_form", ->
-          summary "User tokens"
 
-          tokens = SpamScans\tokenize_user @user
-          @column_table [{:token} for token in *tokens], {
-            "token"
-          }
+        if @user_token_summary
+          details class: "toggle_form", ->
+            summary "User tokens"
+            @render_token_summary @user_token_summary
 
-
-        details class: "toggle_form", ->
-          summary "Text tokens"
-
-          tokens = SpamScans\tokenize_user_text @user
-          @column_table [{:token} for token in *tokens], {
-            "token"
-          }
+        if @text_token_summary
+          details class: "toggle_form", ->
+            summary "Text tokens"
+            @render_token_summary @text_token_summary
 
     h3 "Joined streaks"
     @column_table @user\get_streak_users!, {
@@ -213,3 +210,24 @@ class AdminUser extends require "widgets.admin.page"
           text " confirm"
 
 
+  render_token_summary: (summary) =>
+    @column_table summary, {
+      "token"
+      {"category", (t) ->
+        if top = unpack(t.counts)
+          if top.category.name\match "spam"
+            strong style: "color: red", top.category.name
+          else
+            text top.category.name
+        else
+          em class: "sub", "n/a"
+      }
+      {"rate", (t) ->
+        if top = unpack(t.counts)
+          text "#{"%0.3f"\format top.p * 100}%"
+      }
+      {"count", (t) ->
+        if top = unpack(t.counts)
+          text @number_format top.count
+      }
+    }
