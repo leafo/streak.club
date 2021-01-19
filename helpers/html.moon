@@ -67,4 +67,8 @@ convert_links = (html) ->
     text_nodes: true
   )
 
-{ :sanitize_style, :sanitize_html, :is_empty_html, :decode_html_entities, :convert_links }
+import Extractor from require "web_sanitize.html"
+
+extract_text = Extractor { printable: true }
+
+{ :sanitize_style, :sanitize_html, :is_empty_html, :decode_html_entities, :convert_links, :extract_text }

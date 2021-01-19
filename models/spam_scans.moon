@@ -135,20 +135,27 @@ class SpamScans extends Model
       if text
         table.insert texts, text
 
+    add_html = (html) ->
+      import extract_text from require "helpers.html"
+      text = extract_text html
+
+      if text
+        table.insert texts, text
+
     profile = user\get_user_profile!
 
     add_text profile\format_website!
-    add_text profile.bio
+    add_html profile.bio
 
     import Streaks, Submissions from require "models"
     for streak in *Streaks\select "where user_id = ? order by id asc limit 10", user.id
       add_text streak.title
       add_text streak.short_description
-      add_text streak.description
+      add_html streak.description
 
     for submission in *Submissions\select "where user_id = ? order by id asc limit 10", user.id
       add_text submission.title
-      add_text submission.description
+      add_html submission.description
 
     user._spam_scans_user_texts = texts
     texts
