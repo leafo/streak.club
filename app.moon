@@ -45,6 +45,7 @@ class extends lapis.Application
     UserIpAddresses\register_ip @
 
     if @current_user
+      @res\add_header "Cache-Control", "no-store"
       @current_user\update_last_active!
       @global_notifications = @current_user\unseen_notifications!
 
