@@ -222,7 +222,6 @@ class AdminApplication extends lapis.Application
           "user_ham"
         }
 
-
       if tokens = SpamScans\tokenize_user_text @user
         @text_token_summary = SpamScans\summarize_tokens tokens, {
           "text_spam"

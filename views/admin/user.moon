@@ -128,7 +128,6 @@ class AdminUser extends require "widgets.admin.page"
             "text"
           }
 
-
         if @user_token_summary
           details class: "toggle_form", ->
             summary "User tokens"

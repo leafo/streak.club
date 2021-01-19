@@ -169,9 +169,9 @@ class SpamScans extends Model
     -- [*] country code
     -- [ ] quickly created something
     -- [ ] quickly set profile
-    -- [ ] recaptcha result score (note if recaptcha is not available)
+    -- [*] recaptcha result score (note if recaptcha is not available)
     -- [ ] register referrer
-    -- [*] browser time zone (last time zone only set on streak creation)
+    -- [*] browser time zone (last time zone is set async on layout render when logged in)
     -- [ ] browser user agent
     -- [ ] accept lang
     tokens = {}
@@ -204,6 +204,20 @@ class SpamScans extends Model
     if domains
       for d in *domains
         insert "d.#{d}"
+
+    if rr = user\get_register_captcha_result!
+      if score = rr.data.score
+        centered = (score*100 - 50)
+
+        for i=0,-50,-10
+          if centered <= i
+            insert "rc.#{i}"
+
+        for i=0,50,10
+          if centered >= i
+            insert "rc.#{i}"
+      else
+        insert "rc.missing"
 
     if next tokens
       tokens
