@@ -293,6 +293,9 @@ class SpamScans extends Model
   train: (status) =>
     train_status = @@train_statuses\for_db status
 
+    if @is_trained!
+      return nil, "already trained, can't train again"
+
     import transition from require "helpers.model"
     if transition @, "train_status", @@train_statuses.untrained, train_status
 
@@ -311,7 +314,13 @@ class SpamScans extends Model
 
         category\increment_words counts
 
+      @update {
+        review_status: @@train_statuses.reviewed
+      }
+
       true
+    else
+      nil, "failed to get lock on spam object to train"
 
   untrain: =>
     error "TODO"

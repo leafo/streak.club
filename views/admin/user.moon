@@ -67,30 +67,32 @@ class AdminUser extends require "widgets.admin.page"
             class: "button"
           }, "Refresh spam scan"
 
-      form method: "post", class: "form", ->
-        @csrf_input!
-        input type: "hidden", name: "action", value: "train_spam_scan"
-        fieldset ->
-          legend "Train spam"
 
-          button {
-            name: "train"
-            class: "button green"
-            value: "ham"
-          }, "Ham"
-          text " "
+      if not scan or not scan\is_trained!
+        form method: "post", class: "form", ->
+          @csrf_input!
+          input type: "hidden", name: "action", value: "train_spam_scan"
+          fieldset ->
+            legend "Train spam"
 
-          label ->
-            input type: "checkbox", name: "confirm", required: true
-            text " Confirm"
+            button {
+              name: "train"
+              class: "button green"
+              value: "ham"
+            }, "Ham"
+            text " "
 
-          text " "
+            label ->
+              input type: "checkbox", name: "confirm", required: true
+              text " Confirm"
 
-          button {
-            name: "train"
-            class: "button red"
-            value: "spam"
-          }, "Spam"
+            text " "
+
+            button {
+              name: "train"
+              class: "button red"
+              value: "spam"
+            }, "Spam"
 
       fieldset ->
         legend "Spam tokens"

@@ -241,7 +241,7 @@ class AdminApplication extends lapis.Application
             }}
           }
 
-          error "not yet: train: #{@params.train}"
+          assert_error scan\train @params.train
 
         when "refresh_spam_scan"
           import SpamScans from require "models"
