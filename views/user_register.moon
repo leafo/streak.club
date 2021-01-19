@@ -50,7 +50,7 @@ class UserRegister extends require "widgets.page"
         type: "password"
       }
 
-      if config.recaptcha3
+      if config.recaptcha3 and config.enable_recaptcha
         input type: "hidden", id: "recaptcha_token",name: "recaptcha_token", value: ""
 
       div class: "input_row terms_row", ->
@@ -66,7 +66,7 @@ class UserRegister extends require "widgets.page"
         raw " &middot; "
         a href: @url_for("user_forgot_password"), "Forgot password"
 
-      if config.recaptcha3
+      if config.recaptcha3 and config.enable_recaptcha
         script src: "https://www.google.com/recaptcha/api.js?render=#{config.recaptcha3.site_key}"
         script type: "text/javascript", ->
           raw [[

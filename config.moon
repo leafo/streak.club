@@ -27,6 +27,8 @@ config {"development", "test", "production"}, ->
     view_counter_dict: "community_view_counters"
   }
 
+  enable_recaptcha true
+
 config "test", ->
   port 80 -- to generate portless URLs
   code_cache "on"
