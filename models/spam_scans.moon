@@ -248,7 +248,8 @@ class SpamScans extends Model
       scan = @find user_id: user.id
       db.update @table_name!, {
         score: score or db.NULL
-        review_status: @review_statuses\for_db @status_for_score score
+        review_status: unless scan\is_reviewed!
+          @review_statuses\for_db @status_for_score score
         user_tokens: if next user_tokens
           db.array user_tokens
         else
@@ -290,6 +291,25 @@ class SpamScans extends Model
   is_trained: =>
     @train_status != @@train_statuses.untrained
 
+  is_reviewed: =>
+    @review_status == @@review_statuses.reviewed
+
+  mark_reviewed: =>
+    return nil, "already reviewed" if @is_reviewed!
+
+    -- get a lock on the update by only updating it when loaded fields match
+    res = db.update @@table_name!, {
+      review_status: @@review_statuses.reviewed
+    }, {
+      id: assert @id
+      review_status: @review_status
+      train_status: @train_status
+    }
+
+    if res and res.affected_rows > 0
+      @refresh!
+      true
+
   train: (status) =>
     train_status = @@train_statuses\for_db status
 
@@ -315,7 +335,7 @@ class SpamScans extends Model
         category\increment_words counts
 
       @update {
-        review_status: @@train_statuses.reviewed
+        review_status: @@review_statuses.reviewed
       }
 
       true

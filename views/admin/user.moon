@@ -49,7 +49,9 @@ class AdminUser extends require "widgets.admin.page"
 
       if scan
         @field_table scan, {
-          "score"
+          {"score", (scan) ->
+            code title: scan.score, "%0.4f"\format scan.score
+          }
           {"review_status", SpamScans.review_statuses}
           {"train_status", SpamScans.train_statuses}
           "created_at", "updated_at"
@@ -58,21 +60,33 @@ class AdminUser extends require "widgets.admin.page"
         p ->
           em "This user has no spam scan"
 
-      if scan and scan\needs_review!
-        form method: "post", class: "form", ->
-          @csrf_input!
-          input type: "hidden", name: "action", value: "dismiss_spam_scan"
-          button  {
-            class: "button"
-          }, "Dismiss scan"
+      form method: "post", class: "form", ->
+        @csrf_input!
 
-      unless scan and scan\is_trained!
-        form method: "post", class: "form", ->
-          @csrf_input!
-          input type: "hidden", name: "action", value: "refresh_spam_scan"
+        unless scan and scan\is_trained!
           button  {
             class: "button"
+            name: "action"
+            value: "refresh_spam_scan"
           }, "Refresh spam scan"
+          text " "
+
+        if scan and scan\needs_review!
+          button  {
+            class: "button"
+            name: "action"
+            value: "dismiss_spam_scan"
+          }, "Dismiss scan as safe"
+          text " "
+
+        if scan and not scan\is_trained! and not scan\is_reviewed!
+          button  {
+            class: "button red"
+            name: "action"
+            value: "dismiss_spam_scan_as_spam"
+            title: "This will mark as reviewed and update the user flag to be spam"
+          }, "Dismiss scan as SPAM"
+          text " "
 
 
       if not scan or not scan\is_trained!

@@ -225,10 +225,25 @@ class AdminApplication extends lapis.Application
           "update_flags"
           "refresh_spam_scan"
           "train_spam_scan"
+
+          "dismiss_spam_scan"
+          "dismiss_spam_scan_as_spam"
         }}
       }
 
       switch @params.action
+        when "dismiss_spam_scan", "dismiss_spam_scan_as_spam"
+          scan = assert_error @user\get_spam_scan!, "user has no spam scan"
+          assert_error scan\mark_reviewed!, "failed to mark reviewed"
+
+          @session.flash = "marked spam as reviewed"
+
+          if @params.action == "dismiss_spam_scan_as_spam"
+            @session.flash ..= "and suspended account"
+            @user\update_flags {
+              spam: true
+              suspended: true
+            }
         when "train_spam_scan"
           import SpamScans from require "models"
           scan = SpamScans\refresh_for_user @user
@@ -242,6 +257,16 @@ class AdminApplication extends lapis.Application
           }
 
           assert_error scan\train @params.train
+
+          @session.flash = "Trained #{@params.train}"
+
+          if @params.train == "spam"
+            @user\update_flags {
+              spam: true
+              suspended: true
+            }
+
+            @session.flash ..= " and suspended"
 
         when "refresh_spam_scan"
           import SpamScans from require "models"
