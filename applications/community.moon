@@ -104,8 +104,8 @@ class CommunityApplication extends lapis.Application
       BrowsingFlow(@)\post_single!
 
       @title = "Post by #{@post\get_user!\name_for_display!} in #{@topic\name_for_display!}"
-      import extract_text from require "web_sanitize"
-      @meta_description = extract_text(@post.body)\sub 1, 200
+      import extract_text from require "helpers.html"
+      @meta_description = require("widgets.base").truncate nil, extract_text(@post.body), 200
 
       -- -- TODO this should be aware of community_post notification objects and
       -- -- clear that out
