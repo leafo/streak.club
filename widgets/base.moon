@@ -14,6 +14,27 @@ if ngx and ngx.worker
 else
   math.randomseed os.time!
 
+truncate = do
+  import C, Cmt from require "lpeg"
+  import printable_character, whitespace from require "lapis.util.utf8"
+
+  nonwhitespace = 1 - whitespace
+  trim_right = C (whitespace^0 * nonwhitespace^1)^0
+
+  remaining = 0
+  truncator = C Cmt(printable_character, (pos) ->
+    remaining -= 1
+    remaining >= 0
+  )^0
+
+  (str, len) ->
+    remaining = assert len, "missing length"
+
+    if #str < remaining
+      return str
+
+    trim_right\match truncator\match(str) or ""
+
 class Base extends Widget
   @include "widgets.asset_helpers"
   @include "widgets.icons"
@@ -155,10 +176,11 @@ class Base extends Widget
     tostring(num)\reverse!\gsub("(...)", "%1,")\match("^(.-),?$")\reverse!
 
   truncate: (str, len=30, tail="...") =>
-    if #str > len
-      str\sub(1, len) .. tail
+    out = truncate str, len
+    if out != str and tail
+      out .. tail
     else
-      str
+      out
 
   react_render: (component, props={}, selector) =>
     target = "$(#{@widget_selector!})"
