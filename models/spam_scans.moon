@@ -136,10 +136,9 @@ class SpamScans extends Model
         table.insert texts, text
 
     add_html = (html) ->
-      import extract_text from require "helpers.html"
-      text = extract_text html
-
-      if text
+      if html
+        import extract_text from require "helpers.html"
+        text = extract_text html
         table.insert texts, text
 
     profile = user\get_user_profile!
@@ -224,14 +223,17 @@ class SpamScans extends Model
       C = require "lapis.bayes.classifiers.bayes"
       classifier = C { max_words: 1000 }
       res, err = classifier\text_probabilities {"user.spam", "user.ham"}, user_tokens
-      score = res
+
+      if res and res["user.spam"]
+        score = res["user.spam"]
 
     if text_tokens
       C = require "lapis.bayes.classifiers.bayes"
       classifier = C { max_words: 1000 }
       res, err = classifier\text_probabilities {"text.spam", "text.ham"}, text_tokens
-      if res and res > (score or 0)
-        score = res
+
+      if res and res["text.spam"] > (score or 0)
+        score = res["text.spam"]
 
     scan = @create {
       user_id: user.id
@@ -262,6 +264,9 @@ class SpamScans extends Model
         user_id: user.id
         train_status: @train_statuses.untrained
       }
+      scan\refresh!
+
+    scan
 
   @create: (opts) =>
     opts.train_status = @train_statuses\for_db opts.train_status or "untrained"
@@ -284,5 +289,32 @@ class SpamScans extends Model
 
   is_trained: =>
     @train_status != @@train_statuses.untrained
+
+  train: (status) =>
+    train_status = @@train_statuses\for_db status
+
+    import transition from require "helpers.model"
+    if transition @, "train_status", @@train_statuses.untrained, train_status
+
+      categories = @@bayes_categories!
+
+      for category, tokens in pairs {
+        [categories["user_#{status}"]]: @user_tokens
+        [categories["text_#{status}"]]: @text_tokens
+      }
+        continue unless next tokens
+
+        counts = {}
+        for t in *tokens
+          counts[t] or= 0
+          counts[t] += 1
+
+        category\increment_words counts
+
+      true
+
+  untrain: =>
+    error "TODO"
+
 
 
