@@ -257,21 +257,9 @@ class AdminApplication extends lapis.Application
           @session.flash = "Password updated"
 
         when "update_flags"
-          bit = require "bit"
-          import Users from require "models"
-          flags = @user.flags
-          for flag_name in *{"spam", "suspended"}
-            val = Users.flags\for_db flag_name
-            if @params[flag_name] == "on"
-              flags = bit.bor flags, val
-            else
-              flags = bit.band flags, bit.bnot(val)
+          update = { flag_name, @params[flag_name] == "on" for flag_name in *{"spam", "suspended"} }
 
-          if @user.flags != flags
-            @user\update {
-              :flags
-            }
-
+          if @user\update_flags update
             @session.flash = "updated flags to: #{flags}"
 
       redirect_to: @admin_url_for @user

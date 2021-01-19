@@ -128,8 +128,22 @@ class Users extends Model
           user
 
   has_flag: (flag) =>
+    bit = _G.bit or require "bit"
     0 != bit.band @flags or 0, flag
 
+  update_flags: (t) =>
+    bit = _G.bit or require "bit"
+    flags = @flags
+    for field, enabled in pairs t
+      val = @@flags\for_db field
+
+      if enabled
+        flags = bit.bor flags, val
+      else
+        flags = bit.band flags, bit.bnot(val)
+
+    if flags != @flags
+      @update { :flags }
 
   is_admin: => @has_flag @@flags.admin
   is_suspended: => @has_flag @@flags.suspended
