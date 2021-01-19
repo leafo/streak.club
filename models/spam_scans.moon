@@ -211,6 +211,41 @@ class SpamScans extends Model
   @tokenize_user_text: (user) =>
     text_tokenizer\tokenize_text table.concat @user_texts(user), "\n"
 
+  @summarize_tokens: (tokens, categories) =>
+    category_models = @bayes_categories!
+
+    category_ids = [assert(category_models[c], "invalid category: #{c}").id for c in *categories]
+
+    -- convert to objects to hold the preloaded counts
+    tokens = [{:token} for token in *tokens]
+
+    WordClassifications\include_in tokens, "word", {
+      flip: true
+      many: true
+      where: {
+        category_id: db.list category_ids
+      }
+      as: "counts"
+      local_key: "token"
+    }
+
+    cbyid = {category_models[c].id, category_models[c] for c in *categories}
+
+    for t in *tokens
+      sum = 0
+      for word in *t.counts
+        word.category = cbyid[word.category_id]
+        sum += word.count
+
+      for word in *t.counts
+        word.p = word.count / sum
+
+      table.sort t.counts, (a, b) ->
+        (a.p or 0) > (b.p or 0)
+
+    tokens
+
+
   @refresh_for_user: (user) =>
     @bayes_categories! -- to ensure that they exist
 
