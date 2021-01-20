@@ -8,6 +8,7 @@ class AdminSpamQueue extends require "widgets.admin.page"
   @include "widgets.form_helpers"
   @include "widgets.table_helpers"
 
+  responsive: true
 
   column_content: =>
     div class: "page_header", ->
