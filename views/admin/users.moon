@@ -21,6 +21,7 @@ class AdminUsers extends require "widgets.admin.page"
       {"name", (user) ->
         a href: @url_for(user), user\name_for_display!
       }
+      "email"
       {"spam", (user) ->
         if scan = user\get_spam_scan!
           if scan\is_trained!
