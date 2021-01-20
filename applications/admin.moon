@@ -409,7 +409,7 @@ class AdminApplication extends lapis.Application
             or
             exists(select 1 from streaks where streaks.user_id = users.id)
           )
-          order by id desc
+          order by submissions_count desc, streaks_count desc, id desc
           limit 1
         "
 
