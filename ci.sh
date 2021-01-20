@@ -6,6 +6,7 @@ set -o xtrace
 # setup lua
 luarocks --lua-version=5.1 --local remove --force lapis
 luarocks --lua-version=5.1 --local remove --force moonscript
+luarocks --lua-version=5.1 --local install https://raw.githubusercontent.com/leafo/luajit-geoip/master/geoip-dev-1.rockspec
 luarocks --lua-version=5.1 --local build --only-deps --server=https://luarocks.org/dev
 eval $(luarocks --lua-version=5.1 --local path)
 pacman -Sy libmaxminddb --noconfirm
