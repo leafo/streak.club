@@ -666,5 +666,9 @@ import
 
   [1610588129]: =>
     require("lapis.bayes.schema").run_migrations!
+
+
+  [1611104893]: =>
+    require("community.schema").run_migrations 34
 }
 
