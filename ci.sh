@@ -13,6 +13,7 @@ luarocks --lua-version=5.1 --local install https://raw.githubusercontent.com/lea
 luarocks --lua-version=5.1 --local install https://raw.githubusercontent.com/leafo/lapis-bayes/master/lapis-bayes-dev-1.rockspec
 luarocks --lua-version=5.1 --local install https://raw.githubusercontent.com/leafo/web_sanitize/master/web_sanitize-dev-1.rockspec
 eval $(luarocks --lua-version=5.1 --local path)
+pacman -Sy libmaxminddb --noconfirm
 
 # prepare secrets
 rm -r secret
