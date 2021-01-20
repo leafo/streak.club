@@ -48,6 +48,8 @@ class AdminUser extends require "widgets.admin.page"
       scan = @user\get_spam_scan!
 
       if scan
+        a href: @admin_url_for(scan), "View scan..."
+
         @field_table scan, {
           {"score", (scan) ->
             if scan.score
@@ -63,80 +65,18 @@ class AdminUser extends require "widgets.admin.page"
         p ->
           em "This user has no spam scan"
 
-      form method: "post", class: "form", ->
-        @csrf_input!
-
-        unless scan and scan\is_trained!
-          button  {
-            class: "button"
-            name: "action"
-            value: "refresh_spam_scan"
-          }, "Refresh spam scan"
-          text " "
-
-        if scan and scan\needs_review!
-          button  {
-            class: "button"
-            name: "action"
-            value: "dismiss_spam_scan"
-          }, "Dismiss scan as safe"
-          text " "
-
-        if scan and not scan\is_trained! and not scan\is_reviewed!
-          button  {
-            class: "button red"
-            name: "action"
-            value: "dismiss_spam_scan_as_spam"
-            title: "This will mark as reviewed and update the user flag to be spam"
-          }, "Dismiss scan as SPAM"
-          text " "
-
-
-      if not scan or not scan\is_trained!
-        form method: "post", class: "form", ->
+        form {
+          method: "post"
+          class: "form"
+          action: @url_for "admin.spam_queue", nil, user_id: @user.id
+        }, ->
           @csrf_input!
-          input type: "hidden", name: "action", value: "train_spam_scan"
-          fieldset ->
-            legend "Train spam"
+          button  {
+            class: "button"
+            name: "action"
+            value: "refresh"
+          }, "Refresh spam scan"
 
-            button {
-              name: "train"
-              class: "button green"
-              value: "ham"
-            }, "Ham"
-            text " "
-
-            label ->
-              input type: "checkbox", name: "confirm", required: true
-              text " Confirm"
-
-            text " "
-
-            button {
-              name: "train"
-              class: "button red"
-              value: "spam"
-            }, "Spam"
-
-      fieldset ->
-        legend "Spam tokens"
-
-        details class: "toggle_form", ->
-          summary "Texts"
-          texts = SpamScans\user_texts @user
-          @column_table [{:text} for text in *texts], {
-            "text"
-          }
-
-        if @user_token_summary
-          details class: "toggle_form", ->
-            summary "User tokens"
-            @render_token_summary @user_token_summary
-
-        if @text_token_summary
-          details class: "toggle_form", ->
-            summary "Text tokens"
-            @render_token_summary @text_token_summary
 
     h3 "Joined streaks"
     @column_table @user\get_streak_users!, {
@@ -208,25 +148,3 @@ class AdminUser extends require "widgets.admin.page"
           input type: "checkbox", name: "confirm", required: true
           text " confirm"
 
-
-  render_token_summary: (summary) =>
-    @column_table summary, {
-      "token"
-      {"category", (t) ->
-        if top = unpack(t.counts)
-          if top.category.name\match "spam"
-            strong style: "color: red", top.category.name
-          else
-            text top.category.name
-        else
-          em class: "sub", "n/a"
-      }
-      {"rate", (t) ->
-        if top = unpack(t.counts)
-          text "#{"%0.3f"\format top.p * 100}%"
-      }
-      {"count", (t) ->
-        if top = unpack(t.counts)
-          text @number_format top.count
-      }
-    }

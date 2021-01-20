@@ -396,6 +396,9 @@ class SpamScans extends Model
     else
       nil, "failed to get lock on spam object to train"
 
+  admin_url_params: (r, ...) =>
+    "admin.spam_queue", nil, { user_id: @user_id }
+
   untrain: =>
     error "TODO"
 

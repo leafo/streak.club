@@ -214,20 +214,6 @@ class AdminApplication extends lapis.Application
       @user = assert_error Users\find(@params.id), "invalid user"
 
     GET: =>
-      import SpamScans from require "models"
-
-      if tokens = SpamScans\tokenize_user @user
-        @user_token_summary = SpamScans\summarize_tokens tokens, {
-          "user_spam"
-          "user_ham"
-        }
-
-      if tokens = SpamScans\tokenize_user_text @user
-        @text_token_summary = SpamScans\summarize_tokens tokens, {
-          "text_spam"
-          "text_ham"
-        }
-
       render: true
 
     POST: =>
@@ -237,57 +223,10 @@ class AdminApplication extends lapis.Application
         {"action", one_of: {
           "set_password"
           "update_flags"
-          "refresh_spam_scan"
-          "train_spam_scan"
-
-          "dismiss_spam_scan"
-          "dismiss_spam_scan_as_spam"
         }}
       }
 
       switch @params.action
-        when "dismiss_spam_scan", "dismiss_spam_scan_as_spam"
-          scan = assert_error @user\get_spam_scan!, "user has no spam scan"
-          assert_error scan\mark_reviewed!, "failed to mark reviewed"
-
-          @session.flash = "marked spam as reviewed"
-
-          if @params.action == "dismiss_spam_scan_as_spam"
-            @session.flash ..= "and suspended account"
-            @user\update_flags {
-              spam: true
-              suspended: true
-            }
-        when "train_spam_scan"
-          import SpamScans from require "models"
-          scan = SpamScans\refresh_for_user @user
-          assert_error scan, "scan not available for train"
-
-          assert_valid @params, {
-            {"train", one_of: {
-              "ham"
-              "spam"
-            }}
-          }
-
-          assert_error scan\train @params.train
-
-          @session.flash = "Trained #{@params.train}"
-
-          if @params.train == "spam"
-            @user\update_flags {
-              spam: true
-              suspended: true
-            }
-
-            @session.flash ..= " and suspended"
-
-        when "refresh_spam_scan"
-          import SpamScans from require "models"
-          scan = SpamScans\refresh_for_user @user
-          if scan
-            @session.flash = "refreshed spam scan: score: #{scan.score}"
-
         when "set_password"
           assert_valid @params, {
             {"password", exists: true}
@@ -452,6 +391,115 @@ class AdminApplication extends lapis.Application
     @uploads = @pager\get_page @page
     render: true
 
+  [spam_queue: "/spam-queue"]: capture_errors_json respond_to {
+    before: =>
+      import Users from require "models"
+      if @params.user_id
+        @user = assert_error Users\find(@params.user_id), "invalid user id"
+
+    GET: =>
+      -- get the next user
+      import Users, SpamScans from require "models"
+
+      unless @user
+        user = unpack Users\select "
+          where not exists(select 1 from spam_scans where user_id = users.id)
+          and (
+            exists(select 1 from user_profiles where user_profiles.user_id = users.id and (bio is not null or website is not null))
+            or
+            exists(select 1 from streaks where streaks.user_id = users.id)
+          )
+          order by id desc
+          limit 1
+        "
+
+        assert_error user, "no next user on queue"
+
+        if @flash
+          @session.flash = @flash -- forward the flash from previous action
+
+        return redirect_to: @url_for "admin.spam_queue", nil, user_id: user.id
+
+      import SpamScans from require "models"
+
+      if tokens = SpamScans\tokenize_user @user
+        @user_token_summary = SpamScans\summarize_tokens tokens, {
+          "user_spam"
+          "user_ham"
+        }
+
+      if tokens = SpamScans\tokenize_user_text @user
+        @text_token_summary = SpamScans\summarize_tokens tokens, {
+          "text_spam"
+          "text_ham"
+        }
+
+      render: true
+
+    POST: =>
+      assert_csrf @
+
+      assert_valid @params, {
+        {"action", one_of: {
+          "refresh"
+          "train"
+
+          "dismiss"
+          "dismiss_as_spam"
+        }}
+      }
+
+      local scan
+
+      switch @params.action
+        when "dismiss", "dismiss_as_spam"
+          scan = assert_error @user\get_spam_scan!, "user has no spam scan"
+          assert_error scan\mark_reviewed!, "failed to mark reviewed"
+
+          @session.flash = "marked spam as reviewed"
+
+          if @params.action == "dismiss_as_spam"
+            @session.flash ..= "and suspended account"
+            @user\update_flags {
+              spam: true
+              suspended: true
+            }
+        when "train"
+          import SpamScans from require "models"
+          scan = SpamScans\refresh_for_user @user
+          assert_error scan, "scan not available for train"
+
+          assert_valid @params, {
+            {"train", one_of: {
+              "ham"
+              "spam"
+            }}
+          }
+
+          assert_error scan\train @params.train
+
+          @session.flash = "Trained #{@params.train}"
+
+          if @params.train == "spam"
+            @user\update_flags {
+              spam: true
+              suspended: true
+            }
+
+            @session.flash ..= " and suspended"
+
+        when "refresh"
+          import SpamScans from require "models"
+          scan = SpamScans\refresh_for_user @user
+          if scan
+            @session.flash = "refreshed spam scan: score: #{scan.score}"
+            return redirect_to: @admin_url_for scan
+
+      if scan and not scan\is_reviewed! and not scan\is_trained!
+        return redirect_to: @admin_url_for scan
+
+      redirect_to: @url_for "admin.spam_queue"
+  }
 
 
 

@@ -769,3 +769,14 @@ img.svg_icon {
         filter: invert(1);
     }
 }
+
+.admin_columns {
+    display: flex;
+    align-items: flex-start;
+    > * {
+        margin-right: 10px;
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+}
