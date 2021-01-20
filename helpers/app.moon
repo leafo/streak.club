@@ -78,6 +78,9 @@ ensure_https = (fn) ->
 
     fn @
 
+is_crawler = ->
+  ngx and ngx.var.is_crawler == "1"
+
 { :not_found, :require_login, :require_admin, :assert_timezone,
   :login_and_return_url, :assert_unit_date, :assert_page, :find_streak,
-  :ensure_https }
+  :ensure_https, :is_crawler }
