@@ -670,5 +670,9 @@ import
 
   [1611104893]: =>
     require("community.schema").run_migrations 34
+
+  [1611180517]: =>
+    db.query "alter table uploads alter column data type json using data::json"
+
 }
 
