@@ -1,0 +1,65 @@
+
+
+
+import OrderedPaginator from require "lapis.db.pagination"
+import Uploads from require "models"
+
+
+pager = OrderedPaginator Uploads, "id", "
+  where type = ? and storage_type = ? and width is not null and not deleted and ready
+", Uploads.types.image, Uploads.storage_types.google_cloud_storage, {
+  per_page: 1000
+  order: "desc"
+}
+
+count = 0
+
+imagesize = require "imagesize"
+
+for upload in pager\each_item!
+  count += 1
+  print upload.id, upload.size, upload.filename, upload.extension
+
+  -- try to read less than the full size of the image
+  for size in *{
+    1024
+    1024*10
+    1024*100
+    false
+  }
+    if size and size >= upload.size
+      size = false
+
+    content, headers = upload\get_file_contents {
+      headers: if size then { Range: "bytes=0-#{size}" }
+    }
+
+    break unless content
+
+    image_type, data = imagesize.detect_image_from_bytes content
+
+    unless image_type
+      if size then continue else break
+
+
+    require("moon").p {
+      bytes_needed: size or "all"
+      :image_type
+      :data
+    }
+
+    import to_json from require "lapis.util"
+
+    data_update = upload.data and {k,v for k,v in pairs upload.data} or {}
+    data_update.imagesize = {k,v for k,v in pairs data}
+    data_update.imagesize.type = image_type
+
+    upload\update {
+      width: data.width
+      height: data.height
+      data: to_json data_update
+    }
+
+    break
+
+print "total:", count

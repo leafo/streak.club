@@ -233,3 +233,14 @@ class Uploads extends Model
   increment_audio: =>
     import DailyAudioPlays from require "models"
     DailyAudioPlays\increment @id
+
+  -- be careful, this might take up a lot of memory!
+  get_file_contents: (...) =>
+    switch @storage_type
+      when @@storage_types.filesystem
+        error "not supported right now"
+      when @@storage_types.google_cloud_storage
+        storage = require "secret.storage"
+        bucket = require("lapis.config").get!.storage_bucket
+        storage\get_file bucket, @bucket_key!, ...
+
