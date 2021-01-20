@@ -1,4 +1,4 @@
-import SpamScans from require "models"
+import Streaks, SpamScans from require "models"
 
 -- a lot of this is copied from the user admin page just to quickly get this
 -- together
@@ -37,15 +37,14 @@ class AdminSpamQueue extends require "widgets.admin.page"
 
       section ->
         strong "Streaks"
-        @column_table @user\get_streak_users!, {
-          {"streak", (su) ->
-            streak = su\get_streak!
+        @column_table @user\get_created_streaks!, {
+          {"streak", (streak) ->
             a href: @url_for(streak), streak.title
           }
+          "users_count"
           "submissions_count"
-          "last_submitted_at"
-          "created_at"
-          "pending"
+          {"publish_status", Streaks.publish_statuses}
+          "deleted"
         }
 
       if rr = @user\get_register_captcha_result!
