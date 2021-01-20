@@ -93,6 +93,10 @@ class Layout extends Widget
               a href: @url_for("new_streak"), "New streak"
               a href: @url_for("user_settings"), "Settings"
               a href: @url_for("user_logout"), "Log out"
+
+              if @current_user\is_admin!
+                a href: @url_for("admin.spam_queue"), ->
+                  strong "Spam Queue"
         else
           a class: "header_button", href: @url_for("user_login"), "Log in"
           a class: "header_button", href: @url_for("user_register"), "Register"
