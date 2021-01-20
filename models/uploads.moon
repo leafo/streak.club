@@ -244,3 +244,12 @@ class Uploads extends Model
         bucket = require("lapis.config").get!.storage_bucket
         storage\get_file bucket, @bucket_key!, ...
 
+
+  update_data: (update) =>
+    new_data = @data and {k,v for k,v in pairs @data} or {}
+    for k,v in pairs update
+      new_data[k] = v
+
+    import to_json from require "lapis.util"
+    @update data: db.raw db.escape_literal to_json new_data
+

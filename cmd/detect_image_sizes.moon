@@ -43,6 +43,9 @@ for upload in pager\each_item!
         continue
       else
         print "!!!!", "Failed to detect image"
+        upload\update_data {
+          error: "imagesize failed to detect image"
+        }
         break
 
 
@@ -54,15 +57,16 @@ for upload in pager\each_item!
 
     import to_json from require "lapis.util"
 
-    data_update = upload.data and {k,v for k,v in pairs upload.data} or {}
-    data_update.imagesize = {k,v for k,v in pairs data}
-    data_update.imagesize.type = image_type
+    imagesize_result = {k,v for k,v in pairs data}
+    imagesize_result.type = image_type
+
+    upload\update_data imagesize_result
 
     upload\update {
       width: data.width
       height: data.height
-      data: to_json data_update
     }
+
 
     break
 
