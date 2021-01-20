@@ -103,9 +103,25 @@ $like_color: #FF5E5E;
 
 @mixin dark_theme {
     @media (prefers-color-scheme: dark) {
-        & {
+        body:not(.light_theme) & {
             @content;
         }
+    }
+
+    body.dark_theme & {
+        @content;
+    }
+}
+
+@mixin dark_theme_root {
+    @media (prefers-color-scheme: dark) {
+        body:not(.light_theme) {
+            @content;
+        }
+    }
+
+    body.dark_theme {
+        @content;
     }
 }
 

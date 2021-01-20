@@ -43,14 +43,14 @@
         height: 41px;
         padding: 0 40px;
 
-        background: transparent;
-        color: white;
-        border-color: white;
+
+        background: transparent !important;
+        color: white !important;
+        border-color: white !important;
 
         &:hover {
-            background-color: white;
-            color: link_color();
-            border-color: white;
+            background-color: white !important;
+            color: link_color() !important;
         }
 
         @include mobile_width {

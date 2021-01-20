@@ -31,34 +31,35 @@ body {
     --sc-green: #{$green};
     --sc-blue: #{$blue};
     --sc-red: #{$red};
-
-    @include dark_theme {
-        --sc-body_color: #E6EAED;
-        --sc-body_color_light: #9BABB9;
-        --sc-body_color_lighter: #495B71;
-
-        --sc-white_back: #{$dark_white_back};
-        --sc-gray_back: #{$dark_gray_back};
-        --sc-gray_back50: #{rgba($dark_gray_back, 0.5)};
-        --sc-border_color: #{$dark_border_color};
-        --sc-border_color50: #{rgba($dark_border_color, 0.5)};
-
-        --sc-button_color: #{$dark_button_color};
-        --sc-button_fg_color: #{$dark_button_fg_color};
-        --sc-button_active_color: #{$dark_button_active_color};
-        --sc-button_hover_color: #{$dark_button_hover_color};
-
-        --sc-link_color: #{$dark_link_color};
-
-        // --sc-header_color: #0F3F75;
-        --sc-header_color: #13365f;
-
-        --sc-purple: #7A6DBE;
-        --sc-green: #{$dark_green};
-        --sc-blue: #208bf2;
-        --sc-red: #FD3D4D;
-    }
 }
+
+@include dark_theme_root {
+    --sc-body_color: #E6EAED;
+    --sc-body_color_light: #9BABB9;
+    --sc-body_color_lighter: #495B71;
+
+    --sc-white_back: #{$dark_white_back};
+    --sc-gray_back: #{$dark_gray_back};
+    --sc-gray_back50: #{rgba($dark_gray_back, 0.5)};
+    --sc-border_color: #{$dark_border_color};
+    --sc-border_color50: #{rgba($dark_border_color, 0.5)};
+
+    --sc-button_color: #{$dark_button_color};
+    --sc-button_fg_color: #{$dark_button_fg_color};
+    --sc-button_active_color: #{$dark_button_active_color};
+    --sc-button_hover_color: #{$dark_button_hover_color};
+
+    --sc-link_color: #{$dark_link_color};
+
+    // --sc-header_color: #0F3F75;
+    --sc-header_color: #13365f;
+
+    --sc-purple: #7A6DBE;
+    --sc-green: #{$dark_green};
+    --sc-blue: #208bf2;
+    --sc-red: #FD3D4D;
+}
+
 
 h2, h3 {
     .sub {

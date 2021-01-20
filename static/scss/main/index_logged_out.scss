@@ -324,13 +324,13 @@ $gray: darken(#F5F5F5, 3%);
                 font-size: 22px;
             }
 
-            background: transparent;
-            color: white;
-            border-color: white;
+            background: transparent !important;
+            color: white !important;
+            border-color: white !important;
 
             &:hover {
-                background-color: white;
-                color: link_color();
+                background-color: white !important;
+                color: link_color() !important;
             }
         }
 
