@@ -122,6 +122,8 @@ class SpamScans extends Model
     else
       "default"
 
+  -- this returns an array of HTML chunks (so we can get domains out of the text)
+  -- when training as plain text, concat and extract the text first
   @user_texts: (user) =>
     if user._spam_scans_user_texts
       return user._spam_scans_user_texts
@@ -139,7 +141,7 @@ class SpamScans extends Model
 
     add_html = (html) ->
       if html
-        table.insert texts, text
+        table.insert texts, html
 
     profile = user\get_user_profile!
 
