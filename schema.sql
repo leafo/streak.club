@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.2
--- Dumped by pg_dump version 12.2
+-- Dumped from database version 12.4
+-- Dumped by pg_dump version 12.4
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -552,7 +552,8 @@ CREATE TABLE public.community_posts (
     status smallint DEFAULT 1 NOT NULL,
     moderation_log_id integer,
     body_format smallint DEFAULT 1 NOT NULL,
-    pin_position integer
+    pin_position integer,
+    popularity_score integer DEFAULT 0
 );
 
 
@@ -718,7 +719,11 @@ CREATE TABLE public.community_users (
     updated_at timestamp without time zone NOT NULL,
     flair character varying(255),
     recent_posts_count integer DEFAULT 0 NOT NULL,
-    last_post_at timestamp without time zone
+    last_post_at timestamp without time zone,
+    posting_permission smallint DEFAULT 1 NOT NULL,
+    received_up_votes_count integer DEFAULT 0 NOT NULL,
+    received_down_votes_count integer DEFAULT 0 NOT NULL,
+    received_votes_adjustment integer DEFAULT 0 NOT NULL
 );
 
 
@@ -889,6 +894,56 @@ CREATE TABLE public.followings (
 ALTER TABLE public.followings OWNER TO postgres;
 
 --
+-- Name: lapis_bayes_categories; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.lapis_bayes_categories (
+    id integer NOT NULL,
+    name text NOT NULL,
+    total_count integer DEFAULT 0 NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.lapis_bayes_categories OWNER TO postgres;
+
+--
+-- Name: lapis_bayes_categories_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.lapis_bayes_categories_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.lapis_bayes_categories_id_seq OWNER TO postgres;
+
+--
+-- Name: lapis_bayes_categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.lapis_bayes_categories_id_seq OWNED BY public.lapis_bayes_categories.id;
+
+
+--
+-- Name: lapis_bayes_word_classifications; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.lapis_bayes_word_classifications (
+    category_id integer NOT NULL,
+    word text NOT NULL,
+    count integer DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public.lapis_bayes_word_classifications OWNER TO postgres;
+
+--
 -- Name: lapis_migrations; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1051,6 +1106,69 @@ ALTER TABLE public.related_streaks_id_seq OWNER TO postgres;
 --
 
 ALTER SEQUENCE public.related_streaks_id_seq OWNED BY public.related_streaks.id;
+
+
+--
+-- Name: spam_scans; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.spam_scans (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    train_status smallint DEFAULT 1 NOT NULL,
+    review_status smallint DEFAULT 1 NOT NULL,
+    user_tokens text[],
+    text_tokens text[],
+    score numeric,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.spam_scans OWNER TO postgres;
+
+--
+-- Name: spam_scans_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.spam_scans_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.spam_scans_id_seq OWNER TO postgres;
+
+--
+-- Name: spam_scans_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.spam_scans_id_seq OWNED BY public.spam_scans.id;
+
+
+--
+-- Name: spam_scans_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.spam_scans_user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.spam_scans_user_id_seq OWNER TO postgres;
+
+--
+-- Name: spam_scans_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.spam_scans_user_id_seq OWNED BY public.spam_scans.user_id;
 
 
 --
@@ -1493,6 +1611,13 @@ ALTER TABLE ONLY public.exception_types ALTER COLUMN id SET DEFAULT nextval('pub
 
 
 --
+-- Name: lapis_bayes_categories id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.lapis_bayes_categories ALTER COLUMN id SET DEFAULT nextval('public.lapis_bayes_categories_id_seq'::regclass);
+
+
+--
 -- Name: notifications id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1518,6 +1643,20 @@ ALTER TABLE ONLY public.recaptcha_results ALTER COLUMN id SET DEFAULT nextval('p
 --
 
 ALTER TABLE ONLY public.related_streaks ALTER COLUMN id SET DEFAULT nextval('public.related_streaks_id_seq'::regclass);
+
+
+--
+-- Name: spam_scans id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.spam_scans ALTER COLUMN id SET DEFAULT nextval('public.spam_scans_id_seq'::regclass);
+
+
+--
+-- Name: spam_scans user_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.spam_scans ALTER COLUMN user_id SET DEFAULT nextval('public.spam_scans_user_id_seq'::regclass);
 
 
 --
@@ -1828,6 +1967,22 @@ ALTER TABLE ONLY public.followings
 
 
 --
+-- Name: lapis_bayes_categories lapis_bayes_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.lapis_bayes_categories
+    ADD CONSTRAINT lapis_bayes_categories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: lapis_bayes_word_classifications lapis_bayes_word_classifications_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.lapis_bayes_word_classifications
+    ADD CONSTRAINT lapis_bayes_word_classifications_pkey PRIMARY KEY (category_id, word);
+
+
+--
 -- Name: lapis_migrations lapis_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1865,6 +2020,14 @@ ALTER TABLE ONLY public.recaptcha_results
 
 ALTER TABLE ONLY public.related_streaks
     ADD CONSTRAINT related_streaks_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: spam_scans spam_scans_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.spam_scans
+    ADD CONSTRAINT spam_scans_pkey PRIMARY KEY (id);
 
 
 --
@@ -2110,6 +2273,13 @@ CREATE INDEX community_post_reports_post_id_id_status_idx ON public.community_po
 
 
 --
+-- Name: community_posts_parent_post_id_popularity_score_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX community_posts_parent_post_id_popularity_score_idx ON public.community_posts USING btree (parent_post_id, popularity_score) WHERE ((popularity_score IS NOT NULL) AND (parent_post_id IS NOT NULL));
+
+
+--
 -- Name: community_posts_parent_post_id_post_number_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2159,10 +2329,17 @@ CREATE INDEX community_posts_topic_id_parent_post_id_depth_status_post_numbe ON 
 
 
 --
--- Name: community_posts_user_id_status_id_idx; Type: INDEX; Schema: public; Owner: postgres
+-- Name: community_posts_topic_id_popularity_score_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX community_posts_user_id_status_id_idx ON public.community_posts USING btree (user_id, status, id) WHERE (NOT deleted);
+CREATE INDEX community_posts_topic_id_popularity_score_idx ON public.community_posts USING btree (topic_id, popularity_score) WHERE (popularity_score IS NOT NULL);
+
+
+--
+-- Name: community_posts_user_id_id_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX community_posts_user_id_id_idx ON public.community_posts USING btree (user_id, id);
 
 
 --
@@ -2173,10 +2350,24 @@ CREATE INDEX community_subscriptions_user_id_idx ON public.community_subscriptio
 
 
 --
+-- Name: community_topics_category_id_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX community_topics_category_id_idx ON public.community_topics USING btree (category_id) WHERE (category_id IS NOT NULL);
+
+
+--
 -- Name: community_topics_category_id_sticky_status_category_order_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX community_topics_category_id_sticky_status_category_order_idx ON public.community_topics USING btree (category_id, sticky, status, category_order) WHERE ((NOT deleted) AND (category_id IS NOT NULL));
+
+
+--
+-- Name: community_topics_user_id_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX community_topics_user_id_idx ON public.community_topics USING btree (user_id) WHERE (user_id IS NOT NULL);
 
 
 --
@@ -2243,6 +2434,13 @@ CREATE INDEX followings_source_user_id_created_at_idx ON public.followings USING
 
 
 --
+-- Name: lapis_bayes_categories_name_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX lapis_bayes_categories_name_idx ON public.lapis_bayes_categories USING btree (name);
+
+
+--
 -- Name: notifications_user_id_seen_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2275,6 +2473,13 @@ CREATE INDEX related_streaks_other_streak_id_type_idx ON public.related_streaks 
 --
 
 CREATE UNIQUE INDEX related_streaks_streak_id_type_other_streak_id_idx ON public.related_streaks USING btree (streak_id, type, other_streak_id);
+
+
+--
+-- Name: spam_scans_user_id_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX spam_scans_user_id_idx ON public.spam_scans USING btree (user_id);
 
 
 --
@@ -2460,8 +2665,8 @@ CREATE INDEX users_username_idx ON public.users USING gin (username public.gin_t
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.2
--- Dumped by pg_dump version 12.2
+-- Dumped from database version 12.4
+-- Dumped by pg_dump version 12.4
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -2571,22 +2776,32 @@ community_22
 community_23
 1510810389
 1516221126
+1524276008
 community_24
 community_25
 community_26
-1524276008
+1524276009
 1566456125
 1580505725
 community_27
 community_28
 1580506174
 1580928124
-1580928125
 1580932859
 1581023628
 1581024649
-1582693015
 1582693016
+1610587003
+lapis_bayes_1439610038
+lapis_bayes_1474434614
+1610588129
+community_29
+community_30
+community_31
+community_32
+community_33
+community_34
+1611104893
 \.
 
 
