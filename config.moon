@@ -45,6 +45,8 @@ config "test", ->
     server: true
   }
 
+  enable_recaptcha false
+
 config "production", ->
   track_exceptions true
   admin_email "leafot@gmail.com"
@@ -66,4 +68,14 @@ config "production", ->
   systemd {
     user: true
   }
+
+
+-- config "development", ->
+--   force_login_user "leafo"
+--   postgres {
+--     database: "streakclub_prod"
+--   }
+-- 
+--   storage_bucket "streakclub"
+
 
