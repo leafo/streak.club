@@ -4,8 +4,6 @@
 
 A site for doing creative streaks of any kind. See it live: <http://streak.club>
 
-Still in early development!
-
 [![Twitch Link](http://leafo.net/dump/twitch-banner.svg)](https://www.twitch.tv/moonscript)
 
 Powered by:
@@ -15,12 +13,13 @@ Powered by:
 
 ## How To Run Locally
 
+The development environment has only been tested on Linux. It may be easiest to
+run the development environment within Docker.
+
 Install the following dependencies:
 
 * [Tup]
 * [sassc]
-* [coffeescript]
-* [uglify-es]
 * [discount] - or equivalent `markdown` executable.
 * [PostgreSQL]
 * [OpenResty]
@@ -37,6 +36,7 @@ Install the dependencies listed in [/BoxFile](/BoxFile) with LuaRocks.
 Run these commands to build:
 
 ```bash
+npm install
 tup init
 tup
 ```
@@ -56,8 +56,9 @@ lapis server
 
 Now `http://localhost:8080` should load.
 
-If you edit any MoonScript or SCSS files you should call `tup` to rebuild
-the changes. You can run `tup monitor -a` to watch the filesystem to rebuild.
+If you edit any `moon`, `scss`, `coffee`, etc. files then run`tup` to
+incrementally rebuild the changes. You can run `tup monitor -a` in the
+background to watch the filesystem to rebuild automatically when saving a file.
 
 ### Running tests
 
@@ -68,10 +69,14 @@ make test_db
 busted
 ```
 
-The `make test_db` command will copy the schema of the `moonrocks` local
-database into the test database, wiping out what whatever was there. You'll
+The `make test_db` command will copy the schema of the `streakclub` local
+database into a freshly created test database (named `streakclub_test`). You'll
 only need to run this command once and the beginning any any time the schema
 has changed.
+
+> **Note:** Migrations don't need to be run on the test database because you'll
+> run them on the development database then transfer the schema over to the
+> test database using `make test_db`.
 
 ### Setting up Google Cloud Storage
 
@@ -102,21 +107,19 @@ this: (it must return a table of options)
 ```moonscript
 { -- secret/email.moon
   key: "api:key-MY_KEY"
-  domain: "mydomain.mailgun.org"
-  sender: "MoonRocks <postmaster@mydomain.mailgun.org>"
+  domain: "streak.club"
+  sender: "StreakClub <postmaster@streak.club>"
 }
 ```
 
 ## License
 
-GPLv2 - Leaf Corcoran 2020
+GPLv2 - Leaf Corcoran 2021
 
 [Busted]: http://olivinelabs.com/busted/
-[coffeescript]: http://coffeescript.org/#installation
 [Mailgun]: https://www.mailgun.com/
 [OpenResty]: http://openresty.org/
 [PostgreSQL]: https://www.postgresql.org/
 [sassc]: https://github.com/sass/sassc
 [Tup]: http://gittup.org/tup/
-[uglify-es]: https://github.com/mishoo/UglifyJS2/tree/harmony
 [discount]:http://www.pell.portland.or.us/~orc/Code/discount/
