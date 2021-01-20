@@ -215,9 +215,12 @@ class extends lapis.Application
     import assert_timezone from require "helpers.app"
     assert_timezone @params.timezone
 
-    @current_user\update {
-      last_timezone: @params.timezone
-    }, timestamp: false
+    if @params.timezone != @current_user.last_timezone
+      @current_user\update {
+        last_timezone: @params.timezone
+      }, timestamp: false
+
+      @current_user\refresh_spam_scan!
 
     json: { success: true }
 

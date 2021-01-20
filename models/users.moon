@@ -479,3 +479,11 @@ class Users extends Model
       group by slug
       order by count desc
     ", @id, fields: "slug, count(*)", load: false
+
+  refresh_spam_scan: =>
+    scan = @get_spam_scan!
+    return if scan and (scan\is_trained! or scan\is_reviewed!)
+    import SpamScans from require "models"
+    SpamScans\refresh_for_user @
+
+

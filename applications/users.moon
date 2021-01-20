@@ -234,6 +234,8 @@ class UsersApplication extends lapis.Application
         }
 
       @session.flash = "Welcome to streak.club!"
+
+      user\refresh_spam_scan!
       redirect_to: @url_for "index"
   }
 
