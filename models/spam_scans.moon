@@ -329,9 +329,13 @@ class SpamScans extends Model
 
     if opts.user_tokens and next opts.user_tokens
       opts.user_tokens = db.array opts.user_tokens
+    else
+      opts.user_tokens = nil
 
     if opts.text_tokens and next opts.text_tokens
       opts.text_tokens = db.array opts.text_tokens
+    else
+      opts.text_tokens = nil
 
     insert_on_conflict_ignore @, opts
 
