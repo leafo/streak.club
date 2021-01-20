@@ -1,0 +1,39 @@
+.admin_page_page {
+    .admin_columns {
+        display: flex;
+        align-items: flex-start;
+        > * {
+            margin-right: 10px;
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+
+    .enum_value {
+        &[data-name=train_status][data-value=spam] {
+            color: red;
+            font-weight: bold;
+        }
+
+        &[data-name=train_status][data-value=ham] {
+            color: green;
+            font-weight: bold;
+        }
+
+        &[data-name=train_status][data-value=spam] {
+            color: red;
+            font-weight: bold;
+        }
+
+        &[data-name=review_status][data-value=needs_review] {
+            color: $orange;
+            font-weight: bold;
+        }
+
+        &[data-name=review_status][data-value=reviewed] {
+            color: $blue;
+        }
+    }
+}
+

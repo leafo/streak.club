@@ -771,13 +771,3 @@ img.svg_icon {
     }
 }
 
-.admin_columns {
-    display: flex;
-    align-items: flex-start;
-    > * {
-        margin-right: 10px;
-        &:last-child {
-            margin-right: 0;
-        }
-    }
-}

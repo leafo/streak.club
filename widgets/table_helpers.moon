@@ -73,7 +73,12 @@ class TableHelpers
       when "enum"
         assert enum, "tried to render field #{field_name} with no enum"
         if enum[value]
-          enum\to_name(value), title: value, class: "enum_value"
+          enum\to_name(value), {
+            title: value
+            class: "enum_value"
+            "data-name": field_name
+            "data-value": enum\to_name(value)
+          }
         else
           -> strong "Invalid enum value: #{value}"
       when "filesize"
