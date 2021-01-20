@@ -50,11 +50,11 @@ class AdminSpamQueue extends require "widgets.admin.page"
 
       if rr = @user\get_register_captcha_result!
         section ->
-        h3 "Recaptcha result"
-        @field_table rr.data, {
-          "hostname"
-          "score"
-        }
+          h3 "Recaptcha result"
+          @field_table rr.data, {
+            "hostname"
+            "score"
+          }
 
     scan = @user\get_spam_scan!
 
