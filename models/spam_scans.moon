@@ -327,10 +327,10 @@ class SpamScans extends Model
     opts.train_status = @train_statuses\for_db opts.train_status or "untrained"
     opts.review_status = @review_statuses\for_db opts.review_status or "default"
 
-    if opts.user_tokens
+    if opts.user_tokens and next opts.user_tokens
       opts.user_tokens = db.array opts.user_tokens
 
-    if opts.text_tokens
+    if opts.text_tokens and next opts.text_tokens
       opts.text_tokens = db.array opts.text_tokens
 
     insert_on_conflict_ignore @, opts
