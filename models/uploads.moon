@@ -19,7 +19,7 @@ import thumb from require "helpers.images"
 --   size bigint DEFAULT 0 NOT NULL,
 --   ready boolean DEFAULT false NOT NULL,
 --   deleted boolean DEFAULT false NOT NULL,
---   data text,
+--   data json,
 --   created_at timestamp without time zone NOT NULL,
 --   updated_at timestamp without time zone NOT NULL,
 --   downloads_count integer DEFAULT 0 NOT NULL,

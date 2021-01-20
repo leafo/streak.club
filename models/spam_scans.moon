@@ -80,7 +80,7 @@ text_tokenizer = PostgresTextTokenizer {}
 --   review_status smallint DEFAULT 1 NOT NULL,
 --   user_tokens text[],
 --   text_tokens text[],
---   score numeric DEFAULT 0,
+--   score numeric,
 --   created_at timestamp without time zone NOT NULL,
 --   updated_at timestamp without time zone NOT NULL
 -- );
