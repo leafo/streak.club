@@ -131,14 +131,14 @@ class SpamScans extends Model
       user.display_name
     }
 
+    -- we convert text -> html so we can treat the entire output as html
     add_text = (text) ->
+      import escape from require "lapis.html"
       if text
-        table.insert texts, text
+        table.insert texts, escape text
 
     add_html = (html) ->
       if html
-        import extract_text from require "helpers.html"
-        text = extract_text html
         table.insert texts, text
 
     profile = user\get_user_profile!
@@ -223,7 +223,10 @@ class SpamScans extends Model
       tokens
 
   @tokenize_user_text: (user) =>
-    text_tokenizer\tokenize_text table.concat @user_texts(user), "\n"
+    html = table.concat @user_texts(user), "\n"
+    import extract_text from require "helpers.html"
+    text = extract_text html
+    text_tokenizer\tokenize_text text
 
   @summarize_tokens: (tokens, categories) =>
     category_models = @bayes_categories!
