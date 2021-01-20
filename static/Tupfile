@@ -9,5 +9,5 @@
 
 # lib
 : lib/jquery.min.js lib/underscore-min.js lib/react.min.js lib/*.js |> awk 'FNR==1 && NR!=1 {print "\n;\n"}{print}' %f > %o |> lib.js
-: foreach main.js |> uglifyjs %f > %o |> %B.min.js
+: foreach main.js |> npx uglifyjs %f > %o |> %B.min.js
 
