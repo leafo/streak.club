@@ -39,7 +39,11 @@ for upload in pager\each_item!
     image_type, data = imagesize.detect_image_from_bytes content
 
     unless image_type
-      if size then continue else break
+      if size
+        continue
+      else
+        print "!!!!", "Failed to detect image"
+        break
 
 
     require("moon").p {
