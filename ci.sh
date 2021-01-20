@@ -9,6 +9,7 @@ luarocks --lua-version=5.1 --local remove --force moonscript
 luarocks --lua-version=5.1 --local install https://luarocks.org/manifests/leafo/lapis-dev-1.rockspec
 luarocks --lua-version=5.1 --local install https://luarocks.org/manifests/leafo/lapis-community-dev-1.rockspec
 luarocks --lua-version=5.1 --local install moonscript
+luarocks --lua-version=5.1 --local https://raw.githubusercontent.com/leafo/luajit-geoip/master/geoip-dev-1.rockspec
 eval $(luarocks --lua-version=5.1 --local path)
 
 # prepare secrets
