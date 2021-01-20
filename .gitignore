@@ -6,3 +6,7 @@ nginx.conf.compiled
 node_modules
 *.service
 image_cache/
+/luarocks
+/lua
+/lua_modules
+/.luarocks

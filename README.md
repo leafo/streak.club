@@ -31,11 +31,10 @@ git clone git@github.com:leafo/streak.club.git
 cd streak.club
 ```
 
-Install the dependencies listed in [/BoxFile](/BoxFile) with LuaRocks.
-
-Run these commands to build:
+Run these commands to install dependencies and build:
 
 ```bash
+luarocks build --only-deps --server=https://luarocks.org/dev
 npm install
 tup init
 tup
