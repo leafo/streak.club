@@ -18,8 +18,6 @@ post_siteverify = (opts) ->
     for k,v in pairs opts
       params[k] = v
 
-  require("moon").p params
-
   out = {}
   _, status = http.request {
     url: URL
