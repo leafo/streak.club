@@ -6,10 +6,10 @@ import Uploads from require "models"
 
 
 pager = OrderedPaginator Uploads, "id", "
-  where type = ? and storage_type = ? and width is not null and not deleted and ready
+  where type = ? and storage_type = ? and width is null and not deleted and ready
 ", Uploads.types.image, Uploads.storage_types.google_cloud_storage, {
   per_page: 1000
-  order: "desc"
+  order: "asc"
 }
 
 count = 0
