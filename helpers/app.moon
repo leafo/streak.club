@@ -10,6 +10,9 @@ date = require "date"
 
 not_found = { status: 404, render: "not_found" }
 
+is_crawler = ->
+  ngx and ngx.var.is_crawler == "1"
+
 require_login = (fn) ->
   =>
     if @current_user
@@ -40,8 +43,12 @@ assert_page = =>
 
 login_and_return_url = (url=ngx.var.request_uri) =>
   import encode_query_string from require "lapis.util"
+
   if @current_user
     url
+  elseif is_crawler!
+    -- simple login url so we aren't generating excess URLs for bots to crawl
+    @url_for("user_login")
   else
     @url_for("user_login") .. "?" .. encode_query_string {
       return_to: url
@@ -77,9 +84,6 @@ ensure_https = (fn) ->
       return status: 301, redirect_to: build_url url_opts
 
     fn @
-
-is_crawler = ->
-  ngx and ngx.var.is_crawler == "1"
 
 { :not_found, :require_login, :require_admin, :assert_timezone,
   :login_and_return_url, :assert_unit_date, :assert_page, :find_streak,
