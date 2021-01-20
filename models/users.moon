@@ -128,11 +128,9 @@ class Users extends Model
           user
 
   has_flag: (flag) =>
-    bit = _G.bit or require "bit"
     0 != bit.band @flags or 0, flag
 
   update_flags: (t) =>
-    bit = _G.bit or require "bit"
     flags = @flags
     for field, enabled in pairs t
       val = @@flags\for_db field
