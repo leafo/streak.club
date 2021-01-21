@@ -196,4 +196,26 @@ describe "users", ->
       assert.truthy current_user\has_tags!
 
 
+  describe "settings", ->
+    local current_user
+
+    before_each ->
+      current_user = factory.Users!
+
+    it "loads settings page", ->
+      status = request_as current_user, "/user/settings"
+      assert.same 200, status
+
+    it "updates account settings", ->
+      status, res = request_as current_user, "/user/settings", {
+        post: {
+          "user[display_name]": "hello world"
+          "user_profile[bio]": "<p>this is my profile!</p>"
+        }
+      }
+
+      current_user\refresh!
+      assert.same "hello world", current_user.display_name
+      profile = current_user\get_user_profile!
+      assert.same "<p>this is my profile!</p>", profile.bio
 
