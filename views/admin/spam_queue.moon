@@ -137,12 +137,18 @@ class AdminSpamQueue extends require "widgets.admin.page"
     fieldset ->
       legend "Spam tokens"
 
+      render_score = (score) ->
+        if score
+          code title: score, "%0.4f"\format score
+        else
+          code "∅"
+
       if @user_token_summary
         section ->
           div ->
             strong "User tokens"
             text " score: "
-            code @user_token_score or "∅"
+            render_score @user_token_score
 
           @render_token_summary @user_token_summary
 
@@ -152,7 +158,7 @@ class AdminSpamQueue extends require "widgets.admin.page"
             div ->
               strong "Text tokens"
               text " score: "
-              code @text_token_score or "∅"
+              render_score @text_token_score
 
             @render_token_summary @text_token_summary
 
