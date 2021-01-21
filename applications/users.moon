@@ -301,6 +301,8 @@ class UsersApplication extends lapis.Application
       @user\get_user_profile!\update profile_update
 
       @session.flash = "Profile updated"
+
+      user\refresh_spam_scan!
       redirect_to: @url_for "user_settings"
   }
 
