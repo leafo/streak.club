@@ -1403,7 +1403,7 @@ CREATE TABLE public.uploads (
     size bigint DEFAULT 0 NOT NULL,
     ready boolean DEFAULT false NOT NULL,
     deleted boolean DEFAULT false NOT NULL,
-    data text,
+    data json,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     downloads_count integer DEFAULT 0 NOT NULL,
@@ -2802,6 +2802,7 @@ community_32
 community_33
 community_34
 1611104893
+1611180517
 \.
 
 
