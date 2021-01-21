@@ -52,11 +52,24 @@ class Uploads extends Model
     google_cloud_storage: 2
   }
 
-  @content_types = {
+  @image_extensions: {
+    jpg: true
+    jpeg: true
+    png: true
+    gif: true
+  }
+
+  @content_types: {
     jpg: "image/jpeg"
     jpeg: "image/jpeg"
     png: "image/png"
     gif: "image/gif"
+    mp3: "audio/mpeg"
+    mp4: "video/mp4"
+    ogg: "audio/ogg"
+    oga: "audio/ogg"
+    wav: "audio/wav"
+    pdf: "application/pdf"
   }
 
   @preload_objects: (objects) =>
@@ -113,7 +126,7 @@ class Uploads extends Model
     unless opts.extension
       return nil, "missing extensions"
 
-    opts.type = if @content_types[opts.extension]
+    opts.type = if @image_extensions[opts.extension]
       "image"
     else
       "file"
@@ -125,7 +138,7 @@ class Uploads extends Model
     else
       @storage_types.filesystem
 
-    Model.create @, opts
+    super opts
 
   allowed_to_download: (user) =>
     return false if @is_image!
