@@ -423,12 +423,14 @@ class AdminApplication extends lapis.Application
       import SpamScans from require "models"
 
       if tokens = SpamScans\tokenize_user @user
+        @user_token_score = SpamScans\score_user_tokens tokens
         @user_token_summary = SpamScans\summarize_tokens tokens, {
           "user_spam"
           "user_ham"
         }
 
       if tokens = SpamScans\tokenize_user_text @user
+        @text_token_score = SpamScans\score_text_tokens tokens
         @text_token_summary = SpamScans\summarize_tokens tokens, {
           "text_spam"
           "text_ham"

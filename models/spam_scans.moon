@@ -264,6 +264,29 @@ class SpamScans extends Model
 
     tokens
 
+  -- returns the spam score
+  @score_user_tokens: (tokens) =>
+    C = require "lapis.bayes.classifiers.bayes"
+    classifier = C { max_words: 1000 }
+    res, err = classifier\text_probabilities {"user.spam", "user.ham"}, tokens
+
+    unless res
+      return nil, err
+
+    if res and res["user.spam"]
+      res["user.spam"]
+
+  -- returns the spam score
+  @score_text_tokens: (tokens) =>
+    C = require "lapis.bayes.classifiers.bayes"
+    classifier = C { max_words: 1000 }
+    res, err = classifier\text_probabilities {"text.spam", "text.ham"}, tokens
+
+    unless res
+      return nil, err
+
+    if res and res["text.spam"]
+      res["text.spam"]
 
   @refresh_for_user: (user) =>
     @bayes_categories! -- to ensure that they exist
@@ -274,20 +297,12 @@ class SpamScans extends Model
     score = nil
 
     if user_tokens
-      C = require "lapis.bayes.classifiers.bayes"
-      classifier = C { max_words: 1000 }
-      res, err = classifier\text_probabilities {"user.spam", "user.ham"}, user_tokens
-
-      if res and res["user.spam"]
-        score = res["user.spam"]
+      score = @score_user_tokens user_tokens
 
     if text_tokens
-      C = require "lapis.bayes.classifiers.bayes"
-      classifier = C { max_words: 1000 }
-      res, err = classifier\text_probabilities {"text.spam", "text.ham"}, text_tokens
-
-      if res and res["text.spam"] > (score or 0)
-        score = res["text.spam"]
+      s = @score_text_tokens text_tokens
+      if s and s > (score or 0)
+        score = s
 
     scan = @create {
       user_id: user.id

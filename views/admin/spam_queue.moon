@@ -139,13 +139,21 @@ class AdminSpamQueue extends require "widgets.admin.page"
 
       if @user_token_summary
         section ->
-          strong "User tokens"
+          div ->
+            strong "User tokens"
+            text " score: "
+            code @user_token_score or "∅"
+
           @render_token_summary @user_token_summary
 
       section class: "admin_columns", ->
         if @text_token_summary
           section ->
-            strong "Text tokens"
+            div ->
+              strong "Text tokens"
+              text " score: "
+              code @text_token_score or "∅"
+
             @render_token_summary @text_token_summary
 
         section ->
