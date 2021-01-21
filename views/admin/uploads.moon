@@ -37,6 +37,11 @@ class AdminUploads extends require "widgets.admin.page"
           a href: @url_for(upload), "view"
       }
       {"download", (upload) -> }
+      {"data", (upload) ->
+        if upload.data and next upload.data
+          import to_json from require "lapis.util"
+          code style: "font-size: small", to_json upload.data
+      }
     }
     @render_pager @pager
 
