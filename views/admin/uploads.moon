@@ -32,6 +32,11 @@ class AdminUploads extends require "widgets.admin.page"
       {"size", type: "filesize"}
       "downloads_count"
       {"storage_type", Uploads.storage_types}
+      {"view", (upload) ->
+        if upload\is_image! and not upload.deleted and upload.ready
+          a href: @url_for(upload), "view"
+      }
+      {"download", (upload) -> }
     }
     @render_pager @pager
 

@@ -238,12 +238,14 @@ class Uploads extends Model
   get_file_contents: (...) =>
     switch @storage_type
       when @@storage_types.filesystem
-        error "not supported right now"
+        file = assert io.open "#{config.user_content_path}/#{@path!}"
+        image_blob = assert file\read "*a"
+        file\close!
+        image_blob
       when @@storage_types.google_cloud_storage
         storage = require "secret.storage"
         bucket = require("lapis.config").get!.storage_bucket
         storage\get_file bucket, @bucket_key!, ...
-
 
   update_data: (update) =>
     new_data = @data and {k,v for k,v in pairs @data} or {}
