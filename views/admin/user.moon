@@ -45,11 +45,14 @@ class AdminUser extends require "widgets.admin.page"
     section ->
       h3 "Spam"
 
-      scan = @user\get_spam_scan!
+      p ->
+        a {
+          class: "button"
+          href: @url_for "admin.spam_queue", nil, user_id: @user.id
+        }, "Spam queue..."
 
-      if scan
-        a href: @admin_url_for(scan), "View scan..."
-
+      if scan = @user\get_spam_scan!
+        br!
         @field_table scan, {
           {"score", (scan) ->
             if scan.score

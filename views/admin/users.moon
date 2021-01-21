@@ -23,19 +23,18 @@ class AdminUsers extends require "widgets.admin.page"
       }
       "email"
       {"spam", (user) ->
-        if scan = user\get_spam_scan!
-          if scan\is_trained!
-            import SpamScans from require "models"
-            strong SpamScans.train_statuses[scan.train_status]
-          else
-            if scan.score
-              code "%.2f"\format scan.score
+        a href: @url_for("admin.spam_queue", nil, user_id: user.id), ->
+          if scan = user\get_spam_scan!
+            if scan\is_trained!
+              import SpamScans from require "models"
+              strong SpamScans.train_statuses[scan.train_status]
             else
-              code class: "sub", "∅"
-        else
-          raw "&bullet;"
-
-
+              if scan.score
+                code "%.2f"\format scan.score
+              else
+                code class: "sub", "∅"
+          else
+            raw "&bullet;"
       }
       {"streaks_count", label: "streaks"}
       {"submissions_count", label: "submissions"}

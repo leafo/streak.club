@@ -49,7 +49,7 @@ class AdminSpamQueue extends require "widgets.admin.page"
 
       if rr = @user\get_register_captcha_result!
         section ->
-          h3 "Recaptcha result"
+          strong "Recaptcha result"
           @field_table rr.data, {
             "hostname"
             "score"
@@ -58,22 +58,24 @@ class AdminSpamQueue extends require "widgets.admin.page"
     scan = @user\get_spam_scan!
 
     if scan
-      @field_table scan, {
-        {"score", (scan) ->
-          if scan.score
-            code title: scan.score, "%0.4f"\format scan.score
-          else
-            code class: "sub", "∅"
+      section ->
+        strong "Scan"
+        @field_table scan, {
+          {"score", (scan) ->
+            if scan.score
+              code title: scan.score, "%0.4f"\format scan.score
+            else
+              code class: "sub", "∅"
+          }
+          {"review_status", SpamScans.review_statuses}
+          {"train_status", SpamScans.train_statuses}
+          "created_at", "updated_at"
         }
-        {"review_status", SpamScans.review_statuses}
-        {"train_status", SpamScans.train_statuses}
-        "created_at", "updated_at"
-      }
     else
       p ->
         em "This user has no spam scan"
 
-    form method: "post", class: "form", ->
+    form method: "post", class: "form admin_columns", ->
       @csrf_input!
 
       unless scan and scan\is_trained!
@@ -84,22 +86,26 @@ class AdminSpamQueue extends require "widgets.admin.page"
         }, "Refresh spam scan"
         text " "
 
-      if scan and scan\needs_review!
-        button  {
-          class: "button"
-          name: "action"
-          value: "dismiss"
-        }, "Dismiss scan as safe"
+      if scan and not scan\is_reviewed!
+        details class: "toggle_form", ->
+          summary "Dismiss scan as safe"
+          button  {
+            class: "button"
+            name: "action"
+            value: "dismiss"
+          }, "Dismiss scan as safe..."
         text " "
 
       if scan and not scan\is_trained! and not scan\is_reviewed!
-        button  {
-          class: "button red"
-          name: "action"
-          value: "dismiss_as_spam"
-          title: "This will mark as reviewed and update the user flag to be spam"
-        }, "Dismiss scan as SPAM"
-        text " "
+        details class: "toggle_form", ->
+          summary "Dismiss scan as SPAM"
+
+          button  {
+            class: "button red"
+            name: "action"
+            value: "dismiss_as_spam"
+            title: "This will mark as reviewed and update the user flag to be spam"
+          }, "Dismiss scan as SPAM..."
 
 
     if not scan or not scan\is_trained!
@@ -132,17 +138,18 @@ class AdminSpamQueue extends require "widgets.admin.page"
       legend "Spam tokens"
 
       if @user_token_summary
-        h3 "User tokens"
-        @render_token_summary @user_token_summary
+        section ->
+          strong "User tokens"
+          @render_token_summary @user_token_summary
 
       section class: "admin_columns", ->
         if @text_token_summary
           section ->
-            h3 "Text tokens"
+            strong "Text tokens"
             @render_token_summary @text_token_summary
 
         section ->
-          h3 "Text"
+          strong "Text"
           texts = SpamScans\user_texts @user
           @column_table [{:text} for text in *texts], {
             "text"
