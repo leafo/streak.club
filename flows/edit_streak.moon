@@ -87,6 +87,7 @@ class EditStreakFlow extends Flow
         db.raw "hidden_streaks_count + 1"
     }
 
+    @current_user\refresh_spam_scan!
     streak
 
   edit_streak: =>
@@ -104,6 +105,7 @@ class EditStreakFlow extends Flow
 
     if next params
       @streak\update params
+      @streak\get_user!\refresh_spam_scan!
 
     -- lazy
     @streak\get_user!\recount "hidden_streaks_count"
