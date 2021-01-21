@@ -29,6 +29,7 @@ class AdminSpamQueue extends require "widgets.admin.page"
           }
 
           ":name_for_display"
+          "created_at"
           "streaks_count"
           "submissions_count"
           ":is_suspended"
