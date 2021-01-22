@@ -1,8 +1,5 @@
 import Streaks, SpamScans from require "models"
 
--- a lot of this is copied from the user admin page just to quickly get this
--- together
-
 class AdminSpamQueue extends require "widgets.admin.page"
   @needs: {"user"}
   @include "widgets.form_helpers"
@@ -151,7 +148,8 @@ class AdminSpamQueue extends require "widgets.admin.page"
             text " score: "
             render_score @user_token_score
 
-          @render_token_summary @user_token_summary
+          @render_token_summary @user_token_summary, (t) ->
+            a href: @url_for("admin.users", nil, user_token: t), t
 
       section class: "admin_columns", ->
         if @text_token_summary
@@ -170,9 +168,14 @@ class AdminSpamQueue extends require "widgets.admin.page"
             "text"
           }
 
-  render_token_summary: (summary) =>
+  render_token_summary: (summary, url) =>
     @column_table summary, {
-      "token"
+      {"token", (t) ->
+        if url
+          url t.token
+        else
+          text t.token
+      }
       {"category", (t) ->
         if top = unpack(t.counts)
           if top.category.name\match "spam"

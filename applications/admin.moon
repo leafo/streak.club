@@ -196,7 +196,21 @@ class AdminApplication extends lapis.Application
 
   [users: "/users"]: capture_errors_json =>
     import Users from require "models"
-    @pager = Users\paginated "order by id desc", {
+
+    clause = ""
+
+    add_where = (q) ->
+      if clause == ""
+        clause = "where"
+
+      clause = "#{clause} #{q}"
+
+    if @params.user_token
+      add_where db.interpolate_query "exists(select 1 from spam_scans where user_id = users.id and user_tokens @> ARRAY[?])", @params.user_token
+
+    clause = "#{clause} order by id desc"
+
+    @pager = Users\paginated clause, {
       per_page: 50
       prepare_results: (users) ->
         preload users, "ip_addresses", "spam_scan"
