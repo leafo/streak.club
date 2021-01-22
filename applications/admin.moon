@@ -402,16 +402,22 @@ class AdminApplication extends lapis.Application
       import Users, SpamScans from require "models"
 
       unless @user
-        user = unpack Users\select "
-          where not exists(select 1 from spam_scans where user_id = users.id)
-          and (
-            exists(select 1 from user_profiles where user_profiles.user_id = users.id and (bio is not null or website is not null))
-            or
-            exists(select 1 from streaks where streaks.user_id = users.id)
-          )
-          order by submissions_count desc, streaks_count desc, id desc
-          limit 1
-        "
+        top = unpack SpamScans\select "where train_status not in ? and review_status != ? order by score desc nulls last limit 1",
+          db.list({ SpamScans.train_statuses.ham, SpamScans.train_statuses.spam }), SpamScans.review_statuses.reviewed
+
+        user = top and top\get_user!
+
+        unless user
+          user = unpack Users\select "
+            where not exists(select 1 from spam_scans where user_id = users.id)
+            and (
+              exists(select 1 from user_profiles where user_profiles.user_id = users.id and (bio is not null or website is not null))
+              or
+              exists(select 1 from streaks where streaks.user_id = users.id)
+            )
+            order by submissions_count desc, streaks_count desc, id desc
+            limit 1
+          "
 
         assert_error user, "no next user on queue"
 
