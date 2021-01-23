@@ -194,33 +194,61 @@ class AdminApplication extends lapis.Application
       redirect_to: @admin_url_for @submission
   }
 
-  [users: "/users"]: capture_errors_json =>
-    import Users from require "models"
+  [users: "/users"]: capture_errors_json respond_to {
+    POST: =>
+      assert_csrf @
 
-    clause = ""
+      assert_valid @params, {
+        {"action", one_of: {"bulk_train_spam"}}
+      }
 
-    add_where = (q) ->
-      if clause == ""
-        clause = "where"
+      import Users, SpamScans from require "models"
 
-      clause = "#{clause} #{q}"
+      get_users = ->
+        user_ids = [k for k,v in pairs(@params.user_ids) when v == "on"]
+        Users\select "where id in ?", db.list user_ids
 
-    if @params.user_token
-      add_where db.interpolate_query "exists(select 1 from spam_scans where user_id = users.id and user_tokens @> ARRAY[?])", @params.user_token
+      updated = 0
 
-    clause = "#{clause} order by id desc"
+      switch @params.action
+        when "bulk_train_spam"
+          users = get_users!
+          preload users, "spam_scan"
+          for user in *users
+            scan = user.spam_scan or SpamScans\refresh_for_user user
+            if scan and scan\train "spam"
+              updated += 1
 
-    @pager = Users\paginated clause, {
-      per_page: 50
-      prepare_results: (users) ->
-        preload users, "ip_addresses", "spam_scan"
-        users
-    }
+      json: { success: true, :updated }
 
-    assert_page @
-    @users = @pager\get_page @page
+    GET: =>
+      import Users from require "models"
 
-    render: true
+      clause = ""
+
+      add_where = (q) ->
+        if clause == ""
+          clause = "where"
+
+        clause = "#{clause} #{q}"
+
+      if @params.user_token
+        add_where db.interpolate_query "exists(select 1 from spam_scans where user_id = users.id and user_tokens @> ARRAY[?])", @params.user_token
+
+      clause = "#{clause} order by id desc"
+
+      @pager = Users\paginated clause, {
+        per_page: 50
+        prepare_results: (users) ->
+          preload users, "ip_addresses", "spam_scan"
+          users
+      }
+
+      assert_page @
+      @users = @pager\get_page @page
+
+      render: true
+  }
 
   [user: "/user/:id"]: capture_errors_json respond_to {
     before: =>

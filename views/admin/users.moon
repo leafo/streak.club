@@ -14,6 +14,7 @@ class AdminUsers extends require "widgets.admin.page"
 
     @render_pager @pager
     @column_table @users, {
+      {"id", type: "checkbox", form: "bulk_update", input: "user_ids"}
       {"", (user) ->
         a href: @admin_url_for(user), "Admin"
       }
@@ -51,4 +52,30 @@ class AdminUsers extends require "widgets.admin.page"
       }
     }
     @render_pager @pager
+
+    details class: "toggle_form", ->
+      summary "Bulk update"
+
+      form method: "post", id: "bulk_update", ->
+        @csrf_input!
+
+        button {
+          class: "button"
+          type: "button"
+          onClick: "$('[name^=user_ids]').prop('checked', true)"
+        }, "Select all..."
+
+        text " "
+
+        button {
+          class: "button"
+          name: "action"
+          value: "bulk_train_spam"
+        }, "Bulk train spam"
+
+        label ->
+          input type: "checkbox", name: "confirm", required: true
+          text " Confirm"
+
+
 
