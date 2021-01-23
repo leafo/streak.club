@@ -135,6 +135,10 @@
                 margin: 0 auto;
                 display: block;
                 border: 0;
+
+                &:not([src]) {
+                    opacity: 0;
+                }
             }
         }
 

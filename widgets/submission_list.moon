@@ -156,7 +156,7 @@ class SubmissionList extends require "widgets.base"
               elseif not (submission.uploads and next submission.uploads)
                 p class: "empty_message", "This submission is empty"
 
-              @render_uploads submission
+              @render_uploads submission, count
 
           div class: "submission_footer", ->
             div class: "footer_inside", ->
@@ -202,8 +202,10 @@ class SubmissionList extends require "widgets.base"
         else
           button name:"action", value: "create", "Feature"
 
-  render_uploads: (submission) =>
+  render_uploads: (submission, count) =>
     return unless submission.uploads and next submission.uploads
+    lazy_image = count != 1
+
     div class: "submission_uploads", ->
       for upload in *submission.uploads
         if upload\is_image!
@@ -222,12 +224,15 @@ class SubmissionList extends require "widgets.base"
           if height
             height = math.min height, width * 3
 
+          image_src = @url_for upload, "#{width}x#{height or ""}"
+
           div class: "submission_image", ->
             a href: @url_for(upload), target: "_blank", ->
               img {
                 :width
                 :height
-                "data-lazy_src": @url_for upload, "#{width}x#{height or ""}"
+                src: if not lazy_image then image_src
+                "data-lazy_src": if lazy_image then image_src
               }
         elseif upload\is_audio!
           widget SubmissionListAudioFile {
