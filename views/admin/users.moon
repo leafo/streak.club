@@ -68,7 +68,7 @@ class AdminUsers extends require "widgets.admin.page"
         text " "
 
         button {
-          class: "button"
+          class: "button red"
           name: "action"
           value: "bulk_train_spam"
         }, "Bulk train spam"
