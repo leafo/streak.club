@@ -6,6 +6,7 @@ class S.SubmissionList
     @el = $ el
     @setup_comments()
     @setup_paging()
+    @setup_images()
 
     @setup_truncation()
 
@@ -177,11 +178,16 @@ class S.SubmissionList
 
             scroller.loading_row.before new_items
             @setup_truncation new_items
-
-            new_items.find(".submission_content img").on "load", =>
+            @setup_images()
 
           unless res.has_more
             scroller.remove_loader()
 
     }
+
+  setup_images: =>
+    @el.lazy_images {
+      selector: ".submission_row"
+    }
+
 
