@@ -207,9 +207,28 @@ class SubmissionList extends require "widgets.base"
     div class: "submission_uploads", ->
       for upload in *submission.uploads
         if upload\is_image!
+          width = 600
+          local height
+
+          -- don't upscale smaller things
+          if upload.width
+            width = math.min upload.width, width
+
+          height = if upload.width and upload.height
+            math.floor upload.height / upload.width * width
+
+          -- don't let the height go crazy if they upload a strange aspect
+          -- ratio
+          if height
+            height = math.min height, width * 3
+
           div class: "submission_image", ->
             a href: @url_for(upload), target: "_blank", ->
-              img src: @url_for upload, "600x"
+              img {
+                :width
+                :height
+                "data-lazy_src": @url_for upload, "#{width}x#{height or ""}"
+              }
         elseif upload\is_audio!
           widget SubmissionListAudioFile {
             audio_url: @url_for "prepare_play_audio", id: upload.id
