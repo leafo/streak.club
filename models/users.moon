@@ -170,6 +170,11 @@ class Users extends Model
     if @display_as_suspended user
       return false
 
+    unless user
+      scan = @get_spam_scan!
+      if scan and scan\needs_review!
+        return false
+
     true
 
   allowed_to_edit: (user) =>
