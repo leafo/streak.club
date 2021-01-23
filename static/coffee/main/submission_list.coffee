@@ -11,9 +11,6 @@ class S.SubmissionList
 
     @el.has_tooltips()
 
-    @el.find(".submission_content img").on "load", =>
-      @el.trigger "s:reshape"
-
     @el.on "s:increment_comments", ".submission_row", (e, amount=1) =>
       btn = $(e.currentTarget).find ".comments_toggle_btn"
       new_count = btn.data("count") + amount
@@ -35,8 +32,6 @@ class S.SubmissionList
         btn.closest(".submission_row")
           .find(".submission_footer").after commenter
 
-        @el.trigger "s:reshape"
-
         if callback
           callback commenter
 
@@ -46,7 +41,6 @@ class S.SubmissionList
         btn.fadeOut => btn.remove()
         inside.animate maxHeight: inside[0].scrollHeight, =>
           inside.removeClass("truncated")
-          @el.trigger "s:reshape"
 
       comments_toggle_btn: (btn) =>
         return if btn.is ".locked"
@@ -71,7 +65,6 @@ class S.SubmissionList
         $.post "/submission-comment/#{id}/delete", S.with_csrf(), (res) =>
           comment.slideUp =>
             comment.remove()
-            @el.trigger "s:reshape"
 
           btn.trigger "s:increment_comments", [-1]
 
@@ -94,11 +87,9 @@ class S.SubmissionList
           on_cancel: =>
             comment.removeClass "editing"
             ReactDOM.unmountComponentAtNode drop[0]
-            @el.trigger "s:reshape"
         }
 
         ReactDOM.render editor, drop[0]
-        @el.trigger "s:reshape"
 
       reply_btn: (btn) =>
         username = btn.closest(".submission_comment").data "author"
@@ -131,8 +122,6 @@ class S.SubmissionList
 
           unless res.has_more
             commenter.find(".load_more_btn").remove()
-
-          @el.trigger "s:reshape"
     }
 
     @el.remote_submit ".comment_form", (res, form) =>
@@ -155,7 +144,6 @@ class S.SubmissionList
           spacer.height(height).addClass "animated"
           setTimeout =>
             spacer.replaceWith new_comment
-            @el.trigger "s:reshape"
           , 500
 
   setup_truncation: (container=@el) ->
@@ -188,11 +176,9 @@ class S.SubmissionList
             new_items = $ res.rendered
 
             scroller.loading_row.before new_items
-            @el.trigger "s:reshape"
             @setup_truncation new_items
 
             new_items.find(".submission_content img").on "load", =>
-              @el.trigger "s:reshape"
 
           unless res.has_more
             scroller.remove_loader()
