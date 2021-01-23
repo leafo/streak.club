@@ -224,18 +224,23 @@ class AdminApplication extends lapis.Application
     GET: =>
       import Users from require "models"
 
-      clause = ""
+      wheres = {}
 
       add_where = (q) ->
-        if clause == ""
-          clause = "where"
-
-        clause = "#{clause} #{q}"
+        table.insert wheres, "(#{q})"
 
       if @params.user_token
         add_where db.interpolate_query "exists(select 1 from spam_scans where user_id = users.id and user_tokens @> ARRAY[?])", @params.user_token
 
-      clause = "#{clause} order by id desc"
+      if @params.spam_untrained
+        import SpamScans from require "models"
+        add_where db.interpolate_query "exists(select 1 from spam_scans where user_id = users.id and train_status = ?) or not exists(select 1 from spam_scans where user_id = users.id)", SpamScans.train_statuses.untrained
+
+
+      clause = "order by id desc"
+
+      if next wheres
+        clause = "where #{table.concat wheres, " and "} #{clause}"
 
       @pager = Users\paginated clause, {
         per_page: 50
