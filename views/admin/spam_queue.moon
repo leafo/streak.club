@@ -24,8 +24,8 @@ class AdminSpamQueue extends require "widgets.admin.page"
             a href: @admin_url_for(user), "Admin"
             text ")"
           }
-
           ":name_for_display"
+          "email"
           "created_at"
           "streaks_count"
           "submissions_count"
