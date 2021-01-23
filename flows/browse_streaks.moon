@@ -128,8 +128,9 @@ class BrowseStreaksFlow extends Flow
 
     @pager = Streaks\paginated "
       where #{db.encode_clause clause}
+      and exists(select 1 from visible_users where visible_users.id = user_id)
       #{time_clause and "and " .. time_clause or ""}
-      order by users_count desc
+      order by users_count desc, id desc
     ", {
       per_page: 100
       prepare_results: (streaks) ->
