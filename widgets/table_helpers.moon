@@ -83,6 +83,19 @@ class TableHelpers
           -> strong "Invalid enum value: #{value}"
       when "filesize"
         @filesize_format value
+      when "checkbox"
+        group_name = assert field.input, "missing input name for checkbox"
+        form_name = assert field.form, "missing form for checkbox"
+
+        ->
+          label style: "margin: -10px; padding: 10px", ->
+            input {
+              type: "checkbox"
+              class: field.class
+              name: "#{group_name}[#{value}]"
+              value: "on"
+              form: form_name
+            }
       else
         error "Don't know how to render type: #{value_type}"
 
