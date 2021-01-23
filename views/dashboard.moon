@@ -17,6 +17,14 @@ class Dashboard extends require "widgets.page"
   column_content: =>
     div class: "columns", ->
       div class: "primary_column", ->
+        if @current_user\is_suspended!
+          p class: "suspended_notice", ->
+            strong "Your account currently is suspended!"
+            br!
+            text "Any posts you make will not be visible. Please "
+            a target: "blank", rel: "noopener", href: "https://github.com/leafo/streak.club/issues", "contact an admin"
+            text " to get the issue resolved. This may be due to our automated spam detector."
+
         @render_account_stats!
 
         h2 "Active streaks you're in"
