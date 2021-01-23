@@ -35,5 +35,17 @@
             color: $blue;
         }
     }
+
+
+    .spam_scan {
+        [data-status=spam] {
+            color: var(--sc-red);
+        }
+
+        [data-status=ham] {
+            color: var(--sc-blue);
+        }
+    }
+
 }
 

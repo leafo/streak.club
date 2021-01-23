@@ -24,11 +24,11 @@ class AdminUsers extends require "widgets.admin.page"
       }
       "email"
       {"spam", (user) ->
-        a href: @url_for("admin.spam_queue", nil, user_id: user.id), ->
+        a class: "spam_scan", href: @url_for("admin.spam_queue", nil, user_id: user.id), ->
           if scan = user\get_spam_scan!
             if scan\is_trained!
               import SpamScans from require "models"
-              strong SpamScans.train_statuses[scan.train_status]
+              strong "data-status": SpamScans.train_statuses[scan.train_status], SpamScans.train_statuses[scan.train_status]
             else
               if scan.score
                 code "%.2f"\format scan.score
