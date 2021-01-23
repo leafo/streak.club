@@ -29,6 +29,24 @@ class UserProfile extends require "widgets.page"
         if @user\is_spam!
           div -> strong "spam"
 
+    if @current_user and @user\allowed_to_edit @current_user
+      if @user\is_suspended!
+        p class: "suspended_notice", ->
+          strong "Your account currently is suspended!"
+          br!
+          text "Your profile and your posts are not visible by anyone else. Please "
+          a target: "blank", rel: "noopener", href: "https://github.com/leafo/streak.club/issues", "contact an admin"
+          text " to get the issue resolved. This may be due to our automated spam detector."
+      else
+        scan = @user\get_spam_scan!
+        if scan and scan\needs_review!
+          p class: "suspended_notice", ->
+            strong "Your account under review!"
+            br!
+            text "Your profile is not publicly visible. Please "
+            a target: "blank", rel: "noopener", href: "https://github.com/leafo/streak.club/issues", "contact an admin"
+            text " to get the issue resolved. This may be due to our automated spam detector."
+
     div class: "columns", ->
       div class: "submission_column", ->
         website = @user_profile\format_website!

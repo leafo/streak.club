@@ -77,4 +77,17 @@
     }
 
 
+    .suspended_notice {
+        background: var(--sc-red);
+        color: white;
+        padding: 10px;
+        border-radius: 3px;
+        font-size: 120%;
+        margin-bottom: 20px;
+
+        a {
+            color: inherit;
+        }
+    }
+
 }
