@@ -142,6 +142,7 @@ $gray: darken(#F5F5F5, 3%);
 
                 img {
                     width: 100%;
+                    height: auto;
                 }
             }
         }
@@ -429,7 +430,13 @@ $gray: darken(#F5F5F5, 3%);
 
             .submission_image img {
                 width: 100%;
+                height: auto;
                 display: block;
+                border: 0;
+
+                &:not([src]) {
+                    opacity: 0;
+                }
             }
 
             .submission_author, .submission_title {

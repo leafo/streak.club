@@ -5,6 +5,10 @@ class S.IndexLoggedOut
 
     new S.Countdown @el.find(".countdown"), moment().add(6, "hour").add(32, "minute")
 
+    @el.lazy_images {
+      selector: ".featured_submission"
+    }
+
     grid = @el.find ".streak_grid"
     win = $(window)
     win.on "scroll.show_grid", =>

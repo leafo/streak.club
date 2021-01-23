@@ -268,3 +268,23 @@ class Uploads extends Model
     import to_json from require "lapis.util"
     @update data: db.raw db.escape_literal to_json new_data
 
+  thumbnail_dimensions: (width=600) =>
+    return nil unless @is_image!
+
+    width = 600
+    local height
+
+    -- don't upscale smaller things
+    if @width
+      width = math.min @width, width
+
+    height = if @width and @height
+      math.floor @height / @width * width
+
+    -- don't let the height go crazy if they upload a strange aspect
+    -- ratio
+    if height
+      height = math.min height, width * 3
+
+    width, height, "#{width}x#{height or ""}"
+

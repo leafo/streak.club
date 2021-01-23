@@ -41,7 +41,7 @@ class IndexLoggedOut extends require "widgets.page"
         else you can think of."
 
       div class: "intro_right", ->
-        img src: "/static/images/mini1.png"
+        img src: "/static/images/mini1.png", width: 548, height: 361
 
     div class: "streak_grid", ->
       div class: "grid_note above",
@@ -139,13 +139,19 @@ class IndexLoggedOut extends require "widgets.page"
               if upload\is_image!
                 div class: "submission_image", ->
                   a href: @url_for(sub), target: "_blank", ->
-                    img src: @url_for upload, "600x"
+                    width, height, thumb = upload\thumbnail_dimensions!
+                    image_src = @url_for upload, thumb
+                    img {
+                      :width
+                      :height
+                      "data-lazy_src": if lazy_image then image_src
+                    }
 
               break
 
             div class: "submission_meta", ->
               a class: "user_link", href: @url_for(sub.user), ->
-                img src: sub.user\gravatar!
+                img "data-lazy_src": sub.user\gravatar!, width: 53, height: 53
 
               div class: "submission_title", ->
                 submit = unpack sub.streak_submissions
