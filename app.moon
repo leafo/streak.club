@@ -176,7 +176,7 @@ class extends lapis.Application
       "#{@days} days"
 
     @active_streaks = StreakSubmissions\select "
-      where submit_time > #{range}
+      where submit_time > #{range} and exists(select 1 from visible_users where visible_users.id = user_id)
       group by streak_id
       order by count desc
       limit 15
@@ -185,7 +185,7 @@ class extends lapis.Application
     Streaks\include_in @active_streaks, "streak_id", fields: streak_fields
 
     @popular_submissions = Submissions\select "
-      where created_at > #{range}
+      where created_at > #{range} and exists(select 1 from visible_users where visible_users.id = user_id)
       order by likes_count desc
       limit 15
     "
@@ -193,7 +193,7 @@ class extends lapis.Application
     Users\include_in @popular_submissions, "user_id"
 
     @top_users = StreakSubmissions\select "
-      where submit_time > #{range}
+      where submit_time > #{range} and exists(select 1 from visible_users where visible_users.id = user_id)
       group by user_id
       order by count desc
       limit 15
@@ -202,7 +202,7 @@ class extends lapis.Application
     Users\include_in @top_users, "user_id"
 
     @new_streaks = Streaks\select "
-      where created_at > #{range} and not deleted
+      where created_at > #{range} and not deleted and exists(select 1 from visible_users where visible_users.id = user_id)
       order by users_count desc
       limit 25
     ", fields: streak_fields

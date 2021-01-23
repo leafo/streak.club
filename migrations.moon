@@ -674,5 +674,12 @@ import
   [1611180517]: =>
     db.query "alter table uploads alter column data type json using data::json"
 
+  [1611365690]: =>
+    USER_FLAGS_SUSPENDED = 2
+    USER_FLAGS_SPAM = 4
+
+    db.query "create view visible_users as
+      select * from users where flags & (? | ?) = 0", USER_FLAGS_SPAM, USER_FLAGS_SUSPENDED
+
 }
 
