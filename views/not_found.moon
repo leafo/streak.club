@@ -11,6 +11,11 @@ class NotFound extends require "widgets.page"
               text "This account has been suspended"
               if @user\is_spam!
                 text " for spamming"
+          else
+            scan = @user\get_spam_scan!
+            if scan and scan\needs_review!
+              p ->
+                text "This account is under review before it can be viewed by a logged out user. Log in to view this page."
 
       when "view_streak"
         if @streak
