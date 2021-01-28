@@ -207,19 +207,19 @@ class SpamScans extends Model
       for d in *domains
         insert "d.#{d}"
 
-    if rr = user\get_register_captcha_result!
-      if score = rr.data.score
-        centered = (score*100 - 50)
+    -- if rr = user\get_register_captcha_result!
+    --   if score = rr.data.score
+    --     centered = (score*100 - 50)
 
-        for i=0,-50,-10
-          if centered <= i
-            insert "rc.#{i}"
+    --     for i=0,-50,-10
+    --       if centered <= i
+    --         insert "rc.#{i}"
 
-        for i=0,50,10
-          if centered >= i
-            insert "rc.#{i}"
-      else
-        insert "rc.missing"
+    --     for i=0,50,10
+    --       if centered >= i
+    --         insert "rc.#{i}"
+    --   else
+    --     insert "rc.missing"
 
     if next tokens
       tokens
