@@ -75,7 +75,11 @@ find_streak = =>
 
 ensure_https = (fn) ->
   =>
-    scheme = @req.headers['x-original-scheme']
+    scheme = if ngx.var.remote_addr == "127.0.0.1"
+      @req.headers['x-forwarded-proto'] or @req.scheme
+    else
+      @req.scheme
+
     if scheme == "http" and config.enable_https
       url_opts = {k,v for k,v in pairs @req.parsed_url}
       url_opts.scheme = "https"
