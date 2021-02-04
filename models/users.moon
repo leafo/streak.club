@@ -95,6 +95,7 @@ class Users extends Model
     {"ip_addresses", has_many: "UserIpAddresses"}
     {"spam_scan", has_one: "SpamScans"}
     {"register_captcha_result", has_one: "RecaptchaResults", key: "object_id", where: {object_type: 1, action: 1}}
+    {"register_referrer", has_one: "RegisterReferrers"}
   }
 
   @login: (username, password) =>

@@ -14,31 +14,42 @@ class AdminUser extends require "widgets.admin.page"
       h3 ->
         a href: @url_for(@user), @user\name_for_display!
 
-    @field_table @user, {
-      "id"
-      "username"
-      "slug"
-      "display_name"
-      "email"
-      "streaks_count"
-      "submissions_count"
-      "hidden_submissions_count"
-      {"last_active", type: "date"}
-      "last_seen_feed_at"
-      ":is_admin"
-      ":is_suspended"
-      ":is_spam"
+    div class: "admin_columns", ->
+      @field_table @user, {
+        "id"
+        "username"
+        "slug"
+        "display_name"
+        "email"
+        "streaks_count"
+        "submissions_count"
+        "hidden_submissions_count"
+        {"last_active", type: "date"}
+        "last_seen_feed_at"
+        ":is_admin"
+        ":is_suspended"
+        ":is_spam"
 
-      "created_at"
-      "updated_at",
-    }
-
-    if rr = @user\get_register_captcha_result!
-      h3 "Recaptcha result"
-      @field_table rr.data, {
-        "hostname"
-        "score"
+        "created_at"
+        "updated_at",
       }
+
+      section ->
+        if rr = @user\get_register_captcha_result!
+          strong "Recaptcha result"
+          @field_table rr.data, {
+            "hostname"
+            "score"
+          }
+
+        if referrer = @user\get_register_referrer!
+          strong "Register referrer"
+          @field_table referrer, {
+            "referrer"
+            "landing"
+            "user_agent"
+            "accept_lang"
+          }
 
     @render_update_forms!
 
