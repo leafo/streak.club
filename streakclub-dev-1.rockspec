@@ -16,7 +16,7 @@ dependencies = {
   "moonscript",
   "bcrypt",
   "lapis dev",
-  "lapis-exceptions dev",
+  "lapis-exceptions ~> 2.0",
   "lapis-bayes dev",
   "lapis-community dev",
   "lapis-systemd dev",

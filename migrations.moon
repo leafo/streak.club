@@ -692,5 +692,8 @@ import
 
       "PRIMARY KEY (user_id)"
     }
+
+  [1612475645]: require("lapis.exceptions.schema").run_migrations
+
 }
 
