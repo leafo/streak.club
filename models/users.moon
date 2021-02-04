@@ -1,5 +1,5 @@
 db = require "lapis.db"
-import Model, enum from require "lapis.db.model"
+import Model, enum, preload from require "lapis.db.model"
 
 bcrypt = require "bcrypt"
 import slugify from require "lapis.util"
@@ -20,7 +20,6 @@ strip_non_ascii = do
 
   (str) ->
     string.char filter_chars str\byte 1, -1
-
 
 -- Generated schema dump: (do not edit)
 --
@@ -280,8 +279,7 @@ class Users extends Model
     opts.state = nil
 
     opts.prepare_results or= (streaks) ->
-      import Users from require "models"
-      Users\include_in streaks, "user_id"
+      preload streaks, "user"
       streaks
 
     opts.per_page or= 25
