@@ -21,7 +21,9 @@ class extends lapis.Application
 
   cookie_attributes: =>
     expires = date(true)\adddays(365)\fmt "${http}"
-    "Expires=#{expires}; Path=/; HttpOnly"
+    attr = "Expires=#{expires}; Path=/; HttpOnly"
+    attr ..= "; Secure" if config.enable_https
+    attr
 
   Request: require "helpers.request"
 

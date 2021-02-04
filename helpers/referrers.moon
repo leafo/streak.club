@@ -54,7 +54,7 @@ set_register_referrer_nginx = ->
 
     value = value\sub 1, 200
 
-    cookie = "#{escape cookie_name}=#{escape value}; Path=/;"
+    cookie = "#{escape cookie_name}=#{escape value}; Path=/"
     cookie ..= "; Secure" if config.enable_https
     append_cookie cookie
     cookies_set += 1
