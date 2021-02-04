@@ -667,7 +667,6 @@ import
   [1610588129]: =>
     require("lapis.bayes.schema").run_migrations!
 
-
   [1611104893]: =>
     require("community.schema").run_migrations 34
 
@@ -681,5 +680,17 @@ import
     db.query "create view visible_users as
       select * from users where flags & (? | ?) = 0", USER_FLAGS_SPAM, USER_FLAGS_SUSPENDED
 
+
+  [1612467550]: =>
+    create_table "register_referrers", {
+      {"user_id", foreign_key}
+
+      {"referrer", text null: true}
+      {"landing", text null: true}
+      {"user_agent", text null: true}
+      {"accept_lang", text null: true}
+
+      "PRIMARY KEY (user_id)"
+    }
 }
 

@@ -233,6 +233,11 @@ class UsersApplication extends lapis.Application
           data: recaptcha_result
         }
 
+      import RegisterReferrers from require "models"
+      if RegisterReferrers\create_from_req user, @
+        import unset_register_referrer from require "helpers.referrers"
+        unset_register_referrer!
+
       @session.flash = "Welcome to streak.club!"
 
       user\refresh_spam_scan!
@@ -256,6 +261,9 @@ class UsersApplication extends lapis.Application
 
       user = assert_error Users\login @params.username, @params.password
       user\write_session @
+
+      import unset_register_referrer from require "helpers.referrers"
+      unset_register_referrer!
 
       @session.flash = "Welcome back!"
       redirect_to: @params.return_to or @url_for("index")
