@@ -144,7 +144,7 @@ class IndexLoggedOut extends require "widgets.page"
                     img {
                       :width
                       :height
-                      "data-lazy_src": if lazy_image then image_src
+                      "data-lazy_src": image_src
                     }
 
               break
