@@ -23,16 +23,14 @@ class RegisterReferrers extends Model
   @create_from_req: (user, req) =>
     return unless user
 
-    import REFERRER_COOKIE from require "helpers.referrers"
+    import REFERRER_COOKIE, LANDING_COOKIE from require "helpers.referrers"
 
     fields = {
       referrer: validate_value\transform req.cookies[REFERRER_COOKIE]
-      -- landing: 
+      landing: validate_value\transform req.cookies[LANDING_COOKIE]
       accept_lang: validate_value\transform ngx.var.http_accept_language
       user_agent: validate_value\transform ngx.var.http_user_agent
     }
-
-    -- now clear the cookies
 
     if next fields
       fields.user_id = user.id

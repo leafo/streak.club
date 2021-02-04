@@ -65,7 +65,7 @@ set_register_referrer_nginx = ->
 unset_register_referrer = ->
   date = require "date"
   local expires
-  for c in *{REFERRER_COOKIE}
+  for c in *{REFERRER_COOKIE, LANDING_COOKIE}
     if existing = ngx.var["cookie_#{escape c}"]
       expires or= date(0)\adddays(365)\fmt "${http}"
 
