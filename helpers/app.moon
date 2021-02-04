@@ -81,7 +81,7 @@ redirect_for_https = =>
   else
     @req.scheme
 
-  return if unless scheme == "https"
+  return if scheme == "https"
 
   if @req.method != "GET"
     @write {
