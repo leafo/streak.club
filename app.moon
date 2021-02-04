@@ -9,7 +9,7 @@ db = require "lapis.db"
 import Users, UserIpAddresses from require "models"
 import generate_csrf from require "helpers.csrf"
 
-import require_login, not_found, ensure_https from require "helpers.app"
+import require_login, not_found, redirect_for_https from require "helpers.app"
 import capture_errors_json from require "lapis.application"
 import assert_valid from require "lapis.validate"
 
@@ -37,10 +37,13 @@ class extends lapis.Application
   @include "applications.community"
 
   @before_filter =>
+    return if redirect_for_https @
+
     if config.force_login_user
       @current_user = Users\find slug: config.force_login_user
     else
       @current_user = Users\read_session @
+
     @csrf_token = generate_csrf @
     UserIpAddresses\register_ip @
 
@@ -57,7 +60,7 @@ class extends lapis.Application
 
   handle_404: => not_found
 
-  [index: "/"]: ensure_https =>
+  [index: "/"]: =>
     if @current_user
       return @flow("dashboard")\render!
 

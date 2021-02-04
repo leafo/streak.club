@@ -73,22 +73,30 @@ find_streak = =>
   @streak_user = @streak\has_user @current_user
   true
 
-ensure_https = (fn) ->
-  =>
-    scheme = if ngx.var.remote_addr == "127.0.0.1"
-      @req.headers['x-forwarded-proto'] or @req.scheme
-    else
-      @req.scheme
+redirect_for_https = =>
+  return false unless config.enable_https
 
-    if scheme == "http" and config.enable_https
-      url_opts = {k,v for k,v in pairs @req.parsed_url}
-      url_opts.scheme = "https"
-      url_opts.port = nil
+  scheme = if ngx.var.remote_addr == "127.0.0.1"
+    @req.headers['x-forwarded-proto'] or @req.scheme
+  else
+    @req.scheme
 
-      return status: 301, redirect_to: build_url url_opts
+  return if unless scheme == "https"
 
-    fn @
+  if @req.method != "GET"
+    @write {
+      status: 400
+    }, "HTTPS is required for this request"
+
+    return true
+
+  url_opts = {k,v for k,v in pairs @req.parsed_url}
+  url_opts.scheme = "https"
+  url_opts.port = nil
+
+  @write status: 301, redirect_to: build_url url_opts
+  true
 
 { :not_found, :require_login, :require_admin, :assert_timezone,
   :login_and_return_url, :assert_unit_date, :assert_page, :find_streak,
-  :ensure_https, :is_crawler }
+  :redirect_for_https, :is_crawler }

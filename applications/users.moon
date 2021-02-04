@@ -11,7 +11,7 @@ import trim_filter, slugify from require "lapis.util"
 
 import Users, Uploads, Submissions, Streaks, StreakUsers from require "models"
 
-import not_found, require_login, assert_page, ensure_https from require "helpers.app"
+import not_found, require_login, assert_page from require "helpers.app"
 import assert_csrf from require "helpers.csrf"
 import render_submissions_page from require "helpers.submissions"
 
@@ -182,7 +182,7 @@ class UsersApplication extends lapis.Application
   }
 
 
-  [user_register: "/register"]: ensure_https respond_to {
+  [user_register: "/register"]: respond_to {
     before: =>
       if @current_user
         @write redirect_to: @url_for "index"
@@ -244,7 +244,7 @@ class UsersApplication extends lapis.Application
       redirect_to: @url_for "index"
   }
 
-  [user_login: "/login"]: ensure_https respond_to {
+  [user_login: "/login"]: respond_to {
     before: =>
       if @current_user
         @write redirect_to: @url_for "index"
@@ -274,7 +274,7 @@ class UsersApplication extends lapis.Application
     @session.flash = "You are logged out"
     redirect_to: "/"
 
-  [user_settings: "/user/settings"]: ensure_https require_login respond_to {
+  [user_settings: "/user/settings"]: require_login respond_to {
     before: =>
       @user = @current_user
       @user_profile = @user\get_user_profile!
