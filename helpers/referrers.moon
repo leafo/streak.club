@@ -3,8 +3,8 @@ config = require("lapis.config").get!
 
 {get_session: load_session} = require "lapis.session"
 
-REFERRER_COOKIE = "ref:register:referrer"
-LANDING_COOKIE = "ref:register:landing"
+REFERRER_COOKIE = "sc:rr:r"
+LANDING_COOKIE = "sc:rr:l"
 
 -- read the session out of the cookie
 -- it is cached in the context for multiple reads
@@ -31,29 +31,35 @@ append_cookie = (cookie) ->
 
   ngx.header["Set-Cookie"] = cookies
 
--- set the register referrer when we're just inside of nginx and not lapis
+-- set the register & landing referrer when we're just inside of nginx and not lapis
 set_register_referrer_nginx = ->
-  existing = ngx.var["cookie_#{escape REFERRER_COOKIE}"]
+  existing = ngx.var["cookie_#{escape LANDING_COOKIE}"]
   return nil, "already set" if existing
 
   return nil, "non-get" unless ngx.var.request_method == "GET"
-
-  referrer = ngx.var.http_referer
-  return unless type(referrer) == "string"
-  return nil, "no referrer" if referrer == ""
 
   session = get_session!
   if session and session.user
     return nil, "logged in"
 
-  referrer = referrer\sub 1, 200
+  cookies_set = 0
 
-  cookie = "#{escape REFERRER_COOKIE}=#{escape referrer}; Path=/;"
-  cookie ..= "; Secure" if config.enable_https
+  for cookie_name, value in pairs {
+    [LANDING_COOKIE]: ngx.var.request_uri
+    [REFERRER_COOKIE]: ngx.var.http_referer
+  }
+    continue unless type(value) == "string"
+    continue if value == ""
+    continue if ngx.var["cookie_#{escape cookie_name}"]
 
-  append_cookie cookie
+    value = value\sub 1, 200
 
-  true
+    cookie = "#{escape cookie_name}=#{escape value}; Path=/;"
+    cookie ..= "; Secure" if config.enable_https
+    append_cookie cookie
+    cookies_set += 1
+
+  cookies_set > 0
 
 -- remove the cookies
 unset_register_referrer = ->
