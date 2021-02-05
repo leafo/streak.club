@@ -286,5 +286,8 @@ class Uploads extends Model
     if height
       height = math.min height, width * 3
 
-    width, height, "#{width}x#{height or ""}"
+    if width and height
+      width, height, "#{width}x#{height}#"
+    else
+      width, height, "#{width}x#{height or ""}"
 

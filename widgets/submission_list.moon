@@ -217,6 +217,7 @@ class SubmissionList extends require "widgets.base"
               img {
                 :width
                 :height
+                style: "max-width: #{width}px; max-height: #{height}px;"
                 src: if not lazy_image then image_src
                 "data-lazy_src": if lazy_image then image_src
               }
