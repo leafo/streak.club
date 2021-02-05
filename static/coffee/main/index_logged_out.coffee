@@ -3,7 +3,7 @@ class S.IndexLoggedOut
   constructor: (el) ->
     @el = $ el
 
-    new S.Countdown @el.find(".countdown"), moment().add(6, "hour").add(32, "minute")
+    new S.Countdown @el.find(".countdown"), dayjs().add(6, "hour").add(32, "minute")
 
     @el.lazy_images {
       selector: ".featured_submission"

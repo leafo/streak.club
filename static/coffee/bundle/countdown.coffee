@@ -2,11 +2,11 @@
 class S.Countdown
   constructor: (el, date) ->
     @el = $ el
-
     parts = ["days", "hours", "minutes", "seconds"]
 
     update_countdown = =>
-      dur = moment.duration date.diff moment()
+      dur = dayjs.duration dayjs(date).diff dayjs()
+
       can_hide = true
 
       for p in parts

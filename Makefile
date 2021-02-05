@@ -52,7 +52,6 @@ vendor:
 	npm install
 	cp node_modules/jquery/dist/jquery.min.js static/lib
 	cp node_modules/d3/build/d3.min.js static/lib
-	cp node_modules/moment/min/moment.min.js static/lib
 	cp node_modules/jstz/dist/jstz.min.js static/lib
 	cp node_modules/underscore/underscore-min.js static/lib
 	cp node_modules/underscore.string/dist/underscore.string.min.js static/lib
@@ -66,3 +65,8 @@ vendor:
 	cp node_modules/selectize/dist/js/standalone/selectize.min.js static/lib
 	cp node_modules/selectize/dist/css/selectize.css static/lib
 	cp node_modules/classnames/index.js static/lib/classnames.js
+	cp node_modules/dayjs/dayjs.min.js static/lib/
+	cp node_modules/dayjs/plugin/utc.js static/lib/dayjs-utc.js
+	cp node_modules/dayjs/plugin/calendar.js static/lib/dayjs-calendar.js
+	cp node_modules/dayjs/plugin/duration.js static/lib/dayjs-duration.js
+	cp node_modules/dayjs/plugin/advancedFormat.js static/lib/dayjs-advancedFormat.js

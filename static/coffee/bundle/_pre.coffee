@@ -5,6 +5,10 @@ _.templateSettings = {
   evaluate: /<%([\s\S]+?)%>/g
 }
 
+dayjs.extend window.dayjs_plugin_duration
+dayjs.extend window.dayjs_plugin_calendar
+dayjs.extend window.dayjs_plugin_advancedFormat
+
 window.S = {
   slugify: (str, opts) ->
     str = str.replace(/\s+/g, "-")
@@ -67,18 +71,12 @@ window.S = {
             btn.toggleClass "following outline_button"
     }
 
-  format_dates: (outer, method="calendar", args=[]) ->
+  format_dates: (outer, format="MMMM Do YYYY, h a") ->
     for el in outer.find(".date_format")
       do (el=$ el) ->
-        real_method = el.data("format_method") || method
-        method_args = el.data("format_args") || args
-
-        unless _.isArray method_args
-          method_args = [method_args]
-
-        full_date = el.html()
-        el.html(moment.utc(full_date).local()[real_method](method_args...))
-          .attr "title", full_date
+        timestamp = el.html()
+        el.html(dayjs(timestamp).format format)
+          .attr "title", timestamp
 
   format_bytes: do ->
     thresholds = [

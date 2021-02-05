@@ -3,12 +3,7 @@ class S.ViewStreak
   constructor: (el, @streak) ->
     @el = $ el
     @el.has_tooltips()
-    S.format_dates @el, "format", "MMMM Do YYYY, h a"
-
-    @start = moment @streak.start
-    @end = @streak.end && moment @streak.end
-    @unit_start = moment @streak.unit_start
-    @unit_end = moment @streak.unit_end
+    S.format_dates @el
 
     @setup_countdown()
     @setup_leave()
@@ -19,12 +14,13 @@ class S.ViewStreak
   setup_countdown: ->
     countdown = @el.find ".countdown"
     return unless countdown.length
-    countdown_time = if @streak.before_start
-      @start
-    else
-      @unit_end
 
-    new S.Countdown countdown, countdown_time
+    countdown_to = if @streak.before_start
+      @streak.start
+    else
+      @streak.unit_end
+
+    new S.Countdown countdown, countdown_to
 
   setup_leave: ->
     leave_form = @el.find ".leave_form"

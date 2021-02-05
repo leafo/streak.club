@@ -1,7 +1,7 @@
 
 import login_and_return_url from require "helpers.app"
 import sanitize_html, is_empty_html, convert_links from require "helpers.html"
-import time_ago_in_words, to_json from require "lapis.util"
+import to_json from require "lapis.util"
 
 date = require "date"
 
