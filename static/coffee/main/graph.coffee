@@ -1,5 +1,12 @@
 
 class S.Grapher
+  @with_d3: (script_url) =>
+    @d3_deferred ||= $.ajax {
+      url: $("#d3_src").data "src"
+      dataType: "script"
+      cache: true
+    }
+
   @format_number: format_number = (num) ->
     if num > 10000
       "#{Math.floor(num / 1000)}k"
@@ -36,8 +43,9 @@ class S.Grapher
   constructor: (el, @data, opts) ->
     @el = $ el
     @opts = $.extend {}, @default_opts, opts
-    @draw()
-    @setup_popups()
+    S.Grapher.with_d3().then =>
+      @draw()
+      @setup_popups()
 
   setup_popups:  ->
     current_popup = null

@@ -174,6 +174,7 @@ class Layout extends Widget
         @include_css "main.css"
         @include_css "lib/selectize.css"
         @google_analytics!
+        script id: "d3_src", "data-src": @asset_url "d3.min.js"
 
       body @body_attributes(@body_class), ->
         @header!
