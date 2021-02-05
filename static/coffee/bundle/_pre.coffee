@@ -10,6 +10,13 @@ dayjs.extend window.dayjs_plugin_calendar
 dayjs.extend window.dayjs_plugin_advancedFormat
 
 window.S = {
+  with_markdown: ->
+    S._markdown_deferred ||= $.ajax {
+      url: $("#markdown_src").data "src"
+      dataType: "script"
+      cache: true
+    }
+
   slugify: (str, opts) ->
     str = str.replace(/\s+/g, "-")
 

@@ -64,6 +64,10 @@
         max-width: 400px;
     }
 
+    textarea:disabled {
+        opacity: 0.5;
+    }
+
     .selectize-input {
         box-shadow: none;
         border-radius: 0;

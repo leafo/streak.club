@@ -77,20 +77,36 @@ P "TagInput", {
       }
 }
 
+convert_to_markdown = (html) ->
+  turndownService = new TurndownService { hr: "---" }
+  turndownService.turndown html
+
 P "Editor", {
   getInitialState: ->
     initial_html = @props.value
+    initial_markdown = null
 
-    initial_markdown = if initial_html
-      turndownService = new TurndownService {
-        hr: "---"
-      }
+    md_deferred = S.with_markdown()
+    loading = md_deferred.state() == "pending"
 
-      turndownService.turndown initial_html
+    if loading
+      md_deferred.then =>
+        if initial_html
+          @setState {
+            markdown: convert_to_markdown initial_html
+            loading: false
+          }
+        else
+          @setState loading: false
+    else
+      # we can convert it right away with since it's already loaded
+      if initial_html
+        initial_markdown = convert_to_markdown initial_html
 
     {
-      html: initial_html or ""
-      markdown: initial_markdown or ""
+      loading
+      html: initial_html || ""
+      markdown: initial_markdown || ""
     }
 
   componentDidMount: ->
@@ -131,7 +147,8 @@ P "Editor", {
 
       textarea {
         value: @state.markdown
-        placeholder: @props.placeholder
+        placeholder: if @state.loading then "Loading..." else @props.placeholder
+        disabled: !!@state.loading
         ref: (textarea) => @textarea = textarea
         required: @props.required
         onKeyDown: @props.on_key_down
