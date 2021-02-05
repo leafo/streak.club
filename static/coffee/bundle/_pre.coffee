@@ -85,6 +85,18 @@ window.S = {
         el.html(dayjs(timestamp).format format)
           .attr "title", timestamp
 
+  # adapted from underscore string: https://github.com/esamattis/underscore.string/blob/master/numberFormat.js
+  number_format: (number, dec, dsep=".", tsep=",") ->
+    return "" if isNaN(number) || number == null
+
+    number = number.toFixed ~~dec
+
+    parts = number.split '.'
+    fnums = parts[0]
+    decimals = if parts[1] then dsep + parts[1] else ''
+
+    fnums.replace(/(\d)(?=(?:\d{3})+$)/g, '$1' + tsep) + decimals
+
   format_bytes: do ->
     thresholds = [
       ["gb", Math.pow 1024, 3]
@@ -95,9 +107,9 @@ window.S = {
     (bytes) ->
       for [label, min] in thresholds
         if bytes >= min
-          return "#{s.numberFormat bytes / min, 1}#{label}"
+          return "#{S.number_format bytes / min, 1}#{label}"
 
-      "#{s.numberFormat bytes, 1} bytes"
+      "#{S.number_format bytes, 1} bytes"
 
   is_mobile: =>
     /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test navigator.userAgent

@@ -29,7 +29,6 @@
     "turndown": "^7.0.0",
     "typed.js": "^2.0.6",
     "uglify-js": "^3.12.5",
-    "underscore": "^1.12.0",
-    "underscore.string": "^3.3.5"
+    "underscore": "^1.12.0"
   }
 }

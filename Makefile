@@ -54,7 +54,6 @@ vendor:
 	cp node_modules/d3/build/d3.min.js static
 	cp node_modules/jstz/dist/jstz.min.js static/lib
 	cp node_modules/underscore/underscore-min.js static/lib
-	cp node_modules/underscore.string/dist/underscore.string.min.js static/lib
 	cp node_modules/react/umd/react.production.min.js static/lib/react.min.js
 	cp node_modules/react-dom/umd/react-dom.production.min.js static/lib/react-dom.min.js
 	cp node_modules/react-dom-factories/index.js static/lib/react-dom-factories.js
