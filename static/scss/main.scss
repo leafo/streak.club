@@ -1,4 +1,6 @@
 
+@import "icons";
+
 @import "main/common";
 @import "main/layout";
 @import "main/forms";
@@ -54,3 +56,6 @@
 
 // TODO: this should eventually be separate css file
 @import "main/admin";
+
+@import "lib/selectize";
+

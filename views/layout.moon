@@ -153,8 +153,6 @@ class Layout extends Widget
     if config._name == "production"
       link href: "//fonts.googleapis.com/css?family=Dosis:300,400,700", rel: "stylesheet", type: "text/css"
 
-    link href: @asset_url("fonts/streakclub/style.css"), rel: "stylesheet", type: "text/css"
-
   body_attributes: (...) =>
     {
       "data-page_name": @route_name
@@ -172,7 +170,6 @@ class Layout extends Widget
       head ->
         @head!
         @include_css "main.css"
-        @include_css "lib/selectize.css"
         @google_analytics!
         script id: "d3_src", "data-src": @asset_url "d3.min.js"
         script id: "markdown_src", "data-src": @asset_url "lib.markdown.js"
