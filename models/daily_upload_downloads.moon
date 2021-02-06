@@ -1,7 +1,7 @@
 db = require "lapis.db"
 import Model from require "lapis.db.model"
 
-import safe_insert from require "helpers.model"
+import safe_insert, insert_on_conflict_update from require "helpers.model"
 
 -- Generated schema dump: (do not edit)
 --
@@ -27,22 +27,18 @@ class DailyUploadDownloads extends Model
     os.date "!%Y-%m-%d", time
 
   @increment: (upload_id, amount=1) =>
+    assert upload_id, "missing upload_id"
     table = db.escape_identifier @table_name!
     amount = tonumber amount
 
-    date = @date!
-    res = safe_insert @, {
-      :upload_id, :date, count: 1
+    insert_on_conflict_update @, {
+      :upload_id
+      date: @date!
     }, {
-      :upload_id, :date
+      count: amount
+    }, {
+      count: db.raw "#{db.escape_identifier @table_name!}.count + excluded.count"
     }
 
-    if (res.affected_rows or 0) > 0
-      return "create"
+    true
 
-    db.update @table_name!, {
-      count: db.raw "count + 1"
-      :date
-    }, { :date }
-
-    "update"
