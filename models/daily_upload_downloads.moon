@@ -1,7 +1,7 @@
 db = require "lapis.db"
 import Model from require "lapis.db.model"
 
-import safe_insert, insert_on_conflict_update from require "helpers.model"
+import insert_on_conflict_update from require "helpers.model"
 
 -- Generated schema dump: (do not edit)
 --
