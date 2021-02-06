@@ -1,7 +1,7 @@
 db = require "lapis.db"
 import Model from require "lapis.db.model"
 
-import safe_insert from require "helpers.model"
+import insert_on_conflict_ignore from require "helpers.model"
 
 -- Generated schema dump: (do not edit)
 --
@@ -30,13 +30,9 @@ class Followings extends Model
     assert opts.source_user_id, "missing source_user_id"
     assert opts.dest_user_id, "missing dest_user_id"
 
-    res = safe_insert @, opts
-
-    if res.affected_rows != 1
-      return false
-
-    with Followings\load (unpack res)
-      \increment!
+    if follow = insert_on_conflict_ignore @, opts
+      follow\increment!
+      follow
 
   @load_for_users: (users, current_user) =>
     return unless current_user
