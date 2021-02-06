@@ -1,6 +1,8 @@
 db = require "lapis.db"
 import Model from require "lapis.db.model"
 
+import insert_on_conflict_ignore from require "helpers.model"
+
 date = require "date"
 
 -- Generated schema dump: (do not edit)
@@ -26,6 +28,8 @@ class StreakSubmissions extends Model
     {"streak", belongs_to: "Streaks"}
     {"submission", belongs_to: "Submissions"}
   }
+
+  @create: insert_on_conflict_ignore
 
   unit_number: =>
     @get_streak!\unit_number_for_date date @submit_time

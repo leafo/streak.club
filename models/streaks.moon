@@ -1,6 +1,6 @@
 db = require "lapis.db"
 import Model, enum, preload from require "lapis.db.model"
-import safe_insert, transition from require "helpers.model"
+import transition from require "helpers.model"
 
 date = require "date"
 
@@ -197,21 +197,14 @@ class Streaks extends Model
       submit_time = db.format_date!
 
     import StreakSubmissions from require "models"
-    res = safe_insert StreakSubmissions, {
+
+    StreakSubmissions\create {
       submission_id: submission.id
       streak_id: @id
       :late_submit
       :submit_time
       user_id: submission.user_id
-    }, {
-      submission_id: submission.id
-      streak_id: @id
     }
-
-    if res.affected_rows != 1
-      return false
-
-    StreakSubmissions\load (unpack res)
 
   -- for when we add additional owners
   is_host: (user) =>
