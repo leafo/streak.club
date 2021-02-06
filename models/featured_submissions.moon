@@ -1,6 +1,7 @@
 db = require "lapis.db"
 import Model, preload from require "lapis.db.model"
-import safe_insert from require "helpers.model"
+
+import insert_on_conflict_ignore from require "helpers.model"
 
 -- Generated schema dump: (do not edit)
 --
@@ -19,6 +20,8 @@ class FeaturedSubmissions extends Model
   @relations: {
     {"submission", belongs_to: "Submissions"}
   }
+
+  @create: insert_on_conflict_ignore
 
   @find_submissions: (per_page=25) =>
     @paginated "order by created_at desc", {

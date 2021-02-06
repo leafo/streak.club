@@ -5,6 +5,8 @@ date = require "date"
 
 import signed_url from require "helpers.url"
 
+import insert_on_conflict_ignore from require "helpers.model"
+
 -- Generated schema dump: (do not edit)
 --
 -- CREATE TABLE streak_users (
@@ -42,6 +44,8 @@ class StreakUsers extends Model
       su.user.email
 
     emails, vars
+
+  @create: insert_on_conflict_ignore
 
   current_unit_submission: =>
     @submission_for_date date true

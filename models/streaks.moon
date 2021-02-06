@@ -162,9 +162,13 @@ class Streaks extends Model
   join: (user) =>
     import StreakUsers from require "models"
     pending = not not (@is_members_only! and user.id != @user_id)
-    res = safe_insert StreakUsers, streak_id: @id, user_id: user.id, :pending
+    streak_user = StreakUsers\create {
+      streak_id: @id
+      user_id: user.id
+      :pending
+    }
 
-    if res.affected_rows != 1
+    unless streak_user
       return false
 
     @update {
@@ -173,7 +177,7 @@ class Streaks extends Model
         db.raw "pending_users_count + 1"
     }, timestamp: false
 
-    StreakUsers\load (unpack res)
+    streak_user
 
   leave: (user) =>
     if su = @has_user user

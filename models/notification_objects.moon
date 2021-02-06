@@ -1,7 +1,7 @@
 db = require "lapis.db"
 import Model, enum from require "lapis.db.model"
 
-import safe_insert from require "helpers.model"
+import insert_on_conflict_ignore from require "helpers.model"
 
 -- Generated schema dump: (do not edit)
 --
@@ -42,5 +42,5 @@ class NotificationObjects extends Model
 
   @create: (opts={}) =>
     opts.object_type = @object_types\for_db opts.object_type
-    safe_insert @, opts
+    insert_on_conflict_ignore @, opts
 
