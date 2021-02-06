@@ -1,7 +1,7 @@
 db = require "lapis.db"
 import Model, enum, preload from require "lapis.db.model"
 
-import safe_insert from require "helpers.model"
+import insert_on_conflict_update from require "helpers.model"
 
 -- Generated schema dump: (do not edit)
 --
@@ -98,40 +98,28 @@ class Notifications extends Model
     notify_type = @types\for_db notify_type
     object_type = @object_type_for_object object
 
-    create_params = {
-      user_id: user.id
-      object_type: object_type
-      object_id: object.id
-      count: 1
-      type: notify_type
-    }
-
-    ident_params = {
+    notification = insert_on_conflict_update @, {
       user_id: user.id
       object_type: object_type
       object_id: object.id
       type: notify_type
       seen: false
+    }, {
+      count: 1
+    }, {
+      count: db.raw "notifications.count + 1"
+      updated_at: db.format_date!
+    }, {
+      constraint: "(user_id, type, object_type, object_id) WHERE (NOT seen)"
     }
 
-    res = safe_insert @, create_params, ident_params
-
-    if (res.affected_rows or 0) > 0
-      notification = unpack res
-      if target_object
-        NotificationObjects\create_for_object notification.id, target_object
-
-      return "create", Notifications\load notification
-
-    db.update @table_name!, {
-      count: db.raw "count + 1"
-      updated_at: db.format_date!
-    }, ident_params
-
-    if notification = target_object and @find(ident_params)
+    if target_object
       NotificationObjects\create_for_object notification.id, target_object
 
-    "update"
+    if notification.count == 1
+      "create", notification
+    else
+      "update", notification
 
   -- TODO: make this decrement, then delete
   -- this blasts all unseen notifications for object on user
