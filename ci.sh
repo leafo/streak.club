@@ -4,9 +4,9 @@ set -o pipefail
 set -o xtrace
 
 # setup lua
-luarocks --lua-version=5.1 install https://raw.githubusercontent.com/leafo/lapis-community/master/lapis-community-dev-1.rockspec
-luarocks --lua-version=5.1 build --only-deps
-eval $(luarocks --lua-version=5.1 path)
+luarocks --lua-version=5.1 --local install https://raw.githubusercontent.com/leafo/lapis-community/master/lapis-community-dev-1.rockspec
+luarocks --lua-version=5.1 --local build --only-deps
+eval $(luarocks --lua-version=5.1 --local path)
 
 # prepare secrets
 rm -r secret
