@@ -16,7 +16,7 @@ dependencies = {
   "moonscript",
   "bcrypt",
 
-  "lapis dev",
+  "lapis",
   "lapis-community dev", -- currency not versioned...
 
   "lapis-exceptions ~> 2.0",
