@@ -15,17 +15,20 @@ dependencies = {
   "lua ~> 5.1",
   "moonscript",
   "bcrypt",
+
   "lapis dev",
+  "lapis-community dev", -- currency not versioned...
+
   "lapis-exceptions ~> 2.0",
-  "lapis-bayes dev",
-  "lapis-community dev",
-  "lapis-systemd dev",
-  "lapis-console dev",
-  "cloud_storage dev",
-  "mailgun dev",
-  "web_sanitize dev",
-  "magick dev",
-  "tableshape dev",
+  "lapis-bayes ~> 1.1",
+  "lapis-systemd ~> 1.0",
+  "lapis-console ~> 1.2",
+  "cloud_storage ~> 1.1",
+  "mailgun ~> 1.2",
+  "web_sanitize ~> 1.1",
+  "magick ~> 1.6",
+  "luajit-geoip ~> 2.1",
+  "tableshape ~> 2.2",
 }
 
 build = {
