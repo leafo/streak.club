@@ -561,5 +561,19 @@ class AdminApplication extends lapis.Application
       redirect_to: @url_for "admin.spam_queue"
   }
 
+  [exceptions: "/exceptions"]: =>
+    import ExceptionRequests from require "lapis.exceptions.models"
+
+    @pager = ExceptionRequests\paginated "order by id desc", {
+      per_page: 50
+      prepare_results: (exceptions) ->
+        preload exceptions, "exception_type"
+        exceptions
+    }
+
+    assert_page @
+    @exceptions = @pager\get_page @page
+    render: true
+
 
 
