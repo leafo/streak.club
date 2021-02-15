@@ -33,25 +33,36 @@ class AdminSpamQueue extends require "widgets.admin.page"
           ":is_spam"
         }
 
-      section ->
-        strong "Streaks"
-        @column_table @user\get_created_streaks!, {
-          {"streak", (streak) ->
-            a href: @url_for(streak), streak.title
-          }
-          "users_count"
-          "submissions_count"
-          {"publish_status", Streaks.publish_statuses}
-          "deleted"
-        }
-
-      if rr = @user\get_register_captcha_result!
+      div ->
         section ->
-          strong "Recaptcha result"
-          @field_table rr.data, {
-            "hostname"
-            "score"
+          strong "Streaks"
+          @column_table @user\get_created_streaks!, {
+            {"streak", (streak) ->
+              a href: @url_for(streak), streak.title
+            }
+            "users_count"
+            "submissions_count"
+            {"publish_status", Streaks.publish_statuses}
+            "deleted"
           }
+
+        if referrer = @user\get_register_referrer!
+          section ->
+            strong "Register referrer"
+            @field_table referrer, {
+              "referrer"
+              "landing"
+              "user_agent"
+              "accept_lang"
+            }
+
+        if rr = @user\get_register_captcha_result!
+          section ->
+            strong "Recaptcha result"
+            @field_table rr.data, {
+              "hostname"
+              "score"
+            }
 
     scan = @user\get_spam_scan!
 
