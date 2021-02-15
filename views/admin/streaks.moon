@@ -7,6 +7,8 @@ class AdminStreaks extends require "widgets.admin.page"
 
   @needs: {"streaks", "pager"}
 
+  page_name: "streaks"
+
   column_content: =>
     h2 "Streaks"
 

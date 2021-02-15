@@ -6,6 +6,8 @@ class AdminComments extends require "widgets.admin.page"
   @include "widgets.table_helpers"
   @include "widgets.pagination_helpers"
 
+  page_name: "comments"
+
   column_content: =>
     h2 "Submission comments"
     @render_pager @pager

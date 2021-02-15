@@ -7,6 +7,8 @@ class AdminUploads extends require "widgets.admin.page"
 
   @needs: {"uploads", "pager"}
 
+  page_name: "uploads"
+
   column_content: =>
     h2 "Uploads"
 

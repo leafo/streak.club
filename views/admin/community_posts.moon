@@ -4,6 +4,8 @@ class AdminCommunityPosts extends require "widgets.admin.page"
   @include "widgets.table_helpers"
   @include "widgets.pagination_helpers"
 
+  page_name: "community_posts"
+
   column_content: =>
     h2 "Community posts"
     @render_pager @pager
