@@ -299,7 +299,7 @@ class AdminApplication extends lapis.Application
   [send_streak_email: "/email/:streak_id/email"]: capture_errors_json respond_to {
     before: =>
       import Streaks from require "models"
-      assert_error @params, {
+      assert_valid @params, {
         {"streak_id", is_integer: true}
         {"email", one_of: {"deadline", "late_submit"}}
       }
@@ -314,6 +314,8 @@ class AdminApplication extends lapis.Application
           prev_unit = @streak\increment_date_by_unit @streak\current_unit!, -1
           streak_users = @streak\find_unsubmitted_users prev_unit
           [su\get_user!.email for su in *streak_users]
+        else
+          error "unknown email type"
 
       json: {
         count: #emails
@@ -335,7 +337,7 @@ class AdminApplication extends lapis.Application
   [email_streak: "/email/:streak_id"]: capture_errors_json respond_to {
     before: =>
       import Streaks from require "models"
-      assert_error @params, {
+      assert_valid @params, {
         {"streak_id", is_integer: true}
       }
       @streak = assert_error Streaks\find(@params.streak_id), "invalid streak"
