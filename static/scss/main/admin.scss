@@ -11,6 +11,13 @@
     }
 
     .enum_value {
+        display: inline-block;
+        background: white_back();
+        border: 1px solid border_color();
+        border-radius: 2px;
+        padding: 2px;
+        margin: 0 2px;
+
         &[data-name=train_status][data-value=spam] {
             color: red;
             font-weight: bold;
