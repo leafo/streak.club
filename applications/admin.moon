@@ -562,38 +562,74 @@ class AdminApplication extends lapis.Application
       redirect_to: @url_for "admin.spam_queue"
   }
 
-  [exceptions: "/exceptions"]: =>
-    import ExceptionRequests from require "lapis.exceptions.models"
+  [exceptions: "/exceptions"]: capture_errors_json respond_to {
+    GET: =>
+      import ExceptionRequests, ExceptionTypes from require "lapis.exceptions.models"
 
-    wheres = {}
+      wheres = {}
 
-    add_where = (q, ...) ->
-      if select("#", ...) > 0
-        q = db.interpolate_query q, ...
+      add_where = (q, ...) ->
+        if select("#", ...) > 0
+          q = db.interpolate_query q, ...
 
-      table.insert wheres, "(#{q})"
+        table.insert wheres, "(#{q})"
 
-    if id = tonumber @params.id
-      add_where "id = ?", id
+      if id = tonumber @params.id
+        add_where "id = ?", id
 
-    if etid = tonumber @params.exception_type_id
-      add_where "exception_type_id = ?", etid
+      if etid = tonumber @params.exception_type_id
+        add_where "exception_type_id = ?", etid
 
-    clause = "order by id desc"
+      if status = ExceptionTypes.statuses[@params.status]
+        add_where "exists(select 1 from exception_types where exception_types.id = exception_requests.exception_type_id and status = ?)", status
 
-    if next wheres
-      clause = "where #{table.concat wheres, " and "} #{clause}"
+      clause = "order by id desc"
 
-    @pager = ExceptionRequests\paginated clause, {
-      per_page: 50
-      prepare_results: (exceptions) ->
-        preload exceptions, "exception_type"
-        exceptions
-    }
+      if next wheres
+        clause = "where #{table.concat wheres, " and "} #{clause}"
 
-    assert_page @
-    @exceptions = @pager\get_page @page
-    render: true
+      @pager = ExceptionRequests\paginated clause, {
+        per_page: 50
+        prepare_results: (exceptions) ->
+          preload exceptions, "exception_type"
+          exceptions
+      }
 
+      assert_page @
+      @exceptions = @pager\get_page @page
+      render: true
+
+    POST: =>
+      assert_csrf @
+      switch @params.action
+        when "set_exception_status"
+          assert_valid @params, {
+            {"exception_request_id", is_integer: true}
+            {"status", one_of: {
+              "resolved"
+              "ignored"
+              "default"
+            }}
+          }
+
+          import ExceptionRequests, ExceptionTypes from require "lapis.exceptions.models"
+          er = ExceptionRequests\find @params.exception_request_id
+          assert_error er, "invalid exception request"
+          et = assert_error er\get_exception_type!, "exception request does not have exception type"
+
+          et\update {
+            status: ExceptionTypes.statuses\for_db @params.status
+          }
+
+          return redirect_to: @url_for "admin.exceptions", nil, exception_type_id: et.id
+        else
+          import yield_error from require "lapis.application"
+          yield_error "unknown action: #{@params.action}"
+
+      json: {
+        params: @params
+      }
+
+  }
 
 

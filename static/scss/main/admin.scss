@@ -38,7 +38,9 @@
             font-weight: bold;
         }
 
-        &[data-name=review_status][data-value=reviewed] {
+        &[data-name=review_status][data-value=reviewed],
+        &[data-name=status][data-value=resolved] // exception types
+        {
             color: $blue;
         }
     }
