@@ -197,15 +197,15 @@ describe "streaks", ->
       assert.same 200, status
 
     it "should view first streak unit day", ->
-      status = request "/streak/#{streak.id}/unit/2015-3-1"
+      status = request "/streak/#{streak.id}/unit/2015-03-01"
       assert.same 200, status
 
     it "should view last streak unit day", ->
-      status = request "/streak/#{streak.id}/unit/2015-4-5"
+      status = request "/streak/#{streak.id}/unit/2015-04-05"
       assert.same 200, status
 
     it "should view unit day with user id", ->
-      status = request "/streak/#{streak.id}/unit/2015-4-5?user_id=123"
+      status = request "/streak/#{streak.id}/unit/2015-04-05?user_id=123"
       assert.same 200, status
 
     describe "with submissions", ->
@@ -237,7 +237,7 @@ describe "streaks", ->
         assert.same 200, status
 
       it "should view unit with submissions", ->
-        status = request "/streak/#{streak.id}/unit/2015-3-1"
+        status = request "/streak/#{streak.id}/unit/2015-03-01"
         assert.same 200, status
 
       it "should lift user to top of submission", ->
@@ -259,7 +259,7 @@ describe "streaks", ->
           submit_time: "2015-3-1 09:00:00"
         }
 
-        status = request "/streak/#{streak.id}/unit/2015-3-1", {
+        status = request "/streak/#{streak.id}/unit/2015-03-01", {
           get: {
             user_id: last.user_id
           }
@@ -285,7 +285,7 @@ describe "streaks", ->
           submit_time: "2015-3-1 09:00:00"
         }
 
-        status = request "/streak/#{streak.id}/unit/2015-3-1", {
+        status = request "/streak/#{streak.id}/unit/2015-03-01", {
           get: {
             user_id: last.user_id
           }
