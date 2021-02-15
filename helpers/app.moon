@@ -56,10 +56,13 @@ login_and_return_url = (url=ngx.var.request_uri) =>
 
 -- unit_date is in UTC
 assert_unit_date = =>
-  y, m, d = assert_error @params.date\match("%d+-%d+-%d+"), "invalid date"
-  @unit_date = date(@params.date)\addhours -@streak.hour_offset
-  assert_error @streak\date_in_streak(@unit_date), "invalid date"
+  assert_error @params.date\match("^(%d%d%d%d)%-(%d%d?)%-(%d%d?)$"), "invalid date"
 
+  parsed_date = date @params.date
+  assert_error @params.date == parsed_date\fmt("%Y-%m-%d"), "date mismatch"
+
+  @unit_date = parsed_date\addhours -@streak.hour_offset
+  assert_error @streak\date_in_streak(@unit_date), "invalid date"
 
 find_streak = =>
   assert_valid @params, {
