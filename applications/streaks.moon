@@ -289,10 +289,13 @@ class StreaksApplication extends lapis.Application
 
     render: true
 
-  [streak_embed: "/streak/:id/embed"]: =>
-    find_streak @
-    @title = "Embed #{@streak.title}"
-    render: true
+  [streak_embed: "/streak/:id/embed"]: capture_errors {
+    on_error: => not_found
+    =>
+      find_streak @
+      @title = "Embed #{@streak.title}"
+      render: true
+  }
 
   [streak_stats: "/s/:id/:slug/stats"]: capture_errors {
     on_error: => not_found
