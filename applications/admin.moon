@@ -236,8 +236,14 @@ class AdminApplication extends lapis.Application
           q = db.interpolate_query q, ...
         table.insert wheres, "(#{q})"
 
+      if id = tonumber @params.id
+        add_where "id = ?", id
+
       if @params.user_token
         add_where "exists(select 1 from spam_scans where user_id = users.id and user_tokens @> ARRAY[?])", @params.user_token
+
+      if @params.exclude_token
+        add_where "not exists(select 1 from spam_scans where user_id = users.id and user_tokens @> ARRAY[?])", @params.exclude_token
 
       if @params.spam_untrained
         import SpamScans from require "models"
