@@ -217,6 +217,11 @@ class AdminApplication extends lapis.Application
           for user in *users
             scan = user.spam_scan or SpamScans\refresh_for_user user
             if scan and scan\train "spam"
+              user\update_flags {
+                spam: true
+                suspended: true
+              }
+
               updated += 1
 
       json: { success: true, :updated }
