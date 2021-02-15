@@ -47,7 +47,7 @@ class EditSubmissionFlow extends Flow
     }
 
     assert_valid submission_params, {
-      {"title", optional: true, max_length: 1024}
+      {"title", optional: true, max_length: 254}
       {"description", optional: true, max_length: 1024 * 10}
       {"user_rating", one_of: Submissions.user_ratings}
     }
