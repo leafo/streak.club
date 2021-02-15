@@ -100,11 +100,12 @@ class TableHelpers
             }
 
       when "collapse_pre"
-        details ->
-          summary ->
-            code @truncate value, 180
+        ->
+          details ->
+            summary ->
+              code @truncate value, 180
 
-          pre style: "whitespace: pre-wrap;", value
+            pre style: "whitespace: pre-wrap;", value
 
       when "json"
         _id_gen += 1
@@ -113,17 +114,17 @@ class TableHelpers
 
         json_blob = to_json value
 
-        details ->
-          summary ->
-            code @truncate json_blob, 120
+        ->
+          details ->
+            summary ->
+              code @truncate json_blob, 120
 
-          pre id: "json-#{_id_gen}"
-          script type:"text/javascript", ->
-            raw "
-              var el = document.getElementById('json-#{_id_gen}')
-              el.innerText = JSON.stringify(#{json_blob}, null, 2)
-            "
-
+            pre id: "json-#{_id_gen}"
+            script type:"text/javascript", ->
+              raw "
+                var el = document.getElementById('json-#{_id_gen}')
+                el.innerText = JSON.stringify(#{json_blob}, null, 2)
+              "
       else
         error "Don't know how to render type: #{value_type}"
 
