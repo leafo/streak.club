@@ -576,6 +576,9 @@ class AdminApplication extends lapis.Application
     if id = tonumber @params.id
       add_where "id = ?", id
 
+    if etid = tonumber @params.exception_type_id
+      add_where "exception_type_id = ?", etid
+
     clause = "order by id desc"
 
     if next wheres
