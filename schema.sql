@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.4
--- Dumped by pg_dump version 12.4
+-- Dumped from database version 13.1
+-- Dumped by pg_dump version 13.1
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -781,13 +781,13 @@ ALTER TABLE public.daily_upload_downloads OWNER TO postgres;
 CREATE TABLE public.exception_requests (
     id integer NOT NULL,
     exception_type_id integer NOT NULL,
-    path text NOT NULL,
-    method character varying(255) NOT NULL,
+    path text,
+    method character varying(255),
     referer text,
-    ip character varying(255) NOT NULL,
-    data text NOT NULL,
+    ip character varying(255),
+    data jsonb,
     msg text NOT NULL,
-    trace text NOT NULL,
+    trace text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -825,7 +825,8 @@ CREATE TABLE public.exception_types (
     label text NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    count integer DEFAULT 0 NOT NULL
+    count integer DEFAULT 0 NOT NULL,
+    status smallint DEFAULT 1 NOT NULL
 );
 
 
@@ -1068,6 +1069,21 @@ ALTER TABLE public.recaptcha_results_id_seq OWNER TO postgres;
 
 ALTER SEQUENCE public.recaptcha_results_id_seq OWNED BY public.recaptcha_results.id;
 
+
+--
+-- Name: register_referrers; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.register_referrers (
+    user_id integer NOT NULL,
+    referrer text,
+    landing text,
+    user_agent text,
+    accept_lang text
+);
+
+
+ALTER TABLE public.register_referrers OWNER TO postgres;
 
 --
 -- Name: related_streaks; Type: TABLE; Schema: public; Owner: postgres
@@ -1518,6 +1534,38 @@ ALTER TABLE public.users_id_seq OWNER TO postgres;
 
 ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
+
+--
+-- Name: visible_users; Type: VIEW; Schema: public; Owner: postgres
+--
+
+CREATE VIEW public.visible_users AS
+ SELECT users.id,
+    users.username,
+    users.encrypted_password,
+    users.email,
+    users.slug,
+    users.last_active,
+    users.display_name,
+    users.avatar_url,
+    users.created_at,
+    users.updated_at,
+    users.submissions_count,
+    users.following_count,
+    users.followers_count,
+    users.streaks_count,
+    users.comments_count,
+    users.likes_count,
+    users.hidden_submissions_count,
+    users.hidden_streaks_count,
+    users.last_seen_feed_at,
+    users.last_timezone,
+    users.flags
+   FROM public.users
+  WHERE ((users.flags & (4 | 2)) = 0);
+
+
+ALTER TABLE public.visible_users OWNER TO postgres;
 
 --
 -- Name: api_keys id; Type: DEFAULT; Schema: public; Owner: postgres
@@ -2012,6 +2060,14 @@ ALTER TABLE ONLY public.notifications
 
 ALTER TABLE ONLY public.recaptcha_results
     ADD CONSTRAINT recaptcha_results_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: register_referrers register_referrers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.register_referrers
+    ADD CONSTRAINT register_referrers_pkey PRIMARY KEY (user_id);
 
 
 --
@@ -2665,8 +2721,8 @@ CREATE INDEX users_username_idx ON public.users USING gin (username public.gin_t
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.4
--- Dumped by pg_dump version 12.4
+-- Dumped from database version 13.1
+-- Dumped by pg_dump version 13.1
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -2803,6 +2859,13 @@ community_33
 community_34
 1611104893
 1611180517
+1611365690
+1612467550
+lapis_exceptions_1446940278
+lapis_exceptions_1446941278
+lapis_exceptions_1451464107
+lapis_exceptions_1459407609
+1612475645
 \.
 
 
