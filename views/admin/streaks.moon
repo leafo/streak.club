@@ -23,7 +23,13 @@ class AdminStreaks extends require "widgets.admin.page"
         a href: @url_for(streak), streak.title
       }
       {"user", (streak) ->
-        a href: @url_for(streak\get_user!), streak\get_user!\name_for_display!
+        user = streak\get_user!
+        a href: @url_for(user), user\name_for_display!
+        if user\is_suspended!
+          strong " suspended"
+
+        if user\is_spam!
+          strong " spam"
       }
 
       {"rate", Streaks.rates}

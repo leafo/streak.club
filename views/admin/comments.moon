@@ -27,6 +27,12 @@ class AdminComments extends require "widgets.admin.page"
       {"user", (c) ->
         if user = c\get_user!
           a href: @url_for(user), user\name_for_display!
+
+          if user\is_suspended!
+            strong " suspended"
+
+          if user\is_spam!
+            strong " spam"
       }
       {"source", SubmissionComments.sources}
       ":extract_text"

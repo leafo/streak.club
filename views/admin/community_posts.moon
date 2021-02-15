@@ -30,6 +30,12 @@ class AdminCommunityPosts extends require "widgets.admin.page"
       {"user", (post) ->
         if user = post\get_user!
           a href: @url_for(user), user\name_for_display!
+
+          if user\is_suspended!
+            strong " suspended"
+
+          if user\is_spam!
+            strong " spam"
       }
       {"text", (post) ->
         text @truncate post\extract_text!, 80
