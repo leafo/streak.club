@@ -2,6 +2,9 @@
 import time_ago_in_words from require "lapis.util"
 import Enum from require "lapis.db.model"
 
+_id_gen = 0
+
+
 class TableHelpers
   _extract_table_fields: (object) =>
     return for k, v in pairs object
@@ -46,7 +49,6 @@ class TableHelpers
       "date"
     else
       type value
-
 
     rendered_value, field_opts = switch value_type
       when "string"
@@ -96,6 +98,32 @@ class TableHelpers
               value: "on"
               form: form_name
             }
+
+      when "collapse_pre"
+        details ->
+          summary ->
+            code @truncate value, 180
+
+          pre style: "whitespace: pre-wrap;", value
+
+      when "json"
+        _id_gen += 1
+        _id_gen = _id_gen % 100000
+        import to_json from require "lapis.util"
+
+        json_blob = to_json value
+
+        details ->
+          summary ->
+            code @truncate json_blob, 120
+
+          pre id: "json-#{_id_gen}"
+          script type:"text/javascript", ->
+            raw "
+              var el = document.getElementById('json-#{_id_gen}')
+              el.innerText = JSON.stringify(#{json_blob}, null, 2)
+            "
+
       else
         error "Don't know how to render type: #{value_type}"
 

@@ -18,9 +18,9 @@ class AdminExceptions extends require "widgets.admin.page"
         }
         "id"
         "created_at"
-        "msg"
-        "data"
-        "trace"
+        {"msg", format: "collapse_pre"}
+        {"data", format: "json"}
+        {"trace", format: "collapse_pre"}
       }
 
     @render_pager @pager
