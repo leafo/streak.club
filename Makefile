@@ -1,7 +1,10 @@
-.PHONY: annotate_modes schema.sql init_schema test screenshot test_db prod_db migrate linit checkpoint restore_checkpoint devdb count vendor
+.PHONY: annotate_modes schema.sql init_schema test screenshot test_db prod_db migrate linit checkpoint restore_checkpoint devdb count vendor install_dependencies
 
 test:
 	busted
+
+install_dependencies:
+	luarocks --lua-version=5.1 --local build --only-deps
 
 migrate:
 	lapis migrate
