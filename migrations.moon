@@ -693,7 +693,10 @@ import
       "PRIMARY KEY (user_id)"
     }
 
-  [1612475645]: require("lapis.exceptions.schema").run_migrations
+  [1612475645]: =>
+    -- this might be needed if there's bogus old exceptions
+    -- db.query [[update exception_requests set data = replace(data, '\u0000', '') where data like '%\u0000%']]
+    require("lapis.exceptions.schema").run_migrations!
 
 }
 
