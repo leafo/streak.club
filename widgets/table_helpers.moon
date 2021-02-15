@@ -16,6 +16,14 @@ class TableHelpers
           k = {k, enum}
       k
 
+
+  render_table_value: (object, field) =>
+    _, content, opts = @_format_table_value object, field
+    if opts
+      span opts, content
+    else
+      text content
+
   _format_table_value: (object, field) =>
     if type(field) == "string"
       field = {field}
