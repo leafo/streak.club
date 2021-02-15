@@ -1,4 +1,19 @@
 .admin_page_page {
+
+    > .tab_header {
+        background: gray_back();
+        padding-top: 4px;
+
+        .page_tabs {
+            margin-bottom: 0;
+        }
+
+        .tabs_inner {
+            max-width: none;
+            padding: 0 40px;
+        }
+    }
+
     .admin_columns {
         display: flex;
         align-items: flex-start;

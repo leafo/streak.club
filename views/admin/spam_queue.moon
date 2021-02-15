@@ -5,13 +5,12 @@ class AdminSpamQueue extends require "widgets.admin.page"
   @include "widgets.form_helpers"
   @include "widgets.table_helpers"
 
+  page_name: "spam"
+
   responsive: true
 
   column_content: =>
-    div class: "page_header", ->
-      h2 "Spam Queue"
-      p ->
-        a href: @url_for("admin.spam_queue"), "top"
+    h2 "Spam Queue"
 
     div class: "admin_columns", ->
       section ->

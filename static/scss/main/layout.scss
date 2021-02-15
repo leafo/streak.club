@@ -131,6 +131,9 @@ h2, h3 {
     }
 
     .page_tabs {
+        .tab {
+            border-bottom: 4px solid transparent;
+        }
         .tab.active, .tab:hover {
             border-width: 4px;
         }
@@ -256,7 +259,7 @@ a {
             width: 250px;
             padding: 0 18px;
             height: 30px;
-            color: body_color()
+            color: body_color();
 
             &:focus {
                 outline: none;

@@ -17,10 +17,10 @@ class AdminExceptions extends require "widgets.admin.page"
 
   @needs: {"exceptions"}
 
-  column_content: =>
-    div class: "page_header", ->
-      h2 "Exceptions"
+  page_name: "exceptions"
 
+  column_content: =>
+    h2 "Exceptions"
 
     ul ->
       for status in *{

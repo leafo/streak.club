@@ -9,6 +9,8 @@ class AdminUsers extends require "widgets.admin.page"
 
   @needs: {"users", "pager"}
 
+  page_name: "users"
+
   column_content: =>
     h2 "Users"
 
