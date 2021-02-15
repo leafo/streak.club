@@ -231,16 +231,17 @@ class AdminApplication extends lapis.Application
 
       wheres = {}
 
-      add_where = (q) ->
+      add_where = (q, ...) ->
+        if select("#", ...) > 0
+          q = db.interpolate_query q, ...
         table.insert wheres, "(#{q})"
 
       if @params.user_token
-        add_where db.interpolate_query "exists(select 1 from spam_scans where user_id = users.id and user_tokens @> ARRAY[?])", @params.user_token
+        add_where "exists(select 1 from spam_scans where user_id = users.id and user_tokens @> ARRAY[?])", @params.user_token
 
       if @params.spam_untrained
         import SpamScans from require "models"
-        add_where db.interpolate_query "exists(select 1 from spam_scans where user_id = users.id and train_status = ?) or not exists(select 1 from spam_scans where user_id = users.id)", SpamScans.train_statuses.untrained
-
+        add_where "exists(select 1 from spam_scans where user_id = users.id and train_status = ?) or not exists(select 1 from spam_scans where user_id = users.id)", SpamScans.train_statuses.untrained
 
       clause = "order by id desc"
 
@@ -564,7 +565,23 @@ class AdminApplication extends lapis.Application
   [exceptions: "/exceptions"]: =>
     import ExceptionRequests from require "lapis.exceptions.models"
 
-    @pager = ExceptionRequests\paginated "order by id desc", {
+    wheres = {}
+
+    add_where = (q, ...) ->
+      if select("#", ...) > 0
+        q = db.interpolate_query q, ...
+
+      table.insert wheres, "(#{q})"
+
+    if id = tonumber @params.id
+      add_where "id = ?", id
+
+    clause = "order by id desc"
+
+    if next wheres
+      clause = "where #{table.concat wheres, " and "} #{clause}"
+
+    @pager = ExceptionRequests\paginated clause, {
       per_page: 50
       prepare_results: (exceptions) ->
         preload exceptions, "exception_type"

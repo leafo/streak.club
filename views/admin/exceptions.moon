@@ -34,7 +34,7 @@ class AdminExceptions extends require "widgets.admin.page"
         "created_at"
         {"ip", (e) ->
           if e.ip
-            a href: @url_for("admin.users", nil, id: user_token: "ip.#{e.ip}"), e.ip
+            a href: @url_for("admin.users", nil, user_token: "ip.#{e.ip}"), e.ip
           else
             em class: "sub", "n/a"
         }
