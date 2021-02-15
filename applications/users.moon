@@ -13,11 +13,9 @@ import Users, Uploads, Submissions, Streaks, StreakUsers from require "models"
 
 import not_found, require_login, assert_page from require "helpers.app"
 import assert_csrf from require "helpers.csrf"
-import render_submissions_page from require "helpers.submissions"
+import render_submissions_page, SUBMISSIONS_PER_PAGE from require "helpers.submissions"
 
 config = require("lapis.config").get!
-
-SUBMISSION_PER_PAGE = 25
 
 find_user = =>
   @user = if @params.id
@@ -44,7 +42,7 @@ class UsersApplication extends lapis.Application
         show_hidden: @current_user and
           (@current_user\is_admin! or @current_user.id == @user.id)
 
-        per_page: SUBMISSION_PER_PAGE
+        per_page: SUBMISSIONS_PER_PAGE
         prepare_results: (...) ->
           Submissions\preload_for_list ..., {
             likes_for: @current_user
@@ -54,13 +52,13 @@ class UsersApplication extends lapis.Application
       @submissions = pager\get_page @page
 
       if @params.format == "json"
-        return render_submissions_page @, SUBMISSION_PER_PAGE, {
+        return render_submissions_page @, SUBMISSIONS_PER_PAGE, {
           hide_hidden: true
         }
 
       @title = @user\name_for_display!
       @show_welcome_banner = true
-      @has_more = @user.submissions_count > SUBMISSION_PER_PAGE
+      @has_more = @user.submissions_count > SUBMISSIONS_PER_PAGE
 
       @following = @user\followed_by @current_user
 
@@ -117,7 +115,7 @@ class UsersApplication extends lapis.Application
         show_hidden: @current_user and
           (@current_user\is_admin! or @current_user.id == @user.id)
 
-        per_page: SUBMISSION_PER_PAGE
+        per_page: SUBMISSIONS_PER_PAGE
         prepare_results: (...) ->
           Submissions\preload_for_list ..., {
             likes_for: @current_user
@@ -125,6 +123,13 @@ class UsersApplication extends lapis.Application
       }
 
       @submissions = pager\get_page @page
+      @has_more = #@submissions == SUBMISSIONS_PER_PAGE
+
+      if @params.format == "json"
+        return render_submissions_page @, SUBMISSIONS_PER_PAGE, {
+          hide_hidden: true
+        }
+
       render: true
   }
 
