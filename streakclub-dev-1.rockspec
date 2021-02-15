@@ -19,7 +19,7 @@ dependencies = {
   "lapis",
   "lapis-community dev", -- currency not versioned...
 
-  "lapis-exceptions ~> 2.0",
+  "lapis-exceptions ~> 2.1",
   "lapis-bayes ~> 1.1",
   "lapis-systemd ~> 1.0",
   "lapis-console ~> 1.2",
