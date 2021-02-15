@@ -1,3 +1,14 @@
+import types from require "tableshape"
+
+
+-- from data object
+get_user_id = types.partial {
+  session: types.partial {
+    user: types.partial {
+      id: types.number\tag "user_id"
+    }
+  }
+}
 
 class AdminExceptions extends require "widgets.admin.page"
   @include "widgets.pagination_helpers"
@@ -6,6 +17,9 @@ class AdminExceptions extends require "widgets.admin.page"
   @needs: {"exceptions"}
 
   column_content: =>
+    div class: "page_header", ->
+      h2 "Exceptions"
+
     @render_pager @pager
 
     for exception in *@exceptions
@@ -18,6 +32,19 @@ class AdminExceptions extends require "widgets.admin.page"
         }
         "id"
         "created_at"
+        {"ip", (e) ->
+          if e.ip
+            a href: @url_for("admin.users", nil, id: user_token: "ip.#{e.ip}"), e.ip
+          else
+            em class: "sub", "n/a"
+        }
+        {"user_id", (e) ->
+          if res = get_user_id e.data
+            a href: @url_for("admin.user", id: res.user_id), res.user_id
+            res.user_id
+          else
+            em class: "sub", "n/a"
+        }
         {"msg", type: "collapse_pre"}
         {"data", type: "json"}
         {"trace", type: "collapse_pre"}

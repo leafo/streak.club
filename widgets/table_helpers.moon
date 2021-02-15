@@ -105,7 +105,7 @@ class TableHelpers
             summary ->
               code @truncate value, 180
 
-            pre style: "whitespace: pre-wrap;", value
+            pre style: "white-space: pre-wrap;", value
 
       when "json"
         _id_gen += 1
