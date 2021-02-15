@@ -18,7 +18,7 @@ api_request = (fn) ->
       {"key", type: "string", exists: true}
     }
 
-    @key = assert_error ApiKeys\find(key: @params.key), "invalid key"
+    @key = assert_error ApiKeys\find(key: assert @params.key), "invalid key"
     @current_user = Users\find id: @key.user_id
     fn @
 
