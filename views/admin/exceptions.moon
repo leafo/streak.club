@@ -40,8 +40,8 @@ class AdminExceptions extends require "widgets.admin.page"
         }
         {"user_id", (e) ->
           if res = get_user_id e.data
-            a href: @url_for("admin.user", id: res.user_id), res.user_id
-            res.user_id
+            code ->
+              a href: @url_for("admin.user", id: res.user_id), res.user_id
           else
             em class: "sub", "n/a"
         }
