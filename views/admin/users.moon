@@ -50,7 +50,9 @@ class AdminUsers extends require "widgets.admin.page"
         for idx, ip in ipairs user\get_ip_addresses!
           if idx > 1
             text ", "
-          code ip.ip
+
+          a href: @url_for("admin.users", nil, user_token: "ip.#{ip.ip}"), ->
+            code ip.ip
       }
     }
     @render_pager @pager
