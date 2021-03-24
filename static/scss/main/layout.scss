@@ -774,3 +774,28 @@ img.svg_icon {
     }
 }
 
+details.query_log {
+    position: fixed;
+    background: white;
+    border: 2px solid $border_color;
+    bottom: 0;
+    right: 0;
+    padding: 10px;
+    opacity: 0.8;
+    margin: 10px;
+    max-height: 50vh;
+    overflow: auto;
+    border-radius: 4px;
+
+    code, pre {
+        font-size: 14px;
+    }
+
+    summary {
+        cursor: pointer;
+    }
+
+    &[open] {
+        opacity: 1;
+    }
+}

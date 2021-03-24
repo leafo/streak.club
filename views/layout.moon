@@ -7,6 +7,8 @@ config = require("lapis.config").get!
 WelcomeBanner = require "widgets.welcome_banner"
 
 class Layout extends Widget
+  @include "widgets.helpers"
+  @include "widgets.table_helpers"
   @include "widgets.asset_helpers"
   @include "widgets.icons"
 
@@ -183,6 +185,7 @@ class Layout extends Widget
         @main!
         @footer!
         @all_js!
+        @render_query_log!
 
   google_analytics: =>
     script type: "text/javascript", ->
@@ -197,3 +200,28 @@ class Layout extends Widget
         ga('send', 'pageview');
       ]]
       raw "}"
+
+  render_query_log: =>
+    return unless @current_user and @current_user\is_admin!
+    query_log = ngx and ngx.ctx and ngx.ctx.query_log
+
+    return unless query_log
+
+    details class: "query_log", ->
+      summary ->
+        text "Queries"
+        text " "
+        strong "(#{@format_number #query_log})"
+
+      total_time = 0
+      for {_, d} in *query_log
+        total_time += d
+
+      p ->
+        text "Total query time: "
+        code @format_duration total_time
+
+      @column_table query_log, {
+        {"query", type: "collapse_pre", value: (l) -> l[1]}
+        {"duration", type: "duration", value: (l) -> l[2]}
+      }

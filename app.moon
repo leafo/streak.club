@@ -16,6 +16,14 @@ import assert_valid from require "lapis.validate"
 date = require "date"
 config = require("lapis.config").get!
 
+logger = require "lapis.logging"
+old_query = logger.query
+logger.query = (q, time, ...) ->
+  if ngx and ngx.ctx.query_log
+    table.insert ngx.ctx.query_log, {q, time}
+
+  old_query q, time, ...
+
 class extends lapis.Application
   layout: require "views.layout"
 
@@ -40,6 +48,9 @@ class extends lapis.Application
 
   @before_filter =>
     return if redirect_for_https @
+
+    if ngx and ngx.ctx
+      ngx.ctx.query_log = {}
 
     if config.force_login_user
       @current_user = Users\find slug: config.force_login_user

@@ -14,47 +14,38 @@ if ngx and ngx.worker
 else
   math.randomseed os.time!
 
-truncate = do
-  import C, Cmt from require "lpeg"
-  import printable_character, whitespace from require "lapis.util.utf8"
-
-  nonwhitespace = 1 - whitespace
-  trim_right = C (whitespace^0 * nonwhitespace^1)^0
-
-  remaining = 0
-  truncator = C Cmt(printable_character, (pos) ->
-    remaining -= 1
-    remaining >= 0
-  )^0
-
-  (str, len) ->
-    remaining = assert len, "missing length"
-
-    if #str < remaining
-      return str
-
-    trim_right\match truncator\match(str) or ""
 
 class Base extends Widget
+  @include "widgets.helpers"
   @include "widgets.asset_helpers"
   @include "widgets.icons"
 
   @widget_name: => underscore @__name or "some_widget"
+
+  -- returns array of widget names for class list
+  -- will abort as base, will skip mixins classes
+  @class_hierarchy: =>
+    current = @
+    out = {}
+    while current
+      break if current == Base
+
+      unless rawget(current, "_mixins_class")
+        if name = current\widget_name!
+          table.insert out, name
+
+      current = current.__parent
+
+    out
 
   -- classes chained from inheritance hierarchy
   @css_classes: =>
     return if @ == Base
 
     unless rawget @, "_css_classes"
-      classes = @widget_name!
-      if @__parent and @__parent.css_classes
-        if parent_classes = @__parent\css_classes!
-          classes ..= " #{parent_classes}"
-
-      @_css_classes = classes
+      @_css_classes = table.concat @class_hierarchy!, " "
 
     @_css_classes
-
 
   inner_content: =>
 
@@ -174,13 +165,6 @@ class Base extends Widget
 
   number_format: (num) =>
     tostring(num)\reverse!\gsub("(...)", "%1,")\match("^(.-),?$")\reverse!
-
-  truncate: (str, len=30, tail="...") =>
-    out = truncate str, len
-    if out != str and tail
-      out .. tail
-    else
-      out
 
   react_render: (component, props={}, selector) =>
     target = "$(#{@widget_selector!})"
