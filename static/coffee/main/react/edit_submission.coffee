@@ -1,4 +1,9 @@
 
+import {R, fragment, classNames} from "./_react"
+
+import * as ReactDOM from 'react-dom'
+import {div, input, textarea, button, span, img, p} from 'react-dom-factories'
+
 P = R.package "EditSubmission"
 
 # NOTE: all files pass through here, so we should return nothing for non-images
@@ -139,7 +144,7 @@ P "Editor", {
           img {
             height: 16
             width: 26
-            class: "svg_icon"
+            className: "svg_icon"
             src: "/static/images/markdown-mark-solid.svg"
             alt: "Markdown Enabled"
           }
@@ -378,5 +383,4 @@ class UploaderManager
       upload.start_upload res.url
 
       callback? upload, file
-
 

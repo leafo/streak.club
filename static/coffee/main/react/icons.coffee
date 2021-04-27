@@ -1,3 +1,6 @@
+import {R} from "./_react"
+import * as React from 'react'
+
 P = R.package "Icons"
 
 P.PlaylistIcon = (props={}) ->

@@ -4,11 +4,15 @@
 : foreach scss/*.scss |> sassc -I scss/ < %f > %o |> %B.css
 : foreach *.md |> markdown < %f > %o |> %B.html
 
-: coffee/bundle/_pre.js coffee/bundle/*.js coffee/main/*.js coffee/main/react/*.js |> cat %f > %o |> main.js
+: coffee/bundle/_pre.js coffee/bundle/*.js coffee/main/*.js coffee/main/react/_bundle.js |> cat %f > %o |> main.js
 : coffee/admin/*.js |> cat %f > %o |> admin.js
 
+
 # lib
-: lib/jquery.min.js lib/underscore-min.js lib/react.min.js lib/dayjs.min.js lib/*.js |> awk 'FNR==1 && NR!=1 {print "\n;\n"}{print}' %f > %o |> lib.js
+: lib/jquery.min.js lib/underscore-min.js lib/dayjs.min.js lib/*.js |> awk 'FNR==1 && NR!=1 {print "\n;\n"}{print}' %f > %o |> lib.js
+
+
+# minify
 : foreach main.js |> npx esbuild --minify --target=es6 %f > %o |> %B.min.js
 
 # markdown

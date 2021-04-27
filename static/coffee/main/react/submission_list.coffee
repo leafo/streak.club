@@ -1,3 +1,7 @@
+import {R, fragment, classNames} from "./_react"
+import * as React from 'react'
+import * as ReactDOM from 'react-dom'
+import {div, button, form, input, a, ul, li, p, h3, span} from 'react-dom-factories'
 
 P = R.package "SubmissionList"
 
@@ -77,7 +81,7 @@ P "QuickComment", {
 
       $(document.body).on "click", @autoclose
 
-    el.remote_submit ".quick_comment_form", (res, form) =>
+    el.remote_submit ".quick_comment_form", (res) =>
       if res.errors
         @setState {
           errors: res.errors

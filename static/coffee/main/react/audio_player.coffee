@@ -1,3 +1,9 @@
+
+import {R, fragment, classNames} from "./_react"
+import * as React from 'react'
+import * as ReactDOM from 'react-dom'
+import {div, button, ul, li, span, a, form, input, img} from 'react-dom-factories'
+
 P = R.package "SubmissionList"
 
 format_seconds = (n) ->

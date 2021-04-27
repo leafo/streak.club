@@ -1,4 +1,13 @@
 
+import * as React from 'react'
+import * as ReactDOM from 'react-dom'
+createReactClass = require('create-react-class')
+
+export fragment = React.createElement.bind null, React.Fragment
+fragment.type = React.fragment
+
+export classNames = require "classnames"
+
 EMPTY = {}
 is_different = (a, b) ->
   for own key of a
@@ -9,7 +18,7 @@ is_different = (a, b) ->
 
   false
 
-window.R = (name, data, p=R, prefix="") ->
+export R = (name, data, p=R, prefix="") ->
   data.trigger = ->
     R.trigger @, arguments...
     undefined
@@ -27,12 +36,23 @@ window.R = (name, data, p=R, prefix="") ->
   default_props = data.getDefaultProps
   delete data.getDefaultProps
 
+  prop_types = data.propTypes
+  delete data.propTypes
+
   cl = createReactClass(data)
   if default_props
     cl.defaultProps = default_props()
 
-  p[name] = React.createFactory(cl)
-  p[name]._class = cl
+  if prop_types
+    cl.propTypes = prop_types
+
+  # create the factory -> a function that returns result of React createElement
+  # this is so we don't have to use createElement whenever we want to insert
+  # out custom components
+  factory = React.createElement.bind null, cl
+  factory.type = cl
+  p[name] = factory
+
 
 R.scope_event_name = (name) ->
   "streak:#{name}"
@@ -62,3 +82,7 @@ R.package = (prefix) =>
 
   p.component = -> p arguments...
   p
+
+window.ReactDOM = ReactDOM
+window.React = React
+window.R = R
