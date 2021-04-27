@@ -14,11 +14,12 @@
   "homepage": "https://streak.club",
   "dependencies": {
     "classnames": "^2.2.6",
-    "coffeescript": "^1.12.7",
+    "coffeescript": "^2.5.1",
     "commonmark": "^0.29.3",
     "create-react-class": "^15.7.0",
     "d3": "^4.12.2",
     "dayjs": "^1.10.4",
+    "esbuild": "^0.11.15",
     "jquery": "^3.5.1",
     "jstz": "^2.1.1",
     "prop-types": "^15.7.2",
@@ -28,7 +29,6 @@
     "selectize": "^0.12.6",
     "turndown": "^7.0.0",
     "typed.js": "^2.0.6",
-    "uglify-js": "^3.12.5",
     "underscore": "^1.12.0"
   }
 }
