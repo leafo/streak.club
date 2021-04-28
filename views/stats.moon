@@ -26,7 +26,7 @@ class Stats extends require "widgets.page"
       }
     }
 
-    "S.Stats(#{@widget_selector!}, #{to_json data});"
+    "new S.Stats(#{@widget_selector!}, #{to_json data});"
 
   inner_content: =>
     widget StatsHeader page_name: @graph_type

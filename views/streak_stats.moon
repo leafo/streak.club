@@ -13,7 +13,7 @@ class StreakStats extends require "widgets.page"
       }
     }
 
-    "S.StreakStats(#{@widget_selector!}, #{to_json data});"
+    "new S.StreakStats(#{@widget_selector!}, #{to_json data});"
 
   inner_content: =>
     widget StreakHeader page_name: @page_name

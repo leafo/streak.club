@@ -8,7 +8,7 @@ class FollowingFeed extends require "widgets.page"
   responsive: true
 
   js_init: =>
-    "S.FollowingFeed(#{@widget_selector!});"
+    "new S.FollowingFeed(#{@widget_selector!});"
 
   inner_content: =>
     widget HomeHeader page_name: "following_feed"
