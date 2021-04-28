@@ -15,7 +15,7 @@ class S.SubmissionList
     @el.on "s:increment_comments", ".submission_row", (e, amount=1) =>
       btn = $(e.currentTarget).find ".comments_toggle_btn"
       new_count = btn.data("count") + amount
-      btn.text _.template(btn.data("template")) { count: new_count }
+      btn.text _.template(btn.data("template"), S.template_settings) { count: new_count }
       btn.data "count", new_count
 
     @el.on "s:refresh_comments", ".submission_row", (e, callback) =>

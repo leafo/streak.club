@@ -9,7 +9,8 @@ include_rules
 : coffee/admin/*.js |> !esbuild_bundle |> admin.js
 
 # lib
-: lib/jquery.min.js lib/underscore-min.js lib/dayjs.min.js lib/*.js |> !join_js |> lib.js
+: underscore_custom.js |> !esbuild_bundle |> lib/underscore_custom_bundle.js
+: lib/jquery.min.js lib/dayjs.min.js lib/*.js |> !join_js |> lib.js
 
 # minify
 : foreach main.js |> npx esbuild --minify --target=es6 %f > %o |> %B.min.js

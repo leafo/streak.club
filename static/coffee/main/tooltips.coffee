@@ -13,7 +13,7 @@ $.fn.has_tooltips = ->
 
   tooltip_template = _.template """
   <div class="tooltip">{{ label }}</div>
-  """
+  """, S.template_settings
 
   show_tooltip = (tooltip_target, instant=false) ->
     el = tooltip_target.data "tooltip_el"

@@ -49,7 +49,7 @@ class S.Grapher
 
   setup_popups:  ->
     current_popup = null
-    @_template ||= _.template @popup_template
+    @_template ||= _.template @popup_template, S.template_settings
 
     position_popup = (x,y) ->
       return unless current_popup

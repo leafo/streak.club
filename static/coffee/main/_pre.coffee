@@ -1,15 +1,15 @@
 
-_.templateSettings = {
-  interpolate : /\{\{(.+?)\}\}/g
-  escape : /\{\{&(.+?)\}\}/g
-  evaluate: /<%([\s\S]+?)%>/g
-}
-
 dayjs.extend window.dayjs_plugin_duration
 dayjs.extend window.dayjs_plugin_calendar
 dayjs.extend window.dayjs_plugin_advancedFormat
 
 window.S = {
+  template_settings: {
+    interpolate : /\{\{(.+?)\}\}/g
+    escape : /\{\{&(.+?)\}\}/g
+    evaluate: /<%([\s\S]+?)%>/g
+  }
+
   with_markdown: ->
     S._markdown_deferred ||= $.ajax {
       url: $("#markdown_src").data "src"
@@ -39,7 +39,7 @@ window.S = {
         console.log "event:", params
 
   get_template: (name) ->
-    _.template $("##{name}_tpl").html()
+    _.template $("##{name}_tpl").html(), S.template_settings
 
   lazy_template: (obj, name) ->
     (args...) ->
