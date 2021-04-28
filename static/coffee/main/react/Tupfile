@@ -5,5 +5,5 @@
 
 # bundle everything in esbuild
 
-: {js} |> (for file in %f; do echo 'import "./'$file'"; ' | sed 's/.js//'; done) | npx esbuild --log-level=warning --bundle > %o |> _bundle.js
+: {js} |> (for file in %f; do echo 'import "./'$file'"; ' | sed 's/.js//'; done) | npx esbuild --log-level=warning --bundle --minify > %o |> _bundle.js
 
