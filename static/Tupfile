@@ -9,12 +9,11 @@ include_rules
 : coffee/admin/*.js |> !esbuild_bundle |> admin.js
 
 # lib
-: lib/jquery.min.js lib/underscore-min.js lib/dayjs.min.js lib/*.js |> awk 'FNR==1 && NR!=1 {print "\n;\n"}{print}' %f > %o |> lib.js
-
+: lib/jquery.min.js lib/underscore-min.js lib/dayjs.min.js lib/*.js |> !join_js |> lib.js
 
 # minify
 : foreach main.js |> npx esbuild --minify --target=es6 %f > %o |> %B.min.js
 
 # markdown
-: markdown/*.js |> awk 'FNR==1 && NR!=1 {print "\n;\n"}{print}' %f > %o |> lib.markdown.js
+: markdown/*.js |> !join_js |> lib.markdown.js
 
