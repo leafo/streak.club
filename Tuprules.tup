@@ -1,1 +1,4 @@
+!esbuild_bundle = |> ^ esbuild bundle %f > %o^ (for file in %f; do echo 'import "./'$file'"; ' | sed 's/.js//'; done) | npx esbuild --log-level=warning --bundle --minify > %o |>
+
+
 : foreach *.moon |> moonc %f |> %B.lua

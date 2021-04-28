@@ -1,9 +1,9 @@
 .gitignore
+include_rules
+
 # : foreach *.coffee |> (cat header.coffee.tpl; cat %f) | npx coffee -s -p > %o |> %B.js {js}
 : foreach *.coffee |> npx coffee -c %f |> %B.js {js}
 : foreach {js} |> npx eslint %f |>
 
-# bundle everything in esbuild
-
-: {js} |> (for file in %f; do echo 'import "./'$file'"; ' | sed 's/.js//'; done) | npx esbuild --log-level=warning --bundle --minify > %o |> _bundle.js
+: {js} |> !esbuild_bundle |> _bundle.js
 

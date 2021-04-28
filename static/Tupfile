@@ -1,12 +1,12 @@
 .gitignore
+include_rules
 
 : foreach *.coffee |> npx coffee -c %f |> %B.js
 : foreach scss/*.scss |> sassc -I scss/ < %f > %o |> %B.css
 : foreach *.md |> markdown < %f > %o |> %B.html
 
 : coffee/main/_pre.js coffee/main/*.js coffee/main/react/_bundle.js |> cat %f > %o |> main.js
-: coffee/admin/*.js |> cat %f > %o |> admin.js
-
+: coffee/admin/*.js |> !esbuild_bundle |> admin.js
 
 # lib
 : lib/jquery.min.js lib/underscore-min.js lib/dayjs.min.js lib/*.js |> awk 'FNR==1 && NR!=1 {print "\n;\n"}{print}' %f > %o |> lib.js
