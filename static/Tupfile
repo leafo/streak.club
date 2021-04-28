@@ -4,7 +4,7 @@
 : foreach scss/*.scss |> sassc -I scss/ < %f > %o |> %B.css
 : foreach *.md |> markdown < %f > %o |> %B.html
 
-: coffee/bundle/_pre.js coffee/bundle/*.js coffee/main/*.js coffee/main/react/_bundle.js |> cat %f > %o |> main.js
+: coffee/main/_pre.js coffee/main/*.js coffee/main/react/_bundle.js |> cat %f > %o |> main.js
 : coffee/admin/*.js |> cat %f > %o |> admin.js
 
 

@@ -1,2 +1,0 @@
-.gitignore
-: foreach *.coffee |> npx coffee -c %f |> %B.js
