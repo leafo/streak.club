@@ -4,6 +4,8 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import {div, button, ul, li, span, a, form, input, img} from 'react-dom-factories'
 
+import {HeartIcon, PauseIcon, PlayIcon, NextTrackIcon, PlaylistIcon, CloseIcon} from "./icons"
+
 P = R.package "SubmissionList"
 
 format_seconds = (n) ->
@@ -83,14 +85,14 @@ P "StickyAudioPlayer", {
       R.SubmissionList.LikeButton Object.assign {
         quick_comment: false
         show_count: false
-        icon: R.Icons.Heart width: 18, height: 18
+        icon: HeartIcon width: 18, height: 18
       }, props
     else
       button {
         type: "button"
         className: "toggle_like_button"
         disabled: true
-      }, R.Icons.Heart width: 18, height: 18
+      }, HeartIcon width: 18, height: 18
 
   on_change_slider: (val) ->
     @props.active_file?.seek_audio val
@@ -119,9 +121,9 @@ P "StickyAudioPlayer", {
             active_file.play_audio()
 
       }, if @props.active_file_playing
-          R.Icons.PauseIcon width: 30, height: 30
+          PauseIcon width: 30, height: 30
         else
-          R.Icons.PlayIcon width: 30, height: 30
+          PlayIcon width: 30, height: 30
 
       button {
         type: "button"
@@ -130,7 +132,7 @@ P "StickyAudioPlayer", {
           idx = @props.audio_files.indexOf(@props.active_file)
           next = @props.audio_files[idx + 1] || @props.audio_files[0]
           next?.play_audio()
-      }, R.Icons.NextTrackIcon()
+      }, NextTrackIcon()
 
       R.SubmissionList.LikeButtonProvider {
         key: "s#{submission_id}"
@@ -192,7 +194,7 @@ P "StickyAudioPlayer", {
         }
         onClick: =>
           @setState (s) -> show_list: !s.show_list
-      }, R.Icons.PlaylistIcon width: 16, height: 16
+      }, PlaylistIcon width: 16, height: 16
 
       button {
         type: "button"
@@ -200,7 +202,7 @@ P "StickyAudioPlayer", {
         onClick: =>
           render_track_list closed: true
           @props.active_file?.pause_audio()
-      }, R.Icons.CloseIcon width: 14, height: 14
+      }, CloseIcon width: 14, height: 14
 
   render_track_list: ->
     P.TrackListPopup {
