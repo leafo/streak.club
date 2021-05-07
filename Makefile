@@ -56,17 +56,11 @@ vendor:
 	cp node_modules/jquery/dist/jquery.min.js static/lib
 	cp node_modules/d3/build/d3.min.js static
 	cp node_modules/jstz/dist/jstz.min.js static/lib
-	cp node_modules/underscore/underscore-min.js static/lib
-	cp node_modules/react/umd/react.production.min.js static/lib/react.min.js
-	cp node_modules/react-dom/umd/react-dom.production.min.js static/lib/react-dom.min.js
-	cp node_modules/react-dom-factories/index.js static/lib/react-dom-factories.js
-	cp node_modules/create-react-class/create-react-class.min.js static/lib
 	cp node_modules/typed.js/lib/typed.min.js static/lib
-	cp node_modules/commonmark/dist/commonmark.min.js static/lib
-	cp node_modules/turndown/dist/turndown.js static/lib
+	cp node_modules/commonmark/dist/commonmark.min.js static/markdown/
+	cp node_modules/turndown/dist/turndown.js static/markdown/
 	cp node_modules/selectize/dist/js/standalone/selectize.min.js static/lib
 	cp node_modules/selectize/dist/css/selectize.css static/lib
-	cp node_modules/classnames/index.js static/lib/classnames.js
 	cp node_modules/dayjs/dayjs.min.js static/lib/
 	cp node_modules/dayjs/plugin/utc.js static/lib/dayjs-utc.js
 	cp node_modules/dayjs/plugin/calendar.js static/lib/dayjs-calendar.js
