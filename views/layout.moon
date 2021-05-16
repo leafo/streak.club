@@ -188,8 +188,8 @@ class Layout extends Widget
         @render_query_log!
 
   google_analytics: =>
+    return unless config._name == "production"
     script type: "text/javascript", ->
-      raw "if (!window.location.hostname.match(/localhost/)) {"
       raw [[
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -199,7 +199,18 @@ class Layout extends Widget
         ga('create', 'UA-136625-12', 'auto');
         ga('send', 'pageview');
       ]]
-      raw "}"
+
+    raw [[
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-J983SZ6K5B"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-J983SZ6K5B');
+      </script>
+    ]]
+
 
   render_query_log: =>
     return unless @current_user and @current_user\is_admin!
