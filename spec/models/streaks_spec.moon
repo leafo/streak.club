@@ -1,11 +1,7 @@
-import use_test_env from require "lapis.spec"
-
 date = require "date"
 factory = require "spec.factory"
 
 describe "models.streaks", ->
-  use_test_env!
-
   import Streaks, Users, Submissions, StreakUsers, StreakSubmissions from require "spec.models"
 
   it "should create a streak from factory", ->

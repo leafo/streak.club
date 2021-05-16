@@ -1,11 +1,6 @@
-import use_test_env from require "lapis.spec"
-
-
 factory = require "spec.factory"
 
 describe "models.streak_users", ->
-  use_test_env!
-
   import Streaks, Users, StreakUsers,
     StreakUserNotificationSettings from require "spec.models"
 

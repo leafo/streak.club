@@ -1,10 +1,6 @@
-import use_test_env from require "lapis.spec"
-
 factory = require "spec.factory"
 
 describe "models.related_streaks", ->
-  use_test_env!
-
   import Streaks, Users, RelatedStreaks from require "spec.models"
 
   it "creates a related streak", ->

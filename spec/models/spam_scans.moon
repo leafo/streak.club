@@ -1,14 +1,9 @@
-import use_test_env from require "lapis.spec"
-
 import truncate_tables from require "lapis.spec.db"
 
 factory = require "spec.factory"
 
 describe "models.spam_scans", ->
-  use_test_env!
-
   import Streaks, Users, Submissions, SpamScans from require "spec.models"
-
   import Categories, WordClassifications from require "lapis.bayes.models"
 
   before_each ->

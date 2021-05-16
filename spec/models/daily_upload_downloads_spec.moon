@@ -1,7 +1,4 @@
-import use_test_env from require "lapis.spec"
-
 describe "models.DailyUploadDownloads", ->
-  use_test_env!
   import DailyUploadDownloads from require "spec.models"
 
   it "should increment downloads", ->

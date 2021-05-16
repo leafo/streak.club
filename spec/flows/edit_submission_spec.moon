@@ -1,4 +1,3 @@
-import use_test_env from require "lapis.spec"
 import in_request from require "spec.helpers.flow"
 
 db = require "lapis.db"
@@ -8,8 +7,6 @@ import types from require "tableshape"
 factory = require "spec.factory"
 
 describe "EditSubmissionFlow", ->
-  use_test_env!
-
   import Users, Streaks, Submissions, StreakSubmissions from require "spec.models"
 
   local current_user

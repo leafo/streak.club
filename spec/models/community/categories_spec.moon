@@ -1,10 +1,6 @@
-import use_test_env from require "lapis.spec"
-
 factory = require "spec.factory"
 
 describe "models.categories", ->
-  use_test_env!
-
   import Users, Streaks from require "spec.models"
 
   it "it creates default category", ->
