@@ -1,24 +1,12 @@
-import
-  load_test_server
-  close_test_server
-  from require "lapis.spec.server"
-
+import use_test_server from require "lapis.spec"
 import request_as from require "spec.helpers"
-import truncate_tables from require "lapis.spec.db"
-
-import Users, Followings from require "models"
 
 factory = require "spec.factory"
 
 describe "followers", ->
-  setup ->
-    load_test_server!
+  use_test_server!
 
-  teardown ->
-    close_test_server!
-
-  before_each ->
-    truncate_tables Users, Followings
+  import Users, Followings from require "spec.models"
 
   it "should create a following", ->
     f = assert factory.Followings!

@@ -1,34 +1,22 @@
-import
-  load_test_server
-  close_test_server
-  from require "lapis.spec.server"
 
 db = require "lapis.db"
-
-import truncate_tables from require "lapis.spec.db"
-
-import
-  Users
-  Notifications
-  NotificationObjects
-  Submissions
-  SubmissionComments from require "models"
-
 factory = require "spec.factory"
+
 import request, request_as from require "spec.helpers"
+import use_test_server from require "lapis.spec"
 
 describe "notifications", ->
+  use_test_server!
   local current_user
 
-  setup ->
-    load_test_server!
-
-  teardown ->
-    close_test_server!
+  import
+    Users
+    Notifications
+    NotificationObjects
+    Submissions
+    SubmissionComments from require "spec.models"
 
   before_each ->
-    truncate_tables Users, Notifications, Submissions, SubmissionComments,
-      NotificationObjects
     current_user = factory.Users!
 
   it "should create a new notification", ->

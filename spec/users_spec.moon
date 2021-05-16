@@ -1,25 +1,13 @@
-import
-  load_test_server
-  close_test_server
-  from require "lapis.spec.server"
-
-import truncate_tables from require "lapis.spec.db"
-
 import request, request_as from require "spec.helpers"
+import use_test_server from require "lapis.spec"
 
 factory = require "spec.factory"
-import Users, Followings, Submissions, Streaks, StreakSubmissions, StreakUsers,
-  SubmissionTags from require "models"
 
 describe "users", ->
-  setup ->
-    load_test_server!
+  use_test_server!
 
-  teardown ->
-    close_test_server!
-
-  before_each ->
-    truncate_tables Users, Followings
+  import Users, Followings, Submissions, Streaks,
+    StreakSubmissions, StreakUsers, SubmissionTags from require "spec.models"
 
   it "should create a user", ->
     factory.Users!
@@ -86,7 +74,6 @@ describe "users", ->
     local current_user
 
     before_each ->
-      truncate_tables Streaks, StreakSubmissions, Submissions, StreakUsers
       current_user = factory.Users!
 
     active_streaks = ->
@@ -162,7 +149,6 @@ describe "users", ->
 
   describe "with submissions", ->
     local current_user
-    truncate_tables Submissions, Streaks, StreakSubmissions, StreakUsers
 
     before_each ->
       current_user = factory.Users!
@@ -184,7 +170,6 @@ describe "users", ->
     local current_user
 
     before_each ->
-      truncate_tables SubmissionTags
       current_user = factory.Users!
 
     it "should detect if user has no tags", ->

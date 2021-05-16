@@ -1,38 +1,21 @@
-import
-  load_test_server
-  close_test_server
-  from require "lapis.spec.server"
-
-import truncate_tables from require "lapis.spec.db"
-
-import
-  Streaks
-  Users
-  Submissions
-  StreakUsers
-  StreakSubmissions
-  SubmissionComments from require "models"
 
 factory = require "spec.factory"
 import request, request_as from require "spec.helpers"
+import use_test_server from require "lapis.spec"
 
 describe "submission_comments", ->
+  use_test_server!
   local current_user
 
-  setup ->
-    load_test_server!
-
-  teardown ->
-    close_test_server!
+  import
+    Streaks
+    Users
+    Submissions
+    StreakUsers
+    StreakSubmissions
+    SubmissionComments from require "spec.models"
 
   before_each ->
-    truncate_tables Streaks,
-      Users,
-      Submissions,
-      StreakUsers,
-      StreakSubmissions,
-      SubmissionComments
-
     current_user = factory.Users!
 
   it "should create a comment", ->

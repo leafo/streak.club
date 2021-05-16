@@ -1,26 +1,13 @@
-import
-  load_test_server
-  close_test_server
-  from require "lapis.spec.server"
-
-import truncate_tables from require "lapis.spec.db"
-
-import Streaks, Users, Submissions, StreakUsers, StreakSubmissions from require "models"
-
 import request, request_as from require "spec.helpers"
+import use_test_server from require "lapis.spec"
 
 date = require "date"
 factory = require "spec.factory"
 
 describe "streaks", ->
-  setup ->
-    load_test_server!
+  use_test_server!
 
-  teardown ->
-    close_test_server!
-
-  before_each ->
-    truncate_tables Streaks, Users, Submissions, StreakUsers, StreakSubmissions
+  import Streaks, Users, Submissions, StreakUsers, StreakSubmissions from require "spec.models"
 
   describe "with user", ->
     local current_user

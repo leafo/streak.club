@@ -1,14 +1,4 @@
-import use_test_server from require "lapis.spec"
-import request from require "lapis.spec.server"
-import truncate_tables from require "lapis.spec.db"
-
-import time_ago_in_words from require "lapis.util"
-
 describe "helpers", ->
-  use_test_server!
-
-  before_each ->
-
   it "formats dates", ->
     date = require "date"
     import format_date from require "helpers.format"

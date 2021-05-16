@@ -1,6 +1,5 @@
 import use_test_server from require "lapis.spec"
 import request from require "spec.helpers"
-import truncate_tables from require "lapis.spec.db"
 
 factory = require "spec.factory"
 

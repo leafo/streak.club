@@ -1,31 +1,21 @@
 db = require "lapis.db"
 
-import
-  load_test_server
-  close_test_server
-  from require "lapis.spec.server"
-
-import truncate_tables from require "lapis.spec.db"
 import encode_query_string from require "lapis.util"
 
 factory = require "spec.factory"
 import request, request_as from require "spec.helpers"
-
-import Streaks, Users, Submissions, StreakUsers, StreakSubmissions, SubmissionLikes, SubmissionTags from require "models"
+import use_test_server from require "lapis.spec"
 
 date = require "date"
 
 describe "submissions", ->
+  use_test_server!
   local current_user
 
-  setup ->
-    load_test_server!
-
-  teardown ->
-    close_test_server!
+  import Streaks, Users, Submissions, StreakUsers,
+    StreakSubmissions, SubmissionLikes, SubmissionTags from require "spec.models"
 
   before_each ->
-    truncate_tables Streaks, Users, Submissions, StreakUsers, StreakSubmissions, SubmissionLikes, SubmissionTags
     current_user = factory.Users!
 
   it "not render submit page when not part of any streaks", ->
@@ -316,8 +306,8 @@ describe "submissions", ->
 
   describe "submission likes", ->
     local submission
+
     before_each ->
-      truncate_tables SubmissionLikes
       submission = factory.Submissions!
 
     it "should like submission", ->
