@@ -740,9 +740,7 @@ details.toggle_form {
     &:not([open]) {
         > summary {
             padding: 4px 0;
-            height: 30px;
             box-sizing: border-box;
-            display: inline-block;
         }
     }
 
