@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 13.1
--- Dumped by pg_dump version 13.1
+-- Dumped from database version 13.3
+-- Dumped by pg_dump version 13.3
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -82,7 +82,7 @@ CREATE TABLE public.community_activity_logs (
     object_id integer NOT NULL,
     publishable boolean DEFAULT false NOT NULL,
     action integer DEFAULT 0 NOT NULL,
-    data text,
+    data jsonb,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -305,7 +305,8 @@ CREATE TABLE public.community_category_tags (
     image_url character varying(255),
     tag_order integer DEFAULT 0 NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    description text
 );
 
 
@@ -502,7 +503,12 @@ CREATE TABLE public.community_post_reports (
     body text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    moderated_at timestamp without time zone
+    moderated_at timestamp without time zone,
+    post_user_id integer,
+    post_parent_post_id integer,
+    post_body text,
+    post_body_format smallint,
+    post_topic_id integer
 );
 
 
@@ -652,7 +658,8 @@ CREATE TABLE public.community_topics (
     status smallint DEFAULT 1 NOT NULL,
     tags character varying(255)[],
     rank_adjustment integer DEFAULT 0 NOT NULL,
-    protected boolean DEFAULT false NOT NULL
+    protected boolean DEFAULT false NOT NULL,
+    data jsonb
 );
 
 
@@ -1879,14 +1886,6 @@ ALTER TABLE ONLY public.community_post_reports
 
 
 --
--- Name: community_posts community_posts_moderation_log_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.community_posts
-    ADD CONSTRAINT community_posts_moderation_log_id_key UNIQUE (moderation_log_id);
-
-
---
 -- Name: community_posts community_posts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2329,6 +2328,20 @@ CREATE INDEX community_post_reports_post_id_id_status_idx ON public.community_po
 
 
 --
+-- Name: community_post_reports_post_user_id_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX community_post_reports_post_user_id_idx ON public.community_post_reports USING btree (post_user_id) WHERE (post_user_id IS NOT NULL);
+
+
+--
+-- Name: community_posts_moderation_log_id_not_null_key; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX community_posts_moderation_log_id_not_null_key ON public.community_posts USING btree (moderation_log_id) WHERE (moderation_log_id IS NOT NULL);
+
+
+--
 -- Name: community_posts_parent_post_id_popularity_score_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2721,8 +2734,8 @@ CREATE INDEX users_username_idx ON public.users USING gin (username public.gin_t
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 13.1
--- Dumped by pg_dump version 13.1
+-- Dumped from database version 13.3
+-- Dumped by pg_dump version 13.3
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -2822,9 +2835,9 @@ community_14
 community_15
 community_16
 community_17
-1483430549
 community_18
 community_19
+1483430549
 1484032396
 community_20
 community_21
@@ -2833,14 +2846,25 @@ community_23
 1510810389
 1516221126
 1524276008
+1566456125
+1580505725
 community_24
 community_25
 community_26
-1524276009
-1566456125
-1580505725
 community_27
 community_28
+community_29
+community_30
+community_31
+community_32
+community_33
+community_34
+community_35
+community_36
+community_37
+community_38
+community_39
+community_40
 1580506174
 1580928124
 1580932859
@@ -2851,12 +2875,6 @@ community_28
 lapis_bayes_1439610038
 lapis_bayes_1474434614
 1610588129
-community_29
-community_30
-community_31
-community_32
-community_33
-community_34
 1611104893
 1611180517
 1611365690
@@ -2866,6 +2884,7 @@ lapis_exceptions_1446941278
 lapis_exceptions_1451464107
 lapis_exceptions_1459407609
 1612475645
+1625340072
 \.
 
 

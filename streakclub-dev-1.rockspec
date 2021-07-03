@@ -17,7 +17,7 @@ dependencies = {
   "bcrypt",
 
   "lapis ~> 1.9",
-  "lapis-community dev", -- currently not versioned...
+  "lapis-community == 1.40.0", -- currently not versioned...
 
   "lapis-exceptions ~> 2.1",
   "lapis-bayes ~> 1.1",

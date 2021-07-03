@@ -698,5 +698,10 @@ import
     -- db.query [[update exception_requests set data = replace(data, '\u0000', '') where data like '%\u0000%']]
     require("lapis.exceptions.schema").run_migrations!
 
+  [1625340072]: =>
+    require("community.schema").run_migrations 40
+
+
+
 }
 
