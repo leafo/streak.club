@@ -96,6 +96,50 @@ class UsersApplication extends lapis.Application
       render: true
   }
 
+  [user_submissions: "/u/:slug/submissions"]: capture_errors {
+    on_error: => not_found
+    =>
+      find_user @
+      assert_page @
+
+      show_hidden = @current_user and
+        (@current_user\is_admin! or @current_user.id == @user.id)
+
+      import types from require "tableshape"
+      shapes = require "helpers.shapes"
+
+      params = assert_error types.shape({
+        streak_id: shapes.empty + shapes.db_id
+        max_date: shapes.empty + shapes.datestamp
+        tag: shapes.empty + types.string\length(1,100) * shapes.trimmed_text
+      }, extra_fields: types.any / nil)\transform @params
+
+      pager = @user\find_submissions {
+        streak_id: params.streak_id
+        max_date: params.max_date
+        tag: params.tag
+
+        :show_hidden
+
+        per_page: SUBMISSIONS_PER_PAGE
+
+        prepare_results: (...) ->
+          Submissions\preload_for_list ..., {
+            likes_for: @current_user
+          }
+      }
+
+      @submissions = pager\get_page @page
+      @has_more = #@submissions == SUBMISSIONS_PER_PAGE
+
+      if @params.format == "json"
+        return render_submissions_page @, SUBMISSIONS_PER_PAGE, {
+          hide_hidden: not show_hidden
+        }
+
+      render: true
+  }
+
   [user_tags: "/u/:slug/tags"]: capture_errors {
     on_error: => not_found
     =>
