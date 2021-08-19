@@ -224,6 +224,12 @@ class Users extends Model
     tag = extra_opts.tag
     extra_opts.tag = nil
 
+    streak_id = extra_opts.streak_id
+    extra_opts.streak_id = nil
+
+    max_date = extra_opts.max_date
+    extra_opts.max_date = nil
+
     opts = {
       per_page: 40
       prepare_results: (submissions) ->
@@ -241,18 +247,19 @@ class Users extends Model
       hidden: false
     }
 
+    if streak_id
+      clause[db.raw "true"] = db.raw db.interpolate_query "exists(select 1 from streak_submissions where streak_submissions.streak_id = ? and streak_submissions.submission_id = submissions.id)", streak_id
+
     if show_hidden
       clause.hidden = nil
 
-    join = if tag
-      -- TODO: this is inefficient
-      opts.fields or= "submissions.*"
-      clause = { db.raw("submissions.#{k}"), v for k,v in pairs clause }
+    if tag
+      clause[db.raw "true"] = db.raw db.interpolate_query "exists(select 1 from submission_tags where submission_tags.submission_id = submissions.id and slug = ?)", tag
 
-      db.interpolate_query "inner join submission_tags
-        on slug = ? and submission_id = submissions.id", tag
+    if max_date
+      clause[db.raw "true"] = db.raw db.interpolate_query "(created_at::date <= ?::date)", max_date
 
-    Submissions\paginated "#{join or ""} where #{db.encode_clause clause} order by id desc", opts
+    Submissions\paginated "where #{db.encode_clause clause} order by id desc", opts
 
   find_hosted_streaks: (opts={}) =>
     publish_status = opts.publish_status
