@@ -646,7 +646,7 @@ import
     create_table "spam_scans", {
       {"id", serial}
 
-      {"user_id", serial}
+      {"user_id", foreign_key}
 
       {"train_status", enum default: 1}
       {"review_status", enum default: 1}
