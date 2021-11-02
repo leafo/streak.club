@@ -646,7 +646,7 @@ import
     create_table "spam_scans", {
       {"id", serial}
 
-      {"user_id", foreign_key}
+      {"user_id", serial} -- this was fixed in 1635827783
 
       {"train_status", enum default: 1}
       {"review_status", enum default: 1}
@@ -702,6 +702,9 @@ import
     require("community.schema").run_migrations 40
 
 
+  [1635827783]: =>
+    -- this was accidentally created when spam_scans table was created
+    db.query "drop sequence spam_scans_user_id_seq cascade"
 
 }
 
