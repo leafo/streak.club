@@ -1,7 +1,7 @@
 .gitignore
 include_rules
 
-: foreach *.coffee |> npx coffee -c %f |> %B.js
+: foreach *.coffee |> !coffee |> %B.js
 : foreach scss/*.scss |> sassc -I scss/ < %f > %o |> %B.css
 : foreach *.md |> markdown < %f > %o |> %B.html
 
@@ -13,7 +13,7 @@ include_rules
 : lib/jquery.min.js lib/dayjs.min.js lib/*.js |> !join_js |> lib.js
 
 # minify
-: foreach main.js |> npx esbuild --minify --target=es6 %f > %o |> %B.min.js
+: foreach main.js |> !minify_js |> %B.min.js
 
 # markdown
 : markdown/*.js |> !join_js |> lib.markdown.js

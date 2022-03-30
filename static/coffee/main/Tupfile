@@ -1,2 +1,4 @@
 .gitignore
-: foreach *.coffee |> npx coffee -c %f |> %B.js
+include_rules
+
+: foreach *.coffee |> !coffee |> %B.js
