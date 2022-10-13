@@ -2,13 +2,23 @@ date = require "date"
 
 import Streaks from require "models"
 
+import types from require "tableshape"
+
 class StreakUnits extends require "widgets.base"
   @needs: {"streak", "completed_units", "unit_counts"}
 
-  user_id: nil
+  @prop_types: types.shape {
+    hide_empty: types.nil / true + types.boolean
+    user_id: types.number\is_optional!
+
+    -- an iterator to provide list of unites for rendering
+    unit_iterator: types.function\is_optional!
+  }
 
   inner_content: =>
-    if @streak\has_end!
+    if @props.unit_iterator
+      @render_grouped @props.unit_iterator
+    elseif @streak\has_end!
       div class: "unit_group_units", ->
         @render_units @all_units!
     else
@@ -114,7 +124,7 @@ class StreakUnits extends require "widgets.base"
         if back < last_unit.date
           all_empty = false
 
-      if all_empty
+      if all_empty and @props.hide_empty
         continue
 
       section class: {"unit_group", :all_empty}, ->
@@ -171,7 +181,7 @@ class StreakUnits extends require "widgets.base"
     unit_url = @url_for "view_streak_unit", {
       date: formatted_date
       id: @streak.id
-    }, submission_id and @user_id and {user_id: @user_id} or nil
+    }, submission_id and @props.user_id and {user_id: @props.user_id} or nil
 
     pretty_date = @streak\format_date_unit unit.date
 
