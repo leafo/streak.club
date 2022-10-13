@@ -3,6 +3,7 @@ StreakHeader = require "widgets.streak_header"
 StreakUnits = require "widgets.streak_units"
 
 class StreakCalendar extends require "widgets.page"
+  responsive: true
   page_name: "calendar"
 
   inner_content: =>
