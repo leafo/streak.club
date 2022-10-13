@@ -2,6 +2,8 @@
 import Widget from require "lapis.html"
 import underscore, time_ago_in_words from require "lapis.util"
 
+import is_type from require "tableshape"
+
 import random from math
 import concat from table
 
@@ -13,7 +15,6 @@ if ngx and ngx.worker
   math.randomseed ngx.time! + ngx.worker.pid!
 else
   math.randomseed os.time!
-
 
 class Base extends Widget
   @include "widgets.helpers"
@@ -46,6 +47,15 @@ class Base extends Widget
       @_css_classes = table.concat @class_hierarchy!, " "
 
     @_css_classes
+
+  new: (opts, ...) =>
+    if @@prop_types
+      @props = if is_type @@prop_types
+        assert @@prop_types\transform opts
+      else
+        assert type(opts) == "table" and opts
+    else
+      super opts, ...
 
   inner_content: =>
 
