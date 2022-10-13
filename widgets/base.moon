@@ -51,7 +51,7 @@ class Base extends Widget
   new: (opts, ...) =>
     if @@prop_types
       @props = if is_type @@prop_types
-        assert @@prop_types\transform opts
+        assert @@prop_types\transform opts or {}
       else
         assert type(opts) == "table" and opts
     else
