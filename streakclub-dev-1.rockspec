@@ -25,7 +25,7 @@ dependencies = {
   "lapis-console ~> 1.2",
   "cloud_storage ~> 1.1",
   "mailgun ~> 1.2",
-  "web_sanitize ~> 1.1",
+  "web_sanitize ~> 1.4",
   "magick ~> 1.6",
   "luajit-geoip ~> 2.1",
   "tableshape ~> 2.2",
