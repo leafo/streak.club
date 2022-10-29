@@ -1,3 +1,5 @@
+-- these are shapes suitable for input validation
+
 import types from require "tableshape"
 import printable_character, trim from require "lapis.util.utf8"
 

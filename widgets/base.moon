@@ -50,10 +50,18 @@ class Base extends Widget
 
   new: (opts, ...) =>
     if @@prop_types
-      @props = if is_type @@prop_types
+      @props, state = if is_type @@prop_types
         assert @@prop_types\transform opts or {}
       else
         assert type(opts) == "table" and opts
+
+      -- if the prop types generates any state we can just store it directly
+      -- into the instance. Is this a bad idea? What if things generated state
+      -- as side effect, they will need to be scoped
+      if state
+        for k, v in pairs state
+          @[k] = v
+
     else
       super opts, ...
 

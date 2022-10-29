@@ -2,7 +2,7 @@ date = require "date"
 
 import Streaks from require "models"
 
-import types from require "tableshape"
+types = require "helpers.prop_types"
 
 class StreakUnits extends require "widgets.base"
   @needs: {"streak", "completed_units", "unit_counts"}
@@ -10,6 +10,13 @@ class StreakUnits extends require "widgets.base"
   @prop_types: types.shape {
     hide_empty: types.nil / true + types.boolean
     user_id: types.number\is_optional!
+    start_date: types.date\is_optional!
+    streak: types.instance_of(Streaks)\tag("streak")\is_optional!
+
+    highlight_date: types.date\is_optional!
+
+    completed_units: types.table\tag("completed_units")\is_optional!
+    unit_counts: types.table\tag("unit_counts")\is_optional!
 
     -- an iterator to provide list of unites for rendering
     unit_iterator: types.function\is_optional!
@@ -25,8 +32,8 @@ class StreakUnits extends require "widgets.base"
       @render_grouped @recent_units!
 
   get_highlight_date: =>
-    if @highlight_date
-      @streak\truncate_date @highlight_date
+    if @props.highlight_date
+      @streak\truncate_date @props.highlight_date
     else
       @streak\truncate_date(date(true))\addhours @streak.hour_offset
 
@@ -58,7 +65,7 @@ class StreakUnits extends require "widgets.base"
     start_date = @streak\start_datetime!
     current_date = date true
 
-    cutoff_date = @start_date and date @start_date
+    cutoff_date = @props.start_date and date @props.start_date
 
     coroutine.wrap ->
       while bottom < current_date and start_date < current_date
