@@ -231,8 +231,8 @@ class Uploads extends Model
 
       switch @storage_type
         when @@storage_types.filesystem
-          import shell_quote, exec from require "helpers.shell"
-          exec "rm #{shell_quote "#{config.user_content_path}/#{@path!}"}"
+          import shell_escape from require "lapis.cmd.path"
+          os.execute "rm '#{shell_escape "#{config.user_content_path}/#{@path!}"}'"
         when @@storage_types.google_cloud_storage
           storage = require "secret.storage"
           bucket = require("lapis.config").get!.storage_bucket

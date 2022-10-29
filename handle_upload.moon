@@ -6,7 +6,6 @@ import to_json from require "lapis.util"
 import Uploads from require "models"
 import validate_signed_url from require "helpers.url"
 import parse_content_disposition from require "lapis.util"
-import shell_quote, exec from require "helpers.shell"
 
 config = require("lapis.config").get!
 
@@ -30,7 +29,8 @@ handle_upload = ->
   full_path = config.user_content_path .. "/" ..  upload\path!
 
   dir = full_path\match "^(.+)/[^/]+$"
-  exec "mkdir -p #{shell_quote dir}" if dir
+  import shell_escape from require "lapis.cmd.path"
+  os.execute "mkdir -p '#{shell_escape dir}'" if dir
 
   input, err = resty_upload\new 8192
   return nil, err unless input
