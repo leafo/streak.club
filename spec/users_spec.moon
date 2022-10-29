@@ -37,6 +37,15 @@ describe "users", ->
     status, res = request "/u/#{user.slug}"
     assert.same 200, status
 
+  it "views user profile when user has submissions and joined streak", ->
+    user = factory.Users!
+    streak = factory.Streaks!
+    factory.StreakUsers streak_id: streak.id, user_id: user.id
+    factory.StreakSubmissions streak_id: streak.id, user_id: user.id
+
+    status, res = request "/u/#{user.slug}"
+    assert.same 200, status
+
   it "views user profile tags", ->
     user = factory.Users!
     status, res = request "/u/#{user.slug}/tags"

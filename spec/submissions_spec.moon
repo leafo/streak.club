@@ -303,6 +303,31 @@ describe "submissions", ->
       assert.same 302, status
       assert.same "http://localhost/submission/#{submission.id}", headers.location
 
+    it "shows submission that is in streak", ->
+      streak_submit = factory.StreakSubmissions {
+        submission_id: submission.id
+        user_id: submission_owner.id
+      }
+
+      factory.StreakUsers {
+        user_id: submission_owner.id
+        streak_id: streak_submit.streak_id
+      }
+
+      -- as anon
+      status = request_as nil, "/p/#{submission.id}/#{submission\slug!}"
+      assert.same 200, status
+
+      -- as owner
+      status = request_as submission_owner, "/p/#{submission.id}/#{submission\slug!}"
+      assert.same 200, status
+
+      -- as other user
+      some_user = factory.Users!
+      status = request_as some_user, "/p/#{submission.id}/#{submission\slug!}"
+      assert.same 200, status
+
+
 
   describe "submission likes", ->
     local submission
