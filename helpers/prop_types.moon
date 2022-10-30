@@ -4,7 +4,10 @@
 import types from require "tableshape"
 moon_types = require "tableshape.moonscript"
 
-date = types.string\describe "date timestamp"
+date = require "date"
+
+date_mt = getmetatable date(true)
+date = (types.string + types.metatable_is(types.literal(date_mt)))\describe "date timestamp"
 
 setmetatable {
   :date

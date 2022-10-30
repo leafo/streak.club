@@ -19,16 +19,16 @@ dependencies = {
   "lapis ~> 1.9",
   "lapis-community == 1.40.0", -- currently not versioned...
 
-  "lapis-exceptions ~> 2.1",
-  "lapis-bayes ~> 1.1",
+  "lapis-exceptions ~> 2.3",
+  "lapis-bayes ~> 1.2",
   "lapis-systemd ~> 1.0",
   "lapis-console ~> 1.2",
-  "cloud_storage ~> 1.1",
+  "cloud_storage ~> 1.3",
   "mailgun ~> 1.2",
   "web_sanitize ~> 1.4",
   "magick ~> 1.6",
   "luajit-geoip ~> 2.1",
-  "tableshape ~> 2.2",
+  "tableshape ~> 2.4",
 }
 
 build = {
