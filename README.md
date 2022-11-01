@@ -34,7 +34,7 @@ cd streak.club
 Run these commands to install dependencies and build:
 
 ```bash
-luarocks build --only-deps --server=https://luarocks.org/dev
+luarocks build --only-deps
 npm install
 tup init
 tup
