@@ -1,4 +1,4 @@
-$.fn.has_tooltips = ->
+export default $.fn.has_tooltips = ->
   return if S.is_mobile()
 
   tooltip_drop = ->

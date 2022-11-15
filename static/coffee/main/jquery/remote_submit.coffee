@@ -1,4 +1,4 @@
-$.fn.remote_submit = (selector, fn, validate_fn) ->
+export default $.fn.remote_submit = (selector, fn, validate_fn) ->
   click_input = null
 
   if $.isFunction selector
