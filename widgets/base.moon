@@ -112,7 +112,26 @@ class Base extends Widget
     else
       super opts, ...
 
+  -- render: (...) =>
+  --   if @@needs
+  --     require("moon").p {
+  --       name: @@__name
+  --       needs: @@needs
+  --     }
+
+  --   super ...
+
   inner_content: =>
+
+  -- default js_init will use the init method name and static init code use
+  -- super to insert run time params by overriding. The rendering caller will
+  -- never pass arguments
+  js_init: (widget_params=nil) =>
+    return nil unless rawget @@, "js_init"
+    method_name = @@js_init_method_name!
+    return unless method_name
+
+    "#{method_name}(#{@widget_selector!}, #{to_json widget_params});"
 
   content: (fn=@inner_content) =>
     classes = @widget_classes!
