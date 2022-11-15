@@ -1,4 +1,5 @@
 TOP = $(TUP_CWD)
+.gitignore
 
 !esbuild_bundle = |> ^ esbuild bundle %f > %o^ (for file in %f; do echo 'import "./'$file'"; ' | sed 's/\.js//'; done) | $(TOP)/node_modules/.bin/esbuild --log-level=warning --bundle --minify > %o |>
 
@@ -12,4 +13,4 @@ TOP = $(TUP_CWD)
 
 !coffee = |> ^ coffee %f^ $(TOP)/node_modules/.bin/coffee -c %f |>
 
-: foreach *.moon |> moonc %f |> %B.lua
+: foreach *.moon |> moonc %f |> %B.lua $(TOP)/<moon>
