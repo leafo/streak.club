@@ -1,5 +1,5 @@
 
-S.support_passive_scroll = ->
+support_passive_scroll = ->
   supports = false
 
   try
@@ -11,7 +11,7 @@ S.support_passive_scroll = ->
 
   supports
 
-S.support_intersection_observer = ->
+support_intersection_observer = ->
   "IntersectionObserver" of window
 
 show_images = (item, make_promise) ->
@@ -48,7 +48,7 @@ show_images = (item, make_promise) ->
     else
       $.when images...
 
-$.fn.lazy_images = (opts) ->
+export default $.fn.lazy_images = (opts) ->
   if refresh = @data "lazy_images"
     # calling again? Just refresh the current images
     return refresh()
@@ -61,7 +61,7 @@ $.fn.lazy_images = (opts) ->
 
   _show_images = opts?.show_images ? show_images
 
-  if S.support_intersection_observer()
+  if support_intersection_observer()
     handle_intersect = (entities) ->
       for entity in entities
         if entity.isIntersecting
@@ -140,7 +140,7 @@ $.fn.lazy_images = (opts) ->
       target.off "scroll", throttled
       win.off "resize", "throttled"
   else
-    if S.support_passive_scroll()
+    if support_passive_scroll()
       window.addEventListener "scroll", throttled, passive: true
       win.on "resize", throttled
 
