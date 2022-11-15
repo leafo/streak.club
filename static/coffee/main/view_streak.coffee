@@ -1,5 +1,9 @@
 
-class S.ViewStreak
+import {Countdown} from "main/countdown"
+import {S} from "main/_pre"
+import $ from "main/jquery"
+
+export class ViewStreak
   constructor: (el, @streak) ->
     @el = $ el
     @el.has_tooltips()
@@ -20,7 +24,7 @@ class S.ViewStreak
     else
       @streak.unit_end
 
-    new S.Countdown countdown, countdown_to
+    new Countdown countdown, countdown_to
 
   setup_leave: ->
     leave_form = @el.find ".leave_form"

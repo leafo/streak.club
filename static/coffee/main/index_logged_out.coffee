@@ -1,9 +1,15 @@
 
-class S.IndexLoggedOut
+# TODO: import Typed
+
+import {Countdown} from "main/countdown"
+import $ from "main/jquery"
+import dayjs from "main/dayjs"
+
+export class IndexLoggedOut
   constructor: (el) ->
     @el = $ el
 
-    new S.Countdown @el.find(".countdown"), dayjs().add(6, "hour").add(32, "minute")
+    new Countdown @el.find(".countdown"), dayjs().add(6, "hour").add(32, "minute")
 
     @el.lazy_images {
       selector: ".featured_submission"

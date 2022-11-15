@@ -1,5 +1,7 @@
 
-class S.Flasher
+import {S} from "main/_pre"
+
+export class Flasher
   duration: 10000
   animation_duration: 250
   clipping: "-7px"
@@ -35,7 +37,7 @@ class S.Flasher
 
     @current_flash = elm
 
-class S.Header
+export class Header
   constructor: (el, @opts) ->
     @setup_flash()
     el = $(el).dispatch "click", {
@@ -51,7 +53,7 @@ class S.Header
     return unless @opts.flash
     flash = @opts.flash
 
-    @flasher ||= new S.Flasher
+    @flasher ||= new Flasher
     type = "notice"
 
     if flash.match /^error:/
@@ -60,13 +62,11 @@ class S.Header
 
     @flasher.show type, flash
 
-class S.Timezone
+export class Timezone
   save_timezone: (timezone) ->
-    $.post @url, S.with_csrf(timezone: timezone)
+    $.post @params.url, S.with_csrf(timezone: timezone)
 
-  constructor: (@url, current_user) ->
-    return unless current_user
-
+  constructor: (@params) ->
     timezone = jstz.determine().name()
-    if timezone != current_user.last_timezone
+    if timezone != @params.last_timezone
       @save_timezone timezone

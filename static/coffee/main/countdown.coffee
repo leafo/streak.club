@@ -1,5 +1,8 @@
 
-class S.Countdown
+import $ from "main/jquery"
+import dayjs from "main/dayjs"
+
+export class Countdown
   constructor: (el, date) ->
     @el = $ el
     parts = ["days", "hours", "minutes", "seconds"]

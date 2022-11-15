@@ -1,4 +1,3 @@
-
 $.fn.has_tooltips = ->
   return if S.is_mobile()
 

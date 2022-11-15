@@ -1,7 +1,9 @@
 
-class S.SubmissionList
-  comment_editor_template: S.lazy_template @, "comment_editor"
+import {S} from "main/_pre"
+import {InfiniteScroll} from "main/infinite_scroll"
+import $ from "main/jquery"
 
+export class SubmissionList
   constructor: (el, @opts={}) ->
     @el = $ el
     @setup_comments()
@@ -165,7 +167,7 @@ class S.SubmissionList
           add_unroll item
 
   setup_paging: =>
-    scroller = new S.InfiniteScroll @el, {
+    scroller = new InfiniteScroll @el, {
       get_next_page: =>
         load_els = @el.add(scroller.loading_row).addClass "loading"
         @opts.page += 1
