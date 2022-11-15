@@ -135,11 +135,18 @@ switch args.command
         print "export LUA_PATH"
         print "export LUA_CPATH"
 
+        -- TODO: test single file compiling to samge package
+
         for package in *packages
           files = package_files[package]
-          print ": foreach #{table.concat files, " "} |> moon cmd/widget_helper.moon compile_js --file %f > %o |> %f.js {package_#{package}}"
-          print ": {package_#{package}} |> cat %f > %o |> static/coffee/#{package}.js"
-          print ": static/coffee/#{package}.js | $(TOP)/<coffee> |> NODE_PATH=static/coffee $(ESBUILD) --target=es6 --log-level=warning --bundle %f --outfile=%o |> static/#{package}.js"
+          print!
+          print "# package: #{package}"
+          for file in *files
+            out_file = file\gsub "%.moon", ".js"
+            print ": #{file} |> moon cmd/widget_helper.moon compile_js --file %f > %o |> #{out_file} {package_#{package}}"
+
+          print [[: {package_]] .. package .. [[} |> (for file in %f; do echo 'import "../../'$file'"; ' | sed 's/\.js//'; done) > %o |> static/coffee/]] .. package ..  [[.js]]
+          print ": static/coffee/#{package}.js | {package_#{package}} $(TOP)/<coffee> |> NODE_PATH=static/coffee $(ESBUILD) --target=es6 --log-level=warning --bundle %f --outfile=%o |> static/#{package}.js"
 
   when "debug"
     require("moon").p args
