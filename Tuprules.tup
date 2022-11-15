@@ -1,4 +1,7 @@
-TOP = $(TUP_CWD)
+TOP=$(TUP_CWD)
+LUAJIT=/usr/local/openresty/luajit/bin/luajit
+ESBUILD=$(TOP)/node_modules/.bin/esbuild
+
 .gitignore
 
 !esbuild_bundle = |> ^ esbuild bundle %f > %o^ (for file in %f; do echo 'import "./'$file'"; ' | sed 's/\.js//'; done) | $(TOP)/node_modules/.bin/esbuild --log-level=warning --bundle --minify > %o |>

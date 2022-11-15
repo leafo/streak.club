@@ -3,7 +3,7 @@ export LUA_PATH
 export LUA_CPATH
 : foreach views/admin/email_streak.moon |> moon cmd/widget_helper.moon compile_js --file %f > %o |> %f.js {package_admin}
 : {package_admin} |> cat %f > %o |> static/coffee/admin.js
-: static/coffee/admin.js | $(TOP)/<coffee> |> NODE_PATH=static/coffee esbuild --target=es6 --log-level=warning --bundle %f --outfile=%o |> static/admin.js
+: static/coffee/admin.js | $(TOP)/<coffee> |> NODE_PATH=static/coffee $(ESBUILD) --target=es6 --log-level=warning --bundle %f --outfile=%o |> static/admin.js
 : foreach views/layout.moon views/view_streak.moon views/index_logged_out.moon widgets/user_list.moon widgets/submission_list.moon |> moon cmd/widget_helper.moon compile_js --file %f > %o |> %f.js {package_main}
 : {package_main} |> cat %f > %o |> static/coffee/main.js
-: static/coffee/main.js | $(TOP)/<coffee> |> NODE_PATH=static/coffee esbuild --target=es6 --log-level=warning --bundle %f --outfile=%o |> static/main.js
+: static/coffee/main.js | $(TOP)/<coffee> |> NODE_PATH=static/coffee $(ESBUILD) --target=es6 --log-level=warning --bundle %f --outfile=%o |> static/main.js

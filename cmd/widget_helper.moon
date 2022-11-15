@@ -139,7 +139,7 @@ switch args.command
           files = package_files[package]
           print ": foreach #{table.concat files, " "} |> moon cmd/widget_helper.moon compile_js --file %f > %o |> %f.js {package_#{package}}"
           print ": {package_#{package}} |> cat %f > %o |> static/coffee/#{package}.js"
-          print ": static/coffee/#{package}.js | $(TOP)/<coffee> |> NODE_PATH=static/coffee esbuild --target=es6 --log-level=warning --bundle %f --outfile=%o |> static/#{package}.js"
+          print ": static/coffee/#{package}.js | $(TOP)/<coffee> |> NODE_PATH=static/coffee $(ESBUILD) --target=es6 --log-level=warning --bundle %f --outfile=%o |> static/#{package}.js"
 
   when "debug"
     require("moon").p args
