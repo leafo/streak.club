@@ -1,3 +1,5 @@
+LUAJIT ?= /usr/local/openresty/luajit/bin/luajit
+
 .PHONY: annotate_modes schema.sql init_schema test screenshot test_db prod_db migrate linit checkpoint restore_checkpoint devdb count vendor install_dependencies
 
 test:
@@ -9,6 +11,10 @@ install_dependencies:
 migrate:
 	lapis migrate
 	make schema.sql
+
+assetspec::
+	 # $(LUAJIT) cmd/widget_helper.lua generate_spec --format tup > assetspec.Tupfile
+	 moon cmd/widget_helper.moon generate_spec --format tup > assetspec.Tupfile
 
 schema.sql:
 	pg_dump -s -U postgres streakclub > schema.sql

@@ -16,10 +16,57 @@ if ngx and ngx.worker
 else
   math.randomseed os.time!
 
+import types from require "tableshape"
+
 class Base extends Widget
   @include "widgets.helpers"
   @include "widgets.asset_helpers"
   @include "widgets.icons"
+
+  -- the package name where this widget's assets will go
+  @asset_packages: {"main"}
+
+  @js_init_method_name: =>
+   "init_#{@__name}"
+
+  -- this splits apart the js_init into two parts
+  -- js_init must be a class method
+  @compile_js_init: =>
+    -- TODO: how should this work with inheriting?
+    return nil, "no @@js_init" unless rawget @, "js_init"
+
+    -- split import and non-import statemetns
+    import_lines = {}
+    code_lines = {}
+
+    import trim from require "lapis.util"
+
+    for line in @js_init\gmatch "([^\r\n]+)"
+      continue if line\match "^%s*$"
+
+      if line\match "^%s*import"
+        table.insert import_lines, trim line
+      else
+        table.insert code_lines, line
+
+    table.concat {
+      table.concat import_lines,  "\n"
+      "window.#{@js_init_method_name!} = function(widget_selector, widget_params) {"
+      table.concat code_lines, "\n"
+      "}"
+    }, "\n"
+
+  @get_asset_file: do
+    valid_formats = types.one_of {"scss", "coffee"}
+
+    (format) =>
+      prefix = unpack @asset_packages
+      assert valid_formats format
+      switch format
+        when "scss"
+          "static/scss/#{prefix}/#{@widget_name!}.scss"
+        when "coffee"
+          "static/coffee/#{prefix}/#{@widget_name!}.scss"
 
   @widget_name: => underscore @__name or "some_widget"
 

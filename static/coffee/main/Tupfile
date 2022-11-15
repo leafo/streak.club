@@ -1,4 +1,4 @@
 .gitignore
 include_rules
 
-: foreach *.coffee |> !coffee |> %B.js
+: foreach *.coffee |> !coffee |> %B.js $(TOP)/<coffee>
