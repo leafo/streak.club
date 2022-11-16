@@ -43,6 +43,7 @@ class EditStreak extends require "widgets.page"
         label: "Title"
         name: "streak[title]"
         value: streak.title
+        required: true
       }
 
       @text_input_row {
@@ -50,12 +51,15 @@ class EditStreak extends require "widgets.page"
         sub: "A single line describing the streak"
         name: "streak[short_description]"
         value: streak.short_description
+        required: true
+        placeholder: "Required"
       }
 
       @input_row "Description",->
         widget MarkdownEditor {
           value: streak.description
-          placeholder: "Optional"
+          placeholder: "Required"
+          required: true
           name: "streak[description]"
         }
 
