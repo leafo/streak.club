@@ -156,9 +156,12 @@ switch args.command
             print ": #{file} | $(TOP)/<moon> |> !compile_js |> #{out_file} {package_#{package}}"
 
           print ": {package_#{package}} |> !join_bundle |> static/coffee/#{package}.js"
-          print ": static/coffee/#{package}.js | {package_#{package}} $(TOP)/<coffee> |> !esbuild_bundle |> static/#{package}.js"
+          print ": static/coffee/#{package}.js | {package_#{package}} $(TOP)/<coffee> |> !esbuild_bundle |> static/#{package}.js {packages}"
 
-          print ": static/coffee/#{package}.js | {package_#{package}} $(TOP)/<coffee> |> !esbuild_bundle_minified |> static/#{package}.min.js"
+        print!
+        print "# minifying packages"
+        for package in *packages
+          print ": static/coffee/#{package}.js | {packages} |> !esbuild_bundle_minified |> static/#{package}.min.js"
 
   when "debug"
     require("moon").p args
