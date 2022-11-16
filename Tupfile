@@ -1,4 +1,2 @@
 include_rules
 include assetspec.Tupfile
-
-: static/main.js |> !minify_js |> static/main.min.js

@@ -146,6 +146,7 @@ switch args.command
 
           print [[: {package_]] .. package .. [[} |> (for file in %f; do echo 'import "../../'$file'"; ' | sed 's/\.js//'; done) > %o |> static/coffee/]] .. package ..  [[.js]]
           print ": static/coffee/#{package}.js | {package_#{package}} $(TOP)/<coffee> |> NODE_PATH=static/coffee $(ESBUILD) --target=es6 --log-level=warning --bundle %f --outfile=%o |> static/#{package}.js"
+          print ": static/coffee/#{package}.js | {package_#{package}} $(TOP)/<coffee> |> NODE_PATH=static/coffee $(ESBUILD) --target=es6 --log-level=warning --minify --bundle %f --outfile=%o |> static/#{package}.min.js"
 
   when "debug"
     require("moon").p args
