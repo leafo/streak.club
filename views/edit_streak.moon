@@ -9,13 +9,17 @@ class EditStreak extends require "widgets.page"
   @include "widgets.form_helpers"
   responsive: true
 
+  @js_init: [[
+    import {EditStreak} from "main/edit_streak"
+    new EditStreak(widget_selector, widget_params)
+  ]]
+
   js_init: =>
-    opts = {
+    super {
       streak: {
         hour_offset: @streak and @streak.hour_offset
       }
     }
-    "new S.EditStreak(#{@widget_selector!}, #{to_json opts});"
 
   column_content: =>
     @content_for "all_js", ->

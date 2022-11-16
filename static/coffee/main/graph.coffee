@@ -1,5 +1,9 @@
 
-class S.Grapher
+import $ from "main/jquery"
+
+import {S} from "main/_pre"
+
+export class Grapher
   @with_d3: (script_url) =>
     @d3_deferred ||= $.ajax {
       url: $("#d3_src").data "src"
@@ -43,7 +47,7 @@ class S.Grapher
   constructor: (el, @data, opts) ->
     @el = $ el
     @opts = $.extend {}, @default_opts, opts
-    S.Grapher.with_d3().then =>
+    Grapher.with_d3().then =>
       @draw()
       @setup_popups()
 
@@ -246,7 +250,7 @@ class S.Grapher
   get_x_scaled: => @_x_scale @get_x arguments...
   get_y_scaled: => @_y_scale @get_y arguments...
 
-  format_y_axis: (num) => S.Grapher.format_number num
+  format_y_axis: (num) => Grapher.format_number num
 
   x_ticks: -> @opts.x_ticks
   y_ticks: -> Math.min 5, @opts.min_y
@@ -296,7 +300,7 @@ class S.Grapher
       .domain([0, Math.max Math.floor(max*1.3) || 0, @opts.min_y])
       .rangeRound([@h - @margin_bottom, @margin_top])
 
-class S.RangeGrapher extends S.Grapher
+export class RangeGrapher extends Grapher
   # get the range from the dates provided
   get_range: =>
     parse = d3.timeParse "%Y-%m-%d"
@@ -316,7 +320,7 @@ class S.RangeGrapher extends S.Grapher
 
     [first, last]
 
-class S.CumulativeGrapher extends S.RangeGrapher
+export class CumulativeGrapher extends RangeGrapher
   default_opts: {
     min_y: 100
     x_ticks: 8

@@ -5,15 +5,18 @@ StreakHeader = require "widgets.streak_header"
 class StreakStats extends require "widgets.page"
   page_name: "stats"
 
+  @js_init: [[
+    import {StreakStats} from "main/streak_stats"
+    new StreakStats(widget_selector, widget_params)
+  ]]
+
   js_init: =>
-    data = {
+    super {
       graphs: {
         cumulative_users: @cumulative_users
         cumulative_submissions: @cumulative_submissions
       }
     }
-
-    "new S.StreakStats(#{@widget_selector!}, #{to_json data});"
 
   inner_content: =>
     widget StreakHeader page_name: @page_name

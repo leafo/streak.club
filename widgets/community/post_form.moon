@@ -13,12 +13,15 @@ class CommunityPostForm extends require "widgets.base"
   widget_classes: =>
     { super!, show_authow: @show_author }
 
+  @js_init: [[
+    import {CommunityPostForm} from "main/community"
+    new CommunityPostForm(widget_selector, widget_params)
+  ]]
+
   js_init: =>
-    opts = {
+    super {
       focus: @focus
     }
-
-    "new S.CommunityPostForm(#{@widget_selector!}, #{to_json opts})"
 
   show_subscribe_checkbox: =>
     return false if @editing

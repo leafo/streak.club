@@ -31,7 +31,7 @@ export R = (name, data, p=R, prefix="") ->
     data.shouldComponentUpdate = (nextProps, nextState) ->
       is_different(@props || EMPTY, nextProps) || is_different(@state || EMPTY , nextState)
 
-  data.displayName = "R.#{prefix}#{name}"
+  data.displayName = "#{prefix}#{name}"
 
   default_props = data.getDefaultProps
   delete data.getDefaultProps

@@ -4,7 +4,11 @@ import {R, fragment, classNames} from "./_react"
 import * as ReactDOM from 'react-dom'
 import {div, input, textarea, button, span, img, p} from 'react-dom-factories'
 
-P = R.package "EditSubmission"
+import $ from "main/jquery"
+import {S} from "main/_pre"
+import {Upload} from "main/upload"
+
+export default P = R.package "EditSubmission"
 
 # NOTE: all files pass through here, so we should return nothing for non-images
 get_image_dimensions = (file) ->
@@ -367,7 +371,7 @@ class UploaderManager
       if res.errors
         return alert res.errors.join ", "
 
-      upload = new S.Upload {
+      upload = new Upload {
         filename: file.name
         size: file.size
         type: file.type

@@ -6,8 +6,10 @@ class UserSettings extends require "widgets.page"
 
   responsive: true
 
-  js_init: =>
-    "new S.UserSettings(#{@widget_selector!});"
+  @js_init: [[
+    import {UserSettings} from "main/user_settings"
+    new UserSettings(widget_selector)
+  ]]
 
   column_content: =>
     h2 "Account & profile settings"

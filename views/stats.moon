@@ -14,8 +14,13 @@ class Stats extends require "widgets.page"
     "graph_submission_likes"
   }
 
+  @js_init: [[
+    import {Stats} from "main/stats"
+    new Stats(widget_selector, widget_params)
+  ]]
+
   js_init: =>
-    data = {
+    super {
       cumulative: @graph_type == "cumulative"
       graphs: {
         users: @graph_users
@@ -25,8 +30,6 @@ class Stats extends require "widgets.page"
         submission_comments: @graph_submission_comments
       }
     }
-
-    "new S.Stats(#{@widget_selector!}, #{to_json data});"
 
   inner_content: =>
     widget StatsHeader page_name: @graph_type

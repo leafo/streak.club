@@ -139,6 +139,8 @@ switch args.command
 
         for package in *packages
           files = package_files[package]
+          table.sort files
+
           print!
           print "# package: #{package}"
           for file in *files

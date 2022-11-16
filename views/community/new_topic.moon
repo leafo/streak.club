@@ -10,8 +10,10 @@ class CommunityNewTopic extends require "widgets.page"
   page_name: "community"
   responsive: true
 
-  js_init: =>
-    "new S.CommunityNewTopic(#{@widget_selector!})"
+  @js_init: [[
+    import {CommunityNewTopic} from "main/community"
+    new CommunityNewTopic(widget_selector)
+  ]]
 
   inner_content: =>
     widget StreakHeader page_name: @page_name

@@ -1,5 +1,7 @@
 
-class S.CommunityNewTopic
+import $ from "main/jquery"
+
+export class CommunityNewTopic
   constructor: (el) ->
     @el = $ el
 
@@ -13,7 +15,7 @@ class S.CommunityNewTopic
         window.location = res.redirect_to
 
 
-class S.CommunityPostForm
+export class CommunityPostForm
   constructor: (el, opts) ->
     @el = $ el
 

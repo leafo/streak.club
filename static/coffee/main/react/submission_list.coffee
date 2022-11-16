@@ -3,7 +3,7 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import {div, button, form, input, a, ul, li, p, h3, span} from 'react-dom-factories'
 
-P = R.package "SubmissionList"
+export default P = R.package "SubmissionList"
 
 P "CommentEditor", {
   getInitialState: -> {}

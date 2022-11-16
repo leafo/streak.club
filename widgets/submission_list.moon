@@ -4,25 +4,8 @@ import to_json from require "lapis.util"
 
 SubmissionCommenter = require "widgets.submission_commenter"
 MarkdownEditor = require "widgets.markdown_editor"
-
-class SubmissionLiker extends require "widgets.base"
-  new: (@props) =>
-
-  js_init: =>
-    @react_render "SubmissionList.LikeButton", @props
-
-class SubmissionListAudioFile extends require "widgets.base"
-  new: (@props) =>
-
-  inner_content: =>
-    div class: "submission_audio", ->
-      button class: "play_audio_btn"
-
-      div class: "download_form", ->
-        button class: "upload_download button", style: "color: rgba(0,0,0,0)", "Download"
-
-  js_init: =>
-    @react_render "SubmissionList.AudioFile", @props
+SubmissionLiker = require "widgets.submission_liker"
+SubmissionListAudioFile = require "widgets.submission_list_audio_file"
 
 class SubmissionList extends require "widgets.base"
   @needs: {"submissions", "has_more"}
@@ -32,12 +15,15 @@ class SubmissionList extends require "widgets.base"
   show_comments: false
   hide_hidden: false
 
+  @js_init: [[
+    import {SubmissionList} from "main/submission_list"
+    new SubmissionList(widget_selector, widget_params)
+  ]]
+
   js_init: =>
-    opts = {
+    super {
       page: @page or 1
     }
-
-    "new S.SubmissionList(#{@widget_selector!}, #{to_json opts});"
 
   inner_content: =>
     total = @render_submissions!

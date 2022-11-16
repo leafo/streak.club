@@ -249,10 +249,3 @@ class Base extends Widget
 
   number_format: (num) =>
     tostring(num)\reverse!\gsub("(...)", "%1,")\match("^(.-),?$")\reverse!
-
-  react_render: (component, props={}, selector) =>
-    target = "$(#{@widget_selector!})"
-    if selector
-      target ..= ".find(#{to_json selector})"
-
-    "#{target}.data('react_component', ReactDOM.render(R.#{component}(#{to_json props}),#{target}[0]));"

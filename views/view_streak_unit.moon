@@ -10,8 +10,10 @@ class ViewStreakUnit extends require "widgets.page"
 
   responsive: true
 
-  js_init: =>
-    "new S.ViewStreakUnit(#{@widget_selector!});"
+  @js_init: [[
+    import {ViewStreakUnit} from "main/view_streak_unit"
+    new ViewStreakUnit(widget_selector)
+  ]]
 
   inner_content: =>
     widget StreakHeader

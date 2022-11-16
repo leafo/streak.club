@@ -7,8 +7,10 @@ class IndexLoggedOut extends require "widgets.page"
 
   responsive: true
 
-  js_init: =>
-    "new S.IndexLoggedOut(#{@widget_selector!});"
+  @js_init: [[
+    import {IndexLoggedOut} from "main/index_logged_out"
+    new IndexLoggedOut(widget_selector)
+  ]]
 
   inner_content: =>
     div class: "primary_header", ->

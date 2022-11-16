@@ -8,16 +8,24 @@ export LUA_CPATH
 : static/coffee/admin.js | {package_admin} $(TOP)/<coffee> |> NODE_PATH=static/coffee $(ESBUILD) --target=es6 --log-level=warning --bundle %f --outfile=%o |> static/admin.js
 
 # package: main
-: views/streak_stats.moon |> moon cmd/widget_helper.moon compile_js --file %f > %o |> views/streak_stats.js {package_main}
-: views/stats.moon |> moon cmd/widget_helper.moon compile_js --file %f > %o |> views/stats.js {package_main}
-: views/layout.moon |> moon cmd/widget_helper.moon compile_js --file %f > %o |> views/layout.js {package_main}
-: views/view_streak.moon |> moon cmd/widget_helper.moon compile_js --file %f > %o |> views/view_streak.js {package_main}
+: views/community/new_topic.moon |> moon cmd/widget_helper.moon compile_js --file %f > %o |> views/community/new_topic.js {package_main}
 : views/edit_streak.moon |> moon cmd/widget_helper.moon compile_js --file %f > %o |> views/edit_streak.js {package_main}
 : views/edit_submission.moon |> moon cmd/widget_helper.moon compile_js --file %f > %o |> views/edit_submission.js {package_main}
+: views/following_feed.moon |> moon cmd/widget_helper.moon compile_js --file %f > %o |> views/following_feed.js {package_main}
 : views/index_logged_out.moon |> moon cmd/widget_helper.moon compile_js --file %f > %o |> views/index_logged_out.js {package_main}
+: views/layout.moon |> moon cmd/widget_helper.moon compile_js --file %f > %o |> views/layout.js {package_main}
+: views/stats.moon |> moon cmd/widget_helper.moon compile_js --file %f > %o |> views/stats.js {package_main}
+: views/streak_stats.moon |> moon cmd/widget_helper.moon compile_js --file %f > %o |> views/streak_stats.js {package_main}
 : views/user_profile.moon |> moon cmd/widget_helper.moon compile_js --file %f > %o |> views/user_profile.js {package_main}
-: widgets/user_list.moon |> moon cmd/widget_helper.moon compile_js --file %f > %o |> widgets/user_list.js {package_main}
-: widgets/submission_list.moon |> moon cmd/widget_helper.moon compile_js --file %f > %o |> widgets/submission_list.js {package_main}
+: views/user_settings.moon |> moon cmd/widget_helper.moon compile_js --file %f > %o |> views/user_settings.js {package_main}
+: views/view_streak.moon |> moon cmd/widget_helper.moon compile_js --file %f > %o |> views/view_streak.js {package_main}
+: views/view_streak_unit.moon |> moon cmd/widget_helper.moon compile_js --file %f > %o |> views/view_streak_unit.js {package_main}
+: widgets/community/post_form.moon |> moon cmd/widget_helper.moon compile_js --file %f > %o |> widgets/community/post_form.js {package_main}
 : widgets/markdown_editor.moon |> moon cmd/widget_helper.moon compile_js --file %f > %o |> widgets/markdown_editor.js {package_main}
+: widgets/submission_liker.moon |> moon cmd/widget_helper.moon compile_js --file %f > %o |> widgets/submission_liker.js {package_main}
+: widgets/submission_list.moon |> moon cmd/widget_helper.moon compile_js --file %f > %o |> widgets/submission_list.js {package_main}
+: widgets/submission_list_audio_file.moon |> moon cmd/widget_helper.moon compile_js --file %f > %o |> widgets/submission_list_audio_file.js {package_main}
+: widgets/tag_input.moon |> moon cmd/widget_helper.moon compile_js --file %f > %o |> widgets/tag_input.js {package_main}
+: widgets/user_list.moon |> moon cmd/widget_helper.moon compile_js --file %f > %o |> widgets/user_list.js {package_main}
 : {package_main} |> (for file in %f; do echo 'import "../../'$file'"; ' | sed 's/\.js//'; done) > %o |> static/coffee/main.js
 : static/coffee/main.js | {package_main} $(TOP)/<coffee> |> NODE_PATH=static/coffee $(ESBUILD) --target=es6 --log-level=warning --bundle %f --outfile=%o |> static/main.js

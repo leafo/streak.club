@@ -24,10 +24,14 @@ class ViewStreak extends require "widgets.page"
       current_user_joined: @streak_user
     }
 
+  @js_init: [[
+    import {ViewStreak} from "main/view_streak"
+    new ViewStreak(widget_selector, widget_params)
+  ]]
+
   js_init: =>
     current_unit = @streak\current_unit!
-
-    opts = {
+    super {
       start: @streak\start_datetime!\fmt "${iso}Z"
       end: @streak.end_date and @streak\end_datetime!\fmt "${iso}Z"
       unit_start: current_unit and current_unit\fmt "${iso}Z"
@@ -36,8 +40,6 @@ class ViewStreak extends require "widgets.page"
       before_start: @streak\before_start!
       after_end: @streak\after_end!
     }
-
-    "new S.ViewStreak(#{@widget_selector!}, #{to_json opts});"
 
   inner_content: =>
     @content_for "meta_tags", ->

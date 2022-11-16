@@ -10,8 +10,11 @@ class UserList extends require "widgets.base"
     classes ..= " narrow" if @narrow
     classes
 
-  js_init: =>
-    "new S.UserList(#{@widget_selector!});"
+
+  @js_init: [[
+    import {UserList} from "main/user_list"
+    new UserList(widget_selector, widget_params)
+  ]]
 
   user_link: (user) =>
     @url_for user

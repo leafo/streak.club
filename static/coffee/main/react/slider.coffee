@@ -4,7 +4,7 @@ import {div, button, input} from 'react-dom-factories'
 
 P = R.package "Forms"
 
-P "Slider", {
+export default P "Slider", {
   pure: true
   # propTypes: {
   #   min: types.number

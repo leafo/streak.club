@@ -1,5 +1,7 @@
+import $ from "main/jquery"
+import {S} from "main/_pre"
 
-class S.FollowingFeed
+export class FollowingFeed
   constructor: (el) ->
     @el = $ el
     @el.has_tooltips()

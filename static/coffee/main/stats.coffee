@@ -1,15 +1,18 @@
 
-class S.Stats
+import $ from "main/jquery"
+import {CumulativeGrapher, RangeGrapher} from "main/graph"
+
+export class Stats
   constructor: (el, @opts) ->
     @el = $ el
     graphs = @opts.graphs
 
     if @opts.cumulative
-      grapher = S.CumulativeGrapher
+      grapher = CumulativeGrapher
       prefix = "Cumulative"
       gopts = {}
     else
-      grapher = S.RangeGrapher
+      grapher = RangeGrapher
       prefix = "Daily"
       gopts = { no_dots: true, x_ticks: 8 }
 

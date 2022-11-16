@@ -3,6 +3,8 @@ import {S} from "main/_pre"
 import {InfiniteScroll} from "main/infinite_scroll"
 import $ from "main/jquery"
 
+import {createRoot} from "react-dom/client"
+
 export class SubmissionList
   constructor: (el, @opts={}) ->
     @el = $ el
@@ -79,25 +81,29 @@ export class SubmissionList
 
         unless drop.length
           drop = $('<div class="comment_editor_drop"></div>').insertAfter body
+          drop.data "react-root", createRoot(drop[0])
 
         editor = R.SubmissionList.CommentEditor {
           edit_url: btn.data "edit_url"
           body: comment.data("body") || body.html()
           on_save: (res) =>
-            ReactDOM.unmountComponentAtNode drop[0]
+            drop.data("react-root").unmount()
+            drop.remove()
             comment.replaceWith res.rendered
 
           on_cancel: =>
+            drop.data("react-root").unmount()
+            drop.remove()
             comment.removeClass "editing"
-            ReactDOM.unmountComponentAtNode drop[0]
         }
 
-        ReactDOM.render editor, drop[0]
+        drop.data("react-root").render editor
 
       reply_btn: (btn) =>
         username = btn.closest(".submission_comment").data "author"
         editor = btn.closest(".submission_commenter").find ".comment_form_outer .markdown_editor"
         editor_component = editor.data "react_component"
+
 
         editor_component.set_markdown "#{editor_component.state.markdown}@#{username} "
         editor_component.focus()

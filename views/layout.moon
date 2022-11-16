@@ -6,11 +6,40 @@ config = require("lapis.config").get!
 
 WelcomeBanner = require "widgets.welcome_banner"
 
-class Layout extends Widget
+class Layout extends require "widgets.base"
   @include "widgets.helpers"
   @include "widgets.table_helpers"
   @include "widgets.asset_helpers"
   @include "widgets.icons"
+
+  @js_init: [[
+    import {Header, Timezone} from "main/layout"
+    import {S} from "main/_pre"
+
+    new Header('#global_header', widget_params.header)
+
+    if (widget_params.current_user_id) {
+      S.current_user = widget_params.current_user_id
+    }
+
+    if (widget_params.timezone) {
+      new Timezone(widget_params.timezone)
+    }
+  ]]
+
+  widget_selector: =>
+    [[document.body]]
+
+  js_init: =>
+    super {
+      header: { flash: @flash }
+      current_user_id: @current_user and @current_user.id
+      timezone: if @current_user
+        {
+          tz_url: @url_for "set_timezone"
+          last_timezone: @current_user.last_timezone
+        }
+    }
 
   head: =>
     meta charset: "UTF-8"
@@ -138,17 +167,11 @@ class Layout extends Widget
     else
       @include_js "main.js"
 
+    -- NOTE: this is being used to include other dependencies on some pages
     @content_for "all_js"
 
     script type: "text/javascript", ->
-      opts = { flash: @flash }
-      raw "new S.Header('#global_header', #{to_json opts});"
-      if @current_user
-        raw "S.current_user = #{to_json @current_user.id};"
-        tz_url = @url_for "set_timezone"
-        tz = last_timezone: @current_user.last_timezone
-        raw "new S.Timezone(#{to_json tz_url}, #{to_json tz});"
-
+      raw @js_init! -- initialize the layout
       @content_for "js_init"
 
   include_fonts: =>

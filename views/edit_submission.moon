@@ -13,8 +13,13 @@ class EditSubmission extends require "widgets.page"
 
   responsive: true
 
+  @js_init: [[
+    import {EditSubmission} from "main/edit_submission"
+    new EditSubmission(widget_selector, widget_params)
+  ]]
+
   js_init: =>
-    data = {
+    super {
       uploads: @uploads and [{
         id: u.id
         filename: u.filename
@@ -29,8 +34,6 @@ class EditSubmission extends require "widgets.page"
         prepare_url: @url_for "prepare_upload"
       }
     }
-
-    "new S.EditSubmission(#{@widget_selector!}, #{to_json data});"
 
   column_content: =>
     @content_for "all_js", ->

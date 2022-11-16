@@ -2,11 +2,15 @@
 import {R, fragment, classNames} from "./_react"
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
+import {createRoot} from "react-dom/client"
+
 import {div, button, ul, li, span, a, form, input, img} from 'react-dom-factories'
 
 import {HeartIcon, PauseIcon, PlayIcon, NextTrackIcon, PlaylistIcon, CloseIcon} from "./icons"
 
-P = R.package "SubmissionList"
+import Slider from "./slider"
+
+export default P = R.package "SubmissionList"
 
 format_seconds = (n) ->
   minutes = Math.floor n / 60
@@ -177,7 +181,7 @@ P "StickyAudioPlayer", {
           else
             div className: "empty_track", "No track"
 
-        R.Forms.Slider {
+        Slider {
           min: 0
           max: @props.active_file_duration || 1
           value: @props.active_file_current_time || 0
@@ -212,16 +216,14 @@ P "StickyAudioPlayer", {
     }
 }
 
-track_list_drop = null
+track_list_root = null
 
 render_track_list = (props) ->
-  unless track_list_drop
-    track_list_drop = $('<div class="audio_track_list_drop"></div>').appendTo document.body
+  unless track_list_root
+    track_list_root = createRoot $('<div class="audio_track_list_drop"></div>').appendTo(document.body)[0]
 
   PLAYER_STATE = Object.assign {}, PLAYER_STATE, props
-  track_list = P.StickyAudioPlayer PLAYER_STATE
-
-  ReactDOM.render track_list, track_list_drop[0]
+  track_list_root.render P.StickyAudioPlayer PLAYER_STATE
 
 P "AudioFile", {
   getInitialState: ->

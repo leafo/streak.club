@@ -1,7 +1,10 @@
 
-class S.EditStreak
+import $ from "main/jquery"
+
+export class EditStreak
   constructor: (el, @opts={}) ->
     @el = $ el
+    # TODO: datepicker must be handled
     @el.find(".date_picker").datepicker()
     @setup_timezone()
 

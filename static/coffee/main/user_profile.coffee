@@ -1,5 +1,8 @@
 
-class S.UserProfile
+import $ from "main/jquery"
+import {S} from "main/_pre"
+
+export class UserProfile
   constructor: (el) ->
     @el = $ el
     @el.has_tooltips()
