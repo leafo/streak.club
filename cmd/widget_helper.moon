@@ -134,6 +134,17 @@ switch args.command
 
         -- TODO: test single file compiling to samge package
 
+
+        print!
+        -- declare macros
+        print "!compile_js = |> ^ compile_js %f > %o^ $(LUAJIT) cmd/widget_helper.lua compile_js --file %f > %o |>"
+        print [[!join_bundle = |> ^ join bundle %o^ (for file in %f; do echo 'import "../../'$file'"; ' | sed 's/\.js//'; done) > %o |>]]
+        print "!esbuild_bundle = |> ^ esbuild bundle %o^ NODE_PATH=static/coffee $(ESBUILD) --target=es6 --log-level=warning --bundle %f --outfile=%o |>"
+        print "!esbuild_bundle_minified = |> ^ esbuild minified bundle %o^ NODE_PATH=static/coffee $(ESBUILD) --target=es6 --log-level=warning --minify --bundle %f --outfile=%o |>"
+
+        print!
+
+
         for package in *packages
           files = package_files[package]
           table.sort files
@@ -142,11 +153,12 @@ switch args.command
           print "# package: #{package}"
           for file in *files
             out_file = file\gsub "%.moon", ".js"
-            print ": #{file} |> moon cmd/widget_helper.moon compile_js --file %f > %o |> #{out_file} {package_#{package}}"
+            print ": #{file} | $(TOP)/<moon> |> !compile_js |> #{out_file} {package_#{package}}"
 
-          print [[: {package_]] .. package .. [[} |> (for file in %f; do echo 'import "../../'$file'"; ' | sed 's/\.js//'; done) > %o |> static/coffee/]] .. package ..  [[.js]]
-          print ": static/coffee/#{package}.js | {package_#{package}} $(TOP)/<coffee> |> NODE_PATH=static/coffee $(ESBUILD) --target=es6 --log-level=warning --bundle %f --outfile=%o |> static/#{package}.js"
-          print ": static/coffee/#{package}.js | {package_#{package}} $(TOP)/<coffee> |> NODE_PATH=static/coffee $(ESBUILD) --target=es6 --log-level=warning --minify --bundle %f --outfile=%o |> static/#{package}.min.js"
+          print ": {package_#{package}} |> !join_bundle |> static/coffee/#{package}.js"
+          print ": static/coffee/#{package}.js | {package_#{package}} $(TOP)/<coffee> |> !esbuild_bundle |> static/#{package}.js"
+
+          print ": static/coffee/#{package}.js | {package_#{package}} $(TOP)/<coffee> |> !esbuild_bundle_minified |> static/#{package}.min.js"
 
   when "debug"
     require("moon").p args

@@ -4,12 +4,8 @@ ESBUILD=$(TOP)/node_modules/.bin/esbuild
 
 .gitignore
 
-!esbuild_bundle = |> ^ esbuild bundle %f > %o^ (for file in %f; do echo 'import "./'$file'"; ' | sed 's/\.js//'; done) | $(TOP)/node_modules/.bin/esbuild --log-level=warning --bundle --minify > %o |>
-
 # we insert \n; to ensure that two blocks of adjacent minified code do not interfere
 !join_js = |> ^ join js %f > %o^ (for file in %f; do cat "$file"; echo -e "\n;"; done) > %o |>
-
-!minify_js = |> ^ minify js %f^ $(TOP)/node_modules/.bin/esbuild --minify --target=es6 %f > %o |>
 
 !lint_js = |> ^ eslint %f^ $(TOP)/node_modules/.bin/eslint %f |>
 
