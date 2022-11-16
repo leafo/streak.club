@@ -1,5 +1,5 @@
 
-import $ from "main/jquery"
+import $ from "admin/jquery"
 
 export class AdminEmailStreak
   constructor: (el) ->

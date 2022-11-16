@@ -2,6 +2,8 @@
 class AdminPage extends require "widgets.page"
   @include "widgets.tabs_helpers"
 
+  @asset_packages: {"admin"}
+
   inner_content: =>
     div class: "tab_header", ->
       div class: "page_tabs", ->
