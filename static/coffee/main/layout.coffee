@@ -1,5 +1,7 @@
 
 import {S} from "main/_pre"
+import {jstz} from "main/global_libs"
+import $ from "main/jquery"
 
 export class Flasher
   duration: 10000

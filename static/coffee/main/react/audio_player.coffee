@@ -4,11 +4,15 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import {createRoot} from "react-dom/client"
 
+import $ from "main/jquery"
+
 import {div, button, ul, li, span, a, form, input, img} from 'react-dom-factories'
 
 import {HeartIcon, PauseIcon, PlayIcon, NextTrackIcon, PlaylistIcon, CloseIcon} from "./icons"
 
 import Slider from "./slider"
+
+import {S} from "main/_pre"
 
 export default P = R.package "SubmissionList"
 

@@ -2,14 +2,17 @@
 import $ from "main/jquery"
 
 import {S} from "main/_pre"
+import {_} from "main/global_libs"
+
+d3 = null
 
 export class Grapher
   @with_d3: (script_url) =>
-    @d3_deferred ||= $.ajax {
+    @d3_deferred ||= $.ajax({
       url: $("#d3_src").data "src"
       dataType: "script"
       cache: true
-    }
+    }).then => d3 = window.d3
 
   @format_number: format_number = (num) ->
     if num > 10000

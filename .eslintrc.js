@@ -1,8 +1,7 @@
 module.exports = {
     "env": {
         "browser": true,
-        "es2021": true,
-        "jquery": true
+        "es2021": true
     },
     "extends": [
         "eslint:recommended",
@@ -19,12 +18,8 @@ module.exports = {
     "rules": {
       "no-unused-vars": "off",
       "no-cond-assign": "off",
+      "no-extra-semi": "off",
+      "no-empty": "off"
     },
-    "globals": {
-        "S": true,
-        "require": true,
-        "commonmark": true,
-        "_": true,
-        "TurndownService": true,
-    }
+    "globals": { }
 };

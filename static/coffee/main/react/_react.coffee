@@ -1,12 +1,16 @@
 
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-createReactClass = require('create-react-class')
+
+import createReactClass from "create-react-class"
 
 export fragment = React.createElement.bind null, React.Fragment
 fragment.type = React.fragment
 
-export classNames = require "classnames"
+import $ from "main/jquery"
+
+import cn from "classnames"
+export classNames = cn
 
 EMPTY = {}
 is_different = (a, b) ->

@@ -1,6 +1,8 @@
 
 import $ from "main/jquery"
 
+import {jstz} from "main/global_libs"
+
 export class EditStreak
   constructor: (el, @opts={}) ->
     @el = $ el

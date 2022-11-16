@@ -1,4 +1,7 @@
 
+import {_} from "main/global_libs"
+import $ from "main/jquery"
+
 export class InfiniteScroll
   loading_element: ".list_loader"
 

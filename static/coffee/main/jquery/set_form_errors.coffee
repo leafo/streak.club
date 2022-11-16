@@ -1,3 +1,4 @@
+$ = window.$
 
 export default $.fn.set_form_errors = (errors, scroll_to=true) ->
   @find(".form_errors").remove()

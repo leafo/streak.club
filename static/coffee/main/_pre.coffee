@@ -1,4 +1,6 @@
 import dayjs from "main/dayjs"
+import $ from "main/jquery"
+import {_} from "main/global_libs"
 
 export S = window.S = {
   template_settings: {
@@ -30,8 +32,8 @@ export S = window.S = {
     params = ['_trackEvent', category, action, label, value]
     params.push true unless interactive
     try
-      if _gaq
-        _gaq.push params
+      if window._gaq
+        window._gaq.push params
       else
         console.log "event:", params
 

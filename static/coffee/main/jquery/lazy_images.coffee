@@ -1,3 +1,6 @@
+$ = window.$
+
+import {_} from "main/global_libs"
 
 support_passive_scroll = ->
   supports = false

@@ -8,6 +8,8 @@ import $ from "main/jquery"
 import {S} from "main/_pre"
 import {Upload} from "main/upload"
 
+import {_} from "main/global_libs"
+
 export default P = R.package "EditSubmission"
 
 # NOTE: all files pass through here, so we should return nothing for non-images
@@ -87,7 +89,7 @@ P "TagInput", {
 }
 
 convert_to_markdown = (html) ->
-  turndownService = new TurndownService { hr: "---" }
+  turndownService = new window.TurndownService { hr: "---" }
   turndownService.turndown html
 
 P "Editor", {
@@ -132,8 +134,8 @@ P "Editor", {
     }
 
   compile_markdown: (md) ->
-    @parser ||= new commonmark.Parser()
-    @writer ||= new commonmark.HtmlRenderer {
+    @parser ||= new window.commonmark.Parser()
+    @writer ||= new window.commonmark.HtmlRenderer {
       smart: true
       softbreak: "<br />"
     }

@@ -1,9 +1,9 @@
 
-# TODO: import Typed
 
 import {Countdown} from "main/countdown"
 import $ from "main/jquery"
 import dayjs from "main/dayjs"
+import {Typed} from "main/global_libs"
 
 export class IndexLoggedOut
   constructor: (el) ->

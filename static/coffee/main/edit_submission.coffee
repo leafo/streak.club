@@ -7,6 +7,8 @@ import {Upload} from "main/upload"
 
 import {createRoot} from "react-dom/client"
 
+import EditSubmissionComponents from "main/react/edit_submission"
+
 export class EditSubmission
   constructor: (el, @opts) ->
     @el = $ el
@@ -23,7 +25,7 @@ export class EditSubmission
 
   setup_uploader: =>
     container = @el.find ".file_uploader"
-    createRoot(container[0]).render R.EditSubmission.Uploader {
+    createRoot(container[0]).render EditSubmissionComponents.Uploader {
       uploads: @opts.uploads && (new Upload(u) for u in @opts.uploads)
       uploader_opts: @opts.uploader_opts
       widget: @

@@ -1,3 +1,8 @@
+$ = window.$
+
+import {S} from "main/_pre"
+import {_} from "main/global_libs"
+
 export default $.fn.has_tooltips = ->
   return if S.is_mobile()
 

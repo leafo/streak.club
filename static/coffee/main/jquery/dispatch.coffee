@@ -1,3 +1,5 @@
+$ = window.$
+
 export default $.fn.dispatch = (event_type, selector, table) ->
   if $.isPlainObject selector
     table = selector
