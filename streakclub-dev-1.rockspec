@@ -28,7 +28,7 @@ dependencies = {
   "web_sanitize ~> 1.4",
   "magick ~> 1.6",
   "luajit-geoip ~> 2.1",
-  "tableshape ~> 2.4",
+  "tableshape ~> 2.5",
 }
 
 build = {
