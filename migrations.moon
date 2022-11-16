@@ -706,5 +706,8 @@ import
     -- this was accidentally created when spam_scans table was created
     db.query "drop sequence spam_scans_user_id_seq cascade"
 
+
+  [1668553357]: =>
+    require("community.schema").run_migrations 42
 }
 
