@@ -1,8 +1,2 @@
 include_rules
 
-: foreach *.coffee |> !coffee |> %B.js $(TOP)/<coffee>
-
-# : foreach *.coffee |> !coffee |> %B.js {js}
-# : foreach {js} |> !lint_js |>
-# 
-# : {js} |> !esbuild_bundle |> _bundle.js

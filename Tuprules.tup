@@ -13,7 +13,6 @@ ESBUILD=$(TOP)/node_modules/.bin/esbuild
 
 !lint_js = |> ^ eslint %f^ $(TOP)/node_modules/.bin/eslint %f |>
 
-
 !coffee = |> ^ coffee %f^ $(TOP)/node_modules/.bin/coffee -c %f |>
 
 : foreach *.moon |> moonc %f |> %B.lua $(TOP)/<moon>

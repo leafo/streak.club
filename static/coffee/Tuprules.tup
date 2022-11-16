@@ -1,0 +1,3 @@
+
+: foreach *.coffee |> !coffee |> %B.js $(TOP)/<coffee>
+# : foreach {js} |> !lint_js |>

@@ -1,19 +1,11 @@
-.gitignore
 include_rules
 
-: foreach *.coffee |> !coffee |> %B.js
 : foreach scss/*.scss |> sassc -I scss/ < %f > %o |> %B.css
 : foreach *.md |> markdown < %f > %o |> %B.html
 
-: coffee/main/_pre.js coffee/main/*.js coffee/main/react/_bundle.js |> cat %f > %o |> main.js
-: coffee/admin/*.js |> !esbuild_bundle |> admin.js
-
-# lib
+# lib.js is a static set of globally defined dependencies that we can avoid building into the bundle every edit on development
 : underscore_custom.js |> !esbuild_bundle |> lib/underscore_custom_bundle.js
 : lib/jquery.min.js lib/dayjs.min.js lib/*.js |> !join_js |> lib.js
-
-# minify
-: foreach main.js |> !minify_js |> %B.min.js
 
 # markdown
 : markdown/*.js |> !join_js |> lib.markdown.js
