@@ -1,4 +1,3 @@
-moon = require "moon"
 app = require"app"!
 
 import columnize from require "lapis.cmd.util"

@@ -10,8 +10,6 @@ import Categories, WordClassifications from require "lapis.bayes.models"
 UrlDomainsTokenizer = require "lapis.bayes.tokenizers.url_domains"
 PostgresTextTokenizer = require "lapis.bayes.tokenizers.postgres_text"
 
-bayes = require "lapis.bayes"
-
 normalize_gmail = (email) ->
   left, right = email\match "([^@]+)@(.+)"
 

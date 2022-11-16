@@ -52,7 +52,7 @@ class StreakUnits extends require "widgets.base"
   recent_units: =>
     is_daily = @streak.rate == Streaks.rates.daily
 
-    y,m,d = date(true)\getdate!
+    y, m = date(true)\getdate!
 
     local bottom
     if is_daily

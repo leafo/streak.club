@@ -1,5 +1,3 @@
-PostForm = require "widgets.community.post_form"
-
 class CommunityTopicHelpers
   topic_posts_pager: (classes, always_show=false) =>
     unless always_show

@@ -20,7 +20,7 @@ class CommunityTopicList extends require "widgets.base"
         @render_topics!
 
   render_topics: =>
-    moderator = @category and @category\allowed_to_moderate @current_user
+    -- moderator = @category and @category\allowed_to_moderate @current_user
 
     for topic in *@topics
       has_unread = topic\has_unread @current_user

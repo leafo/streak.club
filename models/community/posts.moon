@@ -1,6 +1,3 @@
-
-db = require "lapis.db"
-
 -- Generated schema dump: (do not edit)
 --
 -- CREATE TABLE community_posts (

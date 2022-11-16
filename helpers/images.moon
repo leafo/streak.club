@@ -1,6 +1,4 @@
-
 config = require"lapis.config".get!
-db = require "lapis.db"
 
 image_secret = config.image_secret or config.secret
 

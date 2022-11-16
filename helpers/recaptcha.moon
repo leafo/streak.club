@@ -19,7 +19,7 @@ post_siteverify = (opts) ->
       params[k] = v
 
   out = {}
-  _, status = http.request {
+  assert http.request {
     url: URL
     method: "POST"
     sink: ltn12.sink.table out

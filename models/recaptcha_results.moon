@@ -1,4 +1,3 @@
-db = require "lapis.db"
 import Model, enum from require "lapis.db.model"
 
 import insert_on_conflict_update, db_json from require "helpers.model"

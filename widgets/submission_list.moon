@@ -3,7 +3,6 @@ import login_and_return_url from require "helpers.app"
 import to_json from require "lapis.util"
 
 SubmissionCommenter = require "widgets.submission_commenter"
-MarkdownEditor = require "widgets.markdown_editor"
 SubmissionLiker = require "widgets.submission_liker"
 SubmissionListAudioFile = require "widgets.submission_list_audio_file"
 
@@ -101,7 +100,6 @@ class SubmissionList extends require "widgets.base"
 
               if submitted_streaks and next submitted_streaks
                 text " for "
-                num_streaks = #submitted_streaks
                 for i, streak in ipairs submitted_streaks
                   text " "
                   span class: "streak_title_group", ->

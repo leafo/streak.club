@@ -28,7 +28,6 @@ class DailyUploadDownloads extends Model
 
   @increment: (upload_id, amount=1) =>
     assert upload_id, "missing upload_id"
-    table = db.escape_identifier @table_name!
     amount = tonumber amount
 
     insert_on_conflict_update @, {

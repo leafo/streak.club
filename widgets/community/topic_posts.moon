@@ -4,8 +4,6 @@ import login_and_return_url from require "helpers.app"
 PostList = require "widgets.community.post_list"
 PostForm = require "widgets.community.post_form"
 
-config = require("lapis.config").get!
-
 class CommunityTopicPosts extends require "widgets.base"
   @include "widgets.community.topic_helpers"
 

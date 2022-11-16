@@ -1,5 +1,4 @@
 
-date = require "date"
 import time_ago_in_words from require "lapis.util"
 
 -- TODO: move all common widget helpers into here

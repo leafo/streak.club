@@ -1,4 +1,3 @@
-b = require "lapis.db"
 import Model, enum from require "lapis.db.model"
 
 -- Generated schema dump: (do not edit)

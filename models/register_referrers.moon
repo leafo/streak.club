@@ -1,5 +1,3 @@
-
-db = require "lapis.db"
 import Model from require "lapis.db.model"
 
 import insert_on_conflict_ignore from require "helpers.model"

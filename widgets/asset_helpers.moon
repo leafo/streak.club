@@ -1,5 +1,3 @@
-config = require("lapis.config").get!
-
 cache_buster = require "cache_buster"
 
 class AssetsHelpers

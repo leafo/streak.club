@@ -188,8 +188,6 @@ class Base extends Widget
             li e
 
   relative_timestamp: (d) =>
-    now = date true
-
     suffix = if date(true) < date(d)
       "from now"
     else

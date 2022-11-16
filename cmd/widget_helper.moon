@@ -101,9 +101,6 @@ switch args.command
         error "No package files (package: #{args.package})"
 
   when "generate_spec"
-    import Widget from require "lapis.html"
-    is_widget = subclass_of Widget
-
     import to_json from require "lapis.util"
 
     switch args.format

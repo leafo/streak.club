@@ -1,6 +1,4 @@
-
 lapis = require "lapis"
-db = require "lapis.db"
 
 import
   respond_to

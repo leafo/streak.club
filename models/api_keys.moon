@@ -1,5 +1,3 @@
-
-db = require "lapis.db"
 import Model, enum from require "lapis.db.model"
 import generate_key from require "helpers.keys"
 
