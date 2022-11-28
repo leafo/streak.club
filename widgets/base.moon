@@ -17,6 +17,13 @@ class Base extends require "lapis.eswidget"
   @include "widgets.asset_helpers"
   @include "widgets.icons"
 
+  @widget_class_list: =>
+    -- don't include class for base widget
+    if @ == Base
+      return
+
+    super!
+
   -- TODO: unfortuantely streak.club never used the _widget suffix, this will
   -- require a manual refactor of all CSS. So we default to using the plain
   -- widget name as the class name instead
