@@ -7,7 +7,7 @@ class FollowingFeed extends require "widgets.page"
 
   responsive: true
 
-  @js_init: [[
+  @es_module: [[
     import {FollowingFeed} from "main/following_feed"
     new FollowingFeed(widget_selector)
   ]]

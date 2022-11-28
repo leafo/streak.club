@@ -1,5 +1,5 @@
 class TagInput extends require "widgets.base"
-  @js_init: [[
+  @es_module: [[
     import EditSubmission from "main/react/edit_submission"
     import {createRoot} from 'react-dom/client';
     createRoot(document.querySelector(widget_selector)).render(EditSubmission.TagInput(widget_params))

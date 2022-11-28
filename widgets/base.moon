@@ -1,5 +1,4 @@
 
-import Widget from require "lapis.html"
 import underscore, time_ago_in_words from require "lapis.util"
 
 import is_type from require "tableshape"
@@ -18,7 +17,7 @@ else
 
 import types from require "tableshape"
 
-class Base extends Widget
+class Base extends require "lapis.eswidget"
   @include "widgets.helpers"
   @include "widgets.asset_helpers"
   @include "widgets.icons"

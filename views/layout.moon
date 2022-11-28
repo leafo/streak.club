@@ -12,7 +12,7 @@ class Layout extends require "widgets.base"
   @include "widgets.asset_helpers"
   @include "widgets.icons"
 
-  @js_init: [[
+  @es_module: [[
     import {Header, Timezone} from "main/layout"
     import {S} from "main/_pre"
 

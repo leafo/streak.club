@@ -13,8 +13,8 @@ migrate:
 	make schema.sql
 
 assetspec::
-	 # $(LUAJIT) cmd/widget_helper.lua generate_spec --format tup > assetspec.Tupfile
-	 moon cmd/widget_helper.moon generate_spec --format tup > assetspec.Tupfile
+	 # moon cmd/widget_helper.moon generate_spec --format tup > assetspec.Tupfile
+	 lapis-eswidget generate_spec --tup-compile-dep-group='$$(TOP)/<moon>' --tup-bundle-dep-group='$$(TOP)/<coffee>' --source-dir=static/coffee --format tup > assetspec.Tupfile
 
 schema.sql:
 	pg_dump -s -U postgres streakclub > schema.sql
@@ -39,7 +39,7 @@ prod_db:
 	pg_restore -U postgres -d streakclub_prod $$(find /mnt/drive/site-backups/ | grep streakclub | sort -V | tail -n 1)
 
 lint:
-	git ls-files | grep '\.moon$$' | grep -v config.moon | xargs -n 100 moonc -l
+	git ls-files | grep '\.moon$$' | grep -v config.moon | grep -v spec/ | xargs -n 100 moonc -l
 
 checkpoint:
 	mkdir -p dev_backup

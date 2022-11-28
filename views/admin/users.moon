@@ -1,8 +1,6 @@
 
 import Users from require "models"
 
-import ip_to_asnum from require "helpers.geo"
-
 class AdminUsers extends require "widgets.admin.page"
   @include "widgets.pagination_helpers"
   @include "widgets.table_helpers"

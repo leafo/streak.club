@@ -7,7 +7,7 @@ class IndexLoggedOut extends require "widgets.page"
 
   responsive: true
 
-  @js_init: [[
+  @es_module: [[
     import {IndexLoggedOut} from "main/index_logged_out"
     new IndexLoggedOut(widget_selector)
   ]]

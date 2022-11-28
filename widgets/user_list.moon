@@ -11,7 +11,7 @@ class UserList extends require "widgets.base"
     classes
 
 
-  @js_init: [[
+  @es_module: [[
     import {UserList} from "main/user_list"
     new UserList(widget_selector, widget_params)
   ]]

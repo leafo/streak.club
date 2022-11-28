@@ -6,7 +6,7 @@ class UserSettings extends require "widgets.page"
 
   responsive: true
 
-  @js_init: [[
+  @es_module: [[
     import {UserSettings} from "main/user_settings"
     new UserSettings(widget_selector)
   ]]

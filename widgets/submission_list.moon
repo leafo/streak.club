@@ -14,7 +14,7 @@ class SubmissionList extends require "widgets.base"
   show_comments: false
   hide_hidden: false
 
-  @js_init: [[
+  @es_module: [[
     import {SubmissionList} from "main/submission_list"
     new SubmissionList(widget_selector, widget_params)
   ]]

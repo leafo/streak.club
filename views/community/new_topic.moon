@@ -10,7 +10,7 @@ class CommunityNewTopic extends require "widgets.page"
   page_name: "community"
   responsive: true
 
-  @js_init: [[
+  @es_module: [[
     import {CommunityNewTopic} from "main/community"
     new CommunityNewTopic(widget_selector)
   ]]

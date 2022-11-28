@@ -24,7 +24,7 @@ class ViewStreak extends require "widgets.page"
       current_user_joined: @streak_user
     }
 
-  @js_init: [[
+  @es_module: [[
     import {ViewStreak} from "main/view_streak"
     new ViewStreak(widget_selector, widget_params)
   ]]

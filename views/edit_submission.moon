@@ -13,7 +13,7 @@ class EditSubmission extends require "widgets.page"
 
   responsive: true
 
-  @js_init: [[
+  @es_module: [[
     import {EditSubmission} from "main/edit_submission"
     new EditSubmission(widget_selector, widget_params)
   ]]

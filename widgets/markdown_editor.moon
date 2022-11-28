@@ -1,5 +1,5 @@
 class MarkdownEditor extends require "widgets.base"
-  @js_init: [[
+  @es_module: [[
     import EditSubmission from "main/react/edit_submission"
     import {createRoot} from 'react-dom/client'
 

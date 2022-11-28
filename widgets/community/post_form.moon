@@ -13,7 +13,7 @@ class CommunityPostForm extends require "widgets.base"
   widget_classes: =>
     { super!, show_authow: @show_author }
 
-  @js_init: [[
+  @es_module: [[
     import {CommunityPostForm} from "main/community"
     new CommunityPostForm(widget_selector, widget_params)
   ]]

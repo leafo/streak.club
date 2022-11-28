@@ -1,11 +1,10 @@
 MarkdownEditor = require "widgets.markdown_editor"
 
-
 class AdminEmailStreak extends require "widgets.admin.page"
   @needs: {"streak"}
   @include "widgets.form_helpers"
 
-  @js_init: [[
+  @es_module: [[
     import {AdminEmailStreak} from "admin/admin_email_streak"
     new AdminEmailStreak(widget_selector)
   ]]

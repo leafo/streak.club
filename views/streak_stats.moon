@@ -5,7 +5,7 @@ StreakHeader = require "widgets.streak_header"
 class StreakStats extends require "widgets.page"
   page_name: "stats"
 
-  @js_init: [[
+  @es_module: [[
     import {StreakStats} from "main/streak_stats"
     new StreakStats(widget_selector, widget_params)
   ]]

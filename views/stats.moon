@@ -14,7 +14,7 @@ class Stats extends require "widgets.page"
     "graph_submission_likes"
   }
 
-  @js_init: [[
+  @es_module: [[
     import {Stats} from "main/stats"
     new Stats(widget_selector, widget_params)
   ]]

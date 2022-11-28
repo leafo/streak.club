@@ -11,7 +11,7 @@ class UserProfile extends require "widgets.page"
   page_name: "profile"
   responsive: true
 
-  @js_init: [[
+  @es_module: [[
     import {UserProfile} from "main/user_profile"
     new UserProfile(widget_selector)
   ]]

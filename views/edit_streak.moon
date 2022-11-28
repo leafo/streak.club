@@ -9,7 +9,7 @@ class EditStreak extends require "widgets.page"
   @include "widgets.form_helpers"
   responsive: true
 
-  @js_init: [[
+  @es_module: [[
     import {EditStreak} from "main/edit_streak"
     new EditStreak(widget_selector, widget_params)
   ]]
