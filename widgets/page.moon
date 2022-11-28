@@ -1,11 +1,11 @@
 import underscore from require "lapis.util"
 
 class Page extends require "widgets.base"
-  @widget_name: =>
+  @widget_class_name: =>
     if @ == Page
-      return "page_widget"
-
-    underscore(@__name or "unknown") .. "_page"
+      "page_widget"
+    else
+      "#{@widget_name!}_page"
 
   inner_content: =>
     if @column_content
