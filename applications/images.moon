@@ -80,6 +80,10 @@ class extends lapis.Application
 
       image = assert load_image_from_blob image_blob
 
+      switch ext
+        when "jpeg", "jpg"
+          image\set_quality 90
+
       image\auto_orient!
       w = image\get_width!
 
