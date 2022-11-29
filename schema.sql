@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 13.3
--- Dumped by pg_dump version 13.3
+-- Dumped from database version 13.5
+-- Dumped by pg_dump version 13.5
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -80,11 +80,11 @@ CREATE TABLE public.community_activity_logs (
     user_id integer NOT NULL,
     object_type integer DEFAULT 0 NOT NULL,
     object_id integer NOT NULL,
-    publishable boolean DEFAULT false NOT NULL,
     action integer DEFAULT 0 NOT NULL,
     data jsonb,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    ip inet
 );
 
 
@@ -421,7 +421,9 @@ CREATE TABLE public.community_pending_posts (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     title character varying(255),
-    body_format smallint DEFAULT 1 NOT NULL
+    body_format smallint DEFAULT 1 NOT NULL,
+    data jsonb,
+    reason smallint DEFAULT 1 NOT NULL
 );
 
 
@@ -1173,28 +1175,6 @@ ALTER SEQUENCE public.spam_scans_id_seq OWNED BY public.spam_scans.id;
 
 
 --
--- Name: spam_scans_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.spam_scans_user_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.spam_scans_user_id_seq OWNER TO postgres;
-
---
--- Name: spam_scans_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.spam_scans_user_id_seq OWNED BY public.spam_scans.user_id;
-
-
---
 -- Name: streak_submissions; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1705,13 +1685,6 @@ ALTER TABLE ONLY public.related_streaks ALTER COLUMN id SET DEFAULT nextval('pub
 --
 
 ALTER TABLE ONLY public.spam_scans ALTER COLUMN id SET DEFAULT nextval('public.spam_scans_id_seq'::regclass);
-
-
---
--- Name: spam_scans user_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.spam_scans ALTER COLUMN user_id SET DEFAULT nextval('public.spam_scans_user_id_seq'::regclass);
 
 
 --
@@ -2734,8 +2707,8 @@ CREATE INDEX users_username_idx ON public.users USING gin (username public.gin_t
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 13.3
--- Dumped by pg_dump version 13.3
+-- Dumped from database version 13.5
+-- Dumped by pg_dump version 13.5
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -2835,9 +2808,9 @@ community_14
 community_15
 community_16
 community_17
+1483430549
 community_18
 community_19
-1483430549
 1484032396
 community_20
 community_21
@@ -2846,25 +2819,14 @@ community_23
 1510810389
 1516221126
 1524276008
-1566456125
-1580505725
 community_24
 community_25
 community_26
+1524276009
+1566456125
+1580505725
 community_27
 community_28
-community_29
-community_30
-community_31
-community_32
-community_33
-community_34
-community_35
-community_36
-community_37
-community_38
-community_39
-community_40
 1580506174
 1580928124
 1580932859
@@ -2875,6 +2837,12 @@ community_40
 lapis_bayes_1439610038
 lapis_bayes_1474434614
 1610588129
+community_29
+community_30
+community_31
+community_32
+community_33
+community_34
 1611104893
 1611180517
 1611365690
@@ -2884,7 +2852,17 @@ lapis_exceptions_1446941278
 lapis_exceptions_1451464107
 lapis_exceptions_1459407609
 1612475645
+community_35
+community_36
+community_37
+community_38
+community_39
+community_40
 1625340072
+1635827783
+community_41
+community_42
+1668553357
 \.
 
 
