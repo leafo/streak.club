@@ -17,6 +17,8 @@ config {"development", "test", "production"}, ->
 
   storage_bucket "streakclub_dev"
 
+  image_cache_path "image_cache"
+
   resolver "8.8.8.8"
 
   postgres {
@@ -59,6 +61,7 @@ config "production", ->
   num_workers 3
 
   host "streak.club"
+  image_cache_path "../streakclub-imagecache"
 
   storage_bucket "streakclub"
 
