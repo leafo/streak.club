@@ -4,10 +4,11 @@
         list-style: none;
         margin: 20px 0;
         padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
 
         > li {
-            display: inline-block;
-            margin: 0 8px 10px 0px;
             background: white_back();
             border: 1px solid border_color();
             border-radius: 2px;
