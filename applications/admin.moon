@@ -463,8 +463,14 @@ class AdminApplication extends lapis.Application
       import Users, SpamScans from require "models"
 
       unless @user
-        top = unpack SpamScans\select "where train_status not in ? and review_status != ? order by score desc nulls last limit 1",
-          db.list({ SpamScans.train_statuses.ham, SpamScans.train_statuses.spam }), SpamScans.review_statuses.reviewed
+        top = unpack SpamScans\select "
+          inner join users on users.id = spam_scans.user_id
+          where train_status not in ? and review_status != ?
+          and exists(select 1 from users where users.id = spam_scans.user_id and (submissions_count > 0 or streaks_count > 0))
+          order by score * sqrt(1.0 + users.streaks_count + users.submissions_count) desc nulls last limit 1
+        ", db.list({ SpamScans.train_statuses.ham, SpamScans.train_statuses.spam }), SpamScans.review_statuses.reviewed, {
+            fields: "spam_scans.*"
+          }
 
         user = top and top\get_user!
 
