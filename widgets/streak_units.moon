@@ -3,20 +3,19 @@ date = require "date"
 import Streaks from require "models"
 
 types = require "helpers.prop_types"
+import render_prop from types
 
 class StreakUnits extends require "widgets.base"
-  @needs: {"streak", "completed_units", "unit_counts"}
+  @prop_types: {
+    streak: render_prop types.instance_of Streaks
+    completed_units: render_prop types.table + types.nil / -> {}
+    unit_counts: render_prop types.table + types.nil
 
-  @prop_types: types.shape {
     hide_empty: types.nil / true + types.boolean
     user_id: types.number\is_optional!
     start_date: types.date\is_optional!
-    streak: types.instance_of(Streaks)\tag("streak")\is_optional!
 
     highlight_date: types.date\is_optional!
-
-    completed_units: types.table\tag("completed_units")\is_optional!
-    unit_counts: types.table\tag("unit_counts")\is_optional!
 
     -- an iterator to provide list of unites for rendering
     unit_iterator: types.function\is_optional!
@@ -25,21 +24,25 @@ class StreakUnits extends require "widgets.base"
   inner_content: =>
     if @props.unit_iterator
       @render_grouped @props.unit_iterator
-    elseif @streak\has_end!
+    elseif @props.streak\has_end!
       div class: "unit_group_units", ->
         @render_units @all_units!
     else
       @render_grouped @recent_units!
 
   get_highlight_date: =>
+    {:streak} = @props
+
     if @props.highlight_date
-      @streak\truncate_date @props.highlight_date
+      streak\truncate_date @props.highlight_date
     else
-      @streak\truncate_date(date(true))\addhours @streak.hour_offset
+      streak\truncate_date(date(true))\addhours streak.hour_offset
 
   all_units: =>
-    start_date = @streak\start_datetime!
-    end_date = @streak\end_datetime!
+    {:streak} = @props
+
+    start_date = streak\start_datetime!
+    end_date = streak\end_datetime!
 
     assert start_date < end_date
     current_date = start_date\copy!
@@ -47,22 +50,24 @@ class StreakUnits extends require "widgets.base"
     coroutine.wrap ->
       while current_date < end_date
         coroutine.yield current_date\copy!
-        @streak\increment_date_by_unit current_date
+        streak\increment_date_by_unit current_date
 
   recent_units: =>
-    is_daily = @streak.rate == Streaks.rates.daily
+    {:streak} = @props
+
+    is_daily = streak.rate == Streaks.rates.daily
 
     y, m = date(true)\getdate!
 
     local bottom
     if is_daily
-      bottom = @streak\truncate_date date y, m - 4, 1
+      bottom = streak\truncate_date date y, m - 4, 1
       bottom\adddays 1
     else
-      bottom = @streak\truncate_date y - 1, 1, 1
+      bottom = streak\truncate_date y - 1, 1, 1
       bottom\adddays 1
 
-    start_date = @streak\start_datetime!
+    start_date = streak\start_datetime!
     current_date = date true
 
     cutoff_date = @props.start_date and date @props.start_date
@@ -70,15 +75,17 @@ class StreakUnits extends require "widgets.base"
     coroutine.wrap ->
       while bottom < current_date and start_date < current_date
         break if cutoff_date and current_date < cutoff_date
-        coroutine.yield @streak\truncate_date current_date
-        @streak\increment_date_by_unit current_date, -1
+        coroutine.yield streak\truncate_date current_date
+        streak\increment_date_by_unit current_date, -1
 
   render_grouped: (each_unit) =>
+    {:streak} = @props
+
     highlight_unit = @get_highlight_date!
 
     units = for unit_date_utc in each_unit
       unit_date = unit_date_utc\copy!
-      unit_date\addhours(@streak.hour_offset)
+      unit_date\addhours(streak.hour_offset)
       formatted_date = unit_date\fmt Streaks.day_format_str
       unit_count = @unit_counts and @unit_counts[formatted_date] or 0
 
@@ -88,7 +95,7 @@ class StreakUnits extends require "widgets.base"
         :formatted_date
       }
 
-    is_daily = @streak.rate == Streaks.rates.daily
+    is_daily = streak.rate == Streaks.rates.daily
     unit_group = if is_daily
       (unit) -> unit.date\fmt "%Y-%m"
     else
@@ -152,29 +159,33 @@ class StreakUnits extends require "widgets.base"
 
     for unit_date_utc in each_unit
       unit_date = unit_date_utc\copy!
-      unit_date\addhours(@streak.hour_offset)
+      unit_date\addhours(@props.streak.hour_offset)
       formatted_date = unit_date\fmt Streaks.day_format_str
-      unit_count = @unit_counts and @unit_counts[formatted_date] or 0
+
+      unit_count = if @props.unit_counts
+        @props.unit_counts[formatted_date] or 0
 
       @render_unit {
-        count: @unit_counts and unit_count or nil
+        count: unit_count
         date: unit_date\copy!
         :formatted_date
       }, highlight_unit
 
   render_unit: (unit, highlight_unit_date) =>
-    formatted_date = unit.formatted_date
-    submission_id = @completed_units and @completed_units[formatted_date]
-    unit_count = @unit_counts and @unit_counts[formatted_date] or 0
+    {:streak} = @props
 
-    @today_unit = @streak\truncate_date date true unless @today_unit
+    formatted_date = unit.formatted_date
+    submission_id = @props.completed_units[formatted_date]
+    unit_count = @props.unit_counts and @props.unit_counts[formatted_date] or 0
+
+    @today_unit = streak\truncate_date date true unless @today_unit
     today_unit = @today_unit
 
     show_count = false
 
     classes = "streak_unit"
     classes ..= " submitted" if submission_id
-    classes ..= " empty" if @unit_counts and unit_count == 0
+    classes ..= " empty" if @props.unit_counts and unit_count == 0
 
     before_unit = unit.date < today_unit
     if before_unit
@@ -187,12 +198,12 @@ class StreakUnits extends require "widgets.base"
 
     unit_url = @url_for "view_streak_unit", {
       date: formatted_date
-      id: @streak.id
+      id: streak.id
     }, submission_id and @props.user_id and {user_id: @props.user_id} or nil
 
-    pretty_date = @streak\format_date_unit unit.date
+    pretty_date = streak\format_date_unit unit.date
 
-    tooltip = if not show_count or not @unit_counts
+    tooltip = if not show_count or not @props.unit_counts
       pretty_date
     else
       "#{pretty_date}: #{@plural unit_count, "submission", "submissions"}"
@@ -208,7 +219,7 @@ class StreakUnits extends require "widgets.base"
         class: classes
         "data-date": tostring unit.date
         "data-tooltip": tooltip
-        @unit_counts and show_count and unit.count or nil
+        @props.unit_counts and show_count and unit.count or nil
       }
 
     if not @current_user and unit_count == 0

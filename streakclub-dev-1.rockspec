@@ -18,7 +18,7 @@ dependencies = {
 
   "lapis ~> 1.10",
   "lapis-community == 1.42.1",
-  "lapis-eswidget",
+  "lapis-eswidget >= 1.1.0",
 
   "lapis-exceptions ~> 2.3",
   "lapis-bayes ~> 1.2",
