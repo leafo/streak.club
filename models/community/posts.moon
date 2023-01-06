@@ -23,9 +23,8 @@
 --   popularity_score integer DEFAULT 0
 -- );
 -- ALTER TABLE ONLY community_posts
---   ADD CONSTRAINT community_posts_moderation_log_id_key UNIQUE (moderation_log_id);
--- ALTER TABLE ONLY community_posts
 --   ADD CONSTRAINT community_posts_pkey PRIMARY KEY (id);
+-- CREATE UNIQUE INDEX community_posts_moderation_log_id_not_null_key ON community_posts USING btree (moderation_log_id) WHERE (moderation_log_id IS NOT NULL);
 -- CREATE INDEX community_posts_parent_post_id_popularity_score_idx ON community_posts USING btree (parent_post_id, popularity_score) WHERE ((popularity_score IS NOT NULL) AND (parent_post_id IS NOT NULL));
 -- CREATE UNIQUE INDEX community_posts_parent_post_id_post_number_idx ON community_posts USING btree (parent_post_id, post_number);
 -- CREATE INDEX community_posts_parent_post_id_status_post_number_idx ON community_posts USING btree (parent_post_id, status, post_number);

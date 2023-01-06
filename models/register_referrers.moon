@@ -11,6 +11,18 @@ validate_value = types.one_of {
   types.any / nil
 }
 
+-- Generated schema dump: (do not edit)
+--
+-- CREATE TABLE register_referrers (
+--   user_id integer NOT NULL,
+--   referrer text,
+--   landing text,
+--   user_agent text,
+--   accept_lang text
+-- );
+-- ALTER TABLE ONLY register_referrers
+--   ADD CONSTRAINT register_referrers_pkey PRIMARY KEY (user_id);
+--
 class RegisterReferrers extends Model
   @relations: {
     {"user", belongs_to: "Users"}

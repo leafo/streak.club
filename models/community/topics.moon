@@ -23,7 +23,8 @@
 --   status smallint DEFAULT 1 NOT NULL,
 --   tags character varying(255)[],
 --   rank_adjustment integer DEFAULT 0 NOT NULL,
---   protected boolean DEFAULT false NOT NULL
+--   protected boolean DEFAULT false NOT NULL,
+--   data jsonb
 -- );
 -- ALTER TABLE ONLY community_topics
 --   ADD CONSTRAINT community_topics_pkey PRIMARY KEY (id);
