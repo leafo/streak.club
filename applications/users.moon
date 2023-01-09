@@ -6,7 +6,10 @@ import
   respond_to, capture_errors, assert_error, capture_errors_json
   from require "lapis.application"
 
-import assert_valid from require "lapis.validate"
+import assert_valid, with_params from require "lapis.validate"
+types = require "lapis.validate.types"
+shapes = require "helpers.shapes"
+
 import trim_filter, slugify from require "lapis.util"
 
 import Users, Uploads, Submissions, Streaks, StreakUsers from require "models"
@@ -17,14 +20,19 @@ import render_submissions_page, SUBMISSIONS_PER_PAGE from require "helpers.submi
 
 config = require("lapis.config").get!
 
-find_user = =>
-  @user = if @params.id
-    assert_valid @params, {
+find_user = with_params {
+  {"user_id", types.empty + types.db_id}
+  {"slug", types.empty + types.limited_text 256}
+}, (params) =>
+  assert_error not (params.user_id and params.slug), "invalid user"
+
+  @user = if params.id
+    assert_valid params, {
       {"id", is_integer: true}
     }
-    Users\find @params.id
-  elseif @params.slug
-    Users\find slug: slugify @params.slug
+    Users\find params.id
+  elseif params.slug
+    Users\find slug: slugify params.slug
 
   assert_error @user, "invalid user"
   assert_error @user\allowed_to_view(@current_user), "invalid user"
@@ -98,21 +106,19 @@ class UsersApplication extends lapis.Application
 
   [user_submissions: "/u/:slug/submissions"]: capture_errors {
     on_error: => not_found
-    =>
+    with_params {
+      {"page", shapes.page_number}
+      {"streak_id", types.empty + types.db_id}
+      {"max_date", types.empty + shapes.datestamp}
+      {"tag", types.empty + types.limited_text 100}
+      {"format", types.empty + "json"}
+    }, (params) =>
       find_user @
-      assert_page @
+
+      @page = params.page
 
       show_hidden = @current_user and
         (@current_user\is_admin! or @current_user.id == @user.id)
-
-      import types from require "tableshape"
-      shapes = require "helpers.shapes"
-
-      params = assert_error types.shape({
-        streak_id: shapes.empty + shapes.db_id
-        max_date: shapes.empty + shapes.datestamp
-        tag: shapes.empty + types.string\length(1,100) * shapes.trimmed_text
-      }, extra_fields: types.any / nil)\transform @params
 
       pager = @user\find_submissions {
         streak_id: params.streak_id
@@ -132,7 +138,7 @@ class UsersApplication extends lapis.Application
       @submissions = pager\get_page @page
       @has_more = #@submissions == SUBMISSIONS_PER_PAGE
 
-      if @params.format == "json"
+      if params.format == "json"
         return render_submissions_page @, SUBMISSIONS_PER_PAGE, {
           hide_hidden: not show_hidden
         }
