@@ -27,9 +27,6 @@ find_user = with_params {
   assert_error not (params.user_id and params.slug), "invalid user"
 
   @user = if params.id
-    assert_valid params, {
-      {"id", is_integer: true}
-    }
     Users\find params.id
   elseif params.slug
     Users\find slug: slugify params.slug
