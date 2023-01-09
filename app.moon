@@ -13,6 +13,7 @@ import require_login, not_found, redirect_for_https from require "helpers.app"
 import capture_errors_json from require "lapis.application"
 import assert_valid from require "lapis.validate"
 
+
 date = require "date"
 config = require("lapis.config").get!
 
@@ -20,7 +21,10 @@ logger = require "lapis.logging"
 old_query = logger.query
 logger.query = (q, time, ...) ->
   if ngx and ngx.ctx.query_log
-    table.insert ngx.ctx.query_log, {q, time}
+    if config._name == "development"
+      table.insert ngx.ctx.query_log, {debug.traceback(q, 3), time}
+    else
+      table.insert ngx.ctx.query_log, {q, time}
 
   old_query q, time, ...
 
