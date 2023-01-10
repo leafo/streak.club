@@ -45,7 +45,7 @@ assert_timezone = (tz) ->
 assert_page = with_params {
   {"page", shapes.page_number}
 }, (params) =>
-  @page = params.page_number
+  @page = params.page
   @page
 
 login_and_return_url = (url=ngx.var.request_uri) =>

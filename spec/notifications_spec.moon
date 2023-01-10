@@ -80,7 +80,7 @@ describe "notifications", ->
     -- do it again no big woop
     Notifications\notify_for current_user, submission, "comment", comment
 
-  it "should increment notification with associated object #ddd", ->
+  it "should increment notification with associated object", ->
     submission = factory.Submissions!
     comment = factory.SubmissionComments submission_id: submission.id
 

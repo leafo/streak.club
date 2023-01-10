@@ -119,7 +119,7 @@ describe "emails", ->
         streak: factory.Streaks state: "during", late_submit_type: "public"
       }
 
-    it "sends late submit email from streak #ddd", ->
+    it "sends late submit email from streak", ->
       streak = factory.Streaks state: "during", late_submit_type: "public"
       su = factory.StreakUsers streak_id: streak.id
 
