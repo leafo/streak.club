@@ -1,5 +1,7 @@
 -- supplementary input validation types
 
+import is_empty_html from require "helpers.html"
+
 types = require "lapis.validate.types"
 
 page_number = (types.one_of({
@@ -9,7 +11,7 @@ page_number = (types.one_of({
 }) * types.range(1, 1000))\describe "page number"
 
 timestamp = (types.trimmed_text * types.pattern("^%d+%-(%d+)%-(%d+)%s+(%d+):(%d+):(%d+)$"))\describe "timestamp (YYYY-MM-DD HH:MM:SS)"
-datestamp = (types.trimmed_text * types.pattern("^%d+%-(%d+)%-(%d+)$"))\describe "date (YYYY-MM-DD)"
+datestamp = (types.trimmed_text * types.pattern("^%d%d%d%d%-%d%d?%-%d%d?$"))\describe "date (YYYY-MM-DD)"
 
 email = types.limited_text(256) * types.pattern("^[^@%s]+@[^@%s%.]+%.[^@%s]+$")\describe "email"
 
@@ -26,11 +28,27 @@ twitter_username = (types.trimmed_text * types.string\length(1,20) * types.patte
   else
     str
 
+twitter_hash = types.all_of({
+  types.limited_text(139) / (str) ->
+    (str\gsub("%s", "")\gsub("#", ""))
+  -types.empty
+})\describe "twitter hash"
+
+empty_html = types.custom((s) -> is_empty_html s)\describe("empty html")
+
+timezone = types.all_of({
+  types.limited_text(128) / (tz) ->
+    db = require "lapis.db"
+    (unpack db.select "* from pg_timezone_names where name = ?", tz)
+  -types.nil
+})\describe("timezone")
 
 setmetatable {
   :page_number
   :email
   :timestamp, :datestamp
   :url
-  :twitter_username
+  :twitter_username, :twitter_hash
+  :empty_html
+  :timezone
 }, __index: (field) => error "Invalid field for helpers.shapes: #{field}"
