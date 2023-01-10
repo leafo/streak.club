@@ -1,6 +1,9 @@
 lapis = require "lapis"
 
-import assert_valid from require "lapis.validate"
+import with_params from require "lapis.validate"
+
+types = require "lapis.validate.types"
+
 import
   respond_to
   capture_errors
@@ -9,79 +12,67 @@ import
   capture_errors_json
   from require "lapis.application"
 
-import not_found, require_login from require "helpers.app"
-
-import assert_csrf from require "helpers.csrf"
-import trim_filter from require "lapis.util"
+import not_found, require_login, with_csrf from require "helpers.app"
 
 import Uploads from require "models"
 
-find_upload = =>
-  assert_valid @params, {
-    {"id", is_integer: true}
-  }
+find_upload = with_params {
+  {"id", types.db_id}
+}, (params) =>
+  @upload = assert_error Uploads\find(params.id), "invalid upload"
 
-  @upload = assert_error Uploads\find(@params.id), "invalid upload"
+sizestring = types.string\length(0,15) * types.pattern("^%d+$")
 
 class UploadsApplication extends lapis.Application
-  [prepare_upload: "/uploads/prepare"]: require_login capture_errors_json =>
-    assert_csrf @
+  [prepare_upload: "/uploads/prepare"]: require_login capture_errors_json respond_to {
+    POST: with_csrf with_params {
+      {"upload", types.params_shape {
+        {"filename", types.limited_text 256}
+        {"size", sizestring}
+      }}
+    }, (params) =>
+      upload = assert_error Uploads\create {
+        user_id: @current_user.id
+        size: params.upload.size
+        filename: params.upload.filename
+      }
 
-    assert_valid @params, {
-      {"upload", type: "table"}
-    }
+      upload_url, params = upload\upload_url_and_params @
 
-    upload_params = @params.upload
-    trim_filter upload_params, { "filename", "size" }
+      json: {
+        id: upload.id
+        url: upload_url
+        save_url: upload\save_url @
+        post_params: params
+      }
+  }
 
-    assert_valid upload_params, {
-      {"filename", exists: true, max_length: 1028}
-      {"size", is_integer: true}
-    }
+  [save_upload: "/uploads/save/:id"]: require_login capture_errors_json respond_to {
+    POST: with_csrf with_params {
+      {"id", types.db_id}
+      {"width", types.empty + sizestring / tonumber}
+      {"height", types.empty + sizestring / tonumber}
+    }, (params) =>
+      upload = Uploads\find params.id
+      assert_error upload\allowed_to_edit(@current_user), "invalid upload"
+      import assert_file_uploaded from require "helpers.upload"
+      assert_file_uploaded upload
 
-    upload = assert_error Uploads\create {
-      user_id: @current_user.id
-      size: upload_params.size
-      filename: upload_params.filename
-    }
+      upload\update {
+        ready: true
+        width: params.width
+        height: params.height
+      }
 
-    upload_url, params = upload\upload_url_and_params @
-
-    json: {
-      id: upload.id
-      url: upload_url
-      save_url: upload\save_url @
-      post_params: params
-    }
-
-  [save_upload: "/uploads/save/:id"]: require_login capture_errors_json =>
-    assert_valid @params, {
-      {"id", is_integer: true}
-    }
-
-    upload = Uploads\find @params.id
-    assert_error upload\allowed_to_edit(@current_user), "invalid upload"
-    import assert_file_uploaded from require "helpers.upload"
-    assert_file_uploaded upload
-
-    width = @params.width and tonumber @params.width
-    height = @params.height and tonumber @params.height
-
-    upload\update {
-      ready: true
-      :width
-      :height
-    }
-
-    json: { success: true }
+      json: { success: true }
+  }
 
   [prepare_download: "/uploads/download/:id"]: capture_errors {
     on_error: => not_found
     respond_to {
       GET: => yield_error "invalid method"
 
-      POST: =>
-        assert_csrf @
+      POST: with_csrf =>
         find_upload @
 
         assert_error @upload\allowed_to_download(@current_user), "invalid upload"
@@ -96,8 +87,7 @@ class UploadsApplication extends lapis.Application
     respond_to {
       GET: => yield_error "invalid method"
 
-      POST: =>
-        assert_csrf @
+      POST: with_csrf =>
         find_upload @
 
         assert_error @upload\allowed_to_download(@current_user), "invalid upload"

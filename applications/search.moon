@@ -7,8 +7,6 @@ import with_params from require "lapis.validate"
 
 import capture_errors from require "lapis.application"
 
-import trim_filter from require "lapis.util"
-
 class SearchApplication extends lapis.Application
   [search: "/search"]: capture_errors{
     on_error: =>
