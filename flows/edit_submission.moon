@@ -1,66 +1,58 @@
 
 db = require "lapis.db"
 
-import assert_error, yield_error from require "lapis.application"
-import assert_valid from require "lapis.validate"
-import trim_filter from require "lapis.util"
+import yield_error from require "lapis.application"
+import with_params from require "lapis.validate"
 import filter_update from require "helpers.model"
-import is_empty_html from require "helpers.html"
 
 import Flow from require "lapis.flow"
+import Submissions from require "models"
+
+types = require "lapis.validate.types"
+shapes = require "helpers.shapes"
 
 date = require "date"
 
+null_empty = types.empty / db.NULL
+make_empty_table = -> {}
+
 class EditSubmissionFlow extends Flow
-  get_submitting_streaks: =>
+  get_submitting_streaks: with_params {
+    {"submit_to", types.one_of {
+      -- extract array of ids from set to array
+      types.empty / make_empty_table
+      types.map_of(types.db_id, -types.empty) / (t) -> [k for k in pairs t]
+    }}
+  }, (params) =>
     @submittable_streaks or= @current_user\find_submittable_streaks!
     submittable_by_id = {s.id, s for s in *@submittable_streaks}
 
     unless next submittable_by_id
-      yield_error "you aren't in any streaks you can currently submit to"
+      yield_error "You aren't in any streaks you can currently submit to"
 
-    unless @params.submit_to
-      yield_error "you must choose a streak to submit to"
-
-    assert_valid @params, {
-      {"submit_to", type: "table"}
-    }
-
-    streaks = for id in pairs @params.submit_to
-      with streak = submittable_by_id[tonumber id]
+    streaks = for streak_id in *params.submit_to
+      with streak = submittable_by_id[streak_id]
         continue unless streak
 
     unless next streaks
-      yield_error "you must choose a streak to submit to"
+      yield_error "You must select at least one streak to submit to"
 
     streaks
 
-  validate_params: =>
-    import Submissions from require "models"
-    assert_valid @params, {
-      {"submission", type: "table"}
-    }
+  validate_params: with_params {
+    {"submission", types.params_shape {
+      {"title", null_empty + types.limited_text 254 }
+      {"description", null_empty + types.limited_text(1024 * 10) * -shapes.empty_html}
+      {"user_rating", types.db_enum Submissions.user_ratings}
 
-    submission_params = @params.submission
-    trim_filter submission_params, {
-      "title", "description", "tags", "user_rating"
-    }
+      {"tags", types.empty / "" + types.limited_text 512} -- empty string is used to strip tags
+    }}
+  }, (params) =>
 
-    assert_valid submission_params, {
-      {"title", optional: true, max_length: 254}
-      {"description", optional: true, max_length: 1024 * 10}
-      {"user_rating", one_of: Submissions.user_ratings}
-    }
+    submission_params = params.submission
 
-    @tags_str = submission_params.tags or ""
+    @tags_str = submission_params.tags
     submission_params.tags = nil
-
-    if is_empty_html submission_params.description or ""
-      submission_params.description = nil
-
-    submission_params.title or= db.NULL
-    submission_params.description or= db.NULL
-    submission_params.user_rating = Submissions.user_ratings\for_db submission_params.user_rating
 
     submission_params
 
@@ -116,33 +108,28 @@ class EditSubmissionFlow extends Flow
 
     @submission\set_tags @tags_str
 
-  set_uploads: =>
+  set_uploads: with_params {
+    {"upload",
+      -- NOTE: this would fail with exception if params_shape fails within
+      -- array_of, due to error type mismatch, so we just have it yield an
+      -- error
+      types.empty / make_empty_table + shapes.map_to_array("upload_id") * types.array_of types.assert_error types.params_shape {
+        {"upload_id", types.db_id}
+        {"position", types.string\length(1,5) * types.pattern("^%d+$") / tonumber}
+      }
+    }
+  }, (params) =>
     assert @submission, "submission needed to set uploads"
     import Uploads from require "models"
 
-    assert_valid @params, {
-      {"upload", optional: true, type: "table"}
-    }
-
-    uploads = @params.upload or {}
-
-    uploads = for id, upload in pairs uploads
-      trim_filter upload
-      assert_valid upload, {
-        {"position", is_integer: true}
-      }
-
-      {
-        upload_id: tonumber id
-        position: tonumber upload.position
-      }
-
-    table.sort uploads, (a,b) ->
-      a.position < b.position
+    uploads = params.upload
+    table.sort uploads, (a,b) -> a.position < b.position
 
     Uploads\include_in uploads, "upload_id"
+
     -- filter ones that can be attached, edited
     uploads = for u in *uploads
+      continue unless u.upload -- rows where no upload was found
       continue unless u.upload\allowed_to_edit @current_user
       continue if u.upload.object_id and not u.upload\belongs_to_object @submission
       u

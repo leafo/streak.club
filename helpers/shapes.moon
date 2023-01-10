@@ -43,6 +43,13 @@ timezone = types.all_of({
   -types.nil
 })\describe("timezone")
 
+map_to_array = (field_name, v_type=types.table) ->
+  types.map_of(types.string, v_type) / (t) ->
+    return for k,v in pairs t
+      item = {r,s for r,s in pairs v}
+      item[field_name] = k
+      item
+
 setmetatable {
   :page_number
   :email
@@ -51,4 +58,5 @@ setmetatable {
   :twitter_username, :twitter_hash
   :empty_html
   :timezone
+  :map_to_array
 }, __index: (field) => error "Invalid field for helpers.shapes: #{field}"
