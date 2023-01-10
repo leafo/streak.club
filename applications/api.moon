@@ -5,7 +5,7 @@ SUBMISSION_PER_PAGE = 25
 
 types = require "lapis.validate.types"
 
-import assert_valid, with_params from require "lapis.validate"
+import with_params from require "lapis.validate"
 import capture_errors_json, assert_error, respond_to, yield_error from require "lapis.application"
 import ApiKeys, Users from require "models"
 
