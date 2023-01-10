@@ -4,6 +4,11 @@ import is_empty_html from require "helpers.html"
 
 types = require "lapis.validate.types"
 
+integer = types.one_of({
+  types.number / math.floor
+  types.string\length(0,10) * types.pattern("^%d+$") / tonumber
+})\describe "integer"
+
 page_number = (types.one_of({
   types.empty / 1
   types.number / math.floor
@@ -51,6 +56,7 @@ map_to_array = (field_name, v_type=types.table) ->
       item
 
 setmetatable {
+  :integer
   :page_number
   :email
   :timestamp, :datestamp

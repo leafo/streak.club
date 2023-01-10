@@ -5,7 +5,6 @@ import
   capture_errors_json
   capture_errors
   assert_error
-  yield_error
   from require "lapis.application"
 
 import require_login
@@ -13,12 +12,15 @@ import require_login
   assert_unit_date
   assert_page
   find_streak
+  with_csrf
   from require "helpers.app"
 
-import assert_valid from require "lapis.validate"
-import assert_csrf from require "helpers.csrf"
+import with_params from require "lapis.validate"
 import assert_signed_url from require "helpers.url"
 import SUBMISSIONS_PER_PAGE, render_submissions_page from require "helpers.submissions"
+
+types = require "lapis.validate.types"
+shapes = require "helpers.shapes"
 
 import Streaks, Users from require "models"
 
@@ -38,8 +40,7 @@ class StreaksApplication extends lapis.Application
       @title = "Create a Streak"
       render: "edit_streak"
 
-    POST: capture_errors_json =>
-      assert_csrf @
+    POST: capture_errors_json with_csrf =>
       streak = @flow("edit_streak")\create_streak!
       streak\join @current_user
       json: { url: @url_for streak }
@@ -58,8 +59,7 @@ class StreaksApplication extends lapis.Application
         @title = "Edit '#{@streak.title}'"
         render: "edit_streak"
 
-      POST: capture_errors_json =>
-        assert_csrf @
+      POST: capture_errors_json with_csrf =>
         @flow("edit_streak")\edit_streak!
         @session.flash = "Streak saved"
         json: { url: @url_for @streak }
@@ -92,18 +92,16 @@ class StreaksApplication extends lapis.Application
   ["streak.calendar": "/s/:id/:slug/calendar(/:year[%d])"]: capture_errors {
     on_error: => not_found
 
-    =>
+    with_params {
+      {"year", types.empty + shapes.integer * types.range(2014, 2214) }
+    }, (params) =>
       @flow("streak")\load_streak!
       @unit_counts = @streak\unit_submission_counts!
 
       start = @streak\start_datetime!
       stop = @streak\end_datetime!
 
-      assert_valid @params, {
-        {"year", is_integer: true, optional: true}
-      }
-
-      year = tonumber @params.year
+      year = params.year
 
       unless year
         year = stop and stop\getdate! or date(true)\getdate!
@@ -122,18 +120,17 @@ class StreaksApplication extends lapis.Application
       find_streak @
       check_slug @
 
-    POST: capture_errors_json =>
-      assert_valid @params, {
-        {"action", one_of: {"approve_member"}}
-        {"user_id", optional: true, is_integer: true}
-      }
-
-      switch @params.action
+    POST: capture_errors_json with_csrf with_params {
+      {"action", types.one_of {"approve_member"}}
+      {"user_id", types.db_id}
+    }, (params) =>
+      switch params.action
         when "approve_member"
-          assert_error @params.user_id, "missing user id"
+          assert_error params.user_id, "missing user id"
           import StreakUsers from require "models"
+
           su = StreakUsers\find {
-            user_id: @params.user_id
+            user_id: params.user_id
             streak_id: @streak.id
           }
 
@@ -253,16 +250,13 @@ class StreaksApplication extends lapis.Application
         @users = @streak\find_users!\get_page!
         render: true
 
-      POST: =>
-        assert_csrf @
-        assert_valid @params, {
-          {"user_id", is_integer: true}
-        }
-
+      POST: with_csrf with_params {
+        {"user_id", types.db_id}
+      }, (params) =>
         import StreakUsers from require "models"
         @streak_user = StreakUsers\find {
           streak_id: @streak.id
-          user_id: @params.user_id
+          user_id: params.user_id
         }
 
         assert_error @streak_user, "invalid user"

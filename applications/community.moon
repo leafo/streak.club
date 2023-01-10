@@ -8,11 +8,10 @@ import
   assert_error
   from require "lapis.application"
 
-import require_login from require "helpers.app"
-import assert_csrf from require "helpers.csrf"
-import assert_valid from require "lapis.validate"
+import with_params from require "lapis.validate"
+types = require "lapis.validate.types"
 
-import not_found from require "helpers.app"
+import require_login, with_csrf, not_found from require "helpers.app"
 
 class CommunityApplication extends lapis.Application
   @name: "community."
@@ -49,9 +48,7 @@ class CommunityApplication extends lapis.Application
     GET: =>
       render: true
 
-    POST: capture_errors_json =>
-      assert_csrf @
-
+    POST: capture_errors_json with_csrf =>
       TopicsFlow = require "community.flows.topics"
       TopicsFlow(@)\new_topic!
       @post\send_notifications!
@@ -136,7 +133,7 @@ class CommunityApplication extends lapis.Application
     GET: =>
       render: true
 
-    POST: =>
+    POST: with_csrf =>
       @flow\edit_post!
 
       json: {
@@ -169,7 +166,7 @@ class CommunityApplication extends lapis.Application
     GET: =>
       render: true
 
-    POST: capture_errors_json =>
+    POST: capture_errors_json with_csrf =>
       @flow\new_post!
       @post\send_notifications!
 
@@ -201,9 +198,7 @@ class CommunityApplication extends lapis.Application
 
       render: true
 
-    POST: capture_errors_json =>
-      assert_csrf @
-
+    POST: capture_errors_json with_csrf =>
       PostsFlow = require "community.flows.posts"
       PostsFlow(@)\new_post!
 
@@ -244,12 +239,9 @@ class CommunityApplication extends lapis.Application
     GET: =>
       render: true
 
-    POST: capture_errors_json =>
-      assert_csrf @
-      assert_valid @params, {
-        {"action", one_of: {"delete"}}
-      }
-
+    POST: capture_errors_json with_csrf with_params {
+      {"action", types.one_of {"delete"}}
+    }, =>
       @flow\delete_post!
       @session.flash = "Deleted #{@noun}"
 
