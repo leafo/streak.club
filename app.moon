@@ -11,8 +11,9 @@ import generate_csrf from require "helpers.csrf"
 
 import require_login, not_found, redirect_for_https from require "helpers.app"
 import capture_errors_json from require "lapis.application"
-import assert_valid from require "lapis.validate"
+import with_params from require "lapis.validate"
 
+types = require "lapis.validate.types"
 
 date = require "date"
 config = require("lapis.config").get!
@@ -149,10 +150,12 @@ class extends lapis.Application
   [privacy_policy: "/privacy-policy"]: =>
     render: true
 
-  [stats: "/stats"]: =>
+  [stats: "/stats"]: capture_errors_json with_params {
+    {"graph_type", types.empty / "cumulative" + types.one_of {"cumulative", "daily"}}
+  }, (params) =>
     import Submissions, Streaks, SubmissionComments, SubmissionLikes from require "models"
 
-    @graph_type = @params.graph_type or "cumulative"
+    @graph_type = params.graph_type
 
     import cumulative_created, daily_created from require "helpers.stats"
 
@@ -177,16 +180,16 @@ class extends lapis.Application
     @title = "Stats #{@graph_type}"
     render: true
 
-  [stats_this_week: "/stats/this-week"]: capture_errors_json =>
+  [stats_this_week: "/stats/this-week"]: capture_errors_json with_params {
+    {"days", types.one_of {
+      types.empty / 7
+      (types.db_id * types.range(1,60))\describe "Day range 1 to 60"
+    }}
+  }, (params) =>
     @title = "Streak club this past week"
     import Streaks, StreakSubmissions, Submissions from require "models"
 
-    assert_valid @params, {
-      {"days", is_integer: true, optional: true}
-    }
-
-    @days = @params.days or 7
-    @days = math.min 60, math.max 1, @days
+    @days = params.days
 
     streak_fields = "id, title, user_id, membership_type, publish_status,
       category, rate, hour_offset, start_date, end_date, users_count,
@@ -231,13 +234,15 @@ class extends lapis.Application
 
     render: true
 
-  [set_timezone: "/set-timezone"]: require_login capture_errors_json =>
+  [set_timezone: "/set-timezone"]: require_login capture_errors_json with_params {
+    {"timezone", types.trimmed_text}
+  }, (params) =>
     import assert_timezone from require "helpers.app"
-    assert_timezone @params.timezone
+    assert_timezone params.timezone
 
-    if @params.timezone != @current_user.last_timezone
+    if params.timezone != @current_user.last_timezone
       @current_user\update {
-        last_timezone: @params.timezone
+        last_timezone: params.timezone
       }, timestamp: false
 
       @current_user\refresh_spam_scan!
