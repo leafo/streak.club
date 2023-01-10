@@ -14,7 +14,7 @@ import trim_filter, slugify from require "lapis.util"
 
 import Users, Uploads, Submissions, Streaks, StreakUsers from require "models"
 
-import not_found, require_login, assert_page from require "helpers.app"
+import not_found, require_login, assert_page, with_csrf from require "helpers.app"
 import assert_csrf from require "helpers.csrf"
 import render_submissions_page, SUBMISSIONS_PER_PAGE from require "helpers.submissions"
 
@@ -243,34 +243,29 @@ class UsersApplication extends lapis.Application
 
     GET: => render: true
 
-    POST: capture_errors =>
-      assert_csrf @
-      trim_filter @params
+    POST: capture_errors with_csrf with_params {
+      {"username", types.limited_text 25, 2}
+      {"password", types.valid_text}
+      {"password_repeat", types.valid_text}
+      {"email", shapes.email}
+      {"accept_terms", types.literal "yes"}
 
-      assert_valid @params, {
-        { "username", exists: true, min_length: 2, max_length: 25 }
-        { "password", exists: true, min_length: 2 }
-        { "password_repeat", equals: @params.password }
-        { "email", exists: true, min_length: 3 }
-        { "accept_terms", equals: "yes", "You must accept the Terms of Service" }
-
-        if config.enable_recaptcha
-          { "recaptcha_token", exists: "true", "Please allow Google reCAPTCHA to load in order to register (sorry!)" }
-      }
+      if config.enable_recaptcha
+        { "recaptcha_token", types.valid_text, error: "Please allow Google reCAPTCHA to load in order to register (sorry!)" }
+    }, (params) =>
+      assert_error params.password == params.password_repeat, "The passwords provided don't match"
 
       recaptcha_result = if config.enable_recaptcha
         import verify_recaptcha from require "helpers.recaptcha"
         ip = require("helpers.remote_addr")!
-        response = verify_recaptcha @params.recaptcha_token, ip
+        response = verify_recaptcha params.recaptcha_token, ip
         assert_error response and response.success, "reCAPTCHA response invalid, please try again"
         response
 
-      assert_error @params.email\match(".@."), "invalid email address"
-
       user = assert_error Users\create {
-        username: @params.username
-        email: @params.email
-        password: @params.password
+        username: params.username
+        email: params.email
+        password: params.password
       }
 
       user\write_session @
@@ -304,14 +299,11 @@ class UsersApplication extends lapis.Application
       @flow("user")\load_return_to!
 
     GET: => render: true
-    POST: capture_errors =>
-      assert_csrf @
-      assert_valid @params, {
-        { "username", exists: true }
-        { "password", exists: true }
-      }
-
-      user = assert_error Users\login @params.username, @params.password
+    POST: capture_errors with_csrf with_params {
+      {"username", types.limited_text 25, 2}
+      {"password", types.valid_text}
+    }, (params) =>
+      user = assert_error Users\login params.username, params.password
       user\write_session @
 
       import unset_register_referrer from require "helpers.referrers"
@@ -334,32 +326,25 @@ class UsersApplication extends lapis.Application
     GET: =>
       render: true
 
-    POST: capture_errors_json =>
-      assert_csrf @
-      assert_valid @params, {
-        {"user", type: "table"}
-        {"user_profile", type: "table"}
+    POST: capture_errors_json with_csrf =>
+      null_empty = types.empty / db.NULL
+
+      params = assert_valid @params, types.params_shape {
+        {"user", types.params_shape {
+          {"display_name", null_empty + types.limited_text 120}
+        }}
+        {"user_profile", types.params_shape {
+          {"website", null_empty + shapes.url}
+          {"twitter", null_empty + shapes.twitter_username }
+          {"bio", null_empty + types.limited_text 1024*100 }
+        }}
       }
 
-      user_update = @params.user
-      trim_filter user_update, {"display_name"}
-
-      assert_valid user_update, {
-        {"display_name", optional: true, max_length: 120}
+      @user\update {
+        display_name: params.user.display_name
       }
 
-      user_update.display_name or= db.NULL
-      @user\update user_update
-
-      profile_update = @params.user_profile
-      trim_filter profile_update, {"website", "twitter", "bio"}, db.NULL
-
-      assert_valid profile_update, {
-        {"bio", optional: true, max_length: 1024*1024}
-      }
-
-      @user\get_user_profile!\update profile_update
-
+      @user\get_user_profile!\update params.user_profile
       @session.flash = "Profile updated"
 
       @user\refresh_spam_scan!

@@ -21,6 +21,12 @@ class UserSettings extends require "widgets.page"
 
       profile = @user_profile or {}
 
+      @input_row "Username", ->
+        strong @user.username
+
+      @input_row "Email", ->
+        strong @user.email
+
       @text_input_row {
         label: "Display name"
         sub: "How others will see your name"
@@ -28,6 +34,7 @@ class UserSettings extends require "widgets.page"
         placeholder: "Optional"
         value: @user.display_name
       }
+
 
       @text_input_row {
         label: "Website"
@@ -43,7 +50,7 @@ class UserSettings extends require "widgets.page"
         value: profile.twitter
       }
 
-      @input_row "Bio", "A little about you and your interests, publicly visible", ->
+      @input_row "Bio", "A little about you and your goals, shown on your profile, publicly visible", ->
         widget MarkdownEditor {
           name: "user_profile[bio]"
           placeholder: "Optional"
