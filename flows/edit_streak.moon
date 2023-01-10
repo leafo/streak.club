@@ -1,75 +1,56 @@
 
 date = require "date"
-
 db = require "lapis.db"
+types = require "lapis.validate.types"
+shapes = require "helpers.shapes"
+
+import with_params from require "lapis.validate"
 
 import assert_error from require "lapis.application"
-import assert_valid from require "lapis.validate"
-import trim_filter from require "lapis.util"
 import filter_update from require "helpers.model"
-import assert_timezone from require "helpers.app"
 
 import Flow from require "lapis.flow"
 import Streaks from require "models"
 
+null_empty = types.empty / db.NULL
+
 class EditStreakFlow extends Flow
-  validate_params: =>
-    assert_valid @params, {
-      {"streak", type: "table"}
-    }
+  validate_params: with_params {
+    {"timezone", shapes.timezone}
+    {"streak", types.params_shape {
+      {"title", types.limited_text 256}
+      {"short_description", types.limited_text 1024 * 2}
+      {"description", types.limited_text(1024 * 10) * -shapes.empty_html}
 
-    streak_params = @params.streak
-    trim_filter streak_params, {
-      "title", "description", "short_description", "start_date", "end_date",
-      "hour_offset", "publish_status", "rate", "category", "twitter_hash",
-      "late_submit_type", "membership_type", "community_type"
-    }
+      {"start_date", shapes.datestamp}
+      {"end_date", null_empty + shapes.datestamp}
+      {"hour_offset", types.empty / 0 + (types.limited_text(10) * types.pattern("^-?%d+$") / tonumber)\describe("integer") * types.range(-12, 12)}
 
-    assert_valid streak_params, {
-      {"title", exists: true, max_length: 1024}
-      {"short_description", exists: true, max_length: 1024 * 10}
-      {"description", exists: true, max_length: 1024 * 10}
-      {"start_date", exists: true, max_length: 1024}
-      {"end_date", optional: true, max_length: 1024}
-      {"hour_offset", exists: true}
-      {"publish_status", one_of: Streaks.publish_statuses}
-      {"category", one_of: Streaks.categories}
-      {"membership_type", one_of: Streaks.membership_types}
-      {"rate", one_of: Streaks.rates}
-      {"late_submit_type", one_of: Streaks.late_submit_types}
-      {"community_type", one_of: Streaks.community_types}
-      {"twitter_hash", optional: true, max_length: 139}
-    }
+      {"publish_status", types.db_enum Streaks.publish_statuses}
+      {"category", types.db_enum Streaks.categories}
+      {"membership_type", types.db_enum Streaks.membership_types}
+      {"rate", types.db_enum Streaks.rates}
+      {"late_submit_type", types.db_enum Streaks.late_submit_types}
+      {"community_type", types.db_enum Streaks.community_types}
+      {"twitter_hash", null_empty + shapes.twitter_hash}
+    }}
+  }, (params) =>
+    streak_params = params.streak
+    timezone = params.timezone
 
-    timezone = assert_timezone @params.timezone
-
+    -- apply timezone offset to put hour_offset into UTC time
     timezone_offset = tonumber timezone.utc_offset\match "^(-?%d+)"
-    hour_offset = tonumber(streak_params.hour_offset) or 0
-
-    assert_error hour_offset <= 12 and hour_offset >= -12,
-      "hour offset must not be more than 12 hours"
-
-    streak_params.hour_offset = timezone_offset - hour_offset
+    streak_params.hour_offset = timezone_offset - streak_params.hour_offset
 
     start_date = date streak_params.start_date
 
-    if streak_params.end_date
+    if streak_params.end_date != db.NULL
       end_date = date streak_params.end_date
       assert_error start_date < end_date, "start date must be before end date"
 
     if streak_params.rate == "monthly"
       assert_error start_date\getday! <= 28,
-        "Monthly streaks must have a start date before the 29th day of the month, sorry!"
-
-    streak_params.end_date or= db.NULL
-
-    if h = streak_params.twitter_hash
-      h = h\gsub "%s", ""
-      h = h\gsub "#", ""
-      h = nil if #h == 0
-      streak_params.twitter_hash = h
-
-    streak_params.twitter_hash or= db.NULL
+        "Monthly streaks must have a start date before the 29th day of the month"
 
     streak_params
 
@@ -77,7 +58,7 @@ class EditStreakFlow extends Flow
     params = @validate_params!
     params.user_id = @current_user.id
 
-    assert_error not @current_user\is_suspended!, "Could not create your streak, contact admin"
+    assert_error not @current_user\is_suspended!, "Your account is blocked, contact an admin"
 
     streak = Streaks\create params
 
@@ -93,13 +74,6 @@ class EditStreakFlow extends Flow
   edit_streak: =>
     assert @streak
     params = @validate_params!
-
-    params.rate = Streaks.rates\for_db params.rate
-    params.publish_status = Streaks.publish_statuses\for_db params.publish_status
-    params.category = Streaks.categories\for_db params.category
-    params.late_submit_type = Streaks.late_submit_types\for_db params.late_submit_type
-    params.membership_type = Streaks.membership_types\for_db params.membership_type
-    params.community_type = Streaks.community_types\for_db params.community_type
 
     filter_update @streak, params
 
