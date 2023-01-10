@@ -10,7 +10,7 @@ import assert_valid, with_params from require "lapis.validate"
 types = require "lapis.validate.types"
 shapes = require "helpers.shapes"
 
-import trim_filter, slugify from require "lapis.util"
+import slugify from require "lapis.util"
 
 import Users, Uploads, Submissions, Streaks, StreakUsers from require "models"
 
@@ -37,9 +37,12 @@ find_user = with_params {
 class UsersApplication extends lapis.Application
   [user_profile: "/u/:slug"]: capture_errors {
     on_error: => not_found
-    =>
+    with_params {
+      {"page", shapes.page_number}
+      {"format", types.empty + "json"}
+    }, (params) =>
       find_user @
-      assert_page @
+      @page = params.page
 
       @user_profile = @user\get_user_profile!
 
@@ -56,7 +59,7 @@ class UsersApplication extends lapis.Application
 
       @submissions = pager\get_page @page
 
-      if @params.format == "json"
+      if params.format == "json"
         return render_submissions_page @, SUBMISSIONS_PER_PAGE, {
           hide_hidden: true
         }
@@ -153,12 +156,16 @@ class UsersApplication extends lapis.Application
 
   [user_tag: "/u/:slug/tag/:tag_slug"]: capture_errors {
     on_error: => not_found
-    =>
+    with_params {
+      {"page", shapes.page_number}
+      {"tag_slug", types.limited_text 100}
+      {"format", types.empty + "json"}
+    }, (params) =>
       find_user @
-      assert_page @
+      @page = params.page
 
       pager = @user\find_submissions {
-        tag: @params.tag_slug
+        tag: params.tag_slug
         show_hidden: @current_user and
           (@current_user\is_admin! or @current_user.id == @user.id)
 
@@ -172,7 +179,7 @@ class UsersApplication extends lapis.Application
       @submissions = pager\get_page @page
       @has_more = #@submissions == SUBMISSIONS_PER_PAGE
 
-      if @params.format == "json"
+      if params.format == "json"
         return render_submissions_page @, SUBMISSIONS_PER_PAGE, {
           hide_hidden: true
         }
@@ -310,7 +317,7 @@ class UsersApplication extends lapis.Application
       unset_register_referrer!
 
       @session.flash = "Welcome back!"
-      redirect_to: @params.return_to or @url_for("index")
+      redirect_to: @return_to or @url_for("index")
   }
 
   [user_logout: "/logout"]: =>
@@ -391,10 +398,8 @@ class UsersApplication extends lapis.Application
   [user_forgot_password: "/user/forgot-password"]: respond_to {
     before: =>
       import UserProfiles from require "models"
-      trim_filter @params
-
-      if @params.token and "string" == type @params.token
-        id, token = @params.token\match "^(%d+)-(.*)"
+      if token = types.valid_text\transform @params.token
+        id, token = token\match "^(%d+)-(.*)"
         if id
           @profile = UserProfiles\find {
             user_id: id
@@ -407,26 +412,27 @@ class UsersApplication extends lapis.Application
     GET: capture_errors =>
       render: true
 
-    POST: capture_errors =>
-      assert_csrf @
-
+    POST: capture_errors with_csrf =>
       if @profile
-        assert_valid @params, {
-          { "password", exists: true, min_length: 2 }
-          { "password_repeat", equals: @params.password }
+        params = assert_valid @params, types.params_shape {
+          {"password", types.valid_text}
+          {"password_repeat", types.valid_text}
         }
-        @user\set_password @params.password, @
+
+        assert_error params.password == params.password_repeat, "The passwords provided don't match"
+
+        @user\set_password params.password, @
         @profile\update { password_reset_token: db.NULL }
         @session.flash = "Your password has been updated"
         @user\write_session @
         redirect_to: @url_for"index"
       else
-        assert_valid @params, {
-          { "email", exists: true, min_length: 3 }
+        params = assert_valid @params, types.params_shape {
+          {"email", shapes.email}
         }
 
         user = assert_error Users\find({
-          [db.raw("lower(email)")]: @params.email\lower!
+          [db.raw("lower(email)")]: params.email\lower!
         }), "don't know anyone with that email"
 
         token = user\generate_password_reset!
