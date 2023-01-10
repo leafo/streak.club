@@ -1,10 +1,11 @@
 
 import Flow from require "lapis.flow"
 
-import assert_page from require "helpers.app"
-import assert_csrf from require "helpers.csrf"
-import assert_valid from require "lapis.validate"
+import assert_page, with_csrf from require "helpers.app"
+import with_params from require "lapis.validate"
 import assert_error from require "lapis.application"
+
+types = require "lapis.validate.types"
 
 import preload from require "lapis.db.model"
 
@@ -13,40 +14,40 @@ import SUBMISSIONS_PER_PAGE, render_submissions_page from require "helpers.submi
 class StreakFlow extends Flow
   expose_assigns: true
 
-  load_streak: (check_slug=true) =>
-    assert_valid @params, {
-      {"id", is_integer: true}
-      {"stug", type: "string", optional: true}
-    }
-
+  load_streak: with_params {
+    {"id", types.db_id}
+    {"slug", types.empty + types.limited_text 256}
+  }, (params, check_slug=true) =>
     import Streaks from require "models"
 
-    @streak = assert_error Streaks\find(@params.id), "invalid streak"
+    @streak = assert_error Streaks\find(params.id), "invalid streak"
 
     assert_error @streak\allowed_to_view @current_user
     @streak_user = @streak\has_user @current_user
 
-    if check_slug
-      if @params.slug != @streak\slug!
-        assert_error @req.cmd_mth == "GET", "invalid slug"
-        ps = {k, v for k,v in pairs @params}
-        ps.slug = @streak\slug!
+    if check_slug and params.slug != @streak\slug!
+      assert_error @req.method == "GET", "invalid slug"
+      ps = {k, v for k,v in pairs @params}
+      ps.slug = @streak\slug!
 
-        url = if @route_name
-          @url_for @route_name, ps, @GET
-        else
-          @url_for @streak
+      url = if @route_name
+        @url_for @route_name, ps, @GET
+      else
+        @url_for @streak
 
-        @write {
-          status: 301
-          redirect_to: url
-        }
+      @write {
+        status: 301
+        redirect_to: url
+      }
 
-        return nil, "invalid slug"
+      return nil, "invalid slug"
 
     @streak
 
-  render: =>
+  render: with_params {
+    {"format", types.empty + types.one_of {"json"}}
+    {"embed", types.empty + types.any / true}
+  }, (params) =>
     assert_page @
     import Submissions from require "models"
     pager = @streak\find_submissions {
@@ -59,7 +60,7 @@ class StreakFlow extends Flow
 
     @submissions = pager\get_page @page
 
-    if @params.format == "json"
+    if params.format == "json"
       return render_submissions_page @, SUBMISSIONS_PER_PAGE
 
     @title = @streak.title
@@ -70,7 +71,7 @@ class StreakFlow extends Flow
     if @page and @page > 1
       @canonical_url ..= "?page=#{@page}"
 
-    @embed_page = not not @params.embed
+    @embed_page = params.embed
 
     if @streak_user
       if @current_submit = @streak_user\current_unit_submission!
@@ -90,13 +91,10 @@ class StreakFlow extends Flow
 
     render: true
 
-  do_streak_action: =>
-    assert_csrf @
-    assert_valid @params, {
-      {"action", one_of: {"join_streak", "leave_streak"}}
-    }
-
-    res = switch @params.action
+  do_streak_action: with_csrf with_params {
+    {"action", types.one_of {"join_streak", "leave_streak"}}
+  }, (params) =>
+    res = switch params.action
       when "join_streak"
         if @streak\join @current_user
           import Notifications from require "models"
