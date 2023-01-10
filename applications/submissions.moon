@@ -1,7 +1,10 @@
 
 lapis = require "lapis"
 
-import assert_valid from require "lapis.validate"
+import with_params from require "lapis.validate"
+
+types = require "lapis.validate.types"
+
 import
   respond_to
   capture_errors
@@ -9,28 +12,23 @@ import
   capture_errors_json
   from require "lapis.application"
 
-import not_found, require_login, assert_unit_date, assert_page from require "helpers.app"
-import assert_csrf from require "helpers.csrf"
+import not_found, require_login, assert_unit_date, assert_page, with_csrf from require "helpers.app"
 import assert_signed_url from require "helpers.url"
 
 import Submissions, SubmissionComments from require "models"
 
 COMMENTS_PER_PAGE = 25
 
-find_submission = =>
-  assert_valid @params, {
-    {"id", is_integer: true}
-  }
-
-  @submission = Submissions\find @params.id
+find_submission = with_params {
+  {"id", types.db_id}
+}, (params) =>
+  @submission = Submissions\find params.id
   assert_error @submission, "invalid submission"
 
-find_comment = =>
-  assert_valid @params, {
-    {"id", is_integer: true}
-  }
-
-  @comment = SubmissionComments\find @params.id
+find_comment = with_params {
+  {"id", types.db_id}
+}, (params) =>
+  @comment = SubmissionComments\find params.id
   assert_error @comment, "invalid comment"
 
 view_submission = capture_errors {
@@ -144,8 +142,7 @@ class SubmissionsApplication extends lapis.Application
         @suggested_tags = @current_user\suggested_submission_tags!
         render: "edit_submission"
 
-      POST: capture_errors_json =>
-        assert_csrf @
+      POST: capture_errors_json with_csrf =>
         submission = @flow("edit_submission")\create_submission!
         @session.flash = "Submission added"
 
@@ -172,11 +169,12 @@ class SubmissionsApplication extends lapis.Application
         @suggested_tags = @current_user\suggested_submission_tags!
         render: true
 
-      POST: capture_errors_json =>
-        assert_csrf @
+      POST: capture_errors_json with_csrf with_params {
+        {"json", types.empty + types.any / true }
+      }, (params) =>
         @flow("edit_submission")\edit_submission!
 
-        if @params.json
+        if params.json
           {
             json: {
               success: true
@@ -218,18 +216,14 @@ class SubmissionsApplication extends lapis.Application
     GET: =>
       render: true
 
-    POST: =>
-      assert_csrf @
-
-      assert_valid @params, {
-        {"action", one_of: {"unsubmit"}}
-        {"streak_id", is_integer: true}
-      }
-
+    POST: with_csrf with_params {
+      {"action", types.one_of {"unsubmit"}}
+      {"streak_id", types.db_id}
+    }, (params) =>
       local streak_submission
 
       for submit in *@submits
-        if submit.streak_id == tonumber @params.streak_id
+        if submit.streak_id == tonumber params.streak_id
           streak_submission = submit
           break
 
@@ -237,7 +231,7 @@ class SubmissionsApplication extends lapis.Application
       assert_error streak_submission\allowed_to_moderate(@current_user),
         "invalid submission"
 
-      switch @params.action
+      switch params.action
         when "unsubmit"
           @session.flash = "Removed from streak"
           streak_submission\delete!
@@ -261,9 +255,7 @@ class SubmissionsApplication extends lapis.Application
 
       json: @flow("submission")\like_props @submission, like
 
-    POST: require_login =>
-      assert_csrf @
-
+    POST: require_login with_csrf =>
       if @current_user\is_suspended!
         return json: {
           success: false
@@ -284,9 +276,8 @@ class SubmissionsApplication extends lapis.Application
       json: { success: not not like, count: @submission.likes_count }
   }
 
-  [submission_unlike: "/submission/:id/unlike"]: require_login capture_errors_json =>
+  [submission_unlike: "/submission/:id/unlike"]: require_login capture_errors_json with_csrf =>
     find_submission @
-    assert_csrf @
 
     import SubmissionLikes from require "models"
 
@@ -314,9 +305,7 @@ class SubmissionsApplication extends lapis.Application
       GET: =>
         redirect_to: @url_for "view_submission", id: @submission.id
 
-      POST: capture_errors_json =>
-        assert_csrf @
-
+      POST: capture_errors_json with_csrf =>
         assert_error not @current_user\is_suspended!, "Could not post your comment, contact admin"
 
         comment = @flow("edit_comment")\create_comment!
@@ -344,8 +333,7 @@ class SubmissionsApplication extends lapis.Application
       submission = assert_error @comment\get_submission!, "invalid submission"
       redirect_to: @url_for submission
 
-    POST: =>
-      assert_csrf @
+    POST: with_csrf =>
       @flow("edit_comment")\edit_comment!
       @comment\get_user!
 
@@ -363,8 +351,7 @@ class SubmissionsApplication extends lapis.Application
   }
 
   [delete_comment: "/submission-comment/:id/delete"]: require_login capture_errors_json respond_to {
-    POST: =>
-      assert_csrf @
+    POST: with_csrf =>
       find_comment @
       assert_error @comment\allowed_to_delete(@current_user), "invalid comment"
 
