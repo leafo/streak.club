@@ -136,7 +136,7 @@ class Streaks extends Model
     opts.membership_type = @membership_types\for_db opts.membership_type or "public"
     opts.community_type = @community_types\for_db opts.community_type or "discussion"
 
-    Model.create @, opts
+    super opts
 
   @group_by_state: (streaks) =>
     grouped = {}
