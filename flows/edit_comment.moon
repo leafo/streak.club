@@ -1,34 +1,23 @@
 
 db = require "lapis.db"
 
-import assert_error, yield_error from require "lapis.application"
-import assert_valid from require "lapis.validate"
-import trim_filter from require "lapis.util"
+import with_params from require "lapis.validate"
 import filter_update from require "helpers.model"
-import is_empty_html from require "helpers.html"
+
+types = require "lapis.validate.types"
+shapes = require "helpers.shapes"
 
 import Flow from require "lapis.flow"
 
 import SubmissionComments, Notifications from require "models"
 
 class EditCommentFlow extends Flow
-  validate_params: =>
-    assert_valid @params, {
-      {"comment", type: "table"}
-    }
-
-    comment_params = @params.comment
-    trim_filter comment_params, { "body", "source" }
-
-    assert_valid comment_params, {
-      {"body", optional: true, max_length: 1024 * 10}
-      {"source", optional: true, one_of: SubmissionComments.sources}
-    }
-
-    assert_error comment_params.body and not is_empty_html(comment_params.body),
-      "comment can't be empty"
-
-    comment_params
+  validate_params: with_params {
+    {"comment", types.params_shape {
+      {"body", types.limited_text(1024 * 10) * -shapes.empty_html}
+      {"source", types.empty + types.db_enum SubmissionComments.sources}
+    }}
+  }, (params) => params.comment
 
   create_comment: =>
     params = @validate_params!
