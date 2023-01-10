@@ -150,7 +150,7 @@ describe "submissions", ->
       }
 
       assert.same {
-        errors: { "you must choose a streak to submit to" }
+        errors: { "You must select at least one streak to submit to" }
       }, res
       assert.same 0, #Submissions\select!
 
@@ -164,7 +164,7 @@ describe "submissions", ->
       }
 
       assert.same {
-        errors: { "you must choose a streak to submit to" }
+        errors: { "You must select at least one streak to submit to" }
       }, res
       assert.same 0, #Submissions\select!
 
