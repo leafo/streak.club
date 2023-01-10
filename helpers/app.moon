@@ -27,6 +27,12 @@ require_admin = (fn) ->
     else
       redirect_to: @url_for"index"
 
+with_csrf = (fn) ->
+  import assert_csrf from require "helpers.csrf"
+  (...) =>
+    assert_csrf @
+    fn @, ...
+
 assert_timezone = (tz) ->
   assert_error tz, "missing timezone"
   assert_error type(tz) == "string", "missing timezone"
@@ -102,4 +108,4 @@ redirect_for_https = =>
 
 { :not_found, :require_login, :require_admin, :assert_timezone,
   :login_and_return_url, :assert_unit_date, :assert_page, :find_streak,
-  :redirect_for_https, :is_crawler }
+  :redirect_for_https, :is_crawler, :with_csrf }
