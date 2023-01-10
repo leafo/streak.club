@@ -6,12 +6,16 @@ import preload from require "lapis.db.model"
 
 config = require("lapis.config").get!
 
-import respond_to, capture_errors_json, assert_error from require "lapis.application"
-import assert_valid from require "lapis.validate"
-import trim_filter from require "lapis.util"
+types = require "lapis.validate.types"
+shapes = require "helpers.shapes"
 
-import not_found, assert_page from require "helpers.app"
+import respond_to, capture_errors_json, assert_error from require "lapis.application"
+import assert_valid, with_params from require "lapis.validate"
+
+import not_found, assert_page, with_csrf from require "helpers.app"
 import assert_csrf from require "helpers.csrf"
+
+import ExceptionRequests, ExceptionTypes from require "lapis.exceptions.models"
 
 class AdminApplication extends lapis.Application
   @name: "admin."
@@ -25,17 +29,15 @@ class AdminApplication extends lapis.Application
     render: true
 
   [feature_submission: "/feature-submission/:id"]: respond_to {
-    POST: capture_errors_json =>
-      assert_csrf @
+    POST: capture_errors_json with_csrf with_params {
+      {"id", types.db_id}
+      {"action", types.one_of {"create", "delete"}}
+    }, (params) =>
       import Submissions, FeaturedSubmissions from require "models"
 
-      submission = assert_error Submissions\find(@params.id), "invalid submission"
+      submission = assert_error Submissions\find(params.id), "invalid submission"
 
-      assert_valid @params, {
-        {"action", one_of: {"create", "delete"}}
-      }
-
-      res = switch @params.action
+      res = switch params.action
         when "create"
           FeaturedSubmissions\create submission_id: submission.id
         when "delete"
@@ -46,18 +48,15 @@ class AdminApplication extends lapis.Application
 
 
   [featured_streak: "/feature-streak/:id"]: respond_to {
-    POST: capture_errors_json =>
-      assert_csrf @
-
+    POST: capture_errors_json with_csrf with_params {
+      {"id", types.db_id}
+      {"action", types.one_of {"create", "delete"}}
+    }, (params) =>
       import Streaks, FeaturedStreaks from require "models"
 
-      streak = assert_error Streaks\find(@params.id), "invalid streak"
+      streak = assert_error Streaks\find(params.id), "invalid streak"
 
-      assert_valid @params, {
-        {"action", one_of: {"create", "delete"}}
-      }
-
-      res = switch @params.action
+      res = switch params.action
         when "create"
           FeaturedStreaks\create streak_id: streak.id
         when "delete"
@@ -66,25 +65,29 @@ class AdminApplication extends lapis.Application
       json: { success: true, :res }
   }
 
-  [streaks: "/streaks"]: capture_errors_json =>
+  [streaks: "/streaks"]: capture_errors_json with_params {
+    {"page", shapes.page_number}
+  }, (params) =>
     import Streaks, Users from require "models"
 
     @pager = Streaks\paginated "order by id desc", {
       per_page: 50
       prepare_results: (streaks) ->
-        Users\include_in streaks, "user_id"
+        preload streaks, "user"
         streaks
     }
 
-    assert_page @
+    @page = params.page
     @streaks = @pager\get_page @page
     render: true
 
 
   [streak: "/streak/:id"]: capture_errors_json respond_to {
-    before: =>
+    before: with_params {
+      {"id", shapes.db_id}
+    }, (params) =>
       import Streaks, RelatedStreaks from require "models"
-      @streak = assert_error Streaks\find(@params.id), "invalid streak"
+      @streak = assert_error Streaks\find(params.id), "invalid streak"
 
       @related = @streak\get_related_streaks!
       @other_related = @streak\get_other_related_streaks!
@@ -98,41 +101,37 @@ class AdminApplication extends lapis.Application
     GET: =>
       render: true
 
-    POST: =>
-      assert_csrf @
-      assert_valid @params, {
-        {"related", optional: true, type: "table"}
-        {"action", one_of: {"add_related", "remove_related"}}
-      }
-
+    POST: with_csrf with_params {
+      {"action", types.one_of {"add_related", "remove_related"}}
+    }, (params) =>
       import Streaks, RelatedStreaks from require "models"
 
-      switch @params.action
+      switch params.action
         when "remove_related"
-          assert_valid @params, {
-            {"related_streak_id", is_integer: true}
+          {:related_streak_id} = assert_valid @params, types.params_shape {
+            {"related_streak_id", types.db_id}
           }
 
-          rs = RelatedStreaks\find @params.related_streak_id
+          rs = RelatedStreaks\find related_streak_id
           if rs
             rs\delete!
             @session.flash = "related streak deleted"
 
         when "add_related"
-          assert_valid @params.related, {
-            {"type", one_of: {unpack RelatedStreaks.types}}
-            {"streak_id", is_integer: true}
-            {"reason", type: "string", optional: true}
+          new_related = assert_valid @params.related, types.params_shape {
+            {"type", types.db_enum RelatedStreaks.types}
+            {"streak_id", types.db_id}
+            {"reason", types.empty + types.limited_text 256}
           }
 
-          other_streak = Streaks\find @params.related.streak_id
+          other_streak = Streaks\find new_related.streak_id
           assert_error other_streak, "invalid other streak"
 
           RelatedStreaks\create {
             streak_id: @streak.id
-            type: @params.related.type
+            type: new_related.type
             other_streak_id: other_streak.id
-            reason: @params.related.reason
+            reason: new_related.reason
           }
 
           @session.flash = "related streak added"
@@ -142,9 +141,11 @@ class AdminApplication extends lapis.Application
 
 
   [submission: "/submission/:id"]: capture_errors_json respond_to {
-    before: =>
+    before: with_params {
+      {"id", types.db_id}
+    }, (params) =>
       import Submissions from require "models"
-      @submission = assert_error Submissions\find(@params.id), "invalid submission"
+      @submission = assert_error Submissions\find(params.id), "invalid submission"
 
     GET: =>
       import Uploads from require "models"
@@ -155,62 +156,64 @@ class AdminApplication extends lapis.Application
 
       render: true
 
-    POST: =>
-      assert_csrf @
-      assert_valid @params, {
-        {"action", one_of: {"remove_submission", "update_submission"}}
-      }
-
+    POST: with_csrf with_params {
+      {"action", types.one_of {"remove_submission", "update_submission"}}
+    }, (params) =>
       import StreakSubmissions from require "models"
 
-      switch @params.action
+      switch params.action
         when "remove_submission"
-          assert_error @params.confirm == "true", "Please tick confirm"
+          {:streak_id} = assert_valid @params, types.params_shape {
+            {"confirm", -types.empty}
+            {"streak_id", types.db_id}
+          }
 
           submit = StreakSubmissions\find {
             submission_id: @submission.id
-            streak_id: @params.streak_id
+            streak_id: streak_id
           }
 
           submit\delete!
           @session.flash = "Submission removed from streak"
         when "update_submission"
+          {:streak_id, submit: submit_update} = assert_valid @params, types.params_shape {
+            {"streak_id", types.db_id}
+            {"submit", types.params_shape {
+              {"submit_time", shapes.timestamp}
+              {"late_submit", types.empty / false + types.any / true}
+            }}
+          }
+
           submit = StreakSubmissions\find {
             submission_id: @submission.id
-            streak_id: @params.streak_id
+            streak_id: streak_id
           }
 
-          assert_valid @params, {
-            {"submit", type: "table"}
-          }
-
-          submit_update = trim_filter @params.submit
-          submit\update {
-            submit_time: submit_update.submit_time
-            late_submit: not not submit_update.late_submit
-          }
+          submit\update submit_update
           @session.flash = "Submission updated"
 
       redirect_to: @admin_url_for @submission
   }
 
   [users: "/users"]: capture_errors_json respond_to {
-    POST: =>
-      assert_csrf @
-
-      assert_valid @params, {
-        {"action", one_of: {"bulk_train_spam"}}
-      }
-
+    POST: with_csrf with_params {
+      {"action", types.one_of {"bulk_train_spam"}}
+      {"confirm", -types.empty}
+    }, (params) =>
       import Users, SpamScans from require "models"
 
       get_users = ->
-        user_ids = [k for k,v in pairs(@params.user_ids) when v == "on"]
+        {:user_ids} = assert_valid @params, types.params_shape {
+          {"user_ids", types.map_of(types.db_id, "on") / (t) ->
+            [k for k in pairs t]
+          }
+        }
+
         Users\select "where id in ?", db.list user_ids
 
       updated = 0
 
-      switch @params.action
+      switch params.action
         when "bulk_train_spam"
           users = get_users!
           preload users, "spam_scan"
@@ -226,7 +229,13 @@ class AdminApplication extends lapis.Application
 
       json: { success: true, :updated }
 
-    GET: =>
+    GET: with_params {
+      {"page", shapes.page_number}
+      {"id", types.empty + types.db_id}
+      {"user_token", types.empty + types.valid_text}
+      {"exclude_token", types.empty + types.valid_text}
+      {"spam_untrained", types.empty / false + types.any / true}
+    }, (params) =>
       import Users from require "models"
 
       wheres = {}
@@ -236,16 +245,16 @@ class AdminApplication extends lapis.Application
           q = db.interpolate_query q, ...
         table.insert wheres, "(#{q})"
 
-      if id = tonumber @params.id
-        add_where "id = ?", id
+      if params.id
+        add_where "id = ?", params.id
 
-      if @params.user_token
-        add_where "exists(select 1 from spam_scans where user_id = users.id and user_tokens @> ARRAY[?])", @params.user_token
+      if params.user_token
+        add_where "exists(select 1 from spam_scans where user_id = users.id and user_tokens @> ARRAY[?])", params.user_token
 
-      if @params.exclude_token
-        add_where "not exists(select 1 from spam_scans where user_id = users.id and user_tokens @> ARRAY[?])", @params.exclude_token
+      if params.exclude_token
+        add_where "not exists(select 1 from spam_scans where user_id = users.id and user_tokens @> ARRAY[?])", params.exclude_token
 
-      if @params.spam_untrained
+      if params.spam_untrained
         import SpamScans from require "models"
         add_where "exists(select 1 from spam_scans where user_id = users.id and train_status = ?) or not exists(select 1 from spam_scans where user_id = users.id)", SpamScans.train_statuses.untrained
 
@@ -261,40 +270,38 @@ class AdminApplication extends lapis.Application
           users
       }
 
-      assert_page @
+      @page = params.page
       @users = @pager\get_page @page
 
       render: true
   }
 
   [user: "/user/:id"]: capture_errors_json respond_to {
-    before: =>
+    before: with_params {
+      {"id", types.db_id}
+    }, (params) =>
       import Users from require "models"
-      @user = assert_error Users\find(@params.id), "invalid user"
+      @user = assert_error Users\find(params.id), "invalid user"
 
     GET: =>
       render: true
 
-    POST: =>
-      assert_csrf @
-
-      assert_valid @params, {
-        {"action", one_of: {
-          "set_password"
-          "update_flags"
-        }}
-      }
-
+    POST: with_csrf with_params {
+      {"action", types.one_of { "set_password", "update_flags" }}
+    }, =>
       switch @params.action
         when "set_password"
-          assert_valid @params, {
-            {"password", exists: true}
+          {:password} = assert_valid @params, types.params_shape {
+            {"password", types.valid_text}
           }
-          @user\set_password @params.password
+          @user\set_password password
           @session.flash = "Password updated"
 
         when "update_flags"
-          update = { flag_name, @params[flag_name] == "on" for flag_name in *{"spam", "suspended"} }
+          update = assert_valid @params, types.params_shape {
+            {"spam", types.empty / false + types.literal("on") / true}
+            {"suspended", types.empty / false + types.literal("on") / true}
+          }
 
           if @user\update_flags update
             @session.flash = "updated flags to: #{@user.flags}"
@@ -303,17 +310,16 @@ class AdminApplication extends lapis.Application
   }
 
   [send_streak_email: "/email/:streak_id/email"]: capture_errors_json respond_to {
-    before: =>
+    before: with_params {
+      {"streak_id", types.db_id}
+      {"email", types.one_of {"deadline", "late_submit"}}
+    }, (params)=>
       import Streaks from require "models"
-      assert_valid @params, {
-        {"streak_id", is_integer: true}
-        {"email", one_of: {"deadline", "late_submit"}}
-      }
-
-      @streak = assert_error Streaks\find(@params.streak_id), "invalid streak"
+      @streak = assert_error Streaks\find(params.streak_id), "invalid streak"
+      @email_type = params.email
 
     GET: =>
-      emails = switch @params.email
+      emails = switch @email_type
         when "deadline"
           [su\get_user!.email for su in *@streak\find_unsubmitted_users!]
         when "late_submit"
@@ -328,9 +334,8 @@ class AdminApplication extends lapis.Application
         emails: emails
       }
 
-    POST: =>
-      assert_csrf @
-      res = switch @params.email
+    POST: with_csrf =>
+      res = switch @email_type
         when "deadline"
           { @streak\send_deadline_email @ }
         when "late_submit"
@@ -341,50 +346,42 @@ class AdminApplication extends lapis.Application
   }
 
   [email_streak: "/email/:streak_id"]: capture_errors_json respond_to {
-    before: =>
+    before: with_params {
+      {"streak_id", types.db_id}
+    }, (params) =>
       import Streaks from require "models"
-      assert_valid @params, {
-        {"streak_id", is_integer: true}
-      }
-      @streak = assert_error Streaks\find(@params.streak_id), "invalid streak"
+      @streak = assert_error Streaks\find(params.streak_id), "invalid streak"
 
     GET: => render: true
 
-    POST: =>
-      assert_csrf @
-
+    POST: with_csrf with_params {
+      {"email", types.params_shape {
+        {"subject", types.trimmed_text}
+        {"body", types.trimmed_text}
+      }}
+      {"action", types.one_of { "dry_run", "preview", "send" }}
+    }, (params) =>
       import Users from require "models"
-      assert_valid @params, {
-        {"email", type: "table"}
-        {"action", one_of: {"dry_run", "preview", "send"}}
-      }
-
-      email = trim_filter @params.email
-
-      assert_valid email, {
-        {"subject", exists: true}
-        {"body", exists: true}
-      }
 
       users = Users\select "
         where id in
           (select user_id from streak_users where streak_id = ?)
       ", @streak.id, fields: "id, username, email, display_name"
 
-      if @params.action == "dry_run"
+      if params.action == "dry_run"
         return json: {
           emails: [u.email for u in *users]
         }
 
-      recipeints = if @params.action == "preview"
+      recipeints = if params.action == "preview"
         { { config.admin_email, {name_for_display: "Test user"}} }
       else
         [{u.email, {name_for_display: u\name_for_display!}} for u in *users]
 
       template = require "emails.generic_email"
       t = template {
-        email_body: email.body
-        email_subject: email.subject
+        email_body: params.email.body
+        email_subject: params.email.subject
         show_tag_unsubscribe: true
       }
       t\include_helper @
@@ -410,7 +407,9 @@ class AdminApplication extends lapis.Application
 
   }
 
-  [comments: "/comments"]: =>
+  [comments: "/comments"]: capture_errors_json with_params {
+    {"page", shapes.page_number}
+  }, (params) =>
     import SubmissionComments from require "models"
 
     @pager = SubmissionComments\paginated "order by id desc", {
@@ -420,11 +419,13 @@ class AdminApplication extends lapis.Application
         comments
     }
 
-    assert_page @
+    @page = params.page
     @comments = @pager\get_page @page
     render: true
 
-  [community_posts: "/community-posts"]: =>
+  [community_posts: "/community-posts"]: capture_errors_json with_params {
+    {"page", shapes.page_number}
+  }, (params) =>
     import Posts from require "community.models"
 
     @pager = Posts\paginated "order by id desc", {
@@ -434,11 +435,13 @@ class AdminApplication extends lapis.Application
         posts
     }
 
-    assert_page @
+    @page = params.page
     @posts = @pager\get_page @page
     render: true
 
-  [uploads: "/uploads"]: =>
+  [uploads: "/uploads"]: capture_errors_json with_params {
+    {"page", shapes.page_number}
+  }, (params) =>
     import Uploads from require "models"
 
     @pager = Uploads\paginated "order by id desc", {
@@ -448,15 +451,17 @@ class AdminApplication extends lapis.Application
         uploads
     }
 
-    assert_page @
+    @page = params.page
     @uploads = @pager\get_page @page
     render: true
 
   [spam_queue: "/spam-queue"]: capture_errors_json respond_to {
-    before: =>
+    before: with_params {
+      {"user_id", types.empty + types.db_id}
+    }, (params) =>
       import Users from require "models"
-      if @params.user_id
-        @user = assert_error Users\find(@params.user_id), "invalid user id"
+      if params.user_id
+        @user = assert_error Users\find(params.user_id), "invalid user id"
 
     GET: =>
       -- get the next user
@@ -511,29 +516,26 @@ class AdminApplication extends lapis.Application
 
       render: true
 
-    POST: =>
-      assert_csrf @
+    POST: with_csrf with_params {
+      {"action", types.one_of {
+        "refresh"
+        "train"
 
-      assert_valid @params, {
-        {"action", one_of: {
-          "refresh"
-          "train"
+        "dismiss"
+        "dismiss_as_spam"
+      }}
 
-          "dismiss"
-          "dismiss_as_spam"
-        }}
-      }
-
+    }, (params) =>
       local scan
 
-      switch @params.action
+      switch params.action
         when "dismiss", "dismiss_as_spam"
           scan = assert_error @user\get_spam_scan!, "user has no spam scan"
           assert_error scan\mark_reviewed!, "failed to mark reviewed"
 
           @session.flash = "marked spam as reviewed"
 
-          if @params.action == "dismiss_as_spam"
+          if params.action == "dismiss_as_spam"
             @session.flash ..= "and suspended account"
             @user\update_flags {
               spam: true
@@ -544,18 +546,15 @@ class AdminApplication extends lapis.Application
           scan = SpamScans\refresh_for_user @user
           assert_error scan, "scan not available for train"
 
-          assert_valid @params, {
-            {"train", one_of: {
-              "ham"
-              "spam"
-            }}
+          {train: train_as} = assert_valid @params, types.params_shape {
+            {"train", types.one_of {"ham", "spam"}}
           }
 
-          assert_error scan\train @params.train
+          assert_error scan\train train_as
 
-          @session.flash = "Trained #{@params.train}"
+          @session.flash = "Trained #{train_as}"
 
-          if @params.train == "spam"
+          if train_as == "spam"
             @user\update_flags {
               spam: true
               suspended: true
@@ -577,8 +576,12 @@ class AdminApplication extends lapis.Application
   }
 
   [exceptions: "/exceptions"]: capture_errors_json respond_to {
-    GET: =>
-      import ExceptionRequests, ExceptionTypes from require "lapis.exceptions.models"
+    GET: with_params {
+      {"page", shapes.page_number}
+      {"id", types.empty + types.db_id}
+      {"exception_type_id", types.empty + types.db_id}
+      {"status", types.empty + types.db_enum ExceptionTypes.statuses }
+    }, (params) =>
 
       wheres = {}
 
@@ -588,14 +591,14 @@ class AdminApplication extends lapis.Application
 
         table.insert wheres, "(#{q})"
 
-      if id = tonumber @params.id
-        add_where "id = ?", id
+      if params.id
+        add_where "id = ?", params.id
 
-      if etid = tonumber @params.exception_type_id
+      if etid = params.exception_type_id
         add_where "exception_type_id = ?", etid
 
-      if status = ExceptionTypes.statuses[@params.status]
-        add_where "exists(select 1 from exception_types where exception_types.id = exception_requests.exception_type_id and status = ?)", status
+      if params.status
+        add_where "exists(select 1 from exception_types where exception_types.id = exception_requests.exception_type_id and status = ?)", params.status
 
       clause = "order by id desc"
 
@@ -609,40 +612,29 @@ class AdminApplication extends lapis.Application
           exceptions
       }
 
-      assert_page @
+      @page = params.page
       @exceptions = @pager\get_page @page
       render: true
 
-    POST: =>
-      assert_csrf @
-      switch @params.action
+    POST: with_csrf with_params {
+      {"action", types.one_of {"set_exception_status"}}
+    }, (params) =>
+      switch params.action
         when "set_exception_status"
-          assert_valid @params, {
-            {"exception_request_id", is_integer: true}
-            {"status", one_of: {
-              "resolved"
-              "ignored"
-              "default"
-            }}
+          {:exception_request_id, status: set_status} = assert_valid @params, types.params_shape {
+            {"exception_request_id", types.db_id}
+            {"status", types.db_enum ExceptionTypes.statuses}
           }
 
-          import ExceptionRequests, ExceptionTypes from require "lapis.exceptions.models"
-          er = ExceptionRequests\find @params.exception_request_id
+          er = ExceptionRequests\find exception_request_id
           assert_error er, "invalid exception request"
           et = assert_error er\get_exception_type!, "exception request does not have exception type"
 
           et\update {
-            status: ExceptionTypes.statuses\for_db @params.status
+            status: set_status
           }
 
           return redirect_to: @url_for "admin.exceptions", nil, exception_type_id: et.id
-        else
-          import yield_error from require "lapis.application"
-          yield_error "unknown action: #{@params.action}"
-
-      json: {
-        params: @params
-      }
 
   }
 
