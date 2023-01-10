@@ -1,8 +1,11 @@
 
 db = require "lapis.db"
 import assert_error from require "lapis.application"
-import assert_valid from require "lapis.validate"
+import with_params from require "lapis.validate"
 import build_url from require "lapis.util"
+
+types = require "lapis.validate.types"
+shapes = require "helpers.shapes"
 
 config = require("lapis.config").get!
 
@@ -39,12 +42,10 @@ assert_timezone = (tz) ->
   res = unpack db.select "* from pg_timezone_names where name = ?", tz
   assert_error res, "invalid timezone: #{tz}"
 
-assert_page = =>
-  assert_valid @params, {
-    {"page", optional: true, is_integer: true}
-  }
-
-  @page = math.max 1, tonumber(@params.page) or 1
+assert_page = with_params {
+  {"page", shapes.page_number}
+}, (params) =>
+  @page = params.page_number
   @page
 
 login_and_return_url = (url=ngx.var.request_uri) =>
@@ -70,14 +71,12 @@ assert_unit_date = =>
   @unit_date = parsed_date\addhours -@streak.hour_offset
   assert_error @streak\date_in_streak(@unit_date), "invalid date"
 
-find_streak = =>
-  assert_valid @params, {
-    {"id", is_integer: true}
-  }
-
+find_streak = with_params {
+  {"id", types.db_id}
+}, (params) =>
   import Streaks from require "models"
 
-  @streak = assert_error Streaks\find(@params.id), "failed to find streak"
+  @streak = assert_error Streaks\find(params.id), "failed to find streak"
   assert_error @streak\allowed_to_view(@current_user), "not allowed to view streak"
   @streak_user = @streak\has_user @current_user
   true
