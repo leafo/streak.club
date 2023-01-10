@@ -21,10 +21,10 @@ import render_submissions_page, SUBMISSIONS_PER_PAGE from require "helpers.submi
 config = require("lapis.config").get!
 
 find_user = with_params {
-  {"user_id", types.empty + types.db_id}
+  {"id", types.empty + types.db_id}
   {"slug", types.empty + types.limited_text 256}
 }, (params) =>
-  assert_error not (params.user_id and params.slug), "invalid user"
+  assert_error not (params.id and params.slug), "invalid user"
 
   @user = if params.id
     Users\find params.id
