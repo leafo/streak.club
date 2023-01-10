@@ -3,25 +3,23 @@ lapis = require "lapis"
 
 SUBMISSION_PER_PAGE = 25
 
-import assert_valid from require "lapis.validate"
-import capture_errors_json, assert_error, respond_to from require "lapis.application"
-import trim_filter from require "lapis.util"
+types = require "lapis.validate.types"
+
+import assert_valid, with_params from require "lapis.validate"
+import capture_errors_json, assert_error, respond_to, yield_error from require "lapis.application"
 import ApiKeys, Users from require "models"
 
 import find_streak, assert_page from require "helpers.app"
 
 api_request = (fn) ->
-  capture_errors_json =>
-    return fn @ if @params.key == "me" and @current_user
+  capture_errors_json with_params {
+    {"key", types.one_of {"me", types.limited_text 128 } }
+  }, (params) =>
+    return fn @ if params.key == "me" and @current_user
 
-    assert_valid @params, {
-      {"key", type: "string", exists: true}
-    }
-
-    @key = assert_error ApiKeys\find(key: assert @params.key), "invalid key"
+    @key = assert_error ApiKeys\find(key: assert params.key), "invalid key"
     @current_user = Users\find id: @key.user_id
     fn @
-
 
 format_streak_user = (u) ->
   {
@@ -46,8 +44,6 @@ format_submission = do
   }
 
   (s) ->
-    -- error require("moon").dump s
-
     out = {f, s[f] for f in *fields}
     out.user = format_user s.user
     out.streak_submission = {
@@ -87,46 +83,25 @@ format_streak = do
 
     out.publish_status = Streaks.publish_statuses\to_name s.publish_status
     out.rate = Streaks.rates\to_name s.rate
-    out.category = s.category > 0 and Streaks.categories\to_name(s.category) or nil
+    out.category = if s.category and s.category > 0
+      Streaks.categories\to_name(s.category) or nil
 
     out
 
 class StreakApi extends lapis.Application
-  "/api/1/login": capture_errors_json =>
-    trim_filter @params
-    assert_valid @params, {
-      { "source", one_of: ApiKeys.sources }
-      { "username", exists: true }
-      { "password", exists: true }
-    }
-
-    user = assert_error Users\login @params.username, @params.password
-    key = ApiKeys\find_or_create user.id, @params.source
+  "/api/1/login": capture_errors_json with_params {
+    {"source", types.db_enum ApiKeys.sources}
+    {"username", types.trimmed_text}
+    {"password", types.valid_text }
+  }, (params) =>
+    user = assert_error Users\login params.username, params.password
+    key = ApiKeys\find_or_create user.id, params.source
 
     json: { :key }
 
 
   "/api/1/register": capture_errors_json =>
-    trim_filter @params
-    assert_valid @params, {
-      { "source", one_of: ApiKeys.sources }
-      { "username", exists: true, min_length: 2, max_length: 25 }
-      { "password", exists: true, min_length: 2 }
-      { "password_repeat", equals: @params.password }
-      { "email", exists: true, min_length: 3 }
-    }
-
-    assert_error @params.email\match(".@."), "invalid email address"
-    user = assert_error Users\create {
-      username: @params.username
-      email: @params.email
-      password: @params.password
-    }
-
-    key = ApiKeys\find_or_create user.id, @params.source
-
-    json: { :key }
-
+    yield_error "API registration is now disabled"
 
   -- Streaks user is in
   "/api/1/my-streaks": api_request =>

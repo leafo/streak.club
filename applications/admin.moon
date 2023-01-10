@@ -84,7 +84,7 @@ class AdminApplication extends lapis.Application
 
   [streak: "/streak/:id"]: capture_errors_json respond_to {
     before: with_params {
-      {"id", shapes.db_id}
+      {"id", types.db_id}
     }, (params) =>
       import Streaks, RelatedStreaks from require "models"
       @streak = assert_error Streaks\find(params.id), "invalid streak"
