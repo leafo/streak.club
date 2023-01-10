@@ -7,7 +7,9 @@ export class EditStreak
   constructor: (el, @opts={}) ->
     @el = $ el
     # TODO: datepicker must be handled
-    @el.find(".date_picker").datepicker()
+    @el.find(".date_picker").datepicker {
+      dateFormat: "yy-mm-dd"
+    }
     @setup_timezone()
 
     form = @el.find("form")

@@ -175,5 +175,5 @@ class EditStreak extends require "widgets.page"
 
   format_date_for_input: (timestamp) =>
     return unless timestamp
-    date(timestamp)\fmt "%m/%d/%Y"
+    date(timestamp)\fmt "%Y-%m-%d"
 
