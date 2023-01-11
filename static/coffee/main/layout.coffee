@@ -66,7 +66,7 @@ export class Header
 
 export class Timezone
   save_timezone: (timezone) ->
-    $.post @params.url, S.with_csrf(timezone: timezone)
+    $.post @params.tz_url, S.with_csrf(timezone: timezone)
 
   constructor: (@params) ->
     timezone = jstz.determine().name()
