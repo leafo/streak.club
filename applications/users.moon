@@ -15,7 +15,6 @@ import slugify from require "lapis.util"
 import Users, Uploads, Submissions, Streaks, StreakUsers from require "models"
 
 import not_found, require_login, assert_page, with_csrf from require "helpers.app"
-import assert_csrf from require "helpers.csrf"
 import render_submissions_page, SUBMISSIONS_PER_PAGE from require "helpers.submissions"
 
 config = require("lapis.config").get!
@@ -358,41 +357,43 @@ class UsersApplication extends lapis.Application
       redirect_to: @url_for "user_settings"
   }
 
-  [user_follow: "/user/:id/follow"]: require_login capture_errors_json =>
-    find_user @
-    assert_csrf @
-    assert_error @current_user.id != @user.id, "invalid user"
-    assert_error not @current_user\is_suspended!, "can't follow"
+  [user_follow: "/user/:id/follow"]: require_login capture_errors_json respond_to {
+    POST: with_csrf =>
+      find_user @
+      assert_error @current_user.id != @user.id, "invalid user"
+      assert_error not @current_user\is_suspended!, "can't follow"
 
-    import Followings, Notifications from require "models"
-    following = Followings\create {
-      source_user_id: @current_user.id
-      dest_user_id: @user.id
-    }
+      import Followings, Notifications from require "models"
+      following = Followings\create {
+        source_user_id: @current_user.id
+        dest_user_id: @user.id
+      }
 
-    if following
-      Notifications\notify_for @user, @current_user, "follow"
+      if following
+        Notifications\notify_for @user, @current_user, "follow"
 
-    json: { success: not not following }
+      json: { success: not not following }
+  }
 
-  [user_unfollow: "/user/:id/unfollow"]: require_login capture_errors_json =>
-    find_user @
-    assert_csrf @
-    assert_error @current_user.id != @user.id, "invalid user"
+  [user_unfollow: "/user/:id/unfollow"]: require_login capture_errors_json respond_to {
+    POST: with_csrf =>
+      find_user @
+      assert_error @current_user.id != @user.id, "invalid user"
 
-    import Followings, Notifications from require "models"
+      import Followings, Notifications from require "models"
 
-    params = {
-      source_user_id: @current_user.id
-      dest_user_id: @user.id
-    }
+      params = {
+        source_user_id: @current_user.id
+        dest_user_id: @user.id
+      }
 
-    success = if f = Followings\find params
-      f\delete!
-      Notifications\undo_notify @user, @current_user, "follow"
-      true
+      success = if f = Followings\find params
+        f\delete!
+        Notifications\undo_notify @user, @current_user, "follow"
+        true
 
-    json: { success: success or false }
+      json: { success: success or false }
+  }
 
 
   [user_forgot_password: "/user/forgot-password"]: respond_to {

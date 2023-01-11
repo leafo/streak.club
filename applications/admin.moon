@@ -13,7 +13,6 @@ import respond_to, capture_errors_json, assert_error from require "lapis.applica
 import assert_valid, with_params from require "lapis.validate"
 
 import not_found, assert_page, with_csrf from require "helpers.app"
-import assert_csrf from require "helpers.csrf"
 
 import ExceptionRequests, ExceptionTypes from require "lapis.exceptions.models"
 
