@@ -4,7 +4,7 @@ include_rules
 : foreach *.md |> markdown < %f > %o |> %B.html
 
 # lib.js is a static set of globally defined dependencies that we can avoid building into the bundle every edit on development
-: lib/jquery.min.js lib/dayjs.min.js lib/*.js |> !join_js |> lib.js
+: lib/jquery.min.js lib/*.js |> !join_js |> lib.js
 
 # markdown
 : markdown/*.js |> !join_js |> lib.markdown.js
