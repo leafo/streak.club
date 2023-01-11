@@ -1,10 +1,11 @@
-# dayjs is vendored into static, esbuild does not pull it from node_modules
-# See static/Tupfile
+import dayjs from "dayjs"
 
-window.dayjs.extend window.dayjs_plugin_duration
-window.dayjs.extend window.dayjs_plugin_calendar
-window.dayjs.extend window.dayjs_plugin_advancedFormat
+import duration from "dayjs/plugin/duration"
+import calendar from "dayjs/plugin/calendar"
+import advancedFormat from "dayjs/plugin/advancedFormat"
 
-export default window.dayjs
+dayjs.extend duration
+dayjs.extend calendar
+dayjs.extend advancedFormat
 
-
+export default dayjs

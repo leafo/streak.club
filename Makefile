@@ -67,8 +67,3 @@ vendor:
 	cp node_modules/turndown/dist/turndown.js static/markdown/
 	cp node_modules/selectize/dist/js/standalone/selectize.min.js static/lib
 	cp node_modules/selectize/dist/css/selectize.css static/lib
-	cp node_modules/dayjs/dayjs.min.js static/lib/
-	cp node_modules/dayjs/plugin/utc.js static/lib/dayjs-utc.js
-	cp node_modules/dayjs/plugin/calendar.js static/lib/dayjs-calendar.js
-	cp node_modules/dayjs/plugin/duration.js static/lib/dayjs-duration.js
-	cp node_modules/dayjs/plugin/advancedFormat.js static/lib/dayjs-advancedFormat.js
