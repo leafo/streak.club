@@ -1,10 +1,14 @@
 
 import $ from "main/jquery"
-import {CumulativeGrapher, RangeGrapher} from "main/graph"
 
 export class Stats
   constructor: (el, @opts) ->
     @el = $ el
+    @render()
+
+  render: (el) ->
+    {CumulativeGrapher, RangeGrapher} = await import("/static/graphs.esm.min.js")
+
     graphs = @opts.graphs
 
     if @opts.cumulative

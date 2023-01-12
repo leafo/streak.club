@@ -11,4 +11,7 @@ ESBUILD=$(TOP)/node_modules/.bin/esbuild
 
 !coffee = |> ^ coffee %f^ $(TOP)/node_modules/.bin/coffee -c %f |>
 
+!bundle_esm = |> ^ bundle esm %f^ NODE_PATH=$(TOP)/static/coffee $(ESBUILD) --metafile=%O-metafile.json --target=es6 --log-level=warning --bundle --format=esm %f --outfile=%o |> 
+
+
 : foreach *.moon |> moonc %f |> %B.lua $(TOP)/<moon>

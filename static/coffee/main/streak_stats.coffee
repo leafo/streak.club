@@ -1,11 +1,14 @@
 
-import {CumulativeGrapher} from "main/graph"
 import $ from "main/jquery"
 
 export class StreakStats
-  constructor: (el, opts) ->
+  constructor: (el, @opts) ->
     @el = $ el
-    graphs = opts.graphs
+
+  render: ->
+    {CumulativeGrapher} = await import("/static/graphs.esm.min.js")
+
+    {graphs} = @opts
 
     new CumulativeGrapher "#users_graph", graphs.cumulative_users, {
       label: "Total participants"

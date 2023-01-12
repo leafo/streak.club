@@ -9,3 +9,4 @@ include_rules
 # markdown
 : markdown/*.js |> !join_js |> lib.markdown.js
 
+: coffee/graphs/grapher.js | $(TOP)/<coffee> |> !bundle_esm |> graphs.esm.min.js | %O-metafile.json
