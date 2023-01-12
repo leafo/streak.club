@@ -4,15 +4,16 @@ import $ from "main/jquery"
 import {S} from "main/_pre"
 import {_} from "main/global_libs"
 
-d3 = null
+import * as d3 from "d3"
 
 export class Grapher
   @with_d3: (script_url) =>
-    @d3_deferred ||= $.ajax({
-      url: $("#d3_src").data "src"
-      dataType: "script"
-      cache: true
-    }).then => d3 = window.d3
+    # do nothing, we are migrating to new d3
+    # @d3_deferred ||= $.ajax({
+    #   url: $("#d3_src").data "src"
+    #   dataType: "script"
+    #   cache: true
+    # }).then => d3 = window.d3
 
   @format_number: format_number = (num) ->
     if num > 10000
@@ -50,9 +51,9 @@ export class Grapher
   constructor: (el, @data, opts) ->
     @el = $ el
     @opts = $.extend {}, @default_opts, opts
-    Grapher.with_d3().then =>
-      @draw()
-      @setup_popups()
+    # Grapher.with_d3().then =>
+    @draw()
+    @setup_popups()
 
   setup_popups:  ->
     current_popup = null
