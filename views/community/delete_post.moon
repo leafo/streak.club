@@ -1,6 +1,7 @@
 PostList = require "widgets.community.post_list"
 
 class CommunityPost extends require "widgets.page"
+  responsive: true
   column_content: =>
     form method: "post", class: "form", ->
       @csrf_input!
