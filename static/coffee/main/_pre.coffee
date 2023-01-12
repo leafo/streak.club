@@ -2,7 +2,7 @@ import dayjs from "main/dayjs"
 import $ from "main/jquery"
 import {_} from "main/global_libs"
 
-export S = window.S = {
+export default S = {
   template_settings: {
     interpolate : /\{\{(.+?)\}\}/g
     escape : /\{\{&(.+?)\}\}/g

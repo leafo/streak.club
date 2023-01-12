@@ -1,5 +1,5 @@
 import $ from "main/jquery"
-import {S} from "main/_pre"
+import S from "main/_pre"
 
 export class FollowingFeed
   constructor: (el) ->

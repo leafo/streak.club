@@ -1,6 +1,6 @@
 
 import {Countdown} from "main/countdown"
-import {S} from "main/_pre"
+import S from "main/_pre"
 import $ from "main/jquery"
 
 export class ViewStreak

@@ -1,6 +1,5 @@
 
 import $ from "main/jquery"
-import {S} from "main/_pre"
 
 import "main/react/edit_submission"
 import {Upload} from "main/upload"

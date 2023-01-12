@@ -1,5 +1,5 @@
 
-import {S} from "main/_pre"
+import S from "main/_pre"
 import $ from "main/jquery"
 
 export class UserList

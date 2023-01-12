@@ -1,5 +1,5 @@
 
-import {S} from "main/_pre"
+import S from "main/_pre"
 import {jstz} from "main/global_libs"
 import $ from "main/jquery"
 

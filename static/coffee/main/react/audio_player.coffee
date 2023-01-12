@@ -12,7 +12,7 @@ import {HeartIcon, PauseIcon, PlayIcon, NextTrackIcon, PlaylistIcon, CloseIcon} 
 
 import Slider from "./slider"
 
-import {S} from "main/_pre"
+import S from "main/_pre"
 
 export default P = R.package "SubmissionList"
 

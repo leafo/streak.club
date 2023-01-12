@@ -1,6 +1,6 @@
 
 import $ from "main/jquery"
-import {S} from "main/_pre"
+import S from "main/_pre"
 
 export class Upload
   constructor: (@data, @on_update) ->

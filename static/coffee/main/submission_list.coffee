@@ -1,5 +1,5 @@
 
-import {S} from "main/_pre"
+import S from "main/_pre"
 import {InfiniteScroll} from "main/infinite_scroll"
 import $ from "main/jquery"
 import {_} from "main/global_libs"
