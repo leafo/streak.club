@@ -6,7 +6,7 @@ import template from 'underscore/modules/template.js'
 
 import * as d3 from "d3"
 
-import S from "main/_pre"
+import {template_settings} from "main/_pre"
 
 export class Grapher
   @format_number: format_number = (num) ->
@@ -50,7 +50,7 @@ export class Grapher
 
   setup_popups:  ->
     current_popup = null
-    @_template ||= template @popup_template, S.template_settings
+    @_template ||= template @popup_template, template_settings
 
     position_popup = (x,y) ->
       return unless current_popup

@@ -12,7 +12,7 @@ import {HeartIcon, PauseIcon, PlayIcon, NextTrackIcon, PlaylistIcon, CloseIcon} 
 
 import Slider from "./slider"
 
-import S from "main/_pre"
+import {with_csrf, get_csrf, format_bytes} from "main/_pre"
 
 export default P = R.package "SubmissionList"
 
@@ -299,7 +299,7 @@ P "AudioFile", {
         error: null
       }
 
-      $.post @props.audio_url, S.with_csrf(), (res) =>
+      $.post @props.audio_url, with_csrf(), (res) =>
         if PLAYER_STATE.active_file != @
           @setState loading: false
           return
@@ -363,7 +363,7 @@ P "AudioFile", {
         method: "post"
         action: @props.download_url
       },
-        input type: "hidden", name: "csrf_token", value: S.get_csrf()
+        input type: "hidden", name: "csrf_token", value: get_csrf()
         button className: "upload_download button", "Download"
 
       div className: "truncate_content",
@@ -375,7 +375,7 @@ P "AudioFile", {
         else
           fragment {},
             span className: "upload_name", @props.upload.filename
-            span className: "upload_size", S.format_bytes @props.upload.size
+            span className: "upload_size", format_bytes @props.upload.size
 
         if @state.played
           div className: "audio_progress_outer",

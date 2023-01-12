@@ -1,13 +1,13 @@
 
 import {Countdown} from "main/countdown"
-import S from "main/_pre"
+import {format_dates} from "main/_pre"
 import $ from "main/jquery"
 
 export class ViewStreak
   constructor: (el, @streak) ->
     @el = $ el
     @el.has_tooltips()
-    S.format_dates @el
+    format_dates @el
 
     @setup_countdown()
     @setup_leave()

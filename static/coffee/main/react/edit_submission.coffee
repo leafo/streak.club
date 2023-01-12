@@ -5,7 +5,7 @@ import * as ReactDOM from 'react-dom'
 import {div, input, textarea, button, span, img, p} from 'react-dom-factories'
 
 import $ from "main/jquery"
-import S from "main/_pre"
+import {with_markdown, is_mobile, format_bytes, with_csrf} from "main/_pre"
 import {Upload} from "main/upload"
 
 import {_} from "main/global_libs"
@@ -97,7 +97,7 @@ P "Editor", {
     initial_html = @props.value
     initial_markdown = null
 
-    md_deferred = S.with_markdown()
+    md_deferred = with_markdown()
     loading = md_deferred.state() == "pending"
 
     if loading
@@ -269,7 +269,7 @@ P "Uploader", {
           type: "button"
         }, "Add file(s)"
 
-        unless S.is_mobile()
+        unless is_mobile()
           p className: "upload_tip", "TIP: you can also drag and drop a file(s) here to upload"
 }
 
@@ -331,7 +331,7 @@ P "Upload", {
       div {},
         span className: "filename", @props.upload.data.filename
         " "
-        span className: "file_size", "(#{S.format_bytes @props.upload.data.size})"
+        span className: "file_size", "(#{format_bytes @props.upload.data.size})"
         upload_status
 }
 
@@ -354,7 +354,7 @@ class UploaderManager
   push_file: (file, on_upload) =>
     max_size = @opts.max_size
     if max_size? and file.size > max_size
-      alert "#{file.name} is greater than max size of #{S.format_bytes max_size}"
+      alert "#{file.name} is greater than max size of #{format_bytes max_size}"
       return
 
     @prepare_and_start_upload file, on_upload
@@ -362,7 +362,7 @@ class UploaderManager
   prepare_and_start_upload: (file, callback) ->
     throw "missing prepare url" unless @opts.prepare_url
 
-    data = S.with_csrf {
+    data = with_csrf {
       "upload[filename]": file.name
       "upload[size]": file.size
     }

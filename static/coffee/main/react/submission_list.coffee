@@ -3,7 +3,8 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import {div, button, form, input, a, ul, li, p, h3, span} from 'react-dom-factories'
 
-import S from "main/_pre"
+import {get_csrf, with_csrf, is_mobile} from "main/_pre"
+import S from "main/state"
 import $ from "main/jquery"
 import {_} from "main/global_libs"
 
@@ -42,7 +43,7 @@ P "CommentEditor", {
             @state.errors.map (error) =>
               li key: error, error
 
-        input type: "hidden", name: "csrf_token", value: S.get_csrf()
+        input type: "hidden", name: "csrf_token", value: get_csrf()
         div className: "input_wrapper",
           div className: "markdown_editor",
             R.EditSubmission.Editor {
@@ -114,7 +115,7 @@ P "QuickComment", {
         if @state.errors
           ul className: "form_errors",
             @state.errors.map (e) => li key: e, e
-        input type: "hidden", name: "csrf_token", value: S.get_csrf()
+        input type: "hidden", name: "csrf_token", value: get_csrf()
         input type: "hidden", name: "comment[source]", value: "quick"
         div className: "markdown_editor",
           R.EditSubmission.Editor {
@@ -195,7 +196,7 @@ P "LikeButton", {
 
     @setState loading: true
 
-    $.post url, S.with_csrf(), (res) =>
+    $.post url, with_csrf(), (res) =>
       @setState loading: false
       if res.success
         current_like = !@state.current_like
@@ -203,7 +204,7 @@ P "LikeButton", {
         @setState {
           loading: false
           likes_count: res.count
-          show_quick_comment: @props.quick_comment && !S.is_mobile() && current_like
+          show_quick_comment: @props.quick_comment && !is_mobile() && current_like
           current_like
         }, ->
           $(document.body).trigger "s:update_like", [@, @props.submission_id, {

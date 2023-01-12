@@ -4,10 +4,10 @@ import $ from "main/jquery"
 export class StreakStats
   constructor: (el, @opts) ->
     @el = $ el
+    @render()
 
   render: ->
     {CumulativeGrapher} = await import("/static/graphs.esm.min.js")
-
     {graphs} = @opts
 
     new CumulativeGrapher "#users_graph", graphs.cumulative_users, {

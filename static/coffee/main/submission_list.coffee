@@ -1,5 +1,5 @@
 
-import S from "main/_pre"
+import {with_csrf, template_settings} from "main/_pre"
 import {InfiniteScroll} from "main/infinite_scroll"
 import $ from "main/jquery"
 import {_} from "main/global_libs"
@@ -22,7 +22,7 @@ export class SubmissionList
     @el.on "s:increment_comments", ".submission_row", (e, amount=1) =>
       btn = $(e.currentTarget).find ".comments_toggle_btn"
       new_count = btn.data("count") + amount
-      btn.text _.template(btn.data("template"), S.template_settings) { count: new_count }
+      btn.text _.template(btn.data("template"), template_settings) { count: new_count }
       btn.data "count", new_count
 
     @el.on "s:refresh_comments", ".submission_row", (e, callback) =>
@@ -70,7 +70,7 @@ export class SubmissionList
 
         comment = btn.closest(".submission_comment").addClass "loading"
         id = comment.data "id"
-        $.post "/submission-comment/#{id}/delete", S.with_csrf(), (res) =>
+        $.post "/submission-comment/#{id}/delete", with_csrf(), (res) =>
           comment.slideUp =>
             comment.remove()
 

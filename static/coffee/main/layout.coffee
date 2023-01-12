@@ -1,5 +1,5 @@
 
-import S from "main/_pre"
+import {with_csrf} from "main/_pre"
 import {jstz} from "main/global_libs"
 import $ from "main/jquery"
 
@@ -66,7 +66,7 @@ export class Header
 
 export class Timezone
   save_timezone: (timezone) ->
-    $.post @params.tz_url, S.with_csrf(timezone: timezone)
+    $.post @params.tz_url, with_csrf(timezone: timezone)
 
   constructor: (@params) ->
     timezone = jstz.determine().name()

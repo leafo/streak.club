@@ -1,6 +1,6 @@
 
 import $ from "main/jquery"
-import S from "main/_pre"
+import {event as sendEvent, with_csrf} from "main/_pre"
 
 export class Upload
   constructor: (@data, @on_update) ->
@@ -36,10 +36,10 @@ export class Upload
         @progress? e.loaded, e.total
 
     xhr.upload.addEventListener "error", (e) =>
-      S.event "upload", "xhr error", @kind
+      sendEvent "upload", "xhr error", @kind
 
     xhr.upload.addEventListener "abort", (e) =>
-      S.event "upload", "xhr abort", @kind
+      sendEvent "upload", "xhr abort", @kind
 
     xhr.addEventListener "load", (e) =>
       @uploading = false
@@ -55,7 +55,7 @@ export class Upload
 
       if @save_url
         $.when(@save_url).done (url, params) =>
-          $.post url, S.with_csrf(params), (res) =>
+          $.post url, with_csrf(params), (res) =>
             if res.errors
               return @set_error "#{res.errors.join ", "}"
 

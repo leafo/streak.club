@@ -14,7 +14,7 @@ class Layout extends require "widgets.base"
 
   @es_module: [[
     import {Header, Timezone} from "main/layout"
-    import S from "main/_pre"
+    import S from "main/state"
 
     new Header('#global_header', widget_params.header)
 

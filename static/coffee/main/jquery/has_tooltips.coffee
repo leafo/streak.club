@@ -1,10 +1,10 @@
 $ = window.$
 
-import S from "main/_pre"
+import {is_mobile, template_settings} from "main/_pre"
 import {_} from "main/global_libs"
 
 export default $.fn.has_tooltips = ->
-  return if S.is_mobile()
+  return if is_mobile()
 
   tooltip_drop = ->
     drop = $(document.body).find ".tooltip_drop"
@@ -17,7 +17,7 @@ export default $.fn.has_tooltips = ->
 
   tooltip_template = _.template """
   <div class="tooltip">{{ label }}</div>
-  """, S.template_settings
+  """, template_settings
 
   show_tooltip = (tooltip_target, instant=false) ->
     el = tooltip_target.data "tooltip_el"
