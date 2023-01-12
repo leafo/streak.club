@@ -1,20 +1,18 @@
 
 import $ from "main/jquery"
 
-import {S} from "main/_pre"
-import {_} from "main/global_libs"
+import debounce from 'underscore/modules/debounce.js'
+import template from 'underscore/modules/template.js'
 
 import * as d3 from "d3"
 
-export class Grapher
-  @with_d3: (script_url) =>
-    # do nothing, we are migrating to new d3
-    # @d3_deferred ||= $.ajax({
-    #   url: $("#d3_src").data "src"
-    #   dataType: "script"
-    #   cache: true
-    # }).then => d3 = window.d3
+template_settings = {
+  interpolate : /\{\{(.+?)\}\}/g
+  escape : /\{\{&(.+?)\}\}/g
+  evaluate: /<%([\s\S]+?)%>/g
+}
 
+export class Grapher
   @format_number: format_number = (num) ->
     if num > 10000
       "#{Math.floor(num / 1000)}k"
@@ -51,13 +49,12 @@ export class Grapher
   constructor: (el, @data, opts) ->
     @el = $ el
     @opts = $.extend {}, @default_opts, opts
-    # Grapher.with_d3().then =>
     @draw()
     @setup_popups()
 
   setup_popups:  ->
     current_popup = null
-    @_template ||= _.template @popup_template, S.template_settings
+    @_template ||= template @popup_template, template_settings
 
     position_popup = (x,y) ->
       return unless current_popup
@@ -66,7 +63,7 @@ export class Grapher
       return unless popup
       popup.stop(true, true).remove()
 
-    toggle_popup = _.debounce (state, hitbox) =>
+    toggle_popup = debounce (state, hitbox) =>
       hitbox = $ hitbox
       switch state
         when "show"
