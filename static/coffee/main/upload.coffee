@@ -1,6 +1,6 @@
 
 import $ from "main/jquery"
-import {event as sendEvent, with_csrf} from "main/_pre"
+import {event as sendEvent, with_csrf} from "main/util"
 
 export class Upload
   constructor: (@data, @on_update) ->

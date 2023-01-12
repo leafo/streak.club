@@ -12,7 +12,7 @@ import {HeartIcon, PauseIcon, PlayIcon, NextTrackIcon, PlaylistIcon, CloseIcon} 
 
 import Slider from "./slider"
 
-import {with_csrf, get_csrf, format_bytes} from "main/_pre"
+import {with_csrf, get_csrf, format_bytes} from "main/util"
 
 export default P = R.package "SubmissionList"
 

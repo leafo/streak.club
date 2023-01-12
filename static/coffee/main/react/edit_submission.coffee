@@ -5,7 +5,7 @@ import * as ReactDOM from 'react-dom'
 import {div, input, textarea, button, span, img, p} from 'react-dom-factories'
 
 import $ from "main/jquery"
-import {with_markdown, is_mobile, format_bytes, with_csrf} from "main/_pre"
+import {with_markdown, is_mobile, format_bytes, with_csrf} from "main/util"
 import {Upload} from "main/upload"
 
 import {_} from "main/global_libs"

@@ -3,7 +3,7 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import {div, button, form, input, a, ul, li, p, h3, span} from 'react-dom-factories'
 
-import {get_csrf, with_csrf, is_mobile} from "main/_pre"
+import {get_csrf, with_csrf, is_mobile} from "main/util"
 import S from "main/state"
 import $ from "main/jquery"
 import {_} from "main/global_libs"

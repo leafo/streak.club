@@ -1,5 +1,5 @@
 import $ from "main/jquery"
-import {has_follow_buttons} from "main/_pre"
+import {has_follow_buttons} from "main/util"
 
 export class FollowingFeed
   constructor: (el) ->

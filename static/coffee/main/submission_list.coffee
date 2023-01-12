@@ -1,5 +1,5 @@
 
-import {with_csrf, template_settings} from "main/_pre"
+import {with_csrf, template_settings} from "main/util"
 import {InfiniteScroll} from "main/infinite_scroll"
 import $ from "main/jquery"
 import {_} from "main/global_libs"

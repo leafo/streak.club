@@ -1,6 +1,6 @@
 
 import {Countdown} from "main/countdown"
-import {format_dates} from "main/_pre"
+import {format_dates} from "main/util"
 import $ from "main/jquery"
 
 export class ViewStreak

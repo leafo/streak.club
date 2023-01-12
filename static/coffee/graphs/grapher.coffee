@@ -6,7 +6,7 @@ import template from 'underscore/modules/template.js'
 
 import * as d3 from "d3"
 
-import {template_settings} from "main/_pre"
+import {template_settings} from "main/util"
 
 export class Grapher
   @format_number: format_number = (num) ->

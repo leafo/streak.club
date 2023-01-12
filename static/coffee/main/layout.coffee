@@ -1,5 +1,5 @@
 
-import {with_csrf} from "main/_pre"
+import {with_csrf} from "main/util"
 import {jstz} from "main/global_libs"
 import $ from "main/jquery"
 

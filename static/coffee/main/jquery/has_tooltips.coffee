@@ -1,6 +1,6 @@
 $ = window.$
 
-import {is_mobile, template_settings} from "main/_pre"
+import {is_mobile, template_settings} from "main/util"
 import {_} from "main/global_libs"
 
 export default $.fn.has_tooltips = ->
