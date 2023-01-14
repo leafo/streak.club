@@ -17,7 +17,7 @@ dependencies = {
   "bcrypt", -- note: we should probably lock this to a specific version
 
   "lapis ~> 1.12",
-  "lapis-community == 1.42.1",
+  "lapis-community == 1.42.2",
   "lapis-eswidget >= 1.1.0",
 
   "lapis-exceptions ~> 2.3",
