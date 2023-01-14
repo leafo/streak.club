@@ -59,7 +59,6 @@ count:
 vendor:
 	npm install
 	cp node_modules/jquery/dist/jquery.min.js static/lib
-	cp node_modules/d3/build/d3.min.js static
 	cp node_modules/jstz/dist/jstz.min.js static/lib
 	cp node_modules/typed.js/lib/typed.min.js static/lib
 	cp node_modules/commonmark/dist/commonmark.min.js static/markdown/
