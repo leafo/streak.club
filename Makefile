@@ -6,7 +6,7 @@ test:
 	busted
 
 install_dependencies:
-	luarocks --lua-version=5.1 --local build --only-deps
+	luarocks --lua-version=5.1 --local build --only-deps --pin
 
 migrate:
 	lapis migrate
