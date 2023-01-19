@@ -16,20 +16,20 @@ dependencies = {
   "moonscript",
   "bcrypt", -- note: we should probably lock this to a specific version
 
-  "lapis ~> 1.12",
+  "lapis >= 1.12",
   "lapis-community == 1.42.2",
   "lapis-eswidget >= 1.1.0",
 
-  "lapis-exceptions ~> 2.3",
-  "lapis-bayes ~> 1.2",
-  "lapis-systemd ~> 1.0",
-  "lapis-console ~> 1.2",
-  "cloud_storage ~> 1.3",
-  "mailgun ~> 1.2",
-  "web_sanitize ~> 1.4",
-  "magick ~> 1.6",
-  "luajit-geoip ~> 2.1",
-  "tableshape ~> 2.5",
+  "lapis-exceptions >= 2.3",
+  "lapis-bayes >= 1.2",
+  "lapis-systemd >= 1.0",
+  "lapis-console >= 1.2",
+  "cloud_storage >= 1.3",
+  "mailgun >= 1.2",
+  "web_sanitize >= 1.4",
+  "magick >= 1.6",
+  "luajit-geoip >= 2.1",
+  "tableshape >= 2.5",
 }
 
 build = {
