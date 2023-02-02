@@ -21,9 +21,6 @@ export default class VideoPlayer extends React.Component
       style: {
         aspectRatio: "#{@props.upload.width} / #{@props.upload.height}"
       }
-      ref: (el) =>
-        if el
-          $(el).trigger "s:recalc_unroll"
     },
       if @state.video
         video {
