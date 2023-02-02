@@ -14,7 +14,7 @@ description = {
 dependencies = {
   "lua ~> 5.1",
   "moonscript",
-  "bcrypt", -- note: we should probably lock this to a specific version
+  "bcrypt",
 
   "lapis >= 1.12",
   "lapis-community == 1.42.2",
