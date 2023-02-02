@@ -159,8 +159,24 @@ class Uploads extends Model
   short_path: =>
     "#{@@types[@type]}/#{@id}.#{@extension}"
 
+  -- can the file be embedded instead of showing download button
+  valid_for_embed: =>
+    if @is_video!
+      -- less than 3mb video
+      if @width and @height and @size and @size < 1024*1024*3
+        true
+      else
+        false
+    elseif @is_audio!
+      true
+    elseif @is_image!
+      true
+
   is_image: =>
     @type == @@types.image
+
+  is_video: =>
+    @extension == "mp4"
 
   is_audio: =>
     @extension == "mp3"

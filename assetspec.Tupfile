@@ -25,6 +25,7 @@ export LUA_CPATH
 : widgets/submission_liker.lua | $(TOP)/<moon> |> !compile_js |> widgets/submission_liker.js {package_main}
 : widgets/submission_list.lua | $(TOP)/<moon> |> !compile_js |> widgets/submission_list.js {package_main}
 : widgets/submission_list_audio_file.lua | $(TOP)/<moon> |> !compile_js |> widgets/submission_list_audio_file.js {package_main}
+: widgets/submission_list_video_file.lua | $(TOP)/<moon> |> !compile_js |> widgets/submission_list_video_file.js {package_main}
 : widgets/tag_input.lua | $(TOP)/<moon> |> !compile_js |> widgets/tag_input.js {package_main}
 : widgets/user_list.lua | $(TOP)/<moon> |> !compile_js |> widgets/user_list.js {package_main}
 

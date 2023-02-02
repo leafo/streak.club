@@ -5,6 +5,7 @@ import to_json from require "lapis.util"
 SubmissionCommenter = require "widgets.submission_commenter"
 SubmissionLiker = require "widgets.submission_liker"
 SubmissionListAudioFile = require "widgets.submission_list_audio_file"
+SubmissionListVideoFile = require "widgets.submission_list_video_file"
 
 class SubmissionList extends require "widgets.base"
   @needs: {"submissions", "has_more"}
@@ -205,6 +206,16 @@ class SubmissionList extends require "widgets.base"
                 src: if not lazy_image then image_src
                 "data-lazy_src": if lazy_image then image_src
               }
+        elseif upload\is_video! and upload\valid_for_embed!
+          widget SubmissionListVideoFile {
+            download_url: @url_for "prepare_download", id: upload.id
+            upload: {
+              id: upload.id
+              filename: upload.filename
+              size: upload.size
+              width: upload.width, height: upload.height
+            }
+          }
         elseif upload\is_audio!
           widget SubmissionListAudioFile {
             audio_url: @url_for "prepare_play_audio", id: upload.id
