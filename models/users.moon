@@ -8,7 +8,7 @@ date = require "date"
 
 bit = require "bit"
 
-log_rounds = 9
+BCRYPT_ROUNDS = 9
 
 strip_non_ascii = do
   filter_chars = (c, ...) ->
@@ -110,7 +110,7 @@ class Users extends Model
   @create: (opts={}) =>
     assert opts.password, "missing password for user"
 
-    opts.encrypted_password = bcrypt.digest opts.password, log_rounds
+    opts.encrypted_password = bcrypt.digest opts.password, BCRYPT_ROUNDS
     opts.password = nil
     stripped = strip_non_ascii(opts.username)
     return nil, "username must be ASCII only" unless stripped == opts.username
@@ -158,7 +158,7 @@ class Users extends Model
     @is_suspended!
 
   set_password: (new_pass) =>
-    @update encrypted_password: bcrypt.digest new_pass, log_rounds
+    @update encrypted_password: bcrypt.digest new_pass, BCRYPT_ROUNDS
 
   write_session: (r) =>
     r.session.user = {
@@ -193,7 +193,8 @@ class Users extends Model
     "#{@id}-#{token}"
 
   check_password: (pass) =>
-    bcrypt.verify pass, @encrypted_password
+    encrypted = @encrypted_password\gsub "^%$2y%$", "$2b$"
+    bcrypt.verify pass, encrypted
 
   salt: =>
     @encrypted_password\sub 1, 29
