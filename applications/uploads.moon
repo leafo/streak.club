@@ -82,6 +82,27 @@ class UploadsApplication extends lapis.Application
     }
   }
 
+  [prepare_play_video: "/uploads/play-video/:id"]: capture_errors {
+    on_error: => not_found
+
+    respond_to {
+      GET: => yield_error "invalid method"
+
+      POST: with_csrf =>
+        find_upload @
+
+        assert_error @upload\allowed_to_download(@current_user), "invalid upload"
+        assert_error @upload\is_video!, "upload must be video"
+
+        @upload\increment_video!
+
+        json: {
+          url: @url_for @upload, 60*60
+          expires: os.time! + 60*60
+        }
+    }
+  }
+
   [prepare_play_audio: "/uploads/play-audio/:id"]: capture_errors {
     on_error: => not_found
     respond_to {

@@ -208,6 +208,7 @@ class SubmissionList extends require "widgets.base"
               }
         elseif upload\is_video! and upload\valid_for_embed!
           widget SubmissionListVideoFile {
+            video_url: @url_for "prepare_play_video", id: upload.id
             download_url: @url_for "prepare_download", id: upload.id
             upload: {
               id: upload.id

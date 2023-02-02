@@ -263,6 +263,10 @@ class Uploads extends Model
     import DailyAudioPlays from require "models"
     DailyAudioPlays\increment @id
 
+  increment_video: =>
+    import DailyVideoPlays from require "models"
+    DailyVideoPlays\increment @id
+
   -- be careful, this might take up a lot of memory!
   get_file_contents: (...) =>
     switch @storage_type

@@ -10,7 +10,11 @@ class SubmissionListVideoFile extends require "widgets.base"
   ]]
 
   inner_content: =>
-    div class: "submission_video_widget", "Hello Zone"
+    div {
+      class: "submission_video_widget",
+      style: "aspect-ratio: #{@props.upload.width} / #{@props.upload.height};"
+    }, ->
+      button disabled: true, class: "button", "Play Video"
 
   js_init: =>
     super @props
