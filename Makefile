@@ -5,8 +5,11 @@ LUAJIT ?= /usr/local/openresty/luajit/bin/luajit
 test:
 	busted
 
-install_dependencies:
+pin_dependencies:
 	luarocks --lua-version=5.1 --local build --only-deps --pin
+
+install_dependencies:
+	luarocks --lua-version=5.1 --local build --only-deps
 
 migrate:
 	lapis migrate
