@@ -159,21 +159,21 @@ export class SubmissionList
           , 500
 
   setup_truncation: (container=@el) ->
-    items = container.find ".submission_inside_content"
-
-    add_unroll = (el) ->
-      return unless el.is ".truncated"
+    container.on "s:recalc_unroll", ".submission_inside_content.truncated", (e) =>
+      el = $ e.currentTarget
       if el[0].scrollHeight > Math.ceil(el.height())
         unroll = el.find ".unroll_submission"
         return if unroll.length
         el.append '<div class="unroll_submission">View rest ↓</div>'
 
+    items = container.find ".submission_inside_content"
+
     for item in items
       do (item) ->
         item = $(item)
-        add_unroll item
+        item.trigger "s:recalc_unroll"
         item.find("img").on "load", =>
-          add_unroll item
+          item.trigger "s:recalc_unroll"
 
   setup_paging: =>
     scroller = new InfiniteScroll @el, {
