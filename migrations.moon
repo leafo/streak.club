@@ -709,5 +709,14 @@ import
 
   [1668553357]: =>
     require("community.schema").run_migrations 42
+
+  [1675379813]: =>
+    create_table "daily_video_plays", {
+      {"upload_id", foreign_key}
+      {"date", "date NOT NULL"}
+      {"count", integer}
+
+      "PRIMARY KEY (upload_id, date)"
+    }
 }
 
