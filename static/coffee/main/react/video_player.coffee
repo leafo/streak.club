@@ -2,7 +2,7 @@ import {R, fragment, classNames} from "./_react"
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
-import {div, button, video, source} from 'react-dom-factories'
+import {div, button, video, source, img} from 'react-dom-factories'
 
 import {with_csrf} from "main/util"
 
@@ -12,6 +12,20 @@ export default class VideoPlayer extends React.Component
   constructor: (props) ->
     super props
     @state = { }
+
+  load_video: =>
+    return if @state.loading
+    @setState loading: true
+    $.post(@props.video_url, with_csrf()).then (res) =>
+      @setState video: res
+      @setState loading: false
+
+      if res.url
+        create_video_thumbnail res.url
+
+  componentDidMount: ->
+    if @props.autoplay
+      @load_video()
 
   render: ->
     div {
@@ -35,12 +49,15 @@ export default class VideoPlayer extends React.Component
             type: "video/mp4"
           }
       else
-        button {
-          className: "button"
-          onClick: =>
-            return if @state.loading
-            @setState loading: true
-            $.post(@props.video_url, with_csrf()).then (res) =>
-              @setState video: res
-        }, "Play Video"
+        fragment {},
+          if @state.thumbnail_url
+            img {
+              class: "video_thumbnail"
+              src: @state.thumbnail_url
+            }
+
+          button {
+            className: "button play_btn"
+            onClick: @load_video
+          }, "Play Video"
 
