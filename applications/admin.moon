@@ -16,13 +16,18 @@ import not_found, assert_page, with_csrf from require "helpers.app"
 
 import ExceptionRequests, ExceptionTypes from require "lapis.exceptions.models"
 
+-- this converts params object to a WHERE clause string of optional filters
 filter_shape = (t) ->
   spec = {}
   for k,v in pairs t
     table.insert spec, {k, types.empty + v}
 
   table.sort spec, (a,b) -> a[1] < b[1]
-  types.params_shape spec
+  types.params_shape(spec) / (filters) ->
+    if next filters
+      (db.interpolate_query "WHERE ?", db.clause [v for _,v in pairs filters])
+    else
+      "" -- no filter
 
 class AdminApplication extends lapis.Application
   @name: "admin."
@@ -465,12 +470,7 @@ class AdminApplication extends lapis.Application
         }
     }
 
-    clause = "order by id desc"
-
-    if next filter
-      clause = db.interpolate_query "where ? #{clause}", db.clause [v for _,v in pairs filter]
-
-    @pager = Uploads\paginated clause, {
+    @pager = Uploads\paginated "#{filter} order by id desc", {
       per_page: 50
       prepare_results: (uploads) ->
         preload uploads, "user", "object"
@@ -604,34 +604,17 @@ class AdminApplication extends lapis.Application
   [exceptions: "/exceptions"]: capture_errors_json respond_to {
     GET: with_params {
       {"page", shapes.page_number}
-      {"id", types.empty + types.db_id}
-      {"exception_type_id", types.empty + types.db_id}
-      {"status", types.empty + types.db_enum ExceptionTypes.statuses }
     }, (params) =>
+      filter = assert_valid @params, filter_shape {
+        id: types.db_id / (id) -> db.clause { :id }
+        exception_type_id: types.db_id / (id) -> db.clause { exception_type_id: id }
+        status: types.db_enum(ExceptionTypes.statuses) / (v) ->
+          db.clause {
+            {"exists(select 1 from exception_types where exception_types.id = exception_requests.exception_type_id and status = ?)", v}
+          }
+      }
 
-      wheres = {}
-
-      add_where = (q, ...) ->
-        if select("#", ...) > 0
-          q = db.interpolate_query q, ...
-
-        table.insert wheres, "(#{q})"
-
-      if params.id
-        add_where "id = ?", params.id
-
-      if etid = params.exception_type_id
-        add_where "exception_type_id = ?", etid
-
-      if params.status
-        add_where "exists(select 1 from exception_types where exception_types.id = exception_requests.exception_type_id and status = ?)", params.status
-
-      clause = "order by id desc"
-
-      if next wheres
-        clause = "where #{table.concat wheres, " and "} #{clause}"
-
-      @pager = ExceptionRequests\paginated clause, {
+      @pager = ExceptionRequests\paginated "#{filter} order by id desc", {
         per_page: 50
         prepare_results: (exceptions) ->
           preload exceptions, "exception_type"
