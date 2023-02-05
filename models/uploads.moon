@@ -39,7 +39,6 @@ class Uploads extends Model
     {"user", belongs_to: "Users"}
     {"upload_thumbnail", has_one: "UploadThumbnails"}
 
-
     {"object", polymorphic_belongs_to: {
       [1]: {"submission", "Submissions"}
     }}
@@ -168,7 +167,7 @@ class Uploads extends Model
   valid_for_embed: =>
     if @is_video!
       -- less than 3mb video
-      if @width and @height and @size and @size < 1024*1024*3
+      if @width and @height and @size and @size < 1024*1024*5
         true
       else
         false
