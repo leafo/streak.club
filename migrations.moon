@@ -718,5 +718,22 @@ import
 
       "PRIMARY KEY (upload_id, date)"
     }
+
+  [1675554278]: =>
+    create_table "upload_thumbnails", {
+      {"upload_id", foreign_key}
+
+      {"created_at", time}
+      {"updated_at", time}
+
+      {"width", integer null: false}
+      {"height", integer null: false}
+      {"data_url", text}
+
+      "PRIMARY KEY (upload_id)"
+    }
+
+    db.query "alter table upload_thumbnails alter width drop default"
+    db.query "alter table upload_thumbnails alter height drop default"
 }
 
