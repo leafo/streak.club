@@ -424,7 +424,13 @@ class AdminApplication extends lapis.Application
   }, (params) =>
     import SubmissionComments from require "models"
 
-    @pager = SubmissionComments\paginated "order by id desc", {
+    filter = assert_valid @params, filter_shape {
+      user_id: types.db_id / (user_id) -> db.clause { :user_id }
+      submission_id: types.db_id / (submission_id) -> db.clause { :submission_id }
+      source: types.db_enum(SubmissionComments.sources) / (source) -> db.clause { :source }
+    }
+
+    @pager = SubmissionComments\paginated "#{filter} order by id desc", {
       per_page: 50
       prepare_results: (comments) ->
         preload comments, "user", submission: { "user", streak_submissions: "streak"}

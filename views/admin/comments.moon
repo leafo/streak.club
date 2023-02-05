@@ -10,8 +10,13 @@ class AdminComments extends require "widgets.admin.page"
 
   column_content: =>
     h2 "Submission comments"
-    @render_pager @pager
 
+    @filter_form (field) ->
+      field "user_id"
+      field "submission_id"
+      field "source", SubmissionComments.sources
+
+    @render_pager @pager
     @column_table @comments, {
       {"created_at", (c) ->
         span title: c.created_at, @relative_timestamp c.created_at
