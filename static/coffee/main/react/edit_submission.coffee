@@ -12,25 +12,7 @@ import {_} from "main/global_libs"
 
 export default P = R.package "EditSubmission"
 
-create_video_thumbnail = (video) ->
-  thumbnail_size = 48
-
-  canvas = document.createElement('canvas')
-  canvas.width = thumbnail_size
-  canvas.height = Math.floor canvas.width * video.videoHeight / video.videoWidth
-
-  ctx = canvas.getContext('2d')
-  ctx.filter = 'saturate(150%) blur(1px) contrast(120%)'
-  ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
-
-  data_url = canvas.toDataURL("image/jpeg", 0.6)
-  console.log data_url
-
-  {
-    data_url
-    width: canvas.width
-    height: canvas.height
-  }
+import {create_video_thumbnail} from "main/upload"
 
 # NOTE: all files pass through here, so we should return nothing for non-images
 # NOTE: this also generates thumbnail for video file

@@ -54,8 +54,8 @@ class UploadsApplication extends lapis.Application
       {"height", types.empty + sizestring / tonumber}
 
       {"thumbnail", types.empty + types.params_shape {
-        {"width", types.empty + sizestring / tonumber}
-        {"height", types.empty + sizestring / tonumber}
+        {"width", sizestring / tonumber}
+        {"height", sizestring / tonumber}
         {"data_url", types.limited_text(1024*5) * types.pattern "^data:image/jpeg;base64"}
       }}
     }, (params) =>
