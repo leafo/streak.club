@@ -1,6 +1,11 @@
 
 
 types = require "lapis.validate.types"
+import instance_of from  require "tableshape.moonscript"
+
+import Enum from require "lapis.db.model"
+
+is_enum = instance_of Enum
 
 not_empty = -types.empty
 
@@ -12,8 +17,18 @@ class AdminPage extends require "widgets.page"
 
     field_names = {}
 
-    render_field = (name, opts={}) ->
+    render_field = (name, opts={}, more_opts) ->
       table.insert field_names, name
+
+      local list_id
+
+      if is_enum opts
+        enum = opts
+        opts = more_opts or {}
+        list_id = "enum_#{name}"
+        datalist id: list_id, ->
+          for val in *enum
+            option value: val, val
 
       input {
         type: opts.type or "text"
@@ -22,6 +37,7 @@ class AdminPage extends require "widgets.page"
         title: name
         class: "filter_field"
         placeholder: opts.placeholder or name
+        list: list_id
       }
 
     has_filter = ->

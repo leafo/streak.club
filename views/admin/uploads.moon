@@ -16,6 +16,7 @@ class AdminUploads extends require "widgets.admin.page"
       field "id"
       field "user_id"
       field "submission_id"
+      field "storage_type", Uploads.storage_types
 
     @render_pager @pager
     @column_table @uploads, {

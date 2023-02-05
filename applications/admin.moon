@@ -457,6 +457,7 @@ class AdminApplication extends lapis.Application
       deleted: types.any / db.clause { deleted: true }
       extension: types.trimmed_text / (ext) -> db.clause { extension: ext }
       user_id: types.db_id / (id) -> db.clause { user_id: id }
+      storage_type: types.db_enum(Uploads.storage_types) / (v) -> db.clause { storage_type: v }
       submission_id: types.db_id / (id) ->
         db.clause {
           object_id: id
