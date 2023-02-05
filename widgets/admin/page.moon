@@ -20,15 +20,38 @@ class AdminPage extends require "widgets.page"
     render_field = (name, opts={}, more_opts) ->
       table.insert field_names, name
 
-      local list_id
 
       if is_enum opts
         enum = opts
         opts = more_opts or {}
-        list_id = "enum_#{name}"
-        datalist id: list_id, ->
-          for val in *enum
-            option value: val, val
+        fieldset class: "enum_field", ->
+          legend name
+
+          have_value = not_empty @params[name]
+
+          input type: "hidden", name: name, value: have_value and @params[name] or nil
+          onclick = "$(event.target).closest('.enum_field').find('input[type=hidden]').val(event.target.value)"
+
+          ul ->
+            for val in *enum
+              li ->
+                button {
+                  value: val
+                  :onclick
+                  class: {
+                    active: have_value and val == @params[name]
+                  }
+                }, val
+
+            if have_value
+              li ->
+                button {
+                  name: name
+                  value: ""
+                  :onclick
+                }, -> em "Clear"
+
+        return
 
       switch opts.type
         when "bool", "boolean"
@@ -43,6 +66,13 @@ class AdminPage extends require "widgets.page"
             text " "
             text name
         else
+          local list_id
+          if opts.choices
+            list_id = "choices_#{name}"
+            datalist id: list_id, ->
+              for val in *opts.choices
+                option value: val, val
+
           input {
             type: opts.type or "text"
             value: @params[name]
@@ -62,11 +92,10 @@ class AdminPage extends require "widgets.page"
     form {
       class: "filter_form form"
     }, ->
-      fn render_field
       button type: "submit", style: "display: none;"
-      -- Note this functions as submit button that also clears
+      fn render_field
       if has_filter!
-        button class: "button", onclick: "$('.filter_form .filter_field').val('').prop('checked', false)", "Clear"
+        a href: "?", class: "button", "Clear"
 
   inner_content: =>
     div class: "tab_header", ->
