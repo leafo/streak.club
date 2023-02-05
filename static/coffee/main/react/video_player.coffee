@@ -20,8 +20,18 @@ export default class VideoPlayer extends React.Component
       @setState video: res
       @setState loading: false
 
-      if res.url
-        create_video_thumbnail res.url
+  on_click_video: (e) =>
+    if el = @video_el.current
+      if el.paused
+        el.play()
+      else
+        el.pause()
+
+  on_time_update: (e) =>
+    @setState {
+      current_time: e.target.currentTime
+      duration: e.target.duration
+    }
 
   componentDidMount: ->
     if @props.autoplay
@@ -37,17 +47,29 @@ export default class VideoPlayer extends React.Component
       }
     },
       if @state.video
-        video {
-          muted: true
-          autoPlay: true
-          loop: true
-          width: @props.upload.width
-          height: @props.upload.height
-        },
-          source {
-            src: @state.video.url
-            type: "video/mp4"
-          }
+        fragment {},
+          video {
+            ref: @video_el ||= React.createRef()
+            muted: true
+            autoPlay: true
+            loop: true
+            width: @props.upload.width
+            height: @props.upload.height
+            onTimeUpdate: @on_time_update
+            onClick: @on_click_video
+          },
+            source {
+              src: @state.video.url
+              type: "video/mp4"
+            }
+
+          div className: "video_progress_bar",
+            div {
+              className: "video_progress_bar_inner",
+              style: {
+                width: "#{@state.current_time / @state.duration * 100}%"
+              }
+            }
       else
         fragment {},
           if @props.thumbnail

@@ -185,6 +185,30 @@
             position: relative;
             overflow: hidden;
 
+            .video_progress_bar {
+                position: absolute;
+                left: 10px;
+                bottom: 10px;
+                right: 10px;
+                height: 5px;
+                border-radius: 4px;
+                background: border_color();
+                overflow: hidden;
+                pointer-events: none;
+                opacity: 0.75;
+
+                .video_progress_bar_inner {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    bottom: 0;
+                    width: 0%;
+                    border-radius: 4px;
+                    transition: all 0.3s linear;
+                    background: body_color_lighter();
+                }
+            }
+
             > .video_thumbnail {
                 position: absolute;
                 filter: blur(20px);
@@ -196,7 +220,7 @@
 
             > .play_btn {
                 z-index: 1;
-                box-shadow: 0 0 0 2px white, 0 0 30px rgba(black, 0.5);
+                box-shadow: 0 0 0 2px white, 0 0 0 4px rgba(black, 0.2);
             }
 
             > video {
@@ -220,7 +244,7 @@
             }
 
             .audio_progress_inner {
-                transition: transition(all 0.3s linear);
+                transition: all 0.3s linear;
             }
 
             .download_form {
