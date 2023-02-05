@@ -12,6 +12,11 @@ class AdminUploads extends require "widgets.admin.page"
   column_content: =>
     h2 "Uploads"
 
+    @filter_form (field) ->
+      field "id"
+      field "user_id"
+      field "submission_id"
+
     @render_pager @pager
     @column_table @uploads, {
       "id"

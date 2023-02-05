@@ -16,6 +16,14 @@ import not_found, assert_page, with_csrf from require "helpers.app"
 
 import ExceptionRequests, ExceptionTypes from require "lapis.exceptions.models"
 
+filter_shape = (t) ->
+  spec = {}
+  for k,v in pairs t
+    table.insert spec, {k, types.empty + v}
+
+  table.sort spec, (a,b) -> a[1] < b[1]
+  types.params_shape spec
+
 class AdminApplication extends lapis.Application
   @name: "admin."
   @path: "/admin"
@@ -443,7 +451,25 @@ class AdminApplication extends lapis.Application
   }, (params) =>
     import Uploads from require "models"
 
-    @pager = Uploads\paginated "order by id desc", {
+    filter = assert_valid @params, filter_shape {
+      id: types.db_id / (id) -> db.clause { :id }
+      ready: types.any / db.clause { ready: true }
+      deleted: types.any / db.clause { deleted: true }
+      extension: types.trimmed_text / (ext) -> db.clause { extension: ext }
+      user_id: types.db_id / (id) -> db.clause { user_id: id }
+      submission_id: types.db_id / (id) ->
+        db.clause {
+          object_id: id
+          object_type: Uploads.object_types.submission
+        }
+    }
+
+    clause = "order by id desc"
+
+    if next filter
+      clause = db.interpolate_query "where ? #{clause}", db.clause [v for _,v in pairs filter]
+
+    @pager = Uploads\paginated clause, {
       per_page: 50
       prepare_results: (uploads) ->
         preload uploads, "user", "object"

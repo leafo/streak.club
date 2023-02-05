@@ -1,8 +1,43 @@
 
+
+types = require "lapis.validate.types"
+
+not_empty = -types.empty
+
 class AdminPage extends require "widgets.page"
   @include "widgets.tabs_helpers"
 
   @asset_packages: {"admin"}
+  filter_form: (fn) =>
+
+    field_names = {}
+
+    render_field = (name, opts={}) ->
+      table.insert field_names, name
+
+      input {
+        type: opts.type or "text"
+        value: @params[name]
+        name: name
+        title: name
+        class: "filter_field"
+        placeholder: opts.placeholder or name
+      }
+
+    has_filter = ->
+      for name in *field_names
+        return true if not_empty @params[name]
+
+      false
+
+    form {
+      class: "filter_form form"
+    }, ->
+      fn render_field
+      button type: "submit", style: "display: none;"
+      -- Note this functions as submit button that also clears
+      if has_filter!
+        button class: "button", onclick: "$('.filter_form .filter_field').val('')", "Clear"
 
   inner_content: =>
     div class: "tab_header", ->

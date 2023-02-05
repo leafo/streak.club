@@ -14,6 +14,16 @@
         }
     }
 
+    .filter_form {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+
+        > input {
+            max-width: 200px;
+        }
+    }
+
     .admin_columns {
         display: flex;
         align-items: flex-start;
