@@ -12,9 +12,10 @@ export create_video_thumbnail_from_url = (url) ->
 
     v.addEventListener "seeked", ->
       {data_url, width, height} = create_video_thumbnail v
-      d.resolve data_url, width, height
+      d.resolve data_url, width, height, v
 
     v.currentTime = 1
+
 
 export create_video_thumbnail = (video) ->
   thumbnail_size = 48
