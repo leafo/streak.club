@@ -178,6 +178,8 @@ class AdminApplication extends lapis.Application
         order by position
       ", Uploads.object_types.submission, @submission.id
 
+      preload @uploads, "upload_thumbnail"
+
       render: true
 
     POST: with_csrf with_params {
@@ -456,6 +458,37 @@ class AdminApplication extends lapis.Application
     @page = params.page
     @posts = @pager\get_page @page
     render: true
+
+  [generate_thumbnail: "/uploads/:upload_id/generate-thumbnail"]: capture_errors_json respond_to {
+    before: with_params {
+      {"upload_id", types.db_id}
+    }, (params) =>
+      import Uploads from require "models"
+      @upload = assert_error Uploads\find(params.upload_id), "invalid upload"
+
+      assert_error @upload\is_video! and @upload\valid_for_embed!,
+        "Upload is not valid for generating thumbnail"
+
+    GET: =>
+      render: true
+
+    POST: with_csrf with_params {
+      {"width", types.pattern("^%d+$") / tonumber}
+      {"height", types.pattern("^%d+$") / tonumber}
+      {"data_url", types.limited_text(1024*5) * types.pattern "^data:image/jpeg;base64"}
+    }, (params) =>
+      import UploadThumbnails from require "models"
+      UploadThumbnails\create {
+        upload_id: @upload.id
+        width: params.width
+        height: params.height
+        data_url: params.data_url
+      }
+
+      json: {
+        success: true
+      }
+  }
 
   [uploads: "/uploads"]: capture_errors_json with_params {
     {"page", shapes.page_number}

@@ -47,7 +47,6 @@ class AdminUploads extends require "widgets.admin.page"
         if upload\is_image! and not upload.deleted and upload.ready
           a href: @url_for(upload), "view"
       }
-      {"download", (upload) -> }
       {"data", (upload) ->
         if upload.data and next upload.data
           import to_json from require "lapis.util"

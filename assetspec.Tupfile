@@ -8,6 +8,7 @@ export LUA_CPATH
 !esbuild_bundle_minified = |> ^ esbuild minified bundle %o^ NODE_PATH=static/coffee $(ESBUILD) --target=es6 --log-level=warning --bundle --external:/static/* --minify %f --outfile=%o |>
 
 : views/admin/email_streak.lua | $(TOP)/<moon> |> !compile_js |> views/admin/email_streak.js {package_admin}
+: views/admin/generate_thumbnail.lua | $(TOP)/<moon> |> !compile_js |> views/admin/generate_thumbnail.js {package_admin}
 : views/community/new_topic.lua | $(TOP)/<moon> |> !compile_js |> views/community/new_topic.js {package_main}
 : views/edit_streak.lua | $(TOP)/<moon> |> !compile_js |> views/edit_streak.js {package_main}
 : views/edit_submission.lua | $(TOP)/<moon> |> !compile_js |> views/edit_submission.js {package_main}

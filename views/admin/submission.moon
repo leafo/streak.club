@@ -1,5 +1,5 @@
 
-import Submissions from require "models"
+import Submissions, Uploads from require "models"
 
 class AdminSubmission extends require "widgets.admin.page"
   @needs: {"submission", "uploads"}
@@ -34,8 +34,29 @@ class AdminSubmission extends require "widgets.admin.page"
     }
 
     h3 "Uploads"
-    for upload in *@uploads
-      @field_table upload
+    @column_table @uploads, {
+      "id"
+      "created_at"
+      "ready"
+      "deleted"
+      "extension"
+      "width"
+      "height"
+
+      {"size", type: "filesize"}
+      "downloads_count"
+      {"storage_type", Uploads.storage_types}
+      {"thumbnail", (upload) ->
+        generate_url = @url_for "admin.generate_thumbnail", upload_id: upload.id
+
+        if thumb = upload\get_upload_thumbnail!
+          a href: generate_url, title: "refresh thumbnail", ->
+            img src: thumb.data_url, width: thumb.width, height: thumb.height
+        elseif upload\valid_for_embed! and upload\is_video!
+          a href: generate_url, "create"
+
+      }
+    }
 
 
     h3 "Streak submissions"
