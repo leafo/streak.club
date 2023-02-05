@@ -82,7 +82,19 @@ class AdminApplication extends lapis.Application
   }, (params) =>
     import Streaks, Users from require "models"
 
-    @pager = Streaks\paginated "order by id desc", {
+    filter = assert_valid @params, filter_shape {
+      id: types.db_id / (id) -> db.clause { :id }
+      user_id: types.db_id / (user_id) -> db.clause { :user_id }
+      rate: types.db_enum(Streaks.rates) / (rate) -> db.clause { :rate }
+      publish_status: types.db_enum(Streaks.publish_statuses) / (publish_status) -> db.clause { :publish_status }
+      membership_type: types.db_enum(Streaks.membership_types) / (membership_type) -> db.clause { :membership_type }
+
+      state: types.one_of({"active", "upcoming", "completed"}) / (state) ->
+        db.clause { Streaks\_time_clause state }
+      deleted: types.any / -> db.clause { deleted: false }
+    }
+
+    @pager = Streaks\paginated "#{filter} order by id desc", {
       per_page: 50
       prepare_results: (streaks) ->
         preload streaks, "user"

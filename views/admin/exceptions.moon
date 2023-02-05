@@ -22,17 +22,10 @@ class AdminExceptions extends require "widgets.admin.page"
   column_content: =>
     h2 "Exceptions"
 
-    ul ->
-      for status in *{
-        "default"
-        "resolved"
-        "ignored"
-      }
-        li ->
-          highlight = if @params.status == status then strong else text
-          highlight ->
-            a href: @url_for("admin.exceptions", nil, {:status}), ->
-              code status
+    @filter_form (field) ->
+      field "id"
+      field "exception_type_id"
+      field "status", ExceptionTypes.statuses
 
     @render_pager @pager
 

@@ -1,6 +1,8 @@
 
 import Streaks from require "models"
 
+import enum from require "lapis.db.model"
+
 class AdminStreaks extends require "widgets.admin.page"
   @include "widgets.pagination_helpers"
   @include "widgets.table_helpers"
@@ -11,6 +13,19 @@ class AdminStreaks extends require "widgets.admin.page"
 
   column_content: =>
     h2 "Streaks"
+
+    @filter_form (field) ->
+      field "id"
+      field "user_id"
+      field "state", enum {
+        "active"
+        "upcoming"
+        "completed"
+      }
+      field "rate", Streaks.rates
+      field "publish_status", Streaks.publish_statuses
+      field "membership_type", Streaks.membership_types
+      field "deleted", type: "boolean"
 
     @render_pager @pager
 
