@@ -8,11 +8,14 @@ class AdminGenerateThumbnail extends require "widgets.admin.page"
 
     let el = $(widget_selector)
 
-    create_video_thumbnail_from_url(widget_params.download_url).then((data_url, width, height) => {
+    create_video_thumbnail_from_url(widget_params.download_url).then((data_url, width, height, video) => {
       el.find("img.preview").attr("src", data_url)
       el.find("[name=data_url]").val(data_url)
       el.find("[name=width]").val(width)
       el.find("[name=height]").val(height)
+
+      el.find("[name=soursce_width]").val(video.videoWidth)
+      el.find("[name=soursce_height]").val(video.videoHeight)
     })
   ]]
 
@@ -45,11 +48,18 @@ class AdminGenerateThumbnail extends require "widgets.admin.page"
         textarea name: "data_url", readonly: true, placeholder: "Loading..."
 
       fieldset ->
-        legend "Size"
+        legend "Thumbnail Size"
 
         input type: "number", name: "width", readonly: true, required: true
         text " x "
         input type: "number", name: "height", readonly: true, required: true
+
+      fieldset ->
+        legend "Video Size"
+
+        input type: "number", name: "source_width", readonly: true, required: true, value: @upload.width
+        text " x "
+        input type: "number", name: "source_height", readonly: true, required: true, value: @upload.height
 
       div class: "button_row", ->
         button class: "button", "Save thumbnail"

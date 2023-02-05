@@ -466,8 +466,7 @@ class AdminApplication extends lapis.Application
       import Uploads from require "models"
       @upload = assert_error Uploads\find(params.upload_id), "invalid upload"
 
-      assert_error @upload\is_video! and @upload\valid_for_embed!,
-        "Upload is not valid for generating thumbnail"
+      assert_error @upload\is_video!, "Upload is not a video"
 
     GET: =>
       render: true
@@ -475,6 +474,8 @@ class AdminApplication extends lapis.Application
     POST: with_csrf with_params {
       {"width", types.pattern("^%d+$") / tonumber}
       {"height", types.pattern("^%d+$") / tonumber}
+      {"source_width", types.empty + types.pattern("^%d+$") / tonumber}
+      {"source_height", types.empty + types.pattern("^%d+$") / tonumber}
       {"data_url", types.limited_text(1024*5) * types.pattern "^data:image/jpeg;base64"}
     }, (params) =>
       import UploadThumbnails from require "models"
@@ -484,6 +485,14 @@ class AdminApplication extends lapis.Application
         height: params.height
         data_url: params.data_url
       }
+
+      -- refresh the dimensions of the upload if necessary
+      if params.source_width and params.source_height
+        if params.source_width != @upload.width or params.source_height != @upload.height
+          @upload\update {
+            width: params.source_width
+            height: params.source_height
+          }
 
       json: {
         success: true

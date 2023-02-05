@@ -52,6 +52,15 @@ class AdminUploads extends require "widgets.admin.page"
           import to_json from require "lapis.util"
           code style: "font-size: small", to_json upload.data
       }
+      {"thumbnail", (upload) ->
+        generate_url = @url_for "admin.generate_thumbnail", upload_id: upload.id
+
+        if thumb = upload\get_upload_thumbnail!
+          a href: generate_url, title: "refresh thumbnail", ->
+            img src: thumb.data_url, width: thumb.width, height: thumb.height
+        elseif upload\is_video! and upload.ready and not upload.deleted
+          a href: generate_url, "create"
+      }
     }
     @render_pager @pager
 
