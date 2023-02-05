@@ -98,6 +98,9 @@ class AdminPage extends require "widgets.page"
         a href: "?", class: "button", "Clear"
 
   inner_content: =>
+    @content_for "all_js", ->
+      @include_js "admin.js"
+
     div class: "tab_header", ->
       div class: "page_tabs", ->
         div class: "tabs_inner", ->

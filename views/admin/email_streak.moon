@@ -10,9 +10,6 @@ class AdminEmailStreak extends require "widgets.admin.page"
   ]]
 
   column_content: =>
-    @content_for "all_js", ->
-      @include_js "admin.js"
-
     div class: "page_header", ->
       h2 "Email streak users"
       h3 ->
