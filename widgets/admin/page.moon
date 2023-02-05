@@ -30,15 +30,28 @@ class AdminPage extends require "widgets.page"
           for val in *enum
             option value: val, val
 
-      input {
-        type: opts.type or "text"
-        value: @params[name]
-        name: name
-        title: name
-        class: "filter_field"
-        placeholder: opts.placeholder or name
-        list: list_id
-      }
+      switch opts.type
+        when "bool", "boolean"
+          label ->
+            input {
+              type: "checkbox"
+              name: name
+              checked: not_empty @params[name]
+              onchange: "$(event.target).closest('form').submit()"
+              class: "filter_field"
+            }
+            text " "
+            text name
+        else
+          input {
+            type: opts.type or "text"
+            value: @params[name]
+            name: name
+            title: name
+            class: "filter_field"
+            placeholder: opts.placeholder or name
+            list: list_id
+          }
 
     has_filter = ->
       for name in *field_names
@@ -53,7 +66,7 @@ class AdminPage extends require "widgets.page"
       button type: "submit", style: "display: none;"
       -- Note this functions as submit button that also clears
       if has_filter!
-        button class: "button", onclick: "$('.filter_form .filter_field').val('')", "Clear"
+        button class: "button", onclick: "$('.filter_form .filter_field').val('').prop('checked', false)", "Clear"
 
   inner_content: =>
     div class: "tab_header", ->
