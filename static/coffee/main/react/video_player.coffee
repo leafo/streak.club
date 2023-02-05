@@ -50,10 +50,12 @@ export default class VideoPlayer extends React.Component
           }
       else
         fragment {},
-          if @state.thumbnail_url
+          if @props.thumbnail
             img {
-              class: "video_thumbnail"
-              src: @state.thumbnail_url
+              className: "video_thumbnail"
+              src: @props.thumbnail.data_url
+              width: @props.thumbnail.width
+              height: @props.thumbnail.height
             }
 
           button {

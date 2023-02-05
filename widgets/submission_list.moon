@@ -216,6 +216,14 @@ class SubmissionList extends require "widgets.base"
               size: upload.size
               width: upload.width, height: upload.height
             }
+
+            thumbnail: if ut = upload.upload_thumbnail
+              {
+                width: ut.width
+                height: ut.height
+                data_url: ut.data_url
+              }
+
           }
         elseif upload\is_audio!
           widget SubmissionListAudioFile {

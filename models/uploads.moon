@@ -1,5 +1,5 @@
 db = require "lapis.db"
-import Model, enum from require "lapis.db.model"
+import Model, enum, preload from require "lapis.db.model"
 
 config = require("lapis.config").get!
 
@@ -37,6 +37,9 @@ class Uploads extends Model
 
   @relations: {
     {"user", belongs_to: "Users"}
+    {"upload_thumbnail", has_one: "UploadThumbnails"}
+
+
     {"object", polymorphic_belongs_to: {
       [1]: {"submission", "Submissions"}
     }}
@@ -84,6 +87,8 @@ class Uploads extends Model
         ready: true
         :object_type
       }
+
+      preload uploads, "upload_thumbnail"
 
       uploads_by_object_id = {}
       for upload in *uploads
