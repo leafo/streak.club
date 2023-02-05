@@ -2,6 +2,46 @@
 import $ from "main/jquery"
 import {event as sendEvent, with_csrf} from "main/util"
 
+export create_video_thumbnail_from_url = (url) ->
+  v = document.createElement('video')
+  v.crossOrigin = "anonymous"
+  v.src = url
+
+  $.Deferred (d) ->
+    thumbnail_size = 48
+
+    v.addEventListener "seeked", ->
+      {data_url, width, height} = create_video_thumbnail v
+      d.resolve data_url, width, height
+
+    v.currentTime = 1
+
+export create_video_thumbnail = (video) ->
+  thumbnail_size = 48
+
+  canvas = document.createElement('canvas')
+  canvas.width = thumbnail_size
+  canvas.height = Math.floor canvas.width * video.videoHeight / video.videoWidth
+
+  ctx = canvas.getContext('2d')
+
+  # we draw it twice to pervent alpha bleed around blurred edges
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+
+  ctx.filter = 'saturate(150%) blur(1px) contrast(120%)'
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+
+  data_url = canvas.toDataURL("image/jpeg", 0.6)
+  console.log data_url
+
+  {
+    data_url
+    width: canvas.width
+    height: canvas.height
+  }
+
+
+
 export class Upload
   constructor: (@data, @on_update) ->
 
