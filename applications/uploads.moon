@@ -52,6 +52,12 @@ class UploadsApplication extends lapis.Application
       {"id", types.db_id}
       {"width", types.empty + sizestring / tonumber}
       {"height", types.empty + sizestring / tonumber}
+
+      {"thumbnail", types.empty + types.params_shape {
+        {"width", types.empty + sizestring / tonumber}
+        {"height", types.empty + sizestring / tonumber}
+        {"data_url", types.limited_text(1024*5) * types.pattern "^data:image/jpeg;base64"}
+      }}
     }, (params) =>
       upload = Uploads\find params.id
       assert_error upload\allowed_to_edit(@current_user), "invalid upload"
@@ -63,6 +69,15 @@ class UploadsApplication extends lapis.Application
         width: params.width
         height: params.height
       }
+
+      if params.thumbnail
+        import UploadThumbnails from require "models"
+        UploadThumbnails\create {
+          upload_id: upload.id
+          width: params.thumbnail.width
+          height: params.thumbnail.height
+          data_url: params.thumbnail.data_url
+       }
 
       json: { success: true }
   }
