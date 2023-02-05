@@ -12,6 +12,13 @@ class AdminUsers extends require "widgets.admin.page"
   column_content: =>
     h2 "Users"
 
+
+    @filter_form (field) ->
+      field "id"
+      field "user_token"
+      field "exclude_token"
+      field "spam_untrained", type: "boolean"
+
     @render_pager @pager
     @column_table @users, {
       {"id", type: "checkbox", form: "bulk_update", input: "user_ids"}

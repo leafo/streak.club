@@ -13,8 +13,8 @@ class AdminPage extends require "widgets.page"
   @include "widgets.tabs_helpers"
 
   @asset_packages: {"admin"}
-  filter_form: (fn) =>
 
+  filter_form: (fn) =>
     field_names = {}
 
     render_field = (name, opts={}, more_opts) ->

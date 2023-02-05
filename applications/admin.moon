@@ -243,39 +243,27 @@ class AdminApplication extends lapis.Application
 
     GET: with_params {
       {"page", shapes.page_number}
-      {"id", types.empty + types.db_id}
-      {"user_token", types.empty + types.valid_text}
-      {"exclude_token", types.empty + types.valid_text}
-      {"spam_untrained", types.empty / false + types.any / true}
     }, (params) =>
       import Users from require "models"
 
-      wheres = {}
+      filter = assert_valid @params, filter_shape {
+        id: types.db_id / (id) -> db.clause { :id }
+        user_token: types.trimmed_text / (v) ->
+          db.clause {
+            {"exists(select 1 from spam_scans where user_id = users.id and user_tokens @> ARRAY[?])", v}
+          }
+        exclude_token: types.trimmed_text / (v) ->
+          db.clause {
+            {"not exists(select 1 from spam_scans where user_id = users.id and user_tokens @> ARRAY[?])", v}
+          }
+        spam_untrained: types.any / ->
+          import SpamScans from require "models"
+          db.clause {
+            {"exists(select 1 from spam_scans where user_id = users.id and train_status = ?) or not exists(select 1 from spam_scans where user_id = users.id)", SpamScans.train_statuses.untrained}
+          }
+      }
 
-      add_where = (q, ...) ->
-        if select("#", ...) > 0
-          q = db.interpolate_query q, ...
-        table.insert wheres, "(#{q})"
-
-      if params.id
-        add_where "id = ?", params.id
-
-      if params.user_token
-        add_where "exists(select 1 from spam_scans where user_id = users.id and user_tokens @> ARRAY[?])", params.user_token
-
-      if params.exclude_token
-        add_where "not exists(select 1 from spam_scans where user_id = users.id and user_tokens @> ARRAY[?])", params.exclude_token
-
-      if params.spam_untrained
-        import SpamScans from require "models"
-        add_where "exists(select 1 from spam_scans where user_id = users.id and train_status = ?) or not exists(select 1 from spam_scans where user_id = users.id)", SpamScans.train_statuses.untrained
-
-      clause = "order by id desc"
-
-      if next wheres
-        clause = "where #{table.concat wheres, " and "} #{clause}"
-
-      @pager = Users\paginated clause, {
+      @pager = Users\paginated "#{filter} order by id desc", {
         per_page: 50
         prepare_results: (users) ->
           preload users, "ip_addresses", "spam_scan"
