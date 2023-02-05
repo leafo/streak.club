@@ -214,6 +214,7 @@ class SubmissionList extends require "widgets.base"
               id: upload.id
               filename: upload.filename
               size: upload.size
+              size_formatted: @filesize_format upload.size
               width: upload.width, height: upload.height
             }
 

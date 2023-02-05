@@ -186,6 +186,7 @@
             overflow: hidden;
 
             .video_progress_bar {
+                box-shadow: 0 0 0 2px white, 0 0 0 4px rgba(black, 0.2);
                 position: absolute;
                 left: 10px;
                 bottom: 10px;
@@ -204,7 +205,6 @@
                     bottom: 0;
                     width: 0%;
                     border-radius: 4px;
-                    transition: all 0.3s linear;
                     background: body_color_lighter();
                 }
             }
@@ -218,9 +218,36 @@
                 left: -10px;
             }
 
-            > .play_btn {
+            > .control_buttons {
                 z-index: 1;
+                display: flex;
+                gap: 5px;
+                background: white_back();
+                align-items: center;
                 box-shadow: 0 0 0 2px white, 0 0 0 4px rgba(black, 0.2);
+                border-radius: $button_radius;
+
+                .upload_size {
+                    margin-right: 10px;
+                    color: body_color_light();
+                }
+
+                .download_btn {
+                    border: 0;
+                    background: transparent;
+                    cursor: pointer;
+                    color: inherit;
+                    padding: 5px;
+                    color: body_color_light();
+                    &:active {
+                        position: relative;
+                        top: 1px;
+                    }
+
+                    &:hover {
+                        color: body_color();
+                    }
+                }
             }
 
             > video {
