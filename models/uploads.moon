@@ -33,6 +33,8 @@ import thumb from require "helpers.images"
 -- CREATE INDEX uploads_user_id_type_idx ON uploads USING btree (user_id, type);
 --
 class Uploads extends Model
+  @VIDEO_EMBED_LIMIT: 1024*1024*8
+
   @timestamp: true
 
   @relations: {
@@ -166,8 +168,7 @@ class Uploads extends Model
   -- can the file be embedded instead of showing download button
   valid_for_embed: =>
     if @is_video!
-      -- less than 3mb video
-      if @width and @height and @size and @size < 1024*1024*5
+      if @width and @height and @size and @size < @@VIDEO_EMBED_LIMIT
         true
       else
         false
