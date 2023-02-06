@@ -1,6 +1,8 @@
 
 import Users from require "models"
 
+import enum from require "lapis.db.model"
+
 class AdminUsers extends require "widgets.admin.page"
   @include "widgets.pagination_helpers"
   @include "widgets.table_helpers"
@@ -12,12 +14,24 @@ class AdminUsers extends require "widgets.admin.page"
   column_content: =>
     h2 "Users"
 
-
     @filter_form (field) ->
       field "id"
       field "user_token"
       field "exclude_token"
       field "spam_untrained", type: "boolean"
+      field "active_7day", type: "boolean"
+      field "has_submission", type: "boolean"
+
+      fieldset ->
+        legend "flags"
+        field "admin", type: "boolean"
+        field "suspended", type: "boolean"
+        field "spam", type: "boolean"
+
+      field "sort", enum {
+        "submissions_count"
+        "streaks_count"
+      }
 
     @render_pager @pager
     @column_table @users, {
@@ -45,19 +59,38 @@ class AdminUsers extends require "widgets.admin.page"
             raw "&bullet;"
       }
       {"streaks_count", label: "streaks"}
-      {"submissions_count", label: "submissions"}
+      {"submissions", (user) ->
+        if user.submissions_count > 0
+          a href: @url_for("admin.submissions", nil, user_id: user.id), @format_number user.submissions_count
+        else
+          span style: "color: gray", "0"
+      }
+      {"following_count", label: "following"}
+      {"followers_count", label: "followers"}
       {":is_admin", label: "admin"}
       {":is_suspended", label: "suspended"}
       {":is_spam", label: "spam"}
       "created_at"
       {"last_active", type: "date"}
       {"ips", (user) ->
-        for idx, ip in ipairs user\get_ip_addresses!
+        ip_addresses = user\get_ip_addresses!
+        limit = 15
+        has_more = false
+
+        for idx, ip in ipairs ip_addresses
           if idx > 1
             text ", "
 
+          if idx > limit
+            has_more = true
+            break
+
           a href: @url_for("admin.users", nil, user_token: "ip.#{ip.ip}"), ->
             code ip.ip
+
+        if has_more
+          strong "#{#ip_addresses - limit} more"
+
       }
     }
     @render_pager @pager

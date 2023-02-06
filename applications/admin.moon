@@ -77,6 +77,32 @@ class AdminApplication extends lapis.Application
       json: { success: true, :res }
   }
 
+  [submissions: "/submissions"]: capture_errors_json with_params {
+    {"page", shapes.page_number}
+  }, (params) =>
+    import Submissions, Users from require "models"
+
+    filter = assert_valid @params, filter_shape {
+      id: types.db_id / (id) -> db.clause { :id }
+      user_id: types.db_id / (user_id) -> db.clause { :user_id }
+
+      hidden: types.any / -> db.clause { hidden: true }
+      deleted: types.any / -> db.clause { deleted: true }
+      published: types.any / -> db.clause { published: true }
+    }
+
+    @pager = Submissions\paginated "#{filter} order by id desc", {
+      per_page: 50
+      prepare_results: (submissions) ->
+        preload submissions, "user", streak_submissions: "streak", "uploads"
+        submissions
+    }
+
+    @page = params.page
+    @streaks = @pager\get_page @page
+    render: true
+
+
   [streaks: "/streaks"]: capture_errors_json with_params {
     {"page", shapes.page_number}
   }, (params) =>
@@ -257,11 +283,23 @@ class AdminApplication extends lapis.Application
 
     GET: with_params {
       {"page", shapes.page_number}
+      {"sort", types.empty + types.one_of {
+        "submissions_count", "streaks_count"
+      }}
     }, (params) =>
       import Users from require "models"
 
       filter = assert_valid @params, filter_shape {
         id: types.db_id / (id) -> db.clause { :id }
+
+        admin: types.any / -> db.clause { { "(flags::bit(32) & ?::bit(32))::integer > 0", Users.flags.admin } }
+        suspended: types.any / -> db.clause { { "(flags::bit(32) & ?::bit(32))::integer > 0", Users.flags.suspended } }
+        spam: types.any / -> db.clause { { "(flags::bit(32) & ?::bit(32))::integer > 0", Users.flags.spam } }
+
+        active_7day: types.any / -> db.clause { { "last_active > now() at time zone 'utc' - '7 days'::interval" } }
+
+        has_submission: types.any / -> db.clause { { "exists(select 1 from submissions where users.id = user_id limit 1)" } }
+
         user_token: types.trimmed_text / (v) ->
           db.clause {
             {"exists(select 1 from spam_scans where user_id = users.id and user_tokens @> ARRAY[?])", v}
@@ -277,7 +315,15 @@ class AdminApplication extends lapis.Application
           }
       }
 
-      @pager = Users\paginated "#{filter} order by id desc", {
+      sort = switch params.sort
+        when "submissions_count"
+          "order by submissions_count desc"
+        when "streaks_count"
+          "order by streaks_count desc"
+        else
+          "order by id desc"
+
+      @pager = Users\paginated "#{filter} #{sort}", {
         per_page: 50
         prepare_results: (users) ->
           preload users, "ip_addresses", "spam_scan"
