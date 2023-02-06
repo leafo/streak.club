@@ -14,8 +14,8 @@ class AdminGenerateThumbnail extends require "widgets.admin.page"
       el.find("[name=width]").val(width)
       el.find("[name=height]").val(height)
 
-      el.find("[name=soursce_width]").val(video.videoWidth)
-      el.find("[name=soursce_height]").val(video.videoHeight)
+      el.find("[name=source_width]").val(video.videoWidth)
+      el.find("[name=source_height]").val(video.videoHeight)
     })
   ]]
 
