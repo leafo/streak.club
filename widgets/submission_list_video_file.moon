@@ -12,7 +12,7 @@ class SubmissionListVideoFile extends require "widgets.base"
   inner_content: =>
     div {
       class: "submission_video_widget",
-      style: "aspect-ratio: #{@props.upload.width} / #{@props.upload.height};"
+      style: "aspect-ratio: #{@props.upload.width} / #{@props.upload.height}; max-height: #{@props.upload.height}px;"
     }, ->
       div class: "control_buttons", ->
         button disabled: true, class: "button", "Play Video"

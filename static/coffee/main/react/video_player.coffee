@@ -77,6 +77,7 @@ export default class VideoPlayer extends React.Component
       }
       style: {
         aspectRatio: "#{@props.upload.width} / #{@props.upload.height}"
+        maxHeight: "#{@props.upload.height}px"
       }
     },
       if @state.video
