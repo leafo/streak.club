@@ -358,6 +358,21 @@ P "AudioFile", {
         else
           img className: "play_icon", src: "/static/images/audio_play.svg"
 
+      if @state.error
+        span {
+          className: "playback_error"
+          title: @state.error
+        }, "Failed to load audio"
+      else
+        div className: "playback_area",
+          fragment {},
+            span className: "upload_name", @props.upload.filename
+            span className: "upload_size", format_bytes @props.upload.size
+
+          if @state.played
+            div className: "audio_progress_outer",
+              div className: "audio_progress_inner", style: { width: "#{@state.progress || 0}%" }
+
       form {
         className: "download_form"
         method: "post"
@@ -366,19 +381,6 @@ P "AudioFile", {
         input type: "hidden", name: "csrf_token", value: get_csrf()
         button className: "upload_download button", "Download"
 
-      div className: "truncate_content",
-        if @state.error
-          span {
-            className: "playback_error"
-            title: @state.error
-          }, "Failed to load audio"
-        else
-          fragment {},
-            span className: "upload_name", @props.upload.filename
-            span className: "upload_size", format_bytes @props.upload.size
 
-        if @state.played
-          div className: "audio_progress_outer",
-            div className: "audio_progress_inner", style: { width: "#{@state.progress || 0}%" }
 
 }

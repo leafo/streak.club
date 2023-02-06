@@ -248,14 +248,15 @@ class SubmissionList extends require "widgets.base"
             method: "post"
           }, ->
             @csrf_input!
-            if upload.downloads_count > 0
-              div class: "upload_stats", ->
-                text @plural @number_format(upload.downloads_count),
-                  "download", "downloads"
 
             button class: "upload_download button", "Download"
             span class: "upload_name", upload.filename
             span class: "upload_size", @filesize_format upload.size
+
+            if upload.downloads_count > 0
+              div class: "upload_stats", ->
+                text @plural @number_format(upload.downloads_count),
+                  "download", "downloads"
 
   render_comments: (submission) =>
     widget SubmissionCommenter {

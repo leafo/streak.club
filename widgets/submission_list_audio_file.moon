@@ -11,6 +11,8 @@ class SubmissionListAudioFile extends require "widgets.base"
     div class: "submission_audio", ->
       button class: "play_audio_btn"
 
+      div class: "playback_area"
+
       div class: "download_form", ->
         button class: "upload_download button", style: "color: rgba(0,0,0,0)", "Download"
 
