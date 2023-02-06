@@ -31,6 +31,18 @@ body {
     --sc-green: #{$green};
     --sc-blue: #{$blue};
     --sc-red: #{$red};
+
+    --sc-gutter: 40px;
+
+    &.responsive {
+        @include mobile_width {
+            --sc-gutter: 20px;
+        }
+
+        @media (max-width: 400px) {
+            --sc-gutter: 10px;
+        }
+    }
 }
 
 @include dark_theme_root {
@@ -134,12 +146,12 @@ h2, h3 {
         .tab {
             border-bottom: 4px solid transparent;
         }
+
         .tab.active, .tab:hover {
             border-width: 4px;
         }
 
         .tab_button {
-            display: inline-block;
             color: white;
             background: purple();
             padding: 4px 14px;
@@ -147,6 +159,7 @@ h2, h3 {
             font-size: 16px;
             font-weight: bold;
             text-decoration: none;
+            align-self: flex-start;
         }
 
         @include mobile_width {
@@ -154,11 +167,11 @@ h2, h3 {
                 white-space: nowrap;
                 overflow-x: auto;
                 overflow-y: hidden;
+                flex-wrap: nowrap;
             }
 
             .tab {
                 font-size: $body_size_small;
-                margin-right: 20px;
             }
 
             .tab_sub {
@@ -172,6 +185,12 @@ h2, h3 {
     border-bottom: 1px solid border_color();
     margin-bottom: 20px;
 
+    .tabs_inner {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px 40px;
+    }
+
     .tab, .tab_sub {
         font-size: 20px;
         padding-bottom: 5px;
@@ -183,7 +202,6 @@ h2, h3 {
 
     .tab_sub {
         color: body_color_lighter();
-        margin-right: 40px;
     }
 
     .tab {
@@ -191,10 +209,9 @@ h2, h3 {
         color: body_color();
         text-decoration: none;
         border-bottom: 1px solid rgba($link_color, 0);
-        margin-right: 40px;
 
-        &.has_sub {
-            margin-right: 0px;
+        @include mobile_width {
+            font-size: $body_size_small;
         }
 
         &.active, &:hover {
@@ -206,9 +223,14 @@ h2, h3 {
     @include mobile_width {
         margin-bottom: 20px;
 
+        // NOTE: overflow scrolling is added only to  page_tabs inside
+        // tab_header
+        .tabs_inner {
+            gap: 5px 30px;
+        }
+
         .tab {
             font-size: $body_size_small;
-            margin-right: 20px;
             margin-bottom: 5px;
         }
     }
@@ -289,7 +311,7 @@ a {
             @include border_box;
             position: static;
             background: darken($header_color, 10%);
-            padding-left: 20px;
+            padding-left: var(--sc-gutter, 20px);
             padding-right: 5px;
 
             .logged_out & {
@@ -592,6 +614,9 @@ a {
     background: white_back();
     border: 1px solid border_color();
     padding: 10px;
+    @include mobile_width {
+        display: none;
+    }
 }
 
 .footer {

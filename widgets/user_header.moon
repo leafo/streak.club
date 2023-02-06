@@ -13,7 +13,7 @@ class UserHeader extends require "widgets.base"
         div ->
           h2 @user\name_for_display!
 
-          div class: "user_summary", ->
+          div class: "user_stats", ->
             div class: "user_stat", ->
               text "A member registered "
               span title: @user.created_at, @relative_timestamp @user.created_at

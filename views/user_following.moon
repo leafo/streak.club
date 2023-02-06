@@ -7,6 +7,7 @@ class UserFollowing extends require "widgets.page"
   @include "widgets.pagination_helpers"
 
   page_name: "following"
+  responsive: true
 
   inner_content: =>
     widget UserHeader page_name: @page_name

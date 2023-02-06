@@ -78,6 +78,7 @@
     .account_stats {
         display: flex;
         flex-wrap: wrap;
+        gap: 10px;
 
         @include mobile_width {
             display: grid;
@@ -88,11 +89,6 @@
         .stats_block {
             min-width: 80px;
             box-sizing: border-box;
-            margin-right: 10px;
-
-            @include mobile_width {
-                margin-right: 0;
-            }
 
             background: white_back();
             border: 1px solid border_color();
@@ -101,7 +97,6 @@
             text-align: center;
 
             .value {
-                //font-weight: bold;
                 font-size: 24px;
             }
 

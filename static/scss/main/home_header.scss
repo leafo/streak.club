@@ -12,11 +12,6 @@
             overflow-x: auto;
             overflow-y: hidden;
         }
-
-        .tab {
-            font-size: $body_size_small;
-            margin-right: 20px;
-        }
     }
 
 
@@ -27,23 +22,29 @@
             @include border_box;
             position: absolute;
             top: -7px;
-            right: 15px;
+            left: 100%;
+            margin-left: -5px;
             z-index: 10;
+            display: flex;
+            align-items: center;
 
-            $size: 22px;
-            height: $size;
-            min-width: $size;
+            --sc-bubble-size: 22px;
+            height: var(--sc-bubble-size);
+            min-width: var(--sc-bubble-size);
             padding: 0 5px;
             color: white;
             background: $red;
-            display: inline-block;
             vertical-align: top;
-            line-height: $size;
             border-radius: 10px;
             text-align: center;
             font-size: 14px;
             font-weight: bold;
             text-decoration: none;
+
+            @include mobile_width {
+                font-size: 12px;
+                --sc-bubble-size: 18px;
+            }
         }
     }
 }

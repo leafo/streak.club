@@ -1,13 +1,14 @@
-
 .submission_list {
     margin: 20px 0;
     width: 700px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
 
     $meta_margin: 140px;
 
     .submission_row {
         position: relative;
-        margin-bottom: 40px;
 
         .submission_admin {
             margin-top: 10px;
@@ -20,8 +21,7 @@
             margin-right: 10px;
 
             @include mobile_width {
-                right: 0;
-                z-index: 100;
+                display: none;
             }
         }
 
@@ -114,6 +114,10 @@
                     margin-top: 0;
                     // make space for the timestamp
                     margin-right: $meta_margin;
+
+                    @include mobile_width {
+                        margin-right: 0;
+                    }
                 }
             }
 

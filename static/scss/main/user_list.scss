@@ -1,9 +1,14 @@
 
-
 .user_list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
     &.narrow {
+        gap: 10px;
+
         .user_data {
-            margin-left: 0;
+            gap: 5px;
 
             .user_name {
                 font-size: $body_size;
@@ -17,46 +22,38 @@
 
         .data_action_split {
             display: block;
-            margin-left: 10px;
 
             > .button {
                 display: block;
                 margin-top: 10px;
             }
+        }
+
+        .user_row {
+            gap: 10px;
         }
     }
 
     .user_row {
         @include transition(all 0.2s ease);
         position: relative;
-        margin-bottom: 20px;
         @include display_flex;
         @include align_items;
+        gap: 30px;
 
         @include mobile_width {
+            gap: 10px;
             @include align_items(flex-start);
-        }
-
-
-        &:last-child {
-            margin-bottom: 0;
         }
     }
 
-
     .data_action_split {
-        margin-left: 30px;
         @include flex;
         @include display_flex;
+        gap: 10px;
 
         @include mobile_width {
-            display: block;
-            margin-left: 10px;
-
-            > .button {
-                display: block;
-                margin-top: 10px;
-            }
+            flex-direction: column;
         }
     }
 
@@ -76,9 +73,13 @@
     .user_data {
         @include has_sub_link;
         @include flex;
+        gap: 15px;
+        display: flex;
+        flex-direction: column;
 
         @include mobile_width {
             font-size: 16px;
+            gap: 8px;
         }
 
         .user_name {
@@ -93,34 +94,13 @@
         }
 
         .user_stats {
-            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1px 15px;
         }
 
         .user_stat {
             color: body_color_light();
-            display: inline-block;
-
-            @include mobile_width {
-                margin-right: 15px;
-                &:last-child {
-                    margin-right: 0;
-                }
-            }
-
-            &:before {
-                content: " · ";
-                color: body_color_lighter();
-
-                @include mobile_width {
-                    display: none;
-                }
-            }
-
-            &:first-child {
-                &:before {
-                    content: none;
-                }
-            }
         }
     }
 }

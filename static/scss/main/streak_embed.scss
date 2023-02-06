@@ -5,17 +5,18 @@
     }
 
     .columns {
+        display: flex;
         margin-top: 20px;
-    }
+        gap: 20px;
 
-    .example, .embed_inputs {
-        display: inline-block;
-        vertical-align: top;
-        margin-right: 20px;
+        > * {
+            flex: 1;
+        }
     }
 
     textarea {
-        width: 500px;
+        width: 100%;
+        max-width: 500px;
         height: 100px;
         color: body_color_light();
     }

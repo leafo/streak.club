@@ -1,9 +1,18 @@
 
 .user_header {
-    .user_summary {
-      margin-top: 3px;
-      color: body_color_light();
-      font-size: 20px;
+    .user_stats {
+        margin-top: 3px;
+        color: body_color_light();
+        font-size: 20px;
+
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1px 15px;
+
+        @include mobile_width {
+            gap: 1px 5px;
+            font-size: 16px;
+        }
     }
 
     .header_split {
@@ -14,20 +23,9 @@
         }
 
         @include mobile_width {
-            display: block;
-            .toggle_follow_btn {
-                display: block;
-                margin: 20px 0;
-            }
+            flex-direction: column;
+            gap: 10px;
         }
 
-    }
-
-    .user_stat {
-        display: inline-block;
-        margin-right: 20px;
-        &:last-child {
-            margin-right: 0;
-        }
     }
 }

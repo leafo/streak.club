@@ -132,7 +132,8 @@
     }
 
     .columns {
-        @include display_flex;
+        display: flex;
+        gap: 20px;
     }
 
     .streak_feed_column {
@@ -142,7 +143,6 @@
     .streak_side_column {
         @include border_box;
         width: $site_width - 700px;
-        padding-left: 20px;
         padding-bottom: 60px;
 
         @include mobile_width {
@@ -204,23 +204,18 @@
     @media (max-width: $site_width) {
         .streak_feed_column, .streak_side_column {
             width: auto;
-            display: block;
-            padding-left: 0;
-            padding-right: 0;
         }
 
         .columns {
-            display: -webkit-flex;
-            display: flex;
-            @include prefixed(flex-direction, column);
+            flex-direction: column;
         }
 
         .streak_feed_column {
-            @include prefixed(order, 2);
+            order: 2;
         }
 
         .streak_side_column {
-            @include prefixed(order, 1);
+            order: 1;
         }
     }
 
@@ -270,6 +265,7 @@
 
     .discussion_nag {
         margin: 20px 0;
+        gap: 10px;
         @include display_flex;
         @include align_items;
 
@@ -278,7 +274,6 @@
         }
 
         > img {
-            margin-right: 10px;
             opacity: 0.5;
         }
 

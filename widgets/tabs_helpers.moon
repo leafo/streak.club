@@ -7,10 +7,10 @@ class TabsHelper
       classes ..= " active"
 
     if sub
-      classes ..= " has_sub"
-
-    a href: url, class: classes, label
-    if sub
-      text " "
-      span class: "tab_sub", sub
+      div class: "tab_wrapper", ->
+        a href: url, class: classes, label
+        text " "
+        span class: "tab_sub", sub
+    else
+      a href: url, class: classes, label
 
