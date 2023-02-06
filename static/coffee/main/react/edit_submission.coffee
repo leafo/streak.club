@@ -14,6 +14,8 @@ export default P = R.package "EditSubmission"
 
 import {create_video_thumbnail} from "main/upload"
 
+import {ArrowUpIcon, ArrowDownIcon} from "main/react/icons"
+
 # NOTE: all files pass through here, so we should return nothing for non-images
 # NOTE: this also generates thumbnail for video file
 get_image_dimensions = (file) ->
@@ -301,7 +303,7 @@ P "Upload", {
 
   handle_delete: (e) ->
     e.preventDefault()
-    if confirm "Are you sure you want to remove this file?"
+    if confirm "Are you sure you want to remove this file? This can not be undone."
       @trigger "upload:delete", @props.position
 
   handle_move_up: (e) ->
@@ -315,13 +317,24 @@ P "Upload", {
   render: ->
     upload_tools = unless @props.upload.uploading
       div className: "upload_tools",
-        unless @props.first
-          button { type: "button", onClick: @handle_move_up, className: "move_up_btn" }, "Move up"
+        unless @props.first and @props.last
+          button {
+            disabled: @props.first
+            type: "button"
+            onClick: @handle_move_up
+            className: "move_btn move_up_btn"
+            title: "Move up"
+          }, ArrowUpIcon(), span className: "screenreader_only", "Move up"
 
-        unless @props.last
-          button { type: "button", onClick: @handle_move_down, className: "move_down_btn" }, "Move Down"
+        unless @props.first and @props.last
+          button {
+            disabled: @props.last
+            type: "button"
+            onClick: @handle_move_down
+            className: "move_btn move_down_btn"
+            title: "Move down"
+          }, ArrowDownIcon(), span className: "screenreader_only", "Move down"
 
-        button { type: "button", className: "delete_btn", onClick: @handle_delete }, "Delete"
 
     upload_status = if msg = @props.upload.current_error
       div className: "upload_error", msg
@@ -335,11 +348,16 @@ P "Upload", {
     div className: "file_upload",
       input type: "hidden", name: "upload[#{@props.upload.data.id}][position]", value: "#{@props.position}"
       upload_tools
+
       div {},
         span className: "filename", @props.upload.data.filename
         " "
         span className: "file_size", "(#{format_bytes @props.upload.data.size})"
         upload_status
+
+      unless @props.upload.uploading
+        div className: "upload_tools",
+          button { type: "button", className: "delete_btn", onClick: @handle_delete }, "Delete"
 }
 
 class UploaderManager

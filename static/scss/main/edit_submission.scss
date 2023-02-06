@@ -82,6 +82,8 @@
         padding-bottom: 10px;
         margin-bottom: 10px;
         position: relative;
+        display: flex;
+        gap: 5px;
         top: 0;
 
         @include transition(top 0.2s ease);
@@ -122,12 +124,19 @@
         }
 
         .upload_tools {
-            float: right;
-            display: block;
+            display: flex;
+            gap: 10px;
+
+            &:empty {
+                display: none;
+            }
+
+            &:last-child {
+                margin-left: auto;
+            }
 
             button {
                 display: inline-block;
-                margin-right: 15px;
                 font-size: 16px;
                 background: none;
                 border: none;
@@ -135,6 +144,10 @@
                 color: link_color();
                 text-decoration: underline;
                 cursor: pointer;
+
+                &[disabled] {
+                    opacity: 0.1;
+                }
             }
 
             .delete_btn {

@@ -794,3 +794,7 @@ details.query_log {
         opacity: 1;
     }
 }
+
+.screenreader_only {
+    @include visually_hidden;
+}
