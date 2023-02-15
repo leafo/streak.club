@@ -735,5 +735,11 @@ import
 
     db.query "alter table upload_thumbnails alter width drop default"
     db.query "alter table upload_thumbnails alter height drop default"
+
+
+  [1676500608]: =>
+    require("community.schema").run_migrations 43
 }
+
+
 
