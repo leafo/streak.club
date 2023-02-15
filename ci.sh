@@ -37,4 +37,4 @@ mkdir -p logs
 touch logs/notice.log
 tail -f logs/notice.log &
 
-LAPIS_NOTICE_LOG=logs/notice.log ./busted -o utfTerminal
+LAPIS_NOTICE_LOG=logs/notice.log ./busted --helper lapis.db -o utfTerminal -v
