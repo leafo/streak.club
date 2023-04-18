@@ -16,7 +16,7 @@ dependencies = {
   "moonscript",
   "bcrypt",
 
-  "lapis >= 1.13",
+  "lapis >= 1.14",
   "lapis-community == 1.43.0",
   "lapis-eswidget >= 1.1.0",
 
