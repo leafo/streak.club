@@ -159,16 +159,25 @@ class extends lapis.Application
 
     import cumulative_created, daily_created from require "helpers.stats"
 
+    user_filter = db.clause {
+      {"(flags & ?) = 0", Users.flags.spam}
+      {"(flags & ?) = 0", Users.flags.suspended}
+    }
+
+    streaks_filter = db.clause {
+      {"exists(select 1 from users where users.id = streaks.user_id and ?)", user_filter}
+    }
+
     switch @graph_type
       when "cumulative"
-        @graph_users = cumulative_created Users
-        @graph_streaks = cumulative_created Streaks
+        @graph_users = cumulative_created Users, user_filter
+        @graph_streaks = cumulative_created Streaks, streaks_filter
 
         @graph_submissions = cumulative_created Submissions
         @graph_submission_comments = cumulative_created SubmissionComments
         @graph_submission_likes = cumulative_created SubmissionLikes
       when "daily"
-        @graph_users = daily_created Users
+        @graph_users = daily_created Users, user_filter
         @graph_streaks = daily_created Streaks
 
         @graph_submissions = daily_created Submissions
