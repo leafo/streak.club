@@ -2,9 +2,9 @@ class SubmissionListAudioFile extends require "widgets.base"
   new: (@props) =>
 
   @es_module: [[
-    import AudioPlayer from "main/react/audio_player"
+    import {AudioFile} from "main/react/audio_player"
     import {createRoot} from 'react-dom/client';
-    createRoot(document.querySelector(widget_selector)).render(AudioPlayer.AudioFile(widget_params))
+    createRoot(document.querySelector(widget_selector)).render(AudioFile(widget_params))
   ]]
 
   inner_content: =>

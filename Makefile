@@ -15,7 +15,7 @@ migrate:
 	lapis migrate
 	make schema.sql
 
-assetspec::
+assetspec.Tupfile::
 	 lapis-eswidget generate_spec --esbuild-args='--external:/static/*' --tup-compile-dep-group='$$(TOP)/<moon>' --tup-bundle-dep-group='$$(TOP)/<coffee>' --source-dir=static/coffee --format tup > assetspec.Tupfile
 
 schema.sql:

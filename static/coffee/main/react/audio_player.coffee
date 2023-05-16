@@ -1,4 +1,3 @@
-
 import {R, fragment, classNames} from "./_react"
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
@@ -10,11 +9,13 @@ import {div, button, ul, li, span, a, form, input, img} from 'react-dom-factorie
 
 import {HeartIcon, PauseIcon, PlayIcon, NextTrackIcon, PlaylistIcon, CloseIcon} from "./icons"
 
+import {LikeButton, LikeButtonProvider} from "./submission_list"
+
 import Slider from "./slider"
 
 import {with_csrf, get_csrf, format_bytes} from "main/util"
 
-export default P = R.package "SubmissionList"
+P = R.package "AudioPlayer"
 
 format_seconds = (n) ->
   minutes = Math.floor n / 60
@@ -28,7 +29,7 @@ PLAYER_STATE = {
   closed: true
 }
 
-P "TrackListPopup", {
+export TrackListPopup = P "TrackListPopup", {
   pure: true
 
   componentDidMount: ->
@@ -74,7 +75,7 @@ P "TrackListPopup", {
 
 }
 
-P "StickyAudioPlayer", {
+export StickyAudioPlayer = P "StickyAudioPlayer", {
   getDefaultProps: ->
     { audio_files: [] }
 
@@ -90,7 +91,7 @@ P "StickyAudioPlayer", {
 
   render_like_button: (props) ->
     if props
-      R.SubmissionList.LikeButton Object.assign {
+      LikeButton Object.assign {
         quick_comment: false
         show_count: false
         icon: HeartIcon width: 18, height: 18
@@ -142,7 +143,7 @@ P "StickyAudioPlayer", {
           next?.play_audio()
       }, NextTrackIcon()
 
-      R.SubmissionList.LikeButtonProvider {
+      LikeButtonProvider {
         key: "s#{submission_id}"
         submission_id: submission_id
         render_with_props: @render_like_button
@@ -213,7 +214,7 @@ P "StickyAudioPlayer", {
       }, CloseIcon width: 14, height: 14
 
   render_track_list: ->
-    P.TrackListPopup {
+    TrackListPopup {
       parent: @
       audio_files: @props.audio_files
       active_file: @props.active_file
@@ -227,9 +228,9 @@ render_track_list = (props) ->
     track_list_root = createRoot $('<div class="audio_track_list_drop"></div>').appendTo(document.body)[0]
 
   PLAYER_STATE = Object.assign {}, PLAYER_STATE, props
-  track_list_root.render P.StickyAudioPlayer PLAYER_STATE
+  track_list_root.render StickyAudioPlayer PLAYER_STATE
 
-P "AudioFile", {
+export AudioFile = P "AudioFile", {
   getInitialState: ->
     { playing: false, loading: false }
 

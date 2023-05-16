@@ -6,7 +6,7 @@ import {_} from "main/global_libs"
 
 import {createRoot} from "react-dom/client"
 
-import SubmissionListComponents from "main/react/submission_list"
+import {CommentEditor} from "main/react/submission_list"
 
 export class SubmissionList
   constructor: (el, @opts={}) ->
@@ -86,7 +86,7 @@ export class SubmissionList
           drop = $('<div class="comment_editor_drop"></div>').insertAfter body
           drop.data "react-root", createRoot(drop[0])
 
-        editor = SubmissionListComponents.CommentEditor {
+        editor = CommentEditor {
           edit_url: btn.data "edit_url"
           body: comment.data("body") || body.html()
           on_save: (res) =>

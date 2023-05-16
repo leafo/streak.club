@@ -8,9 +8,9 @@ import S from "main/state"
 import $ from "main/jquery"
 import {_} from "main/global_libs"
 
-export default P = R.package "SubmissionList"
+P = R.package "SubmissionList"
 
-P "CommentEditor", {
+export CommentEditor = P "CommentEditor", {
   getInitialState: -> {}
 
   componentDidMount: ->
@@ -70,7 +70,7 @@ P "CommentEditor", {
 }
 
 
-P "QuickComment", {
+export QuickComment = P "QuickComment", {
   getInitialState: -> { }
 
   componentDidMount: ->
@@ -134,7 +134,7 @@ P "QuickComment", {
         button className: "button small", "Submit comment"
 }
 
-P "LikeButtonProvider", {
+export LikeButtonProvider = P "LikeButtonProvider", {
   pure: true
   # propTypes: {
   #   submission_id: types.number
@@ -150,7 +150,7 @@ P "LikeButtonProvider", {
     @props.render_with_props(@state?.props)
 }
 
-P "LikeButton", {
+export LikeButton = P "LikeButton", {
   # propTypes: {
   #   submission_id: types.number
   #   like_url: types.string
@@ -237,7 +237,7 @@ P "LikeButton", {
         }, @state.likes_count || 0
 
       if @props.quick_comment and @state.show_quick_comment and @props.comment_url
-        P.QuickComment {
+        QuickComment {
           comment_url: @props.comment_url
           close: =>
             @setState show_quick_comment: false

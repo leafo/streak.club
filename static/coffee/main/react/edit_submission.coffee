@@ -10,7 +10,7 @@ import {Upload} from "main/upload"
 
 import {_} from "main/global_libs"
 
-export default P = R.package "EditSubmission"
+P = R.package "EditSubmission"
 
 import {create_video_thumbnail} from "main/upload"
 
@@ -50,7 +50,7 @@ get_image_dimensions = (file) ->
           # no way to detect image size
           d.resolve null
 
-P "TagInput", {
+export TagInput = P "TagInput", {
   getInitialState: ->
     {
       tags: _.toArray @props.tags
@@ -101,7 +101,7 @@ convert_to_markdown = (html) ->
   turndownService = new window.TurndownService { hr: "---" }
   turndownService.turndown html
 
-P "Editor", {
+export Editor = P "Editor", {
   getInitialState: ->
     initial_html = @props.value
     initial_markdown = null
@@ -185,7 +185,7 @@ P "Editor", {
 
 }
 
-P "Uploader", {
+export Uploader = P "Uploader", {
   getInitialState: ->
     {
       uploads: @props.uploads || []
@@ -282,13 +282,13 @@ P "Uploader", {
           p className: "upload_tip", "TIP: you can also drag and drop a file(s) here to upload"
 }
 
-P "UploadList", {
+export UploadList = P "UploadList", {
   render: ->
     div className: "file_upload_list", @render_uploads()
 
   render_uploads: ->
     @props.uploads.map (upload, idx) =>
-      P.Upload {
+      P.UploadRow {
         key: upload.data.id
         upload: upload
         position: idx
@@ -297,7 +297,7 @@ P "UploadList", {
       }
 }
 
-P "Upload", {
+export UploadRow = P "UploadRow", {
   container: ->
     $ ReactDOM.findDOMNode @
 

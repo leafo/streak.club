@@ -1,6 +1,6 @@
 class MarkdownEditor extends require "widgets.base"
   @es_module: [[
-    import EditSubmission from "main/react/edit_submission"
+    import {Editor} from "main/react/edit_submission"
     import {createRoot} from 'react-dom/client'
 
     let container = document.querySelector(widget_selector)
@@ -9,7 +9,7 @@ class MarkdownEditor extends require "widgets.base"
       $(container).data("react_component", component)
     }
 
-    createRoot(container).render(EditSubmission.Editor(widget_params))
+    createRoot(container).render(Editor(widget_params))
   ]]
 
   js_init: =>
