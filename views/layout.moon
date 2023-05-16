@@ -196,7 +196,6 @@ class Layout extends require "widgets.base"
         @head!
         @include_css "main.css"
         @google_analytics!
-        script id: "d3_src", "data-src": @asset_url "d3.min.js"
         script id: "markdown_src", "data-src": @asset_url "lib.markdown.js"
 
       body @body_attributes(@body_class), ->
