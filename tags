@@ -1,0 +1,418 @@
+!_TAG_FILE_FORMAT	2	/extended format/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	leaf corcoran	/leafot@gmail.com/
+!_TAG_PROGRAM_NAME	MoonTags	//
+!_TAG_PROGRAM_URL	https://github.com/leafo/moonscript	/GitHub repository/
+!_TAG_PROGRAM_VERSION	0.0.1	//
+
+AdminApplication	applications/admin.moon	/^class AdminApplication extends lapis\.Application$/;"	c	language:moon
+ApiKeys	models/api_keys.moon	/^class ApiKeys extends Model$/;"	c	language:moon
+Categories	models/community/categories.moon	/^class Categories extends require "community\.models\.categories"$/;"	c	language:moon
+CommunityApplication	applications/community.moon	/^class CommunityApplication extends lapis\.Application$/;"	c	language:moon
+DailyAudioPlays	models/daily_audio_plays.moon	/^class DailyAudioPlays extends DailyUploadDownloads$/;"	c	language:moon
+DailyUploadDownloads	models/daily_upload_downloads.moon	/^class DailyUploadDownloads extends Model$/;"	c	language:moon
+DailyVideoPlays	models/daily_video_plays.moon	/^class DailyVideoPlays extends DailyUploadDownloads$/;"	c	language:moon
+FeaturedStreaks	models/featured_streaks.moon	/^class FeaturedStreaks extends Model$/;"	c	language:moon
+FeaturedSubmissions	models/featured_submissions.moon	/^class FeaturedSubmissions extends Model$/;"	c	language:moon
+Followings	models/followings.moon	/^class Followings extends Model$/;"	c	language:moon
+NotificationObjects	models/notification_objects.moon	/^class NotificationObjects extends Model$/;"	c	language:moon
+Notifications	models/notifications.moon	/^class Notifications extends Model$/;"	c	language:moon
+POST	applications/api.moon	/^    POST: =>/;"	f	language:moon class:StreakApi
+POST	applications/api.moon	/^    POST: =>/;"	f	language:moon class:StreakApi
+Posts	models/community/posts.moon	/^class Posts extends require "community\.models\.posts"$/;"	c	language:moon
+R	helpers/request.moon	/^class R extends Request$/;"	c	language:moon
+RecaptchaResults	models/recaptcha_results.moon	/^class RecaptchaResults extends Model$/;"	c	language:moon
+RegisterReferrers	models/register_referrers.moon	/^class RegisterReferrers extends Model$/;"	c	language:moon
+RelatedStreaks	models/related_streaks.moon	/^class RelatedStreaks extends Model$/;"	c	language:moon
+SearchApplication	applications/search.moon	/^class SearchApplication extends lapis\.Application$/;"	c	language:moon
+SpamScans	models/spam_scans.moon	/^class SpamScans extends Model$/;"	c	language:moon
+StreakApi	applications/api.moon	/^class StreakApi extends lapis\.Application$/;"	c	language:moon
+StreakSubmissions	models/streak_submissions.moon	/^class StreakSubmissions extends Model$/;"	c	language:moon
+StreakUserNotificationSettings	models/streak_user_notification_settings.moon	/^class StreakUserNotificationSettings extends Model$/;"	c	language:moon
+StreakUsers	models/streak_users.moon	/^class StreakUsers extends Model$/;"	c	language:moon
+Streaks	models/streaks.moon	/^class Streaks extends Model$/;"	c	language:moon
+StreaksApplication	applications/streaks.moon	/^class StreaksApplication extends lapis\.Application$/;"	c	language:moon
+SubmissionComments	models/submission_comments.moon	/^class SubmissionComments extends Model$/;"	c	language:moon
+SubmissionLikes	models/submission_likes.moon	/^class SubmissionLikes extends Model$/;"	c	language:moon
+SubmissionTags	models/submission_tags.moon	/^class SubmissionTags extends Model$/;"	c	language:moon
+Submissions	models/submissions.moon	/^class Submissions extends Model$/;"	c	language:moon
+SubmissionsApplication	applications/submissions.moon	/^class SubmissionsApplication extends lapis\.Application$/;"	c	language:moon
+Topics	models/community/topics.moon	/^class Topics extends require "community\.models\.topics"$/;"	c	language:moon
+UploadThumbnails	models/upload_thumbnails.moon	/^class UploadThumbnails extends Model$/;"	c	language:moon
+Uploads	models/uploads.moon	/^class Uploads extends Model$/;"	c	language:moon
+UploadsApplication	applications/uploads.moon	/^class UploadsApplication extends lapis\.Application$/;"	c	language:moon
+UserIpAddresses	models/user_ip_addresses.moon	/^class UserIpAddresses extends Model$/;"	c	language:moon
+UserProfiles	models/user_profiles.moon	/^class UserProfiles extends Model$/;"	c	language:moon
+Users	models/users.moon	/^class Users extends Model$/;"	c	language:moon
+UsersApplication	applications/users.moon	/^class UsersApplication extends lapis\.Application$/;"	c	language:moon
+_parse_usernames	models/submission_comments.moon	/^  @_parse_usernames: (body) =>/;"	f	language:moon class:SubmissionComments
+_streak_submit_unit_group_field	models/streaks.moon	/^  _streak_submit_unit_group_field: =>/;"	f	language:moon class:Streaks
+_time_clause	models/streaks.moon	/^  @_time_clause: (state) =>/;"	f	language:moon class:Streaks
+admin.comments	applications/admin.moon	/^  [comments: "\/comments"]: capture_errors_json with_params {/;"	f	language:moon
+admin.community_posts	applications/admin.moon	/^  [community_posts: "\/community-posts"]: capture_errors_json with_params {/;"	f	language:moon
+admin.email_streak	applications/admin.moon	/^  [email_streak: "\/email\/:streak_id"]: capture_errors_json respond_to {/;"	f	language:moon
+admin.exceptions	applications/admin.moon	/^  [exceptions: "\/exceptions"]: capture_errors_json respond_to {/;"	f	language:moon
+admin.feature_submission	applications/admin.moon	/^  [feature_submission: "\/feature-submission\/:id"]: respond_to {/;"	f	language:moon
+admin.featured_streak	applications/admin.moon	/^  [featured_streak: "\/feature-streak\/:id"]: respond_to {/;"	f	language:moon
+admin.generate_thumbnail	applications/admin.moon	/^  [generate_thumbnail: "\/uploads\/:upload_id\/generate-thumbnail"]: capture_errors_json respond_to {/;"	f	language:moon
+admin.home	applications/admin.moon	/^  [home: ""]: =>/;"	f	language:moon
+admin.send_streak_email	applications/admin.moon	/^  [send_streak_email: "\/email\/:streak_id\/email"]: capture_errors_json respond_to {/;"	f	language:moon
+admin.spam_queue	applications/admin.moon	/^  [spam_queue: "\/spam-queue"]: capture_errors_json respond_to {/;"	f	language:moon
+admin.streak	applications/admin.moon	/^  [streak: "\/streak\/:id"]: capture_errors_json respond_to {/;"	f	language:moon
+admin.streaks	applications/admin.moon	/^  [streaks: "\/streaks"]: capture_errors_json with_params {/;"	f	language:moon
+admin.submission	applications/admin.moon	/^  [submission: "\/submission\/:id"]: capture_errors_json respond_to {/;"	f	language:moon
+admin.submissions	applications/admin.moon	/^  [submissions: "\/submissions"]: capture_errors_json with_params {/;"	f	language:moon
+admin.uploads	applications/admin.moon	/^  [uploads: "\/uploads"]: capture_errors_json with_params {/;"	f	language:moon
+admin.user	applications/admin.moon	/^  [user: "\/user\/:id"]: capture_errors_json respond_to {/;"	f	language:moon
+admin.users	applications/admin.moon	/^  [users: "\/users"]: capture_errors_json respond_to {/;"	f	language:moon
+admin_url_for	helpers/request.moon	/^  admin_url_for: (object, \.\.\.) =>/;"	f	language:moon class:R
+admin_url_params	models/spam_scans.moon	/^  admin_url_params: (r, \.\.\.) =>/;"	f	language:moon class:SpamScans
+admin_url_params	models/streaks.moon	/^  admin_url_params: (r, \.\.\.) =>/;"	f	language:moon class:Streaks
+admin_url_params	models/submissions.moon	/^  admin_url_params: (r, \.\.\.) =>/;"	f	language:moon class:Submissions
+admin_url_params	models/users.moon	/^  admin_url_params: (r, \.\.\.) =>/;"	f	language:moon class:Users
+after_end	models/streaks.moon	/^  after_end: =>/;"	f	language:moon class:Streaks
+allowed_to_comment	models/submissions.moon	/^  allowed_to_comment: (user) =>/;"	f	language:moon class:Submissions
+allowed_to_delete	models/submission_comments.moon	/^  allowed_to_delete: (user) =>/;"	f	language:moon class:SubmissionComments
+allowed_to_download	models/uploads.moon	/^  allowed_to_download: (user) =>/;"	f	language:moon class:Uploads
+allowed_to_edit	models/streaks.moon	/^  allowed_to_edit: (user) =>/;"	f	language:moon class:Streaks
+allowed_to_edit	models/submission_comments.moon	/^  allowed_to_edit: (user) =>/;"	f	language:moon class:SubmissionComments
+allowed_to_edit	models/submissions.moon	/^  allowed_to_edit: (user) =>/;"	f	language:moon class:Submissions
+allowed_to_edit	models/uploads.moon	/^  allowed_to_edit: (user) =>/;"	f	language:moon class:Uploads
+allowed_to_edit	models/users.moon	/^  allowed_to_edit: (user) =>/;"	f	language:moon class:Users
+allowed_to_moderate	models/streak_submissions.moon	/^  allowed_to_moderate: (user) =>/;"	f	language:moon class:StreakSubmissions
+allowed_to_post	models/community/topics.moon	/^  allowed_to_post: (user, \.\.\.) =>/;"	f	language:moon class:Topics
+allowed_to_post_topic	models/community/categories.moon	/^  allowed_to_post_topic: (user, \.\.\.) =>/;"	f	language:moon class:Categories
+allowed_to_reply	models/community/posts.moon	/^  allowed_to_reply: (user, \.\.\.) =>/;"	f	language:moon class:Posts
+allowed_to_submit	models/streaks.moon	/^  allowed_to_submit: (user, check_time=true) =>/;"	f	language:moon class:Streaks
+allowed_to_view	models/community/categories.moon	/^  allowed_to_view: (user, \.\.\.) =>/;"	f	language:moon class:Categories
+allowed_to_view	models/streaks.moon	/^  allowed_to_view: (user) =>/;"	f	language:moon class:Streaks
+allowed_to_view	models/submissions.moon	/^  allowed_to_view: (user) =>/;"	f	language:moon class:Submissions
+allowed_to_view	models/users.moon	/^  allowed_to_view: (user) =>/;"	f	language:moon class:Users
+approved_participants_count	models/streaks.moon	/^  approved_participants_count: =>/;"	f	language:moon class:Streaks
+assert_file_uploaded	helpers/upload.moon	/^assert_file_uploaded = (obj) ->/;"	f	language:moon
+assert_signed_url	helpers/url.moon	/^assert_signed_url = (\.\.\.) ->/;"	f	language:moon
+assert_timezone	helpers/app.moon	/^assert_timezone = (tz) ->/;"	f	language:moon
+assert_unit_date	helpers/app.moon	/^assert_unit_date = =>/;"	f	language:moon
+before_start	models/streaks.moon	/^  before_start: =>/;"	f	language:moon class:Streaks
+belongs_to_object	models/uploads.moon	/^  belongs_to_object: (object) =>/;"	f	language:moon class:Uploads
+bucket_key	models/uploads.moon	/^  bucket_key: =>/;"	f	language:moon class:Uploads
+can_email	models/streak_user_notification_settings.moon	/^  can_email: =>/;"	f	language:moon class:StreakUserNotificationSettings
+can_late_submit	models/streaks.moon	/^  can_late_submit: (user) =>/;"	f	language:moon class:Streaks
+check_password	models/users.moon	/^  check_password: (pass) =>/;"	f	language:moon class:Users
+community.delete_post	applications/community.moon	/^  [delete_post: "\/post\/:post_id\/delete"]: respond_to {/;"	f	language:moon
+community.edit_post	applications/community.moon	/^  [edit_post: "\/post\/:post_id\/edit"]: respond_to {/;"	f	language:moon
+community.new_post	applications/community.moon	/^  [new_post: "\/topic\/:topic_id\/new-post"]: respond_to {/;"	f	language:moon
+community.new_topic	applications/community.moon	/^  [new_topic: "\/category\/:category_id\/new-topic"]: require_login respond_to {/;"	f	language:moon
+community.post	applications/community.moon	/^  [post: "\/post\/:post_id"]: capture_errors {/;"	f	language:moon
+community.post_in_topic	applications/community.moon	/^  [post_in_topic: "\/post\/:post_id\/view-in-topic"]: capture_errors {/;"	f	language:moon
+community.reply_post	applications/community.moon	/^  [reply_post: "\/post\/:post_id\/reply"]: respond_to {/;"	f	language:moon
+community.streak	applications/community.moon	/^  [streak: "\/s\/:id\/:slug\/discussion"]: capture_errors {/;"	f	language:moon
+community.topic	applications/community.moon	/^  [topic: "\/t\/:topic_id(\/:topic_slug)"]: respond_to {/;"	f	language:moon
+completion_rate	models/streak_users.moon	/^  completion_rate: =>/;"	f	language:moon class:StreakUsers
+convert_links	helpers/html.moon	/^convert_links = (html) ->/;"	f	language:moon
+cookie_attributes	app.moon	/^  cookie_attributes: =>/;"	f	language:moon class:extends
+count_current_streak	models/streak_users.moon	/^  count_current_streak: =>/;"	f	language:moon class:StreakUsers
+count_longest_streak	models/streak_users.moon	/^  count_longest_streak: =>/;"	f	language:moon class:StreakUsers
+create	models/api_keys.moon	/^  @create: (opts={}) =>/;"	f	language:moon class:ApiKeys
+create	models/featured_streaks.moon	/^  @create: (opts={}) =>/;"	f	language:moon class:FeaturedStreaks
+create	models/followings.moon	/^  @create: (opts={}) =>/;"	f	language:moon class:Followings
+create	models/notification_objects.moon	/^  @create: (opts={}) =>/;"	f	language:moon class:NotificationObjects
+create	models/recaptcha_results.moon	/^  @create: (opts) =>/;"	f	language:moon class:RecaptchaResults
+create	models/related_streaks.moon	/^  @create: (opts={}, \.\.\.) =>/;"	f	language:moon class:RelatedStreaks
+create	models/spam_scans.moon	/^  @create: (opts) =>/;"	f	language:moon class:SpamScans
+create	models/streak_user_notification_settings.moon	/^  @create: (opts={}) =>/;"	f	language:moon class:StreakUserNotificationSettings
+create	models/streaks.moon	/^  @create: (opts={}) =>/;"	f	language:moon class:Streaks
+create	models/submission_comments.moon	/^  @create: (opts) =>/;"	f	language:moon class:SubmissionComments
+create	models/submission_likes.moon	/^  @create: (opts={}) =>/;"	f	language:moon class:SubmissionLikes
+create	models/submission_tags.moon	/^  @create: (opts={}) =>/;"	f	language:moon class:SubmissionTags
+create	models/upload_thumbnails.moon	/^  @create: (opts={}) =>/;"	f	language:moon class:UploadThumbnails
+create	models/uploads.moon	/^  @create: (opts={}) =>/;"	f	language:moon class:Uploads
+create	models/users.moon	/^  @create: (opts={}) =>/;"	f	language:moon class:Users
+create_default_category	models/streaks.moon	/^  create_default_category: =>/;"	f	language:moon class:Streaks
+create_for_object	models/notification_objects.moon	/^  @create_for_object: (notification_id, object) =>/;"	f	language:moon class:NotificationObjects
+create_from_req	models/register_referrers.moon	/^  @create_from_req: (user, req) =>/;"	f	language:moon class:RegisterReferrers
+cumulative_created	helpers/stats.moon	/^cumulative_created = (model, clause, field="created_at") ->/;"	f	language:moon
+current_unit	models/streaks.moon	/^  current_unit: =>/;"	f	language:moon class:Streaks
+current_unit_end_date	models/streaks.moon	/^  current_unit_end_date: =>/;"	f	language:moon class:Streaks
+current_unit_number	models/streak_users.moon	/^  current_unit_number: =>/;"	f	language:moon class:StreakUsers
+current_unit_number	models/streaks.moon	/^  current_unit_number: =>/;"	f	language:moon class:Streaks
+current_unit_submission	models/streak_users.moon	/^  current_unit_submission: =>/;"	f	language:moon class:StreakUsers
+daily_created	helpers/stats.moon	/^daily_created = (model, clause, field="created_at") ->/;"	f	language:moon
+date	models/daily_upload_downloads.moon	/^  @date: (days=0) =>/;"	f	language:moon class:DailyUploadDownloads
+date_in_streak	models/streaks.moon	/^  date_in_streak: (d) =>/;"	f	language:moon class:Streaks
+db_json	helpers/model.moon	/^db_json = (v) ->/;"	f	language:moon
+delete	models/followings.moon	/^  delete: =>/;"	f	language:moon class:Followings
+delete	models/streak_submissions.moon	/^  delete: =>/;"	f	language:moon class:StreakSubmissions
+delete	models/submission_likes.moon	/^  delete: =>/;"	f	language:moon class:SubmissionLikes
+delete	models/submissions.moon	/^  delete: =>/;"	f	language:moon class:Submissions
+delete	models/uploads.moon	/^  delete: =>/;"	f	language:moon class:Uploads
+delete_comment	applications/submissions.moon	/^  [delete_comment: "\/submission-comment\/:id\/delete"]: require_login capture_errors_json respond_to {/;"	f	language:moon
+delete_submission	applications/submissions.moon	/^  [delete_submission: "\/submission\/:id\/delete"]: require_login capture_errors {/;"	f	language:moon
+display_as_suspended	models/users.moon	/^  display_as_suspended: (viewing_user) =>/;"	f	language:moon class:Users
+duration	models/streaks.moon	/^  duration: =>/;"	f	language:moon class:Streaks
+during	models/streaks.moon	/^  during: =>/;"	f	language:moon class:Streaks
+each_unit	models/streaks.moon	/^  each_unit: =>/;"	f	language:moon class:Streaks
+each_unit_local	models/streaks.moon	/^  each_unit_local: =>/;"	f	language:moon class:Streaks
+edit_comment	applications/submissions.moon	/^  [edit_comment: "\/submission-comment\/:id\/edit"]: require_login capture_errors_json respond_to {/;"	f	language:moon
+edit_options	models/community/categories.moon	/^  edit_options: =>/;"	f	language:moon class:Categories
+edit_streak	applications/streaks.moon	/^  [edit_streak: "\/streak\/:id\/edit"]: require_login capture_errors {/;"	f	language:moon
+edit_submission	applications/submissions.moon	/^  [edit_submission: "\/submission\/:id\/edit"]: require_login capture_errors {/;"	f	language:moon
+email_vars	models/streak_users.moon	/^  @email_vars: (streak_users) =>/;"	f	language:moon class:StreakUsers
+end_datetime	models/streaks.moon	/^  end_datetime: =>/;"	f	language:moon class:Streaks
+extends	app.moon	/^class extends lapis\.Application$/;"	c	language:moon
+extends	applications/images.moon	/^class extends lapis\.Application$/;"	c	language:moon
+extract_text	models/community/posts.moon	/^  extract_text: =>/;"	f	language:moon class:Posts
+extract_text	models/submission_comments.moon	/^  extract_text: =>/;"	f	language:moon class:SubmissionComments
+filled_body	models/submission_comments.moon	/^  filled_body: (r) =>/;"	f	language:moon class:SubmissionComments
+filter_update	helpers/model.moon	/^filter_update = (model, update) ->/;"	f	language:moon
+find_comments	models/submissions.moon	/^  find_comments: (opts={}) =>/;"	f	language:moon class:Submissions
+find_follower_submissions	models/users.moon	/^  find_follower_submissions: (opts={}) =>/;"	f	language:moon class:Users
+find_followers	models/users.moon	/^  find_followers: (opts={}) =>/;"	f	language:moon class:Users
+find_following	models/users.moon	/^  find_following: (opts={}) =>/;"	f	language:moon class:Users
+find_hosted_streaks	models/users.moon	/^  find_hosted_streaks: (opts={}) =>/;"	f	language:moon class:Users
+find_likes	models/submissions.moon	/^  find_likes: (opts={}) =>/;"	f	language:moon class:Submissions
+find_longest_active_streakers	models/streaks.moon	/^  find_longest_active_streakers: =>/;"	f	language:moon class:Streaks
+find_longest_streakers	models/streaks.moon	/^  find_longest_streakers: =>/;"	f	language:moon class:Streaks
+find_or_create	models/api_keys.moon	/^  @find_or_create: (user_id, source) =>/;"	f	language:moon class:ApiKeys
+find_participants	models/streaks.moon	/^  find_participants: (opts={}) =>/;"	f	language:moon class:Streaks
+find_participating_streaks	models/users.moon	/^  find_participating_streaks: (opts={}) =>/;"	f	language:moon class:Users
+find_streak_user	models/streaks.moon	/^  find_streak_user: (user) =>/;"	f	language:moon class:Streaks
+find_submissions	models/featured_submissions.moon	/^  @find_submissions: (per_page=25) =>/;"	f	language:moon class:FeaturedSubmissions
+find_submissions	models/streaks.moon	/^  find_submissions: (opts) =>/;"	f	language:moon class:Streaks
+find_submissions	models/users.moon	/^  find_submissions: (extra_opts={}) =>/;"	f	language:moon class:Users
+find_submissions_for_unit	models/streaks.moon	/^  find_submissions_for_unit: (unit_date, opts) =>/;"	f	language:moon class:Streaks
+find_submittable_streaks	models/users.moon	/^  find_submittable_streaks: (unit_date=date true) =>/;"	f	language:moon class:Users
+find_top_submissions	models/streaks.moon	/^  find_top_submissions: (opts={}) =>/;"	f	language:moon class:Streaks
+find_unsubmitted_users	models/streaks.moon	/^  find_unsubmitted_users: (d=date(true)) =>/;"	f	language:moon class:Streaks
+find_users	models/streaks.moon	/^  find_users: =>/;"	f	language:moon class:Streaks
+followed_by	models/users.moon	/^  followed_by: (user) =>/;"	f	language:moon class:Users
+following_feed	app.moon	/^  [following_feed: "\/feed"]: require_login =>/;"	f	language:moon
+format_date	helpers/datetime.moon	/^format_date = (input) ->/;"	f	language:moon
+format_date	helpers/format.moon	/^format_date = (d) ->/;"	f	language:moon
+format_date_short	helpers/datetime.moon	/^format_date_short = (input) ->/;"	f	language:moon
+format_date_unit	models/streaks.moon	/^  format_date_unit: (d) =>/;"	f	language:moon class:Streaks
+format_website	models/user_profiles.moon	/^  format_website: =>/;"	f	language:moon class:UserProfiles
+generate_password_reset	models/users.moon	/^  generate_password_reset: =>/;"	f	language:moon class:Users
+get_completed_units	models/streak_users.moon	/^  get_completed_units: =>/;"	f	language:moon class:StreakUsers
+get_current_streak	models/streak_users.moon	/^  get_current_streak: =>/;"	f	language:moon class:StreakUsers
+get_file_contents	models/uploads.moon	/^  get_file_contents: (\.\.\.) =>/;"	f	language:moon class:Uploads
+get_images	models/submissions.moon	/^  get_images: =>/;"	f	language:moon class:Submissions
+get_longest_streak	models/streak_users.moon	/^  get_longest_streak: =>/;"	f	language:moon class:StreakUsers
+get_mentioned_users	models/submission_comments.moon	/^  get_mentioned_users: =>/;"	f	language:moon class:SubmissionComments
+get_notification_settings	models/streak_users.moon	/^  get_notification_settings: =>/;"	f	language:moon class:StreakUsers
+get_relation_model	models/community/categories.moon	/^  @get_relation_model: (name) =>/;"	f	language:moon class:Categories
+get_relation_model	models/notification_objects.moon	/^  @get_relation_model: (name) =>/;"	f	language:moon class:NotificationObjects
+get_relation_model	models/notifications.moon	/^  @get_relation_model: (name) =>/;"	f	language:moon class:Notifications
+get_relation_model	models/streaks.moon	/^  @get_relation_model: (name) =>/;"	f	language:moon class:Streaks
+get_streak_user	models/streak_submissions.moon	/^  get_streak_user: =>/;"	f	language:moon class:StreakSubmissions
+get_streak_user	models/streak_user_notification_settings.moon	/^  get_streak_user: =>/;"	f	language:moon class:StreakUserNotificationSettings
+get_streaks	models/submissions.moon	/^  get_streaks: =>/;"	f	language:moon class:Submissions
+get_user_profile	models/users.moon	/^  get_user_profile: =>/;"	f	language:moon class:Users
+gravatar	models/users.moon	/^  gravatar: (size, hide_if_supended=false) =>/;"	f	language:moon class:Users
+group_by_state	models/streaks.moon	/^  @group_by_state: (streaks) =>/;"	f	language:moon class:Streaks
+handle_404	app.moon	/^  handle_404: =>/;"	f	language:moon class:extends
+has_community	models/streaks.moon	/^  has_community: =>/;"	f	language:moon class:Streaks
+has_end	models/streaks.moon	/^  has_end: =>/;"	f	language:moon class:Streaks
+has_flag	models/users.moon	/^  has_flag: (flag) =>/;"	f	language:moon class:Users
+has_tags	models/users.moon	/^  has_tags: =>/;"	f	language:moon class:Users
+has_unread_community_topics	models/streaks.moon	/^  has_unread_community_topics: (user) =>/;"	f	language:moon class:Streaks
+has_user	models/streaks.moon	/^  has_user: (user) =>/;"	f	language:moon class:Streaks
+image_signature	helpers/images.moon	/^image_signature = (chunk) ->/;"	f	language:moon
+image_url	models/uploads.moon	/^  image_url: (size="original") =>/;"	f	language:moon class:Uploads
+in_only_hidden_streaks	models/submissions.moon	/^  in_only_hidden_streaks: (user) =>/;"	f	language:moon class:Submissions
+in_topic_url_params	models/community/posts.moon	/^  in_topic_url_params: (r) =>/;"	f	language:moon class:Posts
+increment	models/daily_upload_downloads.moon	/^  @increment: (upload_id, amount=1) =>/;"	f	language:moon class:DailyUploadDownloads
+increment	models/followings.moon	/^  increment: (amount=1) =>/;"	f	language:moon class:Followings
+increment	models/submission_likes.moon	/^  increment: (amount=1) =>/;"	f	language:moon class:SubmissionLikes
+increment	models/uploads.moon	/^  increment: =>/;"	f	language:moon class:Uploads
+increment_audio	models/uploads.moon	/^  increment_audio: =>/;"	f	language:moon class:Uploads
+increment_date_by_unit	models/streaks.moon	/^  increment_date_by_unit: (date, mul=1) =>/;"	f	language:moon class:Streaks
+increment_video	models/uploads.moon	/^  increment_video: =>/;"	f	language:moon class:Uploads
+index	app.moon	/^  [index: "\/"]: =>/;"	f	language:moon
+insert_on_conflict_ignore	helpers/model.moon	/^insert_on_conflict_ignore = (model, opts) ->/;"	f	language:moon
+insert_on_conflict_update	helpers/model.moon	/^insert_on_conflict_update = (model, primary, create, update, opts) ->/;"	f	language:moon
+interval_noun	models/streaks.moon	/^  interval_noun: (ly=true) =>/;"	f	language:moon class:Streaks
+is_admin	models/users.moon	/^  is_admin: =>/;"	f	language:moon class:Users
+is_audio	models/uploads.moon	/^  is_audio: =>/;"	f	language:moon class:Uploads
+is_crawler	helpers/app.moon	/^is_crawler = ->/;"	f	language:moon
+is_draft	models/streaks.moon	/^  is_draft: =>/;"	f	language:moon class:Streaks
+is_empty_html	helpers/html.moon	/^is_empty_html =  (str) ->/;"	f	language:moon
+is_filesystem	models/uploads.moon	/^  is_filesystem: =>/;"	f	language:moon class:Uploads
+is_google_cloud_storage	models/uploads.moon	/^  is_google_cloud_storage: =>/;"	f	language:moon class:Uploads
+is_hidden	models/streaks.moon	/^  is_hidden: =>/;"	f	language:moon class:Streaks
+is_hidden_from	models/streaks.moon	/^  is_hidden_from: (user) =>/;"	f	language:moon class:Streaks
+is_hidden_from	models/submissions.moon	/^  is_hidden_from: (user) =>/;"	f	language:moon class:Submissions
+is_host	models/streaks.moon	/^  is_host: (user) =>/;"	f	language:moon class:Streaks
+is_image	models/uploads.moon	/^  is_image: =>/;"	f	language:moon class:Uploads
+is_members_only	models/streaks.moon	/^  is_members_only: =>/;"	f	language:moon class:Streaks
+is_public_membership	models/streaks.moon	/^  is_public_membership: =>/;"	f	language:moon class:Streaks
+is_reviewed	models/spam_scans.moon	/^  is_reviewed: =>/;"	f	language:moon class:SpamScans
+is_single_page	models/community/topics.moon	/^  is_single_page: =>/;"	f	language:moon class:Topics
+is_spam	models/users.moon	/^  is_spam: =>/;"	f	language:moon class:Users
+is_suspended	models/users.moon	/^  is_suspended: =>/;"	f	language:moon class:Users
+is_trained	models/spam_scans.moon	/^  is_trained: =>/;"	f	language:moon class:SpamScans
+is_video	models/uploads.moon	/^  is_video: =>/;"	f	language:moon class:Uploads
+join	models/streaks.moon	/^  join: (user) =>/;"	f	language:moon class:Streaks
+last_page_url_params	models/community/topics.moon	/^  last_page_url_params: =>/;"	f	language:moon class:Topics
+latest_post_url_params	models/community/topics.moon	/^  latest_post_url_params: (r, \.\.\.) =>/;"	f	language:moon class:Topics
+leave	models/streaks.moon	/^  leave: (user) =>/;"	f	language:moon class:Streaks
+load_for_users	models/followings.moon	/^  @load_for_users: (users, current_user) =>/;"	f	language:moon class:Followings
+load_mentioned_users	models/submission_comments.moon	/^  @load_mentioned_users: (comments) =>/;"	f	language:moon class:SubmissionComments
+local_to_utc	models/streaks.moon	/^  local_to_utc: (d) =>/;"	f	language:moon class:Streaks
+login	models/users.moon	/^  @login: (username, password) =>/;"	f	language:moon class:Users
+login_and_return_url	helpers/app.moon	/^login_and_return_url = (url=ngx\.var\.request_uri) =>/;"	f	language:moon
+mark_reviewed	models/spam_scans.moon	/^  mark_reviewed: =>/;"	f	language:moon class:SpamScans
+mark_seen	models/notifications.moon	/^  mark_seen: =>/;"	f	language:moon class:Notifications
+meta_title	models/submissions.moon	/^  meta_title: (for_twitter=false) =>/;"	f	language:moon class:Submissions
+name_for_display	models/community/categories.moon	/^  name_for_display: =>/;"	f	language:moon class:Categories
+name_for_display	models/community/topics.moon	/^  name_for_display: =>/;"	f	language:moon class:Topics
+name_for_display	models/users.moon	/^  name_for_display: =>/;"	f	language:moon class:Users
+needs_review	models/spam_scans.moon	/^  needs_review: =>/;"	f	language:moon class:SpamScans
+new_streak	applications/streaks.moon	/^  [new_streak: "\/streaks\/new"]: require_login respond_to {/;"	f	language:moon
+new_submission	applications/submissions.moon	/^  [new_submission: "\/submit"]: require_login capture_errors {/;"	f	language:moon
+notification_targets	models/community/posts.moon	/^  notification_targets: =>/;"	f	language:moon class:Posts
+notifications	app.moon	/^  [notifications: "\/notifications"]: require_login =>/;"	f	language:moon
+notify_for	models/notifications.moon	/^  @notify_for: (user, object, notify_type, target_object) =>/;"	f	language:moon class:Notifications
+object_title	models/notifications.moon	/^  object_title: =>/;"	f	language:moon class:Notifications
+object_type_for_object	models/uploads.moon	/^  @object_type_for_object: (object) =>/;"	f	language:moon class:Uploads
+parse	models/submission_tags.moon	/^  @parse: (str) =>/;"	f	language:moon class:SubmissionTags
+path	models/uploads.moon	/^  path: =>/;"	f	language:moon class:Uploads
+post_siteverify	helpers/recaptcha.moon	/^post_siteverify = (opts) ->/;"	f	language:moon
+prefix	models/notifications.moon	/^  prefix: =>/;"	f	language:moon class:Notifications
+preload_and_create	models/streak_user_notification_settings.moon	/^  @preload_and_create: (streak_users) =>/;"	f	language:moon class:StreakUserNotificationSettings
+preload_for_list	models/submissions.moon	/^  @preload_for_list: (submissions, opts={}) =>/;"	f	language:moon class:Submissions
+preload_objects	models/notifications.moon	/^  @preload_objects: (notifications) =>/;"	f	language:moon class:Notifications
+preload_objects	models/uploads.moon	/^  @preload_objects: (objects) =>/;"	f	language:moon class:Uploads
+preload_streaks	models/submissions.moon	/^  @preload_streaks: (submissions) =>/;"	f	language:moon class:Submissions
+prepare_download	applications/uploads.moon	/^  [prepare_download: "\/uploads\/download\/:id"]: capture_errors {/;"	f	language:moon
+prepare_play_audio	applications/uploads.moon	/^  [prepare_play_audio: "\/uploads\/play-audio\/:id"]: capture_errors {/;"	f	language:moon
+prepare_play_video	applications/uploads.moon	/^  [prepare_play_video: "\/uploads\/play-video\/:id"]: capture_errors {/;"	f	language:moon
+prepare_upload	applications/uploads.moon	/^  [prepare_upload: "\/uploads\/prepare"]: require_login capture_errors_json respond_to {/;"	f	language:moon
+privacy_policy	app.moon	/^  [privacy_policy: "\/privacy-policy"]: =>/;"	f	language:moon
+progress	models/streaks.moon	/^  progress: =>/;"	f	language:moon class:Streaks
+read_session	models/users.moon	/^  @read_session: (r) =>/;"	f	language:moon class:Users
+receive_upload	applications/uploads.moon	/^  [receive_upload: "\/uploads\/receive\/:id"]: =>/;"	f	language:moon
+recount	models/streaks.moon	/^  recount: (\.\.\.) =>/;"	f	language:moon class:Streaks
+recount	models/users.moon	/^  recount: (\.\.\.) =>/;"	f	language:moon class:Users
+redirect_for_https	helpers/app.moon	/^redirect_for_https = =>/;"	f	language:moon
+refresh_for_user	models/spam_scans.moon	/^  @refresh_for_user: (user) =>/;"	f	language:moon class:SpamScans
+refresh_spam_scan	models/users.moon	/^  refresh_spam_scan: =>/;"	f	language:moon class:Users
+register_ip	models/user_ip_addresses.moon	/^  @register_ip: (r) =>/;"	f	language:moon class:UserIpAddresses
+render_submissions_page	helpers/submissions.moon	/^render_submissions_page = (per_page, opts={}) =>/;"	f	language:moon
+require_admin	helpers/app.moon	/^require_admin = (fn) ->/;"	f	language:moon
+require_login	helpers/app.moon	/^require_login = (fn) ->/;"	f	language:moon
+rescan	models/spam_scans.moon	/^  rescan: =>/;"	f	language:moon class:SpamScans
+salt	models/users.moon	/^  salt: =>/;"	f	language:moon class:Users
+save_upload	applications/uploads.moon	/^  [save_upload: "\/uploads\/save\/:id"]: require_login capture_errors_json respond_to {/;"	f	language:moon
+save_url	models/uploads.moon	/^  save_url: (req) =>/;"	f	language:moon class:Uploads
+score_text_tokens	models/spam_scans.moon	/^  @score_text_tokens: (tokens) =>/;"	f	language:moon class:SpamScans
+score_user_tokens	models/spam_scans.moon	/^  @score_user_tokens: (tokens) =>/;"	f	language:moon class:SpamScans
+search	applications/search.moon	/^  [search: "\/search"]: capture_errors{/;"	f	language:moon
+send_deadline_email	models/streaks.moon	/^  send_deadline_email: (req) =>/;"	f	language:moon class:Streaks
+send_email	helpers/email.moon	/^send_email = (to, subject, body, opts={}) ->/;"	f	language:moon
+send_email	models/streaks.moon	/^  send_email: (req, email, recipients, params, more_params={}) =>/;"	f	language:moon class:Streaks
+send_late_submit_email	models/streaks.moon	/^  send_late_submit_email: (req) =>/;"	f	language:moon class:Streaks
+send_notifications	models/community/posts.moon	/^  send_notifications: =>/;"	f	language:moon class:Posts
+set_password	models/users.moon	/^  set_password: (new_pass) =>/;"	f	language:moon class:Users
+set_register_referrer_nginx	helpers/referrers.moon	/^set_register_referrer_nginx = ->/;"	f	language:moon
+set_tags	models/submissions.moon	/^  set_tags: (tags_str) =>/;"	f	language:moon class:Submissions
+set_timezone	app.moon	/^  [set_timezone: "\/set-timezone"]: require_login capture_errors_json with_params {/;"	f	language:moon
+short_path	models/uploads.moon	/^  short_path: =>/;"	f	language:moon class:Uploads
+should_send_join_email	models/streak_user_notification_settings.moon	/^  should_send_join_email: =>/;"	f	language:moon class:StreakUserNotificationSettings
+should_send_late_submit_email	models/streak_user_notification_settings.moon	/^  should_send_late_submit_email: =>/;"	f	language:moon class:StreakUserNotificationSettings
+should_send_reminder_email	models/streak_user_notification_settings.moon	/^  should_send_reminder_email: =>/;"	f	language:moon class:StreakUserNotificationSettings
+should_send_start_email	models/streak_user_notification_settings.moon	/^  should_send_start_email: =>/;"	f	language:moon class:StreakUserNotificationSettings
+show_join_usernames	models/notifications.moon	/^  show_join_usernames: =>/;"	f	language:moon class:Notifications
+signed_url	helpers/url.moon	/^signed_url = (url, opts={}) ->/;"	f	language:moon
+slug	models/streaks.moon	/^  slug: =>/;"	f	language:moon class:Streaks
+slug	models/submissions.moon	/^  slug: =>/;"	f	language:moon class:Submissions
+slugify	models/submission_tags.moon	/^  @slugify: (str) =>/;"	f	language:moon class:SubmissionTags
+start_datetime	models/streaks.moon	/^  start_datetime: =>/;"	f	language:moon class:Streaks
+state_name	models/streaks.moon	/^  state_name: =>/;"	f	language:moon class:Streaks
+stats	app.moon	/^  [stats: "\/stats"]: capture_errors_json with_params {/;"	f	language:moon
+stats_this_week	app.moon	/^  [stats_this_week: "\/stats\/this-week"]: capture_errors_json with_params {/;"	f	language:moon
+status_for_score	models/spam_scans.moon	/^  @status_for_score: (score) =>/;"	f	language:moon class:SpamScans
+streak_embed	applications/streaks.moon	/^  [streak_embed: "\/streak\/:id\/embed"]: capture_errors {/;"	f	language:moon
+streak_participants	applications/streaks.moon	/^  [streak_participants: "\/s\/:id\/:slug\/participants"]: respond_to {/;"	f	language:moon
+streak_stats	applications/streaks.moon	/^  [streak_stats: "\/s\/:id\/:slug\/stats"]: capture_errors {/;"	f	language:moon
+streak_top_participants	applications/streaks.moon	/^  [streak_top_participants: "\/s\/:id\/:slug\/top-streaks"]: capture_errors {/;"	f	language:moon
+streak_top_submissions	applications/streaks.moon	/^  [streak_top_submissions: "\/s\/:id\/:slug\/top-submissions"]: capture_errors {/;"	f	language:moon
+streak_unit_submit_url	applications/streaks.moon	/^  [streak_unit_submit_url: "\/streak\/:id\/unit\/:date\/submit-url"]: capture_errors {/;"	f	language:moon
+streaks	applications/streaks.moon	/^  [streaks: "\/streaks(\/*)"]: =>/;"	f	language:moon
+streaks_count_for	models/users.moon	/^  streaks_count_for: (user) =>/;"	f	language:moon class:Users
+submission_comments	applications/submissions.moon	/^  [submission_comments: "\/submission\/:id\/comments"]: capture_errors_json =>/;"	f	language:moon
+submission_for_date	models/streak_users.moon	/^  submission_for_date: (d) =>/;"	f	language:moon class:StreakUsers
+submission_like	applications/submissions.moon	/^  [submission_like: "\/submission\/:id\/like"]: capture_errors_json respond_to {/;"	f	language:moon
+submission_likes	applications/submissions.moon	/^  [submission_likes: "\/submission\/:id\/likes"]: require_login =>/;"	f	language:moon
+submission_new_comment	applications/submissions.moon	/^  [submission_new_comment: "\/submission\/:id\/comment"]: require_login capture_errors {/;"	f	language:moon
+submission_streaks	applications/submissions.moon	/^  [submission_streaks: "\/submission\/:id\/streaks"]: require_login capture_errors_json respond_to {/;"	f	language:moon
+submission_unlike	applications/submissions.moon	/^  [submission_unlike: "\/submission\/:id\/unlike"]: require_login capture_errors_json with_csrf =>/;"	f	language:moon
+submissions_count_for	models/users.moon	/^  submissions_count_for: (user) =>/;"	f	language:moon class:Users
+submit	models/streaks.moon	/^  submit: (submission, submit_time) =>/;"	f	language:moon class:Streaks
+submit_url	models/streak_users.moon	/^  submit_url: (r, date) =>/;"	f	language:moon class:StreakUsers
+suggested_submission_tags	models/users.moon	/^  suggested_submission_tags: =>/;"	f	language:moon class:Users
+summarize_tokens	models/spam_scans.moon	/^  @summarize_tokens: (tokens, categories) =>/;"	f	language:moon class:SpamScans
+tags_by_frequency	models/users.moon	/^  tags_by_frequency: =>/;"	f	language:moon class:Users
+terms	app.moon	/^  [terms: "\/terms"]: =>/;"	f	language:moon
+thumbnail_dimensions	models/uploads.moon	/^  thumbnail_dimensions: (width=600) =>/;"	f	language:moon class:Uploads
+tokenize_user	models/spam_scans.moon	/^  @tokenize_user: (user) =>/;"	f	language:moon class:SpamScans
+tokenize_user_text	models/spam_scans.moon	/^  @tokenize_user_text: (user) =>/;"	f	language:moon class:SpamScans
+train	models/spam_scans.moon	/^  train: (status) =>/;"	f	language:moon class:SpamScans
+transition	helpers/model.moon	/^transition = (col, before, after) =>/;"	f	language:moon
+truncate_date	models/streaks.moon	/^  truncate_date: (d) =>/;"	f	language:moon class:Streaks
+twitter_handle	models/user_profiles.moon	/^  twitter_handle: =>/;"	f	language:moon class:UserProfiles
+twitter_handle	models/users.moon	/^  twitter_handle: =>/;"	f	language:moon class:Users
+undo_notify	models/notifications.moon	/^  @undo_notify: (user, object, notify_type) =>/;"	f	language:moon class:Notifications
+unit_noun	models/streaks.moon	/^  unit_noun: =>/;"	f	language:moon class:Streaks
+unit_number	models/streak_submissions.moon	/^  unit_number: =>/;"	f	language:moon class:StreakSubmissions
+unit_number_for_date	models/streaks.moon	/^  unit_number_for_date: (d) =>/;"	f	language:moon class:Streaks
+unit_span	models/streaks.moon	/^  unit_span: (start, stop) =>/;"	f	language:moon class:Streaks
+unit_submission_counts	models/streaks.moon	/^  unit_submission_counts: =>/;"	f	language:moon class:Streaks
+unit_url_params	models/streaks.moon	/^  unit_url_params: (unit_number) =>/;"	f	language:moon class:Streaks
+unseen_feed_count	models/users.moon	/^  unseen_feed_count: =>/;"	f	language:moon class:Users
+unseen_notifications	models/users.moon	/^  unseen_notifications: =>/;"	f	language:moon class:Users
+unset_register_referrer	helpers/referrers.moon	/^unset_register_referrer = ->/;"	f	language:moon
+untrain	models/spam_scans.moon	/^  untrain: =>/;"	f	language:moon class:SpamScans
+update_cond	helpers/model.moon	/^update_cond = (update, check) =>/;"	f	language:moon
+update_data	models/uploads.moon	/^  update_data: (update) =>/;"	f	language:moon class:Uploads
+update_flags	models/users.moon	/^  update_flags: (t) =>/;"	f	language:moon class:Users
+update_last_active	models/users.moon	/^  update_last_active: =>/;"	f	language:moon class:Users
+update_seen_feed	models/users.moon	/^  update_seen_feed: (date) =>/;"	f	language:moon class:Users
+update_streaks	models/streak_users.moon	/^  update_streaks: =>/;"	f	language:moon class:StreakUsers
+upload_url_and_params	models/uploads.moon	/^  upload_url_and_params: (req) =>/;"	f	language:moon class:Uploads
+url_key	models/api_keys.moon	/^  url_key: =>/;"	f	language:moon class:ApiKeys
+url_params	models/community/categories.moon	/^  url_params: =>/;"	f	language:moon class:Categories
+url_params	models/community/posts.moon	/^  url_params: =>/;"	f	language:moon class:Posts
+url_params	models/community/topics.moon	/^  url_params: (req, \.\.\.) =>/;"	f	language:moon class:Topics
+url_params	models/streaks.moon	/^  url_params: =>/;"	f	language:moon class:Streaks
+url_params	models/submission_comments.moon	/^  url_params: =>/;"	f	language:moon class:SubmissionComments
+url_params	models/submissions.moon	/^  url_params: =>/;"	f	language:moon class:Submissions
+url_params	models/uploads.moon	/^  url_params: (_, \.\.\.) =>/;"	f	language:moon class:Uploads
+url_params	models/users.moon	/^  url_params: =>/;"	f	language:moon class:Users
+use_google_cloud_storage	models/uploads.moon	/^  @use_google_cloud_storage: =>/;"	f	language:moon class:Uploads
+user_follow	applications/users.moon	/^  [user_follow: "\/user\/:id\/follow"]: require_login capture_errors_json respond_to {/;"	f	language:moon
+user_followers	applications/users.moon	/^  [user_followers: "\/u\/:slug\/followers"]: capture_errors {/;"	f	language:moon
+user_following	applications/users.moon	/^  [user_following: "\/u\/:slug\/following"]: capture_errors {/;"	f	language:moon
+user_forgot_password	applications/users.moon	/^  [user_forgot_password: "\/user\/forgot-password"]: respond_to {/;"	f	language:moon
+user_login	applications/users.moon	/^  [user_login: "\/login"]: respond_to {/;"	f	language:moon
+user_logout	applications/users.moon	/^  [user_logout: "\/logout"]: =>/;"	f	language:moon
+user_profile	applications/users.moon	/^  [user_profile: "\/u\/:slug"]: capture_errors {/;"	f	language:moon
+user_register	applications/users.moon	/^  [user_register: "\/register"]: respond_to {/;"	f	language:moon
+user_settings	applications/users.moon	/^  [user_settings: "\/user\/settings"]: require_login respond_to {/;"	f	language:moon
+user_streaks_hosted	applications/users.moon	/^  [user_streaks_hosted: "\/u\/:slug\/streaks-hosted"]: capture_errors {/;"	f	language:moon
+user_submissions	applications/users.moon	/^  [user_submissions: "\/u\/:slug\/submissions"]: capture_errors {/;"	f	language:moon
+user_tag	applications/users.moon	/^  [user_tag: "\/u\/:slug\/tag\/:tag_slug"]: capture_errors {/;"	f	language:moon
+user_tags	applications/users.moon	/^  [user_tags: "\/u\/:slug\/tags"]: capture_errors {/;"	f	language:moon
+user_texts	models/spam_scans.moon	/^  @user_texts: (user) =>/;"	f	language:moon class:SpamScans
+user_unfollow	applications/users.moon	/^  [user_unfollow: "\/user\/:id\/unfollow"]: require_login capture_errors_json respond_to {/;"	f	language:moon
+utc_to_local	models/streaks.moon	/^  utc_to_local: (d) =>/;"	f	language:moon class:Streaks
+valid_for_embed	models/uploads.moon	/^  valid_for_embed: =>/;"	f	language:moon class:Uploads
+validate_signed_url	helpers/url.moon	/^validate_signed_url = (r, opts={}) ->/;"	f	language:moon
+verify_recaptcha	helpers/recaptcha.moon	/^verify_recaptcha = (response, ip) ->/;"	f	language:moon
+view_streak	applications/streaks.moon	/^  [view_streak: "\/s\/:id\/:slug"]: respond_to {/;"	f	language:moon
+view_streak_unit	applications/streaks.moon	/^  [view_streak_unit: "\/streak\/:id\/unit\/:date"]: capture_errors {/;"	f	language:moon
+view_submission	applications/submissions.moon	/^  [view_submission: "\/submission\/:id"]: view_submission/;"	f	language:moon
+view_submission_slug	applications/submissions.moon	/^  [view_submission_slug: "\/p\/:id\/:slug"]: view_submission/;"	f	language:moon
+visible_streaks_for	models/submissions.moon	/^  visible_streaks_for: (user, current_streak_id) =>/;"	f	language:moon class:Submissions
+with_csrf	helpers/app.moon	/^with_csrf = (fn) ->/;"	f	language:moon
+write_session	models/users.moon	/^  write_session: (r) =>/;"	f	language:moon class:Users

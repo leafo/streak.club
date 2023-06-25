@@ -5,6 +5,9 @@ LUAJIT ?= /usr/local/openresty/luajit/bin/luajit
 test:
 	busted
 
+tags::
+	moon-tags --lapis $$(git ls-files models/ applications/ helpers/ app.moon) > $@
+
 pin_dependencies:
 	luarocks --lua-version=5.1 --local build --only-deps --pin
 
