@@ -99,14 +99,14 @@ class CommunityTopicList extends require "widgets.base"
 
           if suspended
             div class: "avatar_container", ->
-              av_url = user\gravatar 25, true
+              av_url = user\gravatar 30, true
               div {
                 class: "last_post_avatar"
                 style: "background-image: url(#{av_url})"
               }
           else
             a href: @url_for(user), class: "avatar_container", ->
-              av_url = user\gravatar 25
+              av_url = user\gravatar 30
               div {
                 class: "last_post_avatar"
                 style: "background-image: url(#{av_url})"
