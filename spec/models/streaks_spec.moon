@@ -221,7 +221,7 @@ describe "models.streaks", ->
         {k, true for k in pairs user2\get_completed_units!}
 
   describe "time functions", ->
-    describe "daily", ->
+    describe "daily unending", ->
       local streak
 
       before_each ->
@@ -240,6 +240,69 @@ describe "models.streaks", ->
       it "range between same date is 1", ->
         some_date = streak\start_datetime!\addhours 2922
         assert.same 1, streak\unit_span some_date, some_date
+
+    describe "daily ending", ->
+      local streak
+
+      before_each ->
+        db = require "lapis.db"
+        streak = factory.Streaks {
+          start_date: "2019-1-10"
+          end_date: "2019-1-20"
+          hour_offset: -8
+          rate: "daily"
+        }
+
+      it "each_unit", ->
+        units = [unit\fmt "%Y-%m-%d %H:%M:%S" for unit in streak\each_unit!]
+
+        assert.same {
+          "2019-01-10 08:00:00",
+          "2019-01-11 08:00:00",
+          "2019-01-12 08:00:00",
+          "2019-01-13 08:00:00",
+          "2019-01-14 08:00:00",
+          "2019-01-15 08:00:00",
+          "2019-01-16 08:00:00",
+          "2019-01-17 08:00:00",
+          "2019-01-18 08:00:00",
+          "2019-01-19 08:00:00"
+        }, units
+
+      it "each_unit_in_range", ->
+        do -- range before start and before end
+          units = [unit\fmt "%Y-%m-%d %H:%M:%S" for unit in streak\each_unit_in_range "2019-1-1", "2019-1-15"]
+          assert.same {
+            "2019-01-10 08:00:00"
+            "2019-01-11 08:00:00"
+            "2019-01-12 08:00:00"
+            "2019-01-13 08:00:00"
+            "2019-01-14 08:00:00"
+          }, units
+
+        do -- exact range should return all units
+          units = [unit\fmt "%Y-%m-%d %H:%M:%S" for unit in streak\each_unit_in_range "2019-01-10 08:00:00", "2019-01-19 08:00:00"]
+          assert.same {
+            "2019-01-10 08:00:00",
+            "2019-01-11 08:00:00",
+            "2019-01-12 08:00:00",
+            "2019-01-13 08:00:00",
+            "2019-01-14 08:00:00",
+            "2019-01-15 08:00:00",
+            "2019-01-16 08:00:00",
+            "2019-01-17 08:00:00",
+            "2019-01-18 08:00:00",
+            "2019-01-19 08:00:00"
+          }, units
+
+        do -- range extends past end of streak
+          units = [unit\fmt "%Y-%m-%d %H:%M:%S" for unit in streak\each_unit_in_range "2019-01-16", "2019-01-30"]
+          assert.same {
+            "2019-01-16 08:00:00",
+            "2019-01-17 08:00:00",
+            "2019-01-18 08:00:00",
+            "2019-01-19 08:00:00"
+          }, units
 
     describe "weekly", ->
       local streak

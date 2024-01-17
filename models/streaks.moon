@@ -313,7 +313,7 @@ class Streaks extends Model
       else
         error "don't know how to format date for rate"
 
-  -- move UTC date to closest unit start in UTC
+  -- return new date to closest unit start in UTC, returns in UTC time
   truncate_date: (d) =>
     start = @start_datetime!
 
@@ -351,6 +351,7 @@ class Streaks extends Model
     @increment_date_by_unit @current_unit!
 
   -- UTC date to unit number
+  -- NOTE: this does not verify that d is in valid date in streak
   unit_number_for_date: (d) =>
     @unit_span @start_datetime!, d
 
@@ -579,12 +580,18 @@ class Streaks extends Model
 
   -- each unit of the streak in UTC between (inclusive) the specified range
   each_unit_in_range: (range_left, range_right) =>
+    range_right = date range_right
     current = @truncate_date range_left
     -- NOTE: truncate shifts before, so we increment once if the truncated
     -- date falls before our desired range
 
-    if current < range_left
+    if current < date(range_left)
       current = @increment_date_by_unit current
+
+    -- don't show dates before the streak
+    streak_start = @start_datetime!
+    if current < streak_start
+      current = streak_start
 
     stop = @end_datetime!
 
@@ -593,7 +600,7 @@ class Streaks extends Model
     coroutine.wrap ->
       while true
         break if current > range_right
-        break if stop and current > stop
+        break if stop and current >= stop
 
         limit -= 1
         if limit == 0
