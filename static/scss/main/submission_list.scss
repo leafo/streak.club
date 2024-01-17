@@ -9,6 +9,8 @@
 
     .submission_row {
         position: relative;
+        display: flex;
+        gap: 18px;
 
         .submission_admin {
             margin-top: 10px;
@@ -26,10 +28,11 @@
         }
 
         .submission_content {
+            flex: 1;
+            min-width: 0;
             background: white_back();
             border: 1px solid border_color();
             border-radius: 4px;
-            margin-left: 98px;
         }
 
         .submission_inside_content {
@@ -381,10 +384,8 @@
         }
 
         .user_column {
-            position: absolute;
-            top: 6px;
-            left: 0;
             width: 80px;
+            flex: none;
             text-align: center;
             word-wrap: break-word;
 
@@ -632,6 +633,8 @@
 
             .submission_row {
                 font-size: 16px;
+                flex-direction: column;
+                gap: 10px;
 
                 .submission_content {
                     margin-left: 0;
@@ -660,10 +663,8 @@
                 .user_column {
                     width: auto;
                     text-align: left;
-                    position: static;
                     @include display_flex;
                     @include align_items;
-                    margin-bottom: 10px;
 
                     .user_link {
                         @include display_flex;
