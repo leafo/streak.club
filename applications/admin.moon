@@ -491,10 +491,17 @@ class AdminApplication extends lapis.Application
 
   [community_posts: "/community-posts"]: capture_errors_json with_params {
     {"page", shapes.page_number}
+    {"user_id", types.empty + types.db_id}
+    {"topic_id", types.empty + types.db_id}
   }, (params) =>
     import Posts from require "community.models"
 
-    @pager = Posts\paginated "order by id desc", {
+    filter = db.clause {
+      user_id: params.user_id
+      topic_id: params.topic_id
+    }, allow_empty: true, prefix: "where"
+
+    @pager = Posts\paginated "? order by id desc", filter, {
       per_page: 50
       prepare_results: (posts) ->
         preload posts, "user", topic: { category: "streak" }

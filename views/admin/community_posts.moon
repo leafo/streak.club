@@ -8,6 +8,11 @@ class AdminCommunityPosts extends require "widgets.admin.page"
 
   column_content: =>
     h2 "Community posts"
+
+    @filter_form (field) ->
+      field "user_id"
+      field "topic_id"
+
     @render_pager @pager
 
     @column_table @posts, {
@@ -37,6 +42,8 @@ class AdminCommunityPosts extends require "widgets.admin.page"
           if user\is_spam!
             strong " spam"
       }
+      "deleted"
+      "edits_count"
       {"text", (post) ->
         text @truncate post\extract_text!, 80
       }
