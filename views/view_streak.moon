@@ -76,6 +76,16 @@ class ViewStreak extends require "widgets.page"
   render_streak_units: =>
     widget StreakUnits
 
+    if @current_user
+      -- to prevent bots from crawling every date
+      p class: "calendar_link", ->
+        a {
+          class: "button outline_button calendar_button"
+          href: @url_for("streak.calendar", id: @streak.id, slug: @streak\slug!)
+        }, ->
+          @icon "calendar", 18
+          text "Calendar"
+
   render_side_column: =>
     @render_countdown!
 
@@ -132,10 +142,11 @@ class ViewStreak extends require "widgets.page"
     @render_streak_units!
 
     if @streak_user
-      button {
-        onclick: "$(this).next('dialog')[0].showModal()"
-        class: "textlike"
-      }, "Leave streak..."
+      p class: "edit_membership", ->
+        button {
+          onclick: "document.querySelector('dialog.leave_streak_dialog').showModal()"
+          class: "textlike"
+        }, "Leave streak..."
 
       dialog class: "lightbox leave_streak_dialog", ->
         h2 "Leave Streak"

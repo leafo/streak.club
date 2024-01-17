@@ -153,7 +153,17 @@
         .button {
             display: block;
             width: 100%;
+            &.calendar_button {
+                display: flex;
+                gap: 10px;
+                align-items: center;
+                justify-content: center;
+            }
         }
+    }
+
+    .calendar_link {
+        margin-top: 10px;
     }
 
     .submit_sub {
@@ -167,6 +177,10 @@
         color: body_color_light();
         font-size: 16px;
         margin-bottom: 20px;
+    }
+
+    .edit_membership {
+        margin: 10px 0;
     }
 
     .countdown {
