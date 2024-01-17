@@ -209,7 +209,7 @@ class Users extends Model
 
   update_last_active: =>
     span = if @last_active
-      date.diff(date(true), date(@last_active))\spandays!
+      date.diff(date(true), date(@last_active))\spanhours!
 
     if not span or span > 1
       @update { last_active: db.format_date! }, timestamp: false
