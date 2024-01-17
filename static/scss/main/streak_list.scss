@@ -29,14 +29,8 @@
             @include flex_direction_column;
             @include justify_content;
             padding: 10px 20px;
-            > * {
-                margin-bottom: 10px;
-                &:last-child {
-                    margin-bottom: 0;
-                }
-            }
+            gap: 10px;
         }
-
 
         .streak_tag {
             position: absolute;
@@ -110,16 +104,13 @@
         }
 
         .streak_stats {
-            text-align: center;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
 
             .stat_box {
-                display: inline-block;
-                margin-right: 20px;
                 min-width: 50px;
-
-                &:last-child {
-                    margin-right: 0;
-                }
+                text-align: center;
             }
 
             .stat_value {

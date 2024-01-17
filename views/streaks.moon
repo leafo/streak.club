@@ -12,19 +12,21 @@ class Streaks extends require "widgets.page"
       h2 "Streaks"
 
     div class: "page_tabs", ->
-      @filter_tab "category", nil, "All categories"
-      @filter_tab "category", "visual_art"
-      @filter_tab "category", "interactive"
-      @filter_tab "category", "music"
-      @filter_tab "category", "video"
-      @filter_tab "category", "writing"
-      @filter_tab "category", "other"
+      div class: "tabs_inner", ->
+        @filter_tab "category", nil, "All categories"
+        @filter_tab "category", "visual_art"
+        @filter_tab "category", "interactive"
+        @filter_tab "category", "music"
+        @filter_tab "category", "video"
+        @filter_tab "category", "writing"
+        @filter_tab "category", "other"
 
     div class: "page_tabs", ->
-      @filter_tab "state", nil, "All states"
-      @filter_tab "state", "active"
-      @filter_tab "state", "upcoming"
-      @filter_tab "state", "completed"
+      div class: "tabs_inner", ->
+        @filter_tab "state", nil, "All states"
+        @filter_tab "state", "active"
+        @filter_tab "state", "upcoming"
+        @filter_tab "state", "completed"
 
     if next @streaks
       widget StreakList

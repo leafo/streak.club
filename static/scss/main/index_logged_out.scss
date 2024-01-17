@@ -48,7 +48,10 @@ $gray: darken(#F5F5F5, 3%);
     }
 
     .streak_browser {
-        text-align: center;
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+
         margin-bottom: 0;
         white-space: nowrap;
         overflow: auto;
