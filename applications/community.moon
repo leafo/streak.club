@@ -250,11 +250,7 @@ class CommunityApplication extends lapis.Application
       else
         @post\get_topic!
 
-      json: {
-        success: true
-        redirect_to: @url_for target
-      }
-
+      redirect_to: @url_for target
   }
 
   [post_in_topic: "/post/:post_id/view-in-topic"]: capture_errors {
