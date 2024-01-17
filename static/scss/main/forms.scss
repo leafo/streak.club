@@ -52,7 +52,7 @@
     }
 
 
-    input[type=text], input[type=number] input[type=password], input[type=email], textarea, .selectize-input {
+    input[type=text], input[type=number], input[type=password], input[type=email], textarea, .selectize-input {
         @include default_font;
         color: body_color();
         box-sizing: border-box;

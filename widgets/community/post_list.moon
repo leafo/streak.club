@@ -11,7 +11,6 @@ class CommunityPostList extends require "widgets.base"
     "flair_by_user_id"
   }
 
-  sidebar_avatar: true
   hide_voting: false
 
   inner_content: =>
@@ -23,19 +22,11 @@ class CommunityPostList extends require "widgets.base"
       }
 
   render_post: (post, opts) =>
-    return if post.deleted and not (post.children and post.children[1])
+    -- return if post.deleted and not (post.children and post.children[1])
     user = post\get_user!
     suspended = user\display_as_suspended @current_user
 
-    sidebar_avatar = not post.deleted and @sidebar_avatar and opts.depth == 1
-
     data = { id: post.id, user_id: post.user_id }
-
-    if opts.first
-      div id: "first-post"
-
-    if opts.last
-      div id: "last-post"
 
     div {
       id: "post-#{post.id}"
@@ -44,31 +35,24 @@ class CommunityPostList extends require "widgets.base"
         deleted: post.deleted
         is_reply: opts.depth > 1
         has_replies: post.children and post.children[1]
-        sidebar_avatar: sidebar_avatar
-        last_root_post: not (post.children and post.children[1]) and opts.depth == 1 and opts.last
       }
       "data-post": to_json data
     }, ->
-      if post.deleted
-        if @topic\allowed_to_moderate @current_user
-          div class: "deleted_tools", ->
-            a {
-              class: "delete_post_btn post_action"
-              href: @url_for "community.delete_post", { post_id: post.id }
-              title: "Remove all evidence of this post"
-              "Purge..."
-            }
+      if opts.first
+        div id: "first-post"
 
-        em class: "deleted_message", "Deleted post"
-        return
+      if opts.last
+        div id: "last-post"
+
 
       div class: "post_content", ->
         div class: "post_header", ->
-          if suspended
+          if suspended or post.deleted
             div class: "avatar_container", ->
               div {
                 class: "post_avatar"
-                style: "background-image: url(#{user\gravatar 80, true})"
+                  -- streak club logo should go here
+                style: "background-image: url(#{@asset_url "images/logo-144.png"})"
               }
           else
             a href: @url_for(user), class: "avatar_container", ->
@@ -79,7 +63,9 @@ class CommunityPostList extends require "widgets.base"
 
           div class: "post_header_content", ->
             span class: "post_author", ->
-              if suspended
+              if post.deleted
+                em "Deleted"
+              elseif suspended
                 em "Suspended account"
               else
                 a href: @url_for(user), user\name_for_display!
@@ -94,7 +80,10 @@ class CommunityPostList extends require "widgets.base"
               span class: "author_flag owner", f
 
             span class: "post_date", title: post.created_at, ->
-              a href: @url_for(post), time_ago_in_words post.created_at
+              if post.deleted
+                text time_ago_in_words post.created_at
+              else
+                a href: @url_for(post), time_ago_in_words post.created_at
 
             if post.edits_count > 0
               text " "
@@ -102,12 +91,25 @@ class CommunityPostList extends require "widgets.base"
                 "(Edited #{@plural post.edits_count, "time", "times"})"
               text " "
 
-        div class: "post_body", ->
-          if suspended
-            p class: "suspended_message", ->
-              em "This account has been suspended for violating our terms of service or spamming"
-          else
-            raw sanitize_html convert_links post.body
+
+        if post.deleted
+          if @topic\allowed_to_moderate @current_user
+            div class: "deleted_tools", ->
+              a {
+                class: "delete_post_btn post_action"
+                href: @url_for "community.delete_post", { post_id: post.id }
+                title: "Remove all evidence of this post"
+                "Purge..."
+              }
+
+          em class: "deleted_message", "Deleted post"
+        else
+          div class: "post_body", ->
+            if suspended
+              p class: "suspended_message", ->
+                em "This account has been suspended for violating our terms of service or spamming"
+            else
+              raw sanitize_html convert_links post.body
 
         div class: "post_footer", ->
           if post\allowed_to_edit @current_user
@@ -129,7 +131,7 @@ class CommunityPostList extends require "widgets.base"
               href: @url_for("community.reply_post", post_id: post.id)
               "Reply"
             }
-          elseif not @current_user
+          elseif not @current_user and not post.deleted
             a {
               class: "post_action"
               "data-register_action": "community_reply"
@@ -137,16 +139,15 @@ class CommunityPostList extends require "widgets.base"
               "Reply"
             }
 
-    if post.children and post.children[1]
-      if opts.depth > 9
-        div class: "view_more_replies", ->
-          a href: @url_for(post), class: "button outline forward_link", "View more in thread"
-      else
-        div class: {
-          "community_post_replies"
-          top_level_replies: opts.depth == 1
-          last_root_post: opts.depth == 1 and opts.last
-        }, ->
-          for child in *post.children
-            @render_post child, depth: opts.depth + 1
+      if post.children and post.children[1]
+        if opts.depth > 9
+          div class: "view_more_replies", ->
+            a href: @url_for(post), class: "button outline forward_link", "View more in thread"
+        else
+          div class: {
+            "community_post_replies"
+            top_level_replies: opts.depth == 1
+          }, ->
+            for child in *post.children
+              @render_post child, depth: opts.depth + 1
 

@@ -17,44 +17,24 @@
 }
 
 .community_post_list {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    position: relative;
+
     .community_post {
-        margin-bottom: $post_spacing;
-        @include display_flex;
-        @include align_items(flex-start);
-
-        &.has_replies {
-            margin-bottom: 20px;
-        }
-
         &.deleted {
-            background: gray_back();
-            padding: 20px;
-            max-width: 600px;
-            color: body_color_light();
-
-            .deleted_tools {
-                float: right;
-                a {
-                    color: body_color_light();
-                }
-            }
-        }
-
-        &.last_root_post {
-            margin-bottom: 0
-        }
-
-        &.is_reply {
-            .post_content {
-                margin-left: 0;
+            > .post_content {
+                filter: grayscale(1);
+                opacity: 0.8;
             }
         }
 
         .post_content {
-            position: relative;
-            @include flex;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
-
 
         .edit_message {
             font-style: italic;
@@ -81,7 +61,6 @@
 
         .post_header {
             font-size: $body_size;
-            margin-bottom: 10px;
             color: body_color_lighter();
             @include display_flex;
             @include align_items;
@@ -132,7 +111,6 @@
         }
 
         .post_footer {
-            margin-top: 10px;
             font-size: $body_size_small;
 
             .post_action {
@@ -195,7 +173,7 @@
             margin-bottom: 0
         }
 
-        margin: 20px 0 0 20px;
+        margin: 20px 0 0 0;
         padding: 0 0 0 20px;
 
         @include mobile_width {
