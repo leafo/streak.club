@@ -124,6 +124,11 @@ class Users extends Model
     if user_session = r.session.user
       if user_session.id
         user = @find user_session.id
+
+        -- don't let spammers have access to account
+        if user and user\is_spam!
+          return nil
+
         if user and user\salt! == user_session.key
           user
 

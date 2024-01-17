@@ -310,6 +310,10 @@ class UsersApplication extends lapis.Application
       {"password", types.valid_text}
     }, (params) =>
       user = assert_error Users\login params.username, params.password
+
+      if user\is_spam!
+        return yield_error "Spammer account disabled"
+
       user\write_session @
 
       import unset_register_referrer from require "helpers.referrers"
