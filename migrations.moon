@@ -739,6 +739,9 @@ import
 
   [1676500608]: =>
     require("community.schema").run_migrations 43
+
+  [1705455223]: =>
+    require("community.schema").run_migrations 44
 }
 
 
