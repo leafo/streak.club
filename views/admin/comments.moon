@@ -40,6 +40,7 @@ class AdminComments extends require "widgets.admin.page"
             strong " spam"
       }
       {"source", SubmissionComments.sources}
+      "deleted"
       ":extract_text"
     }
 
