@@ -119,6 +119,18 @@
     }
 }
 
+button.textlike {
+    border: 0;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    text-decoration: underline;
+    color: link_color();
+    cursor: pointer;
+    font-size: inherit;
+    font-family: inherit;
+}
+
 .button {
     @include default_font;
     @include transition(background 0.1s ease);

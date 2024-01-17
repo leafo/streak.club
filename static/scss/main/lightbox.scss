@@ -1,0 +1,44 @@
+dialog.lightbox {
+    color: body_color();
+    background: white_back();
+    box-shadow: 0 0 0 2px border_color(), 0 0 0 4px white_back(), 0 0 10px rgba(black, 0.8);
+    border-radius: 2px;
+    border: 0;
+    max-width: 600px;
+    box-sizing: border-box;
+
+    @media (max-width: 600px) {
+        // note this will remove any centering
+        margin: 10px;
+    }
+
+    &::backdrop {
+        background: rgba(#374c5c, 0.8);
+    }
+
+    .keyboard_key {
+        border: 1px solid;
+        display: inline-block;
+        color: body_color_light();
+        border-color: body_color_light();
+
+        padding: 2px 5px;
+        margin: 0 2px;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 60%;
+        text-decoration: none;
+        line-height: normal;
+    }
+
+    .button_column {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    > h2:first-child {
+        margin-top: 0
+    }
+}
+

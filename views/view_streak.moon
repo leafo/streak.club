@@ -14,6 +14,7 @@ UserList = require "widgets.user_list"
 class ViewStreak extends require "widgets.page"
   @needs: {"streak", "streak_host", "unit_counts", "completed_units"}
   @include "widgets.twitter_card_helpers"
+  @include "widgets.form_helpers"
 
   responsive: true
   page_name: "overview"
@@ -131,14 +132,44 @@ class ViewStreak extends require "widgets.page"
     @render_streak_units!
 
     if @streak_user
-      form action: "", method: "post", class: "form leave_form", ->
-        @csrf_input!
-        button {
-          class: "button outline_button"
-          name: "action"
-          value: "leave_streak"
-          "Leave streak"
-        }
+      button {
+        onclick: "$(this).next('dialog')[0].showModal()"
+        class: "textlike"
+      }, "Leave streak..."
+
+      dialog class: "lightbox leave_streak_dialog", ->
+        h2 "Leave Streak"
+
+        p "Leaving a streak will remove it from your dashboard and take you out
+        of the participants list. Leaving will not affect your previous
+        submissions and will not remove your submissions from the streak."
+
+        form action: "", method: "post", class: "form leave_form", ->
+          @csrf_input!
+
+          @input_row "Confirm", ->
+            ul class: "check_list", ->
+              li ->
+                label ->
+                  input type: "checkbox", name: "confirm", required: true
+                  text "Confirm"
+
+          div class: "button_column", ->
+            button {
+              class: "button"
+              name: "action"
+              value: "leave_streak"
+              "Leave streak"
+            }
+
+            button {
+              class: "button outline_button "
+              type: "button"
+              onClick: "$(this).closest('dialog')[0].close()"
+            }, ->
+              text "Cancel "
+              span class: "keyboard_key", "ESC"
+
 
     @render_community_preview!
 
