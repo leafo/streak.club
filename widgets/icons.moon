@@ -11,6 +11,19 @@ class Icons
       height: 60
       path: [[<g><path d="M30,16c4.411,0,8-3.589,8-8s-3.589-8-8-8s-8,3.589-8,8S25.589,16,30,16z" /><path d="M30,44c-4.411,0-8,3.589-8,8s3.589,8,8,8s8-3.589,8-8S34.411,44,30,44z" /><path d="M30,22c-4.411,0-8,3.589-8,8s3.589,8,8,8s8-3.589,8-8S34.411,22,30,22z" /></g>]]
     }
+
+    reply: {
+      width: 24
+      height: 24
+      svg_opts: {
+        "stroke-linecap": "round"
+        "stroke-linejoin": "round"
+        "stroke-width": "2"
+        fill: "none"
+        stroke: "currentColor"
+      }
+      path: [[<polyline points="15 10 20 15 15 20"></polyline><path d="M4 4v7a4 4 0 0 0 4 4h12"></path>]]
+    }
   }
 
   icon: (name, width, opts) =>
@@ -29,6 +42,10 @@ class Icons
       viewBox: "0 0 #{icon.width} #{icon.height}"
       :width, :height
     }
+
+    if icon.svg_opts
+      for k,v in pairs icon.svg_opts
+        svg_opts[k] = v
 
     if opts
       for k,v in pairs opts

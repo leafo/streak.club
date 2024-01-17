@@ -11,8 +11,6 @@ class CommunityPostList extends require "widgets.base"
     "flair_by_user_id"
   }
 
-  hide_voting: false
-
   inner_content: =>
     for i, post in ipairs @posts
       @render_post post, {
@@ -112,6 +110,34 @@ class CommunityPostList extends require "widgets.base"
               raw sanitize_html convert_links post.body
 
         div class: "post_footer", ->
+
+          if post\is_topic_post! and not @topic.permanent
+            a {
+              class: "post_action"
+              href: "#reply-thread"
+            }, ->
+              @icon "reply", 16
+              text " "
+              text "Reply"
+
+          elseif post\allowed_to_reply @current_user
+            a {
+              class: "post_action"
+              href: @url_for("community.reply_post", post_id: post.id)
+            }, ->
+              @icon "reply", 16
+              text " "
+              text "Reply"
+          elseif not @current_user and not post.deleted
+            a {
+              class: "post_action"
+              "data-register_action": "community_reply"
+              href: login_and_return_url @, nil, "community"
+            }, ->
+              @icon "reply", 16
+              text " "
+              text "Reply"
+
           if post\allowed_to_edit @current_user
             a {
               class: "post_action"
@@ -122,21 +148,7 @@ class CommunityPostList extends require "widgets.base"
             a {
               class: "delete_post_btn post_action"
               href: @url_for("community.delete_post", post_id: post.id)
-              "Delete"
-            }
-
-          if (not post\is_topic_post! or @topic.permanent) and post\allowed_to_reply @current_user
-            a {
-              class: "post_action"
-              href: @url_for("community.reply_post", post_id: post.id)
-              "Reply"
-            }
-          elseif not @current_user and not post.deleted
-            a {
-              class: "post_action"
-              "data-register_action": "community_reply"
-              href: login_and_return_url @, nil, "community"
-              "Reply"
+              "Delete..."
             }
 
       if post.children and post.children[1]

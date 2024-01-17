@@ -36,7 +36,7 @@ class CommunityTopicPosts extends require "widgets.base"
     can_reply = @topic\allowed_to_post @current_user
     return unless @topic.locked or can_reply or not @current_user
 
-    div class: "topic_posts_footer", ->
+    div id: "reply-thread", class: "topic_posts_footer", ->
       if @topic.locked
         div class: "lock_message", ->
           @topic_lock_message!
