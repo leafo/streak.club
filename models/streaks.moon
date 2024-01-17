@@ -556,6 +556,25 @@ class Streaks extends Model
   is_members_only: =>
     @membership_type == @@membership_types.members_only
 
+  -- each year this streak takes place in, in local time. Used for rendering
+  -- calendar page
+  each_year: =>
+    start_y = date(@start_datetime!)\getdate!
+
+    current = date(start_y, 1, 1)
+    stop = @end_datetime! or date(true)
+
+    limit = 1000
+
+    coroutine.wrap ->
+      while current < stop
+        limit -= 1
+        return if limit == 0
+
+        y = current\getdate!
+        coroutine.yield y
+        current\addyears 1
+
   -- each unit in utc
   -- TODO: have a starting date
   each_unit: =>
