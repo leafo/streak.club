@@ -19,6 +19,10 @@ class StreakUnits extends require "widgets.base"
 
     -- an iterator to provide list of unites for rendering
     unit_iterator: types.function\is_optional!
+    order: (types.nil / "desc") + types.one_of {
+      "asc"
+      "desc"
+    }
   }
 
   inner_content: =>
@@ -95,6 +99,7 @@ class StreakUnits extends require "widgets.base"
         :formatted_date
       }
 
+
     is_daily = streak.rate == Streaks.rates.daily
     unit_group = if is_daily
       (unit) -> unit.date\fmt "%Y-%m"
@@ -113,7 +118,12 @@ class StreakUnits extends require "widgets.base"
 
     for group in *by_group
       group_units = by_group[group]
-      group_units = [group_units[i] for i=#group_units,1,-1]
+      -- show the most recent units first in group
+      switch @props.order
+        when "desc"
+          group_units = [group_units[i] for i=#group_units,1,-1]
+        else
+          nil -- "units should come in onder from iterator"
 
       first_unit = group_units[1]
       continue unless first_unit

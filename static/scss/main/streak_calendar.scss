@@ -1,0 +1,13 @@
+.streak_calendar_page {
+    .streak_units {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        align-items: start;
+
+        > .unit_group {
+            margin: 0;
+        }
+    }
+
+}

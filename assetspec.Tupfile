@@ -16,6 +16,7 @@ export LUA_CPATH
 : views/index_logged_out.lua | $(TOP)/<moon> |> !compile_js |> views/index_logged_out.js {package_main}
 : views/layout.lua | $(TOP)/<moon> |> !compile_js |> views/layout.js {package_main}
 : views/stats.lua | $(TOP)/<moon> |> !compile_js |> views/stats.js {package_main}
+: views/streak/calendar.lua | $(TOP)/<moon> |> !compile_js |> views/streak/calendar.js {package_main}
 : views/streak_stats.lua | $(TOP)/<moon> |> !compile_js |> views/streak_stats.js {package_main}
 : views/user_profile.lua | $(TOP)/<moon> |> !compile_js |> views/user_profile.js {package_main}
 : views/user_settings.lua | $(TOP)/<moon> |> !compile_js |> views/user_settings.js {package_main}

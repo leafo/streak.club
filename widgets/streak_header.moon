@@ -81,6 +81,8 @@ class StreakHeader extends require "widgets.base"
         @page_tab "Leaderboard", "top_participants", @url_for "streak_top_participants", url_params
         @page_tab "Top submissions", "top_submissions", @url_for "streak_top_submissions", url_params
         @page_tab "Stats", "stats", @url_for "streak_stats", url_params
+        if @page_name == "calendar"
+          @page_tab "Calendar", "calendar", @url_for "streak.calendar", url_params
 
         if @streak\allowed_to_edit @current_user
           a href: @url_for("edit_streak", id: @streak.id), class: "tab_button", "Edit streak"

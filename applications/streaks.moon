@@ -96,20 +96,49 @@ class StreaksApplication extends lapis.Application
       {"year", types.empty + shapes.integer * types.range(2014, 2214) }
     }, (params) =>
       @flow("streak")\load_streak!
+
+      years = [year for year in @streak\each_year!]
+      assert_error next(years), "Streak has no valid year duration"
+
+      @streak_years = [table.remove(years) for _ in *years]
+      @default_year = unpack @streak_years
+
       @unit_counts = @streak\unit_submission_counts!
+
+      if params.year == @default_year
+        -- default year doesn't need to be manually specified
+        return redirect_to: @url_for "streak.calendar", {
+          id: @streak.id
+          slug: @streak\slug!
+        }
+
+      year = params.year or @default_year
 
       start = @streak\start_datetime!
       stop = @streak\end_datetime!
 
-      year = params.year
-
-      unless year
-        year = stop and stop\getdate! or date(true)\getdate!
-
       assert_error year >= start\getdate!, "invalid year"
       assert_error year <= (stop and stop\getdate! or date(true)\getdate!), "invalid year"
 
-      @year = year
+      @current_year = year
+      @title = "Year #{@current_year} calendar for #{@streak.title}"
+
+      -- compute date ranges in UTC
+      @range_left = date @current_year, 1, 1
+
+      streak_start = @streak\start_datetime!
+      if streak_start > @range_left
+        @range_left = streak_start
+
+      @range_right = @range_left\copy!\addyears 1
+
+      streak_end = @streak\end_datetime! or date true
+      if streak_end < @range_right
+        @range_right = streak_end
+
+      assert @range_left and @range_right and @range_left < @range_right,
+        "Failed to calculate ranges for calendar year"
+
       render: true
   }
 

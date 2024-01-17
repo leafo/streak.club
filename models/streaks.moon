@@ -287,6 +287,7 @@ class Streaks extends Model
         else
           "month"
 
+  -- NOTE: this mutates the date object
   increment_date_by_unit: (date, mul=1) =>
     switch @rate
       when @@rates.daily
@@ -569,14 +570,39 @@ class Streaks extends Model
     coroutine.wrap ->
       while current < stop
         limit -= 1
-        return if limit == 0
+        if limit == 0
+          error "each_year infinite loop detected"
 
         y = current\getdate!
         coroutine.yield y
         current\addyears 1
 
+  -- each unit of the streak in UTC between (inclusive) the specified range
+  each_unit_in_range: (range_left, range_right) =>
+    current = @truncate_date range_left
+    -- NOTE: truncate shifts before, so we increment once if the truncated
+    -- date falls before our desired range
+
+    if current < range_left
+      current = @increment_date_by_unit current
+
+    stop = @end_datetime!
+
+    limit = 1000
+
+    coroutine.wrap ->
+      while true
+        break if current > range_right
+        break if stop and current > stop
+
+        limit -= 1
+        if limit == 0
+          error "each_unit_in_range infinite loop detected"
+
+        coroutine.yield current\copy!
+        current = @increment_date_by_unit current
+
   -- each unit in utc
-  -- TODO: have a starting date
   each_unit: =>
     current = date @start_datetime!
     stop = @end_datetime!
@@ -587,7 +613,7 @@ class Streaks extends Model
       while true
         limit -= 1
         if limit == 0
-          error "each unit infinite loop detected"
+          error "each_unit infinite loop detected"
 
         coroutine.yield current
         @increment_date_by_unit current
