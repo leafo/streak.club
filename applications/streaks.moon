@@ -104,6 +104,8 @@ class StreaksApplication extends lapis.Application
       @default_year = unpack @streak_years
 
       @unit_counts = @streak\unit_submission_counts!
+      if @streak_user
+        @completed_units = @streak_user\get_completed_units!
 
       if params.year == @default_year
         -- default year doesn't need to be manually specified
@@ -125,12 +127,11 @@ class StreaksApplication extends lapis.Application
 
       -- compute date ranges in UTC
       @range_left = date @current_year, 1, 1
+      @range_right = @range_left\copy!\addyears 1
 
       streak_start = @streak\start_datetime!
       if streak_start > @range_left
         @range_left = streak_start
-
-      @range_right = @range_left\copy!\addyears 1
 
       streak_end = @streak\end_datetime! or date true
       if streak_end < @range_right

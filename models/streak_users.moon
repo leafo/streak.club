@@ -72,6 +72,7 @@ class StreakUsers extends Model
     streak_submission
 
   -- return completed units indexed by local time date stamp
+  -- TODO: for large streaks, we should be able to handle a date range
   get_completed_units: =>
     import StreakSubmissions from require "models"
     unless @completed_units
