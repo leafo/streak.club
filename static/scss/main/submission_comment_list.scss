@@ -1,11 +1,10 @@
 .submission_comment_list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
     .submission_comment, .comment_spacer {
         position: relative;
-        margin: 0 0 40px 0;
-
-        &:last-child {
-            margin-bottom: 30px;
-        }
     }
 
     .comment_spacer {
@@ -14,8 +13,6 @@
         margin-bottom: 0;
 
         &.animated {
-            margin-bottom: 40px;
-
             .submission_comment {
                 left: 0;
                 @include opacity(2);
@@ -31,7 +28,8 @@
     }
 
     .submission_comment {
-        @include clearfix;
+        display: flex;
+        gap: 10px;
 
         &.loading {
             position: relative;
@@ -57,37 +55,45 @@
         }
 
         .comment_avatar {
-            float: left;
-            margin-left: 20px;
-            margin-top: 5px;
+            flex: none;
 
+            > a {
+                display: block;
+            }
             img {
-                display: inline-block;
+                display: block;
                 width: 40px;
                 height: 40px;
                 border-radius: 20px;
             }
         }
 
-        .comment_tools {
-            float: right;
+        .comment_head {
+            display: flex;
+            gap: 10px;
+        }
 
+        .comment_author {
+            color: body_color_light();
+        }
+
+        .comment_tools {
+            margin-left: auto;
             a {
                 color: body_color_lighter();
             }
         }
 
         .comment_content {
-            margin-left: 80px;
-            margin-right: 20px;
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .comment_time {
             color: body_color_lighter();
-        }
-
-        .comment_head {
-            margin-bottom: 20px;
         }
 
         .comment_body.user_formatted {

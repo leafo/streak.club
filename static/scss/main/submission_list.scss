@@ -455,13 +455,12 @@
 
         .submission_footer {
             border-top: 1px solid border_color();
-            position: relative;
-            overflow: hidden;
+            display: flex;
+            gap: 5px;
 
             .footer_inside {
                 padding: 10px 20px;
                 position: relative;
-                float: left;
             }
 
             a {
@@ -474,6 +473,7 @@
             .submission_tags {
                 padding: 10px 20px;
                 text-align: right;
+                margin-left: auto;
 
                 .submission_tag {
                     @include transition(all 0.2s ease);
@@ -482,6 +482,10 @@
                     margin-left: 15px;
                     text-decoration: none;
                     color: body_color_light();
+
+                    &:first-child {
+                        margin-left: 0;
+                    }
 
                     &:hover {
                         color: link_color();

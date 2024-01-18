@@ -29,6 +29,13 @@ class SubmissionCommentList extends require "widgets.base"
 
         div class: "comment_content", ->
           div class: "comment_head", ->
+            if suspended
+              em "Suspended account"
+            else
+              a class: "comment_author", href: user_url, comment.user\name_for_display!
+
+            span class: "comment_time", title: comment.created_at, time_ago_in_words comment.created_at
+
             if @current_user
               can_edit = comment\allowed_to_edit @current_user
               can_delete = @current_user.id == @submission.user_id
@@ -48,14 +55,6 @@ class SubmissionCommentList extends require "widgets.base"
                 if can_delete or can_edit
                   raw " &middot; "
                   a href: "#", class: "delete_btn", "Delete"
-
-            if suspended
-              em "Suspended account"
-            else
-              a href: user_url, comment.user\name_for_display!
-
-            raw " &middot; "
-            span class: "comment_time", title: comment.created_at, time_ago_in_words comment.created_at
 
           div class: "comment_body user_formatted", ->
             if suspended

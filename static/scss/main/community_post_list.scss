@@ -65,7 +65,6 @@ $post_spacing: 30px;
 
             .post_author a {
                 color: body_color_light();
-                font-size: 18px;
 
                 @include slighly_narrow {
                     font-size: inherit;
