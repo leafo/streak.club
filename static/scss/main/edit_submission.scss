@@ -1,15 +1,16 @@
 
 .edit_submission_page {
-    .page_header{
+    .page_header {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
         @include mobile_width {
             margin-bottom: 20px;
 
             h2 {
                 font-size: 24px;
             }
-        }
-        p {
-            margin-top: 10px;
         }
     }
 

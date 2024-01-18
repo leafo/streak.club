@@ -1,6 +1,7 @@
 
 SubmissionList = require "widgets.submission_list"
 StreakHeader = require "widgets.streak_header"
+UserHeader = require "widgets.user_header"
 
 date = require "date"
 
@@ -19,6 +20,12 @@ class ViewSubmission extends require "widgets.page"
         insert_tab: =>
           @page_tab "Submission", "submission", @url_for(@submission)
       }
+    else
+      widget UserHeader {
+        page_name: "submission"
+        insert_tab: =>
+          @page_tab "Submission", "submission", @url_for(@submission)
+      }
 
     div class: "responsive_column", ->
       @column_content!
@@ -32,9 +39,9 @@ class ViewSubmission extends require "widgets.page"
     if @submission\allowed_to_edit @current_user
       div class: "owner_tools", ->
         a href: @url_for("edit_submission", id: @submission.id), "Edit submission"
-        raw " &middot; "
+        text " "
         a href: @url_for("delete_submission", id: @submission.id), "Delete submission"
-        raw " &middot; "
+        text " "
         a href: @url_for("submission_streaks", id: @submission.id), "Edit streaks"
     else
       for submit in *@streak_submissions

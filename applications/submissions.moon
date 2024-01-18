@@ -42,6 +42,7 @@ view_submission = capture_errors {
 
     @canonical_url = @build_url @url_for(@submission)
 
+    @user = @submission\get_user!
     Submissions\preload_for_list { @submission }, {
       likes_for: @current_user
     }
@@ -49,7 +50,6 @@ view_submission = capture_errors {
     @submission.comments = @submission\find_comments(per_page: COMMENTS_PER_PAGE)\get_page!
     @submission.has_more_comments = @submission.comments_count > #@submission.comments
 
-    @user = @submission\get_user!
     @streak_submissions = @submission.streak_submissions -- from preload for list
 
     streaks = [s.streak for s in *@streak_submissions]

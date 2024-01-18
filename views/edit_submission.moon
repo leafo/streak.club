@@ -42,13 +42,22 @@ class EditSubmission extends require "widgets.page"
     div class: "page_header", ->
       if @submission
         h2 "Edit submission"
-        h3 ->
-          text "A submission for"
-          num_streaks = #@streaks
-          for i, streak in ipairs @streaks
-            text " "
-            a href: @url_for(streak), streak.title
-            text ", " unless i == num_streaks
+        if next @streaks
+          p ->
+            text "A submission for"
+            num_streaks = #@streaks
+            for i, streak in ipairs @streaks
+              text " "
+              a href: @url_for(streak), streak.title
+              text ", " unless i == num_streaks
+
+        div class: "owner_tools", ->
+          a href: @url_for("delete_submission", id: @submission.id), "Delete submission..."
+          a href: @url_for("submission_streaks", id: @submission.id), "Edit streaks..."
+
+        p ->
+          a href: @url_for(@submission), "« Return to submission"
+
       elseif @submittable_streaks and next @submittable_streaks
         h2 "Submit to streak"
         if @unit_date
@@ -106,10 +115,6 @@ class EditSubmission extends require "widgets.page"
             text "Save"
           else
             text "Submit"
-
-        if @submission
-          text " or "
-          a href: @url_for(@submission), "Return to submission"
 
   streak_picker: =>
     return unless @submittable_streaks and next @submittable_streaks

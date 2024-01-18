@@ -32,6 +32,8 @@ class UserHeader extends require "widgets.base"
 
     div class: "page_tabs", ->
       div class: "tabs_inner", ->
+        @insert_tab! if @insert_tab
+
         @page_tab "Profile", "profile", @url_for(@user)
 
         if @user.following_count > 0
