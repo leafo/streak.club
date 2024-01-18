@@ -313,7 +313,7 @@ class Streaks extends Model
   format_date_unit: (d) =>
     switch @rate
       when @@rates.daily
-        d\fmt "%m/%d/%Y"
+        d\fmt "%Y-%m-%d"
       when @@rates.weekly
         tail = date(d)\adddays 6
         "#{d\fmt "%b %d"} to #{tail\fmt "%d"}"
