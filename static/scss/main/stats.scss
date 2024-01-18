@@ -1,4 +1,11 @@
 
+
+.stats_header {
+    > h2 {
+        margin-top: 0;
+    }
+}
+
 .stats_this_week_page {
     .nice_table {
         min-width: 60%;

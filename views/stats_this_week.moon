@@ -1,6 +1,8 @@
 StatsHeader = require "widgets.stats_header"
-import Streaks from require "models"
+HomeHeader = require "widgets.home_header"
 BrowseStreaksFlow = require "flows.browse_streaks"
+
+import Streaks from require "models"
 
 class StatsThisWeek extends require "widgets.page"
   @include "widgets.table_helpers"
@@ -15,9 +17,11 @@ class StatsThisWeek extends require "widgets.page"
   responsive: true
 
   inner_content: =>
-    widget StatsHeader page_name: "this_week"
+    if @current_user
+      widget HomeHeader page_name: @route_name == "stats_this_week" and "weekly" or "stats"
 
     div class: "inner_column", ->
+      widget StatsHeader page_name: "this_week"
       @render_active_streaks!
       @render_popular_submissions!
       @render_top_users!

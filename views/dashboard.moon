@@ -56,7 +56,8 @@ class Dashboard extends require "widgets.page"
 
       div class: "side_column", ->
         div class: "sidebar_buttons", ->
-          a class: "button", href: @url_for("streaks"), "Browse streaks"
+          a class: "button", href: @url_for("new_submission"), "Submit a post"
+          a class: "button outline_button", href: @url_for("streaks"), "Browse streaks"
           a class: "button outline_button", href: @url_for("new_streak"), "Create a new streak"
 
         div class: "side_notification", ->

@@ -9,7 +9,7 @@ class HomeHeader extends require "widgets.base"
   inner_content: =>
     div class: "page_tabs", ->
       div class: "tabs_inner", ->
-        @page_tab "Your streaks", "index", @url_for "index"
+        @page_tab "Dashboard", "index", @url_for "index"
         feed_tab = ->
           @page_tab "Following feed", "following_feed", @url_for "following_feed"
 

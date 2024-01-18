@@ -1,6 +1,5 @@
-import to_json from require "lapis.util"
-
 StatsHeader = require "widgets.stats_header"
+HomeHeader = require "widgets.home_header"
 
 class Stats extends require "widgets.page"
   @include "widgets.tabs_helpers"
@@ -32,9 +31,11 @@ class Stats extends require "widgets.page"
     }
 
   inner_content: =>
-    widget StatsHeader page_name: @graph_type
+    if @current_user
+      widget HomeHeader page_name: @route_name == "stats_this_week" and "weekly" or "stats"
 
     div class: "inner_column", ->
+      widget StatsHeader page_name: @graph_type
       div id: "users_graph", class: "graph_container"
       div id: "submissions_graph", class: "graph_container"
       div id: "submission_likes_graph", class: "graph_container"
