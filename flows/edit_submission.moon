@@ -30,8 +30,11 @@ class EditSubmissionFlow extends Flow
 
     -- filter to streaks that are valid for submission
     streaks = for streak_id in *params.submit_to
-      with streak = submittable_by_id[streak_id]
-        continue unless streak
+      streak = submittable_by_id[streak_id]
+      unless streak
+        yield_error "You selected a streak that you cannot submit to"
+
+      streak
 
     streaks
 

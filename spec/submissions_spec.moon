@@ -18,18 +18,18 @@ describe "submissions", ->
   before_each ->
     current_user = factory.Users!
 
-  it "not render submit page when not part of any streaks", ->
+  it "renders submit page when not part of any streaks", ->
     status, _, headers = request_as current_user, "/submit"
-    assert.same 302, status
+    assert.same 200, status
 
-  it "should render submit page when part of one active streak", ->
+  it "renders submit page when part of one active streak", ->
     streak = factory.Streaks state: "during"
     factory.StreakUsers user_id: current_user.id, streak_id: streak.id
 
     status = request_as current_user, "/submit"
     assert.same 200, status
 
-  it "should render submit page when part of multiple streaks", ->
+  it "renders submit page when part of multiple streaks", ->
     for i=1,3
       streak = factory.Streaks state: "during"
       factory.StreakUsers user_id: current_user.id, streak_id: streak.id
@@ -46,14 +46,14 @@ describe "submissions", ->
     status = request_as current_user, "/submit?streak_id=#{streaks[2].id}"
     assert.same 200, status
 
-  it "should not render submit when there are no available streaks", ->
+  it "renders submit when there are no available streaks", ->
     for i=1,2
       streak = factory.Streaks state: "during"
       factory.StreakUsers user_id: current_user.id, streak_id: streak.id
       factory.StreakSubmissions streak_id: streak.id, user_id: current_user.id
 
     status = request_as current_user, "/submit"
-    assert.same 302, status
+    assert.same 200, status
 
   describe "late submit", ->
     local streak, submit_url, submit_stamp
@@ -143,18 +143,23 @@ describe "submissions", ->
         expect: "json"
       }
 
-    it "should require a streak to submit to", ->
+    it "creates a submission with no streak selected", ->
       status, res = do_submit {
         "submission[title]": ""
         "submission[user_rating]": "neutral"
       }
 
-      assert.same {
-        errors: { "You must select at least one streak to submit to" }
-      }, res
-      assert.same 0, #Submissions\select!
+      assert true, res.success
+      assert.same 1, #Submissions\select!
+      assert.same 0, #StreakSubmissions\select!
 
-    it "should not allow submission to unrelated streak", ->
+      streak_user\refresh!
+      assert.same 0, streak_user.submissions_count
+
+      streak\refresh!
+      assert.same 0, streak.submissions_count
+
+    it "does not put submission in unrelated streak", ->
       other_streak = factory.Streaks!
 
       status, res = do_submit {
@@ -164,8 +169,10 @@ describe "submissions", ->
       }
 
       assert.same {
-        errors: { "You must select at least one streak to submit to" }
+        errors: {"You selected a streak that you cannot submit to"}
       }, res
+
+      assert.same 0, #StreakSubmissions\select!
       assert.same 0, #Submissions\select!
 
     it "should submit a blank submission", ->
@@ -192,6 +199,9 @@ describe "submissions", ->
       current_user\refresh!
       assert.same 1, current_user.submissions_count
       assert.same 0, current_user.hidden_submissions_count
+
+      streak_submission = unpack StreakSubmissions\select!
+      assert.false streak_submission.late_submit, "should not be late submit"
 
     it "should tag submission on submit", ->
       status, res = do_submit {
@@ -253,6 +263,7 @@ describe "submissions", ->
       factory.StreakSubmissions streak_id: streak.id, user_id: current_user.id
 
       status, res = request_as current_user, "/submit", {
+        expect: "json"
         post: {
           ["submit_to[#{streak.id}]"]: "yes"
           "submission[title]": ""
@@ -260,7 +271,11 @@ describe "submissions", ->
         }
       }
 
-      assert.same 302, status
+      assert.same {
+        errors: {"You selected a streak that you cannot submit to"}
+      }, res
+
+      -- aborts creating additional submission
       assert.same 1, #Submissions\select!
 
   describe "with submission", ->
