@@ -17,6 +17,7 @@ null_empty = types.empty / db.NULL
 make_empty_table = -> {}
 
 class EditSubmissionFlow extends Flow
+  -- NOTE: this can return an empty array if you are submitting only to account's personal streak
   get_submitting_streaks: with_params {
     {"submit_to", types.one_of {
       -- extract array of ids from set to array
@@ -27,15 +28,10 @@ class EditSubmissionFlow extends Flow
     @submittable_streaks or= @current_user\find_submittable_streaks!
     submittable_by_id = {s.id, s for s in *@submittable_streaks}
 
-    unless next submittable_by_id
-      yield_error "You aren't in any streaks you can currently submit to"
-
+    -- filter to streaks that are valid for submission
     streaks = for streak_id in *params.submit_to
       with streak = submittable_by_id[streak_id]
         continue unless streak
-
-    unless next streaks
-      yield_error "You must select at least one streak to submit to"
 
     streaks
 

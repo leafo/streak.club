@@ -49,11 +49,13 @@ class EditSubmission extends require "widgets.page"
             text " "
             a href: @url_for(streak), streak.title
             text ", " unless i == num_streaks
-
-      else
+      elseif @submittable_streaks and next @submittable_streaks
         h2 "Submit to streak"
         if @unit_date
           h3 "Submiting for #{@unit_date\fmt Streaks.day_format_str}"
+      else
+        h2 "Post a submission"
+        p "You are submitting to your personal streak. If you wish to submit to an existing streak please join it first before posting."
 
     submission = @params.submission or @submission or {}
     tags = if @submission
@@ -110,15 +112,8 @@ class EditSubmission extends require "widgets.page"
           a href: @url_for(@submission), "Return to submission"
 
   streak_picker: =>
-    return unless @submittable_streaks
+    return unless @submittable_streaks and next @submittable_streaks
     submit_date = @unit_date or date true
-
-    if #@submittable_streaks == 1
-      streak = @submittable_streaks[1]
-      p class: "submit_banner", ->
-        text "Submitting to #{streak.title}, #{streak\interval_noun false} ##{streak\unit_number_for_date(submit_date)}."
-      input type: "hidden", name: "submit_to[#{streak.id}]", value: "on"
-      return
 
     selected = if @params.streak_id
       { [@params.streak_id]: true }
@@ -126,9 +121,13 @@ class EditSubmission extends require "widgets.page"
       {}
 
     @input_row "Submit to", ->
+      p "If you select no streaks then you will post to your personal account streak only."
+
+
       opts = for s in *@submittable_streaks
         unit_num = "#{s\interval_noun false} ##{s\unit_number_for_date(submit_date)}"
         {tostring(s.id), s.title, unit_num}
 
       @checkboxes "submit_to", opts, selected
+
 
