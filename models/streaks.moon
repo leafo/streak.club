@@ -189,22 +189,31 @@ class Streaks extends Model
     false
 
   submit: (submission, submit_time) =>
-    late_submit = false
-
-    if submit_time
-      late_submit = true
-    else
-      submit_time = db.format_date!
+    submit_time or= db.format_date!
+    late_submit = @current_unit_number! > @unit_number_for_date submit_time
 
     import StreakSubmissions from require "models"
 
-    StreakSubmissions\create {
+    submission = StreakSubmissions\create {
       submission_id: submission.id
       streak_id: @id
       :late_submit
       :submit_time
       user_id: submission.user_id
     }
+
+    if submission
+      @update {
+        submissions_count: db.raw "submissions_count + 1"
+      }, timestamp: false
+
+      if streak_user = submission\get_streak_user!
+        streak_user\update {
+          submissions_count: db.raw "submissions_count + 1"
+        }, timestamp: false
+        streak_user\update_streaks!
+
+      submission
 
   -- for when we add additional owners
   is_host: (user) =>
