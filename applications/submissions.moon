@@ -10,6 +10,7 @@ import
   capture_errors
   assert_error
   capture_errors_json
+  yield_error
   from require "lapis.application"
 
 import not_found, require_login, assert_unit_date, assert_page, with_csrf from require "helpers.app"
@@ -210,28 +211,47 @@ class SubmissionsApplication extends lapis.Application
       for submit in *@submits
         submit.submission = @submission
 
+      if @submission\allowed_to_edit @current_user
+        date = require "date"
+        @submittable_streaks = @submission\get_user!\find_submittable_streaks date @submission.created_at
+
     GET: =>
       render: true
 
     POST: with_csrf with_params {
-      {"action", types.one_of {"unsubmit"}}
+      {"action", types.one_of {"unsubmit", "submit"}}
       {"streak_id", types.db_id}
     }, (params) =>
-      local streak_submission
-
-      for submit in *@submits
-        if submit.streak_id == tonumber params.streak_id
-          streak_submission = submit
-          break
-
-      assert_error streak_submission, "invalid submission"
-      assert_error streak_submission\allowed_to_moderate(@current_user),
-        "invalid submission"
-
       switch params.action
+        when "submit"
+          local streak
+          assert_error @submittable_streaks, "no submittable streaks"
+          for s in *@submittable_streaks
+            if s.id == tonumber params.streak_id
+              streak = s
+              break
+
+          assert_error streak, "invalid streak selected"
+          assert_error streak\allowed_to_submit(@submission\get_user!), "not allowed to submit to streak"
+
+          streak_submission = streak\submit @submission, @submission.created_at
+          assert_error streak_submission, "failed to add submission to streak"
+          @session.flash = "Added to streak"
         when "unsubmit"
-          @session.flash = "Removed from streak"
+          local streak_submission
+          for submit in *@submits
+            if submit.streak_id == tonumber params.streak_id
+              streak_submission = submit
+              break
+
+          assert_error streak_submission, "invalid submission"
+          assert_error streak_submission\allowed_to_moderate(@current_user),
+            "invalid submission"
+
           streak_submission\delete!
+          @session.flash = "Removed from streak"
+        else
+          yield_error "invalid action: #{params.action}"
 
       redirect_to: @url_for "submission_streaks", id: @submission.id
 

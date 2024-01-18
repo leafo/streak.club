@@ -60,9 +60,13 @@ class StreakSubmissions extends Model
       streak = @get_streak!
       streak\update {
         submissions_count: db.raw "submissions_count - 1"
-      }
+      }, timestamp: false
 
       if streak_user = @get_streak_user!
+        streak_user\update {
+          submissions_count: db.raw "submissions_count + 1"
+        }, timestamp: false
+
         streak_user\update_streaks!
 
       true
