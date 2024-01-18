@@ -3,7 +3,7 @@ lapis = require "lapis"
 db = require "lapis.db"
 
 import
-  respond_to, capture_errors, assert_error, capture_errors_json
+  respond_to, capture_errors, assert_error, capture_errors_json, yield_error
   from require "lapis.application"
 
 import assert_valid, with_params from require "lapis.validate"
