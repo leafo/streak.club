@@ -742,6 +742,33 @@ import
 
   [1705455223]: =>
     require("community.schema").run_migrations 44
+
+  [1717136689]: =>
+    create_table "reference_sessions", {
+      {"id", serial}
+      {"uid", "uuid DEFAULT gen_random_uuid()"}
+      {"user_id", foreign_key}
+      {"streak_id", foreign_key null: true}
+      {"title", text null: true}
+      {"created_at", time}
+      {"updated_at", time}
+      {"data", "json"}
+
+      "PRIMARY KEY (id)"
+    }
+
+    create_index "reference_sessions", "uid", unique: true
+
+    -- reference session participants
+    create_table "reference_session_participants", {
+      {"reference_session_id", foreign_key}
+      {"user_id", foreign_key}
+
+      {"created_at", time}
+      {"last_seen_at", time}
+
+      "PRIMARY KEY (reference_session_id, user_id)"
+    }
 }
 
 

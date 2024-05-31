@@ -1,0 +1,15 @@
+
+.reference_session_page {
+    background: white_back();
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    min-height: 50vh;
+
+    .empty_display {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+}

@@ -43,6 +43,7 @@ class Uploads extends Model
 
     {"object", polymorphic_belongs_to: {
       [1]: {"submission", "Submissions"}
+      [2]: {"reference_session", "ReferenceSessions"}
     }}
   }
 

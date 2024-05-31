@@ -10,8 +10,10 @@ import Users, UserIpAddresses from require "models"
 import generate_csrf from require "helpers.csrf"
 
 import require_login, not_found, redirect_for_https from require "helpers.app"
-import capture_errors_json from require "lapis.application"
+import capture_errors_json, assert_error, respond_to from require "lapis.application"
 import with_params from require "lapis.validate"
+
+import with_csrf from require "helpers.app"
 
 types = require "lapis.validate.types"
 
@@ -257,4 +259,53 @@ class extends lapis.Application
       @current_user\refresh_spam_scan!
 
     json: { success: true }
+
+
+  [new_reference_session: "/reference-session"]: capture_errors_json respond_to {
+    before: =>
+      assert_error @current_user, "must be logged in"
+
+    GET: =>
+      -- get recent other sessions by user
+      import ReferenceSessions from require "models"
+
+      @previous_sessions = ReferenceSessions\select "
+        where user_id = ?
+        order by created_at desc
+        limit 10
+      ", @current_user.id
+
+      render: true
+
+    POST: with_csrf =>
+      import ReferenceSessions from require "models"
+      session = ReferenceSessions\create {
+        user_id: @current_user.id
+      }
+
+      redirect_to: @url_for session
+  }
+
+  [reference_session: "/session/:uid"]: capture_errors_json respond_to {
+    before: with_params {
+      {"uid", types.limited_text 128}
+    }, =>
+      import ReferenceSessions from require "models"
+      @reference_session = assert_error ReferenceSessions\find(uid: @params.uid),
+        "invalid session"
+
+    GET: =>
+      render: true
+
+    -- ping handler to update the last seen time and fetch current state
+    POST: with_csrf =>
+      if @current_user
+        @reference_session\record_user @current_user
+
+      json: {
+        success: true
+        state: @flow("reference_session")\to_state!
+      }
+
+  }
 
