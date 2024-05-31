@@ -192,17 +192,34 @@ export Uploader = P "Uploader", {
       upload_manager: new UploaderManager @props.uploader_opts
     }
 
+  # TODO: remove the use of forceUpdate
   push_upload: (upload) ->
     @state.uploads.push upload
     @forceUpdate()
     upload.on_update = => @forceUpdate()
 
-
   handle_upload: (e) ->
     e.preventDefault()
     @state.upload_manager.pick_files @push_upload
 
+  on_paste: (e) ->
+    console.log "start paste event", e
+    return if @state.loading
+
+    clipboardData = e.clipboardData || window.clipboardData
+
+    for item in clipboardData.items
+      continue unless item.kind == "file"
+      continue unless item.type == "image/png" || item.type == "image/jpeg"
+      continue unless item.getAsFile?
+
+      file = item.getAsFile()
+      e.preventDefault()
+      @state.upload_manager.push_file file, @push_upload
+
   componentDidMount: ->
+    document.body.addEventListener "paste", @on_paste
+
     move = (item, dir) =>
       current_idx = null
       items = for other, idx in @state.uploads
@@ -214,7 +231,6 @@ export Uploader = P "Uploader", {
 
       items.splice current_idx + dir, 0, item
       items
-
 
     @dispatch "upload", {
       "delete": (e, pos) =>
