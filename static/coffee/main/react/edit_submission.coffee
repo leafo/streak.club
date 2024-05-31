@@ -232,10 +232,12 @@ export Uploader = P "Uploader", {
       upload_manager: new UploaderManager @props.uploader_opts
     }
 
-  # TODO: remove the use of forceUpdate
   push_upload: (upload) ->
-    @state.uploads.push upload
-    @forceUpdate()
+    @setState {
+      uploads: @state.uploads.concat(upload)
+    }
+
+    # TODO: remove the use of forceUpdate
     upload.on_update = => @forceUpdate()
 
   handle_upload: (e) ->
