@@ -1,8 +1,9 @@
 
 import {R, fragment, classNames} from "./_react"
 
+import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import {div, input, textarea, button, span, img, p} from 'react-dom-factories'
+import {div, input, textarea, button, span, img, p, dialog, h2} from 'react-dom-factories'
 
 import $ from "main/jquery"
 import {with_markdown, is_mobile, format_bytes, with_csrf} from "main/util"
@@ -185,6 +186,45 @@ export Editor = P "Editor", {
 
 }
 
+export PastedFileDialog = P "PastedFileDialog", {
+  componentDidMount: ->
+    @dialog_ref.current.addEventListener "close", (e) => @props.on_close?()
+    @dialog_ref.current.showModal()
+
+    @img_ref.current.src = URL.createObjectURL @props.file
+
+  render: ->
+    dialog {
+      ref: @dialog_ref ||= React.createRef()
+      className: "pasted_file_dialog lightbox"
+    },
+      h2 {}, "Upload pasted image?"
+      img {
+        className: "image_preview"
+        ref: @img_ref ||= React.createRef()
+      }
+
+      p className: "image_size", "Image size: #{format_bytes @props.file.size}"
+
+      div className: "button_column",
+        button {
+          className: "button"
+          type: "button"
+          onClick: =>
+            @props.on_accept()
+        }, "Upload"
+        button {
+          className: "button outline_button"
+          type: "button"
+          onClick: =>
+            @dialog_ref.current.close()
+        },
+          "Cancel"
+          span className: "keyboard_key", "ESC"
+}
+
+
+
 export Uploader = P "Uploader", {
   getInitialState: ->
     {
@@ -203,7 +243,6 @@ export Uploader = P "Uploader", {
     @state.upload_manager.pick_files @push_upload
 
   on_paste: (e) ->
-    console.log "start paste event", e
     return if @state.loading
 
     clipboardData = e.clipboardData || window.clipboardData
@@ -215,7 +254,10 @@ export Uploader = P "Uploader", {
 
       file = item.getAsFile()
       e.preventDefault()
-      @state.upload_manager.push_file file, @push_upload
+      @setState {
+        pasted_file: file
+      }
+      break
 
   componentDidMount: ->
     document.body.addEventListener "paste", @on_paste
@@ -250,6 +292,28 @@ export Uploader = P "Uploader", {
     }
 
   render: ->
+    fragment {},
+      @render_uploader()
+      if @state.pasted_file
+        @render_pasted_file()
+
+  render_pasted_file: ->
+    PastedFileDialog {
+      file: @state.pasted_file
+
+      on_accept: =>
+        @state.upload_manager.push_file @state.pasted_file, @push_upload
+        @setState {
+          pasted_file: null
+        }
+
+      on_close: =>
+        @setState {
+          pasted_file: null
+        }
+    }
+
+  render_uploader: ->
     div {
       className: classNames "upload_component", {
         dragging: @state.dragging_over
@@ -314,9 +378,6 @@ export UploadList = P "UploadList", {
 }
 
 export UploadRow = P "UploadRow", {
-  container: ->
-    $ ReactDOM.findDOMNode @
-
   handle_delete: (e) ->
     e.preventDefault()
     if confirm "Are you sure you want to remove this file? This can not be undone."
