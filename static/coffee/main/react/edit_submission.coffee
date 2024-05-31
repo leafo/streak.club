@@ -268,7 +268,7 @@ export Uploader = P "Uploader", {
       file: @state.pasted_file
 
       on_accept: =>
-        @state.upload_manager.push_file @state.pasted_file, @push_upload
+        @state.upload_manager.upload_file @state.pasted_file, @push_upload
         @setState {
           pasted_file: null
         }
@@ -310,7 +310,7 @@ export Uploader = P "Uploader", {
         @setState dragging_over: false
 
         for file in e.dataTransfer?.files
-          @state.upload_manager.push_file file, @push_upload
+          @state.upload_manager.upload_file file, @push_upload
     },
       P.UploadList { uploads: @state.uploads }
 
