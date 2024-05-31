@@ -33,7 +33,7 @@ import thumb from require "helpers.images"
 -- CREATE INDEX uploads_user_id_type_idx ON uploads USING btree (user_id, type);
 --
 class Uploads extends Model
-  @VIDEO_EMBED_LIMIT: 1024*1024*8
+  @VIDEO_EMBED_LIMIT: 1024*1024*12
 
   @timestamp: true
 
