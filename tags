@@ -152,7 +152,9 @@ display_as_suspended	models/users.moon	/^  display_as_suspended: (viewing_user) 
 duration	models/streaks.moon	/^  duration: =>/;"	f	language:moon class:Streaks
 during	models/streaks.moon	/^  during: =>/;"	f	language:moon class:Streaks
 each_unit	models/streaks.moon	/^  each_unit: =>/;"	f	language:moon class:Streaks
+each_unit_in_range	models/streaks.moon	/^  each_unit_in_range: (range_left, range_right) =>/;"	f	language:moon class:Streaks
 each_unit_local	models/streaks.moon	/^  each_unit_local: =>/;"	f	language:moon class:Streaks
+each_year	models/streaks.moon	/^  each_year: =>/;"	f	language:moon class:Streaks
 edit_comment	applications/submissions.moon	/^  [edit_comment: "\/submission-comment\/:id\/edit"]: require_login capture_errors_json respond_to {/;"	f	language:moon
 edit_options	models/community/categories.moon	/^  edit_options: =>/;"	f	language:moon class:Categories
 edit_streak	applications/streaks.moon	/^  [edit_streak: "\/streak\/:id\/edit"]: require_login capture_errors {/;"	f	language:moon
@@ -332,6 +334,7 @@ state_name	models/streaks.moon	/^  state_name: =>/;"	f	language:moon class:Strea
 stats	app.moon	/^  [stats: "\/stats"]: capture_errors_json with_params {/;"	f	language:moon
 stats_this_week	app.moon	/^  [stats_this_week: "\/stats\/this-week"]: capture_errors_json with_params {/;"	f	language:moon
 status_for_score	models/spam_scans.moon	/^  @status_for_score: (score) =>/;"	f	language:moon class:SpamScans
+streak.calendar	applications/streaks.moon	/^  ["streak\.calendar": "\/s\/:id\/:slug\/calendar(\/:year[%d])"]: capture_errors {/;"	f	language:moon
 streak_embed	applications/streaks.moon	/^  [streak_embed: "\/streak\/:id\/embed"]: capture_errors {/;"	f	language:moon
 streak_participants	applications/streaks.moon	/^  [streak_participants: "\/s\/:id\/:slug\/participants"]: respond_to {/;"	f	language:moon
 streak_stats	applications/streaks.moon	/^  [streak_stats: "\/s\/:id\/:slug\/stats"]: capture_errors {/;"	f	language:moon
@@ -367,7 +370,7 @@ unit_noun	models/streaks.moon	/^  unit_noun: =>/;"	f	language:moon class:Streaks
 unit_number	models/streak_submissions.moon	/^  unit_number: =>/;"	f	language:moon class:StreakSubmissions
 unit_number_for_date	models/streaks.moon	/^  unit_number_for_date: (d) =>/;"	f	language:moon class:Streaks
 unit_span	models/streaks.moon	/^  unit_span: (start, stop) =>/;"	f	language:moon class:Streaks
-unit_submission_counts	models/streaks.moon	/^  unit_submission_counts: =>/;"	f	language:moon class:Streaks
+unit_submission_counts	models/streaks.moon	/^  unit_submission_counts: (range_left=nil, range_right=nil) =>/;"	f	language:moon class:Streaks
 unit_url_params	models/streaks.moon	/^  unit_url_params: (unit_number) =>/;"	f	language:moon class:Streaks
 unseen_feed_count	models/users.moon	/^  unseen_feed_count: =>/;"	f	language:moon class:Users
 unseen_notifications	models/users.moon	/^  unseen_notifications: =>/;"	f	language:moon class:Users
