@@ -55,6 +55,9 @@ map_to_array = (field_name, v_type=types.table) ->
       item[field_name] = k
       item
 
+to_json_array = types.equivalent({}) / require("cjson").empty_array + types.assert types.table
+
+
 setmetatable {
   :integer
   :page_number
@@ -65,4 +68,5 @@ setmetatable {
   :empty_html
   :timezone
   :map_to_array
+  :to_json_array
 }, __index: (field) => error "Invalid field for helpers.shapes: #{field}"
