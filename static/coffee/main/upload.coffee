@@ -56,7 +56,6 @@ export create_video_thumbnail = (video) ->
   ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
 
   data_url = canvas.toDataURL("image/jpeg", 0.6)
-  console.log data_url
 
   {
     data_url
@@ -146,13 +145,18 @@ export xhr_upload = (file, opts) ->
 
 
 export class Upload
+  next_id = 0
+
   constructor: (@data) ->
+    # unique identifier for react
+    @_key = "upload_#{next_id += 1}"
+    @upload_deferred = $.Deferred()
 
   start_upload: (upload_url, save_url) ->
     throw "missing file" unless @data.file
 
     @uploading = true
-    @on_update?()
+    @notify "start_upload"
 
     d = wrap_errors $.when(upload_url).then (action, upload_params) =>
       xhr_upload(@data.file, {
@@ -161,10 +165,11 @@ export class Upload
       })
         .progress (status, loaded, total) =>
           if status == "progress"
-            @progress? loaded, total
+            @notify "progress", loaded, total
+
         .then (upload_result) =>
+          @notify "finish_upload"
           @uploading = false
-          @on_update?()
 
           if save_url
             $.when(save_url).then (url, params) =>
@@ -179,25 +184,18 @@ export class Upload
 
     d.fail (error) =>
       @uploading = false
-      @on_update?()
-      @set_error error
+      @current_error = error
+      @upload_deferred.reject error
 
-    d.then (res) =>
-      @save_upload res
-      res
+    d.done (res) =>
+      @success = true
+      @upload_deferred.resolve res
 
-  progress: (loaded, total) =>
-    @progress_percent = loaded/total * 100
-    @on_update?()
+    d
 
-  save_upload: (res) =>
-    @success = true
-    @on_update?()
-
-  set_error: (msg) =>
-    @current_error = msg
-    @on_update?()
-
+  # notify the upload deferred of any in-progress updates
+  notify: (args...) =>
+    @upload_deferred.notify args...
 
 # manages the lifecycle of uploads
 export class UploadManager
@@ -216,7 +214,7 @@ export class UploadManager
 
     @input.on "change", =>
       if file = @input[0].files[0]
-        d.resolve @upload_file file, on_upload
+        upload = @upload_file file
 
     @input.click()
 
@@ -231,21 +229,31 @@ export class UploadManager
 
     @input.on "change", =>
       for file in @input[0].files
-        @upload_file file, on_upload
+        upload = @upload_file file
+        on_upload? upload
 
     @input.click()
 
   # returns a deferred representing the upload
   # on_upload: called when the Upload object is created and started
-  upload_file: (file, on_upload) ->
+  upload_file: (file) ->
     throw "missing prepare url" unless @opts.prepare_url
+
+    upload = new Upload {
+      filename: file.name
+      size: file.size
+      type: file.type
+      file: file
+    }
 
     data = with_csrf {
       "upload[filename]": file.name
       "upload[size]": file.size
     }
 
-    d = get_image_dimensions(file).then (width, height, thumbnail) =>
+    save_upload = $.Deferred()
+
+    prepare_upload = get_image_dimensions(file).then (width, height, thumbnail) =>
       max_size = @opts.max_size
       if max_size? and file.size > max_size
         return $.Deferred().reject "#{file.name} is greater than max size of #{format_bytes max_size}"
@@ -254,13 +262,9 @@ export class UploadManager
         if res.errors
           return $.Deferred().reject res
 
-        upload = new Upload {
-          filename: file.name
-          size: file.size
-          type: file.type
-          file: file
-          id: res.id
-        }
+        # there should be a better place for this
+        upload.data.id = res.id
+        upload.on_update?()
 
         save_params = {
           width, height
@@ -271,12 +275,10 @@ export class UploadManager
           save_params["thumbnail[width]"] = thumbnail.width
           save_params["thumbnail[height]"] = thumbnail.height
 
-        upload_action = $.when res.url, res.post_params
-        save_action = $.when res.save_url, save_params
+        save_upload.resolve $.when res.save_url, save_params
 
-        upload.start_upload upload_action, save_action
-        on_upload upload, d
+        $.when res.url, res.post_params
 
-    d
-
+    upload.start_upload prepare_upload, save_upload
+    return upload
 

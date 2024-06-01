@@ -34,6 +34,7 @@ class AdminUploads extends require "widgets.admin.page"
           a href: @url_for(object),
             "#{object.__class.__name} #{object.id}"
       }
+      "filename"
       "ready"
       "deleted"
       {"type", Uploads.types}

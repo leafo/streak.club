@@ -2,10 +2,8 @@
 import $ from "main/jquery"
 
 import "main/react/edit_submission"
-import {Upload} from "main/upload"
 
 import {createRoot} from "react-dom/client"
-
 import {Uploader} from "main/react/edit_submission"
 
 export class EditSubmission
@@ -25,8 +23,7 @@ export class EditSubmission
   setup_uploader: =>
     container = @el.find ".file_uploader"
     createRoot(container[0]).render Uploader {
-      uploads: @opts.uploads && (new Upload(u) for u in @opts.uploads)
+      uploads: @opts.uploads
       uploader_opts: @opts.uploader_opts
-      widget: @
     }
 

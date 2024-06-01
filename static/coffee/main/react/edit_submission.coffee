@@ -3,7 +3,7 @@ import {R, fragment, classNames} from "./_react"
 
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import {div, input, textarea, button, span, img, p, dialog, h2} from 'react-dom-factories'
+import {div, input, textarea, button, span, img, p, dialog, h2, strong} from 'react-dom-factories'
 
 import $ from "main/jquery"
 import {with_markdown, is_mobile, format_bytes, with_csrf} from "main/util"
@@ -191,18 +191,17 @@ export PastedFileDialog = P "PastedFileDialog", {
 
 export Uploader = P "Uploader", {
   getInitialState: ->
+    initial_uploads = @props.uploads || []
+
     {
-      uploads: @props.uploads || []
+      uploads: initial_uploads.map (u) => new Upload u
       upload_manager: new UploadManager @props.uploader_opts
     }
 
   push_upload: (upload) ->
-    @setState {
-      uploads: @state.uploads.concat(upload)
+    @setState (state) => {
+      uploads: state.uploads.concat(upload)
     }
-
-    # TODO: remove the use of forceUpdate
-    upload.on_update = => @forceUpdate()
 
   handle_upload: (e) ->
     e.preventDefault()
@@ -268,7 +267,7 @@ export Uploader = P "Uploader", {
       file: @state.pasted_file
 
       on_accept: =>
-        @state.upload_manager.upload_file @state.pasted_file, @push_upload
+        @push_upload @state.upload_manager.upload_file @state.pasted_file
         @setState {
           pasted_file: null
         }
@@ -310,7 +309,7 @@ export Uploader = P "Uploader", {
         @setState dragging_over: false
 
         for file in e.dataTransfer?.files
-          @state.upload_manager.upload_file file, @push_upload
+          @push_upload @state.upload_manager.upload_file file
     },
       P.UploadList { uploads: @state.uploads }
 
@@ -325,7 +324,7 @@ export Uploader = P "Uploader", {
         }, "Add file(s)"
 
         unless is_mobile()
-          p className: "upload_tip", "TIP: you can also drag and drop a file(s) here to upload"
+          p className: "upload_tip", "TIP: you can also drag and drop a file(s) or paste an image to upload"
 }
 
 export UploadList = P "UploadList", {
@@ -335,7 +334,7 @@ export UploadList = P "UploadList", {
   render_uploads: ->
     @props.uploads.map (upload, idx) =>
       P.UploadRow {
-        key: upload.data.id
+        key: upload._key
         upload: upload
         position: idx
         first: idx == 0
@@ -344,6 +343,44 @@ export UploadList = P "UploadList", {
 }
 
 export UploadRow = P "UploadRow", {
+  getInitialState: ->
+    {
+      status: if @props.upload.data.ready
+        "ready"
+      else
+        "pending"
+    }
+
+  componentDidMount: ->
+    @props.upload.upload_deferred.progress (event, args...) =>
+      switch event
+        when "start_upload"
+          @setState {
+            status: "uploading"
+            progress_percent: 0
+          }
+        when "finsh_upload"
+          @setState {
+            progress_percent: 100
+          }
+        when "progress"
+          [loaded, total] = args
+          @setState {
+            progress_percent: loaded / total * 100
+          }
+
+    @props.upload.upload_deferred.done (res...) =>
+      @setState {
+        just_uploaded: true
+        status: "ready"
+      }
+
+    @props.upload.upload_deferred.fail (err) =>
+      if err.errors
+        @setState {
+          errors: err.errors
+        }
+
   handle_delete: (e) ->
     e.preventDefault()
     if confirm "Are you sure you want to remove this file? This can not be undone."
@@ -358,7 +395,7 @@ export UploadRow = P "UploadRow", {
     @trigger "upload:move_down", @props.position
 
   render: ->
-    upload_tools = unless @props.upload.uploading
+    upload_tools = if @state.status == "ready"
       div className: "upload_tools",
         unless @props.first and @props.last
           button {
@@ -378,18 +415,22 @@ export UploadRow = P "UploadRow", {
             title: "Move down"
           }, ArrowDownIcon(), span className: "screenreader_only", "Move down"
 
-
-    upload_status = if msg = @props.upload.current_error
-      div className: "upload_error", msg
-    else if @props.upload.success
+    upload_status = if msg = @state.errors
+      div className: "upload_error",
+        strong {}, "Upload failed:"
+        " "
+        @state.errors
+    else if @state.just_uploaded
       div className: "upload_success", "Success"
-    else if @props.upload.uploading
-      progress = @props.upload.progress_percent || 0
+    else if @state.status == "uploading"
+      progress = @state.progress_percent || 0
       div className: "upload_progress",
         div className: "upload_progress_inner", style: { width: "#{progress}%" }
 
     div className: "file_upload",
-      input type: "hidden", name: "upload[#{@props.upload.data.id}][position]", value: "#{@props.position}"
+      if id = @props.upload.data.id
+        input type: "hidden", name: "upload[#{id}][position]", value: "#{@props.position}"
+
       upload_tools
 
       div {},
@@ -398,7 +439,7 @@ export UploadRow = P "UploadRow", {
         span className: "file_size", "(#{format_bytes @props.upload.data.size})"
         upload_status
 
-      unless @props.upload.uploading
+      if @state.status == "ready"
         div className: "upload_tools",
           button { type: "button", className: "delete_btn", onClick: @handle_delete }, "Delete"
 }

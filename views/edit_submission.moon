@@ -6,6 +6,8 @@ TagInput = require "widgets.tag_input"
 
 date = require "date"
 
+shapes = require "helpers.shapes"
+
 class EditSubmission extends require "widgets.page"
   @needs: {"submission", "uploads"}
 
@@ -20,7 +22,8 @@ class EditSubmission extends require "widgets.page"
 
   js_init: =>
     super {
-      uploads: @uploads and [{
+      uploads: @uploads and shapes.to_json_array\transform [{
+        ready: true
         id: u.id
         filename: u.filename
         size: u.size
