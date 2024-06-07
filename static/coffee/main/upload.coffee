@@ -215,6 +215,7 @@ export class UploadManager
     @input.on "change", =>
       if file = @input[0].files[0]
         upload = @upload_file file
+        d.resolve upload
 
     @input.click()
 

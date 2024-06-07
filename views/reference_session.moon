@@ -10,5 +10,14 @@ class ReferenceSession extends require "widgets.page"
     createRoot(document.querySelector(widget_selector)).render(ReferenceSession(widget_params))
   ]]
 
+  js_init: =>
+    super {
+      uploader_opts: {
+        prepare_url: @url_for "prepare_upload"
+        accept: "image/png,image/jpeg,image/gif"
+      }
+    }
+
+
   inner_content: =>
 
