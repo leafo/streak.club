@@ -23,6 +23,7 @@ class StreakParticipants extends require "widgets.page"
         users: @pending_users
         action_area: (user) =>
           form method: "POST", ->
+            @csrf_input!
             input type: "hidden", name: "user_id", value: user.id
             button {
               name: "action"
