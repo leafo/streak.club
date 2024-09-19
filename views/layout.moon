@@ -6,6 +6,8 @@ config = require("lapis.config").get!
 
 WelcomeBanner = require "widgets.welcome_banner"
 
+types = require "lapis.validate.types"
+
 class Layout extends require "widgets.base"
   @include "widgets.helpers"
   @include "widgets.table_helpers"
@@ -16,6 +18,8 @@ class Layout extends require "widgets.base"
     import {Header, Timezone} from "main/layout"
     import S from "main/state"
 
+    import {startBirthday} from "main/addy"
+
     new Header('#global_header', widget_params.header)
 
     if (widget_params.current_user_id) {
@@ -25,15 +29,32 @@ class Layout extends require "widgets.base"
     if (widget_params.timezone) {
       new Timezone(widget_params.timezone)
     }
+
+    if (widget_params.birthday_effects) {
+      startBirthday()
+    }
   ]]
 
   widget_selector: =>
     [[document.body]]
 
   js_init: =>
+    birthday_effects = types.partial {
+      id: types.one_of {
+        1
+        22789 -- sigh
+        22760 -- addy
+        22762 -- deep
+        22823 -- cody
+        22794 -- ali
+      }
+    }
+
     super {
       header: { flash: @flash }
       current_user_id: @current_user and @current_user.id
+      birthday_effects: birthday_effects @current_user
+
       timezone: if @current_user
         {
           tz_url: @url_for "set_timezone"
