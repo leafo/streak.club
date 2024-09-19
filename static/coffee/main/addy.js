@@ -5,6 +5,9 @@ document.body.appendChild(effectsContainer);
 
 let counterEl = null
 
+const defaultDoubleRate = 0.25
+let doubleRate = defaultDoubleRate
+
 function incrementBalloonsPopped() {
   let balloonsPopped = localStorage.getItem('balloonsPopped');
   if (balloonsPopped === null) {
@@ -17,6 +20,9 @@ function incrementBalloonsPopped() {
 
   if (counterEl) {
     counterEl.innerText = balloonsPopped;
+    if (balloonsPopped > 999) {
+      counterEl.style.fontSize = '12px';
+    }
   }
 }
 
@@ -287,6 +293,14 @@ VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV`);
     setTimeout(() => {
         popEffect.remove();
     }, 300);
+
+
+    if (Math.random() < doubleRate) {
+      createBalloon();
+      doubleRate = defaultDoubleRate
+    } else {
+      doubleRate *= 1.3
+    }
 }
 
 // Function to create a single confetti
