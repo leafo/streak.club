@@ -3,6 +3,23 @@ const effectsContainer = document.createElement('div');
 effectsContainer.id = 'birthday-effects-container';
 document.body.appendChild(effectsContainer);
 
+let counterEl = null
+
+function incrementBalloonsPopped() {
+  let balloonsPopped = localStorage.getItem('balloonsPopped');
+  if (balloonsPopped === null) {
+    balloonsPopped = 0;
+  } else {
+    balloonsPopped = parseInt(balloonsPopped, 10);
+  }
+  balloonsPopped += 1;
+  localStorage.setItem('balloonsPopped', balloonsPopped);
+
+  if (counterEl) {
+    counterEl.innerText = balloonsPopped;
+  }
+}
+
 // Styles for the effects, messages, and banner
 const style = document.createElement('style');
 style.textContent = `
@@ -42,8 +59,6 @@ style.textContent = `
   .balloon {
     position: absolute;
     animation: float 15s ease-in-out infinite;
-    cursor: pointer;
-    pointer-events: auto;
   }
   .balloon-string {
     width: 1px;
@@ -60,6 +75,8 @@ style.textContent = `
     margin: 0 auto;
     font-weight: bold;
     animation: inflate 0.5s ease-out;
+    cursor: pointer;
+    pointer-events: auto;
   }
   .balloon-body::before,
   .balloon-body::after {
@@ -129,6 +146,11 @@ function createBirthdayBanner() {
     
     text.split('').forEach((letter, index) => {
         const letterElement = document.createElement('div');
+
+        if (letter == ' ') {
+          counterEl = letterElement
+        }
+
         letterElement.classList.add('banner-letter');
         letterElement.textContent = letter;
         letterElement.style.backgroundColor = colors[index % colors.length];
@@ -173,13 +195,14 @@ function createBalloon() {
     effectsContainer.appendChild(balloon);
 
     // Add click event listener to pop the balloon
-    balloon.addEventListener('click', () => {
+    balloonBody.addEventListener('click', () => {
         popBalloon(balloon);
     });
 }
 
 // Function to pop a balloon
 function popBalloon(balloon) {
+    incrementBalloonsPopped();
     // Play pop sound
     const popSound = new Audio(`data:audio/mp3;base64,//uQxAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAAJAAANWQBHR0dHR0dHR0dHR2pqampqampq
 ampqgYGBgYGBgYGBgYGXl5eXl5eXl5eXl62tra2tra2tra2tw8PDw8PDw8PDw8Pa2tra2tra2tra
