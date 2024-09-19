@@ -147,7 +147,7 @@ document.head.appendChild(style);
 function createBirthdayBanner() {
     const banner = document.createElement('div');
     banner.classList.add('birthday-banner');
-    const text = 'HAPPY BIRTHDAY';
+    const text = 'HAPPY BTHDADAY';
     const colors = ['#FF69B4', '#87CEFA', '#9370DB', '#90EE90', '#FFA500', '#40E0D0'];
     
     text.split('').forEach((letter, index) => {
