@@ -39,21 +39,11 @@ class Layout extends require "widgets.base"
     [[document.body]]
 
   js_init: =>
-    birthday_effects = types.partial {
-      id: types.one_of {
-        1
-        22789 -- sigh
-        22760 -- addy
-        22762 -- deep
-        22823 -- cody
-        22794 -- ali
-      }
-    }
-
+    birthday_effects = not not @params.addy
     super {
       header: { flash: @flash }
       current_user_id: @current_user and @current_user.id
-      birthday_effects: birthday_effects @current_user
+      :birthday_effects
 
       timezone: if @current_user
         {
