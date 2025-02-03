@@ -488,11 +488,11 @@ class Streaks extends Model
 
         -- TODO: this query isn't accurate will cause drifting in the months
         db.interpolate_query "
-          make_date(
+          date(make_date(
             extract(year from #{submit_local})::int,
             extract(month from #{submit_local})::int,
             1
-          ) + (? - 1 || ' days')::interval - (case when extract(day from #{submit_local}) < ? then '1 day'::interval else '0 days'::interval end)
+          ) + (? - 1 || ' days')::interval - (case when extract(day from #{submit_local}) < ? then '1 day'::interval else '0 days'::interval end))
           as submit_day
         ", cutoff_day, cutoff_day
       else
