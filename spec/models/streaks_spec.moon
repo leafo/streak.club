@@ -1,6 +1,8 @@
 date = require "date"
 factory = require "spec.factory"
 
+db = require "lapis.db"
+
 describe "models.streaks", ->
   import Streaks, Users, Submissions, StreakUsers, StreakSubmissions from require "spec.models"
 
@@ -395,5 +397,33 @@ describe "models.streaks", ->
 
         assert.same "2019-04-10 08:00:00",
           tostring streak\truncate_date(d)\fmt "%Y-%m-%d %H:%M:%S"
+
+  describe "streak submit unit group field", ->
+    it "calculates start unit for monthly #ddd", ->
+      streak = factory.Streaks {
+        start_date: "2021-10-24"
+        hour_offset: -7
+        rate: "monthly"
+      }
+
+      submit_time = "2023-05-09 06:11:08"
+      expected_submit_day = "2023-05-23 00:00:00"
+
+      res = unpack db.query [[
+        select submit_time, ? from (values
+          (?::timestamp without time zone)
+        ) as submission(submit_time)
+      ]], db.raw(streak\_streak_submit_unit_group_field!), submit_time
+
+      assert.same expected_submit_day, res.submit_day
+
+
+
+
+
+
+
+
+
 
 
