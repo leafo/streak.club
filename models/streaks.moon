@@ -486,12 +486,13 @@ class Streaks extends Model
         submit_local = db.interpolate_query "(submit_time + ?::interval)", interval
         cutoff_day = date(@start_date)\getday!
 
+        -- TODO: this query isn't accurate will cause drifting in the months
         db.interpolate_query "
           make_date(
             extract(year from #{submit_local})::int,
             extract(month from #{submit_local})::int,
-            ?
-          ) - (case when extract(day from #{submit_local}) < ? then '1 day'::interval else '0 days'::interval end)
+            1
+          ) + (? - 1 || ' days')::interval - (case when extract(day from #{submit_local}) < ? then '1 day'::interval else '0 days'::interval end)
           as submit_day
         ", cutoff_day, cutoff_day
       else

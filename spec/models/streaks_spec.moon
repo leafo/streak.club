@@ -399,7 +399,7 @@ describe "models.streaks", ->
           tostring streak\truncate_date(d)\fmt "%Y-%m-%d %H:%M:%S"
 
   describe "streak submit unit group field", ->
-    it "calculates start unit for various streak data sets #ddd", ->
+    it "monthly streak submissions", ->
       test_data = {
         {
           streak_data: {
@@ -694,9 +694,10 @@ describe "models.streaks", ->
             { expected_day: "2025-01-31 00:00:00", submit_time: "2025-01-31 18:09:47" }
             { expected_day: "2025-01-31 00:00:00", submit_time: "2025-01-31 21:31:57" }
             { expected_day: "2025-01-31 00:00:00", submit_time: "2025-01-31 22:38:25" }
-            -- fix these
-            -- { submit_time: "2025-02-01 00:42:30" }
-            -- { submit_time: "2025-02-01 03:07:26" }
+
+
+            { submit_time: "2025-02-01 00:42:30", expected_day: "2025-03-02 00:00:00" }
+            { submit_time: "2025-02-01 03:07:26", expected_day: "2025-03-02 00:00:00" }
           }
         }
       }
@@ -717,4 +718,5 @@ describe "models.streaks", ->
         ]], db.raw(streak\_streak_submit_unit_group_field!), submission_times
 
         for idx, row in ipairs res
-          assert.same data.submissions[idx].expected_day, row.submit_day
+          assert.same data.submissions[idx].expected_day, row.submit_day,
+            "Submission #{data.submissions[idx].submit_time} for Streak #{streak.start_date} #{streak.hour_offset}"
