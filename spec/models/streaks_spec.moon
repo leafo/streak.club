@@ -403,51 +403,314 @@ describe "models.streaks", ->
       test_data = {
         {
           streak_data: {
-            start_date: "2020-01-01"
-            hour_offset: -8
-            rate: "monthly"
-          }
-          submissions: {
-            { submit_time: "2020-01-17 07:39:41", expected_day: "2020-01-01 00:00:00" }
-            { submit_time: "2020-02-19 23:47:19", expected_day: "2020-02-01 00:00:00" }
-            { submit_time: "2020-05-05 09:46:48", expected_day: "2020-05-01 00:00:00" }
-            { submit_time: "2020-07-06 08:33:24", expected_day: "2020-07-01 00:00:00" }
-          }
-        }
-        {
-          streak_data: {
-            start_date: "2019-01-01"
-            end_date: "2019-01-02"
-            hour_offset: -8
-            rate: "monthly"
-          }
-          submissions: {
-            { submit_time: "2019-01-25 07:59:50", expected_day: "2019-01-01 00:00:00" }
-            { submit_time: "2019-01-31 07:59:50", expected_day: "2019-01-01 00:00:00" }
-            { submit_time: "2019-02-02 07:59:50", expected_day: "2019-02-01 00:00:00" }
-            { submit_time: "2019-02-03 11:11:49", expected_day: "2019-02-01 00:00:00" }
-          }
-        }
-        {
-          streak_data: {
-            start_date: "2019-01-01"
             end_date: "2020-01-01"
             hour_offset: 11
             rate: "monthly"
+            start_date: "2019-01-01"
           }
           submissions: {
-            { submit_time: "2019-01-29 09:48:31", expected_day: "2019-01-01 00:00:00" }
-            { submit_time: "2019-02-28 21:48:31", expected_day: "2019-03-01 00:00:00" }
-            { submit_time: "2019-03-03 12:59:50", expected_day: "2019-03-01 00:00:00" }
-            { submit_time: "2019-04-07 07:18:30", expected_day: "2019-04-01 00:00:00" }
+            { expected_day: "2019-01-01 00:00:00", submit_time: "2019-01-21 21:59:58" }
+            { expected_day: "2019-01-01 00:00:00", submit_time: "2019-01-29 09:48:31" }
+            { expected_day: "2019-01-01 00:00:00", submit_time: "2019-01-30 20:34:51" }
+            { expected_day: "2019-01-01 00:00:00", submit_time: "2019-01-31 04:32:27" }
+            { expected_day: "2019-01-01 00:00:00", submit_time: "2019-01-31 07:59:48" }
+            { expected_day: "2019-01-01 00:00:00", submit_time: "2019-01-31 08:49:13" }
+            { expected_day: "2019-01-01 00:00:00", submit_time: "2019-01-31 09:34:26" }
+            { expected_day: "2019-01-01 00:00:00", submit_time: "2019-01-31 09:39:31" }
+            { expected_day: "2019-02-01 00:00:00", submit_time: "2019-02-25 21:03:49" }
+            { expected_day: "2019-03-01 00:00:00", submit_time: "2019-02-28 21:48:31" }
+            { expected_day: "2019-03-01 00:00:00", submit_time: "2019-03-03 12:59:50" }
+            { expected_day: "2019-03-01 00:00:00", submit_time: "2019-03-28 17:45:14" }
+            { expected_day: "2019-04-01 00:00:00", submit_time: "2019-04-07 07:18:30" }
+            { expected_day: "2019-04-01 00:00:00", submit_time: "2019-04-27 23:56:57" }
+            { expected_day: "2019-05-01 00:00:00", submit_time: "2019-05-27 21:52:33" }
+            { expected_day: "2019-05-01 00:00:00", submit_time: "2019-05-30 21:34:14" }
+            { expected_day: "2019-06-01 00:00:00", submit_time: "2019-06-06 08:47:21" }
+            { expected_day: "2019-06-01 00:00:00", submit_time: "2019-06-24 02:36:02" }
+            { expected_day: "2019-06-01 00:00:00", submit_time: "2019-06-29 17:40:18" }
+            { expected_day: "2019-07-01 00:00:00", submit_time: "2019-07-09 10:43:39" }
+            { expected_day: "2019-07-01 00:00:00", submit_time: "2019-07-30 12:59:50" }
+            { expected_day: "2019-07-01 00:00:00", submit_time: "2019-07-30 21:45:51" }
+            { expected_day: "2019-07-01 00:00:00", submit_time: "2019-07-31 00:14:22" }
+            { expected_day: "2019-08-01 00:00:00", submit_time: "2019-08-09 18:44:43" }
+            { expected_day: "2019-08-01 00:00:00", submit_time: "2019-08-31 08:41:40" }
+            { expected_day: "2019-09-01 00:00:00", submit_time: "2019-09-14 06:48:51" }
+            { expected_day: "2019-10-01 00:00:00", submit_time: "2019-10-19 16:23:02" }
+            { expected_day: "2019-11-01 00:00:00", submit_time: "2019-11-01 23:46:51" }
+            { expected_day: "2019-11-01 00:00:00", submit_time: "2019-11-25 20:38:00" }
+            { expected_day: "2019-12-01 00:00:00", submit_time: "2019-12-09 20:31:28" }
+            { expected_day: "2019-12-01 00:00:00", submit_time: "2019-12-16 20:50:30" }
+          }
+        }
+        {
+          streak_data: {
+            end_date: "2019-01-02"
+            hour_offset: -8
+            rate: "monthly"
+            start_date: "2019-01-01"
+          }
+          submissions: {
+            { expected_day: "2019-01-01 00:00:00", submit_time: "2019-01-25 07:59:50" }
+            { expected_day: "2019-01-01 00:00:00", submit_time: "2019-01-26 07:59:50" }
+            { expected_day: "2019-01-01 00:00:00", submit_time: "2019-01-27 07:59:50" }
+            { expected_day: "2019-01-01 00:00:00", submit_time: "2019-01-28 07:59:50" }
+            { expected_day: "2019-01-01 00:00:00", submit_time: "2019-01-29 07:59:50" }
+            { expected_day: "2019-01-01 00:00:00", submit_time: "2019-01-30 07:59:50" }
+            { expected_day: "2019-01-01 00:00:00", submit_time: "2019-01-31 07:59:50" }
+            { expected_day: "2019-01-01 00:00:00", submit_time: "2019-02-01 07:59:50" }
+            { expected_day: "2019-02-01 00:00:00", submit_time: "2019-02-02 07:59:50" }
+            { expected_day: "2019-02-01 00:00:00", submit_time: "2019-02-03 07:59:50" }
+            { expected_day: "2019-02-01 00:00:00", submit_time: "2019-02-03 11:11:49" }
+          }
+        }
+        {
+          streak_data: {
+            hour_offset: 5
+            rate: "monthly"
+            start_date: "2019-09-25"
+          }
+          submissions: {
+            { expected_day: "2019-09-25 00:00:00", submit_time: "2019-09-25 07:06:11" }
+          }
+        }
+        {
+          streak_data: {
+            hour_offset: -8
+            rate: "monthly"
+            start_date: "2020-01-01"
+          }
+          submissions: {
+            { expected_day: "2020-01-01 00:00:00", submit_time: "2020-01-12 19:16:13" }
+          }
+        }
+        {
+          streak_data: {
+            hour_offset: -8
+            rate: "monthly"
+            start_date: "2020-01-01"
+          }
+          submissions: {
+            { expected_day: "2020-01-01 00:00:00", submit_time: "2020-01-17 07:39:41" }
+            { expected_day: "2020-02-01 00:00:00", submit_time: "2020-02-19 23:47:19" }
+            { expected_day: "2020-05-01 00:00:00", submit_time: "2020-05-05 09:46:48" }
+            { expected_day: "2020-07-01 00:00:00", submit_time: "2020-07-06 08:33:24" }
+          }
+        }
+        {
+          streak_data: {
+            hour_offset: -6
+            rate: "monthly"
+            start_date: "2020-03-21"
+          }
+          submissions: {
+            { expected_day: "2020-03-21 00:00:00", submit_time: "2020-03-22 04:24:13" }
+            { expected_day: "2020-03-21 00:00:00", submit_time: "2020-03-23 04:40:09" }
+            { expected_day: "2020-03-21 00:00:00", submit_time: "2020-03-24 05:01:45" }
+            { expected_day: "2020-03-21 00:00:00", submit_time: "2020-03-25 01:33:01" }
+            { expected_day: "2020-03-21 00:00:00", submit_time: "2020-03-26 05:19:36" }
+            { expected_day: "2020-03-21 00:00:00", submit_time: "2020-03-27 04:56:31" }
+            { expected_day: "2020-03-21 00:00:00", submit_time: "2020-03-28 05:26:51" }
+            { expected_day: "2020-03-21 00:00:00", submit_time: "2020-03-29 05:18:19" }
+            { expected_day: "2020-03-21 00:00:00", submit_time: "2020-03-30 04:50:57" }
+            { expected_day: "2020-03-21 00:00:00", submit_time: "2020-03-31 04:38:13" }
+            { expected_day: "2020-03-21 00:00:00", submit_time: "2020-04-01 05:38:18" }
+          }
+        }
+        {
+          streak_data: {
+            end_date: "2030-01-01"
+            hour_offset: -6
+            rate: "monthly"
+            start_date: "2020-04-01"
+          }
+          submissions: {
+            { expected_day: "2020-04-01 00:00:00", submit_time: "2020-04-21 02:29:51" }
+            { expected_day: "2020-04-01 00:00:00", submit_time: "2020-04-21 03:00:48" }
+            { expected_day: "2020-04-01 00:00:00", submit_time: "2020-04-26 11:54:33" }
+            { expected_day: "2020-04-01 00:00:00", submit_time: "2020-04-29 16:42:53" }
+            { expected_day: "2020-04-01 00:00:00", submit_time: "2020-04-30 00:35:54" }
+            { expected_day: "2020-04-01 00:00:00", submit_time: "2020-05-01 04:54:18" }
+            { expected_day: "2020-07-01 00:00:00", submit_time: "2020-07-31 17:33:17" }
+            { expected_day: "2020-08-01 00:00:00", submit_time: "2020-08-22 09:56:40" }
+            { expected_day: "2020-08-01 00:00:00", submit_time: "2020-08-31 21:02:58" }
+          }
+        }
+        {
+          streak_data: {
+            hour_offset: 5
+            rate: "monthly"
+            start_date: "2020-06-04"
+          }
+          submissions: {
+            { expected_day: "2020-06-04 00:00:00", submit_time: "2020-06-06 03:41:47" }
+          }
+        }
+        {
+          streak_data: {
+            end_date: "2022-04-09"
+            hour_offset: 0
+            rate: "monthly"
+            start_date: "2020-06-08"
+          }
+          submissions: {
+            { expected_day: "2020-06-08 00:00:00", submit_time: "2020-06-08 07:09:08" }
+            { expected_day: "2020-06-08 00:00:00", submit_time: "2020-06-09 02:57:46" }
+            { expected_day: "2020-06-08 00:00:00", submit_time: "2020-06-15 05:24:38" }
+            { expected_day: "2020-06-08 00:00:00", submit_time: "2020-06-20 02:41:57" }
+            { expected_day: "2020-06-08 00:00:00", submit_time: "2020-06-28 06:43:53" }
+            { expected_day: "2020-06-08 00:00:00", submit_time: "2020-06-28 16:59:50" }
+            { expected_day: "2020-07-07 00:00:00", submit_time: "2020-07-05 12:15:20" }
+            { expected_day: "2020-07-08 00:00:00", submit_time: "2020-07-12 05:59:07" }
+            { expected_day: "2020-07-08 00:00:00", submit_time: "2020-07-19 12:24:41" }
+            { expected_day: "2020-07-08 00:00:00", submit_time: "2020-07-26 16:59:50" }
+            { expected_day: "2020-08-07 00:00:00", submit_time: "2020-08-02 08:16:32" }
+            { expected_day: "2020-08-08 00:00:00", submit_time: "2020-08-09 16:57:04" }
+            { expected_day: "2020-08-08 00:00:00", submit_time: "2020-08-16 06:49:25" }
+            { expected_day: "2020-08-08 00:00:00", submit_time: "2020-08-23 16:59:10" }
+            { expected_day: "2020-08-08 00:00:00", submit_time: "2020-08-30 20:28:03" }
+            { expected_day: "2020-09-07 00:00:00", submit_time: "2020-09-06 17:26:26" }
+            { expected_day: "2020-09-08 00:00:00", submit_time: "2020-09-13 23:05:56" }
+            { expected_day: "2020-09-08 00:00:00", submit_time: "2020-09-20 23:47:22" }
+            { expected_day: "2020-09-08 00:00:00", submit_time: "2020-09-27 23:30:23" }
+            { expected_day: "2020-10-07 00:00:00", submit_time: "2020-10-04 23:27:30" }
+            { expected_day: "2020-10-08 00:00:00", submit_time: "2020-10-11 23:48:08" }
+            { expected_day: "2020-10-08 00:00:00", submit_time: "2020-10-18 23:45:36" }
+            { expected_day: "2020-10-08 00:00:00", submit_time: "2020-10-25 23:46:42" }
+            { expected_day: "2020-11-07 00:00:00", submit_time: "2020-11-01 23:59:50" }
+            { expected_day: "2020-11-08 00:00:00", submit_time: "2020-11-08 23:59:50" }
+            { expected_day: "2020-11-08 00:00:00", submit_time: "2020-11-15 23:59:50" }
+            { expected_day: "2020-11-08 00:00:00", submit_time: "2020-11-22 23:59:50" }
+            { expected_day: "2020-11-08 00:00:00", submit_time: "2020-11-29 23:59:50" }
+            { expected_day: "2020-12-07 00:00:00", submit_time: "2020-12-06 23:55:24" }
+            { expected_day: "2020-12-08 00:00:00", submit_time: "2020-12-13 23:57:33" }
+            { expected_day: "2021-02-07 00:00:00", submit_time: "2021-02-06 21:03:37" }
+            { expected_day: "2021-03-07 00:00:00", submit_time: "2021-03-07 22:19:12" }
+          }
+        }
+        {
+          streak_data: {
+            end_date: "2021-12-31"
+            hour_offset: 8
+            rate: "monthly"
+            start_date: "2021-01-01"
+          }
+          submissions: {
+            { expected_day: "2021-01-01 00:00:00", submit_time: "2021-01-07 07:22:24" }
+            { expected_day: "2021-01-01 00:00:00", submit_time: "2021-01-31 06:09:17" }
+            { expected_day: "2021-01-01 00:00:00", submit_time: "2021-01-31 15:57:27" }
+            { expected_day: "2021-02-01 00:00:00", submit_time: "2021-02-06 06:00:48" }
+            { expected_day: "2021-02-01 00:00:00", submit_time: "2021-02-28 05:52:31" }
+            { expected_day: "2021-03-01 00:00:00", submit_time: "2021-03-16 20:03:15" }
+            { expected_day: "2021-03-01 00:00:00", submit_time: "2021-03-30 03:48:44" }
+            { expected_day: "2021-04-01 00:00:00", submit_time: "2021-03-31 18:15:09" }
+            { expected_day: "2021-04-01 00:00:00", submit_time: "2021-04-26 02:34:36" }
+            { expected_day: "2021-04-01 00:00:00", submit_time: "2021-04-30 08:54:34" }
+            { expected_day: "2021-05-01 00:00:00", submit_time: "2021-05-28 21:41:27" }
+          }
+        }
+        {
+          streak_data: {
+            hour_offset: -7
+            rate: "monthly"
+            start_date: "2021-10-24"
+          }
+          submissions: {
+            { expected_day: "2023-05-23 00:00:00", submit_time: "2023-05-09 06:11:08" }
+          }
+        }
+        {
+          streak_data: {
+            hour_offset: -6
+            rate: "monthly"
+            start_date: "2022-12-01"
+          }
+          submissions: {
+            { expected_day: "2022-12-01 00:00:00", submit_time: "2022-12-30 23:20:31" }
+            { expected_day: "2022-12-01 00:00:00", submit_time: "2022-12-31 04:52:16" }
+            { expected_day: "2022-12-01 00:00:00", submit_time: "2022-12-31 23:48:26" }
+            { expected_day: "2022-12-01 00:00:00", submit_time: "2023-01-01 01:27:24" }
+            { expected_day: "2023-01-01 00:00:00", submit_time: "2023-01-04 23:37:10" }
+            { expected_day: "2023-01-01 00:00:00", submit_time: "2023-01-27 16:07:38" }
+            { expected_day: "2023-03-01 00:00:00", submit_time: "2023-03-01 23:41:26" }
+            { expected_day: "2023-04-01 00:00:00", submit_time: "2023-05-01 05:47:15" }
+            { expected_day: "2023-07-01 00:00:00", submit_time: "2023-07-12 14:05:53" }
+          }
+        }
+        {
+          streak_data: {
+            hour_offset: -9
+            rate: "monthly"
+            start_date: "2023-05-06"
+          }
+          submissions: {
+            { expected_day: "2023-05-06 00:00:00", submit_time: "2023-05-06 21:03:43" }
+            { expected_day: "2023-05-06 00:00:00", submit_time: "2023-05-14 03:57:36" }
+            { expected_day: "2023-05-06 00:00:00", submit_time: "2023-05-21 03:53:44" }
+            { expected_day: "2023-05-06 00:00:00", submit_time: "2023-05-27 18:16:05" }
+            { expected_day: "2023-06-06 00:00:00", submit_time: "2023-06-09 18:19:41" }
+            { expected_day: "2023-06-06 00:00:00", submit_time: "2023-06-10 20:03:28" }
+            { expected_day: "2023-06-06 00:00:00", submit_time: "2023-06-17 18:36:44" }
+            { expected_day: "2023-06-06 00:00:00", submit_time: "2023-06-24 20:22:51" }
+            { expected_day: "2023-07-06 00:00:00", submit_time: "2023-07-07 03:29:42" }
+            { expected_day: "2023-07-06 00:00:00", submit_time: "2023-07-09 20:53:11" }
+            { expected_day: "2023-07-06 00:00:00", submit_time: "2023-07-17 20:41:52" }
+            { expected_day: "2023-07-06 00:00:00", submit_time: "2023-07-23 00:38:26" }
+            { expected_day: "2023-07-06 00:00:00", submit_time: "2023-07-29 13:26:24" }
+            { expected_day: "2023-08-05 00:00:00", submit_time: "2023-08-05 17:58:03" }
+            { expected_day: "2023-08-06 00:00:00", submit_time: "2023-08-12 14:43:51" }
+          }
+        }
+        {
+          streak_data: {
+            hour_offset: -8
+            rate: "monthly"
+            start_date: "2023-12-26"
+          }
+          submissions: {
+            { expected_day: "2023-12-26 00:00:00", submit_time: "2023-12-26 21:10:33" }
+          }
+        }
+        {
+          streak_data: {
+            hour_offset: -10
+            rate: "monthly"
+            start_date: "2024-04-05"
+          }
+          submissions: {
+            { expected_day: "2024-04-05 00:00:00", submit_time: "2024-04-05 21:42:46" }
+          }
+        }
+        {
+          streak_data: {
+            end_date: "2025-12-31"
+            hour_offset: 1
+            rate: "monthly"
+            start_date: "2025-01-31"
+          }
+          submissions: {
+            { expected_day: "2025-01-30 00:00:00", submit_time: "2025-01-01 21:07:02" }
+            { expected_day: "2025-01-31 00:00:00", submit_time: "2025-01-31 17:08:10" }
+            { expected_day: "2025-01-31 00:00:00", submit_time: "2025-01-31 17:15:02" }
+            { expected_day: "2025-01-31 00:00:00", submit_time: "2025-01-31 18:09:47" }
+            { expected_day: "2025-01-31 00:00:00", submit_time: "2025-01-31 21:31:57" }
+            { expected_day: "2025-01-31 00:00:00", submit_time: "2025-01-31 22:38:25" }
+            -- fix these
+            -- { submit_time: "2025-02-01 00:42:30" }
+            -- { submit_time: "2025-02-01 03:07:26" }
           }
         }
       }
 
+      import types from require "tableshape"
+      load_streak = types.partial {
+        rate: types.string / Streaks.rates\for_db
+      }
+
       for data in *test_data
-        streak = factory.Streaks data.streak_data
+        streak = Streaks\load load_streak\transform data.streak_data
 
         submission_times = db.array [s.submit_time for s in *data.submissions]
+        continue unless next submission_times
 
         res = db.query [[
           select submit_time, ? from unnest(?::timestamp without time zone[]) as submission(submit_time)
