@@ -559,32 +559,32 @@ describe "models.streaks", ->
             { expected_day: "2020-06-08", submit_time: "2020-06-20 02:41:57" }
             { expected_day: "2020-06-08", submit_time: "2020-06-28 06:43:53" }
             { expected_day: "2020-06-08", submit_time: "2020-06-28 16:59:50" }
-            { expected_day: "2020-07-07", submit_time: "2020-07-05 12:15:20" }
+            { expected_day: "2020-06-08", submit_time: "2020-07-05 12:15:20" }
             { expected_day: "2020-07-08", submit_time: "2020-07-12 05:59:07" }
             { expected_day: "2020-07-08", submit_time: "2020-07-19 12:24:41" }
             { expected_day: "2020-07-08", submit_time: "2020-07-26 16:59:50" }
-            { expected_day: "2020-08-07", submit_time: "2020-08-02 08:16:32" }
+            { expected_day: "2020-07-08", submit_time: "2020-08-02 08:16:32" }
             { expected_day: "2020-08-08", submit_time: "2020-08-09 16:57:04" }
             { expected_day: "2020-08-08", submit_time: "2020-08-16 06:49:25" }
             { expected_day: "2020-08-08", submit_time: "2020-08-23 16:59:10" }
             { expected_day: "2020-08-08", submit_time: "2020-08-30 20:28:03" }
-            { expected_day: "2020-09-07", submit_time: "2020-09-06 17:26:26" }
+            { expected_day: "2020-08-08", submit_time: "2020-09-06 17:26:26" }
             { expected_day: "2020-09-08", submit_time: "2020-09-13 23:05:56" }
             { expected_day: "2020-09-08", submit_time: "2020-09-20 23:47:22" }
             { expected_day: "2020-09-08", submit_time: "2020-09-27 23:30:23" }
-            { expected_day: "2020-10-07", submit_time: "2020-10-04 23:27:30" }
+            { expected_day: "2020-09-08", submit_time: "2020-10-04 23:27:30" }
             { expected_day: "2020-10-08", submit_time: "2020-10-11 23:48:08" }
             { expected_day: "2020-10-08", submit_time: "2020-10-18 23:45:36" }
             { expected_day: "2020-10-08", submit_time: "2020-10-25 23:46:42" }
-            { expected_day: "2020-11-07", submit_time: "2020-11-01 23:59:50" }
+            { expected_day: "2020-10-08", submit_time: "2020-11-01 23:59:50" }
             { expected_day: "2020-11-08", submit_time: "2020-11-08 23:59:50" }
             { expected_day: "2020-11-08", submit_time: "2020-11-15 23:59:50" }
             { expected_day: "2020-11-08", submit_time: "2020-11-22 23:59:50" }
             { expected_day: "2020-11-08", submit_time: "2020-11-29 23:59:50" }
-            { expected_day: "2020-12-07", submit_time: "2020-12-06 23:55:24" }
+            { expected_day: "2020-11-08", submit_time: "2020-12-06 23:55:24" }
             { expected_day: "2020-12-08", submit_time: "2020-12-13 23:57:33" }
-            { expected_day: "2021-02-07", submit_time: "2021-02-06 21:03:37" }
-            { expected_day: "2021-03-07", submit_time: "2021-03-07 22:19:12" }
+            { expected_day: "2021-01-08", submit_time: "2021-02-06 21:03:37" }
+            { expected_day: "2021-02-08", submit_time: "2021-03-07 22:19:12" }
           }
         }
         {
@@ -615,7 +615,7 @@ describe "models.streaks", ->
             start_date: "2021-10-24"
           }
           submissions: {
-            { expected_day: "2023-05-23", submit_time: "2023-05-09 06:11:08" }
+            { expected_day: "2023-04-24", submit_time: "2023-05-09 06:11:08" }
           }
         }
         {
@@ -656,7 +656,7 @@ describe "models.streaks", ->
             { expected_day: "2023-07-06", submit_time: "2023-07-17 20:41:52" }
             { expected_day: "2023-07-06", submit_time: "2023-07-23 00:38:26" }
             { expected_day: "2023-07-06", submit_time: "2023-07-29 13:26:24" }
-            { expected_day: "2023-08-05", submit_time: "2023-08-05 17:58:03" }
+            { expected_day: "2023-07-06", submit_time: "2023-08-05 17:58:03" }
             { expected_day: "2023-08-06", submit_time: "2023-08-12 14:43:51" }
           }
         }
@@ -688,7 +688,7 @@ describe "models.streaks", ->
             start_date: "2025-01-31"
           }
           submissions: {
-            { expected_day: "2025-01-30", submit_time: "2025-01-01 21:07:02" }
+            { expected_day: "2025-12-31", submit_time: "2025-01-01 21:07:02" }
             { expected_day: "2025-01-31", submit_time: "2025-01-31 17:08:10" }
             { expected_day: "2025-01-31", submit_time: "2025-01-31 17:15:02" }
             { expected_day: "2025-01-31", submit_time: "2025-01-31 18:09:47" }
@@ -696,8 +696,8 @@ describe "models.streaks", ->
             { expected_day: "2025-01-31", submit_time: "2025-01-31 22:38:25" }
 
 
-            { submit_time: "2025-02-01 00:42:30", expected_day: "2025-03-02" }
-            { submit_time: "2025-02-01 03:07:26", expected_day: "2025-03-02" }
+            { expected_day: "2025-01-31", submit_time: "2025-02-01 00:42:30" }
+            { expected_day: "2025-01-31", submit_time: "2025-02-01 03:07:26" }
           }
         }
       }

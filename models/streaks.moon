@@ -461,6 +461,7 @@ class Streaks extends Model
       return false if @end_datetime! < d
     true
 
+  -- this returns a field that should match the calculation of truncate_date -> streak local
   _streak_submit_unit_group_field: =>
     switch @rate
       when @@rates.daily
@@ -487,12 +488,23 @@ class Streaks extends Model
         cutoff_day = date(@start_date)\getday!
 
         -- TODO: this query isn't accurate will cause drifting in the months
+        -- NOTE: we add the day to the first of the month to account when the
+        -- cutoff day is larger than the total number of days in the month
+        -- being calculated
         db.interpolate_query "
-          date(make_date(
-            extract(year from #{submit_local})::int,
-            extract(month from #{submit_local})::int,
-            1
-          ) + (? - 1 || ' days')::interval - (case when extract(day from #{submit_local}) < ? then '1 day'::interval else '0 days'::interval end))
+          date(
+            make_date(
+              extract(year from #{submit_local})::int,
+              (case when extract(day from #{submit_local}) < ?
+                then
+                  (extract(month from #{submit_local})::int + 10) % 12 + 1
+                else
+                  extract(month from #{submit_local})::int
+                end
+              ),
+              1
+            ) + (? - 1 || ' days')::interval
+          )
           as submit_day
         ", cutoff_day, cutoff_day
       else
