@@ -399,31 +399,59 @@ describe "models.streaks", ->
           tostring streak\truncate_date(d)\fmt "%Y-%m-%d %H:%M:%S"
 
   describe "streak submit unit group field", ->
-    it "calculates start unit for monthly #ddd", ->
-      streak = factory.Streaks {
-        start_date: "2021-10-24"
-        hour_offset: -7
-        rate: "monthly"
+    it "calculates start unit for various streak data sets #ddd", ->
+      test_data = {
+        {
+          streak_data: {
+            start_date: "2020-01-01"
+            hour_offset: -8
+            rate: "monthly"
+          }
+          submissions: {
+            { submit_time: "2020-01-17 07:39:41", expected_day: "2020-01-01 00:00:00" }
+            { submit_time: "2020-02-19 23:47:19", expected_day: "2020-02-01 00:00:00" }
+            { submit_time: "2020-05-05 09:46:48", expected_day: "2020-05-01 00:00:00" }
+            { submit_time: "2020-07-06 08:33:24", expected_day: "2020-07-01 00:00:00" }
+          }
+        }
+        {
+          streak_data: {
+            start_date: "2019-01-01"
+            end_date: "2019-01-02"
+            hour_offset: -8
+            rate: "monthly"
+          }
+          submissions: {
+            { submit_time: "2019-01-25 07:59:50", expected_day: "2019-01-01 00:00:00" }
+            { submit_time: "2019-01-31 07:59:50", expected_day: "2019-01-01 00:00:00" }
+            { submit_time: "2019-02-02 07:59:50", expected_day: "2019-02-01 00:00:00" }
+            { submit_time: "2019-02-03 11:11:49", expected_day: "2019-02-01 00:00:00" }
+          }
+        }
+        {
+          streak_data: {
+            start_date: "2019-01-01"
+            end_date: "2020-01-01"
+            hour_offset: 11
+            rate: "monthly"
+          }
+          submissions: {
+            { submit_time: "2019-01-29 09:48:31", expected_day: "2019-01-01 00:00:00" }
+            { submit_time: "2019-02-28 21:48:31", expected_day: "2019-03-01 00:00:00" }
+            { submit_time: "2019-03-03 12:59:50", expected_day: "2019-03-01 00:00:00" }
+            { submit_time: "2019-04-07 07:18:30", expected_day: "2019-04-01 00:00:00" }
+          }
+        }
       }
 
-      submit_time = "2023-05-09 06:11:08"
-      expected_submit_day = "2023-05-23 00:00:00"
+      for data in *test_data
+        streak = factory.Streaks data.streak_data
 
-      res = unpack db.query [[
-        select submit_time, ? from (values
-          (?::timestamp without time zone)
-        ) as submission(submit_time)
-      ]], db.raw(streak\_streak_submit_unit_group_field!), submit_time
+        submission_times = db.array [s.submit_time for s in *data.submissions]
 
-      assert.same expected_submit_day, res.submit_day
+        res = db.query [[
+          select submit_time, ? from unnest(?::timestamp without time zone[]) as submission(submit_time)
+        ]], db.raw(streak\_streak_submit_unit_group_field!), submission_times
 
-
-
-
-
-
-
-
-
-
-
+        for idx, row in ipairs res
+          assert.same data.submissions[idx].expected_day, row.submit_day
