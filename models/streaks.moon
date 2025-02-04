@@ -495,15 +495,17 @@ class Streaks extends Model
           date(
             make_date(
               extract(year from #{submit_local})::int,
-              (case when extract(day from #{submit_local}) < ?
-                then
-                  (extract(month from #{submit_local})::int + 10) % 12 + 1
-                else
-                  extract(month from #{submit_local})::int
-                end
-              ),
+              extract(month from #{submit_local})::int,
               1
-            ) + (? - 1 || ' days')::interval
+            )
+            + (? - 1 || ' days')::interval
+            - (case when extract(day from #{submit_local}) < ?
+                then
+                  '1 month'::interval
+                else
+                  '0 days'::interval
+                end
+              )
           )
           as submit_day
         ", cutoff_day, cutoff_day

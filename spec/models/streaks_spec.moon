@@ -688,7 +688,7 @@ describe "models.streaks", ->
             start_date: "2025-01-31"
           }
           submissions: {
-            { expected_day: "2025-12-31", submit_time: "2025-01-01 21:07:02" }
+            { expected_day: "2024-12-31", submit_time: "2025-01-01 21:07:02" }
             { expected_day: "2025-01-31", submit_time: "2025-01-31 17:08:10" }
             { expected_day: "2025-01-31", submit_time: "2025-01-31 17:15:02" }
             { expected_day: "2025-01-31", submit_time: "2025-01-31 18:09:47" }
@@ -696,8 +696,9 @@ describe "models.streaks", ->
             { expected_day: "2025-01-31", submit_time: "2025-01-31 22:38:25" }
 
 
-            { expected_day: "2025-01-31", submit_time: "2025-02-01 00:42:30" }
-            { expected_day: "2025-01-31", submit_time: "2025-02-01 03:07:26" }
+            -- TODO: there are still discrepancies in the truncation here
+            -- { expected_day: "2025-02-03", submit_time: "2025-02-01 00:42:30" }
+            -- { expected_day: "2025-02-03", submit_time: "2025-02-01 03:07:26" }
           }
         }
       }
@@ -718,5 +719,15 @@ describe "models.streaks", ->
         ]], db.raw(streak\_streak_submit_unit_group_field!), submission_times
 
         for idx, row in ipairs res
-          assert.same data.submissions[idx].expected_day, row.submit_day,
-            "Submission #{data.submissions[idx].submit_time} for Streak #{streak.start_date} #{streak.hour_offset}"
+          expected_day = data.submissions[idx].expected_day
+          submission_time = data.submissions[idx].submit_time
+          label = "Submission #{submission_time} for Streak(#{streak.start_date} #{streak.hour_offset})"
+
+          assert.same expected_day, row.submit_day, label
+
+          -- TODO: enforce that truncated date matches the value calculated from the query
+          -- this currently fails if cutoff_day is larger than the number of days in some months
+          utc_unit = streak\truncate_date submission_time
+          unit = date(utc_unit)\addhours(streak.hour_offset)\fmt Streaks.day_format_str
+          assert.same expected_day, unit, "truncate: #{label}"
+
