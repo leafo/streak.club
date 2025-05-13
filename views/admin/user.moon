@@ -14,6 +14,25 @@ class AdminUser extends require "widgets.admin.page"
       h3 ->
         a href: @url_for(@user), @user\name_for_display!
 
+      section ->
+        text "Admin: "
+        a {
+          href: @url_for "admin.uploads", nil, user_id: @user.id
+        }, "Uploads"
+        text " "
+        a {
+          href: @url_for "admin.submissions", nil, user_id: @user.id
+        }, "Submissions"
+        text " "
+        a {
+          href: @url_for "admin.comments", nil, user_id: @user.id
+        }, "Comments"
+
+        text " "
+        a {
+          href: @url_for "admin.streaks", nil, user_id: @user.id
+        }, "Streaks"
+
     div class: "admin_columns", ->
       @field_table @user, {
         "id"
@@ -33,6 +52,7 @@ class AdminUser extends require "widgets.admin.page"
         "created_at"
         "updated_at",
       }
+      
 
       section ->
         if rr = @user\get_register_captcha_result!
