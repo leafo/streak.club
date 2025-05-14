@@ -52,7 +52,7 @@ class AdminUser extends require "widgets.admin.page"
         "created_at"
         "updated_at",
       }
-      
+
 
       section ->
         if rr = @user\get_register_captcha_result!
