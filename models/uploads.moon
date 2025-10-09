@@ -79,6 +79,7 @@ class Uploads extends Model
   @preload_objects: (objects) =>
     ids_by_type = {}
     for object in *objects
+      continue unless object
       object_type = @object_type_for_object object
       ids_by_type[object_type] or= {}
       table.insert ids_by_type[object_type], object.id
