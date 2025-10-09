@@ -57,10 +57,10 @@ $post_spacing: 30px;
         }
 
         .post_header {
-            font-size: $body_size;
+            font-size: var(--sc-body_size);
             color: body_color_lighter();
-            @include display_flex;
-            @include align_items;
+            display: flex;
+            align-items: center;
             gap: 10px;
 
             .post_author a {
@@ -72,7 +72,7 @@ $post_spacing: 30px;
             }
 
             .author_flag {
-                font-size: $body_size_small;
+                font-size: var(--sc-body_size_small);
                 font-weight: bold;
                 border-radius: 3px;
                 padding: 2px 6px;
@@ -81,13 +81,13 @@ $post_spacing: 30px;
                 margin-left: 10px;
 
                 &.admin {
-                    background: lighten($orange, 10%);
-                    color: rgba(white, 0.8);
+                    background: color-mix(in oklab, var(--sc-orange), white 10%);
+                    color: color-mix(in srgb, white 80%, transparent);
                 }
 
                 &.host {
-                    background: lighten($purple, 10%);
-                    color: rgba(white, 0.8);
+                    background: color-mix(in oklab, var(--sc-purple), white 10%);
+                    color: color-mix(in srgb, white 80%, transparent);
                 }
             }
 
@@ -108,7 +108,7 @@ $post_spacing: 30px;
         }
 
         .post_footer {
-            font-size: $body_size_small;
+            font-size: var(--sc-body_size_small);
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
@@ -117,26 +117,26 @@ $post_spacing: 30px;
             // NOTE: this is effectively outline_button
             .post_action {
                 text-align: center;
-                border-radius: $button_radius*2;
+                border-radius: calc(var(--sc-button_radius) * 2);
                 text-decoration: none;
                 padding: 2px 12px;
 
                 background: white_back();
-                border: 2px solid rgba($button_color, 0.6);
-                color: link_color();
+                border: 2px solid color-mix(in srgb, var(--sc-button_color) 60%, transparent);
+                color: var(--sc-link_color);
                 display: flex;
                 gap: 4px;
                 align-items: center;
 
                 &:hover {
                     border-color: button_color();
-                    background: mix($button_color, $white_back, 10%);
+                    background: color-mix(in srgb, var(--sc-button_color) 10%, var(--sc-white_back));
                 }
 
                 @include dark_theme {
-                    border-color: rgba($dark_button_color, 0.6);
+                    border-color: color-mix(in srgb, var(--sc-button_color) 60%, transparent);
                     &:hover {
-                        background: mix($dark_button_color, $dark_white_back, 10%);
+                        background: color-mix(in srgb, var(--sc-button_color) 10%, var(--sc-white_back));
                     }
                 }
             }

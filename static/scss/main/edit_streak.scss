@@ -2,8 +2,8 @@
 .edit_streak_page {
 
     .form_errors {
-        padding-top: $header_height;
-        margin-top: -$header_height;
+        padding-top: var(--sc-header_height);
+        margin-top: calc(-1 * var(--sc-header_height));
     }
 
     .date_row {

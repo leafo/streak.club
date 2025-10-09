@@ -36,7 +36,7 @@
 
                 &.active {
                     font-weight: bold;
-                    border: 2px solid $button_color;
+                    border: 2px solid var(--sc-button_color);
                 }
             }
 
@@ -87,14 +87,14 @@
         }
 
         &[data-name=review_status][data-value=needs_review] {
-            color: $orange;
+            color: var(--sc-orange);
             font-weight: bold;
         }
 
         &[data-name=review_status][data-value=reviewed],
         &[data-name=status][data-value=resolved] // exception types
         {
-            color: $blue;
+            color: var(--sc-blue);
         }
     }
 

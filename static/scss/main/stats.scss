@@ -12,14 +12,14 @@
         margin-bottom: 60px;
 
         @include mobile_width {
-            font-size: $body_size_small;
+            font-size: var(--sc-body_size_small);
         }
     }
 
     .page_tabs {
         @include mobile_width {
             .tab {
-                font-size: $body_size_small;
+                font-size: var(--sc-body_size_small);
                 margin-right: 20px;
                 margin-bottom: 5px;
             }

@@ -4,7 +4,7 @@ $avatar_size: 30px;
     width: 25%;
     max-width: 240px;
     min-width: 180px;
-    @include border_box;
+    box-sizing: border-box;
 }
 
 @mixin hide_last_post {
@@ -25,7 +25,7 @@ $avatar_size: 30px;
     .topic_table {
         .topic_table_header {
             background: gray_back();
-            @include display_flex;
+            display: flex;
             color: body_color_light();
             text-transform: uppercase;
             font-size: 12px;
@@ -33,7 +33,7 @@ $avatar_size: 30px;
             border-bottom: 1px solid border_color();
 
             > :first-child {
-                @include flex;
+                flex: 1;
             }
 
             .last_post_header {
@@ -61,8 +61,8 @@ $avatar_size: 30px;
 
     .topic_row {
         $sub_row_spacing: 8px;
-        @include display_flex;
-        @include align_items;
+        display: flex;
+        align-items: center;
         position: relative;
 
         @include mobile_width {
@@ -92,20 +92,20 @@ $avatar_size: 30px;
         &.unread_posts {
             .topic_title {
                 > a {
-                    color: link_color();
+                    color: var(--sc-link_color);
                 }
             }
         }
 
         .topic_main {
-            @include flex;
+            flex: 1;
         }
 
         .topic_title {
             font-size: 22px;
-            @include display_flex;
-            @include align_items;
-            @include flex_wrap;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
 
             @include mobile_width {
                 .topic_link {
@@ -137,7 +137,7 @@ $avatar_size: 30px;
 
         .topic_stats {
             text-align: right;
-            font-size: $body_size_small;
+            font-size: var(--sc-body_size_small);
             color: body_color_lighter();
             min-width: 60px;
             white-space: nowrap;
@@ -146,7 +146,7 @@ $avatar_size: 30px;
 
             .number_value {
                 color: body_color_light();
-                font-size: $body_size;
+                font-size: var(--sc-body_size);
             }
 
             @include mobile_width {
@@ -189,7 +189,7 @@ $avatar_size: 30px;
         .last_poster_group {
             display: inline-block;
             vertical-align: middle;
-            font-size: $body_size_small;
+            font-size: var(--sc-body_size_small);
             color: body_color_lighter();
 
             .last_post_author {
@@ -232,7 +232,7 @@ $avatar_size: 30px;
         }
 
         .topic_tag {
-            font-size: $body_size_small;
+            font-size: var(--sc-body_size_small);
             font-weight: bold;
             border-radius: 3px;
             padding: 2px 6px;

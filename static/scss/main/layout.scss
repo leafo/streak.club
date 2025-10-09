@@ -6,33 +6,45 @@ body {
     margin: 0;
     padding: 0;
 
-    --sc-body_size: #{$body_size};
-    --sc-body_size_small: #{$body_size_small};
-
-    --sc-body_color: #{$body_color};
-    --sc-body_color_light: #{$body_color_light};
-    --sc-body_color_lighter: #{$body_color_lighter};
-    --sc-border_color: #{$border_color};
-    --sc-border_color50: #{rgba($border_color, 0.5)};
-    --sc-white_back: white;
-    --sc-gray_back: #{$gray_back};
-    --sc-gray_back50: #{rgba($gray_back, 0.5)};
-
-    --sc-button_color: #{$button_color};
-    --sc-button_fg_color: #{$button_fg_color};
-    --sc-button_active_color: #{$button_active_color};
-    --sc-button_hover_color: #{$button_hover_color};
-
-    --sc-link_color: #{$link_color};
-    --sc-header_color: #{$header_color};
-    --sc-error_color: #{$error_color};
-    --sc-like_color: #{$like_color};
-    --sc-purple: #{$purple};
-    --sc-green: #{$green};
-    --sc-blue: #{$blue};
-    --sc-red: #{$red};
-
+    /* Layout dimensions */
+    --sc-site_width: 960px;
+    --sc-narrow_width: 600px;
+    --sc-header_height: 50px;
+    --sc-button_radius: 10px;
     --sc-gutter: 40px;
+
+    /* Typography */
+    --sc-body_size: 18px;
+    --sc-body_size_small: 15px;
+
+    /* Light theme colors */
+    --sc-body_color: #333;
+    --sc-body_color_light: #666;
+    --sc-body_color_lighter: #999;
+    --sc-border_color: #dadada;
+    --sc-border_color50: color-mix(in srgb, #dadada 50%, transparent);
+    --sc-white_back: white;
+    --sc-gray_back: #f5f5f5;
+    --sc-gray_back50: color-mix(in srgb, #f5f5f5 50%, transparent);
+
+    /* Brand colors */
+    --sc-teal: #7ED6D7;
+    --sc-red: #fe4e50;
+    --sc-green: #aada80;
+    --sc-blue: #34a0f2;
+    --sc-orange: #FB9175;
+    --sc-yellow: #FDBF6C;
+    --sc-purple: #A287C0;
+
+    /* Semantic colors */
+    --sc-button_color: var(--sc-blue);
+    --sc-button_fg_color: white;
+    --sc-button_active_color: color-mix(in oklab, var(--sc-blue), black 5%);
+    --sc-button_hover_color: color-mix(in oklab, var(--sc-blue), white 5%);
+    --sc-link_color: var(--sc-blue);
+    --sc-header_color: var(--sc-blue);
+    --sc-error_color: var(--sc-red);
+    --sc-like_color: #FF5E5E;
 
     &.responsive {
         @include mobile_width {
@@ -46,28 +58,27 @@ body {
 }
 
 @include dark_theme_root {
+    /* Dark theme colors */
     --sc-body_color: #E6EAED;
     --sc-body_color_light: #9BABB9;
     --sc-body_color_lighter: #495B71;
 
-    --sc-white_back: #{$dark_white_back};
-    --sc-gray_back: #{$dark_gray_back};
-    --sc-gray_back50: #{rgba($dark_gray_back, 0.5)};
-    --sc-border_color: #{$dark_border_color};
-    --sc-border_color50: #{rgba($dark_border_color, 0.5)};
+    --sc-white_back: #11171C;
+    --sc-gray_back: #090D10;
+    --sc-gray_back50: color-mix(in srgb, #090D10 50%, transparent);
+    --sc-border_color: #2B3542;
+    --sc-border_color50: color-mix(in srgb, #2B3542 50%, transparent);
 
-    --sc-button_color: #{$dark_button_color};
-    --sc-button_fg_color: #{$dark_button_fg_color};
-    --sc-button_active_color: #{$dark_button_active_color};
-    --sc-button_hover_color: #{$dark_button_hover_color};
+    --sc-button_color: #0F3F75;
+    --sc-button_fg_color: white;
+    --sc-button_active_color: color-mix(in oklab, #0F3F75, black 5%);
+    --sc-button_hover_color: color-mix(in oklab, #0F3F75, white 5%);
 
-    --sc-link_color: #{$dark_link_color};
-
-    // --sc-header_color: #0F3F75;
+    --sc-link_color: color-mix(in oklab, white 50%, #0F3F75);
     --sc-header_color: #13365f;
 
     --sc-purple: #7A6DBE;
-    --sc-green: #{$dark_green};
+    --sc-green: #84D17C;
     --sc-blue: #208bf2;
     --sc-red: #FD3D4D;
 }
@@ -76,7 +87,7 @@ body {
 h2, h3 {
     .sub {
         font-weight: normal;
-        color: body_color_light();
+        color: var(--sc-body_color_light);
     }
 }
 
@@ -86,7 +97,7 @@ h2, h3 {
     h1, h2 {
         font-weight: normal;
         margin: 0;
-        color: body_color();
+        color: var(--sc-body_color);
     }
 
 
@@ -98,7 +109,7 @@ h2, h3 {
     h3 {
         margin: 0;
         margin-top: 3px;
-        color: body_color_light();
+        color: var(--sc-body_color_light);
         font-weight: normal;
         font-size: 22px;
     }
@@ -116,23 +127,23 @@ h2, h3 {
     }
 
     .page_tabs a {
-        @include transition(all 0.1s ease);
+        transition: all 0.1s ease;
         text-decoration: none;
-        border-bottom: 2px solid button_color();
-        color: body_color_light();
+        border-bottom: 2px solid var(--sc-button_color);
+        color: var(--sc-body_color_light);
 
         &:hover {
-            color: link_color()
+            color: var(--sc-link_color)
         }
 
         &:active {
-            color: button_active_color();
+            color: var(--sc-button_active_color);
         }
     }
 }
 
 .tab_header {
-    background: white_back();
+    background: var(--sc-white_back);
 
     .page_header {
         padding-top: 40px;
@@ -153,9 +164,9 @@ h2, h3 {
 
         .tab_button {
             color: white;
-            background: purple();
+            background: var(--sc-purple);
             padding: 4px 14px;
-            border-radius: $button_radius;
+            border-radius: var(--sc-button_radius);
             font-size: 16px;
             font-weight: bold;
             text-decoration: none;
@@ -171,18 +182,18 @@ h2, h3 {
             }
 
             .tab {
-                font-size: $body_size_small;
+                font-size: var(--sc-body_size_small);
             }
 
             .tab_sub {
-                font-size: $body_size_small;
+                font-size: var(--sc-body_size_small);
             }
         }
     }
 }
 
 .page_tabs {
-    border-bottom: 1px solid border_color();
+    border-bottom: 1px solid var(--sc-border_color);
     margin-bottom: 20px;
 
     .tabs_inner {
@@ -201,22 +212,22 @@ h2, h3 {
     }
 
     .tab_sub {
-        color: body_color_lighter();
+        color: var(--sc-body_color_lighter);
     }
 
     .tab {
-        @include transition(all 0.2s ease);
-        color: body_color();
+        transition: all 0.2s ease;
+        color: var(--sc-body_color);
         text-decoration: none;
-        border-bottom: 1px solid rgba($link_color, 0);
+        border-bottom: 1px solid transparent;
 
         @include mobile_width {
-            font-size: $body_size_small;
+            font-size: var(--sc-body_size_small);
         }
 
         &.active, &:hover {
-            color: link_color();
-            border-bottom: 1px solid rgba($link_color, 1);
+            color: var(--sc-link_color);
+            border-bottom: 1px solid var(--sc-link_color);
         }
     }
 
@@ -230,7 +241,7 @@ h2, h3 {
         }
 
         .tab {
-            font-size: $body_size_small;
+            font-size: var(--sc-body_size_small);
             margin-bottom: 5px;
         }
     }
@@ -242,16 +253,15 @@ p {
 }
 
 a {
-    color: link_color();
+    color: var(--sc-link_color);
 
     &:hover {
-        color: lighten($link_color, 5%);
+        color: var(--sc-button_hover_color);
     }
 }
 
 .header {
-    $inset_margin: 40px;
-
+    --header-inset-margin: 40px;
 
     position: relative;
 
@@ -273,15 +283,15 @@ a {
 
         input {
             @include default_font;
-            @include border_box;
+            box-sizing: border-box;
             margin-top: 10px;
-            background: white_back();
+            background: var(--sc-white_back);
             border: 0;
-            border-radius: $button_radius;
+            border-radius: var(--sc-button_radius);
             width: 250px;
             padding: 0 18px;
             height: 30px;
-            color: body_color();
+            color: var(--sc-body_color);
 
             &:focus {
                 outline: none;
@@ -290,8 +300,8 @@ a {
     }
 
     .primary_header {
-        background: header_color();
-        height: $header_height;
+        background: var(--sc-header_color);
+        height: var(--sc-header_height);
         color: white;
 
         @include mobile_width {
@@ -302,22 +312,22 @@ a {
     .right_header {
         position: absolute;
         top: 0;
-        right: $inset_margin;
-        height: $header_height;
-        @include display_flex;
-        @include align_items;
+        right: var(--header-inset-margin);
+        height: var(--sc-header_height);
+        display: flex;
+        align-items: center;
 
         @include mobile_width {
-            @include border_box;
+            box-sizing: border-box;
             position: static;
-            background: darken($header_color, 10%);
+            background: color-mix(in oklab, var(--sc-header_color), black 10%);
             padding-left: var(--sc-gutter, 20px);
             padding-right: 5px;
 
             .logged_out & {
                 padding-right: 20px;
                 .header_button {
-                    @include flex;
+                    flex: 1;
                 }
             }
 
@@ -327,7 +337,7 @@ a {
             }
 
             .user_name {
-                @include flex;
+                flex: 1;
                 @include single_line;
                 min-width: 0;
             }
@@ -337,7 +347,7 @@ a {
     }
 
     @include not_mobile_width {
-        height: $header_height;
+        height: var(--sc-header_height);
 
         .primary_header {
             position: fixed;
@@ -355,7 +365,7 @@ a {
 
 
     .logo {
-        margin-left: $inset_margin;
+        margin-left: var(--header-inset-margin);
         display: inline-block;
         color: white;
         font-weight: bold;
@@ -409,12 +419,12 @@ a {
             top: 100%;
             width: 150px;
             right: 0px;
-            background: white_back();
+            background: var(--sc-white_back);
             line-height: 1.7;
             z-index: 10;
 
             * {
-                outline-color: purple();
+                outline-color: var(--sc-purple);
             }
 
             > a {
@@ -428,7 +438,7 @@ a {
             }
 
             border-radius: 3px;
-            box-shadow: 0 0 0 1px border_color(), 0 2px 4px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 0 1px var(--sc-border_color), 0 2px 4px rgba(0, 0, 0, 0.2);
         }
     }
 
@@ -472,14 +482,14 @@ a {
     }
 
     .notification_bubble {
-        $size: 22px;
-        width: $size;
-        height: $size;
+        --bubble-size: 22px;
+        width: var(--bubble-size);
+        height: var(--bubble-size);
         color: white;
-        background: $red;
+        background: var(--sc-red);
         display: inline-block;
         vertical-align: top;
-        line-height: $size;
+        line-height: var(--bubble-size);
         border-radius: 10px;
         text-align: center;
         font-size: 14px;
@@ -491,8 +501,8 @@ a {
 }
 
 .header_button {
-    @include border_box;
-    @include transition(all 0.2s ease);
+    box-sizing: border-box;
+    transition: all 0.2s ease;
 
     display: inline-block;
     height: 30px;
@@ -503,7 +513,7 @@ a {
     text-decoration: none;
     text-align: center;
 
-    border-radius: $button_radius;
+    border-radius: var(--sc-button_radius);
     margin-left: 10px;
 
     &:hover, &.current {
@@ -525,30 +535,30 @@ a {
         max-width: none;
         margin: 0;
         border: 0;
-        border-bottom: 1px solid border_color();
+        border-bottom: 1px solid var(--sc-border_color);
     }
 }
 
 .inner_column {
-    max-width: $site_width;
-    min-width: $site_width - 80px;
+    max-width: var(--sc-site_width);
+    min-width: calc(var(--sc-site_width) - 80px);
 
     margin: 40px auto;
-    background: white_back();
-    border: 1px solid border_color();
+    background: var(--sc-white_back);
+    border: 1px solid var(--sc-border_color);
     padding: 40px;
 
     > h2:first-child, > h3:first-child {
         margin-top: -5px;
     }
 
-    @media (max-width: $site_width + 80px) {
+    @media (max-width: 1040px) { /* 960px + 80px */
         border: 0;
         margin: 0;
     }
 
     .responsive & {
-        @media (max-width: $site_width) {
+        @media (max-width: 960px) {
             min-width: 0;
             padding: 20px 10px;
         }
@@ -564,8 +574,8 @@ a {
     z-index: 100;
     top: 0px;
     left: 50%;
-    background: white_back();
-    color: link_color();
+    background: var(--sc-white_back);
+    color: var(--sc-link_color);
     border-radius: 0 0 5px 5px;
     padding: 8px 16px;
     padding-top: 15px;
@@ -578,13 +588,13 @@ a {
     }
 
     &.animated {
-        @include transition(all 0.25s ease-in-out)
+        transition: all 0.25s ease-in-out;
     }
 }
 
 
 .owner_tools, .moderator_tools {
-    background: purple();
+    background: var(--sc-purple);
     padding: 15px 20px;
     color: white;
     display: flex;
@@ -612,8 +622,8 @@ a {
     position: fixed;
     top: 60px;
     right: 10px;
-    background: white_back();
-    border: 1px solid border_color();
+    background: var(--sc-white_back);
+    border: 1px solid var(--sc-border_color);
     padding: 10px;
     @include mobile_width {
         display: none;
@@ -637,23 +647,23 @@ a {
     }
 
     .inner_footer {
-        border-top: 1px solid border_color();
-        max-width: $site_width;
+        border-top: 1px solid var(--sc-border_color);
+        max-width: var(--sc-site_width);
         margin: 0 auto;
         padding: 0 20px;
         padding-top: 10px;
-        color: body_color_lighter();
+        color: var(--sc-body_color_lighter);
         font-size: 14px;
     }
 
     a {
-        color: body_color_light();
+        color: var(--sc-body_color_light);
     }
 }
 
 .empty_message {
     margin: 20px 0;
-    color: body_color_light();
+    color: var(--sc-body_color_light);
 }
 
 
@@ -671,7 +681,7 @@ a {
     hr {
         border: 0;
         height: 1px;
-        background: border_color();
+        background: var(--sc-border_color);
     }
 
     img {
@@ -699,7 +709,7 @@ a {
 
 .pager {
     margin: 20px 0;
-    color: body_color_light();
+    color: var(--sc-body_color_light);
 
     .button {
         margin-right: 10px;
@@ -708,7 +718,7 @@ a {
 
 
 .nice_table {
-    border: 1px solid body_color_lighter();
+    border: 1px solid var(--sc-body_color_lighter);
     margin-bottom: 20px;
 
     &.field_table {
@@ -723,14 +733,14 @@ a {
 
     thead {
         td {
-            background: gray_back();
+            background: var(--sc-gray_back);
             font-weight: bold;
-            color: body_color_light();
+            color: var(--sc-body_color_light);
         }
     }
 
     .empty_row {
-        color: body_color_light();
+        color: var(--sc-body_color_light);
         font-style: italic;
     }
 
@@ -739,7 +749,7 @@ a {
     }
 
     .sub {
-        color: body_color_light();
+        color: var(--sc-body_color_light);
         font-style: italic;
     }
 
@@ -749,13 +759,13 @@ a {
     }
 
     a {
-        color: body_color_light();
+        color: var(--sc-body_color_light);
     }
 }
 
 
 fieldset {
-    border: 1px solid border_color();
+    border: 1px solid var(--sc-border_color);
 }
 
 details.toggle_form {
@@ -776,12 +786,12 @@ details.toggle_form {
 
     &[open] {
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        border: 1px solid border_color();
+        border: 1px solid var(--sc-border_color);
         border-radius: 3px;
 
         > summary {
             border-radius: 3px 3px 0 0;
-            border-bottom: 1px solid border_color();
+            border-bottom: 1px solid var(--sc-border_color);
             box-sizing: border-box;
             padding: 4px 15px;
         }
@@ -798,7 +808,7 @@ img.svg_icon {
 details.query_log {
     position: fixed;
     background: white;
-    border: 2px solid $border_color;
+    border: 2px solid var(--sc-border_color);
     bottom: 0;
     right: 0;
     padding: 10px;

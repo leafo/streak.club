@@ -54,9 +54,9 @@
 
         &.submitted {
             background: var(--sc-green);
-            color: darken($green, 30%);
+            color: color-mix(in oklab, var(--sc-green), black 30%);
             @include dark_theme {
-                color: darken($dark_green, 30%);
+                color: color-mix(in oklab, var(--sc-green), black 30%);
             }
         }
     }

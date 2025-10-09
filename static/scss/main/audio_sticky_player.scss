@@ -2,7 +2,7 @@
 .audio_sticky_player {
     z-index: 10;
     position: fixed;
-    box-shadow: 0 -1px 0 rgba($border_color, 0.8);
+    box-shadow: 0 -1px 0 color-mix(in srgb, var(--sc-border_color) 80%, transparent);
     @include dark_theme {
         box-shadow: 0 -1px 0 border_color();
     }
@@ -11,7 +11,7 @@
     right: 0;
     padding: 0 10px;
     box-sizing: border-box;
-    height: $header_height;
+    height: var(--sc-header_height);
     background: white_back();
     justify-content: center;
 
@@ -58,9 +58,9 @@
     .like_button {
         transition: opacity 0.2s ease;
         &.liked {
-            color: like_color();
+            color: var(--sc-like_color);
             &:hover {
-                color: like_color();
+                color: var(--sc-like_color);
             }
         }
     }
@@ -160,7 +160,7 @@
         border: 1px solid border_color();
         box-shadow: 0 0 10px rgba(black, 0.1);
         border-radius: 2px;
-        font-size: $body_size_small;
+        font-size: var(--sc-body_size_small);
 
         .file_list {
             margin: 0;
@@ -174,7 +174,7 @@
                     .filename {
                         font-weight: bold;
                     }
-                    background: rgba($blue, 0.2);
+                    background: color-mix(in srgb, var(--sc-blue) 20%, transparent);
                 }
 
             }
@@ -196,7 +196,7 @@
                 }
 
                 &:hover {
-                    background: rgba($blue, 0.1);
+                    background: color-mix(in srgb, var(--sc-blue) 10%, transparent);
                 }
 
             }

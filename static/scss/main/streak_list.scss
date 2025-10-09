@@ -11,10 +11,10 @@
         background: white_back();
         border: 1px solid border_color();
         position: relative;
-        font-size: $body_size;
+        font-size: var(--sc-body_size);
 
-        @include display_flex;
-        @include flex_direction_column;
+        display: flex;
+        flex-direction: column;
 
         .upper_content {
             border-bottom: 1px solid border_color();
@@ -23,11 +23,11 @@
         }
 
         .lower_content {
-            @include flex;
+            flex: 1;
             min-height: 0;
-            @include display_flex;
-            @include flex_direction_column;
-            @include justify_content;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             padding: 10px 20px;
             gap: 10px;
         }
@@ -38,7 +38,7 @@
             right: 10px;
             font-size: 12px;
             text-transform: uppercase;
-            background: lighten($red, 10%);
+            background: color-mix(in oklab, var(--sc-red), white 10%);
             color: white;
             padding: 2px 4px;
             border-radius: 4px;
@@ -67,7 +67,7 @@
             a {
                 color: body_color();
                 text-decoration: none;
-                @include transition(color 0.2s ease);
+                transition: color 0.2s ease;
 
                 &:hover {
                     color: link_color();
@@ -76,7 +76,7 @@
         }
 
         .short_description {
-            font-size: $body_size;
+            font-size: var(--sc-body_size);
             color: body_color_light();
         }
 
@@ -88,8 +88,8 @@
             a {
                 color: body_color_light();
                 text-decoration: none;
-                border-bottom: 2px solid $link_color;
-                @include transition(color 0.2s ease);
+                border-bottom: 2px solid var(--sc-link_color);
+                transition: color 0.2s ease;
 
                 &:hover {
                     color: link_color();

@@ -15,7 +15,7 @@
         }
 
         textarea {
-            @include border_box;
+            box-sizing: border-box;
             width: 100%;
             display: block;
         }
@@ -40,7 +40,7 @@
     }
 
     .load_more_comments {
-        @include unselectable;
+        user-select: none;
         border-top: 1px solid border_color();
         background: #F5F5F5;
         text-align: center;
@@ -48,7 +48,7 @@
         cursor: pointer;
 
         &.loading {
-            color: darken(#F5F5F5, 20%);
+            color: color-mix(in oklab, #F5F5F5, black 20%);
             cursor: default;
 
             &:hover, &:active {
@@ -57,11 +57,11 @@
         }
 
         &:hover {
-            background: darken(#F5F5F5, 2%);
+            background: color-mix(in oklab, #F5F5F5, black 2%);
         }
 
         &:active {
-            background: darken(#F5F5F5, 5%);
+            background: color-mix(in oklab, #F5F5F5, black 5%);
         }
     }
 

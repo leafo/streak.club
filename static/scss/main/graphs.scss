@@ -36,22 +36,22 @@
 
     .graph {
         path {
-            fill: rgba($link_color, 0.5);
-            stroke: rgba($link_color, 0.8);
+            fill: color-mix(in srgb, var(--sc-link_color) 50%, transparent);
+            stroke: color-mix(in srgb, var(--sc-link_color) 80%, transparent);
         }
     }
 
     .popup_trigger {
         &:hover {
             circle {
-                fill: lighten($link_color, 40%);
+                fill: color-mix(in oklab, var(--sc-link_color), white 40%);
                 stroke-width: 3;
             }
         }
 
         circle {
             fill: white;
-            stroke: link_color();
+            stroke: var(--sc-link_color);
         }
 
         .hitbox {
@@ -63,7 +63,7 @@
     .label {
         circle {
             fill: white;
-            stroke: link_color();
+            stroke: var(--sc-link_color);
         }
 
         text {

@@ -9,20 +9,20 @@
 
     .comment_spacer {
         overflow: hidden;
-        @include transition(all 0.5s ease);
+        transition: all 0.5s ease;
         margin-bottom: 0;
 
         &.animated {
             .submission_comment {
                 left: 0;
-                @include opacity(2);
+                opacity: 2;
             }
         }
 
         .submission_comment {
-            @include transition(all 0.5s ease);
+            transition: all 0.5s ease;
             margin: 0;
-            @include opacity(0);
+            opacity: 0;
             left: -25%;
         }
     }
@@ -110,7 +110,7 @@
             padding: 10px;
 
             textarea {
-                @include border_box;
+                box-sizing: border-box;
                 width: 100%;
                 display: block;
             }

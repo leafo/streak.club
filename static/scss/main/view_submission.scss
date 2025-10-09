@@ -27,8 +27,8 @@
     }
 
     .streaks_column {
-        @include border_box;
-        width: $site_width - 700px;
+        box-sizing: border-box;
+        width: calc(var(--sc-site_width) - 700px);
         padding-left: 20px;
         padding-bottom: 60px;
 
@@ -43,7 +43,7 @@
         }
     }
 
-    @media (max-width: $site_width) {
+    @media (max-width: var(--sc-site_width)) {
         .submission_column, .streaks_column {
             width: auto;
             display: block;

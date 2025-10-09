@@ -20,7 +20,7 @@
 
     .draft_banner, .hidden_banner {
         display: block;
-        background: lighten($error_color, 10%);
+        background: color-mix(in oklab, var(--sc-error_color), white 10%);
         padding: 15px 20px;
         color: white;
         text-decoration: none;
@@ -42,8 +42,8 @@
     }
 
     .hidden_banner {
-        background: lighten($green, 10%);
-        color: desaturate(darken($green, 40%), 20%);
+        background: color-mix(in oklab, var(--sc-green), white 10%);
+        color: color-mix(in oklab, color-mix(in oklab, var(--sc-green), black 40%) 80%, gray);
     }
 
     h2 a {

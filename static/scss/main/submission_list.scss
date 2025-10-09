@@ -46,7 +46,7 @@
 
             .unroll_submission {
                 position: absolute;
-                background: linear-gradient(to bottom, rgba(white, 0), white_back() 50%, white_back());
+                background: linear-gradient(to bottom, rgba(white, 0), var(--sc-white_back) 50%, var(--sc-white_back));
                 font-size: 18px;
                 font-weight: bold;
                 bottom: 0;
@@ -54,7 +54,7 @@
                 right: 0;
                 text-align: center;
                 padding: 20px 0 5px 0;
-                color: link_color();
+                color: var(--sc-link_color);
                 cursor: pointer;
             }
         }
@@ -83,7 +83,7 @@
                 }
 
                 .edit_btn {
-                    @include transition(all 0.2s ease);
+                    transition: all 0.2s ease;
                     display: inline-block;
                     vertical-align: top;
                     margin-left: 15px;
@@ -91,7 +91,7 @@
                     top: 2px;
 
                     &:hover {
-                        color: link_color();
+                        color: var(--sc-link_color);
                         text-decoration: none;
                     }
                 }
@@ -250,7 +250,7 @@
                 background: white_back();
                 align-items: center;
                 box-shadow: 0 0 0 2px white, 0 0 0 4px rgba(black, 0.2);
-                border-radius: $button_radius;
+                border-radius: var(--sc-button_radius);
 
                 .upload_size {
                     margin-right: 10px;
@@ -295,7 +295,7 @@
             }
 
             .playback_error {
-                color: $error_color;
+                color: var(--sc-error_color);
                 font-weight: bold;
             }
 
@@ -404,14 +404,14 @@
             }
 
             .user_name {
-                @include transition(all 0.1s ease);
+                transition: all 0.1s ease;
                 font-size: 16px;
                 color: body_color_light();
                 text-decoration: none;
-                border-bottom: 2px solid link_color();
+                border-bottom: 2px solid var(--sc-link_color);
 
                 &:hover {
-                    color: link_color();
+                    color: var(--sc-link_color);
                 }
             }
 
@@ -467,7 +467,7 @@
             a {
                 color: body_color_light();
                 &.loading {
-                    @include opacity(0.3);
+                    opacity: 0.3;
                 }
             }
 
@@ -477,7 +477,7 @@
                 margin-left: auto;
 
                 .submission_tag {
-                    @include transition(all 0.2s ease);
+                    transition: all 0.2s ease;
                     display: inline-block;
                     font-size: 16px;
                     margin-left: 15px;
@@ -489,7 +489,7 @@
                     }
 
                     &:hover {
-                        color: link_color();
+                        color: var(--sc-link_color);
                     }
 
                     &:before {
@@ -497,13 +497,13 @@
                     }
 
                     &.late_submit_tag {
-                        background: mix($white_back, $link_color, 90%);
+                        background: color-mix(in oklab, var(--sc-white_back) 90%, var(--sc-link_color));
                         padding: 0px 4px;
                         border-radius: 2px;
-                        box-shadow: 0 0 0 3px mix($white_back, $link_color, 90%), 0 0 0 4px mix($white_back, $link_color, 70%);
+                        box-shadow: 0 0 0 3px color-mix(in oklab, var(--sc-white_back) 90%, var(--sc-link_color)), 0 0 0 4px color-mix(in oklab, var(--sc-white_back) 70%, var(--sc-link_color));
                         @include dark_theme {
-                            background: mix($dark_white_back, $dark_link_color, 90%);
-                            box-shadow: 0 0 0 3px mix($dark_white_back, $dark_link_color, 90%), 0 0 0 4px mix($dark_white_back, $dark_link_color, 70%);
+                            background: color-mix(in oklab, var(--sc-white_back) 90%, var(--sc-link_color));
+                            box-shadow: 0 0 0 3px color-mix(in oklab, var(--sc-white_back) 90%, var(--sc-link_color)), 0 0 0 4px color-mix(in oklab, var(--sc-white_back) 70%, var(--sc-link_color));
                         }
 
                     }
@@ -524,9 +524,9 @@
         margin-top: 20px;
         position: relative;
 
-        @include display_flex;
-        @include justify_content;
-        @include align_items;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         > button {
             text-decoration: none;
@@ -556,7 +556,7 @@
         }
 
         .likes_count {
-            @include transition(all 0.2s ease);
+            transition: all 0.2s ease;
             color: body_color_light();
             border-radius: 4px;
             padding: 0 4px;
@@ -611,7 +611,7 @@
         }
 
         p {
-            font-size: $body_size_small;
+            font-size: var(--sc-body_size_small);
             color: body_color_light();
             line-height: 1.2;
             margin: 5px 0;
@@ -629,11 +629,11 @@
 
 
     .responsive & {
-        @media (max-width: $site_width) {
+        @media (max-width: var(--sc-site_width)) {
             width: auto;
         }
 
-        @media (max-width: $narrow_width) {
+        @media (max-width: var(--sc-narrow_width)) {
             width: auto;
 
             .submission_row {
@@ -668,13 +668,13 @@
                 .user_column {
                     width: auto;
                     text-align: left;
-                    @include display_flex;
-                    @include align_items;
+                    display: flex;
+                    align-items: center;
 
                     .user_link {
-                        @include display_flex;
-                        @include align_items;
-                        @include flex;
+                        display: flex;
+                        align-items: center;
+                        flex: 1;
                         > img {
                             vertical-align: top;
                             width: 30px;
@@ -697,7 +697,7 @@
                         }
 
                         > :first-child {
-                            @include prefixed(order, 1);
+                            order: 1;
                         }
                     }
                 }

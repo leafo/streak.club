@@ -1,13 +1,13 @@
 
 :focus {
-    outline-color: $blue;
+    outline-color: var(--sc-blue);
 }
 
 .markdown_editor {
     .markdown_label {
         margin: 10px 0;
-        @include display_flex;
-        @include align_items;
+        display: flex;
+        align-items: center;
         font-size: 14px;
         color: body_color_light();
 
@@ -83,7 +83,7 @@
     }
 
     .form_errors {
-        color: $error_color;
+        color: var(--sc-error_color);
         margin-bottom: 20px;
 
         ul {
@@ -125,7 +125,7 @@ button.textlike {
     padding: 0;
     margin: 0;
     text-decoration: underline;
-    color: link_color();
+    color: var(--sc-link_color);
     cursor: pointer;
     font-size: inherit;
     font-family: inherit;
@@ -133,10 +133,10 @@ button.textlike {
 
 .button {
     @include default_font;
-    @include transition(background 0.1s ease);
-    @include border_box;
+    transition: background 0.1s ease;
+    box-sizing: border-box;
     text-align: center;
-    border-radius: $button_radius;
+    border-radius: var(--sc-button_radius);
 
     font-weight: bold;
     height: 35px;
@@ -161,9 +161,9 @@ button.textlike {
     }
 
     &:disabled, &.disabled {
-        @include opacity(0.8);
+        opacity: 0.8;
         background: gray;
-        color: lighten(gray, 20%);
+        color: color-mix(in oklab, gray, white 20%);
         cursor: default;
     }
 
@@ -181,19 +181,19 @@ button.textlike {
 
     &.outline_button {
         background: white_back();
-        border: 2px solid rgba($button_color, 0.6);
-        color: link_color();
+        border: 2px solid color-mix(in srgb, var(--sc-button_color) 60%, transparent);
+        color: var(--sc-link_color);
         line-height: 35px - 4px;
 
         &:hover {
-            border: 2px solid button_color();
-            background: mix($button_color, $white_back, 10%);
+            border: 2px solid var(--sc-button_color);
+            background: color-mix(in srgb, var(--sc-button_color) 10%, var(--sc-white_back));
         }
 
         @include dark_theme {
-            border-color: rgba($dark_button_color, 0.6);
+            border-color: color-mix(in srgb, var(--sc-button_color) 60%, transparent);
             &:hover {
-                background: mix($dark_button_color, $dark_white_back, 10%);
+                background: color-mix(in srgb, var(--sc-button_color) 10%, var(--sc-white_back));
             }
         }
     }

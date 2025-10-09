@@ -42,20 +42,20 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba($green, 0.8);
+            background: color-mix(in srgb, var(--sc-green) 80%, transparent);
             font-weight: bold;
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
             @include dark_theme {
-                background: rgba($dark_green, 0.8);
+                background: color-mix(in srgb, var(--sc-green) 80%, transparent);
             }
         }
     }
 
     .upload_tip {
-        font-size: $body_size_small;
+        font-size: var(--sc-body_size_small);
         color: body_color_light();
         margin: 0;
     }
@@ -102,7 +102,7 @@
         gap: 5px;
         top: 0;
 
-        @include transition(top 0.2s ease);
+        transition: top 0.2s ease;
 
         &:last-child {
             border-bottom: 0;
@@ -113,7 +113,7 @@
         .upload_error {
             display: inline-block;
             margin-left: 10px;
-            color: $error_color;
+            color: var(--sc-error_color);
         }
 
         .upload_success {
@@ -132,7 +132,7 @@
             background: border_color();
 
             .upload_progress_inner {
-                @include transition(all 0.1s ease);
+                transition: all 0.1s ease;
                 height: 100%;
                 width: 0%;
                 background: body_color_lighter();
@@ -157,7 +157,7 @@
                 background: none;
                 border: none;
                 font-family: inherit;
-                color: link_color();
+                color: var(--sc-link_color);
                 text-decoration: underline;
                 cursor: pointer;
 
@@ -167,7 +167,7 @@
             }
 
             .delete_btn {
-                color: $red;
+                color: var(--sc-red);
             }
         }
     }

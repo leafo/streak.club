@@ -1,8 +1,8 @@
 
 .user_profile_page {
     .columns {
-        max-width: $site_width;
-        @include display_flex;
+        max-width: var(--sc-site_width);
+        display: flex;
         @include mobile_width {
             display: block;
         }
@@ -10,7 +10,7 @@
 
 
     .submission_column {
-        @include flex;
+        flex: 1;
 
         @include mobile_width {
             & > h3 {
@@ -25,8 +25,8 @@
     }
 
     .streak_column {
-        @include border_box;
-        width: $site_width - 700px;
+        box-sizing: border-box;
+        width: calc(var(--sc-site_width) - 700px);
         padding-left: 20px;
 
         h2 {

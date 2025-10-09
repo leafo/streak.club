@@ -8,8 +8,8 @@
         box-shadow: 0 0 0 2px white_back();
         font-size: 14px;
         white-space: nowrap;
-        @include opacity(0);
-        @include transition(opacity 0.2s ease);
+        opacity: 0;
+        transition: opacity 0.2s ease;
 
         &:after {
             content: "";
@@ -23,7 +23,7 @@
         }
 
         &.visible {
-            @include opacity(1);
+            opacity: 1;
         }
     }
 }

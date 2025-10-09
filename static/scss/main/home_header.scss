@@ -19,7 +19,7 @@
         position: relative;
 
         .tab_bubble {
-            @include border_box;
+            box-sizing: border-box;
             position: absolute;
             top: -7px;
             left: 100%;
@@ -33,7 +33,7 @@
             min-width: var(--sc-bubble-size);
             padding: 0 5px;
             color: white;
-            background: $red;
+            background: var(--sc-red);
             vertical-align: top;
             border-radius: 10px;
             text-align: center;

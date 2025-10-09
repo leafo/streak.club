@@ -1,24 +1,24 @@
 .welcome_banner {
-    @include border_box;
+    box-sizing: border-box;
     position: relative;
     background: purple();
     color: white;
     box-shadow: inset 0 5px 5px -5px rgba(0, 0, 0, 0.21);
 
     .banner_inner {
-        max-width: $site_width;
+        max-width: var(--sc-site_width);
         padding: 20px;
         margin: 0 auto;
         position: relative;
 
-        @include display_flex;
+        display: flex;
 
         > .banner_text {
-            @include flex;
+            flex: 1;
         }
 
         @include mobile_width {
-            @include flex_direction_column;
+            flex-direction: column;
         }
     }
 
@@ -50,7 +50,7 @@
 
         &:hover {
             background-color: white !important;
-            color: link_color() !important;
+            color: var(--sc-link_color) !important;
         }
 
         @include mobile_width {

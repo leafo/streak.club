@@ -1,5 +1,5 @@
 
-$gray: darken(#F5F5F5, 3%);
+$gray: color-mix(in oklab, #F5F5F5, black 3%);
 
 .index_logged_out_page {
     background: white_back();
@@ -22,7 +22,7 @@ $gray: darken(#F5F5F5, 3%);
         }
 
         h1, h2 {
-            @include transition(all 0.6s ease-out);
+            transition: all 0.6s ease-out;
             position: relative;
             top: 0;
         }
@@ -66,10 +66,10 @@ $gray: darken(#F5F5F5, 3%);
         }
 
         .tab, .tab_sub {
-            font-size: $body_size;
+            font-size: var(--sc-body_size);
 
             @include mobile_width {
-                font-size: $body_size_small;
+                font-size: var(--sc-body_size_small);
                 margin-right: 20px;
             }
         }
@@ -199,7 +199,7 @@ $gray: darken(#F5F5F5, 3%);
         }
 
         .grid_box {
-            @include transition(background 0.3s ease);
+            transition: background 0.3s ease;
             background: border_color();
             width: 22px;
             height: 22px;
@@ -295,7 +295,7 @@ $gray: darken(#F5F5F5, 3%);
         text-align: center;
         color: white;
         background: header_color();
-        background: linear-gradient(45deg, $link_color, mix($link_color, orange, 70%));
+        background: linear-gradient(45deg, var(--sc-link_color), color-mix(in oklab, var(--sc-link_color) 70%, orange));
 
         h3 {
             margin: 0;
@@ -305,7 +305,7 @@ $gray: darken(#F5F5F5, 3%);
         }
 
         .buttons_box {
-            @include border_box;
+            box-sizing: border-box;
             padding-top: 110px;
             background: #333;
             max-width: 400px;
@@ -334,7 +334,7 @@ $gray: darken(#F5F5F5, 3%);
 
             &:hover {
                 background-color: white !important;
-                color: link_color() !important;
+                color: var(--sc-link_color) !important;
             }
         }
 
@@ -373,7 +373,7 @@ $gray: darken(#F5F5F5, 3%);
     .featured_submissions {
         margin-top: 40px;
         border-top: 1px solid border_color();
-        @include border_box;
+        box-sizing: border-box;
         background: gray_back();
 
         .submission_columns {
@@ -450,7 +450,7 @@ $gray: darken(#F5F5F5, 3%);
                 a {
                     text-decoration: none;
                     display: inline-block;
-                    border-bottom: 1px solid link_color();
+                    border-bottom: 1px solid var(--sc-link_color);
                     line-height: 1.2
                 }
             }

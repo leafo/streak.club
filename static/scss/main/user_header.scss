@@ -16,10 +16,10 @@
     }
 
     .header_split {
-        @include display_flex;
+        display: flex;
 
         > :first-child {
-            @include flex;
+            flex: 1;
         }
 
         @include mobile_width {

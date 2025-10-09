@@ -8,7 +8,7 @@
     }
 
     .create_account_banner {
-        font-size: $body_size_small;
+        font-size: var(--sc-body_size_small);
         color: body_color_light();
 
         .button {

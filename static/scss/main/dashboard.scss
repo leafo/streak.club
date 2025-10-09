@@ -1,7 +1,7 @@
 
 .dashboard_page {
     .columns {
-        @include display_flex;
+        display: flex;
 
         @include mobile_width {
             flex-direction: column;
@@ -18,12 +18,12 @@
     h2 {
         font-size: 22px;
         @include mobile_width {
-            font-size: $body_size;
+            font-size: var(--sc-body_size);
         }
     }
 
     .primary_column {
-        @include flex;
+        flex: 1;
 
         > :first-child {
             margin-top: 0

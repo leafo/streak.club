@@ -11,7 +11,7 @@
             gap: 5px;
 
             .user_name {
-                font-size: $body_size;
+                font-size: var(--sc-body_size);
                 @include single_line;
 
                 a {
@@ -35,21 +35,21 @@
     }
 
     .user_row {
-        @include transition(all 0.2s ease);
+        transition: all 0.2s ease;
         position: relative;
-        @include display_flex;
-        @include align_items;
+        display: flex;
+        align-items: center;
         gap: 30px;
 
         @include mobile_width {
             gap: 10px;
-            @include align_items(flex-start);
+            align-items: flex-start;
         }
     }
 
     .data_action_split {
-        @include flex;
-        @include display_flex;
+        flex: 1;
+        display: flex;
         gap: 10px;
 
         @include mobile_width {
@@ -72,7 +72,7 @@
 
     .user_data {
         @include has_sub_link;
-        @include flex;
+        flex: 1;
         gap: 15px;
         display: flex;
         flex-direction: column;

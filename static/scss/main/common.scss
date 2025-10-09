@@ -1,106 +1,3 @@
-
-$site_width: 960px;
-$narrow_width: 600px;
-$header_height: 50px;
-
-$body_size: 18px;
-$body_size_small: 15px;
-
-$button_radius: 10px;
-
-$white_back: #fff;
-$gray_back: #f5f5f5;
-$border_color: #dadada;
-$body_color: #333;
-$body_color_light: #666;
-$body_color_lighter: #999;
-
-$dark_white_back: #11171C;
-$dark_gray_back: #090D10;
-$dark_border_color: #2B3542;
-$dark_link_color: mix(white, #0F3F75, 50%);
-$dark_green: #84D17C;
-
-$dark_button_color: #0F3F75;
-$dark_button_fg_color: white;
-$dark_button_hover_color: lighten($dark_button_color, 5%);
-$dark_button_active_color: darken($dark_button_color, 5%);
-
-
-$teal: #7ED6D7;
-$red: #fe4e50;
-$green: #aada80;
-$blue: #34a0f2;
-$orange: #FB9175;
-$yellow: #FDBF6C;
-$purple: #A287C0;
-
-$button_color: $blue;
-$button_fg_color: white;
-$button_hover_color: lighten($button_color, 5%);
-$button_active_color: darken($button_color, 5%);
-
-$link_color: $blue;
-$header_color: $blue;
-$error_color: $red;
-$like_color: #FF5E5E;
-
-@function body_color {
-    @return var(--sc-body_color);
-}
-
-@function body_color_light {
-    @return var(--sc-body_color_light);
-}
-
-@function body_color_lighter {
-    @return var(--sc-body_color_lighter);
-}
-
-@function button_color {
-    @return var(--sc-button_color);
-}
-
-@function button_fg_color {
-    @return var(--sc-button_fg_color);
-}
-
-@function button_active_color {
-    @return var(--sc-button_active_color);
-}
-
-@function button_hover_color {
-    @return var(--sc-button_hover_color);
-}
-
-@function link_color {
-    @return var(--sc-link_color);
-}
-
-@function like_color {
-    @return var(--sc-like_color);
-}
-
-@function header_color {
-    @return var(--sc-header_color);
-}
-
-@function gray_back {
-    @return var(--sc-gray_back);
-}
-
-@function white_back {
-    @return var(--sc-white_back);
-}
-
-@function border_color {
-    @return var(--sc-border_color);
-}
-
-@function purple {
-    @return var(--sc-purple);
-}
-
 @mixin dark_theme {
     @media (prefers-color-scheme: dark) {
         body:not(.light_theme) & {
@@ -131,62 +28,22 @@ $like_color: #FF5E5E;
     font-size: 18px;
 }
 
-@mixin unselectable {
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
-}
-
-@mixin border_box {
-    box-sizing: border-box;
-}
-
-@mixin transition($args...) {
-    transition: $args;
-}
-
-@mixin prefixed($prop, $args...) {
-    -webkit-#{$prop}: $args;
-    -moz-#{$prop}: $args;
-    -ms-#{$prop}: $args;
-    #{$prop}: $args;
-}
-
-@mixin keyframes($name) {
-    @-webkit-keyframes #{$name} {
-        @content;
-    }
-    @-moz-keyframes #{$name} {
-        @content;
-    }
-    @-ms-keyframes #{$name} {
-        @content;
-    }
-    @keyframes #{$name} {
-        @content;
-    }
-}
-
-@mixin opacity($opacity) {
-    opacity: $opacity;
-}
-
 @mixin single_line {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-@mixin has_sub_link($default_color: body_color_light()) {
+@mixin has_sub_link($default_color: var(--sc-body_color_light)) {
     a {
-        @include transition(all 0.1s ease);
+        transition: all 0.1s ease;
         color: $default_color;
 
         text-decoration: none;
-        border-bottom: 2px solid button_color();
+        border-bottom: 2px solid var(--sc-button_color);
 
         &:hover {
-            color: link_color();
+            color: var(--sc-link_color);
         }
     }
 }
@@ -218,7 +75,7 @@ $like_color: #FF5E5E;
 }
 
 @mixin responsive_column {
-    max-width: $site_width;
+    max-width: var(--sc-site_width);
     margin-left: auto;
     margin-right: auto;
 
@@ -226,34 +83,6 @@ $like_color: #FF5E5E;
         padding-left: var(--sc-gutter, 40px);
         padding-right: var(--sc-gutter, 40px);
     }
-}
-
-@mixin display_flex {
-    display: flex;
-}
-
-@mixin display_inline_flex {
-  display: inline-flex;
-}
-
-@mixin flex {
-    flex: 1;
-}
-
-@mixin flex_wrap {
-    flex-wrap: wrap;
-}
-
-@mixin align_items($value: center) {
-    align-items: $value;
-}
-
-@mixin justify_content($value: center) {
-    justify-content: $value;
-}
-
-@mixin flex_direction_column {
-    flex-direction: column;
 }
 
 @mixin mobile_width {
