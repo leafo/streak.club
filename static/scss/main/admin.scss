@@ -1,7 +1,7 @@
 .admin_page_page {
 
     > .tab_header {
-        background: gray_back();
+        background: var(--sc-gray_back);
         padding-top: 4px;
 
         .page_tabs {
@@ -65,8 +65,8 @@
 
     .enum_value {
         display: inline-block;
-        background: white_back();
-        border: 1px solid border_color();
+        background: var(--sc-white_back);
+        border: 1px solid var(--sc-border_color);
         border-radius: 2px;
         padding: 2px;
         margin: 0 2px;

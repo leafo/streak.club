@@ -4,7 +4,7 @@
     position: fixed;
     box-shadow: 0 -1px 0 color-mix(in srgb, var(--sc-border_color) 80%, transparent);
     @include dark_theme {
-        box-shadow: 0 -1px 0 border_color();
+        box-shadow: 0 -1px 0 var(--sc-border_color);
     }
     bottom: 0;
     left: 0;
@@ -12,7 +12,7 @@
     padding: 0 10px;
     box-sizing: border-box;
     height: var(--sc-header_height);
-    background: white_back();
+    background: var(--sc-white_back);
     justify-content: center;
 
     > * {
@@ -34,11 +34,11 @@
         width: 30px;
         height: 30px;
         background: none;
-        color: body_color_light();
+        color: var(--sc-body_color_light);
         cursor: pointer;
 
         &:not([disabled]):hover {
-            color: body_color();
+            color: var(--sc-body_color);
         }
 
         &:active {
@@ -67,7 +67,7 @@
 
     .toggle_tracklist_button {
         &.active {
-            background: button_color();
+            background: var(--sc-button_color);
             border-radius: 2px;
             color: white;
             &:hover {
@@ -107,7 +107,7 @@
             justify-content: center;
 
             font-size: 17px;
-            color: body_color_lighter();
+            color: var(--sc-body_color_lighter);
 
             .duration, .current_time {
                 font-size: 15px;
@@ -126,14 +126,14 @@
             }
 
             .track_title {
-                color: body_color();
+                color: var(--sc-body_color);
                 text-decoration: none;
                 font-weight: bold;
                 padding: 0;
             }
 
             .user {
-                color: body_color_light();
+                color: var(--sc-body_color_light);
                 text-decoration: none;
 
                 &:hover {
@@ -143,7 +143,7 @@
 
             .empty_track {
                 font-style: italic;
-                color: body_color_light();
+                color: var(--sc-body_color_light);
             }
         }
     }
@@ -155,9 +155,9 @@
         margin-bottom: -3px;
         left: 0;
         right: 0;
-        background: white_back();
+        background: var(--sc-white_back);
 
-        border: 1px solid border_color();
+        border: 1px solid var(--sc-border_color);
         box-shadow: 0 0 10px rgba(black, 0.1);
         border-radius: 2px;
         font-size: var(--sc-body_size_small);
@@ -189,10 +189,10 @@
                 font-size: inherit;
                 border: 0;
                 text-align: left;
-                color: body_color_lighter();
+                color: var(--sc-body_color_lighter);
 
                 > span {
-                    color: body_color();
+                    color: var(--sc-body_color);
                 }
 
                 &:hover {

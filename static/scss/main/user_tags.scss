@@ -9,14 +9,14 @@
         gap: 8px;
 
         > li {
-            background: white_back();
-            border: 1px solid border_color();
+            background: var(--sc-white_back);
+            border: 1px solid var(--sc-border_color);
             border-radius: 2px;
 
             &:hover {
                 background: var(--sc-gray_back50);
-                border-color: button_color();
-                box-shadow: 0 0 0 1px button_color();
+                border-color: var(--sc-button_color);
+                box-shadow: 0 0 0 1px var(--sc-button_color);
             }
 
             > a {
@@ -35,8 +35,8 @@
 
             .tag_count {
                 padding: 5px 15px;
-                border-left: 1px solid border_color();
-                color: body_color_lighter();
+                border-left: 1px solid var(--sc-border_color);
+                color: var(--sc-body_color_lighter);
             }
         }
     }

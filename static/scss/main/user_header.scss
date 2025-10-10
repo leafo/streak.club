@@ -2,7 +2,7 @@
 .user_header {
     .user_stats {
         margin-top: 3px;
-        color: body_color_light();
+        color: var(--sc-body_color_light);
         font-size: 20px;
 
         display: flex;

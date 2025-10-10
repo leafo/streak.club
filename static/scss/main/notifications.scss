@@ -16,6 +16,6 @@
     }
 
     .timestamp {
-        color: body_color_lighter();
+        color: var(--sc-body_color_lighter);
     }
 }

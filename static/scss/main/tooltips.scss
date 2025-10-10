@@ -2,10 +2,10 @@
     .tooltip {
         position: absolute;
         color: white;
-        background: button_color();
+        background: var(--sc-button_color);
         padding: 5px 8px;
         border-radius: 4px;
-        box-shadow: 0 0 0 2px white_back();
+        box-shadow: 0 0 0 2px var(--sc-white_back);
         font-size: 14px;
         white-space: nowrap;
         opacity: 0;

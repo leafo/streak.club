@@ -14,8 +14,8 @@ $avatar_size: 30px;
 }
 
 .community_topic_list {
-    background: white_back();
-    border: 1px solid border_color();
+    background: var(--sc-white_back);
+    border: 1px solid var(--sc-border_color);
     margin: 20px 0;
     @include mobile_width {
         margin: 0;
@@ -24,13 +24,13 @@ $avatar_size: 30px;
 
     .topic_table {
         .topic_table_header {
-            background: gray_back();
+            background: var(--sc-gray_back);
             display: flex;
-            color: body_color_light();
+            color: var(--sc-body_color_light);
             text-transform: uppercase;
             font-size: 12px;
             font-weight: bold;
-            border-bottom: 1px solid border_color();
+            border-bottom: 1px solid var(--sc-border_color);
 
             > :first-child {
                 flex: 1;
@@ -45,7 +45,7 @@ $avatar_size: 30px;
 
             > div  {
                 padding: 8px 15px;
-                border-left: 1px solid border_color();
+                border-left: 1px solid var(--sc-border_color);
 
                 &:first-child {
                     border-left: 0;
@@ -115,7 +115,7 @@ $avatar_size: 30px;
 
 
             > a:visited {
-                color: body_color_light()
+                color: var(--sc-body_color_light)
             }
 
             > * {
@@ -138,14 +138,14 @@ $avatar_size: 30px;
         .topic_stats {
             text-align: right;
             font-size: var(--sc-body_size_small);
-            color: body_color_lighter();
+            color: var(--sc-body_color_lighter);
             min-width: 60px;
             white-space: nowrap;
             line-height: 1.5;
             padding-right: 20px;
 
             .number_value {
-                color: body_color_light();
+                color: var(--sc-body_color_light);
                 font-size: var(--sc-body_size);
             }
 
@@ -171,18 +171,18 @@ $avatar_size: 30px;
         }
 
         .topic_poster {
-            color: body_color_lighter();
+            color: var(--sc-body_color_lighter);
             font-size: 14px;
             white-space: nowrap;
             margin-top: $sub_row_spacing;
 
             a {
-                color: body_color_light();
+                color: var(--sc-body_color_light);
             }
         }
 
         .no_last_post {
-            color: body_color_lighter();
+            color: var(--sc-body_color_lighter);
             font-style: italic;
         }
 
@@ -190,19 +190,19 @@ $avatar_size: 30px;
             display: inline-block;
             vertical-align: middle;
             font-size: var(--sc-body_size_small);
-            color: body_color_lighter();
+            color: var(--sc-body_color_lighter);
 
             .last_post_author {
             }
 
             .last_post_date {
                 a {
-                    color: body_color_lighter();
+                    color: var(--sc-body_color_lighter);
                 }
             }
 
             a {
-                color: body_color_light();
+                color: var(--sc-body_color_light);
             }
         }
 
@@ -243,7 +243,7 @@ $avatar_size: 30px;
             }
 
             &.sticky_flag {
-                background: purple();
+                background: var(--sc-purple);
                 color: rgba(white, 0.9);
             }
         }

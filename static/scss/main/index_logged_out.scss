@@ -2,7 +2,7 @@
 $gray: color-mix(in oklab, #F5F5F5, black 3%);
 
 .index_logged_out_page {
-    background: white_back();
+    background: var(--sc-white_back);
 
     .typed-cursor {
         display: none;
@@ -40,7 +40,7 @@ $gray: color-mix(in oklab, #F5F5F5, black 3%);
             font-weight: normal;
             margin: 0;
             font-size: 18px;
-            color: body_color_light();
+            color: var(--sc-body_color_light);
             margin-top: 5px;
             color: white;
         }
@@ -58,7 +58,7 @@ $gray: color-mix(in oklab, #F5F5F5, black 3%);
         overflow-y: hidden;
         padding: 0 20px;
         padding-top: 10px;
-        background: gray_back();
+        background: var(--sc-gray_back);
 
 
         .tab {
@@ -76,7 +76,7 @@ $gray: color-mix(in oklab, #F5F5F5, black 3%);
     }
 
     h3 {
-        color: body_color_light();
+        color: var(--sc-body_color_light);
         margin: 20px 0;
         font-size: 28px;
     }
@@ -155,11 +155,11 @@ $gray: color-mix(in oklab, #F5F5F5, black 3%);
         text-align: center;
         padding: 0 10px;
         padding: 40px 0;
-        background: gray_back();
+        background: var(--sc-gray_back);
 
         @include dark_theme {
-            border-top: 1px solid border_color();
-            border-bottom: 1px solid border_color();
+            border-top: 1px solid var(--sc-border_color);
+            border-bottom: 1px solid var(--sc-border_color);
         }
 
         .grid_wrapper {
@@ -172,7 +172,7 @@ $gray: color-mix(in oklab, #F5F5F5, black 3%);
 
         .grid_note {
             max-width: 300px;
-            color: body_color_light();
+            color: var(--sc-body_color_light);
             padding: 0 20px;
             line-height: 1.5;
 
@@ -193,14 +193,14 @@ $gray: color-mix(in oklab, #F5F5F5, black 3%);
             }
 
             .stat_label {
-                color: body_color_light();
+                color: var(--sc-body_color_light);
                 font-size: 16px;
             }
         }
 
         .grid_box {
             transition: background 0.3s ease;
-            background: border_color();
+            background: var(--sc-border_color);
             width: 22px;
             height: 22px;
             display: inline-block;
@@ -263,15 +263,15 @@ $gray: color-mix(in oklab, #F5F5F5, black 3%);
         text-align: center;
         padding: 0 10px;
         padding: 40px 0;
-        background: gray_back();
+        background: var(--sc-gray_back);
 
         @include dark_theme {
-            border-top: 1px solid border_color();
+            border-top: 1px solid var(--sc-border_color);
         }
 
         .countdown_note {
             max-width: 300px;
-            color: body_color_light();
+            color: var(--sc-body_color_light);
             padding: 0 20px;
             line-height: 1.5;
 
@@ -294,7 +294,7 @@ $gray: color-mix(in oklab, #F5F5F5, black 3%);
         padding: 40px 0 60px;
         text-align: center;
         color: white;
-        background: header_color();
+        background: var(--sc-header_color);
         background: linear-gradient(45deg, var(--sc-link_color), color-mix(in oklab, var(--sc-link_color) 70%, orange));
 
         h3 {
@@ -372,9 +372,9 @@ $gray: color-mix(in oklab, #F5F5F5, black 3%);
 
     .featured_submissions {
         margin-top: 40px;
-        border-top: 1px solid border_color();
+        border-top: 1px solid var(--sc-border_color);
         box-sizing: border-box;
-        background: gray_back();
+        background: var(--sc-gray_back);
 
         .submission_columns {
             margin-top: 30px;
@@ -419,17 +419,17 @@ $gray: color-mix(in oklab, #F5F5F5, black 3%);
                 width: 100%;
                 .featured_submission {
                     border: 0;
-                    border-bottom: 1px solid border_color();
+                    border-bottom: 1px solid var(--sc-border_color);
                 }
             }
         }
 
         .featured_submission {
-            border: 1px solid border_color();
+            border: 1px solid var(--sc-border_color);
             padding: 10px;
             margin-bottom: 30px;
             text-align: left;
-            background: white_back();
+            background: var(--sc-white_back);
 
             .submission_image img {
                 width: 100%;
@@ -460,11 +460,11 @@ $gray: color-mix(in oklab, #F5F5F5, black 3%);
             }
 
             .submission_author {
-                color: body_color_lighter();
+                color: var(--sc-body_color_lighter);
 
                 a {
-                    color: body_color_light();
-                    border-color: body_color_lighter();
+                    color: var(--sc-body_color_light);
+                    border-color: var(--sc-body_color_lighter);
                 }
             }
 

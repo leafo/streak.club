@@ -8,7 +8,7 @@
     .breadcrumbs {
         margin-bottom: 15px;
         font-size: 16px;
-        color: body_color_light();
+        color: var(--sc-body_color_light);
 
         a {
             text-decoration: none;

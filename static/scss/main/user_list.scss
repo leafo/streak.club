@@ -61,7 +61,7 @@
         border-radius: 80px;
         width: 80px;
         height: 80px;
-        background: gray_back();
+        background: var(--sc-gray_back);
 
         @include mobile_width {
             margin-top: 5px;
@@ -100,14 +100,14 @@
         }
 
         .user_stat {
-            color: body_color_light();
+            color: var(--sc-body_color_light);
         }
     }
 }
 
 .responsive_column > .user_list {
     .user_row {
-        background: white_back();
+        background: var(--sc-white_back);
         padding: 20px;
         @include mobile_width {
             padding: 10px;

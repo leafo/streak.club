@@ -12,7 +12,7 @@
         input.end_date:disabled {
             opacity: 0.5;
             color: gray;
-            background: border_color();
+            background: var(--sc-border_color);
         }
 
         .date_toggle {

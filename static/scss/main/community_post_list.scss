@@ -58,13 +58,13 @@ $post_spacing: 30px;
 
         .post_header {
             font-size: var(--sc-body_size);
-            color: body_color_lighter();
+            color: var(--sc-body_color_lighter);
             display: flex;
             align-items: center;
             gap: 10px;
 
             .post_author a {
-                color: body_color_light();
+                color: var(--sc-body_color_light);
 
                 @include slighly_narrow {
                     font-size: inherit;
@@ -121,7 +121,7 @@ $post_spacing: 30px;
                 text-decoration: none;
                 padding: 2px 12px;
 
-                background: white_back();
+                background: var(--sc-white_back);
                 border: 2px solid color-mix(in srgb, var(--sc-button_color) 60%, transparent);
                 color: var(--sc-link_color);
                 display: flex;
@@ -129,7 +129,7 @@ $post_spacing: 30px;
                 align-items: center;
 
                 &:hover {
-                    border-color: button_color();
+                    border-color: var(--sc-button_color);
                     background: color-mix(in srgb, var(--sc-button_color) 10%, var(--sc-white_back));
                 }
 
@@ -152,9 +152,9 @@ $post_spacing: 30px;
             }
 
             blockquote {
-                color: body_color_light();
+                color: var(--sc-body_color_light);
                 font-style: italic;
-                border-left: 4px solid border_color();
+                border-left: 4px solid var(--sc-border_color);
                 padding-left: 15px;
             }
 
@@ -165,12 +165,12 @@ $post_spacing: 30px;
             hr {
                 border: 0;
                 height: 1px;
-                background: border_color();
+                background: var(--sc-border_color);
             }
 
             pre {
-                background: gray_back();
-                border: 1px solid border_color();
+                background: var(--sc-gray_back);
+                border: 1px solid var(--sc-border_color);
                 word-wrap: normal;
                 overflow: auto;
                 padding: 10px;
@@ -205,7 +205,7 @@ $post_spacing: 30px;
 
         .view_more_replies {
             .button {
-                background: white_back();
+                background: var(--sc-white_back);
             }
         }
 

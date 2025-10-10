@@ -13,7 +13,7 @@
     }
 
     .topic_posts_footer {
-        border-top: 1px solid border_color();
+        border-top: 1px solid var(--sc-border_color);
         padding: 20px 40px;
         @include mobile_width {
             padding: 20px 10px;
@@ -28,7 +28,7 @@
     }
 
     .topic_header {
-        border-bottom: 1px solid border_color();
+        border-bottom: 1px solid var(--sc-border_color);
         margin-bottom: 30px;
 
         @include mobile_width {

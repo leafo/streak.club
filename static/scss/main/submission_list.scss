@@ -15,8 +15,8 @@
 
         .submission_admin {
             margin-top: 10px;
-            background: white_back();
-            border: 1px solid border_color();
+            background: var(--sc-white_back);
+            border: 1px solid var(--sc-border_color);
             padding: 10px;
             position: absolute;
             top: 0;
@@ -31,8 +31,8 @@
         .submission_content {
             flex: 1;
             min-width: 0;
-            background: white_back();
-            border: 1px solid border_color();
+            background: var(--sc-white_back);
+            border: 1px solid var(--sc-border_color);
             border-radius: 4px;
         }
 
@@ -61,7 +61,7 @@
 
         .submission_header {
             position: relative;
-            border-bottom: 1px solid border_color();
+            border-bottom: 1px solid var(--sc-border_color);
             padding: 12px 20px 15px 20px;
             background: var(--sc-gray_back50);
             border-radius: 4px 4px 0 0;
@@ -71,10 +71,10 @@
                 top: 12px;
                 right: 20px;
                 font-size: 16px;
-                color: body_color_lighter();
+                color: var(--sc-body_color_lighter);
 
                 a {
-                    color: body_color_lighter();
+                    color: var(--sc-body_color_lighter);
                     text-decoration: none;
 
                     &:hover {
@@ -109,9 +109,9 @@
             }
 
             .submission_summary {
-                @include has_sub_link(body_color_light());
+                @include has_sub_link(var(--sc-body_color_light));
                 margin-top: 15px;
-                color: body_color_light();
+                color: var(--sc-body_color_light);
 
                 // when there is no title
                 &:first-child {
@@ -128,7 +128,7 @@
             .hidden_notice {
                 margin-top: 15px;
                 font-size: 16px;
-                color: purple();
+                color: var(--sc-purple);
             }
 
             .streak_title_group {
@@ -179,7 +179,7 @@
             }
 
             .upload_stats {
-                color: body_color_lighter();
+                color: var(--sc-body_color_lighter);
                 font-size: 16px;
                 flex: none;
 
@@ -189,7 +189,7 @@
             }
 
             .upload_size {
-                color: body_color_light();
+                color: var(--sc-body_color_light);
 
                 &:before {
                     content: "("
@@ -218,7 +218,7 @@
                 right: 10px;
                 height: 5px;
                 border-radius: 4px;
-                background: border_color();
+                background: var(--sc-border_color);
                 overflow: hidden;
                 pointer-events: none;
                 opacity: 0.75;
@@ -230,7 +230,7 @@
                     bottom: 0;
                     width: 0%;
                     border-radius: 4px;
-                    background: body_color_lighter();
+                    background: var(--sc-body_color_lighter);
                 }
             }
 
@@ -247,14 +247,14 @@
                 z-index: 0;
                 display: flex;
                 gap: 5px;
-                background: white_back();
+                background: var(--sc-white_back);
                 align-items: center;
                 box-shadow: 0 0 0 2px white, 0 0 0 4px rgba(black, 0.2);
                 border-radius: var(--sc-button_radius);
 
                 .upload_size {
                     margin-right: 10px;
-                    color: body_color_light();
+                    color: var(--sc-body_color_light);
                 }
 
                 .download_btn {
@@ -263,14 +263,14 @@
                     cursor: pointer;
                     color: inherit;
                     padding: 5px;
-                    color: body_color_light();
+                    color: var(--sc-body_color_light);
                     &:active {
                         position: relative;
                         top: 1px;
                     }
 
                     &:hover {
-                        color: body_color();
+                        color: var(--sc-body_color);
                     }
                 }
             }
@@ -329,7 +329,7 @@
                 left: 0;
                 right: 0;
                 height: 5px;
-                background: border_color();
+                background: var(--sc-border_color);
 
                 .audio_progress_inner {
                     position: absolute;
@@ -337,12 +337,12 @@
                     left: 0;
                     bottom: 0;
                     width: 50%;
-                    background: body_color_lighter();
+                    background: var(--sc-body_color_lighter);
                 }
             }
 
             .play_audio_btn {
-                background: button_color();
+                background: var(--sc-button_color);
                 height: 35px;
                 border: 0;
                 width: 35px;
@@ -375,11 +375,11 @@
                 }
 
                 &:hover {
-                    background: button_hover_color()
+                    background: var(--sc-button_hover_color)
                 }
 
                 &:active {
-                    background: button_active_color()
+                    background: var(--sc-button_active_color)
                 }
             }
         }
@@ -406,7 +406,7 @@
             .user_name {
                 transition: all 0.1s ease;
                 font-size: 16px;
-                color: body_color_light();
+                color: var(--sc-body_color_light);
                 text-decoration: none;
                 border-bottom: 2px solid var(--sc-link_color);
 
@@ -438,7 +438,7 @@
             display: inline-block;
             vertical-align: middle;
             font-weight: normal;
-            background: border_color();
+            background: var(--sc-border_color);
             padding: 1px 6px;
             border-radius: 12px;
             margin-left: 2px;
@@ -451,11 +451,11 @@
         .empty_message {
             padding: 15px 20px;
             margin: 0;
-            color: body_color_lighter();
+            color: var(--sc-body_color_lighter);
         }
 
         .submission_footer {
-            border-top: 1px solid border_color();
+            border-top: 1px solid var(--sc-border_color);
             display: flex;
             gap: 5px;
 
@@ -465,7 +465,7 @@
             }
 
             a {
-                color: body_color_light();
+                color: var(--sc-body_color_light);
                 &.loading {
                     opacity: 0.3;
                 }
@@ -482,7 +482,7 @@
                     font-size: 16px;
                     margin-left: 15px;
                     text-decoration: none;
-                    color: body_color_light();
+                    color: var(--sc-body_color_light);
 
                     &:first-child {
                         margin-left: 0;
@@ -531,7 +531,7 @@
         > button {
             text-decoration: none;
             font-size: 18px;
-            color: body_color_lighter();
+            color: var(--sc-body_color_lighter);
             display: inline-block;
             vertical-align: top;
             line-height: 18px;
@@ -551,13 +551,13 @@
             }
 
             &.liked {
-                color: like_color();
+                color: var(--sc-like_color);
             }
         }
 
         .likes_count {
             transition: all 0.2s ease;
-            color: body_color_light();
+            color: var(--sc-body_color_light);
             border-radius: 4px;
             padding: 0 4px;
             margin-left: 3px;
@@ -565,15 +565,15 @@
             text-decoration: none;
 
             &:hover {
-                color: like_color();
+                color: var(--sc-like_color);
             }
         }
     }
 
     .quick_comment_widget {
         position: absolute;
-        background: white_back();
-        border: 1px solid border_color();
+        background: var(--sc-white_back);
+        border: 1px solid var(--sc-border_color);
         padding: 10px;
         top: 100%;
         left: 0;
@@ -593,9 +593,9 @@
             cursor: pointer;
             margin-top: -5px;
             margin-right: -5px;
-            color: body_color_lighter();
+            color: var(--sc-body_color_lighter);
             &:hover {
-                color: body_color_light();
+                color: var(--sc-body_color_light);
             }
         }
 
@@ -612,7 +612,7 @@
 
         p {
             font-size: var(--sc-body_size_small);
-            color: body_color_light();
+            color: var(--sc-body_color_light);
             line-height: 1.2;
             margin: 5px 0;
         }
@@ -622,8 +622,8 @@
         text-align: center;
         background: var(--sc-gray_back50);
         padding: 10px 20px;
-        border: 1px solid border_color();
-        color: body_color_light();
+        border: 1px solid var(--sc-border_color);
+        color: var(--sc-body_color_light);
         cursor: default;
     }
 

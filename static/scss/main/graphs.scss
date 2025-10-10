@@ -19,17 +19,17 @@
     .axis {
         path, line {
             fill: none;
-            stroke: body_color_lighter();
+            stroke: var(--sc-body_color_lighter);
             shape-rendering: crispEdges;
         }
 
         text {
-            fill: body_color();
+            fill: var(--sc-body_color);
         }
     }
 
     .x_guides, .y_guides {
-        stroke: border_color();
+        stroke: var(--sc-border_color);
         fill: none;
         shape-rendering: crispEdges;
     }
@@ -67,7 +67,7 @@
         }
 
         text {
-            fill: body_color_light();
+            fill: var(--sc-body_color_light);
         }
     }
 }

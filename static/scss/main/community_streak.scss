@@ -5,11 +5,11 @@
         @include mobile_width {
             padding: 10px;
             margin: 0;
-            border-top: 1px solid border_color();
+            border-top: 1px solid var(--sc-border_color);
 
             &.top {
                 border-top: 0;
-                border-bottom: 1px solid border_color();
+                border-bottom: 1px solid var(--sc-border_color);
             }
 
             .button {

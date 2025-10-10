@@ -8,8 +8,8 @@
     .streak_box {
         min-height: 225px;
         min-width: 0;
-        background: white_back();
-        border: 1px solid border_color();
+        background: var(--sc-white_back);
+        border: 1px solid var(--sc-border_color);
         position: relative;
         font-size: var(--sc-body_size);
 
@@ -17,7 +17,7 @@
         flex-direction: column;
 
         .upper_content {
-            border-bottom: 1px solid border_color();
+            border-bottom: 1px solid var(--sc-border_color);
             padding: 10px 20px;
             box-sizing: border-box;
         }
@@ -45,7 +45,7 @@
             font-weight: bold;
 
             &.hidden_tag {
-                background: purple();
+                background: var(--sc-purple);
             }
         }
 
@@ -65,41 +65,41 @@
             }
 
             a {
-                color: body_color();
+                color: var(--sc-body_color);
                 text-decoration: none;
                 transition: color 0.2s ease;
 
                 &:hover {
-                    color: link_color();
+                    color: var(--sc-link_color);
                 }
             }
         }
 
         .short_description {
             font-size: var(--sc-body_size);
-            color: body_color_light();
+            color: var(--sc-body_color_light);
         }
 
         .streak_host {
-            color: body_color_lighter();
+            color: var(--sc-body_color_lighter);
             @include single_line;
             padding-bottom: 6px;
 
             a {
-                color: body_color_light();
+                color: var(--sc-body_color_light);
                 text-decoration: none;
                 border-bottom: 2px solid var(--sc-link_color);
                 transition: color 0.2s ease;
 
                 &:hover {
-                    color: link_color();
+                    color: var(--sc-link_color);
                 }
             }
         }
 
         .date_range {
             @include single_line;
-            color: body_color_light();
+            color: var(--sc-body_color_light);
             font-size: 15px;
         }
 
@@ -119,7 +119,7 @@
 
             .stat_label {
                 font-size: 16px;
-                color: body_color_light();
+                color: var(--sc-body_color_light);
             }
         }
 
@@ -128,13 +128,13 @@
         }
 
         .status_message {
-            color: body_color_lighter();
+            color: var(--sc-body_color_lighter);
             text-align: center;
         }
 
         .progress_outer {
             height: 10px;
-            background: border_color();
+            background: var(--sc-border_color);
             border-radius: 10px;
 
             .progress_inner {

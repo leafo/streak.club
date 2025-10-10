@@ -74,13 +74,13 @@
         }
 
         .comment_author {
-            color: body_color_light();
+            color: var(--sc-body_color_light);
         }
 
         .comment_tools {
             margin-left: auto;
             a {
-                color: body_color_lighter();
+                color: var(--sc-body_color_lighter);
             }
         }
 
@@ -93,7 +93,7 @@
         }
 
         .comment_time {
-            color: body_color_lighter();
+            color: var(--sc-body_color_lighter);
         }
 
         .comment_body.user_formatted {
@@ -101,11 +101,11 @@
         }
 
         .suspended_message {
-            color: body_color_lighter();
+            color: var(--sc-body_color_lighter);
         }
 
         .comment_editor {
-            border: 1px solid border_color();
+            border: 1px solid var(--sc-border_color);
             box-shadow: 0 0 4px rgba(0, 0, 0, 0.11);
             padding: 10px;
 

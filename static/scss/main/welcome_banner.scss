@@ -1,7 +1,7 @@
 .welcome_banner {
     box-sizing: border-box;
     position: relative;
-    background: purple();
+    background: var(--sc-purple);
     color: white;
     box-shadow: inset 0 5px 5px -5px rgba(0, 0, 0, 0.21);
 

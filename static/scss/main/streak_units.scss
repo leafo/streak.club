@@ -3,7 +3,7 @@
     .unit_group_header {
         font-size: 14px;
         letter-spacing: 0.05em;
-        color: body_color_lighter();
+        color: var(--sc-body_color_lighter);
         font-weight: bold;
         margin-bottom: 5px;
     }
@@ -24,8 +24,8 @@
     }
 
     .streak_unit {
-        background: border_color();
-        color: body_color_light();
+        background: var(--sc-border_color);
+        color: var(--sc-body_color_light);
         font-size: 10px;
         font-weight: bold;
         text-align: center;
@@ -42,14 +42,14 @@
         }
 
         &.before_current_unit {
-            background: border_color();
+            background: var(--sc-border_color);
             &.empty:not(.current_unit) {
                 opacity: 0.5;
             }
         }
 
         &.current_unit {
-            box-shadow: 0 0 0 4px var(--sc-blue), inset 0 0 0 2px gray_back();
+            box-shadow: 0 0 0 4px var(--sc-blue), inset 0 0 0 2px var(--sc-gray_back);
         }
 
         &.submitted {

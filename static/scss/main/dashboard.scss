@@ -53,9 +53,9 @@
     }
 
     .side_notification {
-        color: body_color_light();
-        background: white_back();
-        border: 1px solid border_color();
+        color: var(--sc-body_color_light);
+        background: var(--sc-white_back);
+        border: 1px solid var(--sc-border_color);
         padding: 10px;
         border-radius: 3px;
         font-size: 16px;
@@ -90,8 +90,8 @@
             min-width: 80px;
             box-sizing: border-box;
 
-            background: white_back();
-            border: 1px solid border_color();
+            background: var(--sc-white_back);
+            border: 1px solid var(--sc-border_color);
             border-radius: 3px;
             padding: 15px;
             text-align: center;
@@ -102,7 +102,7 @@
 
             .label {
                 font-size: 16px;
-                color: body_color_light();
+                color: var(--sc-body_color_light);
             }
         }
     }

@@ -70,8 +70,8 @@
     }
 
     .user_bio {
-        background: white_back();
-        border: 1px solid border_color();
+        background: var(--sc-white_back);
+        border: 1px solid var(--sc-border_color);
         padding: 20px;
         border-radius: 3px;
     }

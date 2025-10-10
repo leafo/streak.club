@@ -15,8 +15,8 @@
     }
 
     .streak_description {
-        background: white_back();
-        border: 1px solid border_color();
+        background: var(--sc-white_back);
+        border: 1px solid var(--sc-border_color);
         padding: 20px;
         border-radius: 3px;
 
@@ -47,10 +47,10 @@
                         display: flex;
                         flex-direction: column;
                         justify-content: flex-end;
-                        color: body_color_light();
+                        color: var(--sc-body_color_light);
                         padding-bottom: 10px;
                         box-sizing: border-box;
-                        text-shadow: 1px 1px 0 white_back(), -1px -1px 0 white_back(), -1px 1px 0 white_back(), 1px -1px 0 white_back();
+                        text-shadow: 1px 1px 0 var(--sc-white_back), -1px -1px 0 var(--sc-white_back), -1px 1px 0 var(--sc-white_back), 1px -1px 0 var(--sc-white_back);
 
 
                         height: 100%;
@@ -100,7 +100,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: header_color();
+        background: var(--sc-header_color);
         color: white;
         line-height: var(--sc-header_height);
 
@@ -167,14 +167,14 @@
     }
 
     .submit_sub {
-        color: body_color_light();
+        color: var(--sc-body_color_light);
         font-size: 16px;
         margin: 4px 0 0 0;
         text-align: center;
     }
 
     .date_summary {
-        color: body_color_light();
+        color: var(--sc-body_color_light);
         font-size: 16px;
         margin-bottom: 20px;
     }
@@ -195,7 +195,7 @@
     .streak_summary {
         font-size: 14px;
         font-weight: bold;
-        color: body_color_light();
+        color: var(--sc-body_color_light);
         margin-top: 15px;
         text-align: center;
 
@@ -210,7 +210,7 @@
     }
 
     .members_only_message {
-        color: body_color_light();
+        color: var(--sc-body_color_light);
         margin-top: 10px;
     }
 
@@ -238,7 +238,7 @@
         list-style: none;
         font-size: 16px;
         a {
-            color: body_color_lighter();
+            color: var(--sc-body_color_lighter);
         }
 
         @include mobile_width {
@@ -260,7 +260,7 @@
 
         .topic_sub {
             font-size: var(--sc-body_size_small);
-            color: body_color_light();
+            color: var(--sc-body_color_light);
             a {
                 color: inherit;
             }
@@ -294,7 +294,7 @@
         > span {
             flex: 1;
             font-size: 18px;
-            color: body_color_light();
+            color: var(--sc-body_color_light);
             font-weight: bold;
         }
     }

@@ -4,7 +4,7 @@
     }
 
     .comment_form_outer {
-        border-top: 1px solid border_color();
+        border-top: 1px solid var(--sc-border_color);
 
         .comment_header {
             margin: 10px 20px;
@@ -31,7 +31,7 @@
 
     .submission_comment_list {
         padding: 30px 20px;
-        border-top: 1px solid border_color();
+        border-top: 1px solid var(--sc-border_color);
 
         &:empty {
             border-width: 0px;
@@ -41,7 +41,7 @@
 
     .load_more_comments {
         user-select: none;
-        border-top: 1px solid border_color();
+        border-top: 1px solid var(--sc-border_color);
         background: #F5F5F5;
         text-align: center;
         padding: 10px 20px;

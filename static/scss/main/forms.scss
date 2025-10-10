@@ -9,7 +9,7 @@
         display: flex;
         align-items: center;
         font-size: 14px;
-        color: body_color_light();
+        color: var(--sc-body_color_light);
 
         img {
             margin-right: 5px;
@@ -38,7 +38,7 @@
             list-style: none;
             margin: 8px 10px;
             padding: 0;
-            color: body_color_light();
+            color: var(--sc-body_color_light);
         }
 
         input {
@@ -47,18 +47,18 @@
         }
 
         .sub {
-            color: body_color_light();
+            color: var(--sc-body_color_light);
         }
     }
 
 
     input[type=text], input[type=number], input[type=password], input[type=email], textarea, .selectize-input {
         @include default_font;
-        color: body_color();
+        color: var(--sc-body_color);
         box-sizing: border-box;
 
-        background: white_back();
-        border: 2px solid border_color();
+        background: var(--sc-white_back);
+        border: 2px solid var(--sc-border_color);
         padding: 8px;
         width: 100%;
         max-width: 400px;
@@ -94,25 +94,25 @@
     .label {
         font-size: 14px;
         font-weight: bold;
-        color: body_color_light();
+        color: var(--sc-body_color_light);
         margin-bottom: 4px;
 
         .sub {
-            color: body_color_lighter();
+            color: var(--sc-body_color_lighter);
         }
     }
 
     .button_row {
         margin-top: 40px;
-        color: body_color_lighter();
+        color: var(--sc-body_color_lighter);
 
         a {
-            color: body_color_light();
+            color: var(--sc-body_color_light);
         }
     }
 
     .input_full_directions {
-        color: body_color_light();
+        color: var(--sc-body_color_light);
         font-size: 16px;
         max-width: 480px;
         margin: 15px 0;
@@ -141,9 +141,9 @@ button.textlike {
     font-weight: bold;
     height: 35px;
     line-height: 35px;
-    color: button_fg_color();
+    color: var(--sc-button_fg_color);
     padding: 0 20px;
-    background: button_color();
+    background: var(--sc-button_color);
     border: 0;
     cursor: pointer;
     display: inline-block;
@@ -151,13 +151,13 @@ button.textlike {
     white-space: nowrap;
 
     &:hover {
-        background: button_hover_color();
-        color: button_fg_color();
+        background: var(--sc-button_hover_color);
+        color: var(--sc-button_fg_color);
     }
 
     &:active {
-        background: button_active_color();
-        color: button_fg_color();
+        background: var(--sc-button_active_color);
+        color: var(--sc-button_fg_color);
     }
 
     &:disabled, &.disabled {
@@ -180,7 +180,7 @@ button.textlike {
     }
 
     &.outline_button {
-        background: white_back();
+        background: var(--sc-white_back);
         border: 2px solid color-mix(in srgb, var(--sc-button_color) 60%, transparent);
         color: var(--sc-link_color);
         line-height: 35px - 4px;
