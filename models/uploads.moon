@@ -102,7 +102,7 @@ class Uploads extends Model
           a.position < b.position
 
       for object in *objects
-        continue unless @object_type_for_object(object) == object_type
+        continue unless object and @object_type_for_object(object) == object_type
         object.uploads = uploads_by_object_id[object.id]
 
     true
