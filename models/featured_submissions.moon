@@ -28,7 +28,7 @@ class FeaturedSubmissions extends Model
       prepare_results: (featured) ->
         import Submissions from require "models"
         preload featured, "submission"
-        submissions = [f\get_submission! for f in *featured]
+        submissions = [f\get_submission! for f in *featured when f\get_submission!]
         Submissions\preload_for_list submissions
 
         [s for s in *submissions when not s.deleted]
