@@ -43,7 +43,7 @@
         }
     }
 
-    @media (max-width: var(--sc-site_width)) {
+    @media (max-width: $site_width) {
         .submission_column, .streaks_column {
             width: auto;
             display: block;

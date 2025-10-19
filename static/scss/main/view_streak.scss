@@ -215,7 +215,7 @@
     }
 
 
-    @media (max-width: var(--sc-site_width)) {
+    @media (max-width: $site_width) {
         .streak_feed_column, .streak_side_column {
             width: auto;
         }

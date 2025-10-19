@@ -629,11 +629,11 @@
 
 
     .responsive & {
-        @media (max-width: var(--sc-site_width)) {
+        @media (max-width: $site_width) {
             width: auto;
         }
 
-        @media (max-width: var(--sc-narrow_width)) {
+        @media (max-width: $narrow_width) {
             width: auto;
 
             .submission_row {

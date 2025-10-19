@@ -1,3 +1,6 @@
+$site_width: 960px;
+$narrow_width: 650px;
+
 @mixin dark_theme {
     @media (prefers-color-scheme: dark) {
         body:not(.light_theme) & {
@@ -48,18 +51,6 @@
     }
 }
 
-@mixin clearfix {
-    *zoom: 1;
-    &:before, &:after {
-        content: " ";
-        display: table;
-    }
-
-    &:after {
-        clear: both;
-    }
-}
-
 @mixin quotes {
     &:before {
         content: "“";
@@ -86,14 +77,14 @@
 }
 
 @mixin mobile_width {
-    @media(max-width: 650px) {
+    @media(max-width: $narrow_width) {
         @content;
     }
 }
 
 
 @mixin not_mobile_width {
-    @media(min-width: 650px) {
+    @media(min-width: $narrow_width) {
         @content;
     }
 }
