@@ -742,6 +742,17 @@ import
 
   [1705455223]: =>
     require("community.schema").run_migrations 44
+
+  [1793406365]: =>
+    require("community.schema").run_migrations 45
+
+  [1793406366]: =>
+    require("lapis.bayes.schema").run_migrations!
+
+  [1793406367]: =>
+    -- orphaned rows would fail the foreign key that this migration adds
+    db.query "delete from exception_requests where exception_type_id not in (select id from exception_types)"
+    require("lapis.exceptions.schema").run_migrations 1755025174
 }
 
 

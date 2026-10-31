@@ -17,7 +17,7 @@ dependencies = {
   "bcrypt",
 
   "lapis >= 1.16",
-  "lapis-community == 1.44.3",
+  "lapis-community == 1.45.0",
   "lapis-eswidget >= 1.1.0",
 
   "lapis-exceptions >= 2.3",
